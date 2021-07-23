@@ -23,13 +23,18 @@
 
 ## ➤ Table of Contents
 
-* [➤ Local testnet](#-local-testnet)
-* [➤ Getting started](#-getting-started)
-* [➤ Development of smart contracts](#-development-of-smart-contracts)
-* [➤ Unit tests](#-unit-tests)
-* [➤ Integration tests](#-integration-tests)
-* [➤ Contributors](#-contributors)
-* [➤ License](#-license)
+	* [➤ Local testnet](#-local-testnet)
+	* [➤ Getting started](#-getting-started)
+	* [➤ Development of smart contracts](#-development-of-smart-contracts)
+	* [➤ Unit tests](#-unit-tests)
+	* [➤ Integration tests](#-integration-tests)
+	* [➤ Future work](#-future-work)
+	* [➤ FAQ](#-faq)
+* [➤ How can I help the Taral project?](#-how-can-i-help-the-taral-project)
+* [➤ Is there a token?](#-is-there-a-token)
+* [➤ When will this get released?](#-when-will-this-get-released)
+	* [➤ Contributors](#-contributors)
+	* [➤ License](#-license)
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#local-testnet)
@@ -135,6 +140,40 @@ Wait until the local testnet is fully started and then execute the integration t
 ```
 $> yarn integration
 ```
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#future-work)
+
+## ➤ Future work
+
+Start development of the taral token and split this monorepo into multiple separate repositories once the codebase gets larger.
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#faq)
+
+## ➤ FAQ
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#how-can-i-help-the-taral-project)
+
+# ➤ How can I help the Taral project?
+
+Glad you asked. Taral project is developed by open source developers. 
+Please contact us on Discord or Telegram if you want to help the project.
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#is-there-a-token)
+
+# ➤ Is there a token?
+
+A token is being currently developed, the ticker is TAL
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#when-will-this-get-released)
+
+# ➤ When will this get released?
+
+We are actively developing Taral, we will update once we have a clear timeline.
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png)](#contributors)

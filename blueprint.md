@@ -18,6 +18,10 @@
 
 [[ load:readme/5-Integration-tests.md ]]
 
+[[ load:readme/6-Future-work.md ]]
+
+[[ load:readme/7-FAQ.md ]]
+
 [[ template:contributors ]] 
 
 [[ template:license ]]
