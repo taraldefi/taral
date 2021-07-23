@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "unit-test": "jest counter.test.ts",
-    "clarinet-test": "jest clarinet.test.ts",
     "integration": "jest integration.test.ts",
     "generate": "ts-node scripts/abi.ts",
     "deploy": "ts-node scripts/deploy.ts",
