@@ -1,0 +1,16 @@
+{
+  "files.exclude": {
+    "out": true,
+    "node_modules/jest-editor-support/src": false,
+    "coverage/": true
+  },
+  "search.exclude": {
+    "out": true,
+    "node_modules/jest-editor-support/src": false
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  // eslint
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}

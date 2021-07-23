@@ -1,0 +1,19 @@
+[network]
+name = "testnet"
+node_rpc_address = "http://localhost:20443"
+
+[accounts.deployer]
+mnemonic = "month suffer spike iron slender destroy rule degree include auto economy vivid consider fat stand this moon absorb tribe auction rare solar olive course"
+balance = 10_000_000_000_000
+
+[accounts.wallet_1]
+mnemonic = "warfare inquiry useless ball torch swift addict vicious girl invite elbow fluid near debate skull expire farm enrich office crater cable model fine mango"
+balance = 10_000_000_000_000
+
+[accounts.wallet_2]
+mnemonic = "vacuum mango lumber gun evolve hockey mosquito strategy until behind cost walk fatal ribbon digital income spend hungry bleak excess art bridge ladder sweet"
+balance = 10_000_000_000_000
+
+[accounts.wallet_3]
+mnemonic = "strike logic judge near exist direct dice loud treat couch cluster test mammal kingdom negative clay opinion trim worry away stay man hand sheriff"
+balance = 10_000_000_000_000

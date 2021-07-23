@@ -1,0 +1,94 @@
+[node]
+working_dir = "/root/stacks-node/data"
+rpc_bind = "0.0.0.0:20443"
+p2p_bind = "0.0.0.0:20444"
+bootstrap_node="047435c194e9b01b3d7f7a2802d6684a3af68d05bbf4ec8f17021980d777691f1d51651f7f1d566532c804da506c117bbf79ad62eea81213ba58f8808b4d9504ad@testnet.stacks.co:20444"
+wait_time_for_microblocks = 1000
+miner = true
+pox_sync_sample_secs = 0
+seed = "0000000000000000000000000000000000000000000000000000000000000000"
+
+[[events_observer]]
+endpoint = "stacks-blockchain-api:3700"
+retry_count = 255
+events_keys = ["*"]
+
+[burnchain]
+chain = "bitcoin"
+mode = "krypton"
+peer_host = "bitcoin.stacks-blockchain"
+# Connect to puppet
+rpc_port = 18443
+# Connect direct to bitcoind (no firewall)
+peer_port = 28444
+magic_byte = "X2"
+username = "blockstack"
+password = "blockstacksystem"
+
+[[ustx_balance]]
+# Private key: b8d99fd45da58038d630d9855d3ca2466e8e0f89d3894c4724f0efc9ff4b51f001
+address = "ST2ZRX0K27GW0SP3GJCEMHD95TQGJMKB7G9Y0X1MH"
+amount = 10000000000000000
+[[ustx_balance]]
+# Private key: 3a4e84abb8abe0c1ba37cef4b604e73c82b1fe8d99015cb36b029a65099d373601
+address = "ST26FVX16539KKXZKJN098Q08HRX3XBAP541MFS0P"
+amount = 10000000000000000
+[[ustx_balance]]
+# Private key: 052cc5b8f25b1e44a65329244066f76c8057accd5316c889f476d0ea0329632c01
+address = "ST3CECAKJ4BH08JYY7W53MC81BYDT4YDA5M7S5F53"
+amount = 10000000000000000
+[[ustx_balance]]
+# Private key: 9aef533e754663a453984b69d36f109be817e9940519cc84979419e2be00864801
+address = "ST31HHVBKYCYQQJ5AQ25ZHA6W2A548ZADDQ6S16GP"
+amount = 10000000000000000
+
+# [[ustx_balance]]
+# # "mnemonic": "month suffer spike iron slender destroy rule degree include auto economy vivid consider fat stand this moon absorb tribe auction rare solar olive course",
+# #       "keyInfo": {
+# #         "privateKey": "d8b6639a9dc544cb52accaa701b45c9a3320519101fae0cb90c8066ec7e1d6c601",
+# #         "address": "ST1HJ4TYWQV3MCSP2T751GDN39PTENCX72HPQYDCM",
+# #         "btcAddress": "mpZ8RgVMaZMg6bhdphBW43QYEueXYzSfDu",
+# #         "index": 0
+# #     }
+# address = "ST1HJ4TYWQV3MCSP2T751GDN39PTENCX72HPQYDCM"
+# amount = 100000000000000
+
+# [[ustx_balance]]
+# # "mnemonic": "warfare inquiry useless ball torch swift addict vicious girl invite elbow fluid near debate skull expire farm enrich office crater cable model fine mango",
+# #       "keyInfo": {
+# #         "privateKey": "95ef516f20d266f6972ccb72382e74a0de7e872dcef764924d6da0c688723a0301",
+# #         "address": "STRVCQ501XZVWWWBWQTC3BCWKYG8WWER1BSCD9S8",
+# #         "btcAddress": "mk3osB6fA9sz4b6XrNZeDE7dPmiaQ1EWZK",
+# #         "index": 0
+# #       }
+# address = "STRVCQ501XZVWWWBWQTC3BCWKYG8WWER1BSCD9S8"
+# amount = 100000000000000
+
+# [[ustx_balance]]
+# # "mnemonic": "vacuum mango lumber gun evolve hockey mosquito strategy until behind cost walk fatal ribbon digital income spend hungry bleak excess art bridge ladder sweet",
+# # "keyInfo": {
+# # "privateKey": "97a0af6784770897281b17e628a794b31f6acad422624c166df02ad4b7fd5c5f01",
+# # "address": "ST1MFSFY91ZZFCVQFRPHYH2HS258D962RPK3M8CW5",
+# # "btcAddress": "mq65MKkEDARVzfrQpk68bLfoqsfj7om5mz",
+# # "index": 0
+# # }
+# address = "ST1MFSFY91ZZFCVQFRPHYH2HS258D962RPK3M8CW5"
+# amount = 100000000000000
+
+# [[ustx_balance]]
+# #  "mnemonic": "strike logic judge near exist direct dice loud treat couch cluster test mammal kingdom negative clay opinion trim worry away stay man hand sheriff",
+# #     "keyInfo": {
+# #     "privateKey": "8d61a7c285049ec0a98a02c425f9717c6c9cd103fa4e7bf0f6a30559eedf6dab01",
+# #     "address": "ST1Z6E1B35N3A8C974PPCMQPVJ10SCEJA68PMPQ95",
+# #     "btcAddress": "ms3JrFb4ASSjWpcm2FhHxZvQCbemEJAYCc",
+# #     "index": 0
+# #     }
+# address = "ST1Z6E1B35N3A8C974PPCMQPVJ10SCEJA68PMPQ95"
+# amount = 100000000000000
+
+[connection_options]
+read_only_call_limit_write_length = 0
+read_only_call_limit_read_length = 100000
+read_only_call_limit_write_count = 0
+read_only_call_limit_read_count = 30
+read_only_call_limit_runtime = 1000000000

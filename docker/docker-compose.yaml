@@ -1,0 +1,100 @@
+version: '3.7'
+services:
+  bitcoin:
+    build:
+        context: ./provisioning/puppet-chain
+    container_name: bitcoin
+    restart: on-failure
+    expose:
+      - 18443
+      - 28444
+    environment:
+      - DYNAMIC_GENESIS_TIMESTAMP=1
+      - RUST_BACKTRACE=1
+    networks:
+      - stacks-blockchain
+
+  postgres:
+    container_name: postgres
+    image: "postgres:12.2"
+    ports:
+      - "5490:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: stacks_blockchain_api
+      POSTGRES_PORT: 5432
+    networks:
+      - stacks-blockchain
+
+  explorer:
+    image: blockstack/explorer:1.13
+    container_name: explorer
+    environment:
+      # - NEXT_PUBLIC_MAINNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3999
+      # - NEXT_PUBLIC_TESTNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3399
+      # - MOCKNET_API_SERVER=http://localhost:3999
+      # - TESTNET_API_SERVER=http://localhost:3999
+      - NEXT_PUBLIC_REGTEST_API_SERVER=http://localhost:3999
+    ports:
+      - 3000:3000
+    depends_on: 
+      - stacks-blockchain-api
+    networks:
+      - stacks-blockchain
+
+  stacks-blockchain:
+      build:
+        context: ./provisioning/stacks-blockchain
+      restart: on-failure
+      environment:
+        STACKS_EVENT_OBSERVER: stacks-blockchain-api:3700
+        XBLOCKSTACK_DEBUG: 1
+        RUST_BACKTRACE: 1
+        WAIT_HOST_CONNECT_TIMEOUT: 6
+        WAIT_BEFORE: 5
+        WAIT_HOSTS: bitcoin:18443
+        WAIT_AFTER: 5
+        WAIT_SLEEP_INTERVAL: 1
+      ports:
+        - "20443:20443"
+        - "20444:20444"
+      depends_on:
+        - stacks-blockchain-api
+      networks:
+        - stacks-blockchain
+
+  stacks-blockchain-api:
+    container_name: stacks-blockchain-api
+    image: blockstack/stacks-blockchain-api:latest
+    restart: on-failure
+    environment:
+      PG_HOST: postgres
+      PG_PORT: 5432
+      PG_USER: postgres
+      PG_PASSWORD: postgres
+      PG_DATABASE: stacks_blockchain_api
+      STACKS_CORE_EVENT_PORT: 3700
+      STACKS_CORE_EVENT_HOST: http://0.0.0.0
+      STACKS_BLOCKCHAIN_API_PORT: 3999
+      STACKS_BLOCKCHAIN_API_HOST: 0.0.0.0
+      STACKS_BLOCKCHAIN_API_DB: pg
+      STACKS_CORE_RPC_HOST: stacks-blockchain
+      STACKS_CORE_RPC_PORT: 20443
+      NODE_ENV: production
+      STACKS_CHAIN_ID: 2147483648
+      # BNS_IMPORT_DIR: /bns-data
+    ports:
+      - "3999:3999"
+      - "9153:9153"
+    volumes:
+      - ./bns-data:/bns-data
+    depends_on: 
+      - postgres
+    networks:
+      - stacks-blockchain
+
+networks:
+  stacks-blockchain:
+    driver: bridge
+    name: stacks-blockchain

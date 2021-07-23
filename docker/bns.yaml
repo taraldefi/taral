@@ -1,0 +1,10 @@
+version: '3.7'
+services:
+  bns-data:
+    build:
+      context: ./provisioning/bns
+    container_name: bns_data
+    volumes:
+      - ./bns-data:/bns-data
+    environment:
+      - BNS_IMPORT_DIR=/bns-data
