@@ -1,33 +1,30 @@
 {
-	"package": "package.json",
-	"blueprint": "blueprint.md",
-	"input": "blueprint.md",
-	"output": "README.md",
-    "text": "Development environment for Stacks smart contracts with support for unit tests and integration tests",
-    "logo": {
-		"src": "https://raw.githubusercontent.com/taraldefi/taral/main/assets/logo.svg",
-		"width": 150,
-		"height": 150
-	},
-    "placeholder": [
-		"[[",
-		"]]"
-	],
-	"documentationConfig": {
-		"markdown": {
-			"titleLevel": 2
-		}
-	},
-    "badges": [
-		{
-			"alt": "Custom badge",
-			"url": "https://github.com/badges/shields",
-			"img": "https://img.shields.io/badge/custom-badge-f39f37.svg"
-		},
-		{
-			"alt": "Maintained",
-			"img": "https://img.shields.io/badge/Maintained%3F-yes-green.svg",
-			"url": "https://github.com/taraldefi/taral/graphs/commit-activity"
-		}
-	]
+  "package": "package.json",
+  "blueprint": "blueprint.md",
+  "input": "blueprint.md",
+  "output": "README.md",
+  "text": "Development environment for Stacks smart contracts with support for unit tests and integration tests",
+  "logo": {
+    "src": "https://raw.githubusercontent.com/taraldefi/taral/main/assets/logo.svg",
+    "width": 150,
+    "height": 150
+  },
+  "placeholder": ["[[", "]]"],
+  "documentationConfig": {
+    "markdown": {
+      "titleLevel": 2
+    }
+  },
+  "badges": [
+    {
+      "alt": "Custom badge",
+      "url": "https://github.com/badges/shields",
+      "img": "https://img.shields.io/badge/custom-badge-f39f37.svg"
+    },
+    {
+      "alt": "Maintained",
+      "img": "https://img.shields.io/badge/Maintained%3F-yes-green.svg",
+      "url": "https://github.com/taraldefi/taral/graphs/commit-activity"
+    }
+  ]
 }
