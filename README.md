@@ -169,9 +169,9 @@ We are actively developing Taral, we will update once we have a clear timeline.
 ## ➤ Contributors
 	
 
-| [<img alt="Doru Cioclea Octavian" src="https://avatars.githubusercontent.com/u/39082034?s=460&v=4" width="100">](https://github.com/dorucioclea) | [<img alt="You?" src="https://joeschmoe.io/api/v1/random" width="100">](https://github.com/dtaraldefi/taral/blob/main/CONTRIBUTING.md) |
+| [<img alt="Doru Cioclea Octavian" src="https://avatars.githubusercontent.com/u/39082034?s=460&v=4" width="100">](https://github.com/dorucioclea) | [<img alt="You?" src="https://joeschmoe.io/api/v1/random" width="100">](https://github.com/taraldefi/taral/blob/main/CONTRIBUTING.md) |
 |:--------------------------------------------------:|:--------------------------------------------------:|
-| [Doru Cioclea Octavian](https://github.com/dorucioclea) | [You?](https://github.com/dtaraldefi/taral/blob/main/CONTRIBUTING.md) |
+| [Doru Cioclea Octavian](https://github.com/dorucioclea) | [You?](https://github.com/taraldefi/taral/blob/main/CONTRIBUTING.md) |
 | 🔥                                               |                                                  |
  
 
