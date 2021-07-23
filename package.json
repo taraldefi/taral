@@ -10,7 +10,7 @@
     "deploy": "ts-node scripts/deploy.ts",
     "eol": "npx eolConverter \"contracts/*.clar\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
-    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/master/assets/line.png"
+    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png"
   },
   "repository": {
     "type": "git",
@@ -36,7 +36,7 @@
     {
       "name": "You?",
       "img": "https://joeschmoe.io/api/v1/random",
-      "url": "https://github.com/dtaraldefi/taral/blob/master/CONTRIBUTING.md"
+      "url": "https://github.com/dtaraldefi/taral/blob/main/CONTRIBUTING.md"
     }
   ],
   "author": "DoruC",
