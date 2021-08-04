@@ -36,5 +36,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": ["./test/**/*.ts"]
+  "include": ["./test/**/*.ts", "./src/**/*.ts", "./shared/**/*.ts"]
 }

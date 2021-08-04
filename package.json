@@ -10,6 +10,7 @@
     "deploy": "ts-node scripts/deploy.ts",
     "eol": "npx eolConverter \"contracts/*.clar\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
+    "cleanup": "ts-node scripts/cleanup.ts",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png"
   },
   "repository": {
@@ -66,6 +67,7 @@
     "dotenv-webpack": "6.0.2",
     "jest": "^26.6.3",
     "ts-jest": "^26.5.4",
+    "ts-morph": "^11.0.3",
     "ts-node": "^9.1.1",
     "typescript": "^3.5.2"
   },
