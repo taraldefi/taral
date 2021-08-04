@@ -85,7 +85,7 @@ export class TestProvider implements BaseProvider {
   ): Promise<ContractInstances<T, M>> {
     const clarityBin = await getDefaultClarityBin(clarityBinOrAccounts);
     const instances = {} as ContractInstances<T, M>;
-    await deployUtilContract(clarityBin);
+    await deployUtilContract(clarityBin, "test-util");
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
