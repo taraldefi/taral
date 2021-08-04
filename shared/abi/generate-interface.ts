@@ -12,7 +12,6 @@ export async function generateInterface({
   contractAddress?: string;
 }): Promise<ClarityAbi> {
   let contractName = getContractNameFromPath(contractFile);
-  console.log('CONTRACT NAME ', contractName);
   const receipt = await provider.runCommand([
     "launch",
     `${contractAddress}.${contractName}`,
