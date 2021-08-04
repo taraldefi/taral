@@ -1,6 +1,5 @@
 // created from 'create-ts-index'
 
-export * from "./abi";
-export * from "./contracts";
+export * from "./generate";
 export * from "./deploy-utils";
 export * from "./deploy";
