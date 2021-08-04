@@ -1,11 +1,13 @@
-import { CONTRACT_EXTENSION, CONTRACT_FOLDER } from "../constants";
-import { getContractNameFromPath, toCamelCase } from "../utils";
+import { contractWithSubDirectory, getContractNameFromPath, toCamelCase } from "../utils";
+import { getRelativeImportPath } from "./get-relative-import-path";
 
 export function generateIndexFile({
   contractFile,
+  subFolder,
   address,
 }: {
   contractFile: string;
+  subFolder: string;
   address: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
@@ -14,9 +16,12 @@ export function generateIndexFile({
   const varName = toCamelCase(contractName);
   const contractType = `${contractTitle}Contract`;
 
-  const fileContents = `import { Contract } from '../../shared/types';
-import { proxy } from '../../shared/test-utils/proxy';
-import { BaseProvider } from '../../shared/providers/base-provider';
+  const relativeImportPath = getRelativeImportPath(subFolder);
+
+  const fileContents = `
+import { Contract } from '${relativeImportPath}shared/types';
+import { proxy } from '${relativeImportPath}shared/test-utils/proxy';
+import { BaseProvider } from '${relativeImportPath}shared/providers/base-provider';
 
 import type { ${contractType} } from './types';
 import { ${contractTitle}Interface } from './abi';
@@ -31,17 +36,10 @@ export const ${varName}Contract = (provider: BaseProvider) => {
 export const ${varName}Info: Contract<${contractType}> = {
   contract: ${varName}Contract,
   address: '${address}',
-  contractFile: '${contractWithSubDirectory(contractName)}',
+  contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
 };
 `;
 
   return fileContents;
 }
 
-function contractWithSubDirectory(contractName: string) {
-  if (contractName.endsWith(CONTRACT_EXTENSION)) {
-    return `${CONTRACT_FOLDER}/${contractName}`;
-  }
-
-  return `${CONTRACT_FOLDER}/${contractName}.clar`;
-}

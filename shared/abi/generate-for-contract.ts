@@ -14,15 +14,15 @@ import { normalize } from "path";
 export async function generateFilesForContract({
   contractFile: _contractFile,
   outputFolder,
+  subFolder,
   provider,
   contractAddress,
-  dirName,
 }: {
   contractFile: string;
-  outputFolder?: string;
+  outputFolder: string;
+  subFolder: string;
   provider: NativeClarityBinProvider;
   contractAddress?: string;
-  dirName?: string;
 }) {
   const currentPath = process.cwd();
   var normalizedPath = normalize(currentPath).replace(/\\/g, "/");
@@ -38,7 +38,7 @@ export async function generateFilesForContract({
     contractAddress,
   });
 
-  const typesFile = generateTypesFile(abi, contractName);
+  const typesFile = generateTypesFile(abi, contractName, subFolder);
   if (!contractAddress && process.env.NODE_ENV !== "test") {
     console.warn("Please provide an address with every contract.");
   }
@@ -46,12 +46,12 @@ export async function generateFilesForContract({
   const indexFile = generateIndexFile({
     contractFile: relative(process.cwd(), contractFile).replace(/\\/g, "/"),
     address: contractAddress || "",
+    subFolder: subFolder
   });
 
-  const abiFile = generateInterfaceFile({ contractFile, abi });
+  const abiFile = generateInterfaceFile({ contractFile, abi, subFolder });
 
-  const baseDir = outputFolder || resolve(process.cwd(), `tmp/${contractName}`);
-  const outputPath = resolve(baseDir, dirName || ".", contractName);
+  const outputPath = resolve(`${outputFolder}/${subFolder}`, ".", contractName);
   await mkdir(outputPath, { recursive: true });
 
   await writeFile(resolve(outputPath, "abi.ts"), abiFile);

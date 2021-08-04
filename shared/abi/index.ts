@@ -6,3 +6,4 @@ export * from "./generate-interface-file";
 export * from "./generate-interface";
 export * from "./generate-type-file";
 export * from "./utils";
+export * from "./get-relative-import-path";

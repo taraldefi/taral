@@ -50,10 +50,10 @@ export type CONTRACTS =
 export const GENERATION_FOLDER = "src//";
 
 export const contracts: CONTRACTS[] = [
-  "simple-counter",
-  "sip-10-ft-standard",
-  "counter-coin",
-  "counter",
+  'simple-counter',
+  'sip-10-ft-standard',
+  'counter-coin',
+  'counter',
   
   'sip-010-trait-ft-standard',
   'arkadiko-oracle-trait-v1',
