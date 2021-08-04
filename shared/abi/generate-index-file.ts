@@ -1,28 +1,28 @@
 import {
-  contractWithSubDirectory,
-  getContractNameFromPath,
-  toCamelCase,
+    contractWithSubDirectory,
+    getContractNameFromPath,
+    toCamelCase
 } from "../utils";
 import { getRelativeImportPath } from "./get-relative-import-path";
 
 export function generateIndexFile({
-  contractFile,
-  subFolder,
-  address,
+    contractFile,
+    subFolder,
+    address,
 }: {
-  contractFile: string;
-  subFolder: string;
-  address: string;
+    contractFile: string;
+    subFolder: string;
+    address: string;
 }) {
-  const contractName = getContractNameFromPath(contractFile);
+    const contractName = getContractNameFromPath(contractFile);
 
-  const contractTitle = toCamelCase(contractName, true);
-  const varName = toCamelCase(contractName);
-  const contractType = `${contractTitle}Contract`;
+    const contractTitle = toCamelCase(contractName, true);
+    const varName = toCamelCase(contractName);
+    const contractType = `${contractTitle}Contract`;
 
-  const relativeImportPath = getRelativeImportPath(subFolder);
+    const relativeImportPath = getRelativeImportPath(subFolder);
 
-  const fileContents = `
+    const fileContents = `
 import { Contract } from '${relativeImportPath}shared/types';
 import { proxy } from '${relativeImportPath}shared/test-utils/proxy';
 import { BaseProvider } from '${relativeImportPath}shared/providers/base-provider';
@@ -44,5 +44,5 @@ export const ${varName}Info: Contract<${contractType}> = {
 };
 `;
 
-  return fileContents;
+    return fileContents;
 }
