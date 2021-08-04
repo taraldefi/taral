@@ -78,7 +78,6 @@ async function generateProjectIndexFile(
   await writeFile(resolve(GENERATION_FOLDER, "index.ts"), file);
 }
 
-
 async function generate() {
   const contractsConfigurationFile = readFileSync(
     `./${CONTRACT_FOLDER}/contracts.json`,

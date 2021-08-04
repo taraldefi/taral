@@ -1,4 +1,8 @@
-import { contractWithSubDirectory, getContractNameFromPath, toCamelCase } from "../utils";
+import {
+  contractWithSubDirectory,
+  getContractNameFromPath,
+  toCamelCase,
+} from "../utils";
 import { getRelativeImportPath } from "./get-relative-import-path";
 
 export function generateIndexFile({
@@ -42,4 +46,3 @@ export const ${varName}Info: Contract<${contractType}> = {
 
   return fileContents;
 }
-

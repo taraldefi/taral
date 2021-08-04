@@ -46,7 +46,7 @@ export async function generateFilesForContract({
   const indexFile = generateIndexFile({
     contractFile: relative(process.cwd(), contractFile).replace(/\\/g, "/"),
     address: contractAddress || "",
-    subFolder: subFolder
+    subFolder: subFolder,
   });
 
   const abiFile = generateInterfaceFile({ contractFile, abi, subFolder });

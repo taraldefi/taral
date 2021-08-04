@@ -3,7 +3,11 @@ import { makeTypes } from "./utils";
 import { toCamelCase } from "../utils";
 import { getRelativeImportPath } from ".";
 
-export const generateTypesFile = (abi: ClarityAbi, contractName: string, subFolder: string) => {
+export const generateTypesFile = (
+  abi: ClarityAbi,
+  contractName: string,
+  subFolder: string
+) => {
   const name = toCamelCase(contractName, true);
   const typings = makeTypes(abi);
   const relativeImportPath = getRelativeImportPath(subFolder);
