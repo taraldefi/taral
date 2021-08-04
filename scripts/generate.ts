@@ -9,7 +9,7 @@ import { resolve } from "path";
 import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
 import { toCamelCase } from "../shared/utils/to-camel-case";
 
-export const GENERATION_FOLDER = "src//";
+const GENERATION_FOLDER = "src//";
 
 interface IProject {
   configuration: IProjectConfiguration[];
@@ -22,43 +22,12 @@ interface IProjectConfiguration {
   contracts: string[];
 }
 
-async function generate() {
-  const contractsConfigurationFile = readFileSync(
-    `./${CONTRACT_FOLDER}/contracts.json`,
-    "utf-8"
-  );
-
-  const project: IProject = JSON.parse(contractsConfigurationFile);
-
-  var contractGroups: IContractGroup[] = project.configuration.map(
-    (configuration) => {
-      return {
-        contracts: configuration.contracts,
-        subFolder: configuration.subfolder,
-      };
-    }
-  );
-
-  // await generateAbis(contractGroups);
-  await generateProjectIndexFile(contractGroups);
-}
-
-interface IProject {
-  configuration: IProjectConfiguration[];
-}
-
-interface IProjectConfiguration {
-  name: string;
-  description: string;
-  contracts: string[];
-}
-
 interface IContractGroup {
   subFolder: string;
   contracts: string[];
 }
 
-export async function generateAbis(groups: IContractGroup[]): Promise<void> {
+async function generateAbis(groups: IContractGroup[]): Promise<void> {
   const provider = await createDefaultTestProvider();
 
   for (let group of groups) {
@@ -74,7 +43,7 @@ export async function generateAbis(groups: IContractGroup[]): Promise<void> {
   }
 }
 
-export async function generateProjectIndexFile(
+async function generateProjectIndexFile(
   groups: IContractGroup[]
 ): Promise<void> {
   const imports: string[] = [];
@@ -107,6 +76,28 @@ export async function generateProjectIndexFile(
     };
     `;
   await writeFile(resolve(GENERATION_FOLDER, "index.ts"), file);
+}
+
+
+async function generate() {
+  const contractsConfigurationFile = readFileSync(
+    `./${CONTRACT_FOLDER}/contracts.json`,
+    "utf-8"
+  );
+
+  const project: IProject = JSON.parse(contractsConfigurationFile);
+
+  var contractGroups: IContractGroup[] = project.configuration.map(
+    (configuration) => {
+      return {
+        contracts: configuration.contracts,
+        subFolder: configuration.subfolder,
+      };
+    }
+  );
+
+  await generateAbis(contractGroups);
+  await generateProjectIndexFile(contractGroups);
 }
 
 generate();

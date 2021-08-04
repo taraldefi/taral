@@ -6,7 +6,7 @@
   "scripts": {
     "unit-test": "jest counter.test.ts",
     "integration": "jest integration.test.ts",
-    "generate": "ts-node scripts/abi.ts",
+    "generate": "ts-node scripts/generate.ts",
     "deploy": "ts-node scripts/deploy.ts",
     "eol": "npx eolConverter \"contracts/*.clar\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
