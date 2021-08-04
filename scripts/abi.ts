@@ -8,7 +8,9 @@ import { writeFile } from "fs/promises";
 import { resolve } from "path";
 import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
 import { toCamelCase } from "../shared/utils/to-camel-case";
-import { GENERATION_FOLDER } from "./contracts";
+
+export const GENERATION_FOLDER = "src//";
+
 interface IProject {
   configuration: IProjectConfiguration[];
 }
