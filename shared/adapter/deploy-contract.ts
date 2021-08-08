@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider, Client } from "@blockstack/clarity";
+import { Client, NativeClarityBinProvider } from "@blockstack/clarity";
 
 export async function deployContract(
   client: Client,

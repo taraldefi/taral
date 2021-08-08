@@ -1,17 +1,26 @@
 import { Client, NativeClarityBinProvider } from "@blockstack/clarity";
 import {
+  ClarityAbiFunction,
+  ClarityAbiType,
+  ClarityAbiVariable,
   ClarityType,
   cvToString,
   deserializeCV,
   responseErrorCV,
   responseOkCV,
-  ClarityAbiFunction,
-  ClarityAbiVariable,
-  ClarityAbiType,
 } from "@stacks/transactions";
-
-import { ok, err } from "neverthrow";
+import { err, ok } from "neverthrow";
 import { BaseProvider, IProviderRequest } from ".";
+import {
+  deployContract,
+  evalJson,
+  evalWithCode,
+  executeJson,
+  getDefaultClarityBin,
+} from "../adapter";
+import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
+import { ClarinetAccounts } from "../configuration";
+import { deployUtilContract } from "../test-utils";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
   ContractInstances,
@@ -20,18 +29,7 @@ import {
   EvalOk,
   FromContractOptions,
 } from "../types";
-
-import {
-  deployContract,
-  getDefaultClarityBin,
-  evalJson,
-  executeJson,
-  evalWithCode,
-} from "../adapter";
-import { ClarinetAccounts } from "../configuration";
-import { deployUtilContract } from "../test-utils";
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
-import { parseToCV, cvToValue, ClarityAbiMap } from "../clarity";
 import { instanceOfMetadata } from "./types";
 
 export class TestProvider implements BaseProvider {
@@ -85,7 +83,7 @@ export class TestProvider implements BaseProvider {
   ): Promise<ContractInstances<T, M>> {
     const clarityBin = await getDefaultClarityBin(clarityBinOrAccounts);
     const instances = {} as ContractInstances<T, M>;
-    await deployUtilContract(clarityBin);
+    await deployUtilContract(clarityBin, "test-util");
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({

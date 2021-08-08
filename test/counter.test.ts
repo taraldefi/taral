@@ -1,8 +1,8 @@
-import { TestProvider } from "../shared/providers/test-provider";
-import { txErr, txOk } from "../shared/transaction";
-import { CounterCoinContract, CounterContract, contracts } from "../src";
-import { NO_METADATA } from "../shared/providers/types";
 import { ADDR1, ADDR2, ADDR3, testnetKeyMap } from "../configuration/testnet";
+import { TestProvider } from "../shared/providers/test-provider";
+import { NO_METADATA } from "../shared/providers/types";
+import { txErr, txOk } from "../shared/transaction";
+import { contracts, CounterCoinContract, CounterContract } from "../src";
 
 const TOKEN_OWNER = testnetKeyMap[ADDR1];
 

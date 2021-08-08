@@ -1,8 +1,8 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
 import { deserializeCV } from "@stacks/transactions";
+import { UTIL_CONTRACT_ID } from ".";
 import { evalJson } from "../adapter";
 import { cvToValue } from "../clarity";
-import { UTIL_CONTRACT_ID } from ".";
 
 export async function getBlockHeight(provider: NativeClarityBinProvider) {
   const { output_serialized } = await evalJson({

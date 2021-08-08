@@ -1,6 +1,6 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
-import { createClarityBin } from "./create-clarity-bin";
 import { ClarinetAccounts } from "../configuration";
+import { createClarityBin } from "./create-clarity-bin";
 
 export async function getDefaultClarityBin(
   clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
