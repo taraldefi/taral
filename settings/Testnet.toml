@@ -3,17 +3,17 @@ name = "testnet"
 node_rpc_address = "http://localhost:20443"
 
 [accounts.deployer]
-mnemonic = "month suffer spike iron slender destroy rule degree include auto economy vivid consider fat stand this moon absorb tribe auction rare solar olive course"
+mnemonic = "iron lizard museum crumble you focus damage surprise job loud genuine stamp replace scan muscle away junior know perfect manual update artwork hospital ivory"
 balance = 10_000_000_000_000
 
 [accounts.wallet_1]
-mnemonic = "warfare inquiry useless ball torch swift addict vicious girl invite elbow fluid near debate skull expire farm enrich office crater cable model fine mango"
+mnemonic = "depend easy tortoise audit mass canyon soon swarm burger shiver fiber excite seminar glad dream minor inmate scatter civil punch disagree candy system one"
 balance = 10_000_000_000_000
 
 [accounts.wallet_2]
-mnemonic = "vacuum mango lumber gun evolve hockey mosquito strategy until behind cost walk fatal ribbon digital income spend hungry bleak excess art bridge ladder sweet"
+mnemonic = "check magnet wheel ring helmet cream call income arrest above surge occur capital useless clog brass draft circle deposit athlete promote gather sentence betray"
 balance = 10_000_000_000_000
 
 [accounts.wallet_3]
-mnemonic = "strike logic judge near exist direct dice loud treat couch cluster test mammal kingdom negative clay opinion trim worry away stay man hand sheriff"
+mnemonic = "warm security impulse alert erode human disagree foot police power subject segment various behind raise crime amazing wing exact crouch clog what stumble small"
 balance = 10_000_000_000_000
