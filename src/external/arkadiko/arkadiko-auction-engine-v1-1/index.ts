@@ -17,7 +17,7 @@ export const arkadikoAuctionEngineV11Contract = (provider: BaseProvider) => {
 export const arkadikoAuctionEngineV11Info: Contract<ArkadikoAuctionEngineV11Contract> =
   {
     contract: arkadikoAuctionEngineV11Contract,
-    address: "ST2ZRX0K27GW0SP3GJCEMHD95TQGJMKB7G9Y0X1MH",
+    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
     contractFile:
       "contracts/external/arkadiko/arkadiko-auction-engine-v1-1.clar",
   };
