@@ -89,8 +89,9 @@ export async function deployContract<T extends Contracts<M>, M>(
   contract: T[Extract<keyof T, string>]
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
+  console.log(JSON.stringify(contract));
 
-  let codeBody = fs.readFileSync(`./contracts/${contractName}.clar`).toString();
+  let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
 
   var transaction = await makeContractDeploy({
     contractName,
