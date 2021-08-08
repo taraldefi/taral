@@ -15,14 +15,13 @@ let counter: CounterContract;
 const network: StacksNetwork = new StacksNetworkConfiguration();
 
 beforeAll(async () => {
+  jest.setTimeout(3000000);
   const deployed = await ApiProvider.fromContracts(contracts, network, {
     secretKey: TOKEN_OWNER.secretKey,
     stacksAddress: TOKEN_OWNER.address,
   });
 
   Logger.debug("Deployed contracts to testnet");
-  Logger.debug(JSON.stringify(deployed));
-
   counter = deployed.counter.contract;
   // token = deployed.counterCoin.contract;
 });
@@ -38,7 +37,7 @@ test("can increment", async () => {
   var something = await txOk(
     counter.increment({
       sender:
-        "b8d99fd45da58038d630d9855d3ca2466e8e0f89d3894c4724f0efc9ff4b51f001",
+        "2b14b8c3d746d2d5fd8fdfdc55200dacb46f276dceff2f90f8342eed35e92a1501",
       discriminator: "metadata",
     }),
     alice
