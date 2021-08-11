@@ -2,7 +2,7 @@ import { ClarityAbi } from "../../../shared/clarity/types";
 
 // prettier-ignore
 
-export const CounterCoinInterface: ClarityAbi = {
+export const TaralCoinInterface: ClarityAbi = {
     "functions": [
         {
             "access": "public",
@@ -15,7 +15,7 @@ export const CounterCoinInterface: ClarityAbi = {
                         "ok": {
                             "optional": {
                                 "string-utf8": {
-                                    "length": 19
+                                    "length": 27
                                 }
                             }
                         }
@@ -122,7 +122,7 @@ export const CounterCoinInterface: ClarityAbi = {
                         "error": "none",
                         "ok": {
                             "string-ascii": {
-                                "length": 11
+                                "length": 5
                             }
                         }
                     }
@@ -139,7 +139,7 @@ export const CounterCoinInterface: ClarityAbi = {
                         "error": "none",
                         "ok": {
                             "string-ascii": {
-                                "length": 7
+                                "length": 3
                             }
                         }
                     }
@@ -162,16 +162,10 @@ export const CounterCoinInterface: ClarityAbi = {
     ],
     "fungible_tokens": [
         {
-            "name": "counter-token"
+            "name": "taral-token"
         }
     ],
     "maps": [],
     "non_fungible_tokens": [],
-    "variables": [
-        {
-            "access": "constant",
-            "name": "authorized-minter",
-            "type": "principal"
-        }
-    ]
+    "variables": []
 };

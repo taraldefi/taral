@@ -37,10 +37,8 @@ import { usdaTokenInfo } from "./external/arkadiko/usda-token";
 import { wrappedStxTokenInfo } from "./external/arkadiko/wrapped-stx-token";
 import { xstxTokenInfo } from "./external/arkadiko/xstx-token";
 import { poxInfo } from "./external/core/pox";
-import { counterInfo } from "./taral/counter";
-import { counterCoinInfo } from "./taral/counter-coin";
-import { simpleCounterInfo } from "./taral/simple-counter";
 import { sip10FtStandardInfo } from "./taral/sip-10-ft-standard";
+import { taralCoinInfo } from "./taral/taral-coin";
 export type { ArkadikoAuctionEngineTraitV1Contract } from "./external/arkadiko/arkadiko-auction-engine-trait-v1";
 export type { ArkadikoAuctionEngineV11Contract } from "./external/arkadiko/arkadiko-auction-engine-v1-1";
 export type { ArkadikoCollateralTypesTraitV1Contract } from "./external/arkadiko/arkadiko-collateral-types-trait-v1";
@@ -80,10 +78,8 @@ export type { UsdaTokenContract } from "./external/arkadiko/usda-token";
 export type { WrappedStxTokenContract } from "./external/arkadiko/wrapped-stx-token";
 export type { XstxTokenContract } from "./external/arkadiko/xstx-token";
 export type { PoxContract } from "./external/core/pox";
-export type { CounterContract } from "./taral/counter";
-export type { CounterCoinContract } from "./taral/counter-coin";
-export type { SimpleCounterContract } from "./taral/simple-counter";
 export type { Sip10FtStandardContract } from "./taral/sip-10-ft-standard";
+export type { TaralCoinContract } from "./taral/taral-coin";
 
 export const contracts = {
   pox: poxInfo,
@@ -125,8 +121,6 @@ export const contracts = {
   arkadikoStakePoolWstxDikoV11: arkadikoStakePoolWstxDikoV11Info,
   arkadikoAuctionEngineV11: arkadikoAuctionEngineV11Info,
   arkadikoLiquidatorV11: arkadikoLiquidatorV11Info,
-  simpleCounter: simpleCounterInfo,
   sip10FtStandard: sip10FtStandardInfo,
-  counterCoin: counterCoinInfo,
-  counter: counterInfo,
+  taralCoin: taralCoinInfo,
 };
