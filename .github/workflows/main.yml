@@ -24,7 +24,7 @@ jobs:
         # run script
         "${GITHUB_WORKSPACE}/install.sh"
     - name: Run tests
-      run: yarn unit-test
+      run: yarn unit-tests
     - name: Format
       run: yarn pretty
     - name: Commit changes
