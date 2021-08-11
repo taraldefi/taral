@@ -1,12 +1,12 @@
 const { resolve } = require("path");
 
-const root = resolve(__dirname, "../../");
-const rootConfig = require(`${root}/jest.config.js`);
+const rootForUnitTests = resolve(__dirname, "../../");
+const rootConfigForUnitTests = require(`${rootForUnitTests}/jest.config.js`);
 
 module.exports = {
-  ...rootConfig,
-  rootDir: root,
-  displayName: "TESTS::",
+  ...rootConfigForUnitTests,
+  rootDir: rootForUnitTests,
+  displayName: "UNIT TESTS::",
   setupFilesAfterEnv: ["<rootDir>/tests/unit-tests/jest-setup.ts"],
   testMatch: ["<rootDir>/tests/unit-tests/**/*.test.ts"],
   restoreMocks: true,
