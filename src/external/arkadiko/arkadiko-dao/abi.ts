@@ -124,12 +124,7 @@ export const ArkadikoDaoInterface: ClarityAbi = {
             "outputs": {
                 "type": {
                     "response": {
-                        "error": {
-                            "response": {
-                                "error": "uint128",
-                                "ok": "none"
-                            }
-                        },
+                        "error": "uint128",
                         "ok": "bool"
                     }
                 }
@@ -147,12 +142,7 @@ export const ArkadikoDaoInterface: ClarityAbi = {
             "outputs": {
                 "type": {
                     "response": {
-                        "error": {
-                            "response": {
-                                "error": "uint128",
-                                "ok": "none"
-                            }
-                        },
+                        "error": "uint128",
                         "ok": "bool"
                     }
                 }
@@ -170,12 +160,7 @@ export const ArkadikoDaoInterface: ClarityAbi = {
             "outputs": {
                 "type": {
                     "response": {
-                        "error": {
-                            "response": {
-                                "error": "uint128",
-                                "ok": "none"
-                            }
-                        },
+                        "error": "uint128",
                         "ok": "bool"
                     }
                 }
@@ -188,12 +173,7 @@ export const ArkadikoDaoInterface: ClarityAbi = {
             "outputs": {
                 "type": {
                     "response": {
-                        "error": {
-                            "response": {
-                                "error": "uint128",
-                                "ok": "none"
-                            }
-                        },
+                        "error": "uint128",
                         "ok": "bool"
                     }
                 }
@@ -359,12 +339,7 @@ export const ArkadikoDaoInterface: ClarityAbi = {
         {
             "access": "constant",
             "name": "ERR-NOT-AUTHORIZED",
-            "type": {
-                "response": {
-                    "error": "uint128",
-                    "ok": "none"
-                }
-            }
+            "type": "uint128"
         },
         {
             "access": "variable",

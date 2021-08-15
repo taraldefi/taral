@@ -205,6 +205,19 @@ export const ArkadikoStakePoolDikoV11Interface: ClarityAbi = {
         },
         {
             "access": "public",
+            "args": [],
+            "name": "start-cooldown",
+            "outputs": {
+                "type": {
+                    "response": {
+                        "error": "none",
+                        "ok": "uint128"
+                    }
+                }
+            }
+        },
+        {
+            "access": "public",
             "args": [
                 {
                     "name": "registry-trait",
@@ -243,6 +256,30 @@ export const ArkadikoStakePoolDikoV11Interface: ClarityAbi = {
         },
         {
             "access": "read_only",
+            "args": [
+                {
+                    "name": "wallet",
+                    "type": "principal"
+                }
+            ],
+            "name": "get-cooldown-info-of",
+            "outputs": {
+                "type": {
+                    "tuple": [
+                        {
+                            "name": "redeem-period-end-block",
+                            "type": "uint128"
+                        },
+                        {
+                            "name": "redeem-period-start-block",
+                            "type": "uint128"
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "access": "read_only",
             "args": [],
             "name": "get-last-reward-add-block",
             "outputs": {
@@ -256,12 +293,59 @@ export const ArkadikoStakePoolDikoV11Interface: ClarityAbi = {
             "outputs": {
                 "type": "uint128"
             }
+        },
+        {
+            "access": "read_only",
+            "args": [
+                {
+                    "name": "wallet",
+                    "type": "principal"
+                }
+            ],
+            "name": "wallet-can-redeem",
+            "outputs": {
+                "type": "bool"
+            }
         }
     ],
     "fungible_tokens": [],
-    "maps": [],
+    "maps": [
+        {
+            "key": {
+                "tuple": [
+                    {
+                        "name": "wallet",
+                        "type": "principal"
+                    }
+                ]
+            },
+            "name": "wallet-cooldown",
+            "value": {
+                "tuple": [
+                    {
+                        "name": "redeem-period-end-block",
+                        "type": "uint128"
+                    },
+                    {
+                        "name": "redeem-period-start-block",
+                        "type": "uint128"
+                    }
+                ]
+            }
+        }
+    ],
     "non_fungible_tokens": [],
     "variables": [
+        {
+            "access": "constant",
+            "name": "ERR-COOLDOWN-NOT-ENDED",
+            "type": {
+                "response": {
+                    "error": "uint128",
+                    "ok": "none"
+                }
+            }
+        },
         {
             "access": "constant",
             "name": "ERR-NOT-AUTHORIZED",

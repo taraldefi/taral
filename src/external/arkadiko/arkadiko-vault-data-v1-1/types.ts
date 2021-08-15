@@ -24,6 +24,7 @@ export interface ArkadikoVaultDataV11Contract {
         "stability-fee-accrued": number;
         "stability-fee-last-accrued": number;
         "stacked-tokens": number;
+        "stacker-name": string;
         "updated-at-block-height": number
     }, metadata: IMetadata) => Transaction<boolean, number>;
     updateVaultEntries: (user: string, vaultId: number, metadata: IMetadata) => Transaction<boolean, number>;
@@ -51,6 +52,7 @@ export interface ArkadikoVaultDataV11Contract {
         "stability-fee-accrued": number;
         "stability-fee-last-accrued": number;
         "stacked-tokens": number;
+        "stacker-name": string;
         "updated-at-block-height": number
     }>;
     getVaultEntries: (user: string, metadata: IMetadata) => Promise<{
@@ -72,6 +74,7 @@ export interface ArkadikoVaultDataV11Contract {
         "stability-fee-accrued": number;
         "stability-fee-last-accrued": number;
         "stacked-tokens": number;
+        "stacker-name": string;
         "updated-at-block-height": number
     }[], null>>;
     ERRNOTAUTHORIZED: () => Promise<number>;
@@ -116,6 +119,7 @@ export interface ArkadikoVaultDataV11Contract {
         "stability-fee-accrued": number;
         "stability-fee-last-accrued": number;
         "stacked-tokens": number;
+        "stacker-name": string;
         "updated-at-block-height": number
     } | null>;
 }

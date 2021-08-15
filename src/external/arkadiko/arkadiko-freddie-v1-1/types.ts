@@ -32,7 +32,7 @@ export interface ArkadikoFreddieV11Contract {
     releaseStackedStx: (vaultId: number, metadata: IMetadata) => Transaction<boolean, number>;
     setBlockHeightLastPaid: (newBlockHeightLastPaid: number, metadata: IMetadata) => Transaction<boolean, number>;
     setMaximumDebtSurplus: (newMaximumDebtSurplus: number, metadata: IMetadata) => Transaction<boolean, number>;
-    setStackingUnlockBurnHeight: (burnHeight: number, metadata: IMetadata) => Transaction<boolean, number>;
+    setStackingUnlockBurnHeight: (name: string, burnHeight: number, metadata: IMetadata) => Transaction<boolean, number>;
     setStxRedeemable: (newStxRedeemable: number, metadata: IMetadata) => Transaction<boolean, number>;
     stackCollateral: (vaultId: number, metadata: IMetadata) => Transaction<boolean, number>;
     toggleFreddieShutdown: (metadata: IMetadata) => Transaction<boolean, number>;
@@ -42,6 +42,7 @@ export interface ArkadikoFreddieV11Contract {
     getCollateralTokenForVault: (vaultId: number, metadata: IMetadata) => Promise<ClarityTypes.Response<string, null>>;
     getCollateralTypeForVault: (vaultId: number, metadata: IMetadata) => Promise<ClarityTypes.Response<string, null>>;
     getDikoBalance: (metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
+    getStackingUnlockBurnHeight: (name: string, metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getStxRedeemable: (metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getUsdaBalance: (metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getVaultById: (vaultId: number, metadata: IMetadata) => Promise<{
@@ -60,6 +61,7 @@ export interface ArkadikoFreddieV11Contract {
         "stability-fee-accrued": number;
         "stability-fee-last-accrued": number;
         "stacked-tokens": number;
+        "stacker-name": string;
         "updated-at-block-height": number
     }>;
     getVaultEntries: (user: string, metadata: IMetadata) => Promise<{
@@ -87,6 +89,10 @@ export interface ArkadikoFreddieV11Contract {
     blockHeightLastPaid: () => Promise<number>;
     freddieShutdownActivated: () => Promise<boolean>;
     maximumDebtSurplus: () => Promise<number>;
-    stackingUnlockBurnHeight: () => Promise<number>;
     stxRedeemable: () => Promise<number>;
+    stackingUnlockBurnHeight: (key: {
+        "stacker-name": string
+    }) => Promise<{
+        "height": number
+    } | null>;
 }

@@ -678,6 +678,14 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "burn-height",
                     "type": "uint128"
                 }
@@ -886,6 +894,28 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
         },
         {
             "access": "read_only",
+            "args": [
+                {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                }
+            ],
+            "name": "get-stacking-unlock-burn-height",
+            "outputs": {
+                "type": {
+                    "response": {
+                        "error": "none",
+                        "ok": "uint128"
+                    }
+                }
+            }
+        },
+        {
+            "access": "read_only",
             "args": [],
             "name": "get-stx-redeemable",
             "outputs": {
@@ -991,6 +1021,14 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
                             "type": "uint128"
                         },
                         {
+                            "name": "stacker-name",
+                            "type": {
+                                "string-ascii": {
+                                    "length": 256
+                                }
+                            }
+                        },
+                        {
                             "name": "updated-at-block-height",
                             "type": "uint128"
                         }
@@ -1014,7 +1052,7 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
                             "name": "ids",
                             "type": {
                                 "list": {
-                                    "length": 1000,
+                                    "length": 500,
                                     "type": "uint128"
                                 }
                             }
@@ -1025,7 +1063,31 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
         }
     ],
     "fungible_tokens": [],
-    "maps": [],
+    "maps": [
+        {
+            "key": {
+                "tuple": [
+                    {
+                        "name": "stacker-name",
+                        "type": {
+                            "string-ascii": {
+                                "length": 256
+                            }
+                        }
+                    }
+                ]
+            },
+            "name": "stacking-unlock-burn-height",
+            "value": {
+                "tuple": [
+                    {
+                        "name": "height",
+                        "type": "uint128"
+                    }
+                ]
+            }
+        }
+    ],
     "non_fungible_tokens": [],
     "variables": [
         {
@@ -1136,11 +1198,6 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
         {
             "access": "variable",
             "name": "maximum-debt-surplus",
-            "type": "uint128"
-        },
-        {
-            "access": "variable",
-            "name": "stacking-unlock-burn-height",
             "type": "uint128"
         },
         {

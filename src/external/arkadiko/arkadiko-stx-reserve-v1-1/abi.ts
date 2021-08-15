@@ -8,6 +8,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "token-amount",
                     "type": "uint128"
                 }
@@ -144,6 +152,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
                     "type": "principal"
                 },
                 {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "stack-pox",
                     "type": "bool"
                 }
@@ -176,6 +192,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
                 {
                     "name": "additional-ustx-amount",
                     "type": "uint128"
+                },
+                {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
                 }
             ],
             "name": "deposit",
@@ -348,6 +372,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "requested-ustx",
                     "type": "uint128"
                 }
@@ -365,6 +397,36 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         {
             "access": "public",
             "args": [
+                {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                }
+            ],
+            "name": "set-next-stacker-name",
+            "outputs": {
+                "type": {
+                    "response": {
+                        "error": "uint128",
+                        "ok": "bool"
+                    }
+                }
+            }
+        },
+        {
+            "access": "public",
+            "args": [
+                {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
                 {
                     "name": "new-tokens-to-stack",
                     "type": "uint128"
@@ -384,6 +446,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "token-amount",
                     "type": "uint128"
                 }
@@ -401,6 +471,14 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         {
             "access": "public",
             "args": [
+                {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
                 {
                     "name": "revoked-stacking",
                     "type": "bool"
@@ -457,6 +535,18 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         {
             "access": "read_only",
             "args": [],
+            "name": "get-next-stacker-name",
+            "outputs": {
+                "type": {
+                    "string-ascii": {
+                        "length": 256
+                    }
+                }
+            }
+        },
+        {
+            "access": "read_only",
+            "args": [],
             "name": "get-stx-balance",
             "outputs": {
                 "type": "uint128"
@@ -464,7 +554,16 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         },
         {
             "access": "read_only",
-            "args": [],
+            "args": [
+                {
+                    "name": "name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                }
+            ],
             "name": "get-tokens-to-stack",
             "outputs": {
                 "type": {
@@ -477,7 +576,31 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         }
     ],
     "fungible_tokens": [],
-    "maps": [],
+    "maps": [
+        {
+            "key": {
+                "tuple": [
+                    {
+                        "name": "stacker-name",
+                        "type": {
+                            "string-ascii": {
+                                "length": 256
+                            }
+                        }
+                    }
+                ]
+            },
+            "name": "tokens-to-stack",
+            "value": {
+                "tuple": [
+                    {
+                        "name": "amount",
+                        "type": "uint128"
+                    }
+                ]
+            }
+        }
+    ],
     "non_fungible_tokens": [],
     "variables": [
         {
@@ -527,8 +650,12 @@ export const ArkadikoStxReserveV11Interface: ClarityAbi = {
         },
         {
             "access": "variable",
-            "name": "tokens-to-stack",
-            "type": "uint128"
+            "name": "next-stacker-name",
+            "type": {
+                "string-ascii": {
+                    "length": 256
+                }
+            }
         }
     ]
 };

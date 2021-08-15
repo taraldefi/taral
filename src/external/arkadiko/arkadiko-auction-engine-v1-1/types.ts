@@ -13,7 +13,6 @@ export interface ArkadikoAuctionEngineV11Contract {
     redeemUsda: (usdaAmount: number, metadata: IMetadata) => Transaction<boolean, number>;
     startAuction: (vaultId: number, uamount: number, extraDebt: number, vaultDebt: number, discount: number, metadata: IMetadata) => Transaction<boolean, number>;
     toggleAuctionEngineShutdown: (metadata: IMetadata) => Transaction<boolean, number>;
-    collateralToken: (token: string, metadata: IMetadata) => Promise<string>;
     discountedAuctionPrice: (priceInCents: number, auctionId: number, metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getAuctionById: (id: number, metadata: IMetadata) => Promise<{
         "auction-type": string;

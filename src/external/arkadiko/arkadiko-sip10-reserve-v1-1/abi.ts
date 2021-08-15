@@ -148,6 +148,14 @@ export const ArkadikoSip10ReserveV11Interface: ClarityAbi = {
                     "type": "principal"
                 },
                 {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
+                },
+                {
                     "name": "stack-pox",
                     "type": "bool"
                 }
@@ -180,6 +188,14 @@ export const ArkadikoSip10ReserveV11Interface: ClarityAbi = {
                 {
                     "name": "additional-ucollateral-amount",
                     "type": "uint128"
+                },
+                {
+                    "name": "stacker-name",
+                    "type": {
+                        "string-ascii": {
+                            "length": 256
+                        }
+                    }
                 }
             ],
             "name": "deposit",
@@ -303,24 +319,6 @@ export const ArkadikoSip10ReserveV11Interface: ClarityAbi = {
                 }
             ],
             "name": "redeem-collateral",
-            "outputs": {
-                "type": {
-                    "response": {
-                        "error": "uint128",
-                        "ok": "bool"
-                    }
-                }
-            }
-        },
-        {
-            "access": "public",
-            "args": [
-                {
-                    "name": "new-tokens-to-stack",
-                    "type": "uint128"
-                }
-            ],
-            "name": "set-tokens-to-stack",
             "outputs": {
                 "type": {
                     "response": {

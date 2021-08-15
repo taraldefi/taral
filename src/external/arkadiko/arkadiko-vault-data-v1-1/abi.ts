@@ -163,6 +163,14 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                                 "type": "uint128"
                             },
                             {
+                                "name": "stacker-name",
+                                "type": {
+                                    "string-ascii": {
+                                        "length": 256
+                                    }
+                                }
+                            },
+                            {
                                 "name": "updated-at-block-height",
                                 "type": "uint128"
                             }
@@ -344,6 +352,14 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                             "type": "uint128"
                         },
                         {
+                            "name": "stacker-name",
+                            "type": {
+                                "string-ascii": {
+                                    "length": 256
+                                }
+                            }
+                        },
+                        {
                             "name": "updated-at-block-height",
                             "type": "uint128"
                         }
@@ -367,7 +383,7 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                             "name": "ids",
                             "type": {
                                 "list": {
-                                    "length": 1000,
+                                    "length": 500,
                                     "type": "uint128"
                                 }
                             }
@@ -391,7 +407,7 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                         "error": "none",
                         "ok": {
                             "list": {
-                                "length": 1000,
+                                "length": 500,
                                 "type": {
                                     "tuple": [
                                         {
@@ -461,6 +477,14 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                                         {
                                             "name": "stacked-tokens",
                                             "type": "uint128"
+                                        },
+                                        {
+                                            "name": "stacker-name",
+                                            "type": {
+                                                "string-ascii": {
+                                                    "length": 256
+                                                }
+                                            }
                                         },
                                         {
                                             "name": "updated-at-block-height",
@@ -563,7 +587,7 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                         "name": "ids",
                         "type": {
                             "list": {
-                                "length": 1000,
+                                "length": 500,
                                 "type": "uint128"
                             }
                         }
@@ -650,6 +674,14 @@ export const ArkadikoVaultDataV11Interface: ClarityAbi = {
                     {
                         "name": "stacked-tokens",
                         "type": "uint128"
+                    },
+                    {
+                        "name": "stacker-name",
+                        "type": {
+                            "string-ascii": {
+                                "length": 256
+                            }
+                        }
                     },
                     {
                         "name": "updated-at-block-height",

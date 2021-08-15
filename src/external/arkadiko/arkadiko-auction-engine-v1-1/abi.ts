@@ -8,6 +8,27 @@ export const ArkadikoAuctionEngineV11Interface: ClarityAbi = {
             "access": "private",
             "args": [
                 {
+                    "name": "token",
+                    "type": {
+                        "string-ascii": {
+                            "length": 12
+                        }
+                    }
+                }
+            ],
+            "name": "collateral-token",
+            "outputs": {
+                "type": {
+                    "string-ascii": {
+                        "length": 12
+                    }
+                }
+            }
+        },
+        {
+            "access": "private",
+            "args": [
+                {
                     "name": "auction-id",
                     "type": "uint128"
                 }
@@ -395,27 +416,6 @@ export const ArkadikoAuctionEngineV11Interface: ClarityAbi = {
                     "response": {
                         "error": "uint128",
                         "ok": "bool"
-                    }
-                }
-            }
-        },
-        {
-            "access": "read_only",
-            "args": [
-                {
-                    "name": "token",
-                    "type": {
-                        "string-ascii": {
-                            "length": 12
-                        }
-                    }
-                }
-            ],
-            "name": "collateral-token",
-            "outputs": {
-                "type": {
-                    "string-ascii": {
-                        "length": 12
                     }
                 }
             }
