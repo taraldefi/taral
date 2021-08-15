@@ -20,7 +20,7 @@ export async function getClarinetDevConfig(
 export async function getClarinetTestnetConfig(
     folder: string
 ): Promise<ClarinetDevConfig> {
-    const baseConfigPath = resolve(folder, "settings", "Testnet.toml");
+    const baseConfigPath = resolve(folder, "settings", "Development.toml");
     const configContents = await readFile(baseConfigPath, { encoding: "utf-8" });
     const config = parse(
         configContents,
