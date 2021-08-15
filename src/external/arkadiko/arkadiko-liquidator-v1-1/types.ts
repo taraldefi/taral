@@ -1,5 +1,5 @@
-import { IMetadata } from "../../../../shared/providers/types";
-import { Transaction } from "../../../../shared/transaction";
+import { IMetadata } from '../../../../shared/providers/types';
+import { Transaction } from '../../../../shared/transaction';
 
 // prettier-ignore
 

@@ -4,36 +4,40 @@ import { Logger } from "../logger";
 import { ClarinetAccounts } from "./types";
 
 export async function getClarinetAccounts(
-  folder: string
+    folder: string
 ): Promise<ClarinetAccounts> {
-  const devConfig = await getClarinetTestnetConfig(folder);
+    const devConfig = await getClarinetTestnetConfig(folder);
 
-  const accountEntries = await Promise.all(
-    Object.entries(devConfig.accounts).map(async ([key, info]) => {
-      Logger.debug(`Iteration key ${key}`);
-      Logger.debug(`Mnemonic: ${info.mnemonic}`);
+    const accountEntries = await Promise.all(
+        Object.entries(devConfig.accounts).map(async ([key, info]) => {
+            Logger.debug(`Iteration key ${key}`);
+            Logger.debug(`Mnemonic: ${info.mnemonic}`);
 
-      const wallet = await generateWallet({
-        secretKey: info.mnemonic,
-        password: "password",
-      });
+            const wallet = await generateWallet({
+                secretKey: info.mnemonic,
+                password: "password",
+            });
 
-      Logger.debug(`generated wallet: ${JSON.stringify(wallet)}`);
+            const privateKey = wallet.accounts[0].stxPrivateKey;
 
-      const [account] = wallet.accounts;
-      const address = getStxAddress({ account });
+            Logger.debug(`generated wallet: ${JSON.stringify(wallet)}`);
 
-      Logger.debug(`Address: ${address}`);
+            const [account] = wallet.accounts;
+            const address = getStxAddress({ account });
 
-      return [
-        key,
-        {
-          ...info,
-          address,
-        },
-      ];
-    })
-  );
-  const accounts: ClarinetAccounts = Object.fromEntries(accountEntries);
-  return accounts;
+            Logger.debug(`Address: ${address}`);
+
+            return [
+                key,
+                {
+                    ...info,
+                    address,
+                    privateKey
+                },
+            ];
+        })
+    );
+
+    const accounts: ClarinetAccounts = Object.fromEntries(accountEntries);
+    return accounts;
 }
