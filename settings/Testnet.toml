@@ -17,3 +17,31 @@ balance = 10_000_000_000_000
 [accounts.wallet_3]
 mnemonic = "warm security impulse alert erode human disagree foot police power subject segment various behind raise crime amazing wing exact crouch clog what stumble small"
 balance = 10_000_000_000_000
+
+[accounts.wallet_4]
+mnemonic = "tent clerk tired trouble winter vacuum pair critic invest inquiry hotel mom control where belt lecture step involve stove ride liberty loyal hole once"
+balance = 10_000_000_000_000
+
+[accounts.wallet_5]
+mnemonic = "service dinosaur engage sort long select coconut stuff potato cement arena belt kitten earn admit monkey tuition stable coral latin flash repeat eye autumn"
+balance = 10_000_000_000_000
+
+[accounts.wallet_6]
+mnemonic = "success regular census truth gorilla menu mention price wash truth ill announce explain brass call tone version company when sure antique sustain hurry series"
+balance = 10_000_000_000_000
+
+[accounts.wallet_7]
+mnemonic = "dial blood beauty enhance merit rhythm bonus flavor atom knock flock soap pride stock chuckle apple muffin rural ice young flee naive force enrich"
+balance = 10_000_000_000_000
+
+[accounts.wallet_8]
+mnemonic = "surface width better physical fish upgrade insane adjust chalk maximum tunnel horror host cross flag pair album quote invest program reveal genuine virtual cluster"
+balance = 10_000_000_000_000
+
+[accounts.wallet_9]
+mnemonic = "sign tree divorce sure beef goat icon crisp strategy riot off replace toe grape gospel planet side local disagree moment fix scheme satoshi roof"
+balance = 10_000_000_000_000
+
+[accounts.wallet_10]
+mnemonic = "focus indicate chaos fragile reduce link key year hedgehog hollow text output course canoe menu trap desert surprise heart pause plate excess leg expire"
+balance = 10_000_000_000_000

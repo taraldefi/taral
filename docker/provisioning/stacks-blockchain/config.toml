@@ -42,6 +42,41 @@ amount = 10000000000000000
 address = "ST2604KQ6A2TD9EP1FMAJ6BESC22H0E557KQHB7CV"
 amount = 10000000000000000
 
+[[ustx_balance]]
+# Private key: 52c286a446c62096fecfdd69351519012585f439f532d68f84865cf65291061301
+address = "ST2NGZFJW0HV5F1KXARKC6HDBWB4942YS5DYDQNSW"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: fa575ff1c8eb5e409fcb21d7d0008a7595e519d0db6f3ceecccfa5bad6080ad601
+address = "ST75HW7YBJ2R7YJ6Z70PJMB9B1XWT001DD0BDJAZ"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: 773e5645f1aed75285d1e73f06b69f6d30dd9094fd9ebaa3c28a99002f5d307b01
+address = "ST14QYZ5YA4XDQ0347VK4CWR4GG6CYM5G0Z5PSP92"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: d35d8f9bacc481af1e2afa7c5685f86cbed0a159093be60c15f18fe3efdd7cc301
+address = "ST2FQ704Y2GWGWFRRR0VHG4QPJ7GN7M9YE1VS2FRJ"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: 3151dd1c42fccc3ae767f81a364e69fa9d40b59e8f485f31766db2757e51e9ae01
+address = "ST39805GAFFYN0ZGDV3D057GP6YP4DZ5TJ1E9K59M"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: dc73c2c1f4dee2688fa0957ebfc05ef3999383e5aae8c18c8aa8554250a7dce901
+address = "ST1SMXMR1RN6QR1KHXBPMBSANCC5GTGJK87ZXTY1Q"
+amount = 10000000000000000
+
+[[ustx_balance]]
+# Private key: 1ae3642d1ef32e9d491521849922014afab12e3be4ff7c4635f006e4df72b4e901
+address = "ST24FKSPK2F1H9XZ7ZM4KJAVC6B2MWRF18GE0DGY"
+amount = 10000000000000000
+
 # {
 #    "mnemonic":"iron lizard museum crumble you focus damage surprise job loud genuine stamp replace scan muscle away junior know perfect manual update artwork hospital ivory",
 #    "keyInfo":{
@@ -82,6 +117,83 @@ amount = 10000000000000000
 #       "address":"ST2604KQ6A2TD9EP1FMAJ6BESC22H0E557KQHB7CV",
 #       "btcAddress":"mtHFfHbZxU1zPwqjCNytTnrV74btnS7xZX",
 #       "wif":"KwHgSvM8h4nUQdjPazBKGQapb71mcBC7ViLAGqGmRGUzYWBAKpqG",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"tent clerk tired trouble winter vacuum pair critic invest inquiry hotel mom control where belt lecture step involve stove ride liberty loyal hole once",
+#    "keyInfo":{
+#       "privateKey":"52c286a446c62096fecfdd69351519012585f439f532d68f84865cf65291061301",
+#       "address":"ST2NGZFJW0HV5F1KXARKC6HDBWB4942YS5DYDQNSW",
+#       "btcAddress":"mw7ShjvnRfKcga3ioz1SBXw2Tx5NKjR9pH",
+#       "wif":"Kyzau2aYuisQb4R7DQL6Td4PKHPiXc4xYC7C11uEjSxLoKM99hPA",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"service dinosaur engage sort long select coconut stuff potato cement arena belt kitten earn admit monkey tuition stable coral latin flash repeat eye autumn",
+#    "keyInfo":{
+#       "privateKey":"fa575ff1c8eb5e409fcb21d7d0008a7595e519d0db6f3ceecccfa5bad6080ad601",
+#       "address":"ST75HW7YBJ2R7YJ6Z70PJMB9B1XWT001DD0BDJAZ",
+#       "btcAddress":"mgppJVfxDSvpGDeBXxDmEYGJtpbfdgKJC5",
+#       "wif":"L5cLmdeJ8yJ3rsHYcqS4hGmXTjZ6zHFpGQThaUut4b7Q1EDsF7y7",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"success regular census truth gorilla menu mention price wash truth ill announce explain brass call tone version company when sure antique sustain hurry series",
+#    "keyInfo":{
+#       "privateKey":"773e5645f1aed75285d1e73f06b69f6d30dd9094fd9ebaa3c28a99002f5d307b01",
+#       "address":"ST14QYZ5YA4XDQ0347VK4CWR4GG6CYM5G0Z5PSP92",
+#       "btcAddress":"mnDaM2e591S6Y8G5cgiAMMEUbgN1Ad1CUm",
+#       "wif":"L1DWDxzdCekSd2tkwjKu32RgjqDkUe5PuV5em5UFzhG7JmyW34T3",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"dial blood beauty enhance merit rhythm bonus flavor atom knock flock soap pride stock chuckle apple muffin rural ice young flee naive force enrich",
+#    "keyInfo":{
+#       "privateKey":"d35d8f9bacc481af1e2afa7c5685f86cbed0a159093be60c15f18fe3efdd7cc301",
+#       "address":"ST2FQ704Y2GWGWFRRR0VHG4QPJ7GN7M9YE1VS2FRJ",
+#       "btcAddress":"mv446oYhLv3Vy2CxP7zEy4WeZbBVAuv4n6",
+#       "wif":"L4JaTmdjrKXeLJe96n793Z24xB8e7KAvoNSgPpYTD7QBQT7k5BhE",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"surface width better physical fish upgrade insane adjust chalk maximum tunnel horror host cross flag pair album quote invest program reveal genuine virtual cluster",
+#    "keyInfo":{
+#       "privateKey":"3151dd1c42fccc3ae767f81a364e69fa9d40b59e8f485f31766db2757e51e9ae01",
+#       "address":"ST39805GAFFYN0ZGDV3D057GP6YP4DZ5TJ1E9K59M",
+#       "btcAddress":"mzhydv7JJSAHKU1sWbqs7yTAjGnYJzbzAq",
+#       "wif":"KxsaiQD3Gg2cp6jTGJ1X87nGy8yn46ZwM4RLVY5Uega5wmBX8MzW",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"sign tree divorce sure beef goat icon crisp strategy riot off replace toe grape gospel planet side local disagree moment fix scheme satoshi roof",
+#    "keyInfo":{
+#       "privateKey":"dc73c2c1f4dee2688fa0957ebfc05ef3999383e5aae8c18c8aa8554250a7dce901",
+#       "address":"ST1SMXMR1RN6QR1KHXBPMBSANCC5GTGJK87ZXTY1Q",
+#       "btcAddress":"mr2eRvGCyuh3153ywXYRbjKusJNHrsDAvW",
+#       "wif":"L4cEwRSeLuJH9k2xujfK4uUaPMRs9aEhfHv29LkHBkG7jWijbC9b",
+#       "index":0
+#    }
+# }
+
+# {
+#    "mnemonic":"focus indicate chaos fragile reduce link key year hedgehog hollow text output course canoe menu trap desert surprise heart pause plate excess leg expire",
+#    "keyInfo":{
+#       "privateKey":"1ae3642d1ef32e9d491521849922014afab12e3be4ff7c4635f006e4df72b4e901",
+#       "address":"ST24FKSPK2F1H9XZ7ZM4KJAVC6B2MWRF18GE0DGY",
+#       "btcAddress":"mfub2EAXv49BxZw52p7rMaY21YvEfu6eX9",
+#       "wif":"Kx7ygehJUps2BZx6SYZbfPmHcsR8YducwiH3CwjbAdGCqTdjZDRc",
 #       "index":0
 #    }
 # }
