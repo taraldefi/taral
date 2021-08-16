@@ -15,6 +15,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+    
     - uses: actions/checkout@v2
     
     - name: Get yarn cache directory path
@@ -49,11 +50,13 @@ jobs:
       if: |
         steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
         steps.cache-node-modules.outputs.cache-hit != 'true'
-        
+
     - name: Run tests
       run: yarn unit-tests
+    
     - name: Format
       run: yarn pretty
+    
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4.11.0
       with:
