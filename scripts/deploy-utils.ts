@@ -8,26 +8,13 @@ import {
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
 } from "@stacks/transactions";
-import { Logger } from "../shared/logger";
+import { Logger } from "../lib/logger";
 import * as fs from "fs";
 import fetch from "node-fetch";
 
-import { ADDR1, testnetKeyMap } from "../configuration/testnet";
-import { Contracts } from "../shared/types";
-import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
+import { Contracts } from "../lib/types";
+import { getContractNameFromPath } from "../lib/utils/contract-name-for-path";
 import { getTransactionUrl, NETWORK } from "../configuration";
-
-const keys = testnetKeyMap[ADDR1];
-
-export const secretKey = keys.secretKey;
-
-export const contractAddress = keys.address;
-
-const deployKey = testnetKeyMap[ADDR1];
-
-export const deployContractAddress = deployKey.address;
-
-export const secretDeployKey = deployKey.secretKey;
 
 export async function handleTransaction(transaction: StacksTransaction) {
   const result = await broadcastTransaction(transaction, NETWORK);
@@ -60,6 +47,7 @@ export async function handleTransaction(transaction: StacksTransaction) {
 }
 
 export async function callContractFunction(
+  deployContractAddress: string,
   contractName: string,
   functionName: string,
   sender: any,
@@ -86,7 +74,8 @@ export async function callContractFunction(
 }
 
 export async function deployContract<T extends Contracts<M>, M>(
-  contract: T[Extract<keyof T, string>]
+  contract: T[Extract<keyof T, string>],
+  senderKey: string
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
   let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
@@ -94,7 +83,7 @@ export async function deployContract<T extends Contracts<M>, M>(
   var transaction = await makeContractDeploy({
     contractName,
     codeBody,
-    senderKey: secretDeployKey,
+    senderKey: senderKey,
     network: NETWORK,
     anchorMode: 3,
   });
