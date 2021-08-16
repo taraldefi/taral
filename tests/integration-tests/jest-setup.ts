@@ -1,8 +1,8 @@
 import { StacksNetwork } from "@stacks/network";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
-import { ClarinetAccounts, getClarinetAccounts } from "../../shared/configuration";
-import { Logger } from "../../shared/logger";
-import { ApiProvider } from "../../shared/providers";
+import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
+import { Logger } from "../../lib/logger";
+import { ApiProvider } from "../../lib/providers";
 
 import { contracts as coreContracts } from "../../generated/external/core";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";

@@ -1,14 +1,15 @@
 import { readFileSync } from "fs";
-import { CONTRACT_FOLDER } from "../shared/constants";
-import { generateFilesForContract } from "../shared/abi";
-import { createDefaultTestProvider } from "../shared/default-test-provider";
-import { contractWithSubDirectory } from "../shared/utils/contract-with-subdirectory";
+
+import { 
+  CONTRACT_FOLDER, 
+  generateFilesForContract, 
+  createDefaultTestProvider, 
+  contractWithSubDirectory,
+  getContractNameFromPath,
+  toCamelCase, getClarinetAccounts, Logger } from "../lib";
+
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
-import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
-import { toCamelCase } from "../shared/utils/to-camel-case";
-import { getClarinetAccounts } from "../shared/configuration";
-import { Logger } from "../shared/logger";
 
 interface IProject {
   outputDirectory: string;

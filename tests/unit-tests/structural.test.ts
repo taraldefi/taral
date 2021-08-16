@@ -1,4 +1,4 @@
-import { NO_METADATA } from "../../shared/providers";
+import { NO_METADATA } from "../../lib/providers";
 import { talToken } from "./jest-setup";
 
 test("Should be named TARAL", async () => {

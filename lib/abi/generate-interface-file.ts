@@ -16,7 +16,7 @@ export function generateInterfaceFile({
     const abiString = JSON.stringify(abi, null, 2);
 
     const relativeImportPath = getRelativeImportPath(subFolder);
-    const fileContents = `import { ClarityAbi } from '${relativeImportPath}shared/clarity/types';
+    const fileContents = `import { ClarityAbi } from '${relativeImportPath}lib/clarity/types';
 
 // prettier-ignore
 
