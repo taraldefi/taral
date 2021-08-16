@@ -37,5 +37,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": ["./test/**/*.ts", "./src/**/*.ts", "./lib/**/*.ts"]
+  "include": ["./clarity/tests/**/*.ts", "./clarity/generated/**/*.ts", "./clarity/lib/**/*.ts"]
 }

@@ -6,7 +6,7 @@ import {
   createDefaultTestProvider, 
   contractWithSubDirectory,
   getContractNameFromPath,
-  toCamelCase, getClarinetAccounts, Logger } from "../lib";
+  toCamelCase, getClarinetAccounts, Logger } from "../clarity/lib";
 
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
@@ -90,7 +90,7 @@ async function generateProjectIndexFile(
 }
 
 async function generate() {
-  const cwd = process.cwd();
+  const cwd = `${process.cwd()}/clarity/`;
   const contracts = await getClarinetAccounts(cwd);
 
   const contractsConfigurationFile = readFileSync(

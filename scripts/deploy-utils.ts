@@ -8,13 +8,13 @@ import {
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
 } from "@stacks/transactions";
-import { Logger } from "../lib/logger";
+import { Logger } from "../clarity/lib/logger";
 import * as fs from "fs";
 import fetch from "node-fetch";
 
-import { Contracts } from "../lib/types";
-import { getContractNameFromPath } from "../lib/utils/contract-name-for-path";
-import { getTransactionUrl, NETWORK } from "../configuration";
+import { Contracts } from "../clarity/lib/types";
+import { getContractNameFromPath } from "../clarity/lib/utils/contract-name-for-path";
+import { getTransactionUrl, NETWORK } from "../clarity/configuration";
 
 export async function handleTransaction(transaction: StacksTransaction) {
   const result = await broadcastTransaction(transaction, NETWORK);
