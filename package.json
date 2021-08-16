@@ -11,7 +11,7 @@
     "eol": "npx eolConverter \"clarity/contracts/**/*.clar\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "cleanup": "ts-node scripts/cleanup.ts",
-    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png"
+    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png"
   },
   "repository": {
     "type": "git",

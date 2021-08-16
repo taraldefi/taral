@@ -1,5 +1,5 @@
 <!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️--><p align="center">
-  <img src="https://raw.githubusercontent.com/taraldefi/taral/main/assets/logo.svg" alt="Logo" width="150" height="150" />
+  <img src="https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/logo.svg" alt="Logo" width="150" height="150" />
 </p> 
 
 <h1 align="center">taral-ecosystem</h1> 
@@ -19,7 +19,7 @@
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#table-of-contents)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#table-of-contents)
 
 ## ➤ Table of Contents
 
@@ -34,7 +34,7 @@
 * [➤ License](#-license)
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#local-testnet)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#local-testnet)
 
 ## ➤ Local testnet
 
@@ -79,7 +79,7 @@ If you did import the bns data, you need to uncomment (if previously commented o
 
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#getting-started)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#getting-started)
 
 ## ➤ Getting started
 
@@ -92,7 +92,7 @@ When getting started with developing smart contracts, you need to first install 
 This installs a certain version of `clarity-cli` we're using to interact with the smart contracts locally in unit-test mode
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#development-of-smart-contracts)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#development-of-smart-contracts)
 
 ## ➤ Development of smart contracts
 
@@ -111,14 +111,14 @@ yarn generate
 ```
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#unit-tests)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#unit-tests)
 
 ## ➤ Unit tests
 
 When writing unit tests you can use the examples included in `/test/counter.test.ts`
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#integration-tests)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#integration-tests)
 
 ## ➤ Integration tests
 
@@ -139,14 +139,14 @@ $> yarn integration
 ```
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#future-work)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#future-work)
 
 ## ➤ Future work
 
 Start development of the taral token and split this monorepo into multiple separate repositories once the codebase gets larger.
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#faq)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#faq)
 
 ## ➤ FAQ
 
@@ -164,7 +164,7 @@ A token is being currently developed, the ticker is TAL
 We are actively developing Taral, we will update once we have a clear timeline.
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#contributors)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#contributors)
 
 ## ➤ Contributors
 	
@@ -176,7 +176,7 @@ We are actively developing Taral, we will update once we have a clear timeline.
  
 
 
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/assets/line.png)](#license)
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#license)
 
 ## ➤ License
 	
