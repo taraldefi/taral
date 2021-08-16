@@ -9,15 +9,12 @@ module.exports = {
   clearMocks: true,
   collectCoverage: true,
   collectCoverageFrom: [
-    "<rootDir>/src/taral/**/*.ts",
+    "<rootDir>/generated/taral/**/*.ts",
     "!<rootDir>/tests/unit-tests/**/*.test.ts",
   ],
   coverageReporters: ["text-summary", "lcov"],
   coverageDirectory: "coverage",
   moduleNameMapper: {
-    "^@common/(.*)$": "<rootDir>/src/common/$1",
-    "^@components/(.*)$": "<rootDir>/src/components/$1",
-    "^@contracts/(.*)$": "<rootDir>/src/$1",
-    "^@contracts$": "<rootDir>/src/index",
+    "^@contracts/(.*)$": "<rootDir>/clarity/generated/$1"
   },
 };
