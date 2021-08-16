@@ -9,7 +9,6 @@ import { contracts as arkadikoContracts } from "../../generated/external/arkadik
 import { contracts as taralContracts } from "../../generated/taral";
 
 import { TaralCoinContract } from "../../src";
-import { getDefaultClarityBin } from "../../shared/adapter";
 
 export const network: StacksNetwork = new StacksNetworkConfiguration();
 export let talToken: TaralCoinContract;
