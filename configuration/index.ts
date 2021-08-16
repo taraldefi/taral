@@ -3,7 +3,6 @@
 import { StacksNetworkConfiguration } from "./stacks-network";
 
 export * from "./stacks-network";
-export * from "./testnet";
 
 export const NETWORK = new StacksNetworkConfiguration();
 
