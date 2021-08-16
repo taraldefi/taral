@@ -1,14 +1,14 @@
 import { StacksNetwork } from "@stacks/network";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
+import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
+import { contracts as coreContracts } from "../../generated/external/core";
+import {
+  contracts as taralContracts,
+  TaralCoinContract,
+} from "../../generated/taral";
 import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
-
-import { contracts as coreContracts } from "../../generated/external/core";
-import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-import { contracts as taralContracts } from "../../generated/taral";
-
-import { TaralCoinContract } from "../../generated/taral";
 
 export const network: StacksNetwork = new StacksNetworkConfiguration();
 export let talToken: TaralCoinContract;

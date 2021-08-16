@@ -15,6 +15,6 @@ module.exports = {
   coverageReporters: ["text-summary", "lcov"],
   coverageDirectory: "coverage",
   moduleNameMapper: {
-    "^@contracts/(.*)$": "<rootDir>/clarity/generated/$1"
+    "^@contracts/(.*)$": "<rootDir>/clarity/generated/$1",
   },
 };

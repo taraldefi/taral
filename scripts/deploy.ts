@@ -9,7 +9,6 @@ console.log("Deploying contracts");
 deployMany(contracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
-
   const cwd = `${process.cwd()}/clarity/`;
   const clarinetAccounts = await getClarinetAccounts(cwd);
 

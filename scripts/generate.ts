@@ -1,12 +1,15 @@
 import { readFileSync } from "fs";
 
-import { 
-  CONTRACT_FOLDER, 
-  generateFilesForContract, 
-  createDefaultTestProvider, 
+import {
+  CONTRACT_FOLDER,
+  generateFilesForContract,
+  createDefaultTestProvider,
   contractWithSubDirectory,
   getContractNameFromPath,
-  toCamelCase, getClarinetAccounts, Logger } from "../clarity/lib";
+  toCamelCase,
+  getClarinetAccounts,
+  Logger,
+} from "../clarity/lib";
 
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
@@ -83,7 +86,7 @@ async function generateProjectIndexFile(
 
     var subFolder = group.subFolder;
 
-    var fullOutputFolder = `${outputFolder}/${subFolder}/`
+    var fullOutputFolder = `${outputFolder}/${subFolder}/`;
 
     await writeFile(resolve(fullOutputFolder, "index.ts"), file);
   }
