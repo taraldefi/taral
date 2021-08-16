@@ -5,7 +5,7 @@ import { contracts as coreContracts } from "../../generated/external/core";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
 import { contracts as taralContracts } from "../../generated/taral";
 
-import { TaralCoinContract } from "../../src";
+import { TaralCoinContract } from "../../generated/taral";
 import { getDefaultClarityBin } from "../../shared/adapter";
 
 export let talToken: TaralCoinContract;

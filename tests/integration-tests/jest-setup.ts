@@ -8,7 +8,7 @@ import { contracts as coreContracts } from "../../generated/external/core";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
 import { contracts as taralContracts } from "../../generated/taral";
 
-import { TaralCoinContract } from "../../src";
+import { TaralCoinContract } from "../../generated/taral";
 
 export const network: StacksNetwork = new StacksNetworkConfiguration();
 export let talToken: TaralCoinContract;
