@@ -11,9 +11,9 @@ export const generateTypesFile = (
     const name = toCamelCase(contractName, true);
     const typings = makeTypes(abi);
     const relativeImportPath = getRelativeImportPath(subFolder);
-    const fileContents = `import { Transaction } from '${relativeImportPath}shared/transaction';
-import { ClarityTypes } from '${relativeImportPath}shared/clarity/types';
-import { IMetadata } from '${relativeImportPath}shared/providers/types';
+    const fileContents = `import { Transaction } from '${relativeImportPath}lib/transaction';
+import { ClarityTypes } from '${relativeImportPath}lib/clarity/types';
+import { IMetadata } from '${relativeImportPath}lib/providers/types';
 
 // prettier-ignore
 

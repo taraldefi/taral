@@ -23,9 +23,9 @@ export function generateIndexFile({
     const relativeImportPath = getRelativeImportPath(subFolder);
 
     const fileContents = `
-import { Contract } from '${relativeImportPath}shared/types';
-import { proxy } from '${relativeImportPath}shared/test-utils/proxy';
-import { BaseProvider } from '${relativeImportPath}shared/providers/base-provider';
+import { Contract } from '${relativeImportPath}lib/types';
+import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
+import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
 
 import type { ${contractType} } from './types';
 import { ${contractTitle}Interface } from './abi';

@@ -1,7 +1,7 @@
 
-import { Contract } from '../../../../shared/types';
-import { proxy } from '../../../../shared/test-utils/proxy';
-import { BaseProvider } from '../../../../shared/providers/base-provider';
+import { Contract } from '../../../../lib/types';
+import { proxy } from '../../../../lib/test-utils/proxy';
+import { BaseProvider } from '../../../../lib/providers/base-provider';
 
 import type { ArkadikoVaultTraitV1Contract } from './types';
 import { ArkadikoVaultTraitV1Interface } from './abi';
