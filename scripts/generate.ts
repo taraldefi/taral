@@ -10,7 +10,6 @@ import { toCamelCase } from "../shared/utils/to-camel-case";
 import { getClarinetAccounts } from "../shared/configuration";
 import { Logger } from "../shared/logger";
 
-
 interface IProject {
   outputDirectory: string;
   configuration: IProjectConfiguration[];
@@ -28,7 +27,11 @@ interface IContractGroup {
   contracts: string[];
 }
 
-async function generateAbis(groups: IContractGroup[], deployerAddress: string, outputFolder: string): Promise<void> {
+async function generateAbis(
+  groups: IContractGroup[],
+  deployerAddress: string,
+  outputFolder: string
+): Promise<void> {
   const provider = await createDefaultTestProvider();
 
   for (let group of groups) {
@@ -48,17 +51,17 @@ async function generateProjectIndexFile(
   groups: IContractGroup[],
   outputFolder: string
 ): Promise<void> {
-  const imports: string[] = [];
-  const exports: string[] = [];
-  const contractMap: string[] = [];
-
   for (let group of groups) {
+    const imports: string[] = [];
+    const exports: string[] = [];
+    const contractMap: string[] = [];
+
     for (let contract of group.contracts) {
       const contractName = getContractNameFromPath(contract);
       const contractVar = toCamelCase(contractName);
       const contractInfo = `${contractVar}Info`;
       const contractInterface = `${toCamelCase(contractName, true)}Contract`;
-      const importPath = `'./${group.subFolder}/${contractName}'`;
+      const importPath = `'./${contractName}'`;
       const _import = `import { ${contractInfo} } from ${importPath};`;
       imports.push(_import);
 
@@ -68,9 +71,8 @@ async function generateProjectIndexFile(
       const map = `${contractVar}: ${contractInfo},`;
       contractMap.push(map);
     }
-  }
 
-  const file = `${imports.join("\n")}
+    const file = `${imports.join("\n")}
     ${exports.join("\n")}
     
     export const contracts = {
@@ -78,7 +80,12 @@ async function generateProjectIndexFile(
     };
     `;
 
-  await writeFile(resolve(outputFolder, "index.ts"), file);
+    var subFolder = group.subFolder;
+
+    var fullOutputFolder = `${outputFolder}/${subFolder}/`
+
+    await writeFile(resolve(fullOutputFolder, "index.ts"), file);
+  }
 }
 
 async function generate() {
@@ -101,8 +108,16 @@ async function generate() {
     }
   );
 
-  Logger.debug(`Generating interfaces with deployment contract ${contracts.deployer.address}`)
-  await generateAbis(contractGroups, contracts.deployer.address, project.outputDirectory);
+  Logger.debug(
+    `Generating interfaces with deployment contract ${contracts.deployer.address}`
+  );
+
+  await generateAbis(
+    contractGroups,
+    contracts.deployer.address,
+    project.outputDirectory
+  );
+
   await generateProjectIndexFile(contractGroups, project.outputDirectory);
 }
 
