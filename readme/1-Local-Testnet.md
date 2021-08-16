@@ -1,6 +1,6 @@
 ## Local testnet
 
-The `docker` folder contains a `docker-compose` configuration to run a local testnet `Stacks blockchain` environment from scratch
+The `clarity/docker` folder contains a `docker-compose` configuration to run a local testnet `Stacks blockchain` environment from scratch
 
 This starts the following `private testnet` components: 
 
