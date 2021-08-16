@@ -1,20 +1,26 @@
-import { Logger } from "../shared/logger";
-import { Contracts } from "../shared/types";
-import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
-import { contracts } from "../src";
+import { Logger } from "../clarity/lib/logger";
+import { Contracts } from "../clarity/lib/types";
+import { getContractNameFromPath } from "../clarity/lib/utils/contract-name-for-path";
+import { contracts } from "../clarity/generated/taral";
 import { deployContract } from "./deploy-utils";
+import { getClarinetAccounts } from "../clarity/lib";
 
 console.log("Deploying contracts");
 deployMany(contracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
+  const cwd = `${process.cwd()}/clarity/`;
+  const clarinetAccounts = await getClarinetAccounts(cwd);
+
+  const deployer = clarinetAccounts.deployer;
+
   for (const k in contracts) {
     const contract: T[Extract<keyof T, string>] = contracts[k];
 
     const contractName = getContractNameFromPath(contract.contractFile);
     Logger.debug(`Deploying contract ${contractName}`);
 
-    var result = await deployContract(contract);
+    var result = await deployContract(contract, deployer.privateKey);
     Logger.debug(`Contract deployed: ${contractName} with result ${result}`);
   }
 }

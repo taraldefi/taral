@@ -1,17 +1,21 @@
 import { readFileSync } from "fs";
-import { CONTRACT_FOLDER } from "../shared/constants";
-import { generateFilesForContract } from "../shared/abi";
-import { ADDR1 } from "../configuration";
-import { createDefaultTestProvider } from "../shared/default-test-provider";
-import { contractWithSubDirectory } from "../shared/utils/contract-with-subdirectory";
+
+import {
+  CONTRACT_FOLDER,
+  generateFilesForContract,
+  createDefaultTestProvider,
+  contractWithSubDirectory,
+  getContractNameFromPath,
+  toCamelCase,
+  getClarinetAccounts,
+  Logger,
+} from "../clarity/lib";
+
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
-import { getContractNameFromPath } from "../shared/utils/contract-name-for-path";
-import { toCamelCase } from "../shared/utils/to-camel-case";
-
-const GENERATION_FOLDER = "src//";
 
 interface IProject {
+  outputDirectory: string;
   configuration: IProjectConfiguration[];
 }
 
@@ -27,15 +31,19 @@ interface IContractGroup {
   contracts: string[];
 }
 
-async function generateAbis(groups: IContractGroup[]): Promise<void> {
+async function generateAbis(
+  groups: IContractGroup[],
+  deployerAddress: string,
+  outputFolder: string
+): Promise<void> {
   const provider = await createDefaultTestProvider();
 
   for (let group of groups) {
     for (let contract of group.contracts) {
       await generateFilesForContract({
         contractFile: contractWithSubDirectory(contract, group.subFolder),
-        outputFolder: GENERATION_FOLDER,
-        contractAddress: ADDR1,
+        outputFolder: outputFolder,
+        contractAddress: deployerAddress,
         subFolder: group.subFolder,
         provider,
       });
@@ -44,19 +52,20 @@ async function generateAbis(groups: IContractGroup[]): Promise<void> {
 }
 
 async function generateProjectIndexFile(
-  groups: IContractGroup[]
+  groups: IContractGroup[],
+  outputFolder: string
 ): Promise<void> {
-  const imports: string[] = [];
-  const exports: string[] = [];
-  const contractMap: string[] = [];
-
   for (let group of groups) {
+    const imports: string[] = [];
+    const exports: string[] = [];
+    const contractMap: string[] = [];
+
     for (let contract of group.contracts) {
       const contractName = getContractNameFromPath(contract);
       const contractVar = toCamelCase(contractName);
       const contractInfo = `${contractVar}Info`;
       const contractInterface = `${toCamelCase(contractName, true)}Contract`;
-      const importPath = `'./${group.subFolder}/${contractName}'`;
+      const importPath = `'./${contractName}'`;
       const _import = `import { ${contractInfo} } from ${importPath};`;
       imports.push(_import);
 
@@ -66,19 +75,27 @@ async function generateProjectIndexFile(
       const map = `${contractVar}: ${contractInfo},`;
       contractMap.push(map);
     }
-  }
 
-  const file = `${imports.join("\n")}
+    const file = `${imports.join("\n")}
     ${exports.join("\n")}
     
     export const contracts = {
       ${contractMap.join("\n  ")}
     };
     `;
-  await writeFile(resolve(GENERATION_FOLDER, "index.ts"), file);
+
+    var subFolder = group.subFolder;
+
+    var fullOutputFolder = `${outputFolder}/${subFolder}/`;
+
+    await writeFile(resolve(fullOutputFolder, "index.ts"), file);
+  }
 }
 
 async function generate() {
+  const cwd = `${process.cwd()}/clarity/`;
+  const contracts = await getClarinetAccounts(cwd);
+
   const contractsConfigurationFile = readFileSync(
     `./${CONTRACT_FOLDER}/contracts.json`,
     "utf-8"
@@ -95,8 +112,17 @@ async function generate() {
     }
   );
 
-  await generateAbis(contractGroups);
-  await generateProjectIndexFile(contractGroups);
+  Logger.debug(
+    `Generating interfaces with deployment contract ${contracts.deployer.address}`
+  );
+
+  await generateAbis(
+    contractGroups,
+    contracts.deployer.address,
+    project.outputDirectory
+  );
+
+  await generateProjectIndexFile(contractGroups, project.outputDirectory);
 }
 
 generate();

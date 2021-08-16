@@ -5,7 +5,7 @@
   "output": "README.md",
   "text": "Development environment for Stacks smart contracts with support for unit tests and integration tests",
   "logo": {
-    "src": "https://raw.githubusercontent.com/taraldefi/taral/main/assets/logo.svg",
+    "src": "https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/logo.svg",
     "width": 150,
     "height": 150
   },
