@@ -10,9 +10,9 @@ import { toCamelCase } from "../shared/utils/to-camel-case";
 import { getClarinetAccounts } from "../shared/configuration";
 import { Logger } from "../shared/logger";
 
-const GENERATION_FOLDER = "src//";
 
 interface IProject {
+  outputDirectory: string;
   configuration: IProjectConfiguration[];
 }
 
@@ -28,14 +28,14 @@ interface IContractGroup {
   contracts: string[];
 }
 
-async function generateAbis(groups: IContractGroup[], deployerAddress: string): Promise<void> {
+async function generateAbis(groups: IContractGroup[], deployerAddress: string, outputFolder: string): Promise<void> {
   const provider = await createDefaultTestProvider();
 
   for (let group of groups) {
     for (let contract of group.contracts) {
       await generateFilesForContract({
         contractFile: contractWithSubDirectory(contract, group.subFolder),
-        outputFolder: GENERATION_FOLDER,
+        outputFolder: outputFolder,
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
         provider,
@@ -45,7 +45,8 @@ async function generateAbis(groups: IContractGroup[], deployerAddress: string): 
 }
 
 async function generateProjectIndexFile(
-  groups: IContractGroup[]
+  groups: IContractGroup[],
+  outputFolder: string
 ): Promise<void> {
   const imports: string[] = [];
   const exports: string[] = [];
@@ -76,11 +77,11 @@ async function generateProjectIndexFile(
       ${contractMap.join("\n  ")}
     };
     `;
-  await writeFile(resolve(GENERATION_FOLDER, "index.ts"), file);
+
+  await writeFile(resolve(outputFolder, "index.ts"), file);
 }
 
 async function generate() {
-
   const cwd = process.cwd();
   const contracts = await getClarinetAccounts(cwd);
 
@@ -101,8 +102,8 @@ async function generate() {
   );
 
   Logger.debug(`Generating interfaces with deployment contract ${contracts.deployer.address}`)
-  await generateAbis(contractGroups, contracts.deployer.address);
-  await generateProjectIndexFile(contractGroups);
+  await generateAbis(contractGroups, contracts.deployer.address, project.outputDirectory);
+  await generateProjectIndexFile(contractGroups, project.outputDirectory);
 }
 
 generate();

@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "generated",
   "configuration": [
     {
       "name": "Core",
