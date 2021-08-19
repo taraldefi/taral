@@ -2,7 +2,8 @@ import { Client, NativeClarityBinProvider } from "@blockstack/clarity";
 import { join } from "path";
 import { deployContract } from "../adapter";
 
-export const UTIL_CONTRACT_ID = "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.test-utils";
+export const UTIL_CONTRACT_ID =
+  "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.test-utils";
 
 export async function deployUtilContract(
   clarityBin: NativeClarityBinProvider,

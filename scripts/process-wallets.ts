@@ -34,7 +34,7 @@ export function getWalletReplaceArray(
 
     result.push({
       originalValue: `${clarinetAccounts.deployer.address}.pox`,
-      replaceWith:  'ST000000000000000000002AMW42H.pox'
+      replaceWith: "ST000000000000000000002AMW42H.pox",
     });
 
     result.push({
@@ -53,7 +53,7 @@ export function getWalletReplaceArray(
     //
 
     result.push({
-      originalValue:  'ST000000000000000000002AMW42H.pox',
+      originalValue: "ST000000000000000000002AMW42H.pox",
       replaceWith: `${clarinetAccounts.deployer.address}.pox`,
     });
 
