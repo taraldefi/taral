@@ -66,13 +66,13 @@
     )
 
     ;; check if we can stack - if not, then probably cause we have not reached the minimum with tokens-to-stack
-    (match (as-contract (contract-call? 'ST000000000000000000002AMW42H.pox can-stack-stx pox-addr tokens-to-stack start-burn-ht lock-period))
+    (match (as-contract (contract-call? 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.pox can-stack-stx pox-addr tokens-to-stack start-burn-ht lock-period))
       success (begin
         (if (> tokens-to-stack stx-balance)
           (try! (contract-call? .arkadiko-stx-reserve-v1-1 request-stx-to-stack (var-get stacker-name) (- tokens-to-stack stx-balance)))
           true
         )
-        (match (as-contract (contract-call? 'ST000000000000000000002AMW42H.pox stack-stx tokens-to-stack pox-addr start-burn-ht lock-period))
+        (match (as-contract (contract-call? 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.pox stack-stx tokens-to-stack pox-addr start-burn-ht lock-period))
           result (begin
             (print result)
             (var-set stacking-unlock-burn-height (get unlock-burn-height result))
