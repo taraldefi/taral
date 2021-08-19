@@ -7,7 +7,7 @@ import { Transaction } from "../../../../lib/transaction";
 export interface ArkadikoGovernanceV11Contract {
     addContractAddress: (name: string, address: string, qualifiedName: string, canMint: boolean, canBurn: boolean, metadata: IMetadata) => Transaction<boolean, number>;
     endProposal: (proposalId: number, metadata: IMetadata) => Transaction<number, number>;
-    propose: (startBlockHeight: number, title: string, url: string, contractChanges: {
+    propose: (stakePoolDiko: string, startBlockHeight: number, title: string, url: string, contractChanges: {
         "address": string;
         "can-burn": boolean;
         "can-mint": boolean;
@@ -16,8 +16,9 @@ export interface ArkadikoGovernanceV11Contract {
     }[], metadata: IMetadata) => Transaction<boolean, number>;
     returnVotesToMember: (token: string, proposalId: number, member: string, metadata: IMetadata) => Transaction<boolean, number>;
     toggleGovernanceShutdown: (metadata: IMetadata) => Transaction<boolean, number>;
-    voteAgainst: (token: string, proposalId: number, amount: number, metadata: IMetadata) => Transaction<number, number>;
-    voteFor: (token: string, proposalId: number, amount: number, metadata: IMetadata) => Transaction<number, number>;
+    tokenAmountToVotes: (stakePoolDiko: string, token: string, amount: number, metadata: IMetadata) => Transaction<number, number>;
+    voteAgainst: (stakePoolDiko: string, token: string, proposalId: number, amount: number, metadata: IMetadata) => Transaction<number, number>;
+    voteFor: (stakePoolDiko: string, token: string, proposalId: number, amount: number, metadata: IMetadata) => Transaction<number, number>;
     getProposalById: (proposalId: number, metadata: IMetadata) => Promise<{
         "contract-changes": {
             "address": string;

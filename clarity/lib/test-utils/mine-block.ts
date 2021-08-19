@@ -8,6 +8,6 @@ export async function mineBlock(provider: NativeClarityBinProvider) {
     functionName: "mine-block",
     args: [],
     provider,
-    senderAddress: "ST000000000000000000002AMW42H",
+    senderAddress: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
   });
 }

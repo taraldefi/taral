@@ -1,6 +1,7 @@
 (impl-trait .sip-10-ft-standard.sip-010-trait)
 
-(define-fungible-token taral-token)
+;; define the fungible token TAL with a max supply of one billion
+(define-fungible-token taral-token u1000000000000000)
 
 ;; get the token balance of owner
 (define-read-only (get-balance (owner principal))
@@ -38,4 +39,15 @@
 
 (define-public (mint (recipient principal) (amount uint))
   (ft-mint? taral-token amount recipient)
+)
+
+
+;; Initialize the contract
+(begin
+  ;; TODO: do not do this on testnet or mainnet
+  (try! (ft-mint? taral-token u10 'ST75HW7YBJ2R7YJ6Z70PJMB9B1XWT001DD0BDJAZ))
+  (try! (ft-mint? taral-token u1000000000000 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST31Q2S6CXS4WTQS92CR1GCGD0W9PRHSFZZH8XXRH)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST2604KQ6A2TD9EP1FMAJ6BESC22H0E557KQHB7CV)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST22ZZ99DRQQZ3HATGYRKCYKVZY78Z1ZAWBA7QE2P)) ;; 1 million TAL
 )

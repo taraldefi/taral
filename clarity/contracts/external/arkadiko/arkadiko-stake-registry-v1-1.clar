@@ -1,9 +1,8 @@
-;; Stake Registry - Keep track of all staking pools
-;; 
+;; @contract Stake Registry - Keep track of all staking pools
 ;; Users can stake, unstake and claim rewards from active pools.
-;; 
 ;; DAO can activate a new pool or deactivate an existing one.
 ;; When a pool is deactivated, users can not stake but they can unstake.
+;; @version 1.1
 
 (use-trait ft-trait .sip-010-trait-ft-standard.sip-010-trait)
 (use-trait stake-pool-trait .arkadiko-stake-pool-trait-v1.stake-pool-trait)
@@ -60,7 +59,12 @@
   )
 )
 
-;; Stake tokens
+;; @desc stake tokens
+;; @param registry-trait; current stake registry, to be used by stake pool
+;; @param pool-trait; pool to stake tokens in
+;; @param token-trait; token to stake in pool
+;; @param amount; amount of tokens to stake
+;; @post uint; returns amount of staked tokens
 (define-public (stake (registry-trait <stake-registry-trait>) (pool-trait <stake-pool-trait>) (token-trait <ft-trait>) (amount uint))
   (begin
     (let (
@@ -74,7 +78,12 @@
   )
 )
 
-;; Unstake tokens
+;; @desc unstake tokens
+;; @param registry-trait; current stake registry, to be used by pool
+;; @param pool-trait; pool to unstake tokens from
+;; @param token-trait; token to unstake from pool
+;; @param amount; amount of tokens to unstake
+;; @post uint; returns amount of unstaked tokens
 (define-public (unstake (registry-trait <stake-registry-trait>) (pool-trait <stake-pool-trait>) (token-trait <ft-trait>) (amount uint))
   (begin
     (let (
@@ -87,7 +96,10 @@
   )
 )
 
-;; Get pending pool rewards
+;; @desc get amount of pending DIKO rewards for pool
+;; @param registry-trait; current stake registry, to be used by pool
+;; @param pool-trait; pool to get pending rewards from
+;; @post uint; returns amount of pending rewards
 (define-public (get-pending-rewards (registry-trait <stake-registry-trait>) (pool-trait <stake-pool-trait>))
   (begin
     (let (
@@ -100,7 +112,10 @@
   )
 )
 
-;; Claim pool rewards
+;; @desc claim pending DIKO rewards for pool
+;; @param registry-trait; current stake registry, to be used by pool
+;; @param pool-trait; pool to claim rewards on
+;; @post uint; returns amount of claimed rewards
 (define-public (claim-pending-rewards (registry-trait <stake-registry-trait>) (pool-trait <stake-pool-trait>))
   (begin
     (asserts! (is-eq (as-contract tx-sender) (contract-of registry-trait)) ERR-WRONG-REGISTRY)
@@ -108,7 +123,12 @@
   )
 )
 
-;; Claim pool rewards and stake immediately
+;; @desc claim pending DIKO rewards for pool and immediately stake in DIKO pool
+;; @param registry-trait; current stake registry, to be used by pool
+;; @param pool-trait; pool to claim rewards on
+;; @param diko-pool-trait; DIKO pool to stake rewards
+;; @param diko-token-trait; DIKO token contract
+;; @post uint; returns amount of claimed/staked rewards
 (define-public (stake-pending-rewards 
     (registry-trait <stake-registry-trait>) 
     (pool-trait <stake-pool-trait>) 
@@ -131,7 +151,7 @@
 (begin
   ;; DIKO pool
   (map-set pools-data-map
-    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-diko-v1-1 }
+    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-diko-v1-1 }
     {
       name: "DIKO",
       deactivated-block: u0,
@@ -141,7 +161,7 @@
   )
   ;; DIKO-USDA LP
   (map-set pools-data-map
-    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-diko-usda-v1-1 }
+    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-diko-usda-v1-1 }
     {
       name: "DIKO-USDA LP",
       deactivated-block: u0,
@@ -151,7 +171,7 @@
   )
   ;; wSTX-USDA LP
   (map-set pools-data-map
-    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-wstx-usda-v1-1 }
+    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-wstx-usda-v1-1 }
     {
       name: "wSTX-USDA LP",
       deactivated-block: u0,
@@ -161,7 +181,7 @@
   )
   ;; wSTX-DIKO LP
   (map-set pools-data-map
-    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-wstx-diko-v1-1 }
+    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-wstx-diko-v1-1 }
     {
       name: "wSTX-DIKO LP",
       deactivated-block: u0,

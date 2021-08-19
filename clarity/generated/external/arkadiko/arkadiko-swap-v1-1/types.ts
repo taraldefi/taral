@@ -24,7 +24,7 @@ export interface ArkadikoSwapV11Contract {
     setFeeToAddress: (tokenX: string, tokenY: string, address: string, metadata: IMetadata) => Transaction<boolean, number>;
     swapXForY: (tokenXTrait: string, tokenYTrait: string, dx: number, minDy: number, metadata: IMetadata) => Transaction<number[], number>;
     swapYForX: (tokenXTrait: string, tokenYTrait: string, dy: number, minDx: number, metadata: IMetadata) => Transaction<number[], number>;
-    getFeeToAddress: (tokenX: string, tokenY: string, metadata: IMetadata) => Promise<ClarityTypes.Response<string, ClarityTypes.Response<null, number>>>;
+    getFeeToAddress: (tokenX: string, tokenY: string, metadata: IMetadata) => Promise<ClarityTypes.Response<string | null, ClarityTypes.Response<null, number>>>;
     getFees: (tokenX: string, tokenY: string, metadata: IMetadata) => Promise<ClarityTypes.Response<number[], ClarityTypes.Response<null, number>>>;
     getName: (tokenXTrait: string, tokenYTrait: string, metadata: IMetadata) => Promise<ClarityTypes.Response<string, ClarityTypes.Response<null, number>>>;
     getPairContracts: (pairId: number, metadata: IMetadata) => Promise<{
@@ -37,7 +37,7 @@ export interface ArkadikoSwapV11Contract {
         "balance-y": number;
         "fee-balance-x": number;
         "fee-balance-y": number;
-        "fee-to-address": string;
+        "fee-to-address": string | null;
         "name": string;
         "shares-total": number;
         "swap-token": string
@@ -49,10 +49,10 @@ export interface ArkadikoSwapV11Contract {
     getShares: (tokenX: string, tokenY: string, metadata: IMetadata) => Promise<ClarityTypes.Response<number, ClarityTypes.Response<null, number>>>;
     getTotalSupply: (tokenXTrait: string, tokenYTrait: string, metadata: IMetadata) => Promise<ClarityTypes.Response<number, ClarityTypes.Response<null, number>>>;
     ERRINVALIDLIQUIDITY: () => Promise<number>;
+    ERRNOFEETOADDRESS: () => Promise<number>;
     ERRNOTAUTHORIZED: () => Promise<number>;
     INVALIDPAIRERR: () => Promise<ClarityTypes.Response<null, number>>;
     balanceTooLowErr: () => Promise<ClarityTypes.Response<null, number>>;
-    noFeeToAddressErr: () => Promise<ClarityTypes.Response<null, number>>;
     noFeeXErr: () => Promise<ClarityTypes.Response<null, number>>;
     noFeeYErr: () => Promise<ClarityTypes.Response<null, number>>;
     noLiquidityErr: () => Promise<ClarityTypes.Response<null, number>>;
@@ -75,7 +75,7 @@ export interface ArkadikoSwapV11Contract {
         "balance-y": number;
         "fee-balance-x": number;
         "fee-balance-y": number;
-        "fee-to-address": string;
+        "fee-to-address": string | null;
         "name": string;
         "shares-total": number;
         "swap-token": string

@@ -7,7 +7,7 @@ import { Transaction } from "../../../../lib/transaction";
 export interface ArkadikoFreddieV11Contract {
     accrueStabilityFee: (vaultId: number, collType: string, metadata: IMetadata) => Transaction<boolean, number>;
     burn: (vaultId: number, debt: number, reserve: string, ft: string, collType: string, metadata: IMetadata) => Transaction<boolean, number>;
-    calculateCurrentCollateralToDebtRatio: (vaultId: number, collType: string, oracle: string, metadata: IMetadata) => Transaction<number, number>;
+    calculateCurrentCollateralToDebtRatio: (vaultId: number, collType: string, oracle: string, includeStabilityFees: boolean, metadata: IMetadata) => Transaction<number, number>;
     closeVault: (vaultId: number, reserve: string, ft: string, collType: string, metadata: IMetadata) => Transaction<boolean, number>;
     collateralizeAndMint: (collateralAmount: number, debt: number, poxSettings: {
         "auto-payoff": boolean;

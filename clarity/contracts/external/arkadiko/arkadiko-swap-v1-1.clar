@@ -1,14 +1,16 @@
+;; @contract Swap - Decentralised exchange
+;; @version 1
+
 (use-trait ft-trait .sip-010-trait-ft-standard.sip-010-trait)
 (use-trait swap-token .arkadiko-swap-trait-v1.swap-trait)
 
 (define-constant ERR-NOT-AUTHORIZED u20401)
 (define-constant INVALID-PAIR-ERR (err u201))
 (define-constant ERR-INVALID-LIQUIDITY u202)
+(define-constant ERR-NO-FEE-TO-ADDRESS u203)
 
 (define-constant no-liquidity-err (err u61))
-;; (define-constant transfer-failed-err (err u62))
 (define-constant not-owner-err (err u63))
-(define-constant no-fee-to-address-err (err u64))
 (define-constant no-such-position-err (err u66))
 (define-constant balance-too-low-err (err u67))
 (define-constant too-many-pairs-err (err u68))
@@ -40,7 +42,7 @@
     balance-y: uint,
     fee-balance-x: uint,
     fee-balance-y: uint,
-    fee-to-address: principal,
+    fee-to-address: (optional principal),
     swap-token: principal,
     name: (string-ascii 32),
   }
@@ -60,6 +62,10 @@
   )
 )
 
+;; @desc get symbol for liquidity token
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @post string; returns the liquidity token name
 (define-public (get-symbol (token-x-trait <ft-trait>) (token-y-trait <ft-trait>))
   (ok
     (concat
@@ -82,12 +88,18 @@
   )
 )
 
-;; get the total number of shares in the pool
+;; @desc get the total number of shares in the pool
+;; @param token-x; address of token X in the pool
+;; @param token-y; address of token Y in the pool
+;; @post uint; returns total number of shares
 (define-read-only (get-shares (token-x principal) (token-y principal))
   (ok (get shares-total (unwrap! (map-get? pairs-data-map { token-x: token-x, token-y: token-y }) (err INVALID-PAIR-ERR))))
 )
 
-;; get overall balances for the pair
+;; @desc get token balances for the pair
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @post list; returns balance for first and second token in a list
 (define-public (get-balances (token-x-trait <ft-trait>) (token-y-trait <ft-trait>))
   (let
     (
@@ -99,6 +111,12 @@
   )
 )
 
+;; @desc get all data for the LP token
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param swap-token-trait; LP token
+;; @param owner; data returned will contain balance for this user
+;; @post tuple; all LP token information
 (define-public (get-data (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (swap-token-trait <swap-token>) (owner principal))
   (let
     (
@@ -109,6 +127,13 @@
   )
 )
 
+;; @desc add liquidity to a pair
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param swap-token-trait; LP token
+;; @param x; amount to add to first token of pair
+;; @param y; amount to add to second token of pair, only used when pair is created
+;; @post boolean; returns true if liquidity added
 (define-public (add-to-position (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (swap-token-trait <swap-token>) (x uint) (y uint))
   (let
     (
@@ -187,6 +212,14 @@
   (ok (map get-pair-contracts (var-get pairs-list)))
 )
 
+;; @desc create a new pair
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param swap-token-trait; LP token
+;; @param pair-name; name for the new pair
+;; @param x; amount to add to first token of pair
+;; @param y; amount to add to second token of pair
+;; @post boolean; returns true if pair created
 (define-public (create-pair (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (swap-token-trait <swap-token>) (pair-name (string-ascii 32)) (x uint) (y uint))
   (let
     (
@@ -201,7 +234,7 @@
         balance-y: u0,
         fee-balance-x: u0,
         fee-balance-y: u0,
-        fee-to-address: (contract-call? .arkadiko-dao get-payout-address),
+        fee-to-address: (some (contract-call? .arkadiko-dao get-payout-address)),
         swap-token: (contract-of swap-token-trait),
         name: pair-name,
       })
@@ -242,8 +275,12 @@
   )
 )
 
-;; ;; reduce the amount of liquidity the sender provides to the pool
-;; ;; to close, use u100
+;; @desc reduce the amount of liquidity the sender provides to the pool
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param swap-token-trait; LP token
+;; @param percent; percentage to reduce liquidity, use 100 to close
+;; @post list; returns amount of tokens withdrawn from the pair
 (define-public (reduce-position (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (swap-token-trait <swap-token>) (percent uint))
   (let
     (
@@ -282,8 +319,12 @@
   )
 )
 
-;; exchange known dx of x-token for whatever dy of y-token based on current liquidity, returns (dx dy)
-;; the swap will not happen if can't get at least min-dy back
+;; @desc exchange known dx of x-token for at least min-dy of y-token based on current liquidity
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param dx; amount to swap for y-token
+;; @param min-dy; swap will not happen if can't get at least min-dy back
+;; @post list; amount of x-token and amount of received y-token
 (define-public (swap-x-for-y (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (dx uint) (min-dy uint))
   (let (
     (token-x (contract-of token-x-trait))
@@ -300,7 +341,10 @@
         {
           balance-x: (+ balance-x dx),
           balance-y: (- balance-y dy),
-          fee-balance-x: (+ fee (get fee-balance-x pair))
+          fee-balance-x: (if (is-some (get fee-to-address pair))
+            (+ fee (get fee-balance-x pair))
+            (get fee-balance-x pair)
+          )
         }
       )
     )
@@ -333,8 +377,12 @@
   )
 )
 
-;; exchange known dy for whatever dx based on liquidity, returns (dx dy)
-;; the swap will not happen if can't get at least min-dx back
+;; @desc exchange known dy of y-token for at least min-dx of x-token based on current liquidity
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @param dy; amount to swap for y-token
+;; @param min-dx; swap will not happen if can't get at least min-dx back
+;; @post list; amount of x-token received and amount of y-token as input
 (define-public (swap-y-for-x (token-x-trait <ft-trait>) (token-y-trait <ft-trait>) (dy uint) (min-dx uint))
   (let (
     (token-x (contract-of token-x-trait))
@@ -349,7 +397,10 @@
     (pair-updated (merge pair {
       balance-x: (- balance-x dx),
       balance-y: (+ balance-y dy),
-      fee-balance-y: (+ fee (get fee-balance-y pair))
+      fee-balance-y: (if (is-some (get fee-to-address pair))
+        (+ fee (get fee-balance-y pair))
+        (get fee-balance-y pair)
+      )
     }))
   )
     (asserts! (< min-dx dx) too-much-slippage-err)
@@ -385,11 +436,11 @@
   (let (
     (pair (unwrap-panic (map-get? pairs-data-map { token-x: token-x, token-y: token-y })))
   )
-    (asserts! (is-eq tx-sender .arkadiko-dao) (err ERR-NOT-AUTHORIZED))
+    (asserts! (is-eq tx-sender (contract-call? .arkadiko-dao get-dao-owner)) (err ERR-NOT-AUTHORIZED))
 
     (map-set pairs-data-map
       { token-x: token-x, token-y: token-y }
-      (merge pair { fee-to-address: address })
+      (merge pair { fee-to-address: (some address) })
     )
     (ok true)
   )
@@ -409,14 +460,17 @@
   )
 )
 
-;; send the collected fees the fee-to-address
+;; @desc send the collected fees the fee-to-address
+;; @param token-x-trait; first token of pair
+;; @param token-y-trait; second token of pair
+;; @post list; fees for token-x and fees for token-y
 (define-public (collect-fees (token-x-trait <ft-trait>) (token-y-trait <ft-trait>))
   (let
     (
       (token-x (contract-of token-x-trait))
       (token-y (contract-of token-y-trait))
       (pair (unwrap-panic (map-get? pairs-data-map { token-x: token-x, token-y: token-y })))
-      (address (get fee-to-address pair))
+      (address (unwrap! (get fee-to-address pair) (err ERR-NO-FEE-TO-ADDRESS)))
       (fee-x (get fee-balance-x pair))
       (fee-y (get fee-balance-y pair))
     )

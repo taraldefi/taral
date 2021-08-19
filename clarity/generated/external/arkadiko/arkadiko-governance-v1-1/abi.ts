@@ -127,6 +127,10 @@ export const ArkadikoGovernanceV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "stake-pool-diko",
+                    "type": "trait_reference"
+                },
+                {
                     "name": "start-block-height",
                     "type": "uint128"
                 },
@@ -236,6 +240,36 @@ export const ArkadikoGovernanceV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "stake-pool-diko",
+                    "type": "trait_reference"
+                },
+                {
+                    "name": "token",
+                    "type": "trait_reference"
+                },
+                {
+                    "name": "amount",
+                    "type": "uint128"
+                }
+            ],
+            "name": "token-amount-to-votes",
+            "outputs": {
+                "type": {
+                    "response": {
+                        "error": "uint128",
+                        "ok": "uint128"
+                    }
+                }
+            }
+        },
+        {
+            "access": "public",
+            "args": [
+                {
+                    "name": "stake-pool-diko",
+                    "type": "trait_reference"
+                },
+                {
                     "name": "token",
                     "type": "trait_reference"
                 },
@@ -261,6 +295,10 @@ export const ArkadikoGovernanceV11Interface: ClarityAbi = {
         {
             "access": "public",
             "args": [
+                {
+                    "name": "stake-pool-diko",
+                    "type": "trait_reference"
+                },
                 {
                     "name": "token",
                     "type": "trait_reference"

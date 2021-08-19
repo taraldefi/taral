@@ -220,6 +220,10 @@ export const ArkadikoFreddieV11Interface: ClarityAbi = {
                 {
                     "name": "oracle",
                     "type": "trait_reference"
+                },
+                {
+                    "name": "include-stability-fees",
+                    "type": "bool"
                 }
             ],
             "name": "calculate-current-collateral-to-debt-ratio",

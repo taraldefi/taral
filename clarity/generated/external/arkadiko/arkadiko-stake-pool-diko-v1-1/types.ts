@@ -14,7 +14,7 @@ export interface ArkadikoStakePoolDikoV11Contract {
     stake: (registryTrait: string, token: string, staker: string, amount: number, metadata: IMetadata) => Transaction<number, number>;
     startCooldown: (metadata: IMetadata) => Transaction<number, null>;
     unstake: (registryTrait: string, token: string, staker: string, amount: number, metadata: IMetadata) => Transaction<number, number>;
-    dikoStdikoRatio: (metadata: IMetadata) => Promise<number>;
+    dikoStdikoRatio: (metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getCooldownInfoOf: (wallet: string, metadata: IMetadata) => Promise<{
         "redeem-period-end-block": number;
         "redeem-period-start-block": number

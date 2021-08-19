@@ -251,7 +251,12 @@ export const ArkadikoStakePoolDikoV11Interface: ClarityAbi = {
             "args": [],
             "name": "diko-stdiko-ratio",
             "outputs": {
-                "type": "uint128"
+                "type": {
+                    "response": {
+                        "error": "none",
+                        "ok": "uint128"
+                    }
+                }
             }
         },
         {

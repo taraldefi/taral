@@ -62,8 +62,8 @@ export class StacksNetworkConfiguration implements StacksNetwork {
       ${contractAddress}/${contractName}/get-stacker-info`;
   getNameInfo(fullyQualifiedName: string) {
     /*
-                TODO: Update to v2 API URL for name lookups
-              */
+                    TODO: Update to v2 API URL for name lookups
+                  */
     const nameLookupURL = `${this.bnsLookupUrl}/v1/names/${fullyQualifiedName}`;
     return this.fetchPrivate(nameLookupURL)
       .then((resp) => {

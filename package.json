@@ -11,6 +11,8 @@
     "eol": "npx eolConverter \"clarity/contracts/**/*.clar\"",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "cleanup": "ts-node scripts/cleanup.ts",
+    "seed-taral-wallets": "ts-node scripts/process-wallets.ts mode=taral",
+    "seed-arkadiko-wallets": "ts-node scripts/process-wallets.ts mode=arkadiko",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png"
   },
   "repository": {

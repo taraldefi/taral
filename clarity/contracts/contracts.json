@@ -19,6 +19,7 @@
       "subfolder": "external/arkadiko",
       "contracts": [
         "sip-010-trait-ft-standard",
+
         "arkadiko-oracle-trait-v1",
         "arkadiko-collateral-types-trait-v1",
         "arkadiko-vault-trait-v1",
@@ -34,6 +35,7 @@
         "arkadiko-collateral-types-v1-1",
         "arkadiko-oracle-v1-1",
         "wrapped-stx-token",
+        "arkadiko-stake-pool-diko-trait-v1",
         "arkadiko-governance-v1-1",
         "arkadiko-diko-guardian-v1-1",
         "arkadiko-swap-v1-1",
