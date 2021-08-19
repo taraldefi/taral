@@ -2,18 +2,18 @@ import { ClarinetAccounts, getClarinetAccounts } from "../clarity/lib";
 import * as fileSystem from "fs";
 
 interface IWalletReplace {
-  originalWallet: string;
+  originalValue: string;
   replaceWith: string;
 }
 
 const arkadikoDeployer: string = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
 
-const arkadikoWallets: string[] = [
+const arkadikoAddresses: string[] = [
   "ST1QV6WVNED49CR34E58CRGA0V58X281FAS1TFBWF",
   "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5",
   "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG",
   "STB2BWB0K5XZGS3FXVTG3TKS46CQVV66NAK3YVN8",
-  "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC"
+  "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC",
 ];
 
 const enum Mode {
@@ -31,28 +31,40 @@ export function getWalletReplaceArray(
   if (mode == Mode.ArkadikoWallets) {
     // We need to switch back from taral wallets
     //
+
     result.push({
-      originalWallet: clarinetAccounts.deployer.address,
+      originalValue: `${clarinetAccounts.deployer.address}.pox`,
+      replaceWith:  'ST000000000000000000002AMW42H.pox'
+    });
+
+    result.push({
+      originalValue: clarinetAccounts.deployer.address,
       replaceWith: arkadikoDeployer,
     });
 
-    for (let index = 0; index < arkadikoWallets.length; index++) {
+    for (let index = 0; index < arkadikoAddresses.length; index++) {
       result.push({
-        originalWallet: clarinetAccounts[`wallet_${index + 1}`].address,
-        replaceWith: arkadikoWallets[index],
+        originalValue: clarinetAccounts[`wallet_${index + 1}`].address,
+        replaceWith: arkadikoAddresses[index],
       });
     }
   } else {
     // We need to switch from arkadiko wallets to taral wallets
     //
+
     result.push({
-      originalWallet: arkadikoDeployer,
+      originalValue:  'ST000000000000000000002AMW42H.pox',
+      replaceWith: `${clarinetAccounts.deployer.address}.pox`,
+    });
+
+    result.push({
+      originalValue: arkadikoDeployer,
       replaceWith: clarinetAccounts.deployer.address,
     });
 
-    for (let index = 0; index < arkadikoWallets.length; index++) {
+    for (let index = 0; index < arkadikoAddresses.length; index++) {
       result.push({
-        originalWallet: arkadikoWallets[index],
+        originalValue: arkadikoAddresses[index],
         replaceWith: clarinetAccounts[`wallet_${index + 1}`].address,
       });
     }
@@ -114,7 +126,7 @@ async function processWallets() {
 
       for (let index = 0; index < replaceArray.length; index++) {
         var regexExpression = new RegExp(
-          replaceArray[index].originalWallet,
+          replaceArray[index].originalValue,
           "g"
         );
         result = result.replace(
