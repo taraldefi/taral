@@ -19,6 +19,7 @@
       "subfolder": "external/arkadiko",
       "contracts": [
         "sip-010-trait-ft-standard",
+        
         "arkadiko-oracle-trait-v1",
         "arkadiko-collateral-types-trait-v1",
         "arkadiko-vault-trait-v1",
