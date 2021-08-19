@@ -429,7 +429,9 @@ export const ArkadikoSwapV11Interface: ClarityAbi = {
                                 "ok": "none"
                             }
                         },
-                        "ok": "principal"
+                        "ok": {
+                            "optional": "principal"
+                        }
                     }
                 }
             }
@@ -577,7 +579,9 @@ export const ArkadikoSwapV11Interface: ClarityAbi = {
                                     },
                                     {
                                         "name": "fee-to-address",
-                                        "type": "principal"
+                                        "type": {
+                                            "optional": "principal"
+                                        }
                                     },
                                     {
                                         "name": "name",
@@ -722,7 +726,9 @@ export const ArkadikoSwapV11Interface: ClarityAbi = {
                     },
                     {
                         "name": "fee-to-address",
-                        "type": "principal"
+                        "type": {
+                            "optional": "principal"
+                        }
                     },
                     {
                         "name": "name",
@@ -776,6 +782,11 @@ export const ArkadikoSwapV11Interface: ClarityAbi = {
         },
         {
             "access": "constant",
+            "name": "ERR-NO-FEE-TO-ADDRESS",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
             "name": "ERR-NOT-AUTHORIZED",
             "type": "uint128"
         },
@@ -792,16 +803,6 @@ export const ArkadikoSwapV11Interface: ClarityAbi = {
         {
             "access": "constant",
             "name": "balance-too-low-err",
-            "type": {
-                "response": {
-                    "error": "uint128",
-                    "ok": "none"
-                }
-            }
-        },
-        {
-            "access": "constant",
-            "name": "no-fee-to-address-err",
             "type": {
                 "response": {
                     "error": "uint128",

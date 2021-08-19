@@ -14,6 +14,7 @@ import { arkadikoOracleV11Info } from "./arkadiko-oracle-v1-1";
 import { arkadikoSip10ReserveV11Info } from "./arkadiko-sip10-reserve-v1-1";
 import { arkadikoStackerPayerV11Info } from "./arkadiko-stacker-payer-v1-1";
 import { arkadikoStackerV11Info } from "./arkadiko-stacker-v1-1";
+import { arkadikoStakePoolDikoTraitV1Info } from "./arkadiko-stake-pool-diko-trait-v1";
 import { arkadikoStakePoolDikoUsdaV11Info } from "./arkadiko-stake-pool-diko-usda-v1-1";
 import { arkadikoStakePoolDikoV11Info } from "./arkadiko-stake-pool-diko-v1-1";
 import { arkadikoStakePoolTraitV1Info } from "./arkadiko-stake-pool-trait-v1";
@@ -53,6 +54,7 @@ export type { ArkadikoOracleV11Contract } from "./arkadiko-oracle-v1-1";
 export type { ArkadikoSip10ReserveV11Contract } from "./arkadiko-sip10-reserve-v1-1";
 export type { ArkadikoStackerPayerV11Contract } from "./arkadiko-stacker-payer-v1-1";
 export type { ArkadikoStackerV11Contract } from "./arkadiko-stacker-v1-1";
+export type { ArkadikoStakePoolDikoTraitV1Contract } from "./arkadiko-stake-pool-diko-trait-v1";
 export type { ArkadikoStakePoolDikoUsdaV11Contract } from "./arkadiko-stake-pool-diko-usda-v1-1";
 export type { ArkadikoStakePoolDikoV11Contract } from "./arkadiko-stake-pool-diko-v1-1";
 export type { ArkadikoStakePoolTraitV1Contract } from "./arkadiko-stake-pool-trait-v1";
@@ -94,6 +96,7 @@ export const contracts = {
   arkadikoCollateralTypesV11: arkadikoCollateralTypesV11Info,
   arkadikoOracleV11: arkadikoOracleV11Info,
   wrappedStxToken: wrappedStxTokenInfo,
+  arkadikoStakePoolDikoTraitV1: arkadikoStakePoolDikoTraitV1Info,
   arkadikoGovernanceV11: arkadikoGovernanceV11Info,
   arkadikoDikoGuardianV11: arkadikoDikoGuardianV11Info,
   arkadikoSwapV11: arkadikoSwapV11Info,
