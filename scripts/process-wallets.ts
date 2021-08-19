@@ -35,7 +35,7 @@ export function getWalletReplaceArray(mode: Mode, clarinetAccounts: ClarinetAcco
 
         for (let index = 0; index < arkadikoWallets.length; index++) {
             result.push({ 
-               originalWallet: clarinetAccounts[index].address,
+               originalWallet: clarinetAccounts[`wallet_${index + 1}`].address,
                replaceWith: arkadikoWallets[index] 
             });
         }
@@ -52,7 +52,7 @@ export function getWalletReplaceArray(mode: Mode, clarinetAccounts: ClarinetAcco
         for (let index = 0; index < arkadikoWallets.length; index++) {
             result.push({ 
                originalWallet: arkadikoWallets[index],
-               replaceWith: clarinetAccounts[index].address 
+               replaceWith: clarinetAccounts[`wallet_${index + 1}`].address 
             });
         }
     }
@@ -94,13 +94,17 @@ async function processWallets() {
     }
 
     var replaceArray = getWalletReplaceArray(mode, clarinetAccounts);
+
+    console.log(replaceArray);
  
     // replace these values in the external arkadiko clarity contracts
     //
 
     const testFolder = `${cwd}/contracts/external/arkadiko`;
     fileSystem.readdirSync(testFolder).forEach(filename => {
-        var file = `${cwd}/${filename}`;
+        console.log(`Processing file ${filename}`);
+
+        var file = `${testFolder}/${filename}`;
         fileSystem.readFile(file, 'utf8', function (err,data) {
             if (err) {
               return console.log(err);
