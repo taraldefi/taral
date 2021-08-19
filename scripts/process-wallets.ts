@@ -1,6 +1,7 @@
 import { ClarinetAccounts, getClarinetAccounts } from "../clarity/lib";
+import * as fileSystem from 'fs';
 
-class IWalletReplace {
+interface IWalletReplace {
     originalWallet: string;
     replaceWith: string;
 }
@@ -20,7 +21,7 @@ const enum Mode {
     ArkadikoWallets
 }
 
-function getWalletReplaceArray(mode: Mode, clarinetAccounts: ClarinetAccounts): IWalletReplace[] {
+export function getWalletReplaceArray(mode: Mode, clarinetAccounts: ClarinetAccounts): IWalletReplace[] {
     
     let result: IWalletReplace[] = [];
 
@@ -96,6 +97,26 @@ async function processWallets() {
  
     // replace these values in the external arkadiko clarity contracts
     //
+
+    const testFolder = `${cwd}/contracts/external/arkadiko`;
+    fileSystem.readdirSync(testFolder).forEach(filename => {
+        var file = `${cwd}/${filename}`;
+        fileSystem.readFile(file, 'utf8', function (err,data) {
+            if (err) {
+              return console.log(err);
+            }
+
+            let result = data;
+
+            for(let index = 0; index < replaceArray.length; index++) {
+                result = result.replace(replaceArray[index].originalWallet, replaceArray[index].replaceWith);
+            }
+          
+            fileSystem.writeFile(file, result, 'utf8', function (err) {
+               if (err) return console.log(err);
+            });
+          });
+    });
 }
 
 processWallets();
