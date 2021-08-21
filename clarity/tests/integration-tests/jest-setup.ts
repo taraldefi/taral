@@ -1,7 +1,7 @@
 import { StacksNetwork } from "@stacks/network";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
-import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-import { contracts as coreContracts } from "../../generated/external/core";
+// import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
+// import { contracts as coreContracts } from "../../generated/external/core";
 import {
   contracts as taralContracts,
   TaralCoinContract,
@@ -21,21 +21,23 @@ beforeAll(async () => {
   clarinetAccounts = await getClarinetAccounts(cwd);
   var deployer = clarinetAccounts.deployer;
 
-  await ApiProvider.fromContracts(true, coreContracts, network, {
-    secretKey: deployer.privateKey,
-    stacksAddress: deployer.address,
-  });
+  // Comment out for now the core and arkadiko contracts untill we'll need them
+  //
+  // await ApiProvider.fromContracts(true, coreContracts, network, {
+  //   secretKey: deployer.privateKey,
+  //   stacksAddress: deployer.address,
+  // });
 
-  await ApiProvider.fromContracts(true, arkadikoContracts, network, {
-    secretKey: deployer.privateKey,
-    stacksAddress: deployer.address,
-  });
+  // await ApiProvider.fromContracts(true, arkadikoContracts, network, {
+  //   secretKey: deployer.privateKey,
+  //   stacksAddress: deployer.address,
+  // });
 
   const deployed = await ApiProvider.fromContracts(true, taralContracts, network, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });
 
-  Logger.debug("Deployed contracts to testnet");
+  Logger.debug("Deployed contracts to priv. testnet");
   talToken = deployed.taralCoin.contract;
 });
