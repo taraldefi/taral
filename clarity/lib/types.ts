@@ -79,21 +79,25 @@ export interface BaseCreateOptions {
 }
 
 export interface ApiCreateOptions extends BaseCreateOptions {
+  deploy: boolean;
   network: StacksNetwork;
   account: DeployerAccount;
 }
 
 export interface CreateOptions extends BaseCreateOptions {
+  deploy: boolean;
   clarityBin: NativeClarityBinProvider;
 }
 
 export interface FromApiContractOptions<T> {
+  deploy: boolean;
   contract: Contract<T>;
   network: StacksNetwork;
   account: DeployerAccount;
 }
 
 export interface FromContractOptions<T> {
+  deploy: boolean;
   clarityBin: NativeClarityBinProvider;
   contract: Contract<T>;
 }

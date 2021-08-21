@@ -41,16 +41,22 @@ export class TestProvider implements BaseProvider {
   }
 
   static async create({
+    deploy,
     clarityBin,
     contractFilePath,
     contractIdentifier,
   }: CreateOptions) {
     const client = new Client(contractIdentifier, contractFilePath, clarityBin);
-    await deployContract(client, clarityBin);
+    
+    if (deploy) {
+      await deployContract(client, clarityBin);
+    }
+
     return new this(clarityBin, client);
   }
 
   static async fromContract<T>({
+    deploy,
     contract,
     clarityBin,
   }: FromContractOptions<T>) {
@@ -61,6 +67,7 @@ export class TestProvider implements BaseProvider {
     const contractName = getContractNameFromPath(contract.contractFile);
 
     const provider = await this.create({
+      deploy,
       clarityBin,
       contractFilePath: contract.contractFile,
       contractIdentifier: `${address}.${contractName}`,
@@ -69,14 +76,17 @@ export class TestProvider implements BaseProvider {
   }
 
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     clarityBin?: NativeClarityBinProvider
   ): Promise<ContractInstances<T, M>>;
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     accounts?: ClarinetAccounts
   ): Promise<ContractInstances<T, M>>;
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
   ): Promise<ContractInstances<T, M>> {
@@ -89,6 +99,7 @@ export class TestProvider implements BaseProvider {
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
+        deploy,
         contract,
         clarityBin,
       });
