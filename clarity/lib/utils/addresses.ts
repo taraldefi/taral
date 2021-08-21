@@ -1,3 +1,4 @@
+import { Logger } from '../logger';
 import { c32ToB58, b58ToC32, c32addressDecode } from 'c32check';
 
 /**
@@ -25,7 +26,7 @@ export const validateStacksAddress = (stacksAddress: string) => {
     }
   } catch (e) {
     valid = false;
-    throw new Error('Not a valid Stacks address.');
+    Logger.debug('Not a valid Stacks address.');
   }
   return valid;
 };
