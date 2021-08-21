@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "unit-tests": "jest --projects ./clarity/tests/unit-tests --forceExit --runInBand",
+    "util-unit-tests": "jest --projects ./clarity/tests/utils-tests --forceExit --runInBand",
     "integration-tests": "jest --projects ./clarity/tests/integration-tests --forceExit --runInBand",
     "generate": "ts-node scripts/generate.ts",
     "deploy": "ts-node scripts/deploy.ts",
