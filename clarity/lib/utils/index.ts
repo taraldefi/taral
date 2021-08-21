@@ -5,3 +5,4 @@ export * from "./contract-name-for-path";
 export * from "./contract-principal-cv";
 export * from "./contract-with-subdirectory";
 export * from "./to-camel-case";
+export * from "./addresses";
