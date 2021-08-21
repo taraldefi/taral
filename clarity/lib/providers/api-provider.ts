@@ -53,11 +53,18 @@ export class ApiProvider implements BaseProvider {
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
-    throw new Error("Method not implemented.");
+    Logger.error("Method not implemented");
+    return this.asyncFunc();
   }
+
   callVariable(_variable: ClarityAbiVariable): Promise<void> {
-    throw new Error("Method not implemented.");
+    Logger.error("Method not implemented");
+    return this.asyncFunc();
   }
+
+  asyncFunc: () => Promise<void> = async () => {
+    await new Promise<void>(resolve => resolve());
+  };
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
     let formattedArguments: [ClarityValue[], IMetadata] =
@@ -170,6 +177,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     network: StacksNetwork,
     account: DeployerAccount
@@ -179,6 +187,7 @@ export class ApiProvider implements BaseProvider {
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
+        deploy,
         contract,
         network,
         account,
@@ -192,6 +201,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async fromContract<T>({
+    deploy,
     contract,
     network,
     account,
@@ -203,6 +213,7 @@ export class ApiProvider implements BaseProvider {
     const contractName = getContractNameFromPath(contract.contractFile);
 
     const provider = await this.create({
+      deploy,
       contractFilePath: contract.contractFile,
       contractIdentifier: contractName,
       network,
@@ -212,17 +223,22 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async create({
+    deploy,
     contractFilePath,
     contractIdentifier,
     network,
     account,
   }: ApiCreateOptions) {
-    await this.deployContract(
-      contractIdentifier,
-      contractFilePath,
-      network,
-      account.secretKey
-    );
+    
+    if (deploy) {
+      await this.deployContract(
+        contractIdentifier,
+        contractFilePath,
+        network,
+        account.secretKey
+      );
+    }
+
     return new this(network, account, contractIdentifier);
   }
 

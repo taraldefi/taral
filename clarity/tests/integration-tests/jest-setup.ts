@@ -21,17 +21,17 @@ beforeAll(async () => {
   clarinetAccounts = await getClarinetAccounts(cwd);
   var deployer = clarinetAccounts.deployer;
 
-  await ApiProvider.fromContracts(coreContracts, network, {
+  await ApiProvider.fromContracts(true, coreContracts, network, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });
 
-  await ApiProvider.fromContracts(arkadikoContracts, network, {
+  await ApiProvider.fromContracts(true, arkadikoContracts, network, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });
 
-  const deployed = await ApiProvider.fromContracts(taralContracts, network, {
+  const deployed = await ApiProvider.fromContracts(true, taralContracts, network, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });
