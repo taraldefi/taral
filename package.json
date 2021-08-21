@@ -4,9 +4,9 @@
   "description": "Taral local development environment for clarity contracts",
   "main": "index.js",
   "scripts": {
-    "unit-tests": "jest --projects ./clarity/tests/unit-tests --forceExit --runInBand",
-    "util-unit-tests": "jest --projects ./clarity/tests/utils-tests --forceExit --runInBand",
-    "integration-tests": "jest --projects ./clarity/tests/integration-tests --forceExit --runInBand",
+    "unit-tests": "jest --projects ./clarity/tests/unit-tests --runInBand",
+    "util-unit-tests": "jest --projects ./clarity/tests/utils-tests --runInBand",
+    "integration-tests": "jest --projects ./clarity/tests/integration-tests --runInBand",
     "generate": "ts-node scripts/generate.ts",
     "deploy": "ts-node scripts/deploy.ts",
     "eol": "npx eolConverter \"clarity/contracts/**/*.clar\"",
