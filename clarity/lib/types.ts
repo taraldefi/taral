@@ -1,5 +1,5 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
-import { StacksNetwork } from "@stacks/network";
+import { StacksNetworkConfiguration } from "clarity/configuration/stacks-network";
 import { ClarinetAccounts } from "./configuration";
 import type { BaseProvider, DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
@@ -80,7 +80,7 @@ export interface BaseCreateOptions {
 
 export interface ApiCreateOptions extends BaseCreateOptions {
   deploy: boolean;
-  network: StacksNetwork;
+  network: StacksNetworkConfiguration;
   account: DeployerAccount;
 }
 
@@ -92,7 +92,7 @@ export interface CreateOptions extends BaseCreateOptions {
 export interface FromApiContractOptions<T> {
   deploy: boolean;
   contract: Contract<T>;
-  network: StacksNetwork;
+  network: StacksNetworkConfiguration;
   account: DeployerAccount;
 }
 

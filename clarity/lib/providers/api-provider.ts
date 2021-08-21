@@ -1,4 +1,3 @@
-import { StacksNetwork } from "@stacks/network";
 import { SmartContractTransaction } from "@stacks/stacks-blockchain-api-types";
 import {
   broadcastTransaction,
@@ -22,6 +21,7 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
+import { StacksNetworkConfiguration } from "clarity/configuration/stacks-network";
 import * as fs from "fs";
 import { err, ok } from "neverthrow";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
@@ -38,12 +38,12 @@ import { BaseProvider, IProviderRequest } from "./base-provider";
 import { DeployerAccount, IMetadata, instanceOfMetadata } from "./types";
 
 export class ApiProvider implements BaseProvider {
-  private readonly network: StacksNetwork;
+  private readonly network: StacksNetworkConfiguration;
   private readonly deployerAccount: DeployerAccount;
   private readonly contractName: string;
 
   constructor(
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     deployerAccount: DeployerAccount,
     contractName: string
   ) {
@@ -179,7 +179,7 @@ export class ApiProvider implements BaseProvider {
   public static async fromContracts<T extends Contracts<M>, M>(
     deploy: boolean,
     contracts: T,
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     account: DeployerAccount
   ): Promise<ContractInstances<T, M>> {
     const instances = {} as ContractInstances<T, M>;
@@ -245,7 +245,7 @@ export class ApiProvider implements BaseProvider {
   static async deployContract(
     contractName: string,
     contractPath: string,
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     secretDeployKey: string
   ) {
     let codeBody = fs.readFileSync(contractPath).toString();
@@ -263,7 +263,7 @@ export class ApiProvider implements BaseProvider {
 
   static async handleTransaction(
     transaction: StacksTransaction,
-    network: StacksNetwork
+    network: StacksNetworkConfiguration
   ): Promise<TxBroadcastResultOk> {
     const result = await broadcastTransaction(transaction, network);
     if ((result as TxBroadcastResultRejected).error) {
@@ -300,7 +300,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async processing(
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     tx: string,
     count: number = 0
   ): Promise<boolean> {
@@ -310,7 +310,7 @@ export class ApiProvider implements BaseProvider {
   static async processingWithSidecar(
     tx: string,
     count: number = 0,
-    network: StacksNetwork
+    network: StacksNetworkConfiguration
   ): Promise<boolean> {
     var value = await this.getTransactionById(network, tx);
     if (value.tx_status === "success") {
@@ -326,7 +326,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async getTransactionById(
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     txId: string
   ): Promise<any> {
     const url = `${network.coreApiUrl}/extended/v1/tx/${txId}`;
@@ -372,7 +372,7 @@ export class ApiProvider implements BaseProvider {
 
   async handleFunctionTransaction(
     transaction: StacksTransaction,
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     functionName: string,
     contractName: string
   ): Promise<TxBroadcastResult> {
@@ -396,7 +396,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   async functionProcessing(
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     tx: String,
     functionName: string,
     contractName: string,
@@ -414,7 +414,7 @@ export class ApiProvider implements BaseProvider {
   async functionProcessingWithSidecar(
     tx: String,
     count: number = 0,
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     functionName: string,
     contractName: string
   ): Promise<boolean> {
