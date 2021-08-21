@@ -18,7 +18,21 @@ whitelisted_rpc_calls = [
     "getrawmempool",
     "getblockhash",
 ]
+
+# Expedite the key registration / genesis block
 [[blocks]]
 count = 1
-block_time = 10000
+block_time = 30000
+ignore_txs = false
+
+# Expedite the key registration / genesis block
+[[blocks]]
+count = 2
+block_time = 20000
+ignore_txs = false
+
+# Give more time to the first blocks
+[[blocks]]
+count = 2
+block_time = 50000
 ignore_txs = false
