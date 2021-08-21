@@ -12,14 +12,36 @@ services:
       POSTGRES_PORT: 5432
     networks:
       - stacks-blockchain
+
+  explorer:
+    image: blockstack/explorer:1.13
+    container_name: explorer
+    environment:
+      # - NEXT_PUBLIC_MAINNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3999
+      # - NEXT_PUBLIC_TESTNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3399
+      # - MOCKNET_API_SERVER=http://localhost:3999
+      # - TESTNET_API_SERVER=http://localhost:3999
+      - NEXT_PUBLIC_REGTEST_API_SERVER=http://localhost:3999
+    ports:
+      - 3000:3000
+    depends_on: 
+      - stacks-blockchain-api
+    networks:
+      - stacks-blockchain
+
   stacks-blockchain:
       build:
-        context: ./provisioning/mocknet/stacks-blockchain
+        context: ./provisioning/private-testnet/stacks-blockchain
       restart: on-failure
       environment:
         STACKS_EVENT_OBSERVER: stacks-blockchain-api:3700
         XBLOCKSTACK_DEBUG: 1
         RUST_BACKTRACE: 1
+        WAIT_HOST_CONNECT_TIMEOUT: 6
+        WAIT_BEFORE: 5
+        WAIT_HOSTS: bitcoin:18443
+        WAIT_AFTER: 5
+        WAIT_SLEEP_INTERVAL: 1
       ports:
         - "20443:20443"
         - "20444:20444"
@@ -47,9 +69,12 @@ services:
       STACKS_CORE_RPC_PORT: 20443
       NODE_ENV: production
       STACKS_CHAIN_ID: 2147483648
+      # BNS_IMPORT_DIR: /bns-data
     ports:
       - "3999:3999"
       - "9153:9153"
+    volumes:
+      - ./provisioning/private-testnet/bns-data:/bns-data
     depends_on: 
       - postgres
     networks:
