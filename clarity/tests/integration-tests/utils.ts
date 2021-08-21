@@ -8,7 +8,7 @@ export interface ITestContext {
 }
 
 export function getTestContext(): ITestContext {
-    const firstWallet = getFirstWallet();
+    const firstWallet = getWallet();
 
     return {
         callFunctionMetadata: {
@@ -23,7 +23,7 @@ export function getTestContext(): ITestContext {
     };
 }
 
-export function getFirstWallet(): ClarinetAccount {
+export function getWallet(): ClarinetAccount {
     return getWalletAtIndex(1);
 }
 
