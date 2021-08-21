@@ -45,9 +45,9 @@
 ;; Initialize the contract
 (begin
   ;; TODO: do not do this on testnet or mainnet
-  (try! (ft-mint? taral-token u10 'ST75HW7YBJ2R7YJ6Z70PJMB9B1XWT001DD0BDJAZ))
-  (try! (ft-mint? taral-token u1000000000000 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR)) ;; 1 million TAL
-  (try! (ft-mint? taral-token u1000000000000 'ST31Q2S6CXS4WTQS92CR1GCGD0W9PRHSFZZH8XXRH)) ;; 1 million TAL
-  (try! (ft-mint? taral-token u1000000000000 'ST2604KQ6A2TD9EP1FMAJ6BESC22H0E557KQHB7CV)) ;; 1 million TAL
-  (try! (ft-mint? taral-token u1000000000000 'ST22ZZ99DRQQZ3HATGYRKCYKVZY78Z1ZAWBA7QE2P)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u10 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5))
+  (try! (ft-mint? taral-token u1000000000000 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST2NEB84ASENDXKYGJPQW86YXQCEFEX2ZQPG87ND)) ;; 1 million TAL
+  (try! (ft-mint? taral-token u1000000000000 'ST2REHHS5J3CERCRBEPMGH7921Q6PYKAADT7JP2VB)) ;; 1 million TAL
 )

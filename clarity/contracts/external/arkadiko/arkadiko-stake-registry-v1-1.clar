@@ -151,7 +151,7 @@
 (begin
   ;; DIKO pool
   (map-set pools-data-map
-    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-diko-v1-1 }
+    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-diko-v1-1 }
     {
       name: "DIKO",
       deactivated-block: u0,
@@ -161,17 +161,17 @@
   )
   ;; DIKO-USDA LP
   (map-set pools-data-map
-    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-diko-usda-v1-1 }
+    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-diko-usda-v1-1 }
     {
       name: "DIKO-USDA LP",
       deactivated-block: u0,
       deactivated-rewards-per-block: u0,
-      rewards-percentage: u200000 ;; 20% 
+      rewards-percentage: u250000 ;; 25% 
     }
   )
   ;; wSTX-USDA LP
   (map-set pools-data-map
-    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-wstx-usda-v1-1 }
+    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-wstx-usda-v1-1 }
     {
       name: "wSTX-USDA LP",
       deactivated-block: u0,
@@ -181,12 +181,12 @@
   )
   ;; wSTX-DIKO LP
   (map-set pools-data-map
-    { pool: 'ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR.arkadiko-stake-pool-wstx-diko-v1-1 }
+    { pool: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.arkadiko-stake-pool-wstx-diko-v1-1 }
     {
       name: "wSTX-DIKO LP",
       deactivated-block: u0,
       deactivated-rewards-per-block: u0,
-      rewards-percentage: u200000 ;; 20% 
+      rewards-percentage: u150000 ;; 15% 
     }
   )
 )
