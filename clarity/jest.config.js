@@ -11,6 +11,7 @@ module.exports = {
   collectCoverageFrom: [
     "<rootDir>/generated/taral/**/*.ts",
     "!<rootDir>/tests/unit-tests/**/*.test.ts",
+    "!<rootDir>/tests/utils-tests/**/*.test.ts",
   ],
   coverageReporters: ["text-summary", "lcov"],
   coverageDirectory: "coverage",

@@ -1,3 +1,5 @@
+export {};
+
 const { resolve } = require("path");
 
 const rootForUnitTests = resolve(__dirname, "../../");
