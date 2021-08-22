@@ -47,7 +47,7 @@ export class TestProvider implements BaseProvider {
     contractIdentifier,
   }: CreateOptions) {
     const client = new Client(contractIdentifier, contractFilePath, clarityBin);
-    
+
     if (deploy) {
       await deployContract(client, clarityBin);
     }

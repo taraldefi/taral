@@ -63,7 +63,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   asyncFunc: () => Promise<void> = async () => {
-    await new Promise<void>(resolve => resolve());
+    await new Promise<void>((resolve) => resolve());
   };
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
@@ -229,7 +229,6 @@ export class ApiProvider implements BaseProvider {
     network,
     account,
   }: ApiCreateOptions) {
-    
     if (deploy) {
       await this.deployContract(
         contractIdentifier,

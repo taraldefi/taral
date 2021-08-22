@@ -15,14 +15,12 @@ function replaceAll(str: string, find: string, replace: string) {
 }
 
 export async function generateFilesForContract({
-  generate,
   contractFile: _contractFile,
   outputFolder,
   subFolder,
   provider,
   contractAddress,
 }: {
-  generate: boolean;
   contractFile: string;
   outputFolder: string;
   subFolder: string;
@@ -60,14 +58,6 @@ export async function generateFilesForContract({
   });
 
   fileSystem.unlinkSync(tmpContractFilePath);
-
-  console.log(`handled ${contractName}`);
-
-  // We do not generate boot contracts
-  //
-  if (!generate) {
-    return;
-  }
 
   const typesFile = generateTypesFile(abi, contractName, subFolder);
   if (!contractAddress && process.env.NODE_ENV !== "test") {
