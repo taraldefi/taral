@@ -33,10 +33,15 @@ beforeAll(async () => {
   //   stacksAddress: deployer.address,
   // });
 
-  const deployed = await ApiProvider.fromContracts(false, taralContracts, network, {
-    secretKey: deployer.privateKey,
-    stacksAddress: deployer.address,
-  });
+  const deployed = await ApiProvider.fromContracts(
+    false,
+    taralContracts,
+    network,
+    {
+      secretKey: deployer.privateKey,
+      stacksAddress: deployer.address,
+    }
+  );
 
   Logger.debug("Deployed contracts to priv. testnet");
   talToken = deployed.taralCoin.contract;

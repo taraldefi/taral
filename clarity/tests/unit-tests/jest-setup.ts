@@ -38,8 +38,12 @@ beforeAll(async () => {
 
   await TestProvider.fromContracts(true, coreContracts, clarityBin);
   await TestProvider.fromContracts(true, arkadikoContracts, clarityBin);
-  
-  const deployed = await TestProvider.fromContracts(true, taralContracts, clarityBin);
-  
+
+  const deployed = await TestProvider.fromContracts(
+    true,
+    taralContracts,
+    clarityBin
+  );
+
   talToken = deployed.taralCoin.contract;
 });
