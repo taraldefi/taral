@@ -8,10 +8,10 @@
       "contracts": ["test-utils"]
     },
     {
-      "name": "Core",
-      "subfolder": "external/core",
-      "description": "Core boot contracts for development purposes only",
-      "contracts": ["pox"]
+      "name": "boot",
+      "subfolder": "boot",
+      "description": "Boot contracts for development purposes only - they are not used",
+      "contracts": ["bns", "costs", "cost-voting", "lockup", "pox"]
     },
     {
       "name": "Arkadiko",
