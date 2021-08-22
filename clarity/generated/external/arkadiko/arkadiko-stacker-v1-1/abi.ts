@@ -8,6 +8,24 @@ export const ArkadikoStackerV11Interface: ClarityAbi = {
             "access": "public",
             "args": [
                 {
+                    "name": "vault-id",
+                    "type": "uint128"
+                }
+            ],
+            "name": "enable-vault-withdrawals",
+            "outputs": {
+                "type": {
+                    "response": {
+                        "error": "uint128",
+                        "ok": "bool"
+                    }
+                }
+            }
+        },
+        {
+            "access": "public",
+            "args": [
+                {
                     "name": "pox-addr",
                     "type": {
                         "tuple": [
@@ -144,12 +162,37 @@ export const ArkadikoStackerV11Interface: ClarityAbi = {
         },
         {
             "access": "constant",
+            "name": "ERR-BURN-HEIGHT-NOT-REACHED",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
             "name": "ERR-EMERGENCY-SHUTDOWN-ACTIVATED",
             "type": "uint128"
         },
         {
             "access": "constant",
             "name": "ERR-NOT-AUTHORIZED",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
+            "name": "ERR-STILL-STACKING",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
+            "name": "ERR-VAULT-LIQUIDATED",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
+            "name": "ERR-WRONG-COLLATERAL-TOKEN",
+            "type": "uint128"
+        },
+        {
+            "access": "constant",
+            "name": "ERR-WRONG-STACKER",
             "type": "uint128"
         },
         {

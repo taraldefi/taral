@@ -17,7 +17,7 @@ export const arkadikoSwapTokenWstxDikoContract = (provider: BaseProvider) => {
 export const arkadikoSwapTokenWstxDikoInfo: Contract<ArkadikoSwapTokenWstxDikoContract> =
   {
     contract: arkadikoSwapTokenWstxDikoContract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-swap-token-wstx-diko.clar",
   };

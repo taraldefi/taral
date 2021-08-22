@@ -13,6 +13,6 @@ export const xstxTokenContract = (provider: BaseProvider) => {
 
 export const xstxTokenInfo: Contract<XstxTokenContract> = {
   contract: xstxTokenContract,
-  address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+  address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
   contractFile: "clarity/contracts/external/arkadiko/xstx-token.clar",
 };

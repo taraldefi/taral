@@ -17,7 +17,7 @@ export const arkadikoStakePoolDikoV11Contract = (provider: BaseProvider) => {
 export const arkadikoStakePoolDikoV11Info: Contract<ArkadikoStakePoolDikoV11Contract> =
   {
     contract: arkadikoStakePoolDikoV11Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-stake-pool-diko-v1-1.clar",
   };

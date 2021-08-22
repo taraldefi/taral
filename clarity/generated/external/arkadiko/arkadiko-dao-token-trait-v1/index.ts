@@ -17,7 +17,7 @@ export const arkadikoDaoTokenTraitV1Contract = (provider: BaseProvider) => {
 export const arkadikoDaoTokenTraitV1Info: Contract<ArkadikoDaoTokenTraitV1Contract> =
   {
     contract: arkadikoDaoTokenTraitV1Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-dao-token-trait-v1.clar",
   };

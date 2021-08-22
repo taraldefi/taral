@@ -5,7 +5,6 @@ import { Transaction } from "../../../../lib/transaction";
 // prettier-ignore
 
 export interface ArkadikoStackerPayerV11Contract {
-    enableVaultWithdrawals: (vaultId: number, metadata: IMetadata) => Transaction<boolean, number>;
     payout: (vaultId: number, wstx: string, usda: string, collType: string, reserve: string, ft: string, metadata: IMetadata) => Transaction<boolean, number>;
     setStackingStxReceived: (stxReceived: number, metadata: IMetadata) => Transaction<boolean, number>;
     setStackingStxStacked: (amount: number, metadata: IMetadata) => Transaction<boolean, number>;
@@ -17,9 +16,6 @@ export interface ArkadikoStackerPayerV11Contract {
     ERRBURNHEIGHTNOTREACHED: () => Promise<number>;
     ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<number>;
     ERRNOTAUTHORIZED: () => Promise<number>;
-    ERRSTILLSTACKING: () => Promise<number>;
-    ERRVAULTLIQUIDATED: () => Promise<number>;
-    ERRWRONGCOLLATERALTOKEN: () => Promise<number>;
     payoutVaultId: () => Promise<number>;
     stackerPayerShutdownActivated: () => Promise<boolean>;
     stackingStxReceived: () => Promise<number>;

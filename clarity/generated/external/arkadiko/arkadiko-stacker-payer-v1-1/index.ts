@@ -17,7 +17,7 @@ export const arkadikoStackerPayerV11Contract = (provider: BaseProvider) => {
 export const arkadikoStackerPayerV11Info: Contract<ArkadikoStackerPayerV11Contract> =
   {
     contract: arkadikoStackerPayerV11Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-stacker-payer-v1-1.clar",
   };
