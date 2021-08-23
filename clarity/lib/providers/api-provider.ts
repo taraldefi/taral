@@ -253,7 +253,7 @@ export class ApiProvider implements BaseProvider {
       codeBody,
       senderKey: secretDeployKey,
       network,
-      anchorMode: 3,
+      anchorMode: 3
     });
 
     return this.handleTransaction(transaction, network);
