@@ -2,18 +2,6 @@
   "outputDirectory": "clarity/generated",
   "configuration": [
     {
-      "name": "TestUtils",
-      "subfolder": "test-utils",
-      "description": "Test util contract for testing purposes only",
-      "contracts": ["test-utils"]
-    },
-    {
-      "name": "boot",
-      "subfolder": "boot",
-      "description": "Boot contracts for development purposes only - they are not used",
-      "contracts": ["bns", "costs", "cost-voting", "lockup", "pox"]
-    },
-    {
       "name": "Arkadiko",
       "description": "External arkadiko contracts used for development purposes only",
       "subfolder": "external/arkadiko",
