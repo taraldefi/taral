@@ -53,7 +53,14 @@
       "name": "Taral",
       "description": "Taral smart contracts",
       "subfolder": "taral",
-      "contracts": ["sip-10-ft-standard", "taral-coin"]
+      "contracts": [
+        "sip-10-ft-standard",
+        "nft-trait",
+        "taral-coin",
+        "clarity-bitcoin",
+        "btc-ft-swap",
+        "btc-nft-swap"
+      ]
     }
   ]
 }
