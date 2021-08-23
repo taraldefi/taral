@@ -13,13 +13,22 @@ services:
       - RUST_BACKTRACE=1
     networks:
       - stacks-blockchain
+
   bitcoind-fill-faucet:
-    image: "byrnedo/alpine-curl"
+    build:
+      context: ./provisioning/private-testnet/fill-faucet
     depends_on:
-      - bitcoind
+      - bitcoin
     restart: on-failure
-    command: |
-      -f -u blockstack:blockstacksystem --data-binary '{"jsonrpc": "1.0", "id":"c", "method": "generatetoaddress", "params": [110, "mrzLDS7LT3otAnpiRWGYkWipdnAZJaXAZQ"] }' -H 'content-type: text/plain;' http://bitcoin:18443/
+    environment:
+      WAIT_HOST_CONNECT_TIMEOUT: 6
+      WAIT_BEFORE: 5
+      WAIT_HOSTS: bitcoin:18443
+      WAIT_AFTER: 5
+      WAIT_SLEEP_INTERVAL: 1
+    networks:
+      - stacks-blockchain
+
   postgres:
     container_name: postgres
     image: "postgres:12.2"
@@ -89,7 +98,7 @@ services:
       STACKS_CORE_RPC_PORT: 20443
       NODE_ENV: production
       STACKS_CHAIN_ID: 2147483648
-      BTC_RPC_HOST: bitcoin
+      BTC_RPC_HOST: http://bitcoin
       BTC_RPC_PORT: 18443
       BTC_RPC_USER: blockstack
       BTC_RPC_PW: blockstacksystem
