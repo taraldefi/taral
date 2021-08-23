@@ -26,6 +26,7 @@ whitelisted_rpc_calls = [
     "scantxoutset",
     "getrawmempool",
     "getblockhash",
+    "generatetoaddress"
 ]
 
 # Expedite the key registration / genesis block
