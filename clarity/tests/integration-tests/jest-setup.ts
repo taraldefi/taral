@@ -1,5 +1,3 @@
-// import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-// import { contracts as coreContracts } from "../../generated/external/core";
 import { NETWORK } from '../../configuration';
 import {
   contracts as taralContracts,
@@ -20,12 +18,6 @@ beforeAll(async () => {
   var deployer = clarinetAccounts.deployer;
 
   // Comment out for now the core and arkadiko contracts untill we'll need them
-  //
-  // await ApiProvider.fromContracts(true, coreContracts, network, {
-  //   secretKey: deployer.privateKey,
-  //   stacksAddress: deployer.address,
-  // });
-
   // await ApiProvider.fromContracts(true, arkadikoContracts, network, {
   //   secretKey: deployer.privateKey,
   //   stacksAddress: deployer.address,
