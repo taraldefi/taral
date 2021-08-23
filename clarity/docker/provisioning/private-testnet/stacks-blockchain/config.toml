@@ -10,17 +10,6 @@ miner = true
 # local_peer_seed = "3b68e410cc7f9b8bae76f2f2991b69ecd0627c95da22a904065dfb2a73d0585f01"
 seed = "0000000000000000000000000000000000000000000000000000000000000000"
 
-# # Add orchestrator (docker-host) as an event observer
-# [[events_observer]]
-# endpoint = "host.docker.internal:20445"
-# retry_count = 255
-# events_keys = ["*"]
-
-[[events_observer]]
-endpoint = "stacks-blockchain-api:3700"
-retry_count = 255
-events_keys = ["*"]
-
 [burnchain]
 chain = "bitcoin"
 mode = "krypton"
