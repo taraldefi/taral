@@ -83,6 +83,11 @@ services:
       STACKS_CORE_RPC_PORT: 20443
       NODE_ENV: production
       STACKS_CHAIN_ID: 2147483648
+      BTC_RPC_HOST: bitcoin
+      BTC_RPC_PORT: 18443
+      BTC_RPC_USER: blockstack
+      BTC_RPC_PW: blockstacksystem
+      BTC_FAUCET_PK: cTYqAVPS7uJTAcxyzkXWjmRGoCjkPcb38wZVRjyXov1RiRDWPQj3
       # BNS_IMPORT_DIR: /bns-data
     ports:
       - "3999:3999"
