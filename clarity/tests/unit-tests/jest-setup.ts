@@ -1,6 +1,7 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-import { contracts as coreContracts } from "../../generated/external/core";
+import { contracts as bootContracts } from '../../generated/boot';
+
 import {
   contracts as taralContracts,
   TaralCoinContract,
@@ -36,7 +37,7 @@ beforeAll(async () => {
 
   testToken = deployedTestUtils.testUtils.contract;
 
-  await TestProvider.fromContracts(true, coreContracts, clarityBin);
+  await TestProvider.fromContracts(true, bootContracts, clarityBin);
   await TestProvider.fromContracts(true, arkadikoContracts, clarityBin);
 
   const deployed = await TestProvider.fromContracts(

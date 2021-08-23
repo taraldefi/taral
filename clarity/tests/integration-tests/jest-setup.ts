@@ -1,7 +1,6 @@
-import { StacksNetwork } from "@stacks/network";
-import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 // import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
 // import { contracts as coreContracts } from "../../generated/external/core";
+import { NETWORK } from '../../configuration';
 import {
   contracts as taralContracts,
   TaralCoinContract,
@@ -10,7 +9,6 @@ import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
 
-export const network: StacksNetwork = new StacksNetworkConfiguration();
 export let talToken: TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
 
@@ -36,7 +34,7 @@ beforeAll(async () => {
   const deployed = await ApiProvider.fromContracts(
     false,
     taralContracts,
-    network,
+    NETWORK,
     {
       secretKey: deployer.privateKey,
       stacksAddress: deployer.address,

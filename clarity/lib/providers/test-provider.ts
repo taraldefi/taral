@@ -20,6 +20,7 @@ import {
 } from "../adapter";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
 import { ClarinetAccounts } from "../configuration";
+import { cleanupBootContractsCalls, cleanupTmpContractFile } from "../test-utils/cleanup-boot-contract-calls";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
   ContractInstances,
@@ -46,10 +47,19 @@ export class TestProvider implements BaseProvider {
     contractFilePath,
     contractIdentifier,
   }: CreateOptions) {
-    const client = new Client(contractIdentifier, contractFilePath, clarityBin);
+
+    let tmpContractFilePath: string = '';
+    let client: Client;
+    if (deploy) {
+      tmpContractFilePath = cleanupBootContractsCalls(contractFilePath);
+      client = new Client(contractIdentifier, tmpContractFilePath, clarityBin);
+    } else {
+      client = new Client(contractIdentifier, contractFilePath, clarityBin);
+    }
 
     if (deploy) {
       await deployContract(client, clarityBin);
+      cleanupTmpContractFile(tmpContractFilePath);
     }
 
     return new this(clarityBin, client);

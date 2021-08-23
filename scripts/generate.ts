@@ -29,7 +29,6 @@ interface IProjectConfiguration {
 interface IContractGroup {
   subFolder: string;
   contracts: string[];
-  generate: boolean;
 }
 
 async function generateAbis(
@@ -41,7 +40,6 @@ async function generateAbis(
   for (let group of groups) {
     for (let contract of group.contracts) {
       await generateFilesForContract({
-        generate: group.generate,
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         outputFolder: outputFolder,
         contractAddress: deployerAddress,
@@ -60,10 +58,6 @@ async function generateProjectIndexFile(
 ): Promise<void> {
   console.log("in generate project index file");
   for (let group of groups) {
-    if (!group.generate) {
-      continue;
-    }
-
     const imports: string[] = [];
     const exports: string[] = [];
     const contractMap: string[] = [];
