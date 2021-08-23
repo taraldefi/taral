@@ -20,16 +20,9 @@ test("Request btc from faucet", async () => {
     address: "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
   });
 
-  var transactionID = faucetTransaction.txId!;
+  console.log(JSON.stringify(faucetTransaction));
 
-  var transaction = generateExplorerTxPageUrl(
-    faucetTransaction.txId!.replace(/^0x/, ""),
-    NETWORK
-  );
-
-  console.log(`Transaction ID ${transactionID}`);
-
-  console.log(`Transaction URL ${transaction}`);
+  expect(faucetTransaction.success).toBe(true);
 });
 
 export function generateExplorerTxPageUrl(
