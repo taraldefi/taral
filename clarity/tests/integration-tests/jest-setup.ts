@@ -1,4 +1,4 @@
-import { NETWORK } from '../../configuration';
+import { NETWORK } from "../../configuration";
 import {
   contracts as taralContracts,
   TaralCoinContract,

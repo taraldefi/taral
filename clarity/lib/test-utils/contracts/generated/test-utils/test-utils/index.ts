@@ -1,6 +1,6 @@
 import { BaseProvider } from "../../../../../providers/base-provider";
-import { proxy } from "../../../../proxy";
 import { Contract } from "../../../../../types";
+import { proxy } from "../../../../proxy";
 import { TestUtilsInterface } from "./abi";
 import type { TestUtilsContract } from "./types";
 

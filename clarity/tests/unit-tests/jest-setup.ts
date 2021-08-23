@@ -1,7 +1,5 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
-import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-
 import {
   contracts as taralContracts,
   TaralCoinContract,
@@ -12,6 +10,7 @@ import {
   getDefaultClarityBin,
 } from "../../lib";
 import { TestProvider } from "../../lib/providers/test-provider";
+import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
 
 export let talToken: TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;

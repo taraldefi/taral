@@ -1,6 +1,6 @@
 import {
-  FaucetsApi,
   Configuration,
+  FaucetsApi,
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import { StacksNetwork } from "@stacks/network";

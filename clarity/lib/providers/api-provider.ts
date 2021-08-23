@@ -21,9 +21,9 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import * as fs from "fs";
 import { err, ok } from "neverthrow";
+import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
 import { Logger } from "../logger";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
@@ -253,7 +253,7 @@ export class ApiProvider implements BaseProvider {
       codeBody,
       senderKey: secretDeployKey,
       network,
-      anchorMode: 3
+      anchorMode: 3,
     });
 
     return this.handleTransaction(transaction, network);

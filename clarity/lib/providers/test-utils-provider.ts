@@ -1,11 +1,17 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { TestProvider } from ".";
+import {
+  BnsContract,
+  contracts as bootContracts,
+  CostsContract,
+  CostVotingContract,
+  LockupContract,
+  PoxContract,
+} from "../test-utils/contracts/generated/boot";
 import {
   contracts as testUtilsContracts,
   TestUtilsContract,
 } from "../test-utils/contracts/generated/test-utils";
-import { BnsContract, contracts as bootContracts, CostsContract, CostVotingContract, LockupContract, PoxContract } from "../test-utils/contracts/generated/boot";
-
-import { TestProvider } from ".";
 
 export class TestUtilsProvider {
   private readonly _testContract: TestUtilsContract;
@@ -15,7 +21,14 @@ export class TestUtilsProvider {
   private readonly _lockupContract: LockupContract;
   private readonly _poxContract: PoxContract;
 
-  private constructor(testContract: TestUtilsContract, bns: BnsContract, costVoting: CostVotingContract, costs: CostsContract, lockup: LockupContract, pox: PoxContract) {
+  private constructor(
+    testContract: TestUtilsContract,
+    bns: BnsContract,
+    costVoting: CostVotingContract,
+    costs: CostsContract,
+    lockup: LockupContract,
+    pox: PoxContract
+  ) {
     this._testContract = testContract;
     this._bnsContract = bns;
     this._costVotingContract = costVoting;
@@ -25,27 +38,27 @@ export class TestUtilsProvider {
   }
 
   public getBnsContract(): BnsContract {
-      return this._bnsContract;
+    return this._bnsContract;
   }
 
-  public getCostVotingContract(): CostVotingContract{
-      return this._costVotingContract;
+  public getCostVotingContract(): CostVotingContract {
+    return this._costVotingContract;
   }
 
   public getCostsContract(): CostsContract {
-      return this._costsContract;
+    return this._costsContract;
   }
 
   public getLockupContract(): LockupContract {
-      return this._lockupContract;
+    return this._lockupContract;
   }
 
   public getPoxContract(): PoxContract {
-      return this._poxContract;
+    return this._poxContract;
   }
 
   public getTestContract(): TestUtilsContract {
-      return this._testContract;
+    return this._testContract;
   }
 
   public static async ensureTestContracts(
@@ -57,14 +70,19 @@ export class TestUtilsProvider {
       clarityBin
     );
 
-    var deployedBootUtils = await TestProvider.fromContracts(true, bootContracts, clarityBin);
+    var deployedBootUtils = await TestProvider.fromContracts(
+      true,
+      bootContracts,
+      clarityBin
+    );
 
     return new TestUtilsProvider(
-        deployedTestUtils.testUtils.contract, 
-        deployedBootUtils.bns.contract, 
-        deployedBootUtils.costVoting.contract, 
-        deployedBootUtils.costs.contract, 
-        deployedBootUtils.lockup.contract, 
-        deployedBootUtils.pox.contract);
+      deployedTestUtils.testUtils.contract,
+      deployedBootUtils.bns.contract,
+      deployedBootUtils.costVoting.contract,
+      deployedBootUtils.costs.contract,
+      deployedBootUtils.lockup.contract,
+      deployedBootUtils.pox.contract
+    );
   }
 }
