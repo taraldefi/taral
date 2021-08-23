@@ -43,7 +43,7 @@ export async function generateFilesForContract({
 
   let data = fileSystem.readFileSync(contractFile, "utf8");
 
-  var regexExpression = new RegExp("ST000000000000000000002AMW42H", "g");
+  var regexExpression = new RegExp("'ST000000000000000000002AMW42H", "g");
 
   var result: string = data.replace(regexExpression, contractAddress ?? "");
 
