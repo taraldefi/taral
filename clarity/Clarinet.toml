@@ -248,6 +248,22 @@ path = "contracts/external/arkadiko/sip-010-trait-ft-standard.clar"
 depends_on = []
 path = "contracts/taral/sip-10-ft-standard.clar"
 
+[contracts.nft-trait]
+depends_on = []
+path = "contracts/taral/nft-trait.clar"
+
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
 path = "contracts/taral/taral-coin.clar"
+
+[contracts.clarity-bitcoin]
+path = "contracts/taral/clarity-bitcoin.clar"
+depends_on = []
+
+[contracts.btc-ft-swap]
+path = "contracts/taral/btc-ft-swap.clar"
+depends_on = ["sip-10-ft-standard", "clarity-bitcoin"]
+
+[contracts.btc-nft-swap]
+path = "contracts/taral/btc-nft-swap.clar"
+depends_on = ["nft-trait", "clarity-bitcoin"]
