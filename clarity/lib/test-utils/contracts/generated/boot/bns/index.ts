@@ -1,6 +1,6 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
-import { Contract } from "../../../lib/types";
+import { BaseProvider } from "../../../../../providers/base-provider";
+import { proxy } from "../../../../proxy";
+import { Contract } from "../../../../../types";
 import { BnsInterface } from "./abi";
 import type { BnsContract } from "./types";
 
@@ -14,5 +14,5 @@ export const bnsContract = (provider: BaseProvider) => {
 export const bnsInfo: Contract<BnsContract> = {
   contract: bnsContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/bns.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/bns.clar",
 };

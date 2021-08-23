@@ -1,5 +1,5 @@
-import { ClarityTypes } from "../../../lib/clarity/types";
-import { IMetadata } from "../../../lib/providers/types";
+import { ClarityTypes } from "../../../../../clarity/types";
+import { IMetadata } from "../../../../../providers/types";
 
 // prettier-ignore
 

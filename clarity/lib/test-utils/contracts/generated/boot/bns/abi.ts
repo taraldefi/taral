@@ -1,4 +1,4 @@
-import { ClarityAbi } from "../../../lib/clarity/types";
+import { ClarityAbi } from "../../../../../clarity/types";
 
 // prettier-ignore
 

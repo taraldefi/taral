@@ -1,15 +1,11 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
-import { contracts as bootContracts } from '../../generated/boot';
 
 import {
   contracts as taralContracts,
   TaralCoinContract,
 } from "../../generated/taral";
-import {
-  contracts as testUtilsContracts,
-  TestUtilsContract,
-} from "../../generated/test-utils";
 import {
   ClarinetAccounts,
   getClarinetAccounts,
@@ -18,9 +14,9 @@ import {
 import { TestProvider } from "../../lib/providers/test-provider";
 
 export let talToken: TaralCoinContract;
-export let testToken: TestUtilsContract;
 export let clarinetAccounts: ClarinetAccounts;
 export let clarityBin: NativeClarityBinProvider;
+export let testUtilsProvider: TestUtilsProvider;
 
 beforeAll(async () => {
   jest.setTimeout(3000000);
@@ -29,15 +25,7 @@ beforeAll(async () => {
   clarinetAccounts = await getClarinetAccounts(cwd);
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 
-  var deployedTestUtils = await TestProvider.fromContracts(
-    true,
-    testUtilsContracts,
-    clarityBin
-  );
-
-  testToken = deployedTestUtils.testUtils.contract;
-
-  await TestProvider.fromContracts(true, bootContracts, clarityBin);
+  testUtilsProvider = await TestUtilsProvider.ensureTestContracts(clarityBin);
   await TestProvider.fromContracts(true, arkadikoContracts, clarityBin);
 
   const deployed = await TestProvider.fromContracts(

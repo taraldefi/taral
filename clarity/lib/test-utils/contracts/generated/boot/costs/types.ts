@@ -1,4 +1,4 @@
-import { IMetadata } from "../../../lib/providers/types";
+import { IMetadata } from "../../../../../providers/types";
 
 // prettier-ignore
 

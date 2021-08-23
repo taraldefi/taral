@@ -1,6 +1,6 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
-import { Contract } from "../../../lib/types";
+import { BaseProvider } from "../../../../../providers/base-provider";
+import { proxy } from "../../../../proxy";
+import { Contract } from "../../../../../types";
 import { LockupInterface } from "./abi";
 import type { LockupContract } from "./types";
 
@@ -14,5 +14,5 @@ export const lockupContract = (provider: BaseProvider) => {
 export const lockupInfo: Contract<LockupContract> = {
   contract: lockupContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/lockup.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/lockup.clar",
 };

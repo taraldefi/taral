@@ -183,7 +183,6 @@ export class ApiProvider implements BaseProvider {
     account: DeployerAccount
   ): Promise<ContractInstances<T, M>> {
     const instances = {} as ContractInstances<T, M>;
-    // await deployUtilContract(clarityBin);
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({

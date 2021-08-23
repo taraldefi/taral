@@ -1,6 +1,6 @@
-import { ClarityTypes } from "../../../lib/clarity/types";
-import { IMetadata } from "../../../lib/providers/types";
-import { Transaction } from "../../../lib/transaction";
+import { ClarityTypes } from "../../../../../clarity/types";
+import { IMetadata } from "../../../../../providers/types";
+import { Transaction } from "../../../../../transaction";
 
 // prettier-ignore
 

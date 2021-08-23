@@ -1,6 +1,6 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
-import { Contract } from "../../../lib/types";
+import { BaseProvider } from "../../../../../providers/base-provider";
+import { proxy } from "../../../../proxy";
+import { Contract } from "../../../../../types";
 import { CostsInterface } from "./abi";
 import type { CostsContract } from "./types";
 
@@ -14,5 +14,5 @@ export const costsContract = (provider: BaseProvider) => {
 export const costsInfo: Contract<CostsContract> = {
   contract: costsContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/costs.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/costs.clar",
 };
