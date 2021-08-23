@@ -9,10 +9,14 @@ import {
   toCamelCase,
   getClarinetAccounts,
   Logger,
+  submitAnalisysForContract,
+  testContractWithSubdirectory,
+  TEST_CONTRACT_FOLDER,
 } from "../clarity/lib";
 
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
+import { NativeClarityBinProvider } from "@blockstack/clarity";
 
 interface IProject {
   outputDirectory: string;
@@ -31,12 +35,29 @@ interface IContractGroup {
   contracts: string[];
 }
 
+async function submitTestContractForAnalysis(
+  testGroups: IContractGroup[],
+  provider: NativeClarityBinProvider,
+  deployerAddress: string
+): Promise<void> {
+  for (let group of testGroups) {
+    for (let contract of group.contracts) {
+      await submitAnalisysForContract({
+        contractFile: testContractWithSubdirectory(contract, group.subFolder),
+        contractAddress: deployerAddress,
+        subFolder: group.subFolder,
+        provider,
+      });
+    }
+  }
+}
+
 async function generateAbis(
   groups: IContractGroup[],
+  provider: NativeClarityBinProvider,
   deployerAddress: string,
   outputFolder: string
 ): Promise<void> {
-  const provider = await createDefaultTestProvider();
   for (let group of groups) {
     for (let contract of group.contracts) {
       await generateFilesForContract({
@@ -94,33 +115,54 @@ async function generateProjectIndexFile(
   }
 }
 
-async function generate() {
-  const cwd = `${process.cwd()}/clarity/`;
-  const contracts = await getClarinetAccounts(cwd);
-
-  const contractsConfigurationFile = readFileSync(
-    `./${CONTRACT_FOLDER}/contracts.json`,
-    "utf-8"
-  );
+function getProject(path: string): IProject {
+  const contractsConfigurationFile = readFileSync(path, "utf-8");
 
   const project: IProject = JSON.parse(contractsConfigurationFile);
 
+  return project;
+}
+
+function groupProject(project: IProject): IContractGroup[] {
   var contractGroups: IContractGroup[] = project.configuration.map(
     (configuration) => {
       return {
         contracts: configuration.contracts,
         subFolder: configuration.subfolder,
-        generate: configuration.name != "boot",
       };
     }
+  );
+
+  return contractGroups;
+}
+
+async function generate() {
+  const cwd = `${process.cwd()}/clarity/`;
+  const contracts = await getClarinetAccounts(cwd);
+
+  const project: IProject = getProject(`./${CONTRACT_FOLDER}/contracts.json`);
+  const testProject: IProject = getProject(
+    `./${TEST_CONTRACT_FOLDER}/contracts.json`
   );
 
   Logger.debug(
     `Generating interfaces with deployment contract ${contracts.deployer.address}`
   );
 
+  const provider: NativeClarityBinProvider = await createDefaultTestProvider();
+
+  var contractGroups = groupProject(project);
+  var testContractGroups = groupProject(testProject);
+
+  await submitTestContractForAnalysis(
+    testContractGroups,
+    provider,
+    contracts.deployer.address
+  );
+
   await generateAbis(
     contractGroups,
+    provider,
     contracts.deployer.address,
     project.outputDirectory
   );
