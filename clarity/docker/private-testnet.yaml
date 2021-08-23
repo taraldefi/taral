@@ -13,7 +13,13 @@ services:
       - RUST_BACKTRACE=1
     networks:
       - stacks-blockchain
-
+  bitcoind-fill-faucet:
+    image: "byrnedo/alpine-curl"
+    depends_on:
+      - bitcoind
+    restart: on-failure
+    command: |
+      -f -u blockstack:blockstacksystem --data-binary '{"jsonrpc": "1.0", "id":"c", "method": "generatetoaddress", "params": [110, "mrzLDS7LT3otAnpiRWGYkWipdnAZJaXAZQ"] }' -H 'content-type: text/plain;' http://bitcoin:18443/
   postgres:
     container_name: postgres
     image: "postgres:12.2"
@@ -87,7 +93,7 @@ services:
       BTC_RPC_PORT: 18443
       BTC_RPC_USER: blockstack
       BTC_RPC_PW: blockstacksystem
-      BTC_FAUCET_PK: cTYqAVPS7uJTAcxyzkXWjmRGoCjkPcb38wZVRjyXov1RiRDWPQj3
+      BTC_FAUCET_PK: 29c028009a8331358adcc61bb6397377c995d327ac0343ed8e8f1d4d3ef85c27
       # BNS_IMPORT_DIR: /bns-data
     ports:
       - "3999:3999"
