@@ -24,7 +24,7 @@ beforeAll(async () => {
   // });
 
   const deployed = await ApiProvider.fromContracts(
-    false,
+    true,
     taralContracts,
     NETWORK,
     {
