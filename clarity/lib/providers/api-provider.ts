@@ -21,7 +21,7 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import { StacksNetworkConfiguration } from "clarity/configuration/stacks-network";
+import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import * as fs from "fs";
 import { err, ok } from "neverthrow";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";

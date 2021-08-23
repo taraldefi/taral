@@ -1,5 +1,5 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
-import { StacksNetworkConfiguration } from "clarity/configuration/stacks-network";
+import { StacksNetworkConfiguration } from "../configuration/stacks-network";
 import { ClarinetAccounts } from "./configuration";
 import type { BaseProvider, DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";

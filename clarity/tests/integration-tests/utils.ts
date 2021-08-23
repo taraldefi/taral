@@ -1,4 +1,4 @@
-import { ClarinetAccount, IMetadata } from "clarity/lib";
+import { ClarinetAccount, IMetadata } from "../../../clarity/lib";
 import { clarinetAccounts } from "./jest-setup";
 
 export interface ITestContext {
