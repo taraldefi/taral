@@ -13,4 +13,4 @@ WORKDIR /workspace
 COPY --from=builder /btc-rpc-explorer .
 RUN apk --update add git
 CMD npm start
-EXPOSE 3002
+EXPOSE 8001

@@ -13,6 +13,24 @@ services:
       - RUST_BACKTRACE=1
     networks:
       - stacks-blockchain
+    
+  bitcoin-explorer:
+    build:
+      context: ./provisioning/private-testnet/explorer
+    depends_on:
+      - bitcoin
+    restart: on-failure
+    ports:
+      - "8001:8001"
+    environment:
+      BTCEXP_BITCOIND_HOST: bitcoin.stacks-blockchain
+      BTCEXP_BITCOIND_USER: blockstack
+      BTCEXP_BITCOIND_PASS: blockstacksystem
+      BTCEXP_BITCOIND_PORT: 28443
+      BTCEXP_HOST: 0.0.0.0
+      BTCEXP_PORT: 8001
+    networks:
+      - stacks-blockchain
 
   bitcoind-fill-faucet:
     build:
