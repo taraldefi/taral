@@ -98,6 +98,7 @@
     "eol-converter-cli": "^1.0.8",
     "neverthrow": "4.2.1",
     "node-fetch": "2.6.1",
-    "prettier": "^2.3.2"
+    "prettier": "^2.3.2",
+    "rpc-bitcoin": "^2.0.0"
   }
 }
