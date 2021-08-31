@@ -14,12 +14,12 @@
             "chainSource": "p2p",
             "trustedPeers": [
               {
-                "host": "bitcoin.stacks-blockchain",
+                "host": "bitcoin",
                 "port": 28444
               }
             ],
             "rpc": {
-              "host": "bitcoin.stacks-blockchain",
+              "host": "bitcoin",
               "port": 28443,
               "username": "blockstack",
               "password": "blockstacksystem"
