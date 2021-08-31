@@ -134,6 +134,31 @@ services:
     networks:
       - stacks-blockchain
 
+  bitcore:
+    build:
+      context: ./provisioning/bitcore
+      dockerfile: Dockerfile
+    ports:
+      - 8100:8100
+      - 3000:3000
+    environment:
+      - DB_HOST=db
+      - DB_NAME=bitcore-test
+      - BITCORE_CONFIG_PATH=/bitcore/bitcore.config.json
+    volumes:
+      - ./provisioning/bitcore/config.json:/bitcore/bitcore.config.json
+    depends_on:
+      - db
+      - bitcoin
+    networks:
+      - stacks-blockchain
+    command: "npm run node"
+
+  db:
+    image: mongo
+    networks:
+      - stacks-blockchain
+
 networks:
   stacks-blockchain:
     driver: bridge
