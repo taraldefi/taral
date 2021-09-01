@@ -12,7 +12,6 @@ export let clarinetAccounts: ClarinetAccounts;
 
 beforeAll(async () => {
   jest.setTimeout(3000000);
-
   const cwd = `${process.cwd()}/clarity/`;
   clarinetAccounts = await getClarinetAccounts(cwd);
   var deployer = clarinetAccounts.deployer;
