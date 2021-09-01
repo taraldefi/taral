@@ -1,6 +1,8 @@
 import { ClarinetAccount, IMetadata } from "../../../clarity/lib";
 import { clarinetAccounts } from "./jest-setup";
 
+export const BTC_ADDRESS = 'mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH';
+
 export interface ITestContext {
   callFunctionMetadata: IMetadata;
   callReadonlyFunctionMetadata: IMetadata;

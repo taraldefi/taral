@@ -10,6 +10,8 @@ import crossfetch from "cross-fetch";
 import { RPCClient } from "rpc-bitcoin";
 import { NETWORK } from "../../configuration";
 import * as btc from 'bitcoinjs-lib';
+import { retry } from './retry';
+import { BTC_ADDRESS } from "./utils";
 
 test("Request btc from faucet", async () => {
   const apiConfig = new Configuration({
@@ -20,12 +22,15 @@ test("Request btc from faucet", async () => {
   const faucets = new FaucetsApi(apiConfig);
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
-    address: "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
+    address: BTC_ADDRESS,
   });
 
   expect(faucetTransaction.success).toBe(true);
+});
+
+retry("Ensure wallet has btc", 3, async () => {
   const regtest = btc.networks.regtest;
-  var balance = await getBtcBalance(regtest, 'mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH')
+  var balance = await getBtcBalance(regtest, BTC_ADDRESS);
 
   expect(balance).toBeTruthy();
   console.log(`Account balance is: ${balance}`);
