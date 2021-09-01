@@ -23,25 +23,13 @@ test("Request btc from faucet", async () => {
     address: "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
   });
 
-  console.log(JSON.stringify(faucetTransaction));
-
   expect(faucetTransaction.success).toBe(true);
-
-  const balance = await getBalanceWithWalletImport('mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH');
+  const regtest = btc.networks.regtest;
+  var balance = await getBtcBalance(regtest, 'mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH')
 
   expect(balance).toBeTruthy();
-  console.log('account raw assets');
-  console.log(JSON.stringify(balance));
+  console.log(`Account balance is: ${balance}`);
 });
-
-async function getBalanceWithWalletImport(address: string): Promise<number> {
-  const client = getRpcClient();
-  const walletName = `recipient_wallet_${address}`;
-  await client.createwallet({ wallet_name: walletName });
-  await client.importaddress({ address: address, rescan: true }, walletName);
-  const getBalanceResult: number = await client.getbalance({ include_watchonly: true }, walletName);
-  return getBalanceResult;
-}
 
 export function generateExplorerTxPageUrl(
   txid: string,
@@ -62,6 +50,7 @@ export function getRpcClient(): RPCClient {
     pass: 'blockstacksystem',
     timeout: 120000,
   });
+
   return client;
 }
 
