@@ -5,7 +5,7 @@ export const TX_INPUT_PUBKEYHASH = 107
 export const TX_OUTPUT_BASE = 8 + 1
 export const TX_OUTPUT_PUBKEYHASH = 25
 
-export function inputBytes (input: { script?: any }) {
+export function inputBytes (input: any) {
   return TX_INPUT_BASE + (input.script ? input.script.length : TX_INPUT_PUBKEYHASH)
 }
 

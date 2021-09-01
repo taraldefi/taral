@@ -7,8 +7,8 @@ import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import * as btc from 'bitcoinjs-lib';
 import { retry } from './utils/retry';
-import { BOB_BTC } from "./utils";
-import { getBtcBalance } from "./utils/btc";
+import { ALICE_BTC, BOB_BTC } from "./utils";
+import { getBtcBalance, makePayment } from "./utils/btc";
 
 test("Request btc from faucet", async () => {
   const apiConfig = new Configuration({
@@ -25,7 +25,7 @@ test("Request btc from faucet", async () => {
   expect(faucetTransaction.success).toBe(true);
 });
 
-retry("Ensure wallet has btc", 3, async () => {
+retry("Ensure bob has btc", 3, async () => {
   const regtest = btc.networks.regtest;
   var balance = await getBtcBalance(regtest, BOB_BTC);
 
@@ -33,3 +33,10 @@ retry("Ensure wallet has btc", 3, async () => {
   console.log(`Account balance is: ${balance}`);
 });
 
+retry("Make payment to alice", 3, async() => {
+  const regtest = btc.networks.regtest;
+  var paymentDetails = await makePayment(regtest, ALICE_BTC, 0.1);
+
+  console.log('Bitcoin payment details: ');
+  console.log(JSON.stringify(paymentDetails));
+});
