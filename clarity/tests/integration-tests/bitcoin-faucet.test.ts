@@ -7,7 +7,7 @@ import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import * as btc from 'bitcoinjs-lib';
 import { retry } from './utils/retry';
-import { BTC_ADDRESS } from "./utils";
+import { BOB_BTC } from "./utils";
 import { getBtcBalance } from "./utils/btc";
 
 test("Request btc from faucet", async () => {
@@ -19,7 +19,7 @@ test("Request btc from faucet", async () => {
   const faucets = new FaucetsApi(apiConfig);
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
-    address: BTC_ADDRESS,
+    address: BOB_BTC,
   });
 
   expect(faucetTransaction.success).toBe(true);
@@ -27,8 +27,9 @@ test("Request btc from faucet", async () => {
 
 retry("Ensure wallet has btc", 3, async () => {
   const regtest = btc.networks.regtest;
-  var balance = await getBtcBalance(regtest, BTC_ADDRESS);
+  var balance = await getBtcBalance(regtest, BOB_BTC);
 
   expect(balance).toBeTruthy();
   console.log(`Account balance is: ${balance}`);
 });
+
