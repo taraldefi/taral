@@ -5,10 +5,10 @@ services:
       context: ./provisioning/private-testnet/puppet-chain
     container_name: bitcoin
     restart: on-failure
-    expose:
-      - 18443
-      - 28443
-      - 28444
+    ports:
+      - "18443:18443"
+      - "28443:28443"
+      - "28444:28444"
     environment:
       - DYNAMIC_GENESIS_TIMESTAMP=1
       - RUST_BACKTRACE=1
