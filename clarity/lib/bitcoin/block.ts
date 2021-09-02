@@ -17,4 +17,3 @@ export async function getBlockHeader(rpcClient: RPCClient, blockHash: string): P
 
     return blockByHash;
 }
-

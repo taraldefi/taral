@@ -1,6 +1,12 @@
+import { ContractInstances, Contract } from "clarity/lib";
 import { NETWORK } from "../../configuration";
 import {
+  BtcFtSwapContract,
+  BtcNftSwapContract,
+  ClarityBitcoinContract,
   contracts as taralContracts,
+  NftTraitContract,
+  Sip10FtStandardContract,
   TaralCoinContract,
 } from "../../generated/taral";
 import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
@@ -9,6 +15,13 @@ import { ApiProvider } from "../../lib/providers";
 
 export let talToken: TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
+
+export let deployed: ContractInstances<{
+  sip10FtStandard: Contract<Sip10FtStandardContract>; 
+  nftTrait: Contract<NftTraitContract>; taralCoin: Contract<TaralCoinContract>; 
+  clarityBitcoin: Contract<ClarityBitcoinContract>;
+  btcFtSwap: Contract<BtcFtSwapContract>; btcNftSwap: Contract<BtcNftSwapContract>;
+}, unknown>;
 
 beforeAll(async () => {
   jest.setTimeout(3000000);
@@ -22,7 +35,7 @@ beforeAll(async () => {
   //   stacksAddress: deployer.address,
   // });
 
-  const deployed = await ApiProvider.fromContracts(
+ deployed = await ApiProvider.fromContracts(
     true,
     taralContracts,
     NETWORK,
