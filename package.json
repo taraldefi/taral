@@ -94,6 +94,7 @@
     "ajv": "^4.11.5",
     "bip32": "^2.0.4",
     "bip39": "^3.0.4",
+    "bitcoin-cli": "^0.0.3",
     "bitcoinjs-lib": "^5.2.0",
     "blockstack": "^19.2.2",
     "bluebird": "^3.7.2",
