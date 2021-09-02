@@ -1,5 +1,6 @@
 import { getMetadata } from "./base-request";
 import { ClarityBitcoinRequest } from "./clarity-bitcoin-request";
+import { Logger } from "../logger";
 
 export type BlockPartsType = {
     "height": number;
@@ -26,15 +27,15 @@ export interface WasTxMinedRequest extends ClarityBitcoinRequest {
 export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
     // Call readonly function
     //
-    let result = await request.contract.wasTxMined(
-        request.blockPartsCV, 
-        request.txCV, 
-        request.proofCV, 
+    let response = await request.contract.wasTxMined(
+        request.blockPartsCV,
+        request.txCV,
+        request.proofCV,
         getMetadata('readonly', request));
 
-    console.log('was-tx-mined', result.toString());
+    let result = response._unsafeUnwrap();
 
-    let wasTxMinedResult =  result._unsafeUnwrap();
+    Logger.debug(`was-tx-mined result: ${result}`);
 
-    return wasTxMinedResult;
+    return result;
 }

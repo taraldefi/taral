@@ -7,18 +7,18 @@ export interface ParseTxRequest extends ClarityBitcoinRequest {
 }
 
 export async function parseTx(request: ParseTxRequest): Promise<string> {
-    let response: string = '';
+    let result: string = '';
 
     try {
         // Call readonly function
         //
-        let result = await request.contract.getTxid(request.txCV, getMetadata('readonly', request));
-        response = result.toString();
+        let response = await request.contract.getTxid(request.txCV, getMetadata('readonly', request));
+        result = response.toString();
     } catch (e) {
         Logger.error(`parse-tx failed: ${e.toString()}`)
     }
 
-    console.log('parse-tx', response);
+    console.log(`parse-tx result: ${result}`);
 
-    return response;
+    return result;
 }
