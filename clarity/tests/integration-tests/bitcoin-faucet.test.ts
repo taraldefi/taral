@@ -39,4 +39,12 @@ retry("Make payment to alice", 3, async() => {
 
   console.log('Bitcoin payment details: ');
   console.log(JSON.stringify(paymentDetails));
+  
 });
+
+retry("Check alice has btc", 10, async () => {
+  const regtest = btc.networks.regtest;
+  var balance = await getBtcBalance(regtest, ALICE_BTC);
+  console.log(`Alice account balance is ${balance}`);
+  expect(balance).toBeTruthy();
+})

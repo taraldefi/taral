@@ -1,4 +1,3 @@
-// import { txOk } from "../../lib";
 import { txOk } from "../../lib";
 import { talToken } from "./jest-setup";
 import { getTestContext } from "./utils";

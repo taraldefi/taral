@@ -8,6 +8,7 @@ export const MIN_TX_CONFIRMATIONS = 1;
 export const BOB_BTC = 'mr1iPkD9N3RJZZxXRk7xF9d36gffa6exNC';
 export const BOB_BTC_PK = '7287ba251d44a4d3fd9276c88ce34c5c52a038955511cccaf77e61068649c17801';
 export const BOB_STX = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5';
+export const BOB_MNEMONIC = 'sell invite acquire kitten bamboo drastic jelly vivid peace spawn twice guilt pave pen trash pretty park cube fragile unaware remain midnight betray rebuild';
 
 // # mnemonic = "sell invite acquire kitten bamboo drastic jelly vivid peace spawn twice guilt pave pen trash pretty park cube fragile unaware remain midnight betray rebuild"
 // # secret_key: 7287ba251d44a4d3fd9276c88ce34c5c52a038955511cccaf77e61068649c17801

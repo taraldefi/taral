@@ -3,16 +3,17 @@ import { RPCClient } from "rpc-bitcoin";
 import { time } from "./helpers";
 import { getRpcClient } from "./rpc-client";
 import * as btc from 'bitcoinjs-lib';
-import { BOB_BTC_PK, MIN_TX_CONFIRMATIONS } from "../utils";
+import { BOB_MNEMONIC, MIN_TX_CONFIRMATIONS } from "../utils";
 import { coinSelect } from '../../../lib/coinselect';
 import { REGTEST_FEE_RATE } from '../utils';
 import Bluebird from 'bluebird';
+import * as stacksgen from '../../../lib/stacksgen';
 
-export function getBobAccount(
-    network: btc.Network
-): { key: btc.ECPairInterface; address: string } {
-    const pkBuffer = Buffer.from(BOB_BTC_PK, 'hex');
-    const key = btc.ECPair.fromPrivateKey(pkBuffer, { network: network });
+export async function getBobAccount(
+    network: btc.Network,
+): Promise<{ key: btc.ECPairInterface; address: string }> {
+    var bobInfo = await stacksgen.generateKeys(BOB_MNEMONIC);
+    const key = btc.ECPair.fromWIF(bobInfo.wif, network );
     return { key, address: getKeyAddress(key) };
 }
 
@@ -22,12 +23,13 @@ export async function makePayment(
     /** Amount to send in BTC */
     amount: number
 ): Promise<{ txId: string; rawTx: string; txFee: number }> {
+
     if (!isValidBtcAddress(network, address)) {
         throw new Error(`Invalid BTC regtest address: ${address}`);
     }
 
     const client = getRpcClient();
-    const bobsWallet = getBobAccount(network);
+    const bobsWallet = await getBobAccount(network);
 
     const faucetAmountSats = Math.round(amount * 1e8);
 
