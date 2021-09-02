@@ -1,14 +1,13 @@
-import * as crypto from "crypto";
-import * as bip39 from "bip39";
-import * as c32c from "c32check";
-import * as wif from "wif";
 import * as stacks_transactions from "@stacks/transactions";
+import * as bip39 from "bip39";
 import * as btc from "bitcoinjs-lib";
+import * as c32c from "c32check";
+import * as crypto from "crypto";
+import * as wif from "wif";
 
 const { mnemonicToSeed } = bip39;
 const { bip32, ECPair } = btc;
-const { getAddressFromPrivateKey, TransactionVersion } =
-  stacks_transactions;
+const { getAddressFromPrivateKey, TransactionVersion } = stacks_transactions;
 
 const networkDerivationPath = `m/44'/5757'/0'/0/0`;
 
@@ -71,9 +70,7 @@ export function hash160(data: crypto.BinaryLike): Buffer {
   return ripemd160(sha256(data));
 }
 
-export async function generateKeys(
-  seed_phrase: string,
-): Promise<{
+export async function generateKeys(seed_phrase: string): Promise<{
   phrase: string;
   private: any;
   public: string;
@@ -97,7 +94,9 @@ export async function generateKeys(
     public: keys.publicKey.toString("hex"),
     public_uncompressed: uncompressed_hex,
     stacks: keys.address,
-    stacking: `{ hashbytes: 0x${c32c.c32addressDecode(keys.address)[1]}, version: 0x00 }`,
+    stacking: `{ hashbytes: 0x${
+      c32c.c32addressDecode(keys.address)[1]
+    }, version: 0x00 }`,
     btc: c32c.c32ToB58(keys.address),
     wif: privateKeyToWIF(keys.privateKey, false),
   };

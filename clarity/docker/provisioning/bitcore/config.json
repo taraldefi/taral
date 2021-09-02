@@ -1,32 +1,31 @@
 {
-    "bitcoreNode": {
-      "modules": ["./bitcoin"],
-      "services": {
-        "api": {
-          "wallets": {
-            "allowCreationBeforeCompleteSync": true
-          }
+  "bitcoreNode": {
+    "modules": ["./bitcoin"],
+    "services": {
+      "api": {
+        "wallets": {
+          "allowCreationBeforeCompleteSync": true
         }
-      },
-      "chains": {
-        "BTC": {
-          "regtest": {
-            "chainSource": "p2p",
-            "trustedPeers": [
-              {
-                "host": "bitcoin",
-                "port": 28444
-              }
-            ],
-            "rpc": {
+      }
+    },
+    "chains": {
+      "BTC": {
+        "regtest": {
+          "chainSource": "p2p",
+          "trustedPeers": [
+            {
               "host": "bitcoin",
-              "port": 28443,
-              "username": "blockstack",
-              "password": "blockstacksystem"
+              "port": 28444
             }
+          ],
+          "rpc": {
+            "host": "bitcoin",
+            "port": 28443,
+            "username": "blockstack",
+            "password": "blockstacksystem"
           }
         }
       }
     }
   }
-  
+}

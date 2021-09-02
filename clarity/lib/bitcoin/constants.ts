@@ -1,4 +1,4 @@
-import * as btc from 'bitcoinjs-lib';
+import * as btc from "bitcoinjs-lib";
 
 // Replace with client.estimatesmartfee() for testnet/mainnet
 export const REGTEST_FEE_RATE = 50;
