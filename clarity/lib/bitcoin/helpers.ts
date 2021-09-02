@@ -1,6 +1,3 @@
-import { StacksNetwork } from "@stacks/network";
-import { TransactionVersion } from "@stacks/transactions";
-
 
 export function stopwatch(): {
     /** Milliseconds since stopwatch was created. */
@@ -24,17 +21,5 @@ export async function time<T>(
         return await fn();
     } finally {
         onFinish(watch.getElapsed());
-    }
-}
-
-
-export function generateExplorerTxPageUrl(
-    txid: string,
-    network: StacksNetwork
-): string {
-    if (network.version === TransactionVersion.Testnet) {
-        return `http://localhost:3000/txid/0x${txid}?chain=testnet`;
-    } else {
-        return `http://localhost:3000/txid/0x${txid}?chain=mainnet`;
     }
 }
