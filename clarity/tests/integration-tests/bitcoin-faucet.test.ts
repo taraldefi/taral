@@ -10,6 +10,9 @@ import { retry } from './utils/retry';
 import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC } from "./utils";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { makePayment } from "../../lib/bitcoin/payment";
+import { PaymentResponse } from "clarity/lib/bitcoin/models";
+
+let paymentResponse: PaymentResponse;
 
 test("Request btc from faucet", async () => {
   const apiConfig = new Configuration({
@@ -26,7 +29,7 @@ test("Request btc from faucet", async () => {
   expect(faucetTransaction.success).toBe(true);
 });
 
-retry("Ensure bob has btc", 3, async () => {
+retry("Ensure bob has btc", 10, async () => {
   const regtest = btc.networks.regtest;
   var balance = await getBtcBalance(regtest, BOB_BTC);
 
@@ -34,13 +37,12 @@ retry("Ensure bob has btc", 3, async () => {
   console.log(`Account balance is: ${balance}`);
 });
 
-retry("Make payment to alice", 3, async() => {
+test("Make payment to alice", async() => {
   const regtest = btc.networks.regtest;
-  var paymentDetails = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, 0.1);
+  paymentResponse = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, 0.1);
 
   console.log('Bitcoin payment details: ');
-  console.log(JSON.stringify(paymentDetails));
-  
+  console.log(JSON.stringify(paymentResponse));
 });
 
 retry("Check alice has btc", 10, async () => {
@@ -48,4 +50,4 @@ retry("Check alice has btc", 10, async () => {
   var balance = await getBtcBalance(regtest, ALICE_BTC);
   console.log(`Alice account balance is ${balance}`);
   expect(balance).toBeTruthy();
-})
+});

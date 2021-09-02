@@ -37,3 +37,9 @@ export interface GetRawTxResult {
         };
     }[];
 }
+
+export interface PaymentResponse {
+    txId: string; 
+    rawTx: string; 
+    txFee: number;
+}

@@ -8,6 +8,7 @@ import { coinSelect } from '../coinselect'
 import { REGTEST_FEE_RATE } from './constants';
 import { time } from './helpers';
 import { Logger } from '../logger';
+import { PaymentResponse } from './models';
 
 export async function getPayingAccount(
     network: btc.Network,
@@ -24,7 +25,7 @@ export async function makePayment(
     payerMnemonic: string,
     /** Amount to send in BTC */
     amount: number
-): Promise<{ txId: string; rawTx: string; txFee: number }> {
+): Promise<PaymentResponse> {
 
     if (!isValidBtcAddress(network, address)) {
         throw new Error(`Invalid BTC regtest address: ${address}`);
@@ -95,5 +96,11 @@ export async function makePayment(
 
     const feeAmount = coinSelectResult.fee / 1e8;
 
-    return { txId: sendTxResult, rawTx: txHex, txFee: feeAmount };
+    const result: PaymentResponse = { 
+        txId: sendTxResult, 
+        rawTx: txHex, 
+        txFee: feeAmount 
+    };
+
+    return result;
 }
