@@ -1,6 +1,5 @@
 import { Logger } from "../logger";
-import { getMetadata } from "./base-request";
-import { ClarityBitcoinRequest } from "./clarity-bitcoin-request";
+import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 
 export interface ParseTxRequest extends ClarityBitcoinRequest {
     txCV: Buffer;
@@ -18,7 +17,7 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
         Logger.error(`parse-tx failed: ${e.toString()}`)
     }
 
-    console.log(`parse-tx result: ${result}`);
+    Logger.debug(`parse-tx result: ${result}`);
 
     return result;
 }

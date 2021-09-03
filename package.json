@@ -99,7 +99,6 @@
     "blockstack": "^19.2.2",
     "bluebird": "^3.7.2",
     "bn.js": "^4.12.0",
-    "buffer-reverse": "^1.0.1",
     "c32check": "^1.1.2",
     "create-ts-index": "^1.13.6",
     "crypto": "^1.0.1",

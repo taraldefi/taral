@@ -1,11 +1,15 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { ClarinetAccounts } from "../configuration";
 import { IMetadata } from "../providers";
+import { RequestType } from "./types";
 
 export interface BaseRequest {
     accounts: ClarinetAccounts;
 }
 
-export type RequestType = 'readonly' | 'public';
+export interface ClarityBitcoinRequest extends BaseRequest {
+    contract: ClarityBitcoinContract;
+}
 
 export function getPrivateKey(request: BaseRequest): string {
     var deployer = request.accounts.deployer;

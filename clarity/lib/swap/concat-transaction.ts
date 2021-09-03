@@ -1,26 +1,10 @@
 import { Logger } from "../logger";
-import { getMetadata } from "./base-request";
-import { ClarityBitcoinRequest } from "./clarity-bitcoin-request";
+import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { TxPartsCvType } from "./types";
 
-export type txPartsCvType = {
-    "ins": {
-        "outpoint": {
-            "hash": Buffer;
-            "index": Buffer
-        };
-        "scriptSig": Buffer;
-        "sequence": Buffer
-    }[];
-    "locktime": Buffer;
-    "outs": {
-        "scriptPubKey": Buffer;
-        "value": Buffer
-    }[];
-    "version": Buffer
-};
 
 export interface ConcatTransactionRequest extends ClarityBitcoinRequest {
-    txPartsCV: txPartsCvType;
+    txPartsCV: TxPartsCvType;
 }
 
 export async function concatTransaction(request: ConcatTransactionRequest): Promise<string> {

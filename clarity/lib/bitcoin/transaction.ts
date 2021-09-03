@@ -26,6 +26,14 @@ export async function getSpendableUtxos(
   return spendableUtxos;
 }
 
+export async function getRawTransaction(client: RPCClient, txId: string): Promise<GetRawTxResult> {
+  const rawTransaction: GetRawTxResult = await client.getrawtransaction({
+    txid: txId
+  });
+
+  return rawTransaction;
+}
+
 export async function getRawTransactions(
   client: RPCClient,
   txIds: string[]

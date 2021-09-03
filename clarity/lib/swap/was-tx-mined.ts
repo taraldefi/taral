@@ -1,25 +1,15 @@
-import { getMetadata } from "./base-request";
-import { ClarityBitcoinRequest } from "./clarity-bitcoin-request";
+import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 import { Logger } from "../logger";
-
-export type BlockPartsType = {
-    "height": number;
-    "merkle-root": Buffer;
-    "nbits": Buffer;
-    "nonce": Buffer;
-    "parent": Buffer;
-    "timestamp": Buffer;
-    "version": Buffer
-};
-
-export type ProofCvType = {
-    "hashes": Buffer[];
-    "tree-depth": number;
-    "tx-index": number
-};
+import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
 export interface WasTxMinedRequest extends ClarityBitcoinRequest {
     blockPartsCV: BlockPartsType;
+    txCV: Buffer;
+    proofCV: ProofCvType;
+}
+
+export interface WasTxMinedFromHexRequest extends ClarityBitcoinRequest {
+    blockCV: BlockCvType;
     txCV: Buffer;
     proofCV: ProofCvType;
 }
@@ -36,6 +26,22 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
     let result = response._unsafeUnwrap();
 
     Logger.debug(`was-tx-mined result: ${result}`);
+
+    return result;
+}
+
+export async function wasTxMinedFromHex(request: WasTxMinedFromHexRequest): Promise<boolean> {
+    // Call readonly function
+    //
+    let response = await request.contract.wasTxMinedCompact(
+        request.blockCV,
+        request.txCV,
+        request.proofCV,
+        getMetadata('readonly', request));
+
+    let result = response._unsafeUnwrap();
+
+    Logger.debug(`was-tx-mined-compact result: ${result}`);
 
     return result;
 }
