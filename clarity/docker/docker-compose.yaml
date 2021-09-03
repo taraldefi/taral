@@ -17,7 +17,7 @@ services:
     
   # bitcoin-explorer:
   #   build:
-  #     context: ./provisioning/private-testnet/explorer
+  #     context: ./provisioning/explorer
   #   depends_on:
   #     - bitcoin
   #   restart: on-failure
@@ -36,7 +36,7 @@ services:
   # Block explorer server
   # electrum:
   #   build:
-  #     context: ./provisioning/private-testnet/mempool/electrum
+  #     context: ./provisioning/mempool/electrum
   #   container_name: electrum
   #   depends_on:
   #     - bitcoin
@@ -44,9 +44,9 @@ services:
   #     - 50001:50001
   #     - 30000:30000
   #   volumes:
-  #     - ./provisioning/private-testnet/mempool/electrum/config.toml:/etc/electrs/config.toml
-  #     - ./provisioning/private-testnet/mempool/electrum/config.toml:/.electrs/config.toml
-  #     - ./provisioning/private-testnet/mempool/electrum/config.toml:/electrs.toml
+  #     - ./provisioning/mempool/electrum/config.toml:/etc/electrs/config.toml
+  #     - ./provisioning/mempool/electrum/config.toml:/.electrs/config.toml
+  #     - ./provisioning/mempool/electrum/config.toml:/electrs.toml
   #     - ./volumes/bitcoin/:/config
   #   restart: unless-stopped
   #   networks:
@@ -54,7 +54,7 @@ services:
 
   # web:
   #   build:
-  #     context: ./provisioning/private-testnet/mempool/frontend
+  #     context: ./provisioning/mempool/frontend
   #   user: "1000:1000"
   #   restart: on-failure
   #   stop_grace_period: 1m
@@ -69,7 +69,7 @@ services:
       
   # api:
   #   build:
-  #     context: ./provisioning/private-testnet/mempool/backend
+  #     context: ./provisioning/mempool/backend
   #   user: "1000:1000"
   #   restart: on-failure
   #   stop_grace_period: 1m
@@ -101,8 +101,8 @@ services:
   #   restart: on-failure
   #   stop_grace_period: 1m
   #   volumes:
-  #     - ./provisioning/private-testnet/mempool/mysql/data:/var/lib/mysql
-  #     - ./provisioning/private-testnet/mempool/mysql/script:/docker-entrypoint-initdb.d
+  #     - ./provisioning/mempool/mysql/data:/var/lib/mysql
+  #     - ./provisioning/mempool/mysql/script:/docker-entrypoint-initdb.d
   #   environment:
   #     MYSQL_DATABASE: "mempool"
   #     MYSQL_USER: "mempool"
