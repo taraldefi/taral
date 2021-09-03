@@ -2,7 +2,6 @@ import { Logger } from "../logger";
 import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 import { TxPartsCvType } from "./types";
 
-
 export interface ConcatTransactionRequest extends ClarityBitcoinRequest {
     txPartsCV: TxPartsCvType;
 }

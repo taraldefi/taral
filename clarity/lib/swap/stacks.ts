@@ -45,7 +45,7 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
 function getBlocksApi(): BlocksApi {
 
     const basePath = NETWORK.coreApiUrl;
-    
+
     const configuration = new Configuration({
         basePath
     });
