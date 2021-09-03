@@ -3,8 +3,7 @@
 
 # Set if you have low-memory device (such as RPi) or you run electrs under a different user than bitcoind and do NOT have sysperms in bitcoind.
 jsonrpc_import = true
-
-light_mode = true
+light_mode = false
 
 # File where bitcoind stores the cookie, usually file .cookie in its datadir
 # cookie_file = "/var/run/bitcoin-mainnet/cookie"

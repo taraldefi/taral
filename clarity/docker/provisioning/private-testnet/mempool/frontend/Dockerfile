@@ -18,7 +18,7 @@ RUN cd frontend && npm i
 FROM node:12-buster-slim AS builder
 
 RUN apt-get update
-RUN apt-get install -y rsync
+RUN apt-get install -y rsync dos2unix
 
 WORKDIR /mempool
 
@@ -29,14 +29,20 @@ RUN cd frontend && npm run build
 FROM nginx:1.17.8-alpine
 
 
+RUN apt-get update
+RUN apt-get install -y dos2unix
+
 WORKDIR /patch
 
 COPY --from=builder /mempool/entrypoint.sh .
 COPY --from=builder /mempool/wait-for .
 COPY --from=builder /mempool/nginx.conf /etc/nginx/
 COPY --from=builder /mempool/nginx-mempool.conf /etc/nginx/conf.d/
-
 COPY --from=builder /mempool/frontend/dist/mempool /var/www/mempool
+
+
+RUN dos2unix /patch/entrypoint.sh
+RUN dos2unix /patch/wait-for
 
 RUN chmod +x /patch/entrypoint.sh
 RUN chmod +x /patch/wait-for

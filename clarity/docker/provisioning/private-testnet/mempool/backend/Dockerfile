@@ -13,9 +13,15 @@ RUN npm run build
 
 FROM node:12-buster-slim
 
+RUN apt-get update
+RUN apt-get install -y dos2unix
+
 WORKDIR /backend
 
 COPY --from=builder /mempool/backend/ .
+
+RUN dos2unix /backend/start.sh
+RUN dos2unix /backend/wait-for-it.sh
 
 RUN chmod +x /backend/start.sh
 RUN chmod +x /backend/wait-for-it.sh
