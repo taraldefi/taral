@@ -12,10 +12,13 @@ import {
 } from "./concat-transaction";
 import { getStxBlock } from "./stacks";
 import { getBlockByHash, getBlockHeader } from "../bitcoin/block";
+import { NETWORK } from "clarity/configuration";
 
 const ERR_API_FAILURE = "api failure";
 
 const ERR_DIFFERENT_HEX = "different hex";
+
+const ERR_NO_STACKS_BLOCK = 'no stacks block';
 
 export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
   btcTxId: string;
@@ -120,7 +123,7 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
   let stacksBlock;
   if (!request.stxHeight) {
     console.log("try to find stx height");
-    const bitcoinBlockHeight = rawTransaction.block_height;
+    const bitcoinBlockHeight = block.height;
     stacksBlock = await getStxBlock(bitcoinBlockHeight);
     if (!stacksBlock) {
       return {
@@ -140,7 +143,7 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
   } else {
     
     const stacksBlockResponse = await fetch(
-      `https://stacks-node-api.mainnet.stacks.co/extended/v1/block/by_height/${request.stxHeight}`
+      `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${request.stxHeight}`
     );
 
     stacksBlock = await stacksBlockResponse.json();

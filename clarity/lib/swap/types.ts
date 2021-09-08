@@ -62,4 +62,3 @@ export type TxPartsCvType = {
     "outs": OutsCvType[];
     "version": Buffer
 };
-
