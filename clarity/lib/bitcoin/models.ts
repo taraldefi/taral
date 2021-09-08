@@ -19,6 +19,7 @@ export interface TxOutUnspent {
 export interface GetRawTxResult {
   txid: string;
   hex: string;
+  blockhash: string;
   vin: {
     txid: string;
     vout: number;

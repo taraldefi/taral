@@ -28,10 +28,27 @@ export async function getSpendableUtxos(
 
 export async function getRawTransaction(client: RPCClient, txId: string): Promise<GetRawTxResult> {
   const rawTransaction: GetRawTxResult = await client.getrawtransaction({
-    txid: txId
+    txid: txId,
+    verbose: true
   });
 
   return rawTransaction;
+}
+
+export async function decodeScript(client: RPCClient, script: string): Promise<any> {
+  const decodedResult = await client.decodescript({
+    hexstring: script
+  });
+
+  return decodedResult;
+}
+
+export async function decodeRawTransaction(client: RPCClient, rawTx: string): Promise<any> {
+  const decodedResult = await client.decoderawtransaction({
+    hexstring: rawTx
+  });
+
+  return decodedResult;
 }
 
 export async function getRawTransactions(
