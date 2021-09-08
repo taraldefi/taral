@@ -3,7 +3,7 @@ import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 import MerkleTree from 'merkletreejs';
 import { HeaderPartsType, ProofCvType } from "./types";
 import { getReversedTxId } from "./get-txid";
-import { makeBuffer } from "./utils";
+import { makeBuffer, reverse } from "./utils";
 
 
 export interface VerifyMerkleProofRequest extends ClarityBitcoinRequest {
@@ -54,13 +54,3 @@ export async function verifyMerkleProof2(request: VerifyMerkleProof2Request): Pr
     return result;
 }
 
-function reverse(src: Buffer): Buffer {
-    var buffer = Buffer.allocUnsafe(src.length);
-
-    for (var i = 0, j = src.length - 1; i <= j; ++i, --j) {
-        buffer[i] = src[j];
-        buffer[j] = src[i];
-    }
-
-    return buffer;
-}
