@@ -39,7 +39,7 @@ export type BlockPartsType = {
 export type ProofCvType = {
     "hashes": Buffer[];
     "tree-depth": number;
-    "tx-index": number
+    "tx-index": number;
 };
 
 export type InCvType = {

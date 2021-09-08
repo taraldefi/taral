@@ -90,6 +90,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/bitcore-lib": "^0.15.3",
+    "@types/crypto-js": "^4.0.2",
     "@types/jest": "^26.0.15",
     "@types/wif": "^2.0.2",
     "ajv": "^4.11.5",

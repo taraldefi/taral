@@ -1,11 +1,12 @@
 import { getRpcClient } from "../bitcoin/client";
 import { getRawTransaction } from "../bitcoin/transaction";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 import MerkleTree from "merkletreejs";
 import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
-import { InCvType, OutsCvType, TxPartsCvType } from "./types";
-import { Block, Transaction } from "bitcore-lib";
+import { BlockCvType, HeaderPartsType, InCvType, OutsCvType, ProofCvType, TxPartsCvType } from "./types";
+import { Transaction } from "bitcore-lib";
+import { Block } from '../bitcoin/block';
 import {
   concatTransaction,
   ConcatTransactionRequest,
@@ -13,19 +14,89 @@ import {
 import { getStxBlock } from "./stacks";
 import { getBlockByHash, getBlockHeader } from "../bitcoin/block";
 import { NETWORK } from "clarity/configuration";
+import SHA256 from 'crypto-js/sha256';
 
-const ERR_API_FAILURE = "api failure";
+const ERR_API_FAILURE: string = "api failure";
+const ERR_DIFFERENT_HEX: string = "different hex";
+const ERR_NO_STACKS_BLOCK: string = 'no stacks block';
 
-const ERR_DIFFERENT_HEX = "different hex";
+export interface ParamsFromTxResponse {
+  txCV: Buffer;
+  txPartsCv: TxPartsCvType;
+  proofCv: ProofCvType;
+  block?: Block;
 
-const ERR_NO_STACKS_BLOCK = 'no stacks block';
+  blockCv: BlockCvType;
+  blockHeader: any;
+  headerParts: any[];
+  headerPartsCv: HeaderPartsType;
+  stacksBlock: any;
+  stxHeight: number;
+  error: string | undefined;
+}
 
 export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
   btcTxId: string;
   stxHeight: number;
 }
 
-export async function paramsFromTx(request: ParamsFromTxRequest) {
+function getFailureResponse(error: string): ParamsFromTxResponse {
+  return {
+    txCV: Buffer.from(''),
+    proofCv: {
+      "hashes": [],
+      "tree-depth": 0,
+      "tx-index": 0
+    },
+    block: {
+      bits: '',
+      chainwork: '',
+      confirmations: 0,
+      difficulty: 0,
+      hash: '',
+      height: 0,
+      mediantime: 0,
+      merkleroot: '',
+      nTx: 0,
+      nextblockhash: '',
+      nonce: 0,
+      previousblockhash: '',
+      size: 0,
+      strippedsize: 0,
+      time: 0,
+      tx: [],
+      version: 0,
+      versionHex: '',
+      weight: 0
+    },
+    blockCv: {
+      header: Buffer.from(''),
+      height: 0
+    },
+    headerPartsCv: {
+      "merkle-root": Buffer.from(''),
+      height: 0,
+      nbits: Buffer.from(''),
+      nonce: Buffer.from(''),
+      parent: Buffer.from(''),
+      timestamp: Buffer.from(''),
+      version: Buffer.from('')
+    },
+    blockHeader: undefined,
+    headerParts: [],
+    stxHeight: 0,
+    txPartsCv: {
+      ins: [],
+      locktime: Buffer.from(''),
+      outs: [],
+      version: Buffer.from('')
+    },
+    error: error,
+    stacksBlock: undefined
+  };
+}
+
+export async function paramsFromTx(request: ParamsFromTxRequest): Promise<ParamsFromTxResponse> {
   Logger.debug(`Fetching params for transaction ${request.btcTxId}`);
 
   const bitcoinRpcClient = getRpcClient();
@@ -38,18 +109,7 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
   const transaction = new Transaction(rawTransaction.hex);
 
   if (!rawTransaction.hex) {
-    return {
-      txCV: undefined,
-      proofCV: undefined,
-      block: undefined,
-      blockCV: undefined,
-      headerPartsCV: undefined,
-      header: undefined,
-      headerParts: undefined,
-      stxHeight: undefined,
-      txPartsCV: undefined,
-      error: ERR_API_FAILURE,
-    };
+    return getFailureResponse(ERR_API_FAILURE);
   }
 
   const txCV = MerkleTree.bufferify(txForHash(rawTransaction.hex));
@@ -102,18 +162,7 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
   if (txHexResponse != rawTransaction.hex) {
     Logger.error("Failed to match tx hex");
 
-    return {
-      txCV: undefined,
-      proofCV: undefined,
-      block: undefined,
-      blockCV: undefined,
-      headerPartsCV: undefined,
-      header: undefined,
-      headerParts: undefined,
-      stxHeight: undefined,
-      txPartsCV: undefined,
-      error: ERR_DIFFERENT_HEX,
-    };
+    return getFailureResponse(ERR_DIFFERENT_HEX);
   }
 
   const block = await getBlockByHash(bitcoinRpcClient, rawTransaction.blockhash);
@@ -126,22 +175,11 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
     const bitcoinBlockHeight = block.height;
     stacksBlock = await getStxBlock(bitcoinBlockHeight);
     if (!stacksBlock) {
-      return {
-        txCV: undefined,
-        proofCV: undefined,
-        block: undefined,
-        blockCV: undefined,
-        headerPartsCV: undefined,
-        header: undefined,
-        headerParts: undefined,
-        stxHeight: undefined,
-        txPartsCV: undefined,
-        error: ERR_NO_STACKS_BLOCK,
-      };
+      return getFailureResponse(ERR_NO_STACKS_BLOCK);
     }
     height = stacksBlock.height;
   } else {
-    
+
     const stacksBlockResponse = await fetch(
       `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${request.stxHeight}`
     );
@@ -149,6 +187,58 @@ export async function paramsFromTx(request: ParamsFromTxRequest) {
     stacksBlock = await stacksBlockResponse.json();
     height = request.stxHeight;
   }
-  
+
   console.log({ height, stacksBlockHash: stacksBlock.hash });
+
+  const txIds = block.tx.map(transaction => transaction.txid);
+  const transactionIndex = block.tx.findIndex(transaction => transaction.txid == request.btcTxId);
+  const tree = new MerkleTree(txIds, SHA256, { isBitcoinTree: true });
+  const treeDepth = tree.getDepth();
+
+  const proof = tree.getProof(request.btcTxId, transactionIndex);
+  const proofCv: ProofCvType = {
+    "tx-index": transactionIndex,
+    "tree-depth": treeDepth,
+    hashes: proof.map(proofItem => reverse(proofItem.data))
+  };
+
+  const blockCv: BlockCvType = {
+    header: Buffer.from(blockHeader, 'hex'),
+    height: height
+  };
+
+  // block parts
+  const headerParts = [
+    blockHeader.substr(0, 8),
+    blockHeader.substr(8, 64),
+    blockHeader.substr(72, 64),
+    blockHeader.substr(136, 8),
+    blockHeader.substr(144, 8),
+    blockHeader.substr(152, 8),
+  ];
+
+  const headerPartsCv: HeaderPartsType = {
+    "merkle-root": Buffer.from(headerParts[2], 'hex'),
+    parent: Buffer.from(headerParts[1], 'hex'),
+    version: Buffer.from(headerParts[0], 'hex'),
+    timestamp: Buffer.from(headerParts[3], 'hex'),
+    nbits: Buffer.from(headerParts[4], 'hex'),
+    nonce: Buffer.from(headerParts[5], 'hex'),
+    height: height
+  };
+
+  return {
+    txCV,
+    txPartsCv,
+    proofCv,
+    block,
+    blockCv,
+    blockHeader,
+    headerParts,
+    headerPartsCv,
+    stacksBlock,
+    stxHeight: height,
+    error: undefined
+  };
 }
+
