@@ -1,9 +1,9 @@
 import { BlocksApi, Configuration } from "@stacks/blockchain-api-client";
 import { Logger } from "../logger";
 import { NETWORK } from "../../configuration";
+import fetch from 'cross-fetch';
 
 export async function getStxBlock(bitcoinBlockHeight: number) {
-
     let limit = 30;
     let offset = 0;
 
@@ -47,7 +47,8 @@ function getBlocksApi(): BlocksApi {
     const basePath = NETWORK.coreApiUrl;
 
     const configuration = new Configuration({
-        basePath
+        basePath,
+        fetchApi: fetch
     });
 
     const blocksApi = new BlocksApi(configuration);

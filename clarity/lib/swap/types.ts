@@ -42,20 +42,24 @@ export type ProofCvType = {
     "tx-index": number
 };
 
+export type InCvType = {
+    "outpoint": {
+        "hash": Buffer;
+        "index": Buffer
+    };
+    "scriptSig": Buffer;
+    "sequence": Buffer
+};
+
+export type OutsCvType = {
+    "scriptPubKey": Buffer;
+    "value": Buffer
+};
+
 export type TxPartsCvType = {
-    "ins": {
-        "outpoint": {
-            "hash": Buffer;
-            "index": Buffer
-        };
-        "scriptSig": Buffer;
-        "sequence": Buffer
-    }[];
+    "ins": InCvType[];
     "locktime": Buffer;
-    "outs": {
-        "scriptPubKey": Buffer;
-        "value": Buffer
-    }[];
+    "outs": OutsCvType[];
     "version": Buffer
 };
 

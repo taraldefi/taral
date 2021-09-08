@@ -19,6 +19,7 @@ function parsePort(portVal: number | string | undefined): number | undefined {
   if (/^[-+]?(\d+|Infinity)$/.test(portVal.toString())) {
     const port = Number(portVal);
     if (port < 1 || port > 65535) {
+      
       throw new Error(`Port ${port} is invalid`);
     }
     return port;

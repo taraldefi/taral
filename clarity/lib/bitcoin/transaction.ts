@@ -1,4 +1,5 @@
 import * as btc from "bitcoinjs-lib";
+import { Transaction } from "bitcore-lib";
 import Bluebird from "bluebird";
 import { RPCClient } from "rpc-bitcoin";
 import { Logger } from "../logger";
