@@ -7,15 +7,15 @@ module.exports = {
   testEnvironment: "node",
   testMatch: ["<rootDir>/tests/unit-tests/**/*.test.ts"],
   clearMocks: true,
-  collectCoverage: true,
-  collectCoverageFrom: [
-    "<rootDir>/generated/taral/**/*.ts",
-    "!<rootDir>/tests/unit-tests/**/*.test.ts",
-    "!<rootDir>/tests/utils-tests/**/*.test.ts",
-  ],
-  coverageReporters: ["text-summary", "lcov"],
-  coverageDirectory: "coverage",
-  moduleNameMapper: {
-    "^@contracts/(.*)$": "<rootDir>/clarity/generated/$1",
-  },
+  // collectCoverage: true,
+  // collectCoverageFrom: [
+  //   "<rootDir>/generated/taral/**/*.ts",
+  //   "!<rootDir>/tests/unit-tests/**/*.test.ts",
+  //   "!<rootDir>/tests/utils-tests/**/*.test.ts",
+  // ],
+  // coverageReporters: ["text-summary", "lcov"],
+  // coverageDirectory: "coverage",
+  // moduleNameMapper: {
+  //   "^@contracts/(.*)$": "<rootDir>/clarity/generated/$1",
+  // },
 };
