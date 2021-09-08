@@ -26,6 +26,9 @@ whitelisted_rpc_calls = [
     "scantxoutset",
     "getrawmempool",
     "getblockhash",
+    "getblock",
+    "getblockheader",
+    "getbestblockhash",
     "generatetoaddress"
 ]
 
