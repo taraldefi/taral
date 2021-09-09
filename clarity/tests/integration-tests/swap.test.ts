@@ -1,36 +1,26 @@
 import {
-  BlocksApi,
   Configuration,
   FaucetsApi,
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
 import { PaymentResponse } from "../../lib/bitcoin/models";
-import {
-  decodeRawTransaction,
-  decodeScript,
-  getRawTransaction,
-} from "../../lib/bitcoin/transaction";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { makePayment } from "../../lib/bitcoin/payment";
 import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC } from "./utils";
-import { retry } from "./utils/retry";
-import { getRpcClient } from "../../lib/bitcoin/client";
-import { getBlockByHash, getBlockHeader } from "../../lib/bitcoin/block";
-import { Transaction } from "bitcore-lib";
 import { paramsFromTx } from "clarity/lib/swap/params-from-tx";
 import { clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
 import { getReversedTxId } from "clarity/lib/swap/get-txid";
 import { verifyMerkleProof, verifyMerkleProof2 } from "clarity/lib/swap/verify-merkle-proof";
 import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "clarity/lib/swap/block-header";
 import { wasTxMined, wasTxMinedFromHex } from "clarity/lib/swap/was-tx-mined";
-import { BaseRequest, ClarityBitcoinRequest } from "clarity/lib/swap/base-request";
+import { ClarityBitcoinRequest } from "clarity/lib/swap/base-request";
 
 let paymentResponse: PaymentResponse;
 
-test("Transfer btc", async () => {
+test("perform swap", async () => {
   const apiConfig = new Configuration({
     fetchApi: crossfetch,
     basePath: NETWORK.coreApiUrl,
