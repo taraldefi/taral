@@ -9,16 +9,16 @@ import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { makePayment } from "../../lib/bitcoin/payment";
-import { ALICE_BTC, ALICE_STX, BOB_BTC, BOB_MNEMONIC, BOB_STX } from "./utils";
+import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC, BOB_STX } from "./utils";
 import { paramsFromTx } from "clarity/lib/swap/params-from-tx";
 import { btcFtSwapContract, clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
-import { getReversedTxId } from "clarity/lib/swap/get-txid";
-import { verifyMerkleProof, verifyMerkleProof2 } from "clarity/lib/swap/verify-merkle-proof";
-import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "clarity/lib/swap/block-header";
-import { wasTxMined, wasTxMinedFromHex } from "clarity/lib/swap/was-tx-mined";
-import { ClarityBitcoinRequest } from "clarity/lib/swap/base-request";
-import { createBtcFtSwap } from "clarity/lib/swap/create-swap";
-import { submitSwap } from "clarity/lib/swap/submit-swap";
+import { getReversedTxId } from "../../lib/swap/get-txid";
+import { verifyMerkleProof, verifyMerkleProof2 } from "../../lib/swap/verify-merkle-proof";
+import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "../../lib/swap/block-header";
+import { wasTxMined, wasTxMinedFromHex } from "../../lib/swap/was-tx-mined";
+import { ClarityBitcoinRequest } from "../../lib/swap/base-request";
+import { createBtcFtSwap } from "../../lib/swap/create-swap";
+import { submitSwap } from "../../lib/swap/submit-swap";
 
 let paymentResponse: PaymentResponse;
 

@@ -13,6 +13,7 @@ import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
 
+
 export let talToken: TaralCoinContract;
 export let clarityBitcoinContract: ClarityBitcoinContract; 
 export let btcFtSwapContract: BtcFtSwapContract;

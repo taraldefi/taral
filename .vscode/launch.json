@@ -1,0 +1,13 @@
+{
+    "name": "Launch testbed.ts",
+    "type": "node",
+    "request": "launch",
+    "console": "integratedTerminal",
+    "runtimeArgs": [
+        "-r",
+        "ts-node/register"
+    ],
+    "args": [
+        "${workspaceFolder}/scripts/testbed.ts"
+    ]
+}
