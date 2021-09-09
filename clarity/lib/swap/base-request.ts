@@ -1,4 +1,4 @@
-import { ClarityBitcoinContract } from "../../generated/taral";
+import { BtcFtSwapContract, BtcNftSwapContract, ClarityBitcoinContract } from "../../generated/taral";
 import { ClarinetAccounts } from "../configuration";
 import { IMetadata } from "../providers";
 import { RequestType } from "./types";
@@ -9,6 +9,14 @@ export interface BaseRequest {
 
 export interface ClarityBitcoinRequest extends BaseRequest {
     contract: ClarityBitcoinContract;
+}
+
+export interface FtSwapRequest extends BaseRequest {
+    contract: BtcFtSwapContract;
+}
+
+export interface NftSwapRequest extends BaseRequest {
+    contract: BtcNftSwapContract;
 }
 
 export function getPrivateKey(request: BaseRequest): string {

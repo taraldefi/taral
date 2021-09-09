@@ -28,7 +28,7 @@
       success (ok id)
       error (err (* error u1000)))))
 
-;; any user can cancle the swap after the expiry period
+;; any user can cancel the swap after the expiry period
 (define-public (cancel (id uint) (nft <non-fungible-token>))
   (let ((swap (unwrap! (map-get? swaps id) ERR_INVALID_ID)))
     (asserts! (is-eq (contract-of nft) (get nft swap)) ERR_INVALID_NFT)
