@@ -1,11 +1,8 @@
-import { NETWORK } from '../../configuration/index'
-
 import { Transaction } from 'bitcoinjs-lib';
 
 export function makeBuffer(value: any): Buffer {
     return Buffer.from(value, 'hex');
 }
-
 
 export function numberToBuffer(value: number, size: number): Buffer {
     // increase size by 1 for "too large" numbers

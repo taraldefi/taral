@@ -132,7 +132,10 @@ test("perform swap", async () => {
     }),
   ]);
 
-  console.log({ r: results.map(r => r) });
+  for(var i = 0; i < results.length; i++) {
+    console.log(JSON.stringify(results[i]));
+  }
+
   const swapId = await createBtcFtSwap({
     accounts: clarinetAccounts,
     contract: btcFtSwapContract,

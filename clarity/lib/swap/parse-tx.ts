@@ -6,6 +6,8 @@ export interface ParseTxRequest extends ClarityBitcoinRequest {
 }
 
 export async function parseTx(request: ParseTxRequest): Promise<string> {
+    Logger.debug('Calling getTxid');
+
     let result: string = '';
 
     try {
@@ -17,7 +19,9 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
         Logger.error(`parse-tx failed: ${error.toString()}`)
     }
 
-    Logger.debug(`parse-tx result: ${result}`);
+    Logger.debug('getTxid result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result;
 }

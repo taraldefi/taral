@@ -1,4 +1,4 @@
-import { txOk } from "..";
+import { Logger, txOk } from "..";
 import { FtSwapRequest, getAddress, getMetadata } from "./base-request";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
@@ -11,6 +11,8 @@ export interface SubmitSwapRequest extends FtSwapRequest {
 }
 
 export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
+    Logger.debug('Calling submitSwap');
+    
     const result = await txOk(
         request.contract.submitSwap(
             request.swapId, 
@@ -22,6 +24,10 @@ export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
         ), 
         getAddress(request)
     );
+
+    Logger.debug('submitSwap result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result.value;
 }

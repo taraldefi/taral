@@ -4,6 +4,8 @@ import { NETWORK } from "../../configuration";
 import fetch from 'cross-fetch';
 
 export async function getStxBlock(bitcoinBlockHeight: number) {
+    Logger.debug('Calling getStxBlock');
+
     let limit = 30;
     let offset = 0;
 
@@ -38,6 +40,10 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
             return undefined;
         }
     }
+
+    Logger.debug('getStxBlock result');
+    Logger.debug(JSON.stringify(stxBlock));
+    Logger.debug('---------------');
 
     return stxBlock;
 }

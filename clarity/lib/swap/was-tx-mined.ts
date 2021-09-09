@@ -15,6 +15,8 @@ export interface WasTxMinedFromHexRequest extends ClarityBitcoinRequest {
 }
 
 export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
+    Logger.debug('Calling wasTxMined');
+
     // Call readonly function
     //
     let response = await request.contract.wasTxMined(
@@ -25,12 +27,16 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
 
     let result = response._unsafeUnwrap();
 
-    Logger.debug(`was-tx-mined result: ${result}`);
+    Logger.debug('wasTxMined result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result;
 }
 
 export async function wasTxMinedFromHex(request: WasTxMinedFromHexRequest): Promise<boolean> {
+    Logger.debug('Calling wasTxMinedFromHex');
+
     // Call readonly function
     //
     let response = await request.contract.wasTxMinedCompact(
@@ -41,7 +47,9 @@ export async function wasTxMinedFromHex(request: WasTxMinedFromHexRequest): Prom
 
     let result = response._unsafeUnwrap();
 
-    Logger.debug(`was-tx-mined-compact result: ${result}`);
+    Logger.debug('wasTxMinedFromHex result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result;
 }

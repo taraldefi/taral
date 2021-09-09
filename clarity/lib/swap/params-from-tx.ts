@@ -43,13 +43,13 @@ export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
 function getFailureResponse(error: string): ParamsFromTxResponse {
   return {
     txCV: Buffer.from(''),
-    
+
     proofCv: {
       "hashes": [],
       "tree-depth": 0,
       "tx-index": 0
     },
-    
+
     block: {
       bits: '',
       chainwork: '',
@@ -71,12 +71,12 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
       versionHex: '',
       weight: 0
     },
-    
+
     blockCv: {
       header: Buffer.from(''),
       height: 0
     },
-    
+
     headerPartsCv: {
       "merkle-root": Buffer.from(''),
       height: 0,
@@ -86,7 +86,7 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
       timestamp: Buffer.from(''),
       version: Buffer.from('')
     },
-    
+
     blockHeader: undefined,
     headerParts: [],
     stxHeight: 0,
@@ -102,7 +102,7 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
 }
 
 export async function paramsFromTx(request: ParamsFromTxRequest): Promise<ParamsFromTxResponse> {
-  Logger.debug(`Fetching params for transaction ${request.btcTxId}`);
+  Logger.debug('Calling paramsFromTx');
 
   const bitcoinRpcClient = getRpcClient();
 
@@ -232,7 +232,7 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
     height: height
   };
 
-  return {
+  const result: ParamsFromTxResponse = {
     txCV,
     txPartsCv,
     proofCv,
@@ -245,5 +245,11 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
     stxHeight: height,
     error: undefined
   };
+
+  Logger.debug('paramsFromTx result');
+  Logger.debug(JSON.stringify(result));
+  Logger.debug('---------------');
+
+  return result;
 }
 

@@ -28,10 +28,16 @@ export async function getSpendableUtxos(
 }
 
 export async function getRawTransaction(client: RPCClient, txId: string): Promise<GetRawTxResult> {
+  Logger.debug('Calling rawtransaction by id');
+
   const rawTransaction: GetRawTxResult = await client.getrawtransaction({
     txid: txId,
     verbose: true
   });
+
+  Logger.debug('rawtransaction result');
+  Logger.debug(JSON.stringify(rawTransaction));
+  Logger.debug('---------------');
 
   return rawTransaction;
 }
@@ -45,9 +51,16 @@ export async function decodeScript(client: RPCClient, script: string): Promise<a
 }
 
 export async function decodeRawTransaction(client: RPCClient, rawTx: string): Promise<any> {
+
+  Logger.debug('Calling decoderawtransaction by id');
+
   const decodedResult = await client.decoderawtransaction({
     hexstring: rawTx
   });
+
+  Logger.debug('decoderawtransaction result');
+  Logger.debug(JSON.stringify(decodedResult));
+  Logger.debug('---------------');
 
   return decodedResult;
 }

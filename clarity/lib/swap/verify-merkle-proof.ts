@@ -5,7 +5,6 @@ import { HeaderPartsType, ProofCvType } from "./types";
 import { getReversedTxId } from "./get-txid";
 import { makeBuffer, reverse } from "./utils";
 
-
 export interface VerifyMerkleProofRequest extends ClarityBitcoinRequest {
     txId: string;
     merkleRoot: string;
@@ -19,6 +18,7 @@ export interface VerifyMerkleProof2Request extends ClarityBitcoinRequest {
 }
 
 export async function verifyMerkleProof(request: VerifyMerkleProofRequest): Promise<string> {
+    Logger.debug('Calling verifyMerkleProof');
     // Call readonly function
     //
 
@@ -28,12 +28,15 @@ export async function verifyMerkleProof(request: VerifyMerkleProofRequest): Prom
     let response = await request.contract.verifyMerkleProof(bufferedTxId, bufferedMerkleRoot, request.proofCV, getMetadata('readonly', request));
     let result = response.toString();
 
-    Logger.debug(`verify-merkle-proof result: ${JSON.stringify(result)}, ${result}`);
+    Logger.debug('verifyMerkleProof result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result;
 }
 
 export async function verifyMerkleProof2(request: VerifyMerkleProof2Request): Promise<string> {
+    Logger.debug('Calling verifyMerkleProof2');
     // Call readonly function
     //
 
@@ -49,7 +52,9 @@ export async function verifyMerkleProof2(request: VerifyMerkleProof2Request): Pr
     let response = await request.contract.verifyMerkleProof(reversedTxIdBuffer, merkleRootBuffer, request.proofCV, getMetadata('readonly', request));
     let result = response.toString();
 
-    Logger.debug(`verify-merkle-proof2 result: ${JSON.stringify(result)}, ${result}`);
+    Logger.debug('verifyMerkleProof2 result');
+    Logger.debug(JSON.stringify(result));
+    Logger.debug('---------------');
 
     return result;
 }
