@@ -15,6 +15,7 @@ import { ApiProvider } from "../../lib/providers";
 
 export let talToken: TaralCoinContract;
 export let clarityBitcoinContract: ClarityBitcoinContract; 
+export let btcFtSwapContract: BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 
 export let deployed: ContractInstances<
@@ -49,4 +50,5 @@ beforeAll(async () => {
   Logger.debug("Deployed contracts to priv. testnet");
   talToken = deployed.taralCoin.contract;
   clarityBitcoinContract = deployed.clarityBitcoin.contract;
+  btcFtSwapContract = deployed.btcFtSwap.contract;
 });

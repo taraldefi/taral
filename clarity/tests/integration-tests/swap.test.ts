@@ -9,14 +9,16 @@ import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { makePayment } from "../../lib/bitcoin/payment";
-import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC } from "./utils";
+import { ALICE_BTC, ALICE_STX, BOB_BTC, BOB_MNEMONIC, BOB_STX } from "./utils";
 import { paramsFromTx } from "clarity/lib/swap/params-from-tx";
-import { clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
+import { btcFtSwapContract, clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
 import { getReversedTxId } from "clarity/lib/swap/get-txid";
 import { verifyMerkleProof, verifyMerkleProof2 } from "clarity/lib/swap/verify-merkle-proof";
 import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "clarity/lib/swap/block-header";
 import { wasTxMined, wasTxMinedFromHex } from "clarity/lib/swap/was-tx-mined";
 import { ClarityBitcoinRequest } from "clarity/lib/swap/base-request";
+import { createBtcFtSwap } from "clarity/lib/swap/create-swap";
+import { submitSwap } from "clarity/lib/swap/submit-swap";
 
 let paymentResponse: PaymentResponse;
 
@@ -27,9 +29,11 @@ test("perform swap", async () => {
   });
 
   const faucets = new FaucetsApi(apiConfig);
+  const btcSwapAmount = 0.1;
+  const ftSwapAmount = 1000;
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
-    address: BOB_BTC,
+    address: BOB_BTC
   });
 
   expect(faucetTransaction.success).toBe(true);
@@ -42,7 +46,7 @@ test("perform swap", async () => {
   expect(balance).toBeTruthy();
   console.log(`Account balance is: ${balance}`);
 
-  paymentResponse = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, 0.1);
+  paymentResponse = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, btcSwapAmount);
 
   console.log("Bitcoin payment details: ");
   console.log(JSON.stringify(paymentResponse));
@@ -52,7 +56,6 @@ test("perform swap", async () => {
   var balance = await getBtcBalance(regtest, ALICE_BTC);
   console.log(`Alice account balance is ${balance}`);
   expect(balance).toBeTruthy();
-
 
   // var client = getRpcClient();
    
@@ -130,6 +133,25 @@ test("perform swap", async () => {
   ]);
 
   console.log({ r: results.map(r => r) });
+  const swapId = await createBtcFtSwap({
+    accounts: clarinetAccounts,
+    contract: btcFtSwapContract,
+    btcAmount: btcSwapAmount,
+    ftAmount: ftSwapAmount,
+    ftContract: ftContract,
+    btcAddress: ALICE_BTC,
+    stxAddress: BOB_STX
+  });
+
+  const swap = await submitSwap({
+    accounts: clarinetAccounts,
+    contract: btcFtSwapContract,
+    ftContract: ftContract,
+    headerPartsCv: paramsFromTransaction.headerPartsCv,
+    proofCv: paramsFromTransaction.proofCv,
+    swapId: swapId,
+    txPartsCv: paramsFromTransaction.txPartsCv
+  });
 });
 
 // retry("Ensure bob has btc", 10, async () => {
