@@ -37,7 +37,7 @@ export interface ParamsFromTxResponse {
 
 export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
   btcTxId: string;
-  stxHeight: number;
+  stxHeight?: number;
 }
 
 function getFailureResponse(error: string): ParamsFromTxResponse {

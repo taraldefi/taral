@@ -20,6 +20,13 @@ import { retry } from "./utils/retry";
 import { getRpcClient } from "../../lib/bitcoin/client";
 import { getBlockByHash, getBlockHeader } from "../../lib/bitcoin/block";
 import { Transaction } from "bitcore-lib";
+import { paramsFromTx } from "clarity/lib/swap/params-from-tx";
+import { clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
+import { getReversedTxId } from "clarity/lib/swap/get-txid";
+import { verifyMerkleProof, verifyMerkleProof2 } from "clarity/lib/swap/verify-merkle-proof";
+import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "clarity/lib/swap/block-header";
+import { wasTxMined, wasTxMinedFromHex } from "clarity/lib/swap/was-tx-mined";
+import { BaseRequest, ClarityBitcoinRequest } from "clarity/lib/swap/base-request";
 
 let paymentResponse: PaymentResponse;
 
@@ -57,22 +64,82 @@ test("Transfer btc", async () => {
   expect(balance).toBeTruthy();
 
 
-  var client = getRpcClient();
+  // var client = getRpcClient();
    
-  var transactionDetails = await getRawTransaction(client, paymentResponse.txId);
-  console.log("transaction details: ");
-  console.log(JSON.stringify(transactionDetails));
+  // var transactionDetails = await getRawTransaction(client, paymentResponse.txId);
+  // console.log("transaction details: ");
+  // console.log(JSON.stringify(transactionDetails));
 
-  var blockDetails = await getBlockByHash(
-    client, transactionDetails.blockhash
-  );
+  // var blockDetails = await getBlockByHash(
+  //   client, transactionDetails.blockhash
+  // );
 
-  console.log("block details: ");
-  console.log(JSON.stringify(blockDetails));
+  // console.log("block details: ");
+  // console.log(JSON.stringify(blockDetails));
 
-  var header = await getBlockHeader(client, transactionDetails.blockhash);
-  console.log('block header');
-  console.log(JSON.stringify(header));
+  // var header = await getBlockHeader(client, transactionDetails.blockhash);
+  // console.log('block header');
+  // console.log(JSON.stringify(header));
+
+  const ftContract = `${clarinetAccounts.deployer.address}.taral-token`;
+  const ftName = 'TARAL';
+
+  const baseRequest: ClarityBitcoinRequest = {
+    accounts: clarinetAccounts,
+    contract: clarityBitcoinContract
+  }
+
+  const paramsFromTransaction = await paramsFromTx({
+    ...baseRequest,
+    btcTxId: paymentResponse.txId,
+  });
+
+  const results = await Promise.all([
+    getReversedTxId({
+      ...baseRequest,
+      txCv: paramsFromTransaction.txCV
+    }),
+
+    verifyMerkleProof({
+      ...baseRequest,
+      merkleRoot: paramsFromTransaction.block!.merkleroot,
+      proofCV: paramsFromTransaction.proofCv,
+      txId: paymentResponse.rawTx
+    }),
+    verifyMerkleProof2({
+      ...baseRequest,
+      headerPartsCV: paramsFromTransaction.headerPartsCv,
+      proofCV: paramsFromTransaction.proofCv,
+      txCV: paramsFromTransaction.txCV
+    }),
+    verifyBlockHeader({
+      ...baseRequest,
+      headerParts: paramsFromTransaction.headerParts,
+      stacksBlockHeight: paramsFromTransaction.stxHeight
+    }),
+    verifyBlockHeader2({
+      ...baseRequest,
+      blockCV: paramsFromTransaction.blockCv
+    }),
+    wasTxMinedFromHex({
+      ...baseRequest,
+      blockCV: paramsFromTransaction.blockCv,
+      proofCV: paramsFromTransaction.proofCv,
+      txCV: paramsFromTransaction.txCV
+    }),
+    parseBlockHeader({
+      ...baseRequest,
+      header: paramsFromTransaction.blockHeader
+    }),
+    wasTxMined({
+      ...baseRequest,
+      blockPartsCV: paramsFromTransaction.headerPartsCv,
+      proofCV: paramsFromTransaction.proofCv,
+      txCV: paramsFromTransaction.txCV
+    }),
+  ]);
+
+  console.log({ r: results.map(r => r) });
 });
 
 // retry("Ensure bob has btc", 10, async () => {

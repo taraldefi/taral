@@ -1,7 +1,7 @@
 import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 import { Logger } from "../logger";
 import { makeBuffer } from "./utils";
-import { BlockCvType } from "./types";
+import { BlockCvType, HeaderPartsType } from "./types";
 
 export interface VerifyBlockHeaderRequest extends ClarityBitcoinRequest {
     headerParts: string[];
@@ -10,6 +10,15 @@ export interface VerifyBlockHeaderRequest extends ClarityBitcoinRequest {
 
 export interface VerifyBlockHeader2Request extends ClarityBitcoinRequest {
     blockCV: BlockCvType;
+}
+
+export interface ParseBlockHeaderRequest extends ClarityBitcoinRequest {
+    header: Buffer;
+}
+
+export async function parseBlockHeader(request: ParseBlockHeaderRequest): Promise<HeaderPartsType> {
+    const response = (await request.contract.parseBlockHeader(request.header, getMetadata('readonly', request)))._unsafeUnwrap();
+    return response as any as HeaderPartsType;
 }
 
 export async function verifyBlockHeader(request: VerifyBlockHeaderRequest): Promise<boolean> {
