@@ -1,30 +1,24 @@
 import { SmartContractTransaction } from "@stacks/stacks-blockchain-api-types";
 import {
-  broadcastTransaction,
   callReadOnlyFunction,
-  ClarityAbiFunction,
   ClarityAbiVariable,
   ClarityType,
   ClarityValue,
-  cvToString,
   deserializeCV,
   makeContractCall,
-  makeContractDeploy,
   noneCV,
   ReadOnlyFunctionOptions,
   responseErrorCV,
   responseOkCV,
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
-  StacksTransaction,
-  TxBroadcastResult,
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import * as fs from "fs";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
-import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
+import { ClarityAbiMap, cvToValue } from "../clarity";
+import { getTransactionById } from "../stacks/utils";
 import { Logger } from "../logger";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
@@ -35,7 +29,10 @@ import {
 } from "../types";
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
-import { DeployerAccount, IMetadata, instanceOfMetadata } from "./types";
+import { DeployerAccount, IMetadata } from "./types";
+import { deployContractOnStacks } from "../stacks/deploy-contract";
+import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
+import { formatArguments, formatReadonlyArguments } from "../stacks/format-arguments";
 
 export class ApiProvider implements BaseProvider {
   private readonly network: StacksNetworkConfiguration;
@@ -68,7 +65,7 @@ export class ApiProvider implements BaseProvider {
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
     let formattedArguments: [ClarityValue[], IMetadata] =
-      this.formatReadonlyArguments(request.function, request.arguments);
+      formatReadonlyArguments(request.function, request.arguments);
 
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
@@ -108,7 +105,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   callPublic(request: IProviderRequest): Transaction<any, any> {
-    let formattedArguments: [string[], IMetadata] = this.formatArguments(
+    let formattedArguments: [string[], IMetadata] = formatArguments(
       request.function,
       request.arguments
     );
@@ -138,7 +135,7 @@ export class ApiProvider implements BaseProvider {
           rawFunctionCallResult as TxBroadcastResultRejected;
       } else {
         success = true;
-        successfulFunctionCallResult = await ApiProvider.getTransactionById(
+        successfulFunctionCallResult = await getTransactionById(
           this.network,
           rawFunctionCallResult as TxBroadcastResultOk
         );
@@ -229,7 +226,7 @@ export class ApiProvider implements BaseProvider {
     account,
   }: ApiCreateOptions) {
     if (deploy) {
-      await this.deployContract(
+      await deployContractOnStacks(
         contractIdentifier,
         contractFilePath,
         network,
@@ -238,104 +235,6 @@ export class ApiProvider implements BaseProvider {
     }
 
     return new this(network, account, contractIdentifier);
-  }
-
-  static async deployContract(
-    contractName: string,
-    contractPath: string,
-    network: StacksNetworkConfiguration,
-    secretDeployKey: string
-  ) {
-    let codeBody = fs.readFileSync(contractPath).toString();
-
-    var transaction = await makeContractDeploy({
-      contractName,
-      codeBody,
-      senderKey: secretDeployKey,
-      network,
-      anchorMode: 3,
-    });
-
-    return this.handleTransaction(transaction, network);
-  }
-
-  static async handleTransaction(
-    transaction: StacksTransaction,
-    network: StacksNetworkConfiguration
-  ): Promise<TxBroadcastResultOk> {
-    const result = await broadcastTransaction(transaction, network);
-    if ((result as TxBroadcastResultRejected).error) {
-      if (
-        (result as TxBroadcastResultRejected).reason === "ContractAlreadyExists"
-      ) {
-        Logger.info("Contract already deployed");
-        return "" as TxBroadcastResultOk;
-      } else {
-        throw new Error(
-          `failed to handle transaction ${transaction.txid()}: ${JSON.stringify(
-            result
-          )}`
-        );
-      }
-    }
-
-    const processed = await this.processing(
-      network,
-      result as TxBroadcastResultOk
-    );
-
-    if (!processed) {
-      throw new Error(
-        `failed to process transaction ${transaction.txid}: transaction not found`
-      );
-    }
-
-    return result as TxBroadcastResultOk;
-  }
-
-  async timeout(ms: number) {
-    await new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  static async processing(
-    network: StacksNetworkConfiguration,
-    tx: string,
-    count: number = 0
-  ): Promise<boolean> {
-    return this.processingWithSidecar(tx, count, network);
-  }
-
-  static async processingWithSidecar(
-    tx: string,
-    count: number = 0,
-    network: StacksNetworkConfiguration
-  ): Promise<boolean> {
-    var value = await this.getTransactionById(network, tx);
-    if (value.tx_status === "success") {
-      return true;
-    }
-
-    if (count > 20) {
-      return false;
-    }
-
-    await this.timeout(3000);
-    return this.processing(network, tx, count + 1);
-  }
-
-  static async getTransactionById(
-    network: StacksNetworkConfiguration,
-    txId: string
-  ): Promise<any> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${txId}`;
-    var result = await fetch(url);
-    var value = await result.json();
-
-    return value;
-  }
-
-  static async timeout(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   async callContractFunction(
@@ -360,7 +259,7 @@ export class ApiProvider implements BaseProvider {
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);
 
     const transaction = await makeContractCall(txOptions);
-    return this.handleFunctionTransaction(
+    return handleFunctionTransaction(
       transaction,
       this.network,
       functionName,
@@ -368,128 +267,4 @@ export class ApiProvider implements BaseProvider {
     );
   }
 
-  async handleFunctionTransaction(
-    transaction: StacksTransaction,
-    network: StacksNetworkConfiguration,
-    functionName: string,
-    contractName: string
-  ): Promise<TxBroadcastResult> {
-    const result = await broadcastTransaction(transaction, network);
-    if ((result as TxBroadcastResultRejected).error) {
-      return result as TxBroadcastResultRejected;
-    }
-
-    const processed = await this.functionProcessing(
-      network,
-      result as TxBroadcastResultOk,
-      functionName,
-      contractName
-    );
-
-    if (!processed) {
-      return result as TxBroadcastResultRejected;
-    }
-
-    return result as TxBroadcastResultOk;
-  }
-
-  async functionProcessing(
-    network: StacksNetworkConfiguration,
-    tx: String,
-    functionName: string,
-    contractName: string,
-    count: number = 0
-  ): Promise<boolean> {
-    return this.functionProcessingWithSidecar(
-      tx,
-      count,
-      network,
-      functionName,
-      contractName
-    );
-  }
-
-  async functionProcessingWithSidecar(
-    tx: String,
-    count: number = 0,
-    network: StacksNetworkConfiguration,
-    functionName: string,
-    contractName: string
-  ): Promise<boolean> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
-    var result = await fetch(url);
-    var value = await result.json();
-    if (value.tx_status === "success") {
-      return true;
-    }
-
-    if (count > 30) {
-      Logger.error(
-        `Failed calling ${contractName}::${functionName} after 30 retries `
-      );
-      return false;
-    }
-
-    await this.timeout(3000);
-    return this.functionProcessing(
-      network,
-      tx,
-      functionName,
-      contractName,
-      count + 1
-    );
-  }
-
-  formatArguments(
-    func: ClarityAbiFunction,
-    args: any[]
-  ): [string[], IMetadata] {
-    var metadata = args.filter((arg) => instanceOfMetadata(arg));
-    if (metadata.length > 1) {
-      throw new TypeError("More than one metadata objects");
-    }
-
-    var metadataConfig = metadata[0];
-
-    var argsWithoutMetadata =
-      metadata.length == 1 ? args.filter((x) => x !== metadataConfig) : args;
-
-    var formatted = argsWithoutMetadata.map((arg, index) => {
-      const { type } = func.args[index];
-      if (type === "trait_reference") {
-        return `'${arg}`;
-      }
-      const argCV = parseToCV(arg, type);
-      const cvString = cvToString(argCV);
-      if (type === "principal") {
-        return `'${cvString}`;
-      }
-      return cvString;
-    });
-
-    return [formatted, metadataConfig];
-  }
-
-  formatReadonlyArguments(
-    func: ClarityAbiFunction,
-    args: any[]
-  ): [ClarityValue[], IMetadata] {
-    var metadata = args.filter((arg) => instanceOfMetadata(arg));
-    if (metadata.length > 1) {
-      throw new TypeError("More than one metadata objects");
-    }
-
-    var metadataConfig = metadata[0];
-
-    var argsWithoutMetadata =
-      metadata.length == 1 ? args.filter((x) => x !== metadataConfig) : args;
-
-    var formatted = argsWithoutMetadata.map((arg, index) => {
-      const { type } = func.args[index];
-      const argCV = parseToCV(arg, type);
-      return argCV;
-    });
-
-    return [formatted, metadataConfig];
-  }
 }
