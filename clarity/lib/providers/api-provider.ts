@@ -136,8 +136,8 @@ export class ApiProvider implements BaseProvider {
       } else {
         success = true;
         successfulFunctionCallResult = await getTransactionById(
-          this.network,
-          rawFunctionCallResult as TxBroadcastResultOk
+          rawFunctionCallResult as TxBroadcastResultOk,
+          this.network
         );
       }
 

@@ -4,6 +4,7 @@ import {
 import { StacksNetworkConfiguration } from "../../configuration";
 import * as fs from "fs";
 import { handleTransaction } from "./handle-transaction";
+import { Logger } from "..";
 
 export async function deployContractOnStacks(
     contractName: string,
@@ -11,6 +12,8 @@ export async function deployContractOnStacks(
     network: StacksNetworkConfiguration,
     secretDeployKey: string
 ) {
+    Logger.debug(`preparing to deploy contract ${contractName}`);
+
     let codeBody = fs.readFileSync(contractPath).toString();
 
     var transaction = await makeContractDeploy({
@@ -21,5 +24,7 @@ export async function deployContractOnStacks(
         anchorMode: 3,
     });
 
+    Logger.debug(`deploy contract ${contractName}`);
+    
     return handleTransaction(transaction, network);
 }

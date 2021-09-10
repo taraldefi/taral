@@ -1,14 +1,14 @@
-import { StacksNetworkConfiguration } from "../../configuration";
+import { getTransactionUrl, StacksNetworkConfiguration } from "../../configuration";
 
 export async function timeout(ms: number) {
     await new Promise((resolve) => setTimeout(resolve, ms));
 }
 
 export async function getTransactionById(
-    network: StacksNetworkConfiguration,
-    txId: string
+    txId: string,
+    network: StacksNetworkConfiguration
 ): Promise<any> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${txId}`;
+    const url = getTransactionUrl(txId, network);
     var result = await fetch(url);
     var value = await result.json();
 
