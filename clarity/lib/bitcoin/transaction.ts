@@ -1,5 +1,4 @@
 import * as btc from "bitcoinjs-lib";
-import { Transaction } from "bitcore-lib";
 import Bluebird from "bluebird";
 import { RPCClient } from "rpc-bitcoin";
 import { Logger } from "../logger";
@@ -27,40 +26,48 @@ export async function getSpendableUtxos(
   return spendableUtxos;
 }
 
-export async function getRawTransaction(client: RPCClient, txId: string): Promise<GetRawTxResult> {
-  Logger.debug('Calling rawtransaction by id');
+export async function getRawTransaction(
+  client: RPCClient,
+  txId: string
+): Promise<GetRawTxResult> {
+  Logger.debug("Calling rawtransaction by id");
 
   const rawTransaction: GetRawTxResult = await client.getrawtransaction({
     txid: txId,
-    verbose: true
+    verbose: true,
   });
 
-  Logger.debug('rawtransaction result');
+  Logger.debug("rawtransaction result");
   Logger.debug(JSON.stringify(rawTransaction));
-  Logger.debug('---------------');
+  Logger.debug("---------------");
 
   return rawTransaction;
 }
 
-export async function decodeScript(client: RPCClient, script: string): Promise<any> {
+export async function decodeScript(
+  client: RPCClient,
+  script: string
+): Promise<any> {
   const decodedResult = await client.decodescript({
-    hexstring: script
+    hexstring: script,
   });
 
   return decodedResult;
 }
 
-export async function decodeRawTransaction(client: RPCClient, rawTx: string): Promise<any> {
-
-  Logger.debug('Calling decoderawtransaction by id');
+export async function decodeRawTransaction(
+  client: RPCClient,
+  rawTx: string
+): Promise<any> {
+  Logger.debug("Calling decoderawtransaction by id");
 
   const decodedResult = await client.decoderawtransaction({
-    hexstring: rawTx
+    hexstring: rawTx,
   });
 
-  Logger.debug('decoderawtransaction result');
+  Logger.debug("decoderawtransaction result");
   Logger.debug(JSON.stringify(decodedResult));
-  Logger.debug('---------------');
+  Logger.debug("---------------");
 
   return decodedResult;
 }

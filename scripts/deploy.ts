@@ -1,13 +1,11 @@
 import { contracts } from "../clarity/generated/taral";
-import {
-  makeContractDeploy,
-} from "@stacks/transactions";
+import { makeContractDeploy } from "@stacks/transactions";
 import { Logger } from "../clarity/lib/logger";
 import * as fs from "fs";
 
 import { Contracts } from "../clarity/lib/types";
 import { getContractNameFromPath } from "../clarity/lib/utils/contract-name-for-path";
-import {  NETWORK } from "../clarity/configuration";
+import { NETWORK } from "../clarity/configuration";
 
 import { getClarinetAccounts } from "../clarity/lib";
 import { handleTransaction } from "../clarity/lib/stacks/handle-transaction";

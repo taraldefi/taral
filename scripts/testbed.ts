@@ -2,7 +2,11 @@ import * as stacksgen from "../clarity/lib/stacksgen";
 import * as btc from "bitcoinjs-lib";
 import { Transaction } from "bitcore-lib";
 import { ApiProvider, IMetadata } from "../clarity/lib/providers";
-import { ClarinetAccount, ClarinetAccounts, getClarinetAccounts } from "../clarity/lib/configuration";
+import {
+  ClarinetAccount,
+  ClarinetAccounts,
+  getClarinetAccounts,
+} from "../clarity/lib/configuration";
 
 import {
   Configuration,
@@ -15,9 +19,19 @@ import { getBtcBalance } from "../clarity/lib/bitcoin/balance";
 import { makePayment } from "../clarity/lib/bitcoin/payment";
 import { paramsFromTx } from "../clarity/lib/swap/params-from-tx";
 import { getReversedTxId } from "../clarity/lib/swap/get-txid";
-import { verifyMerkleProof, verifyMerkleProof2 } from "../clarity/lib/swap/verify-merkle-proof";
-import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "../clarity/lib/swap/block-header";
-import { wasTxMined, wasTxMinedFromHex } from "../clarity/lib/swap/was-tx-mined";
+import {
+  verifyMerkleProof,
+  verifyMerkleProof2,
+} from "../clarity/lib/swap/verify-merkle-proof";
+import {
+  parseBlockHeader,
+  verifyBlockHeader,
+  verifyBlockHeader2,
+} from "../clarity/lib/swap/block-header";
+import {
+  wasTxMined,
+  wasTxMinedFromHex,
+} from "../clarity/lib/swap/was-tx-mined";
 import { ClarityBitcoinRequest } from "../clarity/lib/swap/base-request";
 import { createBtcFtSwap } from "../clarity/lib/swap/create-swap";
 import { submitSwap } from "../clarity/lib/swap/submit-swap";
@@ -57,7 +71,7 @@ const ALICE_BTC_PK =
 const ALICE_STX = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
 
 async function main() {
- testSwap();
+  testSwap();
 }
 
 async function testSwap() {
@@ -71,10 +85,15 @@ async function testSwap() {
   //   stacksAddress: deployer.address,
   // });
 
-  const deployed = await ApiProvider.fromContracts(true, taralContracts, NETWORK, {
-    secretKey: deployer.privateKey,
-    stacksAddress: deployer.address,
-  });
+  const deployed = await ApiProvider.fromContracts(
+    true,
+    taralContracts,
+    NETWORK,
+    {
+      secretKey: deployer.privateKey,
+      stacksAddress: deployer.address,
+    }
+  );
 
   const talToken = deployed.taralCoin.contract;
   const clarityBitcoinContract = deployed.clarityBitcoin.contract;
@@ -90,7 +109,7 @@ async function testSwap() {
   const ftSwapAmount = 1000;
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
-    address: BOB_BTC
+    address: BOB_BTC,
   });
 
   if (!faucetTransaction.success) {
@@ -104,7 +123,12 @@ async function testSwap() {
   var balance = await getBtcBalance(regtest, BOB_BTC);
   console.log(`Account balance is: ${balance}`);
 
-  const paymentResponse = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, btcSwapAmount);
+  const paymentResponse = await makePayment(
+    regtest,
+    ALICE_BTC,
+    BOB_MNEMONIC,
+    btcSwapAmount
+  );
 
   console.log("Bitcoin payment details: ");
   console.log(JSON.stringify(paymentResponse));
@@ -122,14 +146,13 @@ async function testSwap() {
   // Do the swap
   //
 
-  
   const ftContract = `${clarinetAccounts.deployer.address}.taral-token`;
-  const ftName = 'TARAL';
+  const ftName = "TARAL";
 
   const baseRequest: ClarityBitcoinRequest = {
     accounts: clarinetAccounts,
-    contract: clarityBitcoinContract
-  }
+    contract: clarityBitcoinContract,
+  };
 
   const paramsFromTransaction = await paramsFromTx({
     ...baseRequest,
@@ -139,49 +162,49 @@ async function testSwap() {
   const results = await Promise.all([
     getReversedTxId({
       ...baseRequest,
-      txCv: paramsFromTransaction.txCV
+      txCv: paramsFromTransaction.txCV,
     }),
 
     verifyMerkleProof({
       ...baseRequest,
       merkleRoot: paramsFromTransaction.block!.merkleroot,
       proofCV: paramsFromTransaction.proofCv,
-      txId: paymentResponse.rawTx
+      txId: paymentResponse.rawTx,
     }),
     verifyMerkleProof2({
       ...baseRequest,
       headerPartsCV: paramsFromTransaction.headerPartsCv,
       proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
+      txCV: paramsFromTransaction.txCV,
     }),
     verifyBlockHeader({
       ...baseRequest,
       headerParts: paramsFromTransaction.headerParts,
-      stacksBlockHeight: paramsFromTransaction.stxHeight
+      stacksBlockHeight: paramsFromTransaction.stxHeight,
     }),
     verifyBlockHeader2({
       ...baseRequest,
-      blockCV: paramsFromTransaction.blockCv
+      blockCV: paramsFromTransaction.blockCv,
     }),
     wasTxMinedFromHex({
       ...baseRequest,
       blockCV: paramsFromTransaction.blockCv,
       proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
+      txCV: paramsFromTransaction.txCV,
     }),
     parseBlockHeader({
       ...baseRequest,
-      header: paramsFromTransaction.blockHeader
+      header: paramsFromTransaction.blockHeader,
     }),
     wasTxMined({
       ...baseRequest,
       blockPartsCV: paramsFromTransaction.headerPartsCv,
       proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
+      txCV: paramsFromTransaction.txCV,
     }),
   ]);
 
-  for(var i = 0; i < results.length; i++) {
+  for (var i = 0; i < results.length; i++) {
     console.log(JSON.stringify(results[i]));
   }
 
@@ -192,7 +215,7 @@ async function testSwap() {
     ftAmount: ftSwapAmount,
     ftContract: ftContract,
     btcAddress: ALICE_BTC,
-    stxAddress: BOB_STX
+    stxAddress: BOB_STX,
   });
 
   const swap = await submitSwap({
@@ -202,11 +225,9 @@ async function testSwap() {
     headerPartsCv: paramsFromTransaction.headerPartsCv,
     proofCv: paramsFromTransaction.proofCv,
     swapId: swapId,
-    txPartsCv: paramsFromTransaction.txPartsCv
+    txPartsCv: paramsFromTransaction.txPartsCv,
   });
-
 }
-
 
 async function walletFromMnemonic() {
   var info = await stacksgen.generateKeys(
@@ -221,7 +242,8 @@ async function walletFromMnemonic() {
 }
 
 function transactionTest() {
-  const rawTx = '02000000019e2b183cb820937b46def62790e643997a97ebe9637a1936daca12942286bc6a000000006b4830450221008c5f820550bc5d8dd72fabffbe0bcab0e82505bc5ac53ecd8e29c6b3fc0932ba0220195e5a33d6bbd2d8a9f9a78e7e23082694cca976e05bd7b642ecb1fd4ca2f897012103cd2cfdbd2ad9332828a7a13ef62cb999e063421c708e863a7ffed71fb61c88c9ffffffff0280969800000000001976a9146d78de7b0625dfbfc16c3a8a5735f6dc3dc3f2ce88ace03d6202000000001976a9147321b74e2b6a7e949e6c4ad313035b166509501788ac00000000';
+  const rawTx =
+    "02000000019e2b183cb820937b46def62790e643997a97ebe9637a1936daca12942286bc6a000000006b4830450221008c5f820550bc5d8dd72fabffbe0bcab0e82505bc5ac53ecd8e29c6b3fc0932ba0220195e5a33d6bbd2d8a9f9a78e7e23082694cca976e05bd7b642ecb1fd4ca2f897012103cd2cfdbd2ad9332828a7a13ef62cb999e063421c708e863a7ffed71fb61c88c9ffffffff0280969800000000001976a9146d78de7b0625dfbfc16c3a8a5735f6dc3dc3f2ce88ace03d6202000000001976a9147321b74e2b6a7e949e6c4ad313035b166509501788ac00000000";
 
   const transaction = new Transaction(rawTx);
 
@@ -229,26 +251,26 @@ function transactionTest() {
 
   console.log(inspect);
 
-  transaction.inputs.forEach(element => {
-    console.log('Input:');
+  transaction.inputs.forEach((element) => {
+    console.log("Input:");
 
     console.log(element.sequenceNumber);
     console.log(element.outputIndex);
     console.log(element.script.isWitnessPublicKeyHashOut());
     console.log(element.script.isPublicKeyHashOut());
     console.log(element.script.isPublicKeyHashIn());
-    console.log(element.prevTxId.toString('hex'));
+    console.log(element.prevTxId.toString("hex"));
     console.log(element.output);
   });
 
-  transaction.outputs.forEach(element => {
-    console.log('Output: ');
+  transaction.outputs.forEach((element) => {
+    console.log("Output: ");
     console.log(element.script.toHex());
     console.log(element.script.isWitnessPublicKeyHashOut());
     console.log(element.script.isPublicKeyHashOut());
     console.log(element.script.isPublicKeyHashIn());
     console.log(element.inspect());
-  })
+  });
 }
 
 function getKeyAddress(key: btc.ECPairInterface): string {

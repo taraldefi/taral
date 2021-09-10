@@ -1,24 +1,30 @@
+import { Transaction } from "bitcore-lib";
+import SHA256 from "crypto-js/sha256";
+import MerkleTree from "merkletreejs";
+import { NETWORK } from "../../configuration";
+import { Block, getBlockByHash, getBlockHeader } from "../bitcoin/block";
 import { getRpcClient } from "../bitcoin/client";
 import { getRawTransaction } from "../bitcoin/transaction";
 import { Logger } from "../logger";
 import { ClarityBitcoinRequest } from "./base-request";
-import MerkleTree from "merkletreejs";
-import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
-import { BlockCvType, HeaderPartsType, InCvType, OutsCvType, ProofCvType, TxPartsCvType } from "./types";
-import { Transaction } from "bitcore-lib";
-import { Block } from '../bitcoin/block';
 import {
   concatTransaction,
   ConcatTransactionRequest,
 } from "./concat-transaction";
 import { getStxBlock } from "./stacks";
-import { getBlockByHash, getBlockHeader } from "../bitcoin/block";
-import { NETWORK } from "../../configuration";
-import SHA256 from 'crypto-js/sha256';
+import {
+  BlockCvType,
+  HeaderPartsType,
+  InCvType,
+  OutsCvType,
+  ProofCvType,
+  TxPartsCvType,
+} from "./types";
+import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
 
 const ERR_API_FAILURE: string = "api failure";
 const ERR_DIFFERENT_HEX: string = "different hex";
-const ERR_NO_STACKS_BLOCK: string = 'no stacks block';
+const ERR_NO_STACKS_BLOCK: string = "no stacks block";
 
 export interface ParamsFromTxResponse {
   txCV: Buffer;
@@ -42,49 +48,49 @@ export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
 
 function getFailureResponse(error: string): ParamsFromTxResponse {
   return {
-    txCV: Buffer.from(''),
+    txCV: Buffer.from(""),
 
     proofCv: {
-      "hashes": [],
+      hashes: [],
       "tree-depth": 0,
-      "tx-index": 0
+      "tx-index": 0,
     },
 
     block: {
-      bits: '',
-      chainwork: '',
+      bits: "",
+      chainwork: "",
       confirmations: 0,
       difficulty: 0,
-      hash: '',
+      hash: "",
       height: 0,
       mediantime: 0,
-      merkleroot: '',
+      merkleroot: "",
       nTx: 0,
-      nextblockhash: '',
+      nextblockhash: "",
       nonce: 0,
-      previousblockhash: '',
+      previousblockhash: "",
       size: 0,
       strippedsize: 0,
       time: 0,
       tx: [],
       version: 0,
-      versionHex: '',
-      weight: 0
+      versionHex: "",
+      weight: 0,
     },
 
     blockCv: {
-      header: Buffer.from(''),
-      height: 0
+      header: Buffer.from(""),
+      height: 0,
     },
 
     headerPartsCv: {
-      "merkle-root": Buffer.from(''),
+      "merkle-root": Buffer.from(""),
       height: 0,
-      nbits: Buffer.from(''),
-      nonce: Buffer.from(''),
-      parent: Buffer.from(''),
-      timestamp: Buffer.from(''),
-      version: Buffer.from('')
+      nbits: Buffer.from(""),
+      nonce: Buffer.from(""),
+      parent: Buffer.from(""),
+      timestamp: Buffer.from(""),
+      version: Buffer.from(""),
     },
 
     blockHeader: undefined,
@@ -92,17 +98,19 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
     stxHeight: 0,
     txPartsCv: {
       ins: [],
-      locktime: Buffer.from(''),
+      locktime: Buffer.from(""),
       outs: [],
-      version: Buffer.from('')
+      version: Buffer.from(""),
     },
     error: error,
-    stacksBlock: undefined
+    stacksBlock: undefined,
   };
 }
 
-export async function paramsFromTx(request: ParamsFromTxRequest): Promise<ParamsFromTxResponse> {
-  Logger.debug('Calling paramsFromTx');
+export async function paramsFromTx(
+  request: ParamsFromTxRequest
+): Promise<ParamsFromTxResponse> {
+  Logger.debug("Calling paramsFromTx");
 
   const bitcoinRpcClient = getRpcClient();
 
@@ -170,8 +178,14 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
     return getFailureResponse(ERR_DIFFERENT_HEX);
   }
 
-  const block = await getBlockByHash(bitcoinRpcClient, rawTransaction.blockhash);
-  const blockHeader = await getBlockHeader(bitcoinRpcClient, rawTransaction.blockhash);
+  const block = await getBlockByHash(
+    bitcoinRpcClient,
+    rawTransaction.blockhash
+  );
+  const blockHeader = await getBlockHeader(
+    bitcoinRpcClient,
+    rawTransaction.blockhash
+  );
 
   let height;
   let stacksBlock;
@@ -184,7 +198,6 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
     }
     height = stacksBlock.height;
   } else {
-
     const stacksBlockResponse = await fetch(
       `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${request.stxHeight}`
     );
@@ -195,8 +208,10 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
 
   console.log({ height, stacksBlockHash: stacksBlock.hash });
 
-  const txIds = block.tx.map(transaction => transaction.txid);
-  const transactionIndex = block.tx.findIndex(transaction => transaction.txid == request.btcTxId);
+  const txIds = block.tx.map((transaction) => transaction.txid);
+  const transactionIndex = block.tx.findIndex(
+    (transaction) => transaction.txid == request.btcTxId
+  );
   const tree = new MerkleTree(txIds, SHA256, { isBitcoinTree: true });
   const treeDepth = tree.getDepth();
 
@@ -204,12 +219,12 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
   const proofCv: ProofCvType = {
     "tx-index": transactionIndex,
     "tree-depth": treeDepth,
-    hashes: proof.map(proofItem => reverse(proofItem.data))
+    hashes: proof.map((proofItem) => reverse(proofItem.data)),
   };
 
   const blockCv: BlockCvType = {
-    header: Buffer.from(blockHeader, 'hex'),
-    height: height
+    header: Buffer.from(blockHeader, "hex"),
+    height: height,
   };
 
   // block parts
@@ -223,13 +238,13 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
   ];
 
   const headerPartsCv: HeaderPartsType = {
-    "merkle-root": Buffer.from(headerParts[2], 'hex'),
-    parent: Buffer.from(headerParts[1], 'hex'),
-    version: Buffer.from(headerParts[0], 'hex'),
-    timestamp: Buffer.from(headerParts[3], 'hex'),
-    nbits: Buffer.from(headerParts[4], 'hex'),
-    nonce: Buffer.from(headerParts[5], 'hex'),
-    height: height
+    "merkle-root": Buffer.from(headerParts[2], "hex"),
+    parent: Buffer.from(headerParts[1], "hex"),
+    version: Buffer.from(headerParts[0], "hex"),
+    timestamp: Buffer.from(headerParts[3], "hex"),
+    nbits: Buffer.from(headerParts[4], "hex"),
+    nonce: Buffer.from(headerParts[5], "hex"),
+    height: height,
   };
 
   const result: ParamsFromTxResponse = {
@@ -243,13 +258,12 @@ export async function paramsFromTx(request: ParamsFromTxRequest): Promise<Params
     headerPartsCv,
     stacksBlock,
     stxHeight: height,
-    error: undefined
+    error: undefined,
   };
 
-  Logger.debug('paramsFromTx result');
+  Logger.debug("paramsFromTx result");
   Logger.debug(JSON.stringify(result));
-  Logger.debug('---------------');
+  Logger.debug("---------------");
 
   return result;
 }
-

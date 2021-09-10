@@ -4,21 +4,12 @@ import {
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
-import { PaymentResponse } from "../../lib/bitcoin/models";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
+import { PaymentResponse } from "../../lib/bitcoin/models";
 import { makePayment } from "../../lib/bitcoin/payment";
-import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC, BOB_STX } from "./utils";
-import { paramsFromTx } from "../../lib/swap/params-from-tx";
-import { btcFtSwapContract, clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
-import { getReversedTxId } from "../../lib/swap/get-txid";
-import { verifyMerkleProof, verifyMerkleProof2 } from "../../lib/swap/verify-merkle-proof";
-import { parseBlockHeader, verifyBlockHeader, verifyBlockHeader2 } from "../../lib/swap/block-header";
-import { wasTxMined, wasTxMinedFromHex } from "../../lib/swap/was-tx-mined";
-import { ClarityBitcoinRequest } from "../../lib/swap/base-request";
-import { createBtcFtSwap } from "../../lib/swap/create-swap";
-import { submitSwap } from "../../lib/swap/submit-swap";
+import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC } from "./utils";
 
 let paymentResponse: PaymentResponse;
 
@@ -33,7 +24,7 @@ test("perform swap", async () => {
   // const ftSwapAmount = 1000;
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
-    address: BOB_BTC
+    address: BOB_BTC,
   });
 
   expect(faucetTransaction.success).toBe(true);
@@ -46,7 +37,12 @@ test("perform swap", async () => {
   expect(balance).toBeTruthy();
   console.log(`Account balance is: ${balance}`);
 
-  paymentResponse = await makePayment(regtest, ALICE_BTC, BOB_MNEMONIC, btcSwapAmount);
+  paymentResponse = await makePayment(
+    regtest,
+    ALICE_BTC,
+    BOB_MNEMONIC,
+    btcSwapAmount
+  );
 
   console.log("Bitcoin payment details: ");
   console.log(JSON.stringify(paymentResponse));
@@ -58,7 +54,7 @@ test("perform swap", async () => {
   expect(balance).toBeTruthy();
 
   // var client = getRpcClient();
-   
+
   // var transactionDetails = await getRawTransaction(client, paymentResponse.txId);
   // console.log("transaction details: ");
   // console.log(JSON.stringify(transactionDetails));
@@ -192,7 +188,7 @@ test("perform swap", async () => {
 
 // test("test", async () => {
 //   var client = getRpcClient();
-   
+
 //   var transactionDetails = await getRawTransaction(client, 'b5f4f1574c6cae9ca0d12f9abdee6f65fc2703073645db15ab9bbd2a8e584fad');
 //   console.log("transaction details: ");
 //   console.log(JSON.stringify(transactionDetails));

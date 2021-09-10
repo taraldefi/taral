@@ -1,4 +1,4 @@
-import { ContractInstances, Contract } from "clarity/lib";
+import { Contract, ContractInstances } from "clarity/lib";
 import { NETWORK } from "../../configuration";
 import {
   BtcFtSwapContract,
@@ -13,9 +13,8 @@ import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
 
-
 export let talToken: TaralCoinContract;
-export let clarityBitcoinContract: ClarityBitcoinContract; 
+export let clarityBitcoinContract: ClarityBitcoinContract;
 export let btcFtSwapContract: BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 

@@ -18,8 +18,14 @@ import {
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue } from "../clarity";
-import { getTransactionById } from "../stacks/utils";
 import { Logger } from "../logger";
+import { deployContractOnStacks } from "../stacks/deploy-contract";
+import {
+  formatArguments,
+  formatReadonlyArguments,
+} from "../stacks/format-arguments";
+import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
+import { getTransactionById } from "../stacks/utils";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
   ApiCreateOptions,
@@ -30,9 +36,6 @@ import {
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
 import { DeployerAccount, IMetadata } from "./types";
-import { deployContractOnStacks } from "../stacks/deploy-contract";
-import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
-import { formatArguments, formatReadonlyArguments } from "../stacks/format-arguments";
 
 export class ApiProvider implements BaseProvider {
   private readonly network: StacksNetworkConfiguration;
@@ -266,5 +269,4 @@ export class ApiProvider implements BaseProvider {
       contractName
     );
   }
-
 }
