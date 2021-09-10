@@ -13,7 +13,7 @@ import {
 } from "./concat-transaction";
 import { getStxBlock } from "./stacks";
 import { getBlockByHash, getBlockHeader } from "../bitcoin/block";
-import { NETWORK } from "clarity/configuration";
+import { NETWORK } from "../../configuration";
 import SHA256 from 'crypto-js/sha256';
 
 const ERR_API_FAILURE: string = "api failure";

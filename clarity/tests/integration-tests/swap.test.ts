@@ -10,7 +10,7 @@ import { NETWORK } from "../../configuration";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { makePayment } from "../../lib/bitcoin/payment";
 import { ALICE_BTC, BOB_BTC, BOB_MNEMONIC, BOB_STX } from "./utils";
-import { paramsFromTx } from "clarity/lib/swap/params-from-tx";
+import { paramsFromTx } from "../../lib/swap/params-from-tx";
 import { btcFtSwapContract, clarinetAccounts, clarityBitcoinContract } from "./jest-setup";
 import { getReversedTxId } from "../../lib/swap/get-txid";
 import { verifyMerkleProof, verifyMerkleProof2 } from "../../lib/swap/verify-merkle-proof";
@@ -30,7 +30,7 @@ test("perform swap", async () => {
 
   const faucets = new FaucetsApi(apiConfig);
   const btcSwapAmount = 0.1;
-  const ftSwapAmount = 1000;
+  // const ftSwapAmount = 1000;
 
   var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
     address: BOB_BTC
@@ -73,89 +73,93 @@ test("perform swap", async () => {
   // var header = await getBlockHeader(client, transactionDetails.blockhash);
   // console.log('block header');
   // console.log(JSON.stringify(header));
-
-  const ftContract = `${clarinetAccounts.deployer.address}.taral-token`;
-  const ftName = 'TARAL';
-
-  const baseRequest: ClarityBitcoinRequest = {
-    accounts: clarinetAccounts,
-    contract: clarityBitcoinContract
-  }
-
-  const paramsFromTransaction = await paramsFromTx({
-    ...baseRequest,
-    btcTxId: paymentResponse.txId,
-  });
-
-  const results = await Promise.all([
-    getReversedTxId({
-      ...baseRequest,
-      txCv: paramsFromTransaction.txCV
-    }),
-
-    verifyMerkleProof({
-      ...baseRequest,
-      merkleRoot: paramsFromTransaction.block!.merkleroot,
-      proofCV: paramsFromTransaction.proofCv,
-      txId: paymentResponse.rawTx
-    }),
-    verifyMerkleProof2({
-      ...baseRequest,
-      headerPartsCV: paramsFromTransaction.headerPartsCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
-    }),
-    verifyBlockHeader({
-      ...baseRequest,
-      headerParts: paramsFromTransaction.headerParts,
-      stacksBlockHeight: paramsFromTransaction.stxHeight
-    }),
-    verifyBlockHeader2({
-      ...baseRequest,
-      blockCV: paramsFromTransaction.blockCv
-    }),
-    wasTxMinedFromHex({
-      ...baseRequest,
-      blockCV: paramsFromTransaction.blockCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
-    }),
-    parseBlockHeader({
-      ...baseRequest,
-      header: paramsFromTransaction.blockHeader
-    }),
-    wasTxMined({
-      ...baseRequest,
-      blockPartsCV: paramsFromTransaction.headerPartsCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV
-    }),
-  ]);
-
-  for(var i = 0; i < results.length; i++) {
-    console.log(JSON.stringify(results[i]));
-  }
-
-  const swapId = await createBtcFtSwap({
-    accounts: clarinetAccounts,
-    contract: btcFtSwapContract,
-    btcAmount: btcSwapAmount,
-    ftAmount: ftSwapAmount,
-    ftContract: ftContract,
-    btcAddress: ALICE_BTC,
-    stxAddress: BOB_STX
-  });
-
-  const swap = await submitSwap({
-    accounts: clarinetAccounts,
-    contract: btcFtSwapContract,
-    ftContract: ftContract,
-    headerPartsCv: paramsFromTransaction.headerPartsCv,
-    proofCv: paramsFromTransaction.proofCv,
-    swapId: swapId,
-    txPartsCv: paramsFromTransaction.txPartsCv
-  });
 });
+
+// test("do swap", async () => {
+//   const btcSwapAmount = 0.1;
+//   const ftSwapAmount = 1000;
+//   const ftContract = `${clarinetAccounts.deployer.address}.taral-token`;
+//   const ftName = 'TARAL';
+
+//   const baseRequest: ClarityBitcoinRequest = {
+//     accounts: clarinetAccounts,
+//     contract: clarityBitcoinContract
+//   }
+
+//   const paramsFromTransaction = await paramsFromTx({
+//     ...baseRequest,
+//     btcTxId: paymentResponse.txId,
+//   });
+
+//   const results = await Promise.all([
+//     getReversedTxId({
+//       ...baseRequest,
+//       txCv: paramsFromTransaction.txCV
+//     }),
+
+//     verifyMerkleProof({
+//       ...baseRequest,
+//       merkleRoot: paramsFromTransaction.block!.merkleroot,
+//       proofCV: paramsFromTransaction.proofCv,
+//       txId: paymentResponse.rawTx
+//     }),
+//     verifyMerkleProof2({
+//       ...baseRequest,
+//       headerPartsCV: paramsFromTransaction.headerPartsCv,
+//       proofCV: paramsFromTransaction.proofCv,
+//       txCV: paramsFromTransaction.txCV
+//     }),
+//     verifyBlockHeader({
+//       ...baseRequest,
+//       headerParts: paramsFromTransaction.headerParts,
+//       stacksBlockHeight: paramsFromTransaction.stxHeight
+//     }),
+//     verifyBlockHeader2({
+//       ...baseRequest,
+//       blockCV: paramsFromTransaction.blockCv
+//     }),
+//     wasTxMinedFromHex({
+//       ...baseRequest,
+//       blockCV: paramsFromTransaction.blockCv,
+//       proofCV: paramsFromTransaction.proofCv,
+//       txCV: paramsFromTransaction.txCV
+//     }),
+//     parseBlockHeader({
+//       ...baseRequest,
+//       header: paramsFromTransaction.blockHeader
+//     }),
+//     wasTxMined({
+//       ...baseRequest,
+//       blockPartsCV: paramsFromTransaction.headerPartsCv,
+//       proofCV: paramsFromTransaction.proofCv,
+//       txCV: paramsFromTransaction.txCV
+//     }),
+//   ]);
+
+//   for(var i = 0; i < results.length; i++) {
+//     console.log(JSON.stringify(results[i]));
+//   }
+
+//   const swapId = await createBtcFtSwap({
+//     accounts: clarinetAccounts,
+//     contract: btcFtSwapContract,
+//     btcAmount: btcSwapAmount,
+//     ftAmount: ftSwapAmount,
+//     ftContract: ftContract,
+//     btcAddress: ALICE_BTC,
+//     stxAddress: BOB_STX
+//   });
+
+//   const swap = await submitSwap({
+//     accounts: clarinetAccounts,
+//     contract: btcFtSwapContract,
+//     ftContract: ftContract,
+//     headerPartsCv: paramsFromTransaction.headerPartsCv,
+//     proofCv: paramsFromTransaction.proofCv,
+//     swapId: swapId,
+//     txPartsCv: paramsFromTransaction.txPartsCv
+//   });
+// });
 
 // retry("Ensure bob has btc", 10, async () => {
 //   const regtest = btc.networks.regtest;

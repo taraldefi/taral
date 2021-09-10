@@ -57,7 +57,7 @@ const ALICE_BTC_PK =
 const ALICE_STX = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
 
 async function main() {
- console.log('whatatat'); 
+ testSwap();
 }
 
 async function testSwap() {
