@@ -24,15 +24,19 @@ export interface GetRawTxResult {
     txid: string;
     vout: number;
     scriptSig: {
+      asm: string;
       hex: string;
     };
+    sequence: number;
   }[];
   vout: {
     n: number;
     value: number;
     scriptPubKey: {
       addresses: string[];
+      asm: string;
       hex: string;
+      reqSigs: number;
       type: string; // 'pubkeyhash'
     };
   }[];
