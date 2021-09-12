@@ -24,7 +24,8 @@ import {
   trueCV,
   tupleCV,
   uintCV,
-  parseToCV as _parseToCV
+  parseToCV as _parseToCV,
+  serializeCV
 } from "@stacks/transactions";
 
 
@@ -33,9 +34,6 @@ type CVInput = string | TupleInput;
 
 export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
   if (isClarityAbiTuple(type)) {
-
-    console.log('this is a clarity abi tuple');
-
     if (typeof input === 'string') {
       throw new Error('Invalid tuple input');
     }
@@ -46,7 +44,6 @@ export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
     });
     return tupleCV(tuple);
   } else if (isClarityAbiList(type)) {
-    console.log('This is a clarity abi list type');
     const inputs = input as any[];
     const values = inputs.map(input => {
       return parseToCV(input, type.list.type);
@@ -57,7 +54,17 @@ export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
     return someCV(parseToCV(input, type.optional));
   } 
 
-  return parseToCVInternal(input as string, type);
+  const result = parseToCVInternal(input as string, type);
+
+  // try {
+  //   const sss = serializeCV(result);
+  // } catch (error) {
+  //   console.error('could not serialize ');
+  //   console.error(JSON.stringify(input));
+  //   console.error(JSON.stringify(type));
+  // }
+
+  return result;
 }
 
 /**
@@ -97,11 +104,6 @@ function parseToCVInternal(input: string, type: ClarityAbiType): ClarityValue {
       );
     }
   } else if (isClarityAbiBuffer(type)) {
-    console.log('THIS IS A CLARITY ABI BUFFER');
-    const inputBuffer = Buffer.from(input);
-
-    console.log(`Constructed buffer ${JSON.stringify(inputBuffer)}`);
-
     const inputLength = Buffer.from(input).byteLength;
     if (inputLength > type.buffer.length) {
       throw new Error(
