@@ -1,4 +1,5 @@
 import {
+  bufferCV,
   bufferCVFromString,
   ClarityAbiType,
   ClarityValue,
@@ -14,14 +15,50 @@ import {
   isClarityAbiStringAscii,
   isClarityAbiStringUtf8,
   isClarityAbiTuple,
+  listCV,
   noneCV,
   someCV,
   standardPrincipalCV,
   stringAsciiCV,
   stringUtf8CV,
   trueCV,
+  tupleCV,
   uintCV,
+  parseToCV as _parseToCV
 } from "@stacks/transactions";
+
+
+type TupleInput = Record<string, any>;
+type CVInput = string | TupleInput;
+
+export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
+  if (isClarityAbiTuple(type)) {
+
+    console.log('this is a clarity abi tuple');
+
+    if (typeof input === 'string') {
+      throw new Error('Invalid tuple input');
+    }
+    const tuple: Record<string, ClarityValue> = {};
+    type.tuple.forEach(key => {
+      const val = input[key.name];
+      tuple[key.name] = parseToCV(val, key.type);
+    });
+    return tupleCV(tuple);
+  } else if (isClarityAbiList(type)) {
+    console.log('This is a clarity abi list type');
+    const inputs = input as any[];
+    const values = inputs.map(input => {
+      return parseToCV(input, type.list.type);
+    });
+    return listCV(values);
+  } else if (isClarityAbiOptional(type)) {
+    if (!input) return noneCV();
+    return someCV(parseToCV(input, type.optional));
+  } 
+
+  return parseToCVInternal(input as string, type);
+}
 
 /**
  * Convert string input to Clarity value based on contract ABI data. Only handles Clarity
@@ -32,7 +69,7 @@ import {
  *
  * @returns {ClarityValue} returns a Clarity value
  */
-export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
+function parseToCVInternal(input: string, type: ClarityAbiType): ClarityValue {
   const typeString = getTypeString(type);
   if (isClarityAbiPrimitive(type)) {
     if (type === "uint128") {
@@ -60,12 +97,18 @@ export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
       );
     }
   } else if (isClarityAbiBuffer(type)) {
+    console.log('THIS IS A CLARITY ABI BUFFER');
+    const inputBuffer = Buffer.from(input);
+
+    console.log(`Constructed buffer ${JSON.stringify(inputBuffer)}`);
+
     const inputLength = Buffer.from(input).byteLength;
     if (inputLength > type.buffer.length) {
       throw new Error(
         `Input exceeds specified buffer length limit of ${type.buffer.length}`
-      );
+      );  
     }
+    
     return bufferCVFromString(input);
   } else if (isClarityAbiStringAscii(type)) {
     if (input.length > type["string-ascii"].length) {
@@ -88,9 +131,6 @@ export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
   } else if (isClarityAbiOptional(type)) {
     if (!input) return noneCV();
     return someCV(parseToCV(input, type.optional));
-    throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
-    );
   } else if (isClarityAbiTuple(type)) {
     throw new Error(
       `Contract function contains unsupported Clarity ABI type: ${typeString}`
