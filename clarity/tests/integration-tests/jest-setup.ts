@@ -42,7 +42,7 @@ beforeAll(async () => {
   //   stacksAddress: deployer.address,
   // });
 
-  deployed = await ApiProvider.fromContracts(true, taralContracts, NETWORK, {
+  deployed = await ApiProvider.fromContracts(false, taralContracts, NETWORK, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });

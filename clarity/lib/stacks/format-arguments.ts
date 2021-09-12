@@ -1,5 +1,6 @@
 import {
   ClarityAbiFunction,
+  ClarityType,
   ClarityValue,
   cvToString,
   isClarityAbiBuffer,
@@ -46,10 +47,6 @@ export function formatReadonlyArguments(
   func: ClarityAbiFunction,
   args: any[]
 ): [ClarityValue[], IMetadata] {
-
-  console.log('Formatting arguments');
-  console.log(JSON.stringify(args));
-
   var metadata = args.filter((arg) => instanceOfMetadata(arg));
   if (metadata.length > 1) {
     throw new TypeError("More than one metadata objects");
@@ -69,12 +66,11 @@ export function formatReadonlyArguments(
     return argCV;
   });
 
-  console.log(`argswithoutmetadata count`, argsWithoutMetadata.length);
-  console.log(JSON.stringify(argsWithoutMetadata));
+  // console.log(`argswithoutmetadata count`, argsWithoutMetadata.length);
+  // console.log(JSON.stringify(argsWithoutMetadata));
 
-  console.log('formatted count', formatted.length);
-  console.log(JSON.stringify(formatted));
-
+  // console.log('formatted count', formatted.length);
+  // console.log(JSON.stringify(formatted));
 
   return [formatted, metadataConfig];
 }

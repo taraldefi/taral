@@ -123,7 +123,7 @@ export class ApiProvider implements BaseProvider {
       var rawFunctionCallResult = await this.callContractFunction(
         this.contractName,
         request.function.name,
-        metadata.sender,
+        options.sender,
         args
       );
 
@@ -260,6 +260,8 @@ export class ApiProvider implements BaseProvider {
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);
+
+    Logger.debug(JSON.stringify(txOptions));
 
     const transaction = await makeContractCall(txOptions);
     return handleFunctionTransaction(
