@@ -19,7 +19,11 @@ export async function concatTransaction(
 
   let result = response.toString();
 
-  Logger.debug("verifyBlockHeader result");
+  if (result.startsWith('0x')) {
+    result = result.substring(2);
+  }
+
+  Logger.debug("concat-tx result");
   Logger.debug(JSON.stringify(response));
   Logger.debug("---------------");
 
