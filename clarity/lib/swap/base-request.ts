@@ -42,12 +42,12 @@ export function getMetadata(
   if (type == "public") {
     return {
       discriminator: "metadata",
-      sender: getAddress(request),
+      sender: getPrivateKey(request),
     };
   }
 
   return {
     discriminator: "metadata",
-    sender: getPrivateKey(request),
+    sender: getAddress(request)
   };
 }
