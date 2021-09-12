@@ -28,9 +28,7 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
 
   let result = response._unsafeUnwrap();
 
-  Logger.debug("wasTxMined result");
-  Logger.debug(JSON.stringify(result));
-  Logger.debug("---------------");
+  Logger.debug(`wasTxMined result ${result}`);
 
   return result;
 }

@@ -68,8 +68,8 @@ export type OutsCvType = {
 };
 
 export type TxPartsCvType = {
-  ins: InCvType[];
-  locktime: Buffer;
-  outs: OutsCvType[];
   version: Buffer;
+  ins: InCvType[];
+  outs: OutsCvType[];
+  locktime: Buffer;
 };

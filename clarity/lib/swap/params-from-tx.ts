@@ -33,7 +33,7 @@ export interface ParamsFromTxResponse {
   block?: Block;
 
   blockCv: BlockCvType;
-  blockHeader: any;
+  blockHeader: string;
   headerParts: any[];
   headerPartsCv: HeaderPartsType;
   stacksBlock: any;
@@ -93,7 +93,7 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
       version: Buffer.from(""),
     },
 
-    blockHeader: undefined,
+    blockHeader: '',
     headerParts: [],
     stxHeight: 0,
     txPartsCv: {
@@ -190,10 +190,21 @@ export async function paramsFromTx(
     bitcoinRpcClient,
     rawTransaction.blockhash
   );
+
+  
+  console.log(`-------------------------- Block info --------------------------`);
+  console.log(JSON.stringify(block));
+  console.log(`--------------------------              --------------------------`);
+
+
   const blockHeader = await getBlockHeader(
     bitcoinRpcClient,
     rawTransaction.blockhash
   );
+
+  console.log(`-------------------------- Block header --------------------------`);
+  console.log(JSON.stringify(blockHeader));
+  console.log(`--------------------------              --------------------------`);
 
   let height;
   let stacksBlock;

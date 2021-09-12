@@ -13,7 +13,7 @@ export interface VerifyBlockHeader2Request extends ClarityBitcoinRequest {
 }
 
 export interface ParseBlockHeaderRequest extends ClarityBitcoinRequest {
-  header: Buffer;
+  header: string;
 }
 
 export async function parseBlockHeader(
@@ -23,16 +23,17 @@ export async function parseBlockHeader(
 
   const response = (
     await request.contract.parseBlockHeader(
-      request.header,
+      makeBuffer(request.header),
       getMetadata("readonly", request)
     )
   )._unsafeUnwrap();
 
-  Logger.debug("parseBlockHeader result");
-  Logger.debug(JSON.stringify(response));
-  Logger.debug("---------------");
+  let result = response as any as HeaderPartsType;
 
-  return response as any as HeaderPartsType;
+  Logger.debug(`parseBlockHeader result ${response}`);
+  Logger.debug(JSON.stringify(result));
+
+  return result;
 }
 
 export async function verifyBlockHeader(
@@ -81,9 +82,7 @@ export async function verifyBlockHeader2(
 
   let result = response;
 
-  Logger.debug("verifyBlockHeader2 result");
-  Logger.debug(JSON.stringify(response));
-  Logger.debug("---------------");
+  Logger.debug(`verifyBlockHeader response ${response}`);
 
   return result;
 }

@@ -21,7 +21,7 @@ export async function getBlockByHash(
 export async function getBlockHeader(
   rpcClient: RPCClient,
   blockHash: string
-): Promise<any> {
+): Promise<string> {
   Logger.debug("Calling getblockheader by blockhash");
   var blockHeader = await rpcClient.getblockheader({
     blockhash: blockHash,
@@ -32,7 +32,7 @@ export async function getBlockHeader(
   Logger.debug(JSON.stringify(blockHeader));
   Logger.debug("---------------");
 
-  return blockHeader;
+  return blockHeader as string;
 }
 
 export interface ScriptSig {

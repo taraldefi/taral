@@ -1,6 +1,8 @@
 import { address } from "bitcoinjs-lib";
 import { Logger, txOk } from "..";
-import { FtSwapRequest, getAddress, getMetadata } from "./base-request";
+import { FtSwapRequest, getAddress, getMetadata, getPrivateKey } from "./base-request";
+import * as btc from "bitcoinjs-lib";
+import { makeBuffer } from "./utils";
 
 export interface BtcFtSwapRequest extends FtSwapRequest {
   btcAddress: string;
@@ -8,6 +10,8 @@ export interface BtcFtSwapRequest extends FtSwapRequest {
   btcAmount: number;
   ftAmount: number;
   ftContract: string;
+
+  network?: btc.networks.Network;
 }
 
 function btcToSats(btcAmount: number): number {
@@ -21,18 +25,18 @@ export async function createBtcFtSwap(
 
   const sats = btcToSats(request.btcAmount);
 
-  const btcReceiver = address.toOutputScript(request.btcAddress);
+  const btcReceiver = address.toOutputScript(request.btcAddress, request.network ?? btc.networks.regtest).toString('hex');
 
   let response = await txOk(
     request.contract.createSwap(
       sats,
-      btcReceiver,
+      makeBuffer(btcReceiver),
       request.ftAmount,
       request.stxAddress,
       request.ftContract,
       getMetadata("public", request)
     ),
-    getAddress(request)
+    getPrivateKey(request)
   );
 
   Logger.debug("createBtcFtSwap result");

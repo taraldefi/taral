@@ -1,4 +1,5 @@
 import MerkleTree from "merkletreejs";
+import { ClarityTypes } from "../clarity";
 import { Logger } from "../logger";
 import { ClarityBitcoinRequest, getMetadata } from "./base-request";
 import { getReversedTxId } from "./get-txid";
@@ -27,17 +28,16 @@ export async function verifyMerkleProof(
   const bufferedTxId = reverse(MerkleTree.bufferify(request.txId));
   const bufferedMerkleRoot = reverse(MerkleTree.bufferify(request.merkleRoot));
 
-  let response = await request.contract.verifyMerkleProof(
+  let response = (await request.contract.verifyMerkleProof(
     bufferedTxId,
     bufferedMerkleRoot,
     request.proofCV,
     getMetadata("readonly", request)
-  );
+  ))._unsafeUnwrap();
+
   let result = response.toString();
 
-  Logger.debug("verifyMerkleProof result");
-  Logger.debug(JSON.stringify(result));
-  Logger.debug("---------------");
+  Logger.debug(`verifyMerkleProof result: ${result}`);
 
   return result;
 }
@@ -55,20 +55,20 @@ export async function verifyMerkleProof2(
     txCv: request.txCV,
   });
 
+  Logger.debug(`REVERSED TX ID ${reversedTxId}`);
+
   const reversedTxIdBuffer = makeBuffer(reversedTxId);
   const merkleRootBuffer = request.headerPartsCV["merkle-root"];
 
-  let response = await request.contract.verifyMerkleProof(
+  let response  = (await request.contract.verifyMerkleProof(
     reversedTxIdBuffer,
     merkleRootBuffer,
     request.proofCV,
     getMetadata("readonly", request)
-  );
+  ))._unsafeUnwrap();
+
   let result = response.toString();
 
-  Logger.debug("verifyMerkleProof2 result");
-  Logger.debug(JSON.stringify(result));
-  Logger.debug("---------------");
-
+  Logger.debug(`verifyMerkleProof2 result ${result}`);
   return result;
 }

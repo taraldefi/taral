@@ -13,7 +13,6 @@ import {
   FaucetsApi,
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
-import { PaymentResponse } from "../clarity/lib/bitcoin/models";
 import crossfetch from "cross-fetch";
 import { getBtcBalance } from "../clarity/lib/bitcoin/balance";
 import { makePayment } from "../clarity/lib/bitcoin/payment";
@@ -45,8 +44,17 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "../clarity/generated/taral";
-import { NETWORK } from "../clarity/configuration";
+import { address } from "bitcoinjs-lib";
 import { Logger } from "../clarity/lib/logger";
+import { getRpcClient } from "../clarity/lib/bitcoin/client";
+import { getRawTransaction } from "../clarity/lib/bitcoin/transaction";
+import MerkleTree from "merkletreejs";
+import { makeBuffer, numberToBuffer, reverse, txForHash } from "../clarity/lib/swap/utils";
+
+import { InCvType, OutsCvType, TxPartsCvType } from "../clarity/lib/swap/types";
+import { NETWORK } from '../clarity/configuration'
+import { cvToString, bufferCV, callReadOnlyFunction, listCV, tupleCV, ReadOnlyFunctionOptions } from "@stacks/transactions";
+import { StacksTestnet } from "@stacks/network";
 
 // Replace with client.estimatesmartfee() for testnet/mainnet
 const REGTEST_FEE_RATE = 50;
@@ -71,7 +79,82 @@ const ALICE_BTC_PK =
 const ALICE_STX = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
 
 async function main() {
-  testSwap();
+  const outputScript = address.toOutputScript(ALICE_BTC, btc.networks.regtest);
+
+  console.log(outputScript.toString('hex'));
+}
+
+async function testConcatTransaction(txId: string) {
+
+  const bitcoinRpcClient = getRpcClient();
+
+  const rawTransaction = await getRawTransaction(
+    bitcoinRpcClient,
+    txId
+  );
+
+  const txCV = bufferCV(MerkleTree.bufferify(txForHash(rawTransaction.hex)));
+
+  let version;
+  if (rawTransaction.hex.substr(9, 10) === "00") {
+    version = rawTransaction.hex.substr(0, 12);
+  } else {
+    version = rawTransaction.hex.substr(0, 8);
+  }
+
+  const txPartsCv = tupleCV({ // -- ok, tupple
+    version: bufferCV(makeBuffer(version)),
+    ins: listCV( rawTransaction.vin.map((input) => {
+      return tupleCV({
+        outpoint: tupleCV({
+          hash: bufferCV(reverse(makeBuffer(input.txid))),
+          index: bufferCV(numberToBuffer(input.vout, 4)),
+        }),
+        scriptSig: bufferCV(makeBuffer(input.scriptSig.hex)),
+        sequence: bufferCV(numberToBuffer(input.sequence, 4)),
+      })
+    })),
+
+    outs: listCV(rawTransaction.vout.map((output) => {
+      return tupleCV({
+        scriptPubKey: bufferCV(makeBuffer(output.scriptPubKey.hex)),
+        value: bufferCV(numberToBuffer(output.value * 100_000_000, 8)),
+      });
+    })),
+
+    locktime: bufferCV(Buffer.from(
+      rawTransaction.hex.substr(rawTransaction.hex.length - 8),
+      "hex"
+    )),
+  });
+
+  console.log(JSON.stringify(txPartsCv));
+
+  await concatTransaction(txPartsCv);
+}
+
+async function concatTransaction(txPartsCV: any) {
+
+  const network = new StacksTestnet({
+    url: NETWORK.coreApiUrl
+  });
+
+  const options: ReadOnlyFunctionOptions = {
+    contractAddress: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+    contractName: 'clarity-bitcoin',
+    functionName: 'concat-tx',
+    functionArgs: [txPartsCV],
+    senderAddress: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
+    network ,
+  };
+
+  const result = await callReadOnlyFunction(options);
+
+  console.log('Arguments: ');
+  console.log(JSON.stringify(options));
+
+  console.log('concat-tx', cvToString(result));
+  return result;
 }
 
 async function testSwap() {
