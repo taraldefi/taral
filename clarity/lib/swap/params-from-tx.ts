@@ -127,6 +127,8 @@ export async function paramsFromTx(
 
   const txCV = MerkleTree.bufferify(txForHash(rawTransaction.hex));
 
+
+
   let version;
   if (rawTransaction.hex.substr(9, 10) === "00") {
     version = rawTransaction.hex.substr(0, 12);
@@ -134,25 +136,27 @@ export async function paramsFromTx(
     version = rawTransaction.hex.substr(0, 8);
   }
 
+  Logger.debug(`params-from-tx :: version - ${version}`);
+
   const txPartsCv: TxPartsCvType = {
     version: makeBuffer(version),
-    ins: transaction.inputs.map((input) => {
+    ins: rawTransaction.vin.map((input) => {
       const mapped: InCvType = {
         outpoint: {
-          hash: input.prevTxId,
-          index: numberToBuffer(input.outputIndex, 4),
+          hash: reverse(makeBuffer(input.txid)),
+          index: numberToBuffer(input.vout, 4),
         },
-        scriptSig: input.script.toBuffer(),
-        sequence: numberToBuffer(input.sequenceNumber, 4),
+        scriptSig: makeBuffer(input.scriptSig.hex),
+        sequence: numberToBuffer(input.sequence, 4),
       };
 
       return mapped;
     }),
 
-    outs: transaction.outputs.map((output) => {
+    outs: rawTransaction.vout.map((output) => {
       const mapped: OutsCvType = {
-        scriptPubKey: output.script.getPublicKey(),
-        value: numberToBuffer(output.satoshis, 8),
+        scriptPubKey: makeBuffer(output.scriptPubKey.hex),
+        value: numberToBuffer(output.value * 100_000_000, 8),
       };
 
       return mapped;
@@ -164,6 +168,9 @@ export async function paramsFromTx(
     ),
   };
 
+  Logger.debug(`params-from-tx :: assembled transaction parts`);
+  Logger.debug(JSON.stringify(txPartsCv));
+
   const concatTransactionRequest: ConcatTransactionRequest = {
     accounts: request.accounts,
     contract: request.contract,
@@ -173,7 +180,8 @@ export async function paramsFromTx(
   const txHexResponse = await concatTransaction(concatTransactionRequest);
 
   if (txHexResponse != rawTransaction.hex) {
-    Logger.error("Failed to match tx hex");
+    console.log(JSON.stringify(txHexResponse));
+    Logger.error(`Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${rawTransaction.hex}`);
 
     return getFailureResponse(ERR_DIFFERENT_HEX);
   }
