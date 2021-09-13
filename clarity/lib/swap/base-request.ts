@@ -5,7 +5,6 @@ import {
 } from "../../generated/taral";
 import { ClarinetAccounts } from "../configuration";
 import { IMetadata } from "../providers";
-import { RequestType } from "./types";
 
 export interface BaseRequest {
   accounts: ClarinetAccounts;
@@ -35,12 +34,10 @@ export function getAddress(request: BaseRequest): string {
   return deployer.address;
 }
 
-export function getMetadata(
-  request: BaseRequest
-): IMetadata {
+export function getMetadata(request: BaseRequest): IMetadata {
   return {
     discriminator: "metadata",
     sender: getPrivateKey(request),
-    address: getAddress(request)
+    address: getAddress(request),
   };
 }

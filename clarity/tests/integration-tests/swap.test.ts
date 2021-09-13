@@ -4,6 +4,12 @@ import {
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
+import crossfetch from "cross-fetch";
+import { NETWORK } from "../../configuration";
+import { Logger } from "../../lib";
+import { getBtcBalance } from "../../lib/bitcoin/balance";
+import { PaymentResponse } from "../../lib/bitcoin/models";
+import { getAccountFromMnemonic, makePayment } from "../../lib/bitcoin/payment";
 import { ClarityBitcoinRequest } from "../../lib/swap/base-request";
 import {
   parseBlockHeader,
@@ -12,26 +18,23 @@ import {
 } from "../../lib/swap/block-header";
 import { createBtcFtSwap } from "../../lib/swap/create-swap";
 import { getReversedTxId } from "../../lib/swap/get-txid";
-import { paramsFromTx, ParamsFromTxResponse } from "../../lib/swap/params-from-tx";
+import {
+  paramsFromTx,
+  ParamsFromTxResponse,
+} from "../../lib/swap/params-from-tx";
 import { submitSwap } from "../../lib/swap/submit-swap";
 import {
   verifyMerkleProof,
   verifyMerkleProof2,
 } from "../../lib/swap/verify-merkle-proof";
 import { wasTxMined, wasTxMinedFromHex } from "../../lib/swap/was-tx-mined";
-import crossfetch from "cross-fetch";
-import { NETWORK } from "../../configuration";
-import { getBtcBalance } from "../../lib/bitcoin/balance";
-import { getAccountFromMnemonic, makePayment } from "../../lib/bitcoin/payment";
+import { retry } from "../utils/retry";
 import {
   btcFtSwapContract,
   clarinetAccounts,
   clarityBitcoinContract,
 } from "./jest-setup";
 import { getWalletAtIndex } from "./utils";
-import { Logger } from "../../lib";
-import { retry } from "../utils/retry";
-import { PaymentResponse } from "../../lib/bitcoin/models";
 
 test("make btc transaction", async () => {
   const regtest = btc.networks.regtest;
@@ -152,84 +155,88 @@ test("make btc transaction", async () => {
   Logger.debug(`Seller account balance (BTC) is: ${sellerBalance}`);
   expect(sellerBalance).toBeTruthy();
 
-  const validationResults: any[] = await retry<any[]>(async function () {
-    const baseRequest: ClarityBitcoinRequest = {
-      accounts: clarinetAccounts,
-      contract: clarityBitcoinContract,
-    };
+  const validationResults: any[] = await retry<any[]>(
+    async function () {
+      const baseRequest: ClarityBitcoinRequest = {
+        accounts: clarinetAccounts,
+        contract: clarityBitcoinContract,
+      };
 
-    const paramsFromTransaction = await paramsFromTx({
-      ...baseRequest,
-      btcTxId: paymentForFtResponse.txId,
-    });
+      const paramsFromTransaction = await paramsFromTx({
+        ...baseRequest,
+        btcTxId: paymentForFtResponse.txId,
+      });
 
-    const getReversedTxIdResponse = await getReversedTxId({
-      ...baseRequest,
-      txCv: paramsFromTransaction.txCV,
-    });
+      const getReversedTxIdResponse = await getReversedTxId({
+        ...baseRequest,
+        txCv: paramsFromTransaction.txCV,
+      });
 
-    const merkleProof1 = await verifyMerkleProof({
-      ...baseRequest,
-      merkleRoot: paramsFromTransaction.block!.merkleroot,
-      proofCV: paramsFromTransaction.proofCv,
-      txId: paymentForFtResponse.txId,
-    });
+      const merkleProof1 = await verifyMerkleProof({
+        ...baseRequest,
+        merkleRoot: paramsFromTransaction.block!.merkleroot,
+        proofCV: paramsFromTransaction.proofCv,
+        txId: paymentForFtResponse.txId,
+      });
 
-    const merkleProof2 = await verifyMerkleProof2({
-      ...baseRequest,
-      headerPartsCV: paramsFromTransaction.headerPartsCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV,
-    });
+      const merkleProof2 = await verifyMerkleProof2({
+        ...baseRequest,
+        headerPartsCV: paramsFromTransaction.headerPartsCv,
+        proofCV: paramsFromTransaction.proofCv,
+        txCV: paramsFromTransaction.txCV,
+      });
 
-    const blockHeader = await verifyBlockHeader({
-      ...baseRequest,
-      headerParts: paramsFromTransaction.headerParts,
-      stacksBlockHeight: paramsFromTransaction.stxHeight,
-    });
+      const blockHeader = await verifyBlockHeader({
+        ...baseRequest,
+        headerParts: paramsFromTransaction.headerParts,
+        stacksBlockHeight: paramsFromTransaction.stxHeight,
+      });
 
-    const blockHeader2 = await verifyBlockHeader2({
-      ...baseRequest,
-      blockCV: paramsFromTransaction.blockCv,
-    });
+      const blockHeader2 = await verifyBlockHeader2({
+        ...baseRequest,
+        blockCV: paramsFromTransaction.blockCv,
+      });
 
-    const wasTxMinedFromHexResponse = await wasTxMinedFromHex({
-      ...baseRequest,
-      blockCV: paramsFromTransaction.blockCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV,
-    });
+      const wasTxMinedFromHexResponse = await wasTxMinedFromHex({
+        ...baseRequest,
+        blockCV: paramsFromTransaction.blockCv,
+        proofCV: paramsFromTransaction.proofCv,
+        txCV: paramsFromTransaction.txCV,
+      });
 
-    const parseBlockHeaderResponse = await parseBlockHeader({
-      ...baseRequest,
-      header: paramsFromTransaction.blockHeader,
-    });
+      const parseBlockHeaderResponse = await parseBlockHeader({
+        ...baseRequest,
+        header: paramsFromTransaction.blockHeader,
+      });
 
-    const wasTxMinedResult = await wasTxMined({
-      ...baseRequest,
-      blockPartsCV: paramsFromTransaction.headerPartsCv,
-      proofCV: paramsFromTransaction.proofCv,
-      txCV: paramsFromTransaction.txCV,
-    });
+      const wasTxMinedResult = await wasTxMined({
+        ...baseRequest,
+        blockPartsCV: paramsFromTransaction.headerPartsCv,
+        proofCV: paramsFromTransaction.proofCv,
+        txCV: paramsFromTransaction.txCV,
+      });
 
-    return [
-      paramsFromTransaction,
-      getReversedTxIdResponse,
-      merkleProof1,
-      merkleProof2,
-      blockHeader,
-      blockHeader2,
-      wasTxMinedFromHexResponse,
-      parseBlockHeaderResponse,
-      wasTxMinedResult,
-    ];
-  }, {
-    delay: 6000,
-    maxAttempts: 50,
-    timeout: 80000,
-  });
+      return [
+        paramsFromTransaction,
+        getReversedTxIdResponse,
+        merkleProof1,
+        merkleProof2,
+        blockHeader,
+        blockHeader2,
+        wasTxMinedFromHexResponse,
+        parseBlockHeaderResponse,
+        wasTxMinedResult,
+      ];
+    },
+    {
+      delay: 6000,
+      maxAttempts: 50,
+      timeout: 80000,
+    }
+  );
 
-  const paramsFromTransaction: ParamsFromTxResponse = validationResults[0] as ParamsFromTxResponse; 
+  const paramsFromTransaction: ParamsFromTxResponse =
+    validationResults[0] as ParamsFromTxResponse;
 
   Logger.info("Was tx mined result: ");
   Logger.info(JSON.stringify(validationResults[8]));

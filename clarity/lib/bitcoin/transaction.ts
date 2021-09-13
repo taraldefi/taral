@@ -115,9 +115,11 @@ export async function getTxOutSet(
     (ms) => Logger.debug(`scantxoutset for ${address} took ${ms} ms`)
   );
   if (!txOutSet.success) {
-    Logger.warn('scantxoutset did not immediately complete -- polling for progress...');
+    Logger.warn(
+      "scantxoutset did not immediately complete -- polling for progress..."
+    );
     let scanProgress = true;
-    
+
     do {
       scanProgress = await client.scantxoutset({
         action: "status",

@@ -1,5 +1,5 @@
 import { ClarinetAccount, IMetadata, Logger, txOk } from "..";
-import { FtSwapRequest, getAddress, getMetadata } from "./base-request";
+import { FtSwapRequest } from "./base-request";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
 export interface SubmitSwapRequest extends FtSwapRequest {
@@ -15,9 +15,9 @@ export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
   Logger.debug("Calling submitSwap");
 
   const metadata: IMetadata = {
-    discriminator: 'metadata',
+    discriminator: "metadata",
     address: request.caller.address,
-    sender: request.caller.privateKey
+    sender: request.caller.privateKey,
   };
 
   const result = await txOk(

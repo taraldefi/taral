@@ -60,15 +60,19 @@ async function functionProcessingWithSidecar(
   const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
   var result = await fetch(url);
   var value = await result.json();
-  
+
   if (value.tx_status === "success") {
-    Logger.debug(`Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`);
+    Logger.debug(
+      `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`
+    );
     Logger.debug(value);
     return true;
   }
 
   if (count > 60) {
-    Logger.error(`Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`);
+    Logger.error(
+      `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`
+    );
     Logger.error(value);
     return false;
   }

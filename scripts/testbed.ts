@@ -3,9 +3,12 @@ import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
 
 async function main() {
-  const outputScript = address.toOutputScript('mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH', btc.networks.regtest);
+  const outputScript = address.toOutputScript(
+    "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
+    btc.networks.regtest
+  );
 
-  console.log(outputScript.toString('hex'));
+  console.log(outputScript.toString("hex"));
 }
 
 async function walletFromMnemonic() {

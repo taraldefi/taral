@@ -19,7 +19,7 @@ export async function concatTransaction(
 
   let result = response.toString();
 
-  if (result.startsWith('0x')) {
+  if (result.startsWith("0x")) {
     result = result.substring(2);
   }
 

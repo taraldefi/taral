@@ -1,7 +1,7 @@
+import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
 import { ClarinetAccount, IMetadata, Logger, txOk } from "..";
-import { FtSwapRequest, getMetadata, getPrivateKey } from "./base-request";
-import * as btc from "bitcoinjs-lib";
+import { FtSwapRequest } from "./base-request";
 import { makeBuffer } from "./utils";
 
 export interface BtcFtSwapRequest extends FtSwapRequest {
@@ -25,13 +25,17 @@ export async function createBtcFtSwap(
 
   const sats = btcToSats(request.btcAmount);
 
-  const ftSellerBitcoinAddress = address.toOutputScript(request.ftSellerBitcoinAddress, request.network ?? btc.networks.regtest).toString('hex');
-
+  const ftSellerBitcoinAddress = address
+    .toOutputScript(
+      request.ftSellerBitcoinAddress,
+      request.network ?? btc.networks.regtest
+    )
+    .toString("hex");
 
   const metadata: IMetadata = {
-    discriminator: 'metadata',
+    discriminator: "metadata",
     address: request.caller.address,
-    sender: request.caller.privateKey
+    sender: request.caller.privateKey,
   };
 
   let response = await txOk(

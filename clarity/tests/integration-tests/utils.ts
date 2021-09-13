@@ -13,7 +13,7 @@ export function getTestContext(): ITestContext {
       discriminator: "metadata",
       sender: firstWallet.privateKey,
       address: firstWallet.address,
-    }
+    },
   };
 }
 

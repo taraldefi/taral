@@ -21,9 +21,7 @@ import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
 import { deployContractOnStacks } from "../stacks/deploy-contract";
-import {
-  formatArguments
-} from "../stacks/format-arguments";
+import { formatArguments } from "../stacks/format-arguments";
 import { getNonce } from "../stacks/get-nonce";
 import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
 import { getTransactionById } from "../stacks/utils";
@@ -68,8 +66,10 @@ export class ApiProvider implements BaseProvider {
   };
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
-    let formattedArguments: [ClarityValue[], IMetadata] =
-      formatArguments(request.function, request.arguments);
+    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
+      request.function,
+      request.arguments
+    );
 
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
@@ -80,7 +80,7 @@ export class ApiProvider implements BaseProvider {
       functionArgs: args,
       functionName: request.function.name,
       senderAddress: metadata.address,
-      network: this.network
+      network: this.network,
     };
 
     try {
@@ -116,7 +116,9 @@ export class ApiProvider implements BaseProvider {
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
 
-    Logger.debug(`Calling public method ${request.function.name} on contract ${this.contractName}`);
+    Logger.debug(
+      `Calling public method ${request.function.name} on contract ${this.contractName}`
+    );
     Logger.debug(JSON.stringify(request));
 
     const submit: Submitter<any, any> = async (options) => {
@@ -251,9 +253,8 @@ export class ApiProvider implements BaseProvider {
     senderAddress: string,
     args: ClarityValue[]
   ) {
-
     const nonce = await getNonce({
-      principal: senderAddress
+      principal: senderAddress,
     });
 
     const nextNonce = nonce.possible_next_nonce;
@@ -271,7 +272,7 @@ export class ApiProvider implements BaseProvider {
       network: this.network,
       postConditionMode: 0x01, // PostconditionMode.Allow
       anchorMode: 3,
-      nonce: callNonce
+      nonce: callNonce,
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);

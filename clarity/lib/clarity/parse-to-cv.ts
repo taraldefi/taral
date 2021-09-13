@@ -1,5 +1,4 @@
 import {
-  bufferCV,
   bufferCVFromString,
   ClarityAbiType,
   ClarityValue,
@@ -24,35 +23,32 @@ import {
   trueCV,
   tupleCV,
   uintCV,
-  parseToCV as _parseToCV,
-  serializeCV
 } from "@stacks/transactions";
-
 
 type TupleInput = Record<string, any>;
 type CVInput = string | TupleInput;
 
 export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
   if (isClarityAbiTuple(type)) {
-    if (typeof input === 'string') {
-      throw new Error('Invalid tuple input');
+    if (typeof input === "string") {
+      throw new Error("Invalid tuple input");
     }
     const tuple: Record<string, ClarityValue> = {};
-    type.tuple.forEach(key => {
+    type.tuple.forEach((key) => {
       const val = input[key.name];
       tuple[key.name] = parseToCV(val, key.type);
     });
     return tupleCV(tuple);
   } else if (isClarityAbiList(type)) {
     const inputs = input as any[];
-    const values = inputs.map(input => {
+    const values = inputs.map((input) => {
       return parseToCV(input, type.list.type);
     });
     return listCV(values);
   } else if (isClarityAbiOptional(type)) {
     if (!input) return noneCV();
     return someCV(parseToCV(input, type.optional));
-  } 
+  }
 
   const result = parseToCVInternal(input as string, type);
   return result;
@@ -99,9 +95,9 @@ function parseToCVInternal(input: string, type: ClarityAbiType): ClarityValue {
     if (inputLength > type.buffer.length) {
       throw new Error(
         `Input exceeds specified buffer length limit of ${type.buffer.length}`
-      );  
+      );
     }
-    
+
     return bufferCVFromString(input);
   } else if (isClarityAbiStringAscii(type)) {
     if (input.length > type["string-ascii"].length) {

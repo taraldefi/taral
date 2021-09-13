@@ -1,4 +1,3 @@
-import { Transaction } from "bitcore-lib";
 import SHA256 from "crypto-js/sha256";
 import MerkleTree from "merkletreejs";
 import { NETWORK } from "../../configuration";
@@ -93,7 +92,7 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
       version: Buffer.from(""),
     },
 
-    blockHeader: '',
+    blockHeader: "",
     headerParts: [],
     stxHeight: 0,
     txPartsCv: {
@@ -119,15 +118,11 @@ export async function paramsFromTx(
     request.btcTxId
   );
 
-  const transaction = new Transaction(rawTransaction.hex);
-
   if (!rawTransaction.hex) {
     return getFailureResponse(ERR_API_FAILURE);
   }
 
   const txCV = MerkleTree.bufferify(txForHash(rawTransaction.hex));
-
-
 
   let version;
   if (rawTransaction.hex.substr(9, 10) === "00") {
@@ -180,11 +175,17 @@ export async function paramsFromTx(
   const txHexResponse = await concatTransaction(concatTransactionRequest);
 
   if (txHexResponse != rawTransaction.hex) {
-    Logger.debug('Got the transaction hex back from calling concat-tx function');
+    Logger.debug(
+      "Got the transaction hex back from calling concat-tx function"
+    );
     Logger.debug(JSON.stringify(txHexResponse));
 
-    Logger.error(`Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${rawTransaction.hex}`);
-    
+    Logger.error(
+      `Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${
+        rawTransaction.hex
+      }`
+    );
+
     return getFailureResponse(ERR_DIFFERENT_HEX);
   }
 
@@ -193,20 +194,26 @@ export async function paramsFromTx(
     rawTransaction.blockhash
   );
 
-  
-  Logger.debug(`-------------------------- Block info --------------------------`);
+  Logger.debug(
+    `-------------------------- Block info --------------------------`
+  );
   Logger.debug(JSON.stringify(block));
-  Logger.debug(`--------------------------              --------------------------`);
-
+  Logger.debug(
+    `--------------------------              --------------------------`
+  );
 
   const blockHeader = await getBlockHeader(
     bitcoinRpcClient,
     rawTransaction.blockhash
   );
 
-  Logger.debug(`-------------------------- Block header --------------------------`);
+  Logger.debug(
+    `-------------------------- Block header --------------------------`
+  );
   Logger.debug(JSON.stringify(blockHeader));
-  Logger.debug(`--------------------------              --------------------------`);
+  Logger.debug(
+    `--------------------------              --------------------------`
+  );
 
   let height;
   let stacksBlock;

@@ -1,15 +1,11 @@
-import {
-  ClarityAbiFunction,
-  ClarityValue,
-} from "@stacks/transactions";
+import { ClarityAbiFunction, ClarityValue } from "@stacks/transactions";
+import { parseToCV } from "..";
 import { IMetadata, instanceOfMetadata } from "../providers/types";
-import { parseToCV } from '..';
 
 export function formatArguments(
   func: ClarityAbiFunction,
   args: any[]
 ): [ClarityValue[], IMetadata] {
-
   var metadata = args.filter((arg) => instanceOfMetadata(arg));
   if (metadata.length > 1) {
     throw new TypeError("More than one metadata objects");
