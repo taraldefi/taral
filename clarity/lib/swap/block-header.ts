@@ -48,6 +48,7 @@ export async function verifyBlockHeader(
     request.headerParts[3] +
     request.headerParts[4] +
     request.headerParts[5];
+    
   const headerPartsBuffer = makeBuffer(summedUpHeaderParts);
 
   // Call readonly function
