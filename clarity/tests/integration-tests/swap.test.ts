@@ -32,8 +32,11 @@ import {
   getWalletAtIndex,
 } from "./utils";
 import { Logger } from "../../lib";
+import { retry } from "../utils/retry";
+import { PaymentResponse } from '../../lib/bitcoin/models';
 
 test("make btc transaction", async () => {
+  const regtest = btc.networks.regtest;
   const ftContract = `${clarinetAccounts.deployer.address}.taral-coin`;
   const btcSwapAmount = 0.1;
   const ftSwapAmount = 3000;
@@ -71,11 +74,20 @@ test("make btc transaction", async () => {
 
   await new Promise((r) => setTimeout(r, 15000));
 
-  const regtest = btc.networks.regtest;
-  var balance = await getBtcBalance(regtest, buyerDerivedBtcInfo.address);
+  const buyerBalance: number = await retry<number>(async function () {
+    const btcBalance = await getBtcBalance(regtest, buyerDerivedBtcInfo.address);
+    expect(btcBalance).toBeTruthy();
+    Logger.debug(`Account balance is: ${btcBalance}`);
+    return btcBalance;
+  }, {
+    delay: 1000,
+    maxAttempts: 50,
+    timeout: 80000
+  });
 
-  expect(balance).toBeTruthy();
-  Logger.debug(`Account balance is: ${balance}`);
+  Logger.debug(`Buyer account balance (BTC) is: ${buyerBalance}`);
+
+  expect(buyerBalance).toBeTruthy();
 
   Logger.debug('Calling create swap');
   const swapId = await createBtcFtSwap({
@@ -97,24 +109,35 @@ test("make btc transaction", async () => {
   // Make a BTC transaction
   //
 
-  await new Promise((r) => setTimeout(r, 15000));
-
-  const paymentResponse = await makePayment(
-    regtest,
-    sellerDerivedBtcInfo.address,
-    buyerWallet.mnemonic,
-    btcSwapAmount
-  );
+  const paymentForFtResponse: PaymentResponse = await retry<PaymentResponse>(async function () {
+    const paymentResponse = await makePayment(
+      regtest,
+      sellerDerivedBtcInfo.address,
+      buyerWallet.mnemonic,
+      btcSwapAmount
+    );
+    return paymentResponse;
+  }, {
+    delay: 1000,
+    maxAttempts: 50,
+    timeout: 80000
+  });
 
   Logger.debug("Bitcoin payment details: ");
-  console.log(JSON.stringify(paymentResponse));
+  console.log(JSON.stringify(paymentForFtResponse));
 
-  await new Promise((r) => setTimeout(r, 30000));
+  const sellerBalance: number = await retry<number>(async function () {
+    const btcBalance = await getBtcBalance(regtest, sellerDerivedBtcInfo.address);
+    expect(btcBalance).toBeTruthy();
+    return btcBalance;
+  }, {
+    delay: 1000,
+    maxAttempts: 50,
+    timeout: 80000
+  });
 
-  var balance = await getBtcBalance(regtest, sellerDerivedBtcInfo.address);
-  Logger.debug(`Seller account balance is ${balance}`);
-  expect(balance).toBeTruthy();
-
+  Logger.debug(`Seller account balance (BTC) is: ${sellerBalance}`);
+  expect(sellerBalance).toBeTruthy();
 
   const baseRequest: ClarityBitcoinRequest = {
     accounts: clarinetAccounts,
@@ -123,7 +146,7 @@ test("make btc transaction", async () => {
 
   const paramsFromTransaction = await paramsFromTx({
     ...baseRequest,
-    btcTxId: paymentResponse.txId,
+    btcTxId: paymentForFtResponse.txId,
   });
 
   const getReversedTxIdResponse = await getReversedTxId({
@@ -135,7 +158,7 @@ test("make btc transaction", async () => {
     ...baseRequest,
     merkleRoot: paramsFromTransaction.block!.merkleroot,
     proofCV: paramsFromTransaction.proofCv,
-    txId: paymentResponse.txId,
+    txId: paymentForFtResponse.txId,
   });
 
   const merkleProof2 = await verifyMerkleProof2({
