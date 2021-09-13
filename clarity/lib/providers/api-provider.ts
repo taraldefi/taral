@@ -22,8 +22,7 @@ import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
 import { deployContractOnStacks } from "../stacks/deploy-contract";
 import {
-  formatArguments,
-  formatReadonlyArguments,
+  formatArguments
 } from "../stacks/format-arguments";
 import { getNonce } from "../stacks/get-nonce";
 import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
@@ -70,7 +69,7 @@ export class ApiProvider implements BaseProvider {
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
     let formattedArguments: [ClarityValue[], IMetadata] =
-      formatReadonlyArguments(request.function, request.arguments);
+      formatArguments(request.function, request.arguments);
 
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
@@ -117,16 +116,13 @@ export class ApiProvider implements BaseProvider {
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
 
-    console.log('Call public method');
-    console.log(JSON.stringify(request));
+    Logger.debug(`Calling public method ${request.function.name} on contract ${this.contractName}`);
+    Logger.debug(JSON.stringify(request));
 
     const submit: Submitter<any, any> = async (options) => {
       if (!("sender" in options)) {
         throw new Error("Passing `sender` is required.");
       }
-
-      console.log('In public function submit');
-      console.log(JSON.stringify(args));
 
       var rawFunctionCallResult = await this.callContractFunction(
         this.contractName,
@@ -137,7 +133,6 @@ export class ApiProvider implements BaseProvider {
       );
 
       let successfulFunctionCallResult: TxBroadcastResultOk = "";
-
       let unsuccessfullFunctionCalResult: TxBroadcastResultRejected;
 
       let success: boolean;
@@ -280,13 +275,12 @@ export class ApiProvider implements BaseProvider {
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);
-
     Logger.debug(JSON.stringify(txOptions));
 
     const transaction = await makeContractCall(txOptions);
 
-    console.log('Made transaction ');
-    console.log(JSON.stringify(transaction));
+    Logger.debug(`Issued transaction on ${contractName}::${functionName}`);
+    Logger.debug(JSON.stringify(transaction));
 
     return handleFunctionTransaction(
       transaction,
