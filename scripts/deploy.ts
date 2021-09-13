@@ -10,7 +10,7 @@ import { NETWORK } from "../clarity/configuration";
 import { getClarinetAccounts } from "../clarity/lib";
 import { handleTransaction } from "../clarity/lib/stacks/handle-transaction";
 
-console.log("Deploying contracts");
+Logger.debug("Deploying contracts");
 deployMany(contracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
@@ -45,6 +45,6 @@ async function deployContract<T extends Contracts<M>, M>(
     anchorMode: 3,
   });
 
-  Logger.debug(`deploy contract ${contractName}`);
+  Logger.debug(`Deploying contract ${contractName}`);
   return handleTransaction(transaction, NETWORK);
 }

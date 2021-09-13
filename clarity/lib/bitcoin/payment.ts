@@ -2,6 +2,7 @@ import * as btc from "bitcoinjs-lib";
 import { coinSelect } from "../coinselect";
 import { Logger } from "../logger";
 import * as stacksgen from "../stacksgen";
+import { makeBuffer } from "../swap/utils";
 import { getRpcClient } from "./client";
 import { REGTEST_FEE_RATE } from "./constants";
 import { time } from "./helpers";
@@ -47,7 +48,7 @@ export async function makePayment(
 
   const candidateInputs = spendableUtxos.map((utxo) => {
     return {
-      script: Buffer.from(utxo.scriptPubKey, "hex"),
+      script: makeBuffer(utxo.scriptPubKey),
       value: Math.round(utxo.amount * 1e8),
       txId: utxo.txid,
       vout: utxo.vout,
@@ -67,7 +68,7 @@ export async function makePayment(
     psbt.addInput({
       hash: input.txId,
       index: input.vout,
-      nonWitnessUtxo: Buffer.from(rawTx, "hex"),
+      nonWitnessUtxo: makeBuffer(rawTx),
     });
   }
 

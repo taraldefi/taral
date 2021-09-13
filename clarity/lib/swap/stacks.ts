@@ -26,8 +26,6 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
     firstResponse.results[0].burn_block_height - bitcoinBlockHeight
   );
 
-  console.log("getStxBlock", { offset });
-
   while (!stxBlock) {
     const blockListResponse = await blocksApi.getBlockList({ offset, limit });
     const blocks = blockListResponse.results;

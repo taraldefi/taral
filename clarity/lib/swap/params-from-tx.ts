@@ -180,9 +180,9 @@ export async function paramsFromTx(
   const txHexResponse = await concatTransaction(concatTransactionRequest);
 
   if (txHexResponse != rawTransaction.hex) {
-    console.log(JSON.stringify(txHexResponse));
+    Logger.info('Got the transaction hex back from calling concat-tx function');
+    Logger.info(JSON.stringify(txHexResponse));
     Logger.error(`Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${rawTransaction.hex}`);
-
     return getFailureResponse(ERR_DIFFERENT_HEX);
   }
 
@@ -192,9 +192,9 @@ export async function paramsFromTx(
   );
 
   
-  console.log(`-------------------------- Block info --------------------------`);
-  console.log(JSON.stringify(block));
-  console.log(`--------------------------              --------------------------`);
+  Logger.debug(`-------------------------- Block info --------------------------`);
+  Logger.debug(JSON.stringify(block));
+  Logger.debug(`--------------------------              --------------------------`);
 
 
   const blockHeader = await getBlockHeader(
@@ -202,14 +202,14 @@ export async function paramsFromTx(
     rawTransaction.blockhash
   );
 
-  console.log(`-------------------------- Block header --------------------------`);
-  console.log(JSON.stringify(blockHeader));
-  console.log(`--------------------------              --------------------------`);
+  Logger.debug(`-------------------------- Block header --------------------------`);
+  Logger.debug(JSON.stringify(blockHeader));
+  Logger.debug(`--------------------------              --------------------------`);
 
   let height;
   let stacksBlock;
   if (!request.stxHeight) {
-    console.log("try to find stx height");
+    Logger.debug("Finding stx height value by calling the stx block");
     const bitcoinBlockHeight = block.height;
     stacksBlock = await getStxBlock(bitcoinBlockHeight);
     if (!stacksBlock) {
@@ -224,8 +224,6 @@ export async function paramsFromTx(
     stacksBlock = await stacksBlockResponse.json();
     height = request.stxHeight;
   }
-
-  console.log({ height, stacksBlockHash: stacksBlock.hash });
 
   const txIds = block.tx.map((transaction) => transaction.txid);
   const transactionIndex = block.tx.findIndex(
@@ -279,10 +277,6 @@ export async function paramsFromTx(
     stxHeight: height,
     error: undefined,
   };
-
-  Logger.debug("paramsFromTx result");
-  Logger.debug(JSON.stringify(result));
-  Logger.debug("---------------");
 
   return result;
 }

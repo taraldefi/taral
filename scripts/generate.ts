@@ -69,15 +69,12 @@ async function generateAbis(
       });
     }
   }
-
-  console.log("finished generating abis");
 }
 
 async function generateProjectIndexFile(
   groups: IContractGroup[],
   outputFolder: string
 ): Promise<void> {
-  console.log("in generate project index file");
   for (let group of groups) {
     const imports: string[] = [];
     const exports: string[] = [];

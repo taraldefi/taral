@@ -1,4 +1,5 @@
 import { Transaction } from "bitcoinjs-lib";
+import { Logger } from "..";
 
 export function makeBuffer(value: any): Buffer {
   return Buffer.from(value, "hex");
@@ -12,7 +13,7 @@ export function numberToBuffer(value: number, size: number): Buffer {
   } else if (size === 8) {
     buf.writeUInt32LE(value, 0);
   } else {
-    console.log(`unsupported size ${size}`);
+    Logger.error(`NumberToBuffer - unsupported size ${size}`);
     // not supported
   }
   // remove the extra byte again

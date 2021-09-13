@@ -41,9 +41,6 @@ async function functionProcessing(
   contractName: string,
   count: number = 0
 ): Promise<boolean> {
-
-  console.log(`(re)trying transaction ${tx}`);
-
   return functionProcessingWithSidecar(
     tx,
     count,
@@ -64,21 +61,15 @@ async function functionProcessingWithSidecar(
   var result = await fetch(url);
   var value = await result.json();
   
-  if (count % 5 == 0) {
-    console.log('In the process of retrying transaction(s)');
-    console.log(value)
-  }
-  
   if (value.tx_status === "success") {
-    console.log('Transaction succeeded ');
-    console.log(value);
+    Logger.info(`Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`);
+    Logger.info(value);
     return true;
   }
 
   if (count > 60) {
-    Logger.error(
-      `Failed calling ${contractName}::${functionName} after 60 retries `
-    );
+    Logger.error(`Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`);
+    Logger.error(value);
     return false;
   }
 
