@@ -36,18 +36,11 @@ export function getAddress(request: BaseRequest): string {
 }
 
 export function getMetadata(
-  type: RequestType,
   request: BaseRequest
 ): IMetadata {
-  if (type == "public") {
-    return {
-      discriminator: "metadata",
-      sender: getPrivateKey(request),
-    };
-  }
-
   return {
     discriminator: "metadata",
-    sender: getAddress(request)
+    sender: getPrivateKey(request),
+    address: getAddress(request)
   };
 }

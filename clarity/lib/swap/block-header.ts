@@ -24,7 +24,7 @@ export async function parseBlockHeader(
   const response = (
     await request.contract.parseBlockHeader(
       makeBuffer(request.header),
-      getMetadata("readonly", request)
+      getMetadata(request)
     )
   )._unsafeUnwrap();
 
@@ -55,7 +55,7 @@ export async function verifyBlockHeader(
   let response = await request.contract.verifyBlockHeader(
     headerPartsBuffer,
     request.stacksBlockHeight,
-    getMetadata("readonly", request)
+    getMetadata(request)
   );
 
   let result = response;
@@ -77,7 +77,7 @@ export async function verifyBlockHeader2(
   let response = await request.contract.verifyBlockHeader(
     request.blockCV["header"],
     request.blockCV["height"],
-    getMetadata("readonly", request)
+    getMetadata(request)
   );
 
   let result = response;

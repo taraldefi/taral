@@ -15,7 +15,7 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
     //
     let response = await request.contract.getTxid(
       request.txCV,
-      getMetadata("readonly", request)
+      getMetadata(request)
     );
     result = response.toString();
   } catch (error: any) {

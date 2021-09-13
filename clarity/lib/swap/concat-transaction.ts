@@ -14,7 +14,7 @@ export async function concatTransaction(
   //
   let response = await request.contract.concatTx(
     request.txPartsCV,
-    getMetadata("readonly", request)
+    getMetadata(request)
   );
 
   let result = response.toString();

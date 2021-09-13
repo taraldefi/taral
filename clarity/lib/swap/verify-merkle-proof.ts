@@ -32,7 +32,7 @@ export async function verifyMerkleProof(
     bufferedTxId,
     bufferedMerkleRoot,
     request.proofCV,
-    getMetadata("readonly", request)
+    getMetadata(request)
   ))._unsafeUnwrap();
 
   let result = response.toString();
@@ -64,7 +64,7 @@ export async function verifyMerkleProof2(
     reversedTxIdBuffer,
     merkleRootBuffer,
     request.proofCV,
-    getMetadata("readonly", request)
+    getMetadata(request)
   ))._unsafeUnwrap();
 
   let result = response.toString();

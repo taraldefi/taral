@@ -15,6 +15,7 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
+import BN from "bn.js";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue } from "../clarity";
@@ -24,6 +25,7 @@ import {
   formatArguments,
   formatReadonlyArguments,
 } from "../stacks/format-arguments";
+import { getNonce } from "../stacks/get-nonce";
 import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
 import { getTransactionById } from "../stacks/utils";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
@@ -78,8 +80,8 @@ export class ApiProvider implements BaseProvider {
       contractName: this.contractName,
       functionArgs: args,
       functionName: request.function.name,
-      senderAddress: metadata.sender,
-      network: this.network,
+      senderAddress: metadata.address,
+      network: this.network
     };
 
     try {
@@ -108,22 +110,29 @@ export class ApiProvider implements BaseProvider {
   }
 
   callPublic(request: IProviderRequest): Transaction<any, any> {
-    let formattedArguments: [string[], IMetadata] = formatArguments(
+    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
       request.function,
       request.arguments
     );
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
 
+    console.log('Call public method');
+    console.log(JSON.stringify(request));
+
     const submit: Submitter<any, any> = async (options) => {
       if (!("sender" in options)) {
         throw new Error("Passing `sender` is required.");
       }
 
+      console.log('In public function submit');
+      console.log(JSON.stringify(args));
+
       var rawFunctionCallResult = await this.callContractFunction(
         this.contractName,
         request.function.name,
-        options.sender,
+        metadata.sender ?? options.sender,
+        metadata.address,
         args
       );
 
@@ -243,9 +252,19 @@ export class ApiProvider implements BaseProvider {
   async callContractFunction(
     contractName: string,
     functionName: string,
-    sender: any,
-    args: any
+    sender: string,
+    senderAddress: string,
+    args: ClarityValue[]
   ) {
+
+    const nonce = await getNonce({
+      principal: senderAddress
+    });
+
+    const nextNonce = nonce.possible_next_nonce;
+
+    const callNonce = new BN(nextNonce);
+
     const txOptions:
       | SignedContractCallOptions
       | SignedMultiSigContractCallOptions = {
@@ -257,6 +276,7 @@ export class ApiProvider implements BaseProvider {
       network: this.network,
       postConditionMode: 0x01, // PostconditionMode.Allow
       anchorMode: 3,
+      nonce: callNonce
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);

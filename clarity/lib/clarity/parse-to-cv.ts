@@ -55,15 +55,6 @@ export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
   } 
 
   const result = parseToCVInternal(input as string, type);
-
-  // try {
-  //   const sss = serializeCV(result);
-  // } catch (error) {
-  //   console.error('could not serialize ');
-  //   console.error(JSON.stringify(input));
-  //   console.error(JSON.stringify(type));
-  // }
-
   return result;
 }
 

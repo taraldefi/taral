@@ -23,7 +23,7 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
     request.blockPartsCV,
     request.txCV,
     request.proofCV,
-    getMetadata("readonly", request)
+    getMetadata(request)
   );
 
   let result = response._unsafeUnwrap();
@@ -44,7 +44,7 @@ export async function wasTxMinedFromHex(
     request.blockCV,
     request.txCV,
     request.proofCV,
-    getMetadata("readonly", request)
+    getMetadata(request)
   );
 
   let result = response._unsafeUnwrap();

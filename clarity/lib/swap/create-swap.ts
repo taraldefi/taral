@@ -27,6 +27,7 @@ export async function createBtcFtSwap(
 
   const btcReceiver = address.toOutputScript(request.btcAddress, request.network ?? btc.networks.regtest).toString('hex');
 
+  
   let response = await txOk(
     request.contract.createSwap(
       sats,
@@ -34,7 +35,7 @@ export async function createBtcFtSwap(
       request.ftAmount,
       request.stxAddress,
       request.ftContract,
-      getMetadata("public", request)
+      getMetadata(request)
     ),
     getPrivateKey(request)
   );

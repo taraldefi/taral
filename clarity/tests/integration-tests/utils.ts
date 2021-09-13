@@ -30,24 +30,18 @@ export const ALICE_STX = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
 // address = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM"
 
 export interface ITestContext {
-  callFunctionMetadata: IMetadata;
-  callReadonlyFunctionMetadata: IMetadata;
-  stacksAddress: string;
+  metadata: IMetadata;
 }
 
 export function getTestContext(): ITestContext {
   const firstWallet = getWallet();
 
   return {
-    callFunctionMetadata: {
+    metadata: {
       discriminator: "metadata",
       sender: firstWallet.privateKey,
-    },
-    callReadonlyFunctionMetadata: {
-      discriminator: "metadata",
-      sender: firstWallet.address,
-    },
-    stacksAddress: firstWallet.address,
+      address: firstWallet.address,
+    }
   };
 }
 

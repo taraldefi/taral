@@ -20,7 +20,7 @@ export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
       request.txPartsCv,
       request.proofCv,
       request.ftContract,
-      getMetadata("public", request)
+      getMetadata(request)
     ),
     getAddress(request)
   );
