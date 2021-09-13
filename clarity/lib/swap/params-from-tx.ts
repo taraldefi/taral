@@ -180,9 +180,11 @@ export async function paramsFromTx(
   const txHexResponse = await concatTransaction(concatTransactionRequest);
 
   if (txHexResponse != rawTransaction.hex) {
-    Logger.info('Got the transaction hex back from calling concat-tx function');
-    Logger.info(JSON.stringify(txHexResponse));
+    Logger.debug('Got the transaction hex back from calling concat-tx function');
+    Logger.debug(JSON.stringify(txHexResponse));
+
     Logger.error(`Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${rawTransaction.hex}`);
+    
     return getFailureResponse(ERR_DIFFERENT_HEX);
   }
 

@@ -62,8 +62,8 @@ async function functionProcessingWithSidecar(
   var value = await result.json();
   
   if (value.tx_status === "success") {
-    Logger.info(`Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`);
-    Logger.info(value);
+    Logger.debug(`Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`);
+    Logger.debug(value);
     return true;
   }
 

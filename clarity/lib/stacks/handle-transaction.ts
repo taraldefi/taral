@@ -19,7 +19,7 @@ export async function handleTransaction(
     if (
       (result as TxBroadcastResultRejected).reason === "ContractAlreadyExists"
     ) {
-      Logger.info("Contract already deployed");
+      Logger.debug("Contract already deployed");
       return "" as TxBroadcastResultOk;
     } else {
       throw new Error(
