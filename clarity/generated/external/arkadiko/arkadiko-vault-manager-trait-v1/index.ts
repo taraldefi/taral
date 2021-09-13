@@ -17,7 +17,7 @@ export const arkadikoVaultManagerTraitV1Contract = (provider: BaseProvider) => {
 export const arkadikoVaultManagerTraitV1Info: Contract<ArkadikoVaultManagerTraitV1Contract> =
   {
     contract: arkadikoVaultManagerTraitV1Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-vault-manager-trait-v1.clar",
   };

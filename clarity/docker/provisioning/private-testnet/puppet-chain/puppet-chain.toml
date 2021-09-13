@@ -1,0 +1,56 @@
+[network]
+rpc_bind = "0.0.0.0:18443"
+block_time = 7000
+miner_address = "mtFzK54XtpktHj7fKonFExEPEGkUMsiXdy"
+faucet_address = "mrzLDS7LT3otAnpiRWGYkWipdnAZJaXAZQ"
+
+# Faucet:
+# Private Key          cTYqAVPS7uJTAcxyzkXWjmRGoCjkPcb38wZVRjyXov1RiRDWPQj3
+# Public Key           02327e09dc18fee1d51fe2b19b487e01eba4e6adcb325bf102213fce7bbdcde6bd
+# Address              n3k15aVS4rEWhVYn4YfAFjD8Em5mmsducg
+# Format               p2pkh
+# Network              testnet
+# Compressed           true
+
+bitcoind_rpc_host = "localhost:28443"
+bitcoind_rpc_user = "blockstack"
+bitcoind_rpc_pass = "blockstacksystem"
+genesis_timestamp = 1588615296
+whitelisted_rpc_calls = [
+    "listunspent",
+    "listwallets",
+    "createwallet",
+    "importaddress",
+    "sendrawtransaction",
+    "getrawtransaction",
+    "scantxoutset",
+    "getrawmempool",
+    "getblockhash",
+    "getblock",
+    "getblockheader",
+    "getbestblockhash",
+    "generatetoaddress"
+]
+
+[[blocks]]
+count = 1
+block_time = 10000
+ignore_txs = false
+
+# Expedite the key registration / genesis block
+# [[blocks]]
+# count = 1
+# block_time = 30000
+# ignore_txs = false
+
+# # Expedite the key registration / genesis block
+# [[blocks]]
+# count = 2
+# block_time = 20000
+# ignore_txs = false
+
+# # Give more time to the first blocks
+# [[blocks]]
+# count = 2
+# block_time = 50000
+# ignore_txs = false

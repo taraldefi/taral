@@ -14,14 +14,45 @@ import {
   isClarityAbiStringAscii,
   isClarityAbiStringUtf8,
   isClarityAbiTuple,
+  listCV,
   noneCV,
   someCV,
   standardPrincipalCV,
   stringAsciiCV,
   stringUtf8CV,
   trueCV,
+  tupleCV,
   uintCV,
 } from "@stacks/transactions";
+
+type TupleInput = Record<string, any>;
+type CVInput = string | TupleInput;
+
+export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
+  if (isClarityAbiTuple(type)) {
+    if (typeof input === "string") {
+      throw new Error("Invalid tuple input");
+    }
+    const tuple: Record<string, ClarityValue> = {};
+    type.tuple.forEach((key) => {
+      const val = input[key.name];
+      tuple[key.name] = parseToCV(val, key.type);
+    });
+    return tupleCV(tuple);
+  } else if (isClarityAbiList(type)) {
+    const inputs = input as any[];
+    const values = inputs.map((input) => {
+      return parseToCV(input, type.list.type);
+    });
+    return listCV(values);
+  } else if (isClarityAbiOptional(type)) {
+    if (!input) return noneCV();
+    return someCV(parseToCV(input, type.optional));
+  }
+
+  const result = parseToCVInternal(input as string, type);
+  return result;
+}
 
 /**
  * Convert string input to Clarity value based on contract ABI data. Only handles Clarity
@@ -32,7 +63,7 @@ import {
  *
  * @returns {ClarityValue} returns a Clarity value
  */
-export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
+function parseToCVInternal(input: string, type: ClarityAbiType): ClarityValue {
   const typeString = getTypeString(type);
   if (isClarityAbiPrimitive(type)) {
     if (type === "uint128") {
@@ -66,6 +97,7 @@ export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
         `Input exceeds specified buffer length limit of ${type.buffer.length}`
       );
     }
+
     return bufferCVFromString(input);
   } else if (isClarityAbiStringAscii(type)) {
     if (input.length > type["string-ascii"].length) {
@@ -88,9 +120,6 @@ export function parseToCV(input: string, type: ClarityAbiType): ClarityValue {
   } else if (isClarityAbiOptional(type)) {
     if (!input) return noneCV();
     return someCV(parseToCV(input, type.optional));
-    throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
-    );
   } else if (isClarityAbiTuple(type)) {
     throw new Error(
       `Contract function contains unsupported Clarity ABI type: ${typeString}`

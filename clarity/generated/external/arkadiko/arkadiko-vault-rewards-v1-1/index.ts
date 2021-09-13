@@ -17,7 +17,7 @@ export const arkadikoVaultRewardsV11Contract = (provider: BaseProvider) => {
 export const arkadikoVaultRewardsV11Info: Contract<ArkadikoVaultRewardsV11Contract> =
   {
     contract: arkadikoVaultRewardsV11Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-vault-rewards-v1-1.clar",
   };

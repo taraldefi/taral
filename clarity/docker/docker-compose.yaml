@@ -2,15 +2,31 @@ version: '3.7'
 services:
   bitcoin:
     build:
-        context: ./provisioning/puppet-chain
+      context: ./provisioning/private-testnet/puppet-chain
     container_name: bitcoin
     restart: on-failure
-    expose:
-      - 18443
-      - 28444
+    ports:
+      - "18443:18443"
+      - "28443:28443"
+      - "28444:28444"
     environment:
       - DYNAMIC_GENESIS_TIMESTAMP=1
       - RUST_BACKTRACE=1
+    networks:
+      - stacks-blockchain
+    
+  bitcoind-fill-faucet:
+    build:
+      context: ./provisioning/private-testnet/fill-faucet
+    depends_on:
+      - bitcoin
+    restart: on-failure
+    environment:
+      WAIT_HOST_CONNECT_TIMEOUT: 6
+      WAIT_BEFORE: 5
+      WAIT_HOSTS: bitcoin:18443
+      WAIT_AFTER: 5
+      WAIT_SLEEP_INTERVAL: 1
     networks:
       - stacks-blockchain
 
@@ -26,26 +42,10 @@ services:
       POSTGRES_PORT: 5432
     networks:
       - stacks-blockchain
-
-  explorer:
-    image: blockstack/explorer:1.13
-    container_name: explorer
-    environment:
-      # - NEXT_PUBLIC_MAINNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3999
-      # - NEXT_PUBLIC_TESTNET_API_SERVER=http://stacks-node-api.stacks-blockchain:3399
-      # - MOCKNET_API_SERVER=http://localhost:3999
-      # - TESTNET_API_SERVER=http://localhost:3999
-      - NEXT_PUBLIC_REGTEST_API_SERVER=http://localhost:3999
-    ports:
-      - 3000:3000
-    depends_on: 
-      - stacks-blockchain-api
-    networks:
-      - stacks-blockchain
-
+      
   stacks-blockchain:
       build:
-        context: ./provisioning/stacks-blockchain
+        context: ./provisioning/private-testnet/stacks-blockchain
       restart: on-failure
       environment:
         STACKS_EVENT_OBSERVER: stacks-blockchain-api:3700
@@ -83,12 +83,17 @@ services:
       STACKS_CORE_RPC_PORT: 20443
       NODE_ENV: production
       STACKS_CHAIN_ID: 2147483648
+      BTC_RPC_HOST: http://bitcoin
+      BTC_RPC_PORT: 18443
+      BTC_RPC_USER: blockstack
+      BTC_RPC_PW: blockstacksystem
+      BTC_FAUCET_PK: 29c028009a8331358adcc61bb6397377c995d327ac0343ed8e8f1d4d3ef85c27
       # BNS_IMPORT_DIR: /bns-data
     ports:
       - "3999:3999"
       - "9153:9153"
     volumes:
-      - ./bns-data:/bns-data
+      - ./provisioning/private-testnet/bns-data:/bns-data
     depends_on: 
       - postgres
     networks:

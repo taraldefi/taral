@@ -5,6 +5,6 @@ services:
       context: ./provisioning/bns
     container_name: bns_data
     volumes:
-      - ./bns-data:/bns-data
+      - ./provisioning/private-testnet/bns-data:/bns-data
     environment:
       - BNS_IMPORT_DIR=/bns-data

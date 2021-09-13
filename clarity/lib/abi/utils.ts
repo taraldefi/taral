@@ -12,6 +12,10 @@ import {
 import { ClarityAbi, ClarityAbiMap } from "../clarity";
 import { toCamelCase } from "../utils";
 
+// Will add more to the reserved names if I need to
+//
+const reservedNames: string[] = ["for", "in", "function"];
+
 export const cvFromType = (val: ClarityAbiType) => {
   if (isClarityAbiPrimitive(val)) {
     if (val === "uint128") {
@@ -99,6 +103,16 @@ export const jsTypeFromAbiType = (val: ClarityAbiType): string => {
   }
 };
 
+function generateArgName(argName: string): string {
+  var camelCaseArg = toCamelCase(argName);
+
+  if (reservedNames.includes(camelCaseArg)) {
+    return `${camelCaseArg}Variable`;
+  }
+
+  return camelCaseArg;
+}
+
 export const makeTypes = (abi: ClarityAbi) => {
   const typings: string[] = [];
   abi.functions.forEach((func, _index) => {
@@ -106,7 +120,7 @@ export const makeTypes = (abi: ClarityAbi) => {
     const metadata = `metadata: IMetadata`;
     let functionLine = `${toCamelCase(func.name)}: `;
     const args = func.args.map((arg) => {
-      return `${toCamelCase(arg.name)}: ${jsTypeFromAbiType(arg.type)}`;
+      return `${generateArgName(arg.name)}: ${jsTypeFromAbiType(arg.type)}`;
     });
 
     args.push(metadata);

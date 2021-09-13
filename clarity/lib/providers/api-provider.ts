@@ -1,31 +1,30 @@
-import { StacksNetwork } from "@stacks/network";
 import { SmartContractTransaction } from "@stacks/stacks-blockchain-api-types";
 import {
-  broadcastTransaction,
   callReadOnlyFunction,
-  ClarityAbiFunction,
   ClarityAbiVariable,
   ClarityType,
   ClarityValue,
-  cvToString,
   deserializeCV,
   makeContractCall,
-  makeContractDeploy,
   noneCV,
   ReadOnlyFunctionOptions,
   responseErrorCV,
   responseOkCV,
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
-  StacksTransaction,
-  TxBroadcastResult,
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import * as fs from "fs";
+import BN from "bn.js";
 import { err, ok } from "neverthrow";
-import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
+import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
+import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
+import { deployContractOnStacks } from "../stacks/deploy-contract";
+import { formatArguments } from "../stacks/format-arguments";
+import { getNonce } from "../stacks/get-nonce";
+import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
+import { getTransactionById } from "../stacks/utils";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
   ApiCreateOptions,
@@ -35,15 +34,15 @@ import {
 } from "../types";
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
-import { DeployerAccount, IMetadata, instanceOfMetadata } from "./types";
+import { DeployerAccount, IMetadata } from "./types";
 
 export class ApiProvider implements BaseProvider {
-  private readonly network: StacksNetwork;
+  private readonly network: StacksNetworkConfiguration;
   private readonly deployerAccount: DeployerAccount;
   private readonly contractName: string;
 
   constructor(
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     deployerAccount: DeployerAccount,
     contractName: string
   ) {
@@ -53,15 +52,24 @@ export class ApiProvider implements BaseProvider {
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-  callVariable(_variable: ClarityAbiVariable): Promise<void> {
-    throw new Error("Method not implemented.");
+    Logger.error("Method not implemented");
+    return this.asyncFunc();
   }
 
+  callVariable(_variable: ClarityAbiVariable): Promise<void> {
+    Logger.error("Method not implemented");
+    return this.asyncFunc();
+  }
+
+  asyncFunc: () => Promise<void> = async () => {
+    await new Promise<void>((resolve) => resolve());
+  };
+
   async callReadOnly(request: IProviderRequest): Promise<any> {
-    let formattedArguments: [ClarityValue[], IMetadata] =
-      this.formatReadonlyArguments(request.function, request.arguments);
+    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
+      request.function,
+      request.arguments
+    );
 
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
@@ -71,7 +79,7 @@ export class ApiProvider implements BaseProvider {
       contractName: this.contractName,
       functionArgs: args,
       functionName: request.function.name,
-      senderAddress: metadata.sender,
+      senderAddress: metadata.address,
       network: this.network,
     };
 
@@ -101,12 +109,17 @@ export class ApiProvider implements BaseProvider {
   }
 
   callPublic(request: IProviderRequest): Transaction<any, any> {
-    let formattedArguments: [string[], IMetadata] = this.formatArguments(
+    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
       request.function,
       request.arguments
     );
     var metadata = formattedArguments[1];
     var args = formattedArguments[0];
+
+    Logger.debug(
+      `Calling public method ${request.function.name} on contract ${this.contractName}`
+    );
+    Logger.debug(JSON.stringify(request));
 
     const submit: Submitter<any, any> = async (options) => {
       if (!("sender" in options)) {
@@ -116,12 +129,12 @@ export class ApiProvider implements BaseProvider {
       var rawFunctionCallResult = await this.callContractFunction(
         this.contractName,
         request.function.name,
-        metadata.sender,
+        metadata.sender ?? options.sender,
+        metadata.address,
         args
       );
 
       let successfulFunctionCallResult: TxBroadcastResultOk = "";
-
       let unsuccessfullFunctionCalResult: TxBroadcastResultRejected;
 
       let success: boolean;
@@ -131,9 +144,9 @@ export class ApiProvider implements BaseProvider {
           rawFunctionCallResult as TxBroadcastResultRejected;
       } else {
         success = true;
-        successfulFunctionCallResult = await ApiProvider.getTransactionById(
-          this.network,
-          rawFunctionCallResult as TxBroadcastResultOk
+        successfulFunctionCallResult = await getTransactionById(
+          rawFunctionCallResult as TxBroadcastResultOk,
+          this.network
         );
       }
 
@@ -170,15 +183,16 @@ export class ApiProvider implements BaseProvider {
   }
 
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
-    network: StacksNetwork,
+    network: StacksNetworkConfiguration,
     account: DeployerAccount
   ): Promise<ContractInstances<T, M>> {
     const instances = {} as ContractInstances<T, M>;
-    // await deployUtilContract(clarityBin);
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
+        deploy,
         contract,
         network,
         account,
@@ -192,6 +206,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async fromContract<T>({
+    deploy,
     contract,
     network,
     account,
@@ -203,6 +218,7 @@ export class ApiProvider implements BaseProvider {
     const contractName = getContractNameFromPath(contract.contractFile);
 
     const provider = await this.create({
+      deploy,
       contractFilePath: contract.contractFile,
       contractIdentifier: contractName,
       network,
@@ -212,124 +228,39 @@ export class ApiProvider implements BaseProvider {
   }
 
   static async create({
+    deploy,
     contractFilePath,
     contractIdentifier,
     network,
     account,
   }: ApiCreateOptions) {
-    await this.deployContract(
-      contractIdentifier,
-      contractFilePath,
-      network,
-      account.secretKey
-    );
-    return new this(network, account, contractIdentifier);
-  }
-
-  static async deployContract(
-    contractName: string,
-    contractPath: string,
-    network: StacksNetwork,
-    secretDeployKey: string
-  ) {
-    let codeBody = fs.readFileSync(contractPath).toString();
-
-    var transaction = await makeContractDeploy({
-      contractName,
-      codeBody,
-      senderKey: secretDeployKey,
-      network,
-      anchorMode: 3,
-    });
-
-    return this.handleTransaction(transaction, network);
-  }
-
-  static async handleTransaction(
-    transaction: StacksTransaction,
-    network: StacksNetwork
-  ): Promise<TxBroadcastResultOk> {
-    const result = await broadcastTransaction(transaction, network);
-    if ((result as TxBroadcastResultRejected).error) {
-      if (
-        (result as TxBroadcastResultRejected).reason === "ContractAlreadyExists"
-      ) {
-        Logger.info("Contract already deployed");
-        return "" as TxBroadcastResultOk;
-      } else {
-        throw new Error(
-          `failed to handle transaction ${transaction.txid()}: ${JSON.stringify(
-            result
-          )}`
-        );
-      }
-    }
-
-    const processed = await this.processing(
-      network,
-      result as TxBroadcastResultOk
-    );
-
-    if (!processed) {
-      throw new Error(
-        `failed to process transaction ${transaction.txid}: transaction not found`
+    if (deploy) {
+      await deployContractOnStacks(
+        contractIdentifier,
+        contractFilePath,
+        network,
+        account.secretKey
       );
     }
 
-    return result as TxBroadcastResultOk;
-  }
-
-  async timeout(ms: number) {
-    await new Promise((resolve) => setTimeout(resolve, ms));
-  }
-
-  static async processing(
-    network: StacksNetwork,
-    tx: string,
-    count: number = 0
-  ): Promise<boolean> {
-    return this.processingWithSidecar(tx, count, network);
-  }
-
-  static async processingWithSidecar(
-    tx: string,
-    count: number = 0,
-    network: StacksNetwork
-  ): Promise<boolean> {
-    var value = await this.getTransactionById(network, tx);
-    if (value.tx_status === "success") {
-      return true;
-    }
-
-    if (count > 20) {
-      return false;
-    }
-
-    await this.timeout(3000);
-    return this.processing(network, tx, count + 1);
-  }
-
-  static async getTransactionById(
-    network: StacksNetwork,
-    txId: string
-  ): Promise<any> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${txId}`;
-    var result = await fetch(url);
-    var value = await result.json();
-
-    return value;
-  }
-
-  static async timeout(ms: number) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
+    return new this(network, account, contractIdentifier);
   }
 
   async callContractFunction(
     contractName: string,
     functionName: string,
-    sender: any,
-    args: any
+    sender: string,
+    senderAddress: string,
+    args: ClarityValue[]
   ) {
+    const nonce = await getNonce({
+      principal: senderAddress,
+    });
+
+    const nextNonce = nonce.possible_next_nonce;
+
+    const callNonce = new BN(nextNonce);
+
     const txOptions:
       | SignedContractCallOptions
       | SignedMultiSigContractCallOptions = {
@@ -341,141 +272,22 @@ export class ApiProvider implements BaseProvider {
       network: this.network,
       postConditionMode: 0x01, // PostconditionMode.Allow
       anchorMode: 3,
+      nonce: callNonce,
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);
+    Logger.debug(JSON.stringify(txOptions));
 
     const transaction = await makeContractCall(txOptions);
-    return this.handleFunctionTransaction(
+
+    Logger.debug(`Issued transaction on ${contractName}::${functionName}`);
+    Logger.debug(JSON.stringify(transaction));
+
+    return handleFunctionTransaction(
       transaction,
       this.network,
       functionName,
       contractName
     );
-  }
-
-  async handleFunctionTransaction(
-    transaction: StacksTransaction,
-    network: StacksNetwork,
-    functionName: string,
-    contractName: string
-  ): Promise<TxBroadcastResult> {
-    const result = await broadcastTransaction(transaction, network);
-    if ((result as TxBroadcastResultRejected).error) {
-      return result as TxBroadcastResultRejected;
-    }
-
-    const processed = await this.functionProcessing(
-      network,
-      result as TxBroadcastResultOk,
-      functionName,
-      contractName
-    );
-
-    if (!processed) {
-      return result as TxBroadcastResultRejected;
-    }
-
-    return result as TxBroadcastResultOk;
-  }
-
-  async functionProcessing(
-    network: StacksNetwork,
-    tx: String,
-    functionName: string,
-    contractName: string,
-    count: number = 0
-  ): Promise<boolean> {
-    return this.functionProcessingWithSidecar(
-      tx,
-      count,
-      network,
-      functionName,
-      contractName
-    );
-  }
-
-  async functionProcessingWithSidecar(
-    tx: String,
-    count: number = 0,
-    network: StacksNetwork,
-    functionName: string,
-    contractName: string
-  ): Promise<boolean> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
-    var result = await fetch(url);
-    var value = await result.json();
-    if (value.tx_status === "success") {
-      return true;
-    }
-
-    if (count > 30) {
-      Logger.error(
-        `Failed calling ${contractName}::${functionName} after 30 retries `
-      );
-      return false;
-    }
-
-    await this.timeout(3000);
-    return this.functionProcessing(
-      network,
-      tx,
-      functionName,
-      contractName,
-      count + 1
-    );
-  }
-
-  formatArguments(
-    func: ClarityAbiFunction,
-    args: any[]
-  ): [string[], IMetadata] {
-    var metadata = args.filter((arg) => instanceOfMetadata(arg));
-    if (metadata.length > 1) {
-      throw new TypeError("More than one metadata objects");
-    }
-
-    var metadataConfig = metadata[0];
-
-    var argsWithoutMetadata =
-      metadata.length == 1 ? args.filter((x) => x !== metadataConfig) : args;
-
-    var formatted = argsWithoutMetadata.map((arg, index) => {
-      const { type } = func.args[index];
-      if (type === "trait_reference") {
-        return `'${arg}`;
-      }
-      const argCV = parseToCV(arg, type);
-      const cvString = cvToString(argCV);
-      if (type === "principal") {
-        return `'${cvString}`;
-      }
-      return cvString;
-    });
-
-    return [formatted, metadataConfig];
-  }
-
-  formatReadonlyArguments(
-    func: ClarityAbiFunction,
-    args: any[]
-  ): [ClarityValue[], IMetadata] {
-    var metadata = args.filter((arg) => instanceOfMetadata(arg));
-    if (metadata.length > 1) {
-      throw new TypeError("More than one metadata objects");
-    }
-
-    var metadataConfig = metadata[0];
-
-    var argsWithoutMetadata =
-      metadata.length == 1 ? args.filter((x) => x !== metadataConfig) : args;
-
-    var formatted = argsWithoutMetadata.map((arg, index) => {
-      const { type } = func.args[index];
-      const argCV = parseToCV(arg, type);
-      return argCV;
-    });
-
-    return [formatted, metadataConfig];
   }
 }

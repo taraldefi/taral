@@ -19,7 +19,7 @@ export const arkadikoAuctionEngineTraitV1Contract = (
 export const arkadikoAuctionEngineTraitV1Info: Contract<ArkadikoAuctionEngineTraitV1Contract> =
   {
     contract: arkadikoAuctionEngineTraitV1Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-auction-engine-trait-v1.clar",
   };

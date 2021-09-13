@@ -17,7 +17,7 @@ export const arkadikoSip10ReserveV11Contract = (provider: BaseProvider) => {
 export const arkadikoSip10ReserveV11Info: Contract<ArkadikoSip10ReserveV11Contract> =
   {
     contract: arkadikoSip10ReserveV11Contract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/arkadiko-sip10-reserve-v1-1.clar",
   };

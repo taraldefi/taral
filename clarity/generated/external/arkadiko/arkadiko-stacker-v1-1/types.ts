@@ -5,6 +5,7 @@ import { Transaction } from "../../../../lib/transaction";
 // prettier-ignore
 
 export interface ArkadikoStackerV11Contract {
+    enableVaultWithdrawals: (vaultId: number, metadata: IMetadata) => Transaction<boolean, number>;
     initiateStacking: (poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
@@ -16,8 +17,13 @@ export interface ArkadikoStackerV11Contract {
     getStackingUnlockBurnHeight: (metadata: IMetadata) => Promise<ClarityTypes.Response<number, null>>;
     getStxBalance: (metadata: IMetadata) => Promise<number>;
     ERRALREADYSTACKING: () => Promise<number>;
+    ERRBURNHEIGHTNOTREACHED: () => Promise<number>;
     ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<number>;
     ERRNOTAUTHORIZED: () => Promise<number>;
+    ERRSTILLSTACKING: () => Promise<number>;
+    ERRVAULTLIQUIDATED: () => Promise<number>;
+    ERRWRONGCOLLATERALTOKEN: () => Promise<number>;
+    ERRWRONGSTACKER: () => Promise<number>;
     stackerName: () => Promise<string>;
     stackerShutdownActivated: () => Promise<boolean>;
     stackingStxStacked: () => Promise<number>;

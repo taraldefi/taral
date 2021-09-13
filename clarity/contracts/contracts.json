@@ -2,18 +2,6 @@
   "outputDirectory": "clarity/generated",
   "configuration": [
     {
-      "name": "TestUtils",
-      "subfolder": "test-utils",
-      "description": "Test util contract for testing purposes only",
-      "contracts": ["test-utils"]
-    },
-    {
-      "name": "Core",
-      "subfolder": "external/core",
-      "description": "Core boot contracts for development purposes only",
-      "contracts": ["pox"]
-    },
-    {
       "name": "Arkadiko",
       "description": "External arkadiko contracts used for development purposes only",
       "subfolder": "external/arkadiko",
@@ -65,7 +53,14 @@
       "name": "Taral",
       "description": "Taral smart contracts",
       "subfolder": "taral",
-      "contracts": ["sip-10-ft-standard", "taral-coin"]
+      "contracts": [
+        "sip-10-ft-standard",
+        "nft-trait",
+        "taral-coin",
+        "clarity-bitcoin",
+        "btc-ft-swap",
+        "btc-nft-swap"
+      ]
     }
   ]
 }

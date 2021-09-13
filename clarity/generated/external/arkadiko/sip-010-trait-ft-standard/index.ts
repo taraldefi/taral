@@ -17,7 +17,7 @@ export const sip010TraitFtStandardContract = (provider: BaseProvider) => {
 export const sip010TraitFtStandardInfo: Contract<Sip010TraitFtStandardContract> =
   {
     contract: sip010TraitFtStandardContract,
-    address: "ST228ADYKA0VKDSZXCA4E13MB38SG3EZJTZY9EPJR",
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
       "clarity/contracts/external/arkadiko/sip-010-trait-ft-standard.clar",
   };

@@ -88,14 +88,21 @@ export async function tx<A, B>(tx: Transaction<A, B>, sender: string) {
   return result;
 }
 
-export async function txOk<A, B>(_tx: Transaction<A, B>, sender: string) {
+export async function txOk<A, B>(
+  _tx: Transaction<A, B>,
+  sender: string
+): Promise<TransactionResultOk<A>> {
   const result = await tx(_tx, sender);
+
   if (!result.isOk)
     throw new Error(`Expected transaction ok, got error: ${result.value}`);
   return result;
 }
 
-export async function txErr<A, B>(_tx: Transaction<A, B>, sender: string) {
+export async function txErr<A, B>(
+  _tx: Transaction<A, B>,
+  sender: string
+): Promise<TransactionResultErr<B>> {
   const result = await tx(_tx, sender);
   if (result.isOk)
     throw new Error(`Expected transaction error, got ok: ${result.value}`);

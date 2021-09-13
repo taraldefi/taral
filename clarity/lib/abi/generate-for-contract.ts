@@ -7,7 +7,39 @@ import {
   generateInterfaceFile,
   generateTypesFile,
 } from ".";
+import {
+  cleanupBootContractsCalls,
+  cleanupTmpContractFile,
+} from "../test-utils/cleanup-boot-contract-calls";
 import { getContractNameFromPath } from "../utils";
+
+export async function submitAnalisysForContract({
+  contractFile: _contractFile,
+  provider,
+  contractAddress,
+}: {
+  contractFile: string;
+  subFolder: string;
+  provider: NativeClarityBinProvider;
+  contractAddress?: string;
+}) {
+  const currentPath = process.cwd();
+  var normalizedPath = normalize(currentPath).replace(/\\/g, "/");
+  const contractFile = resolve(normalizedPath, _contractFile).replace(
+    /\\/g,
+    "/"
+  );
+
+  let tmpContractFilePath = cleanupBootContractsCalls(contractFile);
+
+  await generateInterface({
+    contractFile: tmpContractFilePath,
+    provider,
+    contractAddress,
+  });
+
+  cleanupTmpContractFile(tmpContractFilePath);
+}
 
 export async function generateFilesForContract({
   contractFile: _contractFile,
@@ -28,13 +60,18 @@ export async function generateFilesForContract({
     /\\/g,
     "/"
   );
+
   const contractName = getContractNameFromPath(contractFile);
 
+  let tmpContractFilePath = cleanupBootContractsCalls(contractFile);
+
   const abi = await generateInterface({
-    contractFile,
+    contractFile: tmpContractFilePath,
     provider,
     contractAddress,
   });
+
+  cleanupTmpContractFile(tmpContractFilePath);
 
   const typesFile = generateTypesFile(abi, contractName, subFolder);
   if (!contractAddress && process.env.NODE_ENV !== "test") {

@@ -5,7 +5,7 @@ const config = {
   network: {
     layer1: "placeholder",
   },
-  logLevel: "error",
+  logLevel: "debug",
 };
 
 export { config };

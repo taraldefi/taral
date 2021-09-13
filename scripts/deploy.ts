@@ -1,11 +1,16 @@
+import { contracts } from "../clarity/generated/taral";
+import { makeContractDeploy } from "@stacks/transactions";
 import { Logger } from "../clarity/lib/logger";
+import * as fs from "fs";
+
 import { Contracts } from "../clarity/lib/types";
 import { getContractNameFromPath } from "../clarity/lib/utils/contract-name-for-path";
-import { contracts } from "../clarity/generated/taral";
-import { deployContract } from "./deploy-utils";
-import { getClarinetAccounts } from "../clarity/lib";
+import { NETWORK } from "../clarity/configuration";
 
-console.log("Deploying contracts");
+import { getClarinetAccounts } from "../clarity/lib";
+import { handleTransaction } from "../clarity/lib/stacks/handle-transaction";
+
+Logger.debug("Deploying contracts");
 deployMany(contracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
@@ -23,4 +28,23 @@ async function deployMany<T extends Contracts<M>, M>(contracts: T) {
     var result = await deployContract(contract, deployer.privateKey);
     Logger.debug(`Contract deployed: ${contractName} with result ${result}`);
   }
+}
+
+async function deployContract<T extends Contracts<M>, M>(
+  contract: T[Extract<keyof T, string>],
+  senderKey: string
+) {
+  const contractName = getContractNameFromPath(contract.contractFile);
+  let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
+
+  var transaction = await makeContractDeploy({
+    contractName,
+    codeBody,
+    senderKey: senderKey,
+    network: NETWORK,
+    anchorMode: 3,
+  });
+
+  Logger.debug(`Deploying contract ${contractName}`);
+  return handleTransaction(transaction, NETWORK);
 }

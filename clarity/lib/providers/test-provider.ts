@@ -20,6 +20,10 @@ import {
 } from "../adapter";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
 import { ClarinetAccounts } from "../configuration";
+import {
+  cleanupBootContractsCalls,
+  cleanupTmpContractFile,
+} from "../test-utils/cleanup-boot-contract-calls";
 import { Submitter, Transaction, TransactionResult } from "../transaction";
 import {
   ContractInstances,
@@ -41,16 +45,30 @@ export class TestProvider implements BaseProvider {
   }
 
   static async create({
+    deploy,
     clarityBin,
     contractFilePath,
     contractIdentifier,
   }: CreateOptions) {
-    const client = new Client(contractIdentifier, contractFilePath, clarityBin);
-    await deployContract(client, clarityBin);
+    let tmpContractFilePath: string = "";
+    let client: Client;
+    if (deploy) {
+      tmpContractFilePath = cleanupBootContractsCalls(contractFilePath);
+      client = new Client(contractIdentifier, tmpContractFilePath, clarityBin);
+    } else {
+      client = new Client(contractIdentifier, contractFilePath, clarityBin);
+    }
+
+    if (deploy) {
+      await deployContract(client, clarityBin);
+      cleanupTmpContractFile(tmpContractFilePath);
+    }
+
     return new this(clarityBin, client);
   }
 
   static async fromContract<T>({
+    deploy,
     contract,
     clarityBin,
   }: FromContractOptions<T>) {
@@ -61,6 +79,7 @@ export class TestProvider implements BaseProvider {
     const contractName = getContractNameFromPath(contract.contractFile);
 
     const provider = await this.create({
+      deploy,
       clarityBin,
       contractFilePath: contract.contractFile,
       contractIdentifier: `${address}.${contractName}`,
@@ -69,26 +88,26 @@ export class TestProvider implements BaseProvider {
   }
 
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     clarityBin?: NativeClarityBinProvider
   ): Promise<ContractInstances<T, M>>;
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     accounts?: ClarinetAccounts
   ): Promise<ContractInstances<T, M>>;
   public static async fromContracts<T extends Contracts<M>, M>(
+    deploy: boolean,
     contracts: T,
     clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
   ): Promise<ContractInstances<T, M>> {
     const clarityBin = await getDefaultClarityBin(clarityBinOrAccounts);
     const instances = {} as ContractInstances<T, M>;
-
-    // Disabling the util contract deployment for now
-    //
-    // await deployUtilContract(clarityBin, "test-util");
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
+        deploy,
         contract,
         clarityBin,
       });

@@ -144,24 +144,6 @@ export const ArkadikoStackerPayerV11Interface: ClarityAbi = {
                 {
                     "name": "vault-id",
                     "type": "uint128"
-                }
-            ],
-            "name": "enable-vault-withdrawals",
-            "outputs": {
-                "type": {
-                    "response": {
-                        "error": "uint128",
-                        "ok": "bool"
-                    }
-                }
-            }
-        },
-        {
-            "access": "public",
-            "args": [
-                {
-                    "name": "vault-id",
-                    "type": "uint128"
                 },
                 {
                     "name": "wstx",
@@ -318,21 +300,6 @@ export const ArkadikoStackerPayerV11Interface: ClarityAbi = {
         {
             "access": "constant",
             "name": "ERR-NOT-AUTHORIZED",
-            "type": "uint128"
-        },
-        {
-            "access": "constant",
-            "name": "ERR-STILL-STACKING",
-            "type": "uint128"
-        },
-        {
-            "access": "constant",
-            "name": "ERR-VAULT-LIQUIDATED",
-            "type": "uint128"
-        },
-        {
-            "access": "constant",
-            "name": "ERR-WRONG-COLLATERAL-TOKEN",
             "type": "uint128"
         },
         {
