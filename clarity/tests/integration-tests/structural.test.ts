@@ -7,7 +7,7 @@
 //   //todo: might need to rely on real wallets here (the ones that are created) and not the ones we created for testing w/clarinet.
 //   var result = await txOk(
 //     talToken.getTokenUri(testContext.metadata),
-//     testContext.metadata.address
+//     testContext.metadata.sender
 //   );
 
 //   expect(result.value).toBe("https://taraldefi.github.io");

@@ -42,25 +42,7 @@ services:
       POSTGRES_PORT: 5432
     networks:
       - stacks-blockchain
-
-  # explorer:
-  #   image: blockstack/explorer:1.13
-  #   container_name: explorer
-  #   environment:
-  #     - NEXT_PUBLIC_MAINNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
-  #     - TESTNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
-  #     - MOCKNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
-  #     - NODE_ENV=production
-  #     - HOME=/root
-  #     - TERM=xterm
-  #     - SHLVL=1
-  #   ports:
-  #     - 3000:3000
-  #   depends_on: 
-  #     - stacks-blockchain-api
-  #   networks:
-  #     - stacks-blockchain
-
+      
   stacks-blockchain:
       build:
         context: ./provisioning/private-testnet/stacks-blockchain

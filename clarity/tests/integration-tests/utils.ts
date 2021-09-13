@@ -49,7 +49,7 @@ export function getWallet(): ClarinetAccount {
   return getWalletAtIndex(1);
 }
 
-function getWalletAtIndex(index: number): ClarinetAccount {
+export function getWalletAtIndex(index: number): ClarinetAccount {
   var firstWallet = clarinetAccounts[`wallet_${index}`];
   return firstWallet;
 }

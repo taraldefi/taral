@@ -1,0 +1,21 @@
+version: '3.7'
+services:
+  explorer:
+    image: blockstack/explorer:1.13
+    container_name: explorer
+    environment:
+      - NEXT_PUBLIC_MAINNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
+      - TESTNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
+      - MOCKNET_API_SERVER=http://stacks-blockchain-api.stacks-blockchain:3999
+      - NODE_ENV=production
+      - HOME=/root
+      - TERM=xterm
+      - SHLVL=1
+    ports:
+      - 3000:3000
+    networks:
+      - stacks-blockchain
+networks:
+  stacks-blockchain:
+    driver: bridge
+    name: stacks-blockchain

@@ -9,12 +9,12 @@ import { PaymentResponse } from "./models";
 import { getKeyAddress, getSpendableUtxos } from "./transaction";
 import { isValidBtcAddress } from "./validation";
 
-export async function getPayingAccount(
+export async function getAccountFromMnemonic(
   network: btc.Network,
   mnemonic: string
 ): Promise<{ key: btc.ECPairInterface; address: string }> {
-  var bobInfo = await stacksgen.generateKeys(mnemonic);
-  const key = btc.ECPair.fromWIF(bobInfo.wif, network);
+  var keys = await stacksgen.generateKeys(mnemonic);
+  const key = btc.ECPair.fromWIF(keys.wif, network);
   return { key, address: getKeyAddress(key) };
 }
 
@@ -30,9 +30,9 @@ export async function makePayment(
   }
 
   const client = getRpcClient();
-  const bobsWallet = await getPayingAccount(network, payerMnemonic);
+  const bobsWallet = await getAccountFromMnemonic(network, payerMnemonic);
 
-  const faucetAmountSats = Math.round(amount * 1e8);
+  const satsAmount = Math.round(amount * 1e8);
 
   const spendableUtxos = await getSpendableUtxos(client, bobsWallet.address);
   const totalSpendableAmount = spendableUtxos.reduce(
@@ -56,7 +56,7 @@ export async function makePayment(
 
   const coinSelectResult = coinSelect(
     candidateInputs,
-    [{ address: address, value: faucetAmountSats }],
+    [{ address: address, value: satsAmount }],
     REGTEST_FEE_RATE
   );
 

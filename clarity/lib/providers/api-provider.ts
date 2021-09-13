@@ -284,6 +284,10 @@ export class ApiProvider implements BaseProvider {
     Logger.debug(JSON.stringify(txOptions));
 
     const transaction = await makeContractCall(txOptions);
+
+    console.log('Made transaction ');
+    console.log(JSON.stringify(transaction));
+
     return handleFunctionTransaction(
       transaction,
       this.network,
