@@ -49,11 +49,15 @@ export async function verifyMerkleProof2(
   // Call readonly function
   //
 
-  const reversedTxId = await getReversedTxId({
+  let reversedTxId = await getReversedTxId({
     accounts: request.accounts,
     contract: request.contract,
     txCv: request.txCV,
   });
+
+  if (reversedTxId.startsWith("0x")) {
+    reversedTxId = reversedTxId.substring(2);
+  }
 
   Logger.debug(`VerifyMerkleProof2: REVERSED TX ID ${reversedTxId}`);
 
