@@ -2,9 +2,7 @@ import { txOk } from "../../lib";
 import { clarinetAccounts, talToken } from "./jest-setup";
 
 test("Should have the correct token uri", async () => {
-  var result = await txOk(
-    talToken(clarinetAccounts.deployer).getTokenUri(),
-  );
+  var result = await txOk(talToken(clarinetAccounts.deployer).getTokenUri());
 
   expect(result.value).toBe("https://taraldefi.github.io");
 });

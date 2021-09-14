@@ -58,8 +58,7 @@ export interface WebSignerOptions {
   postConditions?: PostCondition[];
 }
 
-export interface TestSignerOptions {
-}
+export interface TestSignerOptions {}
 
 export type SubmitOptions = TestSignerOptions | WebSignerOptions;
 
@@ -88,7 +87,7 @@ export async function tx<A, B>(tx: Transaction<A, B>) {
 }
 
 export async function txOk<A, B>(
-  _tx: Transaction<A, B>,
+  _tx: Transaction<A, B>
 ): Promise<TransactionResultOk<A>> {
   const result = await tx(_tx);
 
@@ -98,7 +97,7 @@ export async function txOk<A, B>(
 }
 
 export async function txErr<A, B>(
-  _tx: Transaction<A, B>,
+  _tx: Transaction<A, B>
 ): Promise<TransactionResultErr<B>> {
   const result = await tx(_tx);
   if (result.isOk)

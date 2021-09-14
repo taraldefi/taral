@@ -72,7 +72,6 @@ export class ApiProvider implements BaseProvider {
       request.arguments
     );
 
-
     let options: ReadOnlyFunctionOptions = {
       contractAddress: this.deployerAccount.stacksAddress,
       contractName: this.contractName,

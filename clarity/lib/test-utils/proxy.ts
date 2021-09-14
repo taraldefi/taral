@@ -15,7 +15,7 @@ const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
             return provider.callReadOnly({
               arguments: args,
               function: foundFunction,
-              caller
+              caller,
             });
           };
         } else if (foundFunction.access === "public") {
@@ -23,7 +23,7 @@ const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
             return provider.callPublic({
               arguments: args,
               function: foundFunction,
-              caller
+              caller,
             });
           };
         }
@@ -71,7 +71,7 @@ declare const Proxy: ProxyConstructor;
 export const proxy = <T extends object>(
   target: ClarityAbi,
   provider: BaseProvider
-): (account: ClarinetAccount) => T => {
-
-  return (account: ClarinetAccount) => new Proxy<T, ClarityAbi>(target, makeHandler(provider, account));
+): ((account: ClarinetAccount) => T) => {
+  return (account: ClarinetAccount) =>
+    new Proxy<T, ClarityAbi>(target, makeHandler(provider, account));
 };

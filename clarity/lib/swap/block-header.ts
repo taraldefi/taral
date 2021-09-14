@@ -22,9 +22,7 @@ export async function parseBlockHeader(
   Logger.debug("Calling parseBlockHeader");
 
   const response = (
-    await request.contract.parseBlockHeader(
-      makeBuffer(request.header),
-    )
+    await request.contract.parseBlockHeader(makeBuffer(request.header))
   )._unsafeUnwrap();
 
   let result = response as any as HeaderPartsType;

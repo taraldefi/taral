@@ -15,9 +15,13 @@ import {
 } from "../test-utils/contracts/generated/test-utils";
 
 export class TestUtilsProvider {
-  private readonly _testContract: (caller: ClarinetAccount) => TestUtilsContract;
+  private readonly _testContract: (
+    caller: ClarinetAccount
+  ) => TestUtilsContract;
   private readonly _bnsContract: (caller: ClarinetAccount) => BnsContract;
-  private readonly _costVotingContract: (caller: ClarinetAccount) => CostVotingContract;
+  private readonly _costVotingContract: (
+    caller: ClarinetAccount
+  ) => CostVotingContract;
   private readonly _costsContract: (caller: ClarinetAccount) => CostsContract;
   private readonly _lockupContract: (caller: ClarinetAccount) => LockupContract;
   private readonly _poxContract: (caller: ClarinetAccount) => PoxContract;
@@ -42,7 +46,9 @@ export class TestUtilsProvider {
     return this._bnsContract;
   }
 
-  public getCostVotingContract(): (caller: ClarinetAccount) => CostVotingContract {
+  public getCostVotingContract(): (
+    caller: ClarinetAccount
+  ) => CostVotingContract {
     return this._costVotingContract;
   }
 

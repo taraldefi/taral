@@ -13,9 +13,7 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
   try {
     // Call readonly function
     //
-    let response = await request.contract.getTxid(
-      request.txCV
-    );
+    let response = await request.contract.getTxid(request.txCV);
     result = response.toString();
   } catch (error: any) {
     Logger.error(`parse-tx failed: ${error.toString()}`);

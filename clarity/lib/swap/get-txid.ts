@@ -14,9 +14,7 @@ export async function getTxId(request: GetTxIdRequest): Promise<string> {
 
   // Call readonly function
   //
-  let response = await request.contract.getTxid(
-    request.txBuffCV
-  );
+  let response = await request.contract.getTxid(request.txBuffCV);
 
   let result = response.toString();
 
@@ -34,9 +32,7 @@ export async function getReversedTxId(
 
   // Call readonly function
   //
-  let response = await request.contract.getReversedTxid(
-    request.txCv
-  );
+  let response = await request.contract.getReversedTxid(request.txCv);
 
   let result = response.toString();
 

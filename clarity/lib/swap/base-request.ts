@@ -20,4 +20,3 @@ export interface FtSwapRequest extends BaseRequest {
 export interface NftSwapRequest extends BaseRequest {
   contract: BtcNftSwapContract;
 }
-

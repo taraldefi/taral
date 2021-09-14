@@ -19,8 +19,8 @@ export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
       request.headerPartsCv,
       request.txPartsCv,
       request.proofCv,
-      request.ftContract,
-    ),
+      request.ftContract
+    )
   );
 
   Logger.debug("submitSwap result");

@@ -12,9 +12,7 @@ export async function concatTransaction(
   Logger.debug("Calling concatTx");
   // Call readonly function
   //
-  let response = await request.contract.concatTx(
-    request.txPartsCV
-  );
+  let response = await request.contract.concatTx(request.txPartsCV);
 
   let result = response.toString();
 

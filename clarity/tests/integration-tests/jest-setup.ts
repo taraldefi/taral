@@ -9,12 +9,18 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "../../generated/taral";
-import { ClarinetAccount, ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
+import {
+  ClarinetAccount,
+  ClarinetAccounts,
+  getClarinetAccounts,
+} from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
-export let clarityBitcoinContract: (account: ClarinetAccount) => ClarityBitcoinContract;
+export let clarityBitcoinContract: (
+  account: ClarinetAccount
+) => ClarityBitcoinContract;
 export let btcFtSwapContract: (account: ClarinetAccount) => BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 

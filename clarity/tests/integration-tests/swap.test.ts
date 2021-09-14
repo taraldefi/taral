@@ -153,10 +153,19 @@ test("make btc transaction", async () => {
   Logger.debug(`Seller account balance (BTC) is: ${sellerBalance}`);
   expect(sellerBalance).toBeTruthy();
 
-  type transactionChecks = [ParamsFromTxResponse, string, string, string, boolean, boolean, boolean, HeaderPartsType, boolean]
+  type transactionChecks = [
+    ParamsFromTxResponse,
+    string,
+    string,
+    string,
+    boolean,
+    boolean,
+    boolean,
+    HeaderPartsType,
+    boolean
+  ];
 
-  const validationResults: transactionChecks = 
-  await retry<transactionChecks>(
+  const validationResults: transactionChecks = await retry<transactionChecks>(
     async function () {
       const baseRequest: ClarityBitcoinRequest = {
         accounts: clarinetAccounts,
@@ -173,7 +182,7 @@ test("make btc transaction", async () => {
         txCv: paramsFromTransaction.txCV,
       });
 
-      console.log('block::::::: ');
+      console.log("block::::::: ");
       console.log(JSON.stringify(paramsFromTransaction.block));
 
       const merkleProof1: string = await verifyMerkleProof({
