@@ -4,6 +4,7 @@ import {
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
+import { getWalletAtIndex } from "clarity/lib/configuration/get-wallet";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { Logger } from "../../lib";
@@ -34,7 +35,6 @@ import {
   clarinetAccounts,
   clarityBitcoinContract,
 } from "./jest-setup";
-import { getWalletAtIndex } from "./utils";
 
 test("make btc transaction", async () => {
   const regtest = btc.networks.regtest;
@@ -47,9 +47,9 @@ test("make btc transaction", async () => {
     basePath: NETWORK.coreApiUrl,
   });
 
-  const sellerWallet = getWalletAtIndex(2);
+  const sellerWallet = getWalletAtIndex(clarinetAccounts, 2);
 
-  const buyerWallet = getWalletAtIndex(6);
+  const buyerWallet = getWalletAtIndex(clarinetAccounts, 6);
 
   const sellerDerivedBtcInfo = await getAccountFromMnemonic(
     btc.networks.regtest,

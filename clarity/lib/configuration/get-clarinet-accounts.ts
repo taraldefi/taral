@@ -41,3 +41,5 @@ export async function getClarinetAccounts(
   const accounts: ClarinetAccounts = Object.fromEntries(accountEntries);
   return accounts;
 }
+
+
