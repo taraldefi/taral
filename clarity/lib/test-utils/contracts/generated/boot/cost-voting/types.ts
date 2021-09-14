@@ -1,32 +1,31 @@
-import { IMetadata } from "../../../../../providers/types";
 import { Transaction } from "../../../../../transaction";
 
 // prettier-ignore
 
 export interface CostVotingContract {
-    confirmMiners: (proposalId: number, metadata: IMetadata) => Transaction<boolean, number>;
-    confirmVotes: (proposalId: number, metadata: IMetadata) => Transaction<boolean, number>;
-    submitProposal: (functionContract: string, functionName: string, costFunctionContract: string, costFunctionName: string, metadata: IMetadata) => Transaction<number, null>;
-    veto: (proposalId: number, metadata: IMetadata) => Transaction<boolean, number>;
-    voteProposal: (proposalId: number, amount: number, metadata: IMetadata) => Transaction<boolean, number>;
-    withdrawVotes: (proposalId: number, amount: number, metadata: IMetadata) => Transaction<boolean, number>;
-    getConfirmedProposal: (confirmedId: number, metadata: IMetadata) => Promise<{
+    confirmMiners: (proposalId: number ) => Transaction<boolean, number>;
+    confirmVotes: (proposalId: number ) => Transaction<boolean, number>;
+    submitProposal: (functionContract: string, functionName: string, costFunctionContract: string, costFunctionName: string ) => Transaction<number, null>;
+    veto: (proposalId: number ) => Transaction<boolean, number>;
+    voteProposal: (proposalId: number, amount: number ) => Transaction<boolean, number>;
+    withdrawVotes: (proposalId: number, amount: number ) => Transaction<boolean, number>;
+    getConfirmedProposal: (confirmedId: number ) => Promise<{
         "confirmed-height": number;
         "cost-function-contract": string;
         "cost-function-name": string;
         "function-contract": string;
         "function-name": string
     } | null>;
-    getPrincipalVotes: (address: string, proposalId: number, metadata: IMetadata) => Promise<number | null>;
-    getProposal: (proposalId: number, metadata: IMetadata) => Promise<{
+    getPrincipalVotes: (address: string, proposalId: number ) => Promise<number | null>;
+    getProposal: (proposalId: number ) => Promise<{
         "cost-function-contract": string;
         "cost-function-name": string;
         "expiration-block-height": number;
         "function-contract": string;
         "function-name": string
     } | null>;
-    getProposalVetos: (proposalId: number, metadata: IMetadata) => Promise<number | null>;
-    getProposalVotes: (proposalId: number, metadata: IMetadata) => Promise<number | null>;
+    getProposalVetos: (proposalId: number ) => Promise<number | null>;
+    getProposalVotes: (proposalId: number ) => Promise<number | null>;
     ERR_ALREADY_VETOED: () => Promise<number>;
     ERR_AMOUNT_NOT_POSITIVE: () => Promise<number>;
     ERR_FETCHING_BLOCK_INFO: () => Promise<number>;

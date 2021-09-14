@@ -1,26 +1,25 @@
 import { ClarityTypes } from "../../../../../clarity/types";
-import { IMetadata } from "../../../../../providers/types";
 import { Transaction } from "../../../../../transaction";
 
 // prettier-ignore
 
 export interface BnsContract {
-    nameImport: (namespace: Buffer, name: Buffer, beneficiary: string, zonefileHash: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    namePreorder: (hashedSaltedFqn: Buffer, stxToBurn: number, metadata: IMetadata) => Transaction<number, number>;
-    nameRegister: (namespace: Buffer, name: Buffer, salt: Buffer, zonefileHash: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    nameRenewal: (namespace: Buffer, name: Buffer, stxToBurn: number, newOwner: string | null, zonefileHash: Buffer | null, metadata: IMetadata) => Transaction<boolean, number>;
-    nameRevoke: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    nameTransfer: (namespace: Buffer, name: Buffer, newOwner: string, zonefileHash: Buffer | null, metadata: IMetadata) => Transaction<boolean, number>;
-    nameUpdate: (namespace: Buffer, name: Buffer, zonefileHash: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    namespacePreorder: (hashedSaltedNamespace: Buffer, stxToBurn: number, metadata: IMetadata) => Transaction<number, number>;
-    namespaceReady: (namespace: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    namespaceReveal: (namespace: Buffer, namespaceSalt: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number, lifetime: number, namespaceImport: string, metadata: IMetadata) => Transaction<boolean, number>;
-    namespaceRevokeFunctionPriceEdition: (namespace: Buffer, metadata: IMetadata) => Transaction<boolean, number>;
-    namespaceUpdateFunctionPrice: (namespace: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number, metadata: IMetadata) => Transaction<boolean, number>;
-    canNameBeRegistered: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
-    canNamespaceBeRegistered: (namespace: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, null>>;
-    canReceiveName: (owner: string, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
-    checkNameOpsPreconditions: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    nameImport: (namespace: Buffer, name: Buffer, beneficiary: string, zonefileHash: Buffer ) => Transaction<boolean, number>;
+    namePreorder: (hashedSaltedFqn: Buffer, stxToBurn: number ) => Transaction<number, number>;
+    nameRegister: (namespace: Buffer, name: Buffer, salt: Buffer, zonefileHash: Buffer ) => Transaction<boolean, number>;
+    nameRenewal: (namespace: Buffer, name: Buffer, stxToBurn: number, newOwner: string | null, zonefileHash: Buffer | null ) => Transaction<boolean, number>;
+    nameRevoke: (namespace: Buffer, name: Buffer ) => Transaction<boolean, number>;
+    nameTransfer: (namespace: Buffer, name: Buffer, newOwner: string, zonefileHash: Buffer | null ) => Transaction<boolean, number>;
+    nameUpdate: (namespace: Buffer, name: Buffer, zonefileHash: Buffer ) => Transaction<boolean, number>;
+    namespacePreorder: (hashedSaltedNamespace: Buffer, stxToBurn: number ) => Transaction<number, number>;
+    namespaceReady: (namespace: Buffer ) => Transaction<boolean, number>;
+    namespaceReveal: (namespace: Buffer, namespaceSalt: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number, lifetime: number, namespaceImport: string ) => Transaction<boolean, number>;
+    namespaceRevokeFunctionPriceEdition: (namespace: Buffer ) => Transaction<boolean, number>;
+    namespaceUpdateFunctionPrice: (namespace: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number ) => Transaction<boolean, number>;
+    canNameBeRegistered: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
+    canNamespaceBeRegistered: (namespace: Buffer ) => Promise<ClarityTypes.Response<boolean, null>>;
+    canReceiveName: (owner: string ) => Promise<ClarityTypes.Response<boolean, number>>;
+    checkNameOpsPreconditions: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<{
         "name-props": {
             "imported-at": number | null;
             "registered-at": number | null;
@@ -43,9 +42,9 @@ export interface BnsContract {
         };
         "owner": string
     }, number>>;
-    getNamePrice: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<number, number>>;
-    getNamespacePrice: (namespace: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<number, number>>;
-    getNamespaceProperties: (namespace: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    getNamePrice: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<number, number>>;
+    getNamespacePrice: (namespace: Buffer ) => Promise<ClarityTypes.Response<number, number>>;
+    getNamespaceProperties: (namespace: Buffer ) => Promise<ClarityTypes.Response<{
         "namespace": Buffer;
         "properties": {
             "can-update-price-function": boolean;
@@ -62,15 +61,15 @@ export interface BnsContract {
             "revealed-at": number
         }
     }, number>>;
-    isNameInGracePeriod: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
-    isNameLeaseExpired: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
-    nameResolve: (namespace: Buffer, name: Buffer, metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    isNameInGracePeriod: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
+    isNameLeaseExpired: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
+    nameResolve: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<{
         "lease-ending-at": number | null;
         "lease-started-at": number;
         "owner": string;
         "zonefile-hash": Buffer
     }, number>>;
-    resolvePrincipal: (owner: string, metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    resolvePrincipal: (owner: string ) => Promise<ClarityTypes.Response<{
         "name": Buffer;
         "namespace": Buffer
     }, {

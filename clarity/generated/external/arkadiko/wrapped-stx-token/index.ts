@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { WrappedStxTokenInterface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { WrappedStxTokenContract } from "./types";
+import { WrappedStxTokenInterface } from "./abi";
 
 export type { WrappedStxTokenContract } from "./types";
 

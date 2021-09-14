@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
 import { Contract } from "../../../lib/types";
-import { Sip10FtStandardInterface } from "./abi";
+import { proxy } from "../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../lib/providers/base-provider";
+
 import type { Sip10FtStandardContract } from "./types";
+import { Sip10FtStandardInterface } from "./abi";
 
 export type { Sip10FtStandardContract } from "./types";
 

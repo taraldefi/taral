@@ -1,10 +1,8 @@
 import { ClarityTypes } from "../../../../../clarity/types";
-import { IMetadata } from "../../../../../providers/types";
-
 // prettier-ignore
 
 export interface LockupContract {
-    getLockups: (stxBlockHeightOpt: number | null, metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    getLockups: (stxBlockHeightOpt: number | null ) => Promise<ClarityTypes.Response<{
         "amount": number;
         "recipient": string
     }[], null>>;

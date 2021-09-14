@@ -11,6 +11,7 @@ import {
 } from "@stacks/transactions";
 import { err, ok } from "neverthrow";
 import { BaseProvider, IProviderRequest } from ".";
+import { SubmitOptions } from "..";
 import {
   deployContract,
   evalJson,
@@ -19,7 +20,7 @@ import {
   getDefaultClarityBin,
 } from "../adapter";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
-import { ClarinetAccounts } from "../configuration";
+import { ClarinetAccount, ClarinetAccounts } from "../configuration";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
@@ -33,7 +34,6 @@ import {
   FromContractOptions,
 } from "../types";
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
-import { instanceOfMetadata } from "./types";
 
 export class TestProvider implements BaseProvider {
   clarityBin: NativeClarityBinProvider;
@@ -165,14 +165,14 @@ export class TestProvider implements BaseProvider {
       request.function,
       request.arguments
     );
-    const submit: Submitter<any, any> = async (options) => {
-      if (!("sender" in options)) {
-        throw new Error("Passing `sender` is required.");
-      }
+    const submit: Submitter<any, any> = async (_options: SubmitOptions) => {
+      // if (!("x" in options)) {
+      //   throw new Error("Passing `x` is required.");
+      // }
       const receipt = await executeJson({
         provider: this.clarityBin,
         contractAddress: this.client.name,
-        senderAddress: options.sender,
+        senderAddress: request.caller.address,
         functionName: request.function.name,
         args: argsFormatted,
       });
@@ -209,16 +209,7 @@ export class TestProvider implements BaseProvider {
   }
 
   formatArguments(func: ClarityAbiFunction, args: any[]): string[] {
-    var metadata = args.filter((arg) => instanceOfMetadata(arg));
-
-    if (metadata.length > 1) {
-      throw new TypeError("More than one metadata objects");
-    }
-
-    var argsWithoutMetadata =
-      metadata.length == 1 ? args.filter((x) => x !== metadata[0]) : args;
-
-    var formatted = argsWithoutMetadata.map((arg, index) => {
+    var formatted = args.map((arg, index) => {
       const { type } = func.args[index];
       return this.formatArgument(type, arg);
     });

@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { ArkadikoSip10ReserveV11Interface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { ArkadikoSip10ReserveV11Contract } from "./types";
+import { ArkadikoSip10ReserveV11Interface } from "./abi";
 
 export type { ArkadikoSip10ReserveV11Contract } from "./types";
 

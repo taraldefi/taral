@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { ArkadikoDaoTokenTraitV1Interface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { ArkadikoDaoTokenTraitV1Contract } from "./types";
+import { ArkadikoDaoTokenTraitV1Interface } from "./abi";
 
 export type { ArkadikoDaoTokenTraitV1Contract } from "./types";
 

@@ -1,6 +1,6 @@
 import MerkleTree from "merkletreejs";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 import { getReversedTxId } from "./get-txid";
 import { HeaderPartsType, ProofCvType } from "./types";
 import { makeBuffer, reverse } from "./utils";
@@ -31,8 +31,7 @@ export async function verifyMerkleProof(
     await request.contract.verifyMerkleProof(
       bufferedTxId,
       bufferedMerkleRoot,
-      request.proofCV,
-      getMetadata(request)
+      request.proofCV
     )
   )._unsafeUnwrap();
 
@@ -50,13 +49,17 @@ export async function verifyMerkleProof2(
   // Call readonly function
   //
 
-  const reversedTxId = await getReversedTxId({
+  let reversedTxId = await getReversedTxId({
     accounts: request.accounts,
     contract: request.contract,
     txCv: request.txCV,
   });
 
-  Logger.debug(`REVERSED TX ID ${reversedTxId}`);
+  if (reversedTxId.startsWith("0x")) {
+    reversedTxId = reversedTxId.substring(2);
+  }
+
+  Logger.debug(`VerifyMerkleProof2: REVERSED TX ID ${reversedTxId}`);
 
   const reversedTxIdBuffer = makeBuffer(reversedTxId);
   const merkleRootBuffer = request.headerPartsCV["merkle-root"];
@@ -65,8 +68,7 @@ export async function verifyMerkleProof2(
     await request.contract.verifyMerkleProof(
       reversedTxIdBuffer,
       merkleRootBuffer,
-      request.proofCV,
-      getMetadata(request)
+      request.proofCV
     )
   )._unsafeUnwrap();
 

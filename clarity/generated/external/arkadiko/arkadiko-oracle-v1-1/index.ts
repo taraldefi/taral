@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { ArkadikoOracleV11Interface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { ArkadikoOracleV11Contract } from "./types";
+import { ArkadikoOracleV11Interface } from "./abi";
 
 export type { ArkadikoOracleV11Contract } from "./types";
 

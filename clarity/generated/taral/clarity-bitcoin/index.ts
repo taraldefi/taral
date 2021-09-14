@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
 import { Contract } from "../../../lib/types";
-import { ClarityBitcoinInterface } from "./abi";
+import { proxy } from "../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../lib/providers/base-provider";
+
 import type { ClarityBitcoinContract } from "./types";
+import { ClarityBitcoinInterface } from "./abi";
 
 export type { ClarityBitcoinContract } from "./types";
 

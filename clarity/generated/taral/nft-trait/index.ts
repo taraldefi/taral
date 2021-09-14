@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../lib/providers/base-provider";
-import { proxy } from "../../../lib/test-utils/proxy";
 import { Contract } from "../../../lib/types";
-import { NftTraitInterface } from "./abi";
+import { proxy } from "../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../lib/providers/base-provider";
+
 import type { NftTraitContract } from "./types";
+import { NftTraitInterface } from "./abi";
 
 export type { NftTraitContract } from "./types";
 

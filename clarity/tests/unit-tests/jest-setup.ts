@@ -5,6 +5,7 @@ import {
   TaralCoinContract,
 } from "../../generated/taral";
 import {
+  ClarinetAccount,
   ClarinetAccounts,
   getClarinetAccounts,
   getDefaultClarityBin,
@@ -12,7 +13,7 @@ import {
 import { TestProvider } from "../../lib/providers/test-provider";
 import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
 
-export let talToken: TaralCoinContract;
+export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
 export let clarityBin: NativeClarityBinProvider;
 export let testUtilsProvider: TestUtilsProvider;

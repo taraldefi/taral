@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { ArkadikoStakePoolDikoUsdaV11Interface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { ArkadikoStakePoolDikoUsdaV11Contract } from "./types";
+import { ArkadikoStakePoolDikoUsdaV11Interface } from "./abi";
 
 export type { ArkadikoStakePoolDikoUsdaV11Contract } from "./types";
 

@@ -1,15 +1,14 @@
 import { ClarityTypes } from "../../../../../clarity/types";
-import { IMetadata } from "../../../../../providers/types";
 import { Transaction } from "../../../../../transaction";
 
 // prettier-ignore
 
 export interface PoxContract {
-    allowContractCaller: (caller: string, untilBurnHt: number | null, metadata: IMetadata) => Transaction<boolean, number>;
+    allowContractCaller: (caller: string, untilBurnHt: number | null ) => Transaction<boolean, number>;
     delegateStackStx: (stacker: string, amountUstx: number, poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    }, startBurnHt: number, lockPeriod: number, metadata: IMetadata) => Transaction<{
+    }, startBurnHt: number, lockPeriod: number ) => Transaction<{
         "lock-amount": number;
         "stacker": string;
         "unlock-burn-height": number
@@ -17,19 +16,19 @@ export interface PoxContract {
     delegateStx: (amountUstx: number, delegateTo: string, untilBurnHt: number | null, poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    } | null, metadata: IMetadata) => Transaction<boolean, number>;
-    disallowContractCaller: (caller: string, metadata: IMetadata) => Transaction<boolean, number>;
-    rejectPox: (metadata: IMetadata) => Transaction<boolean, number>;
-    revokeDelegateStx: (metadata: IMetadata) => Transaction<boolean, number>;
-    setBurnchainParameters: (firstBurnHeight: number, prepareCycleLength: number, rewardCycleLength: number, rejectionFraction: number, metadata: IMetadata) => Transaction<boolean, number>;
+    } | null ) => Transaction<boolean, number>;
+    disallowContractCaller: (caller: string ) => Transaction<boolean, number>;
+    rejectPox: () => Transaction<boolean, number>;
+    revokeDelegateStx: () => Transaction<boolean, number>;
+    setBurnchainParameters: (firstBurnHeight: number, prepareCycleLength: number, rewardCycleLength: number, rejectionFraction: number ) => Transaction<boolean, number>;
     stackAggregationCommit: (poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    }, rewardCycle: number, metadata: IMetadata) => Transaction<boolean, number>;
+    }, rewardCycle: number ) => Transaction<boolean, number>;
     stackStx: (amountUstx: number, poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    }, startBurnHt: number, lockPeriod: number, metadata: IMetadata) => Transaction<{
+    }, startBurnHt: number, lockPeriod: number ) => Transaction<{
         "lock-amount": number;
         "stacker": string;
         "unlock-burn-height": number
@@ -37,8 +36,8 @@ export interface PoxContract {
     canStackStx: (poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    }, amountUstx: number, firstRewardCycle: number, numCycles: number, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
-    getPoxInfo: (metadata: IMetadata) => Promise<ClarityTypes.Response<{
+    }, amountUstx: number, firstRewardCycle: number, numCycles: number ) => Promise<ClarityTypes.Response<boolean, number>>;
+    getPoxInfo: () => Promise<ClarityTypes.Response<{
         "current-rejection-votes": number;
         "first-burnchain-block-height": number;
         "min-amount-ustx": number;
@@ -48,18 +47,18 @@ export interface PoxContract {
         "reward-cycle-length": number;
         "total-liquid-supply-ustx": number
     }, null>>;
-    getPoxRejection: (stacker: string, rewardCycle: number, metadata: IMetadata) => Promise<{
+    getPoxRejection: (stacker: string, rewardCycle: number ) => Promise<{
         "amount": number
     } | null>;
-    getRewardSetPoxAddress: (rewardCycle: number, index: number, metadata: IMetadata) => Promise<{
+    getRewardSetPoxAddress: (rewardCycle: number, index: number ) => Promise<{
         "pox-addr": {
             "hashbytes": Buffer;
             "version": Buffer
         };
         "total-ustx": number
     } | null>;
-    getRewardSetSize: (rewardCycle: number, metadata: IMetadata) => Promise<number>;
-    getStackerInfo: (stacker: string, metadata: IMetadata) => Promise<{
+    getRewardSetSize: (rewardCycle: number ) => Promise<number>;
+    getStackerInfo: (stacker: string ) => Promise<{
         "amount-ustx": number;
         "first-reward-cycle": number;
         "lock-period": number;
@@ -68,13 +67,13 @@ export interface PoxContract {
             "version": Buffer
         }
     } | null>;
-    getStackingMinimum: (metadata: IMetadata) => Promise<number>;
-    getTotalUstxStacked: (rewardCycle: number, metadata: IMetadata) => Promise<number>;
-    isPoxActive: (rewardCycle: number, metadata: IMetadata) => Promise<boolean>;
+    getStackingMinimum: () => Promise<number>;
+    getTotalUstxStacked: (rewardCycle: number ) => Promise<number>;
+    isPoxActive: (rewardCycle: number ) => Promise<boolean>;
     minimalCanStackStx: (poxAddr: {
         "hashbytes": Buffer;
         "version": Buffer
-    }, amountUstx: number, firstRewardCycle: number, numCycles: number, metadata: IMetadata) => Promise<ClarityTypes.Response<boolean, number>>;
+    }, amountUstx: number, firstRewardCycle: number, numCycles: number ) => Promise<ClarityTypes.Response<boolean, number>>;
     ADDRESS_VERSION_P2PKH: () => Promise<Buffer>;
     ADDRESS_VERSION_P2SH: () => Promise<Buffer>;
     ADDRESS_VERSION_P2WPKH: () => Promise<Buffer>;

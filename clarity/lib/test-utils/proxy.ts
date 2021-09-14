@@ -1,8 +1,9 @@
+import { ClarinetAccount } from "..";
 import { ClarityAbi } from "../clarity";
 import { BaseProvider } from "../providers";
 import { toCamelCase } from "../utils";
 
-const makeHandler = (provider: BaseProvider) => {
+const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
   const handler: ProxyHandler<ClarityAbi> = {
     get: (contract, property) => {
       const foundFunction = contract.functions.find((func) => {
@@ -14,6 +15,7 @@ const makeHandler = (provider: BaseProvider) => {
             return provider.callReadOnly({
               arguments: args,
               function: foundFunction,
+              caller,
             });
           };
         } else if (foundFunction.access === "public") {
@@ -21,6 +23,7 @@ const makeHandler = (provider: BaseProvider) => {
             return provider.callPublic({
               arguments: args,
               function: foundFunction,
+              caller,
             });
           };
         }
@@ -34,6 +37,7 @@ const makeHandler = (provider: BaseProvider) => {
           return provider.callVariable(foundVariable);
         };
       }
+
       const foundMap = contract.maps.find((map) => {
         return toCamelCase(map.name) === property;
       });
@@ -42,9 +46,11 @@ const makeHandler = (provider: BaseProvider) => {
           return provider.callMap(foundMap, key);
         };
       }
+
       return null;
     },
   };
+
   return handler;
 };
 
@@ -65,6 +71,7 @@ declare const Proxy: ProxyConstructor;
 export const proxy = <T extends object>(
   target: ClarityAbi,
   provider: BaseProvider
-): T => {
-  return new Proxy<T, ClarityAbi>(target, makeHandler(provider));
+): ((account: ClarinetAccount) => T) => {
+  return (account: ClarinetAccount) =>
+    new Proxy<T, ClarityAbi>(target, makeHandler(provider, account));
 };

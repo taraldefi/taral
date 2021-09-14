@@ -1,9 +1,11 @@
 import { ClarityAbiFunction, ClarityAbiVariable } from "@stacks/transactions";
+import { ClarinetAccount } from "..";
 import { ClarityAbiMap } from "../clarity";
 import { Transaction } from "../transaction";
 
 export interface IProviderRequest {
   function: ClarityAbiFunction;
+  caller: ClarinetAccount;
   arguments: any[];
 }
 

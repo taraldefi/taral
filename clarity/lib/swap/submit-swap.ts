@@ -1,4 +1,4 @@
-import { ClarinetAccount, IMetadata, Logger, txOk } from "..";
+import { Logger, txOk } from "..";
 import { FtSwapRequest } from "./base-request";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
@@ -8,17 +8,10 @@ export interface SubmitSwapRequest extends FtSwapRequest {
   txPartsCv: TxPartsCvType;
   proofCv: ProofCvType;
   ftContract: string;
-  caller: ClarinetAccount;
 }
 
 export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
   Logger.debug("Calling submitSwap");
-
-  const metadata: IMetadata = {
-    discriminator: "metadata",
-    address: request.caller.address,
-    sender: request.caller.privateKey,
-  };
 
   const result = await txOk(
     request.contract.submitSwap(
@@ -26,10 +19,8 @@ export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
       request.headerPartsCv,
       request.txPartsCv,
       request.proofCv,
-      request.ftContract,
-      metadata
-    ),
-    request.caller.privateKey
+      request.ftContract
+    )
   );
 
   Logger.debug("submitSwap result");

@@ -1,8 +1,9 @@
-import { BaseProvider } from "../../../../lib/providers/base-provider";
-import { proxy } from "../../../../lib/test-utils/proxy";
 import { Contract } from "../../../../lib/types";
-import { ArkadikoSwapTokenWstxDikoInterface } from "./abi";
+import { proxy } from "../../../../lib/test-utils/proxy";
+import { BaseProvider } from "../../../../lib/providers/base-provider";
+
 import type { ArkadikoSwapTokenWstxDikoContract } from "./types";
+import { ArkadikoSwapTokenWstxDikoInterface } from "./abi";
 
 export type { ArkadikoSwapTokenWstxDikoContract } from "./types";
 

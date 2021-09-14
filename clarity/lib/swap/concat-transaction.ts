@@ -1,5 +1,5 @@
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 import { TxPartsCvType } from "./types";
 
 export interface ConcatTransactionRequest extends ClarityBitcoinRequest {
@@ -12,10 +12,7 @@ export async function concatTransaction(
   Logger.debug("Calling concatTx");
   // Call readonly function
   //
-  let response = await request.contract.concatTx(
-    request.txPartsCV,
-    getMetadata(request)
-  );
+  let response = await request.contract.concatTx(request.txPartsCV);
 
   let result = response.toString();
 

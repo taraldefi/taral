@@ -1,5 +1,6 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
 import { TestProvider } from ".";
+import { ClarinetAccount } from "..";
 import {
   BnsContract,
   contracts as bootContracts,
@@ -14,20 +15,24 @@ import {
 } from "../test-utils/contracts/generated/test-utils";
 
 export class TestUtilsProvider {
-  private readonly _testContract: TestUtilsContract;
-  private readonly _bnsContract: BnsContract;
-  private readonly _costVotingContract: CostVotingContract;
-  private readonly _costsContract: CostsContract;
-  private readonly _lockupContract: LockupContract;
-  private readonly _poxContract: PoxContract;
+  private readonly _testContract: (
+    caller: ClarinetAccount
+  ) => TestUtilsContract;
+  private readonly _bnsContract: (caller: ClarinetAccount) => BnsContract;
+  private readonly _costVotingContract: (
+    caller: ClarinetAccount
+  ) => CostVotingContract;
+  private readonly _costsContract: (caller: ClarinetAccount) => CostsContract;
+  private readonly _lockupContract: (caller: ClarinetAccount) => LockupContract;
+  private readonly _poxContract: (caller: ClarinetAccount) => PoxContract;
 
   private constructor(
-    testContract: TestUtilsContract,
-    bns: BnsContract,
-    costVoting: CostVotingContract,
-    costs: CostsContract,
-    lockup: LockupContract,
-    pox: PoxContract
+    testContract: (caller: ClarinetAccount) => TestUtilsContract,
+    bns: (caller: ClarinetAccount) => BnsContract,
+    costVoting: (caller: ClarinetAccount) => CostVotingContract,
+    costs: (caller: ClarinetAccount) => CostsContract,
+    lockup: (caller: ClarinetAccount) => LockupContract,
+    pox: (caller: ClarinetAccount) => PoxContract
   ) {
     this._testContract = testContract;
     this._bnsContract = bns;
@@ -37,27 +42,29 @@ export class TestUtilsProvider {
     this._poxContract = pox;
   }
 
-  public getBnsContract(): BnsContract {
+  public getBnsContract(): (caller: ClarinetAccount) => BnsContract {
     return this._bnsContract;
   }
 
-  public getCostVotingContract(): CostVotingContract {
+  public getCostVotingContract(): (
+    caller: ClarinetAccount
+  ) => CostVotingContract {
     return this._costVotingContract;
   }
 
-  public getCostsContract(): CostsContract {
+  public getCostsContract(): (caller: ClarinetAccount) => CostsContract {
     return this._costsContract;
   }
 
-  public getLockupContract(): LockupContract {
+  public getLockupContract(): (caller: ClarinetAccount) => LockupContract {
     return this._lockupContract;
   }
 
-  public getPoxContract(): PoxContract {
+  public getPoxContract(): (caller: ClarinetAccount) => PoxContract {
     return this._poxContract;
   }
 
-  public getTestContract(): TestUtilsContract {
+  public getTestContract(): (caller: ClarinetAccount) => TestUtilsContract {
     return this._testContract;
   }
 

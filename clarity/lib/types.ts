@@ -1,10 +1,13 @@
 import { NativeClarityBinProvider } from "@blockstack/clarity";
 import { StacksNetworkConfiguration } from "../configuration/stacks-network";
-import { ClarinetAccounts } from "./configuration";
+import { ClarinetAccount, ClarinetAccounts } from "./configuration";
 import type { BaseProvider, DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
 
-export type ContractBuilder<T> = (provider: BaseProvider) => T;
+export type ContractBuilder<T> = (
+  provider: BaseProvider
+) => (account: ClarinetAccount) => T;
+
 export interface Contract<T> {
   address: string;
   contractFile: string;
