@@ -5,7 +5,7 @@ import { Transaction } from "../transaction";
 
 export interface IProviderRequest {
   function: ClarityAbiFunction;
-  account: ClarinetAccount;
+  caller: ClarinetAccount;
   arguments: any[];
 }
 

@@ -17,6 +17,7 @@ import {
 } from "@stacks/transactions";
 import BN from "bn.js";
 import { err, ok } from "neverthrow";
+import { SubmitOptions } from "..";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
@@ -34,7 +35,7 @@ import {
 } from "../types";
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
-import { DeployerAccount, IMetadata } from "./types";
+import { DeployerAccount } from "./types";
 
 export class ApiProvider implements BaseProvider {
   private readonly network: StacksNetworkConfiguration;
@@ -66,20 +67,18 @@ export class ApiProvider implements BaseProvider {
   };
 
   async callReadOnly(request: IProviderRequest): Promise<any> {
-    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
+    let formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
     );
 
-    var metadata = formattedArguments[1];
-    var args = formattedArguments[0];
 
     let options: ReadOnlyFunctionOptions = {
       contractAddress: this.deployerAccount.stacksAddress,
       contractName: this.contractName,
-      functionArgs: args,
+      functionArgs: formattedArguments,
       functionName: request.function.name,
-      senderAddress: metadata.address,
+      senderAddress: request.caller.address,
       network: this.network,
     };
 
@@ -109,29 +108,27 @@ export class ApiProvider implements BaseProvider {
   }
 
   callPublic(request: IProviderRequest): Transaction<any, any> {
-    let formattedArguments: [ClarityValue[], IMetadata] = formatArguments(
+    let formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
     );
-    var metadata = formattedArguments[1];
-    var args = formattedArguments[0];
 
     Logger.debug(
       `Calling public method ${request.function.name} on contract ${this.contractName}`
     );
     Logger.debug(JSON.stringify(request));
 
-    const submit: Submitter<any, any> = async (options) => {
-      if (!("sender" in options)) {
-        throw new Error("Passing `sender` is required.");
-      }
+    const submit: Submitter<any, any> = async (options: SubmitOptions) => {
+      // if (!("x" in options)) {
+      //   throw new Error("Passing `x` is required.");
+      // }
 
       var rawFunctionCallResult = await this.callContractFunction(
         this.contractName,
         request.function.name,
-        metadata.sender ?? options.sender,
-        metadata.address,
-        args
+        request.caller.privateKey,
+        request.caller.address,
+        formattedArguments
       );
 
       let successfulFunctionCallResult: TxBroadcastResultOk = "";
