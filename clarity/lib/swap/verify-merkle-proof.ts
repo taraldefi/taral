@@ -31,8 +31,7 @@ export async function verifyMerkleProof(
     await request.contract.verifyMerkleProof(
       bufferedTxId,
       bufferedMerkleRoot,
-      request.proofCV,
-      getMetadata(request)
+      request.proofCV
     )
   )._unsafeUnwrap();
 
@@ -65,8 +64,7 @@ export async function verifyMerkleProof2(
     await request.contract.verifyMerkleProof(
       reversedTxIdBuffer,
       merkleRootBuffer,
-      request.proofCV,
-      getMetadata(request)
+      request.proofCV
     )
   )._unsafeUnwrap();
 

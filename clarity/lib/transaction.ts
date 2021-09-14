@@ -59,7 +59,6 @@ export interface WebSignerOptions {
 }
 
 export interface TestSignerOptions {
-  sender: string;
 }
 
 export type SubmitOptions = TestSignerOptions | WebSignerOptions;
@@ -82,17 +81,16 @@ export interface Transaction<Ok, Err> {
   submit: Submitter<Ok, Err>;
 }
 
-export async function tx<A, B>(tx: Transaction<A, B>, sender: string) {
-  const receipt = await tx.submit({ sender });
+export async function tx<A, B>(tx: Transaction<A, B>) {
+  const receipt = await tx.submit({});
   const result = await receipt.getResult();
   return result;
 }
 
 export async function txOk<A, B>(
   _tx: Transaction<A, B>,
-  sender: string
 ): Promise<TransactionResultOk<A>> {
-  const result = await tx(_tx, sender);
+  const result = await tx(_tx);
 
   if (!result.isOk)
     throw new Error(`Expected transaction ok, got error: ${result.value}`);
@@ -101,9 +99,8 @@ export async function txOk<A, B>(
 
 export async function txErr<A, B>(
   _tx: Transaction<A, B>,
-  sender: string
 ): Promise<TransactionResultErr<B>> {
-  const result = await tx(_tx, sender);
+  const result = await tx(_tx);
   if (result.isOk)
     throw new Error(`Expected transaction error, got ok: ${result.value}`);
   return result;

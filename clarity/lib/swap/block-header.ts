@@ -1,5 +1,5 @@
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 import { BlockCvType, HeaderPartsType } from "./types";
 import { makeBuffer } from "./utils";
 
@@ -24,7 +24,6 @@ export async function parseBlockHeader(
   const response = (
     await request.contract.parseBlockHeader(
       makeBuffer(request.header),
-      getMetadata(request)
     )
   )._unsafeUnwrap();
 
@@ -55,8 +54,7 @@ export async function verifyBlockHeader(
   //
   let response = await request.contract.verifyBlockHeader(
     headerPartsBuffer,
-    request.stacksBlockHeight,
-    getMetadata(request)
+    request.stacksBlockHeight
   );
 
   let result = response;
@@ -77,8 +75,7 @@ export async function verifyBlockHeader2(
   //
   let response = await request.contract.verifyBlockHeader(
     request.blockCV["header"],
-    request.blockCV["height"],
-    getMetadata(request)
+    request.blockCV["height"]
   );
 
   let result = response;

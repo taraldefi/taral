@@ -1,5 +1,5 @@
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
 export interface WasTxMinedRequest extends ClarityBitcoinRequest {
@@ -22,8 +22,7 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
   let response = await request.contract.wasTxMined(
     request.blockPartsCV,
     request.txCV,
-    request.proofCV,
-    getMetadata(request)
+    request.proofCV
   );
 
   let result = response._unsafeUnwrap();
@@ -43,8 +42,7 @@ export async function wasTxMinedFromHex(
   let response = await request.contract.wasTxMinedCompact(
     request.blockCV,
     request.txCV,
-    request.proofCV,
-    getMetadata(request)
+    request.proofCV
   );
 
   let result = response._unsafeUnwrap();

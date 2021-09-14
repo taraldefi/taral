@@ -1,5 +1,5 @@
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 
 export interface GetTxIdRequest extends ClarityBitcoinRequest {
   txBuffCV: Buffer;
@@ -15,8 +15,7 @@ export async function getTxId(request: GetTxIdRequest): Promise<string> {
   // Call readonly function
   //
   let response = await request.contract.getTxid(
-    request.txBuffCV,
-    getMetadata(request)
+    request.txBuffCV
   );
 
   let result = response.toString();
@@ -36,8 +35,7 @@ export async function getReversedTxId(
   // Call readonly function
   //
   let response = await request.contract.getReversedTxid(
-    request.txCv,
-    getMetadata(request)
+    request.txCv
   );
 
   let result = response.toString();

@@ -1,5 +1,5 @@
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest, getMetadata } from "./base-request";
+import { ClarityBitcoinRequest } from "./base-request";
 
 export interface ParseTxRequest extends ClarityBitcoinRequest {
   txCV: Buffer;
@@ -14,8 +14,7 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
     // Call readonly function
     //
     let response = await request.contract.getTxid(
-      request.txCV,
-      getMetadata(request)
+      request.txCV
     );
     result = response.toString();
   } catch (error: any) {
