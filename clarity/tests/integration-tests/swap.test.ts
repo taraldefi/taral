@@ -106,7 +106,6 @@ test("make btc transaction", async () => {
     ftBuyerStacksAddress: buyerWallet.address,
     ftSellerBitcoinAddress: sellerDerivedBtcInfo.address,
     network: btc.networks.regtest,
-    caller: sellerWallet,
   });
 
   expect(swapId).toBeLessThan(1000);
@@ -276,7 +275,6 @@ test("make btc transaction", async () => {
     proofCv: paramsFromTransaction.proofCv,
     swapId: swapId,
     txPartsCv: paramsFromTransaction.txPartsCv,
-    caller: buyerWallet,
   });
 
   Logger.info("Submitted swap with result: ");
