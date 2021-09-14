@@ -73,8 +73,6 @@ test("make btc transaction", async () => {
 
   expect(faucetTransaction.success).toBe(true);
 
-  await new Promise((r) => setTimeout(r, 15000));
-
   const buyerBalance: number = await retry<number>(
     async function () {
       const btcBalance = await getBtcBalance(
