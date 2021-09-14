@@ -159,7 +159,7 @@ test("make btc transaction", async () => {
     async function () {
       const baseRequest: ClarityBitcoinRequest = {
         accounts: clarinetAccounts,
-        contract: clarityBitcoinContract,
+        contract: clarityBitcoinContract(clarinetAccounts.deployer),
       };
 
       const paramsFromTransaction = await paramsFromTx({
@@ -171,6 +171,9 @@ test("make btc transaction", async () => {
         ...baseRequest,
         txCv: paramsFromTransaction.txCV,
       });
+
+      console.log('block::::::: ');
+      console.log(JSON.stringify(paramsFromTransaction.block));
 
       const merkleProof1 = await verifyMerkleProof({
         ...baseRequest,

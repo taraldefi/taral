@@ -56,7 +56,7 @@ export async function verifyMerkleProof2(
     txCv: request.txCV,
   });
 
-  Logger.debug(`REVERSED TX ID ${reversedTxId}`);
+  Logger.debug(`VerifyMerkleProof2: REVERSED TX ID ${reversedTxId}`);
 
   const reversedTxIdBuffer = makeBuffer(reversedTxId);
   const merkleRootBuffer = request.headerPartsCV["merkle-root"];

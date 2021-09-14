@@ -1,4 +1,4 @@
-import { Contract, ContractInstances } from "clarity/lib";
+import { Contract, ContractInstances } from "../../lib";
 import { NETWORK } from "../../configuration";
 import {
   BtcFtSwapContract,
@@ -9,13 +9,13 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "../../generated/taral";
-import { ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
+import { ClarinetAccount, ClarinetAccounts, getClarinetAccounts } from "../../lib/configuration";
 import { Logger } from "../../lib/logger";
 import { ApiProvider } from "../../lib/providers";
 
-export let talToken: TaralCoinContract;
-export let clarityBitcoinContract: ClarityBitcoinContract;
-export let btcFtSwapContract: BtcFtSwapContract;
+export let talToken: (account: ClarinetAccount) => TaralCoinContract;
+export let clarityBitcoinContract: (account: ClarinetAccount) => ClarityBitcoinContract;
+export let btcFtSwapContract: (account: ClarinetAccount) => BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 
 export let deployed: ContractInstances<

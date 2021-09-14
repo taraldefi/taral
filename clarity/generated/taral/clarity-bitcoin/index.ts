@@ -11,6 +11,7 @@ export const clarityBitcoinContract = (provider: BaseProvider) => {
     ClarityBitcoinInterface,
     provider
   );
+
   return contract;
 };
 

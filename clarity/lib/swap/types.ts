@@ -5,7 +5,7 @@ import {
   NftTraitContract,
   Sip10FtStandardContract,
   TaralCoinContract,
-} from "clarity/generated/taral";
+} from "../../generated/taral";
 import { Contract, ContractInstances } from "../types";
 
 export type DeployedContracts = ContractInstances<
