@@ -117,13 +117,10 @@ export const makeTypes = (abi: ClarityAbi) => {
   const typings: string[] = [];
   abi.functions.forEach((func, _index) => {
     if (func.access === "private") return;
-    const metadata = `metadata: IMetadata`;
     let functionLine = `${toCamelCase(func.name)}: `;
     const args = func.args.map((arg) => {
       return `${generateArgName(arg.name)}: ${jsTypeFromAbiType(arg.type)}`;
     });
-
-    args.push(metadata);
 
     functionLine += `(${args.join(", ")}) => `;
     if (func.access === "public") {

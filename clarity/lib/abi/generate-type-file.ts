@@ -13,7 +13,6 @@ export const generateTypesFile = (
   const relativeImportPath = getRelativeImportPath(subFolder);
   const fileContents = `import { Transaction } from '${relativeImportPath}lib/transaction';
 import { ClarityTypes } from '${relativeImportPath}lib/clarity/types';
-import { IMetadata } from '${relativeImportPath}lib/providers/types';
 
 // prettier-ignore
 
