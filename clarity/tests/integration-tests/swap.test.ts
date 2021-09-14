@@ -99,7 +99,7 @@ test("make btc transaction", async () => {
   Logger.debug("Calling create swap");
   const swapId = await createBtcFtSwap({
     accounts: clarinetAccounts,
-    contract: btcFtSwapContract,
+    contract: btcFtSwapContract(sellerWallet),
     btcAmount: btcSwapAmount,
     ftAmount: ftSwapAmount,
     ftContract: ftContract,
@@ -270,7 +270,7 @@ test("make btc transaction", async () => {
 
   const swap = await submitSwap({
     accounts: clarinetAccounts,
-    contract: btcFtSwapContract,
+    contract: btcFtSwapContract(buyerWallet),
     ftContract: ftContract,
     headerPartsCv: paramsFromTransaction.headerPartsCv,
     proofCv: paramsFromTransaction.proofCv,

@@ -15,6 +15,7 @@ const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
             return provider.callReadOnly({
               arguments: args,
               function: foundFunction,
+              account: caller
             });
           };
         } else if (foundFunction.access === "public") {
@@ -22,6 +23,7 @@ const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
             return provider.callPublic({
               arguments: args,
               function: foundFunction,
+              account: caller
             });
           };
         }

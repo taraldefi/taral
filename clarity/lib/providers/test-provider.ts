@@ -19,7 +19,7 @@ import {
   getDefaultClarityBin,
 } from "../adapter";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
-import { ClarinetAccounts } from "../configuration";
+import { ClarinetAccount, ClarinetAccounts } from "../configuration";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
