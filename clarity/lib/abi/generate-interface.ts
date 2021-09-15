@@ -5,7 +5,7 @@ import { getContractNameFromPath } from "../utils";
 export async function generateInterface({
   provider,
   contractFile,
-  contractAddress = "S1G2081040G2081040G2081040G208105NK8PE5",
+  contractAddress,
 }: {
   contractFile: string;
   provider: NativeClarityBinProvider;

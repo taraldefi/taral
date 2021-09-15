@@ -1,4 +1,4 @@
-import { PostCondition, StacksTransaction } from "@stacks/transactions";
+import { PostCondition, PostConditionMode, StacksTransaction } from "@stacks/transactions";
 
 export interface ResultAssets {
   stx: Record<string, string>;
@@ -11,7 +11,7 @@ export interface TransactionResultOk<Ok> {
   value: Ok;
   response?: ResponseOk<Ok>;
   isOk: true;
-  events: any[];
+  events: Record<string, any>[];
   costs?: {
     [key: string]: any;
     runtime: number;
@@ -55,12 +55,21 @@ export type TransactionReceipt<Ok, Err> =
   | TransactionReceiptBase<Ok, Err>;
 
 export interface WebSignerOptions {
+  postConditionMode?: PostConditionMode;
   postConditions?: PostCondition[];
 }
 
-export interface TestSignerOptions {}
+export interface NodeSignerOptions {
+  postConditionMode?: PostConditionMode;
+  nonce?: number;
+  postConditions?: PostCondition[];
+}
 
-export type SubmitOptions = TestSignerOptions | WebSignerOptions;
+export interface TestSignerOptions {
+  sender: string;
+}
+
+export type SubmitOptions = TestSignerOptions | WebSignerOptions | NodeSignerOptions;
 
 export type Submitter<Ok, Err> = (
   options: SubmitOptions
@@ -89,18 +98,25 @@ export async function tx<A, B>(tx: Transaction<A, B>) {
 export async function txOk<A, B>(
   _tx: Transaction<A, B>
 ): Promise<TransactionResultOk<A>> {
+  
   const result = await tx(_tx);
 
-  if (!result.isOk)
+  if (!result.isOk) {
     throw new Error(`Expected transaction ok, got error: ${result.value}`);
+  }
+
   return result;
 }
 
 export async function txErr<A, B>(
   _tx: Transaction<A, B>
 ): Promise<TransactionResultErr<B>> {
+
   const result = await tx(_tx);
-  if (result.isOk)
+
+  if (result.isOk) {
     throw new Error(`Expected transaction error, got ok: ${result.value}`);
+  }
+
   return result;
 }

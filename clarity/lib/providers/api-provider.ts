@@ -155,12 +155,14 @@ export class ApiProvider implements BaseProvider {
 
           const result = cvToValue(resultCV);
 
-          return Promise.resolve({
+          const response: TransactionResult<any, any> = {
             isOk: true,
             response: responseOkCV(resultCV),
             value: result,
-            events: sct.events,
-          });
+            events: sct.events
+          };
+
+          return Promise.resolve(response);
         } else {
           return Promise.resolve({
             isOk: false,
