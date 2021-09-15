@@ -4,8 +4,8 @@ import {
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
-import { getWalletAtIndex } from "clarity/lib/configuration/get-wallet";
-import { HeaderPartsType } from "clarity/lib/swap/types";
+import { getWalletAtIndex } from "../../lib/configuration/get-wallet";
+import { HeaderPartsType } from "../../lib/swap/types";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { Logger } from "../../lib";
