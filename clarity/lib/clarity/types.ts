@@ -13,6 +13,7 @@ export interface ClarityAbiMap {
 
 export interface ClarityAbi extends Omit<_ClarityAbi, "maps"> {
   maps: ClarityAbiMap[];
+  clarity_version?: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-namespace

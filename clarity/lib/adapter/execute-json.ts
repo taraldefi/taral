@@ -1,3 +1,4 @@
+import { Logger } from "..";
 import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { ExecuteResult } from "../types";
 
@@ -25,6 +26,11 @@ export const executeJson = async ({
     ...args,
   ]);
   const response: ExecuteResult = JSON.parse(result.stdout);
+  
+  if (result.stderr) {
+    Logger.error(result.stderr);
+  }
+
   if (response && "error" in response) {
     throw new Error(
       `Transaction error: ${JSON.stringify(response.error, null, 2)}`
