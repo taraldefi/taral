@@ -23,6 +23,19 @@ export const TestUtilsInterface: ClarityAbi = {
         type: "uint128",
       },
     },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "account",
+          type: "principal",
+        },
+      ],
+      name: "get-stx-balance",
+      outputs: {
+        type: "uint128",
+      },
+    },
   ],
   fungible_tokens: [],
   maps: [],
