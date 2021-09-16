@@ -167,7 +167,6 @@ export async function paramsFromTx(
   Logger.debug(JSON.stringify(txPartsCv));
 
   const concatTransactionRequest: ConcatTransactionRequest = {
-    accounts: request.accounts,
     contract: request.contract,
     txPartsCV: txPartsCv,
   };

@@ -50,7 +50,6 @@ export async function verifyMerkleProof2(
   //
 
   let reversedTxId = await getReversedTxId({
-    accounts: request.accounts,
     contract: request.contract,
     txCv: request.txCV,
   });

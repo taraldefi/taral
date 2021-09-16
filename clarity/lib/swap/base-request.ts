@@ -3,10 +3,8 @@ import {
   BtcNftSwapContract,
   ClarityBitcoinContract,
 } from "../../generated/taral";
-import { ClarinetAccounts } from "../configuration";
 
 export interface BaseRequest {
-  accounts: ClarinetAccounts;
 }
 
 export interface ClarityBitcoinRequest extends BaseRequest {

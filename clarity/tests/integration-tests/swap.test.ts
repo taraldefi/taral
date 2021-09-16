@@ -97,7 +97,6 @@ test("make btc transaction", async () => {
 
   Logger.debug("Calling create swap");
   const swapId = await createBtcFtSwap({
-    accounts: clarinetAccounts,
     contract: btcFtSwapContract(sellerWallet),
     btcAmount: btcSwapAmount,
     ftAmount: ftSwapAmount,
@@ -168,7 +167,6 @@ test("make btc transaction", async () => {
   const validationResults: transactionChecks = await retry<transactionChecks>(
     async function () {
       const baseRequest: ClarityBitcoinRequest = {
-        accounts: clarinetAccounts,
         contract: clarityBitcoinContract(clarinetAccounts.deployer),
       };
 
@@ -278,7 +276,6 @@ test("make btc transaction", async () => {
   Logger.info(JSON.stringify(validationResults[7]));
 
   const swap = await submitSwap({
-    accounts: clarinetAccounts,
     contract: btcFtSwapContract(buyerWallet),
     ftContract: ftContract,
     headerPartsCv: paramsFromTransaction.headerPartsCv,
