@@ -47,6 +47,26 @@ async function submitTestContractForAnalysis(
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
         provider,
+        outputFolder: '',
+        generate: false
+      });
+    }
+  }
+}
+
+async function generateTestContractAbis(testGroups: IContractGroup[],
+  provider: NativeClarityBinProvider,
+  deployerAddress: string,
+  outputFolder: string) {
+  for (let group of testGroups) {
+    for (let contract of group.contracts) {
+      await submitAnalisysForContract({
+        contractFile: testContractWithSubdirectory(contract, group.subFolder),
+        contractAddress: deployerAddress,
+        subFolder: group.subFolder,
+        outputFolder: outputFolder,
+        provider,
+        generate: true
       });
     }
   }
@@ -133,7 +153,7 @@ function groupProject(project: IProject): IContractGroup[] {
   return contractGroups;
 }
 
-async function generate() {
+async function generate(regenerateMockContracts: boolean) {
   const cwd = `${process.cwd()}/clarity/`;
   const contracts = await getClarinetAccounts(cwd);
 
@@ -151,11 +171,16 @@ async function generate() {
   var contractGroups = groupProject(project);
   var testContractGroups = groupProject(testProject);
 
-  await submitTestContractForAnalysis(
-    testContractGroups,
-    provider,
-    contracts.deployer.address
-  );
+  if (regenerateMockContracts) {
+    await generateTestContractAbis(testContractGroups, provider, contracts.deployer.address, testProject.outputDirectory);
+    await generateProjectIndexFile(testContractGroups, testProject.outputDirectory);
+  } else {
+    await submitTestContractForAnalysis(
+      testContractGroups,
+      provider,
+      contracts.deployer.address
+    );
+  }
 
   await generateAbis(
     contractGroups,
@@ -167,4 +192,4 @@ async function generate() {
   await generateProjectIndexFile(contractGroups, project.outputDirectory);
 }
 
-generate();
+generate(true);
