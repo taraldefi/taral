@@ -15,7 +15,7 @@
     "testbed": "ts-node scripts/testbed.ts",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
     "deps": "npx depcheck",
-    "install": "ts-node scripts/install.ts"
+    "install-native-cli": "ts-node scripts/install-native-cli.ts"
   },
   "repository": {
     "type": "git",
