@@ -106,3 +106,7 @@ dist
 # Clarity docker
 clarity/docker/provisioning/private-testnet/bns-data/*
 !clarity/docker/provisioning/private-testnet/.gitkeep
+
+# native bin
+.native-bin/*
+!.native-bin/.gitkeep
