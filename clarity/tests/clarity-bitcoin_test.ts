@@ -5,7 +5,7 @@ import {
     Account,
     types,
     assertEquals
-  } from "./dependencies"
+  } from "./dependencies.ts"
   
   const parts = [
     "0x00200020",

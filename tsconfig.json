@@ -40,6 +40,6 @@
   "include": [
     "./clarity/jest-tests/**/*.ts",
     "./clarity/generated/**/*.ts",
-    "./clarity/lib/**/*.ts"
+    "./clarity/lib/**/*.ts",
   ]
 }

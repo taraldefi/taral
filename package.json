@@ -4,6 +4,7 @@
   "description": "Taral local development environment for clarity contracts",
   "main": "index.js",
   "scripts": {
+    "clarinet-tests": "cd clarity && clarinet test ./tests/",
     "unit-tests": "jest --projects ./clarity/jest-tests/unit-tests --runInBand",
     "util-unit-tests": "jest --projects ./clarity/jest-tests/utils-tests --runInBand",
     "integration-tests": "jest --projects ./clarity/jest-tests/integration-tests --runInBand",
