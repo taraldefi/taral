@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { ClarinetAccounts } from "../configuration";
 import { createClarityBin } from "./create-clarity-bin";
 

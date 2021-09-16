@@ -1,15 +1,10 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
-import { getDefaultBinaryFilePath } from "@blockstack/clarity-native-bin";
-import { getTempFilePath } from "@blockstack/clarity/lib/utils/fsUtil";
+import { NativeClarityBinProvider } from "./native-cli/native-provider";
+import { getDefaultBinaryFilePath, getTempFilePath } from "./native-cli/utils";
 
 export async function createDefaultTestProvider() {
   const binFile = getDefaultBinaryFilePath();
   const dbFileName = getTempFilePath();
-  const provider = await NativeClarityBinProvider.create(
-    [],
-    dbFileName,
-    binFile
-  );
+  const provider = NativeClarityBinProvider.create([], dbFileName, binFile);
 
   return provider;
 }

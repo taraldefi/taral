@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { deserializeCV } from "@stacks/transactions";
 import { evalJson, executeJson } from "../adapter";
 import { cvToValue } from "../clarity";

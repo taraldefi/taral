@@ -1,19 +1,19 @@
-import { Client, NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 
 export async function deployContract(
-  client: Client,
+  contractIdentifier: string, tmpContractFilePath: string,
   provider: NativeClarityBinProvider
 ) {
   const receipt = await provider.runCommand([
     "launch",
-    client.name,
-    client.filePath,
+    contractIdentifier,
+    tmpContractFilePath,
     provider.dbFilePath,
     "--costs",
     "--assets",
   ]);
   if (receipt.stderr) {
-    throw new Error(`Error on ${client.filePath}:
+    throw new Error(`Error on ${tmpContractFilePath}:
   ${receipt.stderr}
     `);
   }
@@ -27,14 +27,14 @@ export async function deployContract(
       const matcher = /start_line: (\d+),/;
       const matches = matcher.exec(trace);
       if (matches) startLine = matches[1];
-      throw new Error(`Error on ${client.filePath}:
+      throw new Error(`Error on ${tmpContractFilePath}:
     ${error}
     ${startLine ? `Near line ${startLine}` : ""}
     Raw trace:
     ${trace}
       `);
     }
-    throw new Error(`Error on ${client.filePath}:
+    throw new Error(`Error on ${tmpContractFilePath}:
   ${JSON.stringify(output.error, null, 2)}
     `);
   }

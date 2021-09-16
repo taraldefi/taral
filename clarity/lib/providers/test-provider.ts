@@ -1,4 +1,4 @@
-import { Client, NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import {
   ClarityAbiFunction,
   ClarityAbiType,
@@ -36,12 +36,14 @@ import {
 import { getContractIdentifier, getContractNameFromPath } from "../utils";
 
 export class TestProvider implements BaseProvider {
-  clarityBin: NativeClarityBinProvider;
-  client: Client;
+  private readonly clarityBin: NativeClarityBinProvider;
+  private readonly contractIdentifier: string;
+  private readonly contractFilePath: string;
 
-  constructor(clarityBin: NativeClarityBinProvider, client: Client) {
+  constructor(clarityBin: NativeClarityBinProvider, contractIdentifier: string, contractFilePath: string) {
     this.clarityBin = clarityBin;
-    this.client = client;
+    this.contractIdentifier = contractIdentifier;
+    this.contractFilePath = contractFilePath;
   }
 
   static async create({
@@ -51,20 +53,16 @@ export class TestProvider implements BaseProvider {
     contractIdentifier,
   }: CreateOptions) {
     let tmpContractFilePath: string = "";
-    let client: Client;
     if (deploy) {
       tmpContractFilePath = cleanupBootContractsCalls(contractFilePath);
-      client = new Client(contractIdentifier, tmpContractFilePath, clarityBin);
-    } else {
-      client = new Client(contractIdentifier, contractFilePath, clarityBin);
     }
 
     if (deploy) {
-      await deployContract(client, clarityBin);
+      await deployContract(contractIdentifier, tmpContractFilePath, clarityBin);
       cleanupTmpContractFile(tmpContractFilePath);
     }
 
-    return new this(clarityBin, client);
+    return new this(clarityBin, contractIdentifier, contractFilePath);
   }
 
   static async fromContract<T>({
@@ -123,7 +121,7 @@ export class TestProvider implements BaseProvider {
     const keyFormatted = this.formatArgument(map.key, key);
     const evalCode = `(map-get? ${map.name} ${keyFormatted})`;
     const result = await evalWithCode({
-      contractAddress: this.client.name,
+      contractAddress: this.contractIdentifier,
       evalCode,
       provider: this.clarityBin,
     });
@@ -138,7 +136,7 @@ export class TestProvider implements BaseProvider {
       evalCode = `(var-get ${variable.name})`;
     }
     const result = await evalWithCode({
-      contractAddress: this.client.name,
+      contractAddress: this.contractIdentifier,
       evalCode,
       provider: this.clarityBin,
     });
@@ -151,7 +149,7 @@ export class TestProvider implements BaseProvider {
       request.arguments
     );
     const result = await evalJson({
-      contractAddress: this.client.name,
+      contractAddress: this.contractIdentifier,
       functionName: request.function.name,
       args: argsFormatted,
       provider: this.clarityBin,
@@ -171,7 +169,7 @@ export class TestProvider implements BaseProvider {
       // }
       const receipt = await executeJson({
         provider: this.clarityBin,
-        contractAddress: this.client.name,
+        contractAddress: this.contractIdentifier,
         senderAddress: request.caller.address,
         functionName: request.function.name,
         args: argsFormatted,

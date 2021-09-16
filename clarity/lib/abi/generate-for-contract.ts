@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { mkdir, writeFile } from "fs/promises";
 import { normalize, relative, resolve } from "path";
 import {

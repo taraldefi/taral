@@ -16,7 +16,7 @@ import {
 
 import { writeFile } from "fs/promises";
 import { resolve } from "path";
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../clarity/lib/native-cli/native-provider";
 
 interface IProject {
   outputDirectory: string;

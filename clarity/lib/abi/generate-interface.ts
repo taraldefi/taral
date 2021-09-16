@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { ClarityAbi } from "../clarity";
 import { getContractNameFromPath } from "../utils";
 

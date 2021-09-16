@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "@blockstack/clarity";
+import { NativeClarityBinProvider } from "../../lib/native-cli/native-provider";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
 import {
   contracts as taralContracts,
