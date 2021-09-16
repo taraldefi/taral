@@ -16,5 +16,5 @@ test("Ticker should be TAL", async () => {
 test("Decimals should be 6", async () => {
   const token = talToken(clarinetAccounts.deployer);
   const result = (await token.getDecimals())._unsafeUnwrap();
-  expect(result).toEqual(6);
+  expect(result).toEqual(6n);
 });

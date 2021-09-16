@@ -1,19 +1,21 @@
 import {
   contractWithSubDirectory,
   getContractNameFromPath,
+  testContractWithSubdirectory,
   toCamelCase,
 } from "../utils";
 
 function generateIndexFileInternal({
   contractFile,
-  subFolder,
   imports,
   address,
+  contractWithSubDirectory,
 }: {
   contractFile: string;
   subFolder: string;
   imports: string;
   address: string;
+  contractWithSubDirectory: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
 
@@ -33,7 +35,7 @@ function generateIndexFileInternal({
   export const ${varName}Info: Contract<${contractType}> = {
     contract: ${varName}Contract,
     address: '${address}',
-    contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
+    contractFile: '${contractWithSubDirectory}',
   };`;
 
   return fileContents;
@@ -53,6 +55,10 @@ export function generateIndexFile({
   const contractName = getContractNameFromPath(contractFile);
   const contractTitle = toCamelCase(contractName, true);
   const contractType = `${contractTitle}Contract`;
+  const contractFileWithSubDirectory = contractWithSubDirectory(
+    contractName,
+    subFolder
+  );
 
   const imports = `
   import { Contract } from '${relativeImportPath}lib/types';
@@ -66,6 +72,7 @@ export function generateIndexFile({
     subFolder,
     imports,
     address,
+    contractWithSubDirectory: contractFileWithSubDirectory,
   });
 }
 
@@ -96,5 +103,9 @@ export function generateMockIndexFile({
     subFolder,
     imports,
     address,
+    contractWithSubDirectory: testContractWithSubdirectory(
+      contractName,
+      subFolder
+    ),
   });
 }

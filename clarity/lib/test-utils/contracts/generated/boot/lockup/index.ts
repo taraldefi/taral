@@ -13,5 +13,5 @@ export const lockupContract = (provider: BaseProvider) => {
 export const lockupInfo: Contract<LockupContract> = {
   contract: lockupContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/lockup.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/lockup.clar",
 };

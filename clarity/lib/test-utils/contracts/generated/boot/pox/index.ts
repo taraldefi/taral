@@ -13,5 +13,5 @@ export const poxContract = (provider: BaseProvider) => {
 export const poxInfo: Contract<PoxContract> = {
   contract: poxContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/pox.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/pox.clar",
 };

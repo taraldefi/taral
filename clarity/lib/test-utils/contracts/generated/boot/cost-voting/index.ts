@@ -13,5 +13,5 @@ export const costVotingContract = (provider: BaseProvider) => {
 export const costVotingInfo: Contract<CostVotingContract> = {
   contract: costVotingContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/cost-voting.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/cost-voting.clar",
 };

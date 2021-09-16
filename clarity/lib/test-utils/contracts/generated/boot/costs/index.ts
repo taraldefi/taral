@@ -13,5 +13,5 @@ export const costsContract = (provider: BaseProvider) => {
 export const costsInfo: Contract<CostsContract> = {
   contract: costsContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "clarity/contracts/boot/costs.clar",
+  contractFile: "clarity/lib/test-utils/contracts/boot/costs.clar",
 };

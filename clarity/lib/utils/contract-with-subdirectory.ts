@@ -7,7 +7,7 @@ import {
 export function contractWithSubDirectory(
   contractName: string,
   subfolder: string
-) {
+): string {
   if (contractName.endsWith(CONTRACT_EXTENSION)) {
     return `${CONTRACT_FOLDER}/${subfolder}/${contractName}`;
   }
