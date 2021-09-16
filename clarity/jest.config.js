@@ -5,13 +5,13 @@ const root = resolve(__dirname);
 module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
-  testMatch: ["<rootDir>/tests/unit-tests/**/*.test.ts"],
+  testMatch: ["<rootDir>/jest-tests/unit-tests/**/*.test.ts"],
   clearMocks: true,
   // collectCoverage: true,
   // collectCoverageFrom: [
   //   "<rootDir>/generated/taral/**/*.ts",
-  //   "!<rootDir>/tests/unit-tests/**/*.test.ts",
-  //   "!<rootDir>/tests/utils-tests/**/*.test.ts",
+  //   "!<rootDir>/jest-tests/unit-tests/**/*.test.ts",
+  //   "!<rootDir>/jest-tests/utils-tests/**/*.test.ts",
   // ],
   // coverageReporters: ["text-summary", "lcov"],
   // coverageDirectory: "coverage",
