@@ -8,11 +8,11 @@
 
 [[ template:toc ]]
 
-[[ load:readme/1-Local-Testnet.md ]]
+[[ load:readme/1-Getting-started.md ]]
 
 [[ load:readme/2-Mentions.md ]]
 
-[[ load:readme/3-Getting-started.md ]]
+[[ load:readme/3-Local-Testnet.md ]]
 
 [[ load:readme/4-Develop-smart-contracts.md ]]
 

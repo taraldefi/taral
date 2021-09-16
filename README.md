@@ -23,8 +23,9 @@
 
 ## ➤ Table of Contents
 
-* [➤ Local testnet](#-local-testnet)
 * [➤ Getting started](#-getting-started)
+* [➤ Thank you](#-thank-you)
+* [➤ Local testnet](#-local-testnet)
 * [➤ Development of smart contracts](#-development-of-smart-contracts)
 * [➤ Unit tests](#-unit-tests)
 * [➤ Integration tests](#-integration-tests)
@@ -32,6 +33,45 @@
 * [➤ FAQ](#-faq)
 * [➤ Contributors](#-contributors)
 * [➤ License](#-license)
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#getting-started)
+
+## ➤ Getting started
+
+When getting started with developing smart contracts, you need to first install the packages by calling
+
+```
+./install.sh
+```
+
+This installs a certain version of `clarity-cli` we're using to interact with the smart contracts locally in unit-test mode
+
+
+[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#thank-you)
+
+## ➤ Thank you
+
+This wouldn't be possible without the wonderful work of:
+
+* [Stacks itself] (https://www.stacks.co/)
+    Powering just about everything.
+
+* [Clarigen](https://github.com/obylabs/clarigen/)
+    Most api provider and contract generation code in the `/clarity/lib` is borrowed with gratitude from Clarigen and modified to fit our usecase. 
+
+* [Clarity JS SDK] (https://github.com/blockstack/clarity-js-sdk)
+    The native cli provider code in `/clarity/lib/native-cli` is borrowed with gratitude from `@blockstack/clarity-js-sdk` and `Clarigen` with few modifications.
+
+* [Clarinet] (https://github.com/hirosystems/clarinet)
+    Used for checking smart contracts, powering a private testnet and testing. Still using the private testnet in `/clarity/docker` but will rely more and more on `Clarinet`.
+
+* [Catamaran Swaps] (https://github.com/friedger/stacks-swaps) 
+    Swap code is based largely on `Stacks swaps` (smart contracts and swap verification functions) with the exception that this one runs directly against the bitcoin node, not using the `blockcypher` API or other external dependencies.
+
+* [Arkadiko] (https://github.com/arkadiko-dao/arkadiko) 
+    Currently used for integrating arkadiko functionality on the private testnet. We are going to use the arkadiko deployed contracts outside of the testing environment.
+
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#local-testnet)
@@ -77,19 +117,6 @@ If you do not want to import bns data, then you will need to comment out the env
 
 If you did import the bns data, you need to uncomment (if previously commented out) the environment line above and be aware that the `stacks-blockchain` will experience `Connection refused` problems from `stacks-blockchain-api` for the duration of bns data import. After the import, the API will become ready and accept events from stacks-blockchain node
 
-
-
-[![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#getting-started)
-
-## ➤ Getting started
-
-When getting started with developing smart contracts, you need to first install the packages by calling
-
-```
-./install.sh
-```
-
-This installs a certain version of `clarity-cli` we're using to interact with the smart contracts locally in unit-test mode
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png)](#development-of-smart-contracts)
