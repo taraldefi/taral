@@ -1,28 +1,16 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 import { BlockCvType, HeaderPartsType } from "./types";
 import { makeBuffer } from "./utils";
 
-export interface VerifyBlockHeaderRequest extends ClarityBitcoinRequest {
-  headerParts: string[];
-  stacksBlockHeight: number;
-}
-
-export interface VerifyBlockHeader2Request extends ClarityBitcoinRequest {
-  blockCV: BlockCvType;
-}
-
-export interface ParseBlockHeaderRequest extends ClarityBitcoinRequest {
-  header: string;
-}
-
-export async function parseBlockHeader(
-  request: ParseBlockHeaderRequest
-): Promise<HeaderPartsType> {
+export async function parseBlockHeader({
+  header,
+  contract
+}: { header: string; contract: ClarityBitcoinContract; }): Promise<HeaderPartsType> {
   Logger.debug("Calling parseBlockHeader");
 
   const response = (
-    await request.contract.parseBlockHeader(makeBuffer(request.header))
+    await contract.parseBlockHeader(makeBuffer(header))
   )._unsafeUnwrap();
 
   let result = response as any as HeaderPartsType;
@@ -33,26 +21,30 @@ export async function parseBlockHeader(
   return result;
 }
 
-export async function verifyBlockHeader(
-  request: VerifyBlockHeaderRequest
-): Promise<boolean> {
+export async function verifyBlockHeader({
+  headerParts, stacksBlockHeight, contract
+}: {
+  headerParts: string[];
+  stacksBlockHeight: number;
+  contract: ClarityBitcoinContract
+}): Promise<boolean> {
   Logger.debug("Calling verifyBlockHeader");
 
   const summedUpHeaderParts =
-    request.headerParts[0] +
-    request.headerParts[1] +
-    request.headerParts[2] +
-    request.headerParts[3] +
-    request.headerParts[4] +
-    request.headerParts[5];
+    headerParts[0] +
+    headerParts[1] +
+    headerParts[2] +
+    headerParts[3] +
+    headerParts[4] +
+    headerParts[5];
 
   const headerPartsBuffer = makeBuffer(summedUpHeaderParts);
 
   // Call readonly function
   //
-  let response = await request.contract.verifyBlockHeader(
+  let response = await contract.verifyBlockHeader(
     headerPartsBuffer,
-    request.stacksBlockHeight
+    stacksBlockHeight
   );
 
   let result = response;
@@ -65,15 +57,15 @@ export async function verifyBlockHeader(
 }
 
 export async function verifyBlockHeader2(
-  request: VerifyBlockHeader2Request
+  { blockCV, contract }: { blockCV: BlockCvType; contract: ClarityBitcoinContract }
 ): Promise<boolean> {
   Logger.debug("Calling verifyBlockHeader2");
 
   // Call readonly function
   //
-  let response = await request.contract.verifyBlockHeader(
-    request.blockCV["header"],
-    request.blockCV["height"]
+  let response = await contract.verifyBlockHeader(
+    blockCV["header"],
+    blockCV["height"]
   );
 
   let result = response;

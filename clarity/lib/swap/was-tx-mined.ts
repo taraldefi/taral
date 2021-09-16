@@ -1,28 +1,23 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
-export interface WasTxMinedRequest extends ClarityBitcoinRequest {
+export async function wasTxMined({
+  blockPartsCV, txCV, proofCV, contract
+}: {
   blockPartsCV: BlockPartsType;
   txCV: Buffer;
   proofCV: ProofCvType;
-}
-
-export interface WasTxMinedFromHexRequest extends ClarityBitcoinRequest {
-  blockCV: BlockCvType;
-  txCV: Buffer;
-  proofCV: ProofCvType;
-}
-
-export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
+  contract: ClarityBitcoinContract;
+}): Promise<boolean> {
   Logger.debug("Calling wasTxMined");
 
   // Call readonly function
   //
-  let response = await request.contract.wasTxMined(
-    request.blockPartsCV,
-    request.txCV,
-    request.proofCV
+  let response = await contract.wasTxMined(
+    blockPartsCV,
+    txCV,
+    proofCV
   );
 
   let result = response._unsafeUnwrap();
@@ -32,17 +27,23 @@ export async function wasTxMined(request: WasTxMinedRequest): Promise<boolean> {
   return result;
 }
 
-export async function wasTxMinedFromHex(
-  request: WasTxMinedFromHexRequest
+export async function wasTxMinedFromHex({
+  blockCV, txCV, proofCV, contract
+  }: {
+    blockCV: BlockCvType;
+    txCV: Buffer;
+    proofCV: ProofCvType;
+    contract: ClarityBitcoinContract;
+  }
 ): Promise<boolean> {
   Logger.debug("Calling wasTxMinedFromHex");
 
   // Call readonly function
   //
-  let response = await request.contract.wasTxMinedCompact(
-    request.blockCV,
-    request.txCV,
-    request.proofCV
+  let response = await contract.wasTxMinedCompact(
+    blockCV,
+    txCV,
+    proofCV
   );
 
   let result = response._unsafeUnwrap();

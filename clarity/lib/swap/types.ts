@@ -6,6 +6,7 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "../../generated/taral";
+import { Block } from "../bitcoin/block";
 import { Contract, ContractInstances } from "../types";
 
 export type DeployedContracts = ContractInstances<
@@ -73,3 +74,18 @@ export type TxPartsCvType = {
   outs: OutsCvType[];
   locktime: Buffer;
 };
+
+export interface ParamsFromTxResponse {
+  txCV: Buffer;
+  txPartsCv: TxPartsCvType;
+  proofCv: ProofCvType;
+  block?: Block;
+
+  blockCv: BlockCvType;
+  blockHeader: string;
+  headerParts: any[];
+  headerPartsCv: HeaderPartsType;
+  stacksBlock: any;
+  stxHeight: number;
+  error: string | undefined;
+}

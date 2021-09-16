@@ -1,11 +1,7 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 
-export interface ParseTxRequest extends ClarityBitcoinRequest {
-  txCV: Buffer;
-}
-
-export async function parseTx(request: ParseTxRequest): Promise<string> {
+export async function parseTx({ txCV, contract }: {txCV: Buffer; contract: ClarityBitcoinContract}): Promise<string> {
   Logger.debug("Calling getTxid");
 
   let result: string = "";
@@ -13,7 +9,7 @@ export async function parseTx(request: ParseTxRequest): Promise<string> {
   try {
     // Call readonly function
     //
-    let response = await request.contract.getTxid(request.txCV);
+    let response = await contract.getTxid(txCV);
     result = response.toString();
   } catch (error: any) {
     Logger.error(`parse-tx failed: ${error.toString()}`);

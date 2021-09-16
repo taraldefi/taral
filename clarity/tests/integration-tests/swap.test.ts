@@ -11,7 +11,6 @@ import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { PaymentResponse } from "../../lib/bitcoin/models";
 import { getAccountFromMnemonic, makePayment } from "../../lib/bitcoin/payment";
 import { getWalletAtIndex } from "../../lib/configuration/get-wallet";
-import { ClarityBitcoinRequest } from "../../lib/swap/base-request";
 import {
   parseBlockHeader,
   verifyBlockHeader,
@@ -21,10 +20,9 @@ import { createBtcFtSwap } from "../../lib/swap/create-swap";
 import { getReversedTxId } from "../../lib/swap/get-txid";
 import {
   paramsFromTx,
-  ParamsFromTxResponse,
 } from "../../lib/swap/params-from-tx";
 import { submitSwap } from "../../lib/swap/submit-swap";
-import { HeaderPartsType } from "../../lib/swap/types";
+import { HeaderPartsType, ParamsFromTxResponse } from "../../lib/swap/types";
 import {
   verifyMerkleProof,
   verifyMerkleProof2,
@@ -49,8 +47,10 @@ test("make btc transaction", async () => {
   });
 
   const sellerWallet = getWalletAtIndex(clarinetAccounts, 2);
-
   const buyerWallet = getWalletAtIndex(clarinetAccounts, 6);
+
+  const clarityBitcoin = clarityBitcoinContract(clarinetAccounts.deployer);
+  const claritySwap = btcFtSwapContract(buyerWallet);
 
   const sellerDerivedBtcInfo = await getAccountFromMnemonic(
     btc.networks.regtest,
@@ -166,17 +166,14 @@ test("make btc transaction", async () => {
 
   const validationResults: transactionChecks = await retry<transactionChecks>(
     async function () {
-      const baseRequest: ClarityBitcoinRequest = {
-        contract: clarityBitcoinContract(clarinetAccounts.deployer),
-      };
-
+      
       const paramsFromTransaction: ParamsFromTxResponse = await paramsFromTx({
-        ...baseRequest,
+        contract: clarityBitcoin,
         btcTxId: paymentForFtResponse.txId,
       });
 
       const getReversedTxIdResponse: string = await getReversedTxId({
-        ...baseRequest,
+        contract: clarityBitcoin,
         txCv: paramsFromTransaction.txCV,
       });
 
@@ -184,44 +181,44 @@ test("make btc transaction", async () => {
       console.log(JSON.stringify(paramsFromTransaction.block));
 
       const merkleProof1: string = await verifyMerkleProof({
-        ...baseRequest,
+        contract: clarityBitcoin,
         merkleRoot: paramsFromTransaction.block!.merkleroot,
         proofCV: paramsFromTransaction.proofCv,
         txId: paymentForFtResponse.txId,
       });
 
       const merkleProof2: string = await verifyMerkleProof2({
-        ...baseRequest,
+        contract: clarityBitcoin,
         headerPartsCV: paramsFromTransaction.headerPartsCv,
         proofCV: paramsFromTransaction.proofCv,
         txCV: paramsFromTransaction.txCV,
       });
 
       const blockHeader: boolean = await verifyBlockHeader({
-        ...baseRequest,
+        contract: clarityBitcoin,
         headerParts: paramsFromTransaction.headerParts,
         stacksBlockHeight: paramsFromTransaction.stxHeight,
       });
 
       const blockHeader2: boolean = await verifyBlockHeader2({
-        ...baseRequest,
+        contract: clarityBitcoin,
         blockCV: paramsFromTransaction.blockCv,
       });
 
       const wasTxMinedFromHexResponse: boolean = await wasTxMinedFromHex({
-        ...baseRequest,
+        contract: clarityBitcoin,
         blockCV: paramsFromTransaction.blockCv,
         proofCV: paramsFromTransaction.proofCv,
         txCV: paramsFromTransaction.txCV,
       });
 
       const parseBlockHeaderResponse: HeaderPartsType = await parseBlockHeader({
-        ...baseRequest,
+        contract: clarityBitcoin,
         header: paramsFromTransaction.blockHeader,
       });
 
       const wasTxMinedResult: boolean = await wasTxMined({
-        ...baseRequest,
+        contract: clarityBitcoin,
         blockPartsCV: paramsFromTransaction.headerPartsCv,
         proofCV: paramsFromTransaction.proofCv,
         txCV: paramsFromTransaction.txCV,
@@ -276,7 +273,7 @@ test("make btc transaction", async () => {
   Logger.info(JSON.stringify(validationResults[7]));
 
   const swap = await submitSwap({
-    contract: btcFtSwapContract(buyerWallet),
+    contract: claritySwap,
     ftContract: ftContract,
     headerPartsCv: paramsFromTransaction.headerPartsCv,
     proofCv: paramsFromTransaction.proofCv,

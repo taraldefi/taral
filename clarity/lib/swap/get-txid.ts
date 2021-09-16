@@ -1,20 +1,12 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 
-export interface GetTxIdRequest extends ClarityBitcoinRequest {
-  txBuffCV: Buffer;
-}
-
-export interface GetReversedTxIdRequest extends ClarityBitcoinRequest {
-  txCv: Buffer;
-}
-
-export async function getTxId(request: GetTxIdRequest): Promise<string> {
+export async function getTxId({ txBuffCV, contract }: { txBuffCV: Buffer; contract: ClarityBitcoinContract }): Promise<string> {
   Logger.debug("Calling getTxid");
 
   // Call readonly function
   //
-  let response = await request.contract.getTxid(request.txBuffCV);
+  let response = await contract.getTxid(txBuffCV);
 
   let result = response.toString();
 
@@ -26,13 +18,13 @@ export async function getTxId(request: GetTxIdRequest): Promise<string> {
 }
 
 export async function getReversedTxId(
-  request: GetReversedTxIdRequest
+  { txCv, contract }: { txCv: Buffer; contract: ClarityBitcoinContract; }
 ): Promise<string> {
   Logger.debug("Calling getReversedTxid");
 
   // Call readonly function
   //
-  let response = await request.contract.getReversedTxid(request.txCv);
+  let response = await contract.getReversedTxid(txCv);
 
   let result = response.toString();
 

@@ -1,25 +1,26 @@
+import { BtcFtSwapContract } from "../../generated/taral";
 import { Logger, txOk } from "..";
-import { FtSwapRequest } from "./base-request";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
-export interface SubmitSwapRequest extends FtSwapRequest {
+export async function submitSwap({
+  swapId, headerPartsCv, txPartsCv, proofCv, ftContract, contract
+}: {
   swapId: number;
   headerPartsCv: HeaderPartsType;
   txPartsCv: TxPartsCvType;
   proofCv: ProofCvType;
   ftContract: string;
-}
-
-export async function submitSwap(request: SubmitSwapRequest): Promise<boolean> {
+  contract: BtcFtSwapContract
+}): Promise<boolean> {
   Logger.debug("Calling submitSwap");
 
   const result = await txOk(
-    request.contract.submitSwap(
-      request.swapId,
-      request.headerPartsCv,
-      request.txPartsCv,
-      request.proofCv,
-      request.ftContract
+    contract.submitSwap(
+      swapId,
+      headerPartsCv,
+      txPartsCv,
+      proofCv,
+      ftContract
     )
   );
 

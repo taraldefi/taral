@@ -1,18 +1,14 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 import { TxPartsCvType } from "./types";
 
-export interface ConcatTransactionRequest extends ClarityBitcoinRequest {
-  txPartsCV: TxPartsCvType;
-}
-
-export async function concatTransaction(
-  request: ConcatTransactionRequest
+export async function concatTransaction({
+  txPartsCV, contract
+}: { txPartsCV: TxPartsCvType; contract: ClarityBitcoinContract; }
 ): Promise<string> {
   Logger.debug("Calling concatTx");
-  // Call readonly function
-  //
-  let response = await request.contract.concatTx(request.txPartsCV);
+
+  let response = await contract.concatTx(txPartsCV);
 
   let result = response.toString();
 

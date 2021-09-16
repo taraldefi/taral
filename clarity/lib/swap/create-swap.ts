@@ -1,43 +1,41 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
+import { BtcFtSwapContract } from "../../generated/taral";
 import { Logger, txOk } from "..";
-import { FtSwapRequest } from "./base-request";
 import { makeBuffer } from "./utils";
-
-export interface BtcFtSwapRequest extends FtSwapRequest {
-  ftSellerBitcoinAddress: string;
-  btcAmount: number;
-  ftAmount: number;
-  ftBuyerStacksAddress: string;
-  ftContract: string;
-  network?: btc.networks.Network;
-}
 
 function btcToSats(btcAmount: number): number {
   return btcAmount * 100_000_000;
 }
 
 export async function createBtcFtSwap(
-  request: BtcFtSwapRequest
+  { ftSellerBitcoinAddress, btcAmount, ftAmount, ftBuyerStacksAddress, ftContract, network, contract}: {
+    ftSellerBitcoinAddress: string;
+    btcAmount: number;
+    ftAmount: number;
+    ftBuyerStacksAddress: string;
+    ftContract: string;
+    network?: btc.networks.Network;
+    contract: BtcFtSwapContract
+  }
 ): Promise<number> {
   Logger.debug("Calling createBtcFtSwap");
 
-  const sats = btcToSats(request.btcAmount);
+  const sats = btcToSats(btcAmount);
 
-  const ftSellerBitcoinAddress = address
+  const ftSellerAddressScript = address
     .toOutputScript(
-      request.ftSellerBitcoinAddress,
-      request.network ?? btc.networks.regtest
-    )
-    .toString("hex");
+      ftSellerBitcoinAddress,
+      network ?? btc.networks.regtest
+    ).toString("hex");
 
   let response = await txOk(
-    request.contract.createSwap(
+    contract.createSwap(
       sats,
-      makeBuffer(ftSellerBitcoinAddress),
-      request.ftAmount,
-      request.ftBuyerStacksAddress,
-      request.ftContract
+      makeBuffer(ftSellerAddressScript),
+      ftAmount,
+      ftBuyerStacksAddress,
+      ftContract
     )
   );
 

@@ -1,3 +1,4 @@
+import { ClarityBitcoinContract } from "../../generated/taral";
 import SHA256 from "crypto-js/sha256";
 import MerkleTree from "merkletreejs";
 import { NETWORK } from "../../configuration";
@@ -5,17 +6,16 @@ import { Block, getBlockByHash, getBlockHeader } from "../bitcoin/block";
 import { getRpcClient } from "../bitcoin/client";
 import { getRawTransaction } from "../bitcoin/transaction";
 import { Logger } from "../logger";
-import { ClarityBitcoinRequest } from "./base-request";
 import {
   concatTransaction,
-  ConcatTransactionRequest,
 } from "./concat-transaction";
-import { getStxBlock } from "./stacks";
+import { getStxBlock } from "../stacks/get-stx-block";
 import {
   BlockCvType,
   HeaderPartsType,
   InCvType,
   OutsCvType,
+  ParamsFromTxResponse,
   ProofCvType,
   TxPartsCvType,
 } from "./types";
@@ -24,26 +24,6 @@ import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
 const ERR_API_FAILURE: string = "api failure";
 const ERR_DIFFERENT_HEX: string = "different hex";
 const ERR_NO_STACKS_BLOCK: string = "no stacks block";
-
-export interface ParamsFromTxResponse {
-  txCV: Buffer;
-  txPartsCv: TxPartsCvType;
-  proofCv: ProofCvType;
-  block?: Block;
-
-  blockCv: BlockCvType;
-  blockHeader: string;
-  headerParts: any[];
-  headerPartsCv: HeaderPartsType;
-  stacksBlock: any;
-  stxHeight: number;
-  error: string | undefined;
-}
-
-export interface ParamsFromTxRequest extends ClarityBitcoinRequest {
-  btcTxId: string;
-  stxHeight?: number;
-}
 
 function getFailureResponse(error: string): ParamsFromTxResponse {
   return {
@@ -107,7 +87,11 @@ function getFailureResponse(error: string): ParamsFromTxResponse {
 }
 
 export async function paramsFromTx(
-  request: ParamsFromTxRequest
+  { btcTxId, stxHeight, contract }: { 
+    btcTxId: string;
+    stxHeight?: number;
+    contract: ClarityBitcoinContract
+  }
 ): Promise<ParamsFromTxResponse> {
   Logger.debug("Calling paramsFromTx");
 
@@ -115,7 +99,7 @@ export async function paramsFromTx(
 
   const rawTransaction = await getRawTransaction(
     bitcoinRpcClient,
-    request.btcTxId
+    btcTxId
   );
 
   if (!rawTransaction.hex) {
@@ -166,12 +150,11 @@ export async function paramsFromTx(
   Logger.debug(`params-from-tx :: assembled transaction parts`);
   Logger.debug(JSON.stringify(txPartsCv));
 
-  const concatTransactionRequest: ConcatTransactionRequest = {
-    contract: request.contract,
-    txPartsCV: txPartsCv,
-  };
 
-  const txHexResponse = await concatTransaction(concatTransactionRequest);
+  const txHexResponse = await concatTransaction({
+    contract: contract,
+    txPartsCV: txPartsCv,
+  });
 
   if (txHexResponse != rawTransaction.hex) {
     Logger.debug(
@@ -216,7 +199,7 @@ export async function paramsFromTx(
 
   let height;
   let stacksBlock;
-  if (!request.stxHeight) {
+  if (!stxHeight) {
     Logger.debug("Finding stx height value by calling the stx block");
     const bitcoinBlockHeight = block.height;
     stacksBlock = await getStxBlock(bitcoinBlockHeight);
@@ -226,21 +209,21 @@ export async function paramsFromTx(
     height = stacksBlock.height;
   } else {
     const stacksBlockResponse = await fetch(
-      `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${request.stxHeight}`
+      `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${stxHeight}`
     );
 
     stacksBlock = await stacksBlockResponse.json();
-    height = request.stxHeight;
+    height = stxHeight;
   }
 
   const txIds = block.tx.map((transaction) => transaction.txid);
   const transactionIndex = block.tx.findIndex(
-    (transaction) => transaction.txid == request.btcTxId
+    (transaction) => transaction.txid == btcTxId
   );
   const tree = new MerkleTree(txIds, SHA256, { isBitcoinTree: true });
   const treeDepth = tree.getDepth();
 
-  const proof = tree.getProof(request.btcTxId, transactionIndex);
+  const proof = tree.getProof(btcTxId, transactionIndex);
   const proofCv: ProofCvType = {
     "tx-index": transactionIndex,
     "tree-depth": treeDepth,
