@@ -38,7 +38,7 @@
   "strict": true,
 
   "include": [
-    "./clarity/tests/**/*.ts",
+    "./clarity/jest-tests/**/*.ts",
     "./clarity/generated/**/*.ts",
     "./clarity/lib/**/*.ts"
   ]
