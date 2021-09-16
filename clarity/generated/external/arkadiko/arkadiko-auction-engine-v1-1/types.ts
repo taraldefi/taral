@@ -1,119 +1,119 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoAuctionEngineV11Contract {
-  bid: (vaultManager: string, oracle: string, collType: string, auctionId: number, lotIndex: number, usda: number) => Transaction<boolean, number>;
-  closeAuction: (vaultManager: string, collType: string, auctionId: number) => Transaction<boolean, number>;
-  getMinimumCollateralAmount: (oracle: string, auctionId: number) => Transaction<number, number>;
-  migrateFunds: (auctionEngine: string, token: string) => Transaction<boolean, number>;
-  redeemLotCollateral: (vaultManager: string, ft: string, reserve: string, collType: string, auctionId: number, lotIndex: number) => Transaction<boolean, number>;
-  redeemUsda: (usdaAmount: number) => Transaction<boolean, number>;
-  startAuction: (vaultId: number, uamount: number, extraDebt: number, vaultDebt: number, discount: number) => Transaction<boolean, number>;
-  toggleAuctionEngineShutdown: () => Transaction<boolean, number>;
-  discountedAuctionPrice: (priceInCents: number, auctionId: number) => Promise<ClarityTypes.Response<number, null>>;
-  getAuctionById: (id: number) => Promise<{
-    "auction-type": string;
-  "collateral-amount": number;
+  bid: (vaultManager: string, oracle: string, collType: string, auctionId: number | bigint, lotIndex: number | bigint, usda: number | bigint) => Transaction<boolean, bigint>;
+  closeAuction: (vaultManager: string, collType: string, auctionId: number | bigint) => Transaction<boolean, bigint>;
+  getMinimumCollateralAmount: (oracle: string, auctionId: number | bigint) => Transaction<bigint, bigint>;
+  migrateFunds: (auctionEngine: string, token: string) => Transaction<boolean, bigint>;
+  redeemLotCollateral: (vaultManager: string, ft: string, reserve: string, collType: string, auctionId: number | bigint, lotIndex: number | bigint) => Transaction<boolean, bigint>;
+  redeemUsda: (usdaAmount: number | bigint) => Transaction<boolean, bigint>;
+  startAuction: (vaultId: number | bigint, uamount: number | bigint, extraDebt: number | bigint, vaultDebt: number | bigint, discount: number | bigint) => Transaction<boolean, bigint>;
+  toggleAuctionEngineShutdown: () => Transaction<boolean, bigint>;
+  discountedAuctionPrice: (priceInCents: number | bigint, auctionId: number | bigint) => Promise<ClarityTypes.Response<bigint, null>>;
+  getAuctionById: (id: number | bigint) => Promise<{
+  "auction-type": string;
+  "collateral-amount": bigint;
   "collateral-token": string;
-  "debt-to-raise": number;
-  "discount": number;
-  "ends-at": number;
-  "id": number;
-  "lot-size": number;
-  "lots-sold": number;
-  "total-collateral-sold": number;
-  "total-debt-burned": number;
-  "total-debt-raised": number;
-  "vault-id": number
-      }>;
-  getAuctionIds: () => Promise<ClarityTypes.Response<number[], null>>;
-  getAuctionOpen: (auctionId: number) => Promise<ClarityTypes.Response<boolean, null>>;
+  "debt-to-raise": bigint;
+  "discount": bigint;
+  "ends-at": bigint;
+  "id": bigint;
+  "lot-size": bigint;
+  "lots-sold": bigint;
+  "total-collateral-sold": bigint;
+  "total-debt-burned": bigint;
+  "total-debt-raised": bigint;
+  "vault-id": bigint
+    }>;
+  getAuctionIds: () => Promise<ClarityTypes.Response<bigint[], null>>;
+  getAuctionOpen: (auctionId: number | bigint) => Promise<ClarityTypes.Response<boolean, null>>;
   getAuctions: () => Promise<ClarityTypes.Response<{
-    "auction-type": string;
-  "collateral-amount": number;
+  "auction-type": string;
+  "collateral-amount": bigint;
   "collateral-token": string;
-  "debt-to-raise": number;
-  "discount": number;
-  "ends-at": number;
-  "id": number;
-  "lot-size": number;
-  "lots-sold": number;
-  "total-collateral-sold": number;
-  "total-debt-burned": number;
-  "total-debt-raised": number;
-  "vault-id": number
-      }[], null>>;
-  getLastBid: (auctionId: number, lotIndex: number) => Promise<{
-    "collateral-amount": number;
+  "debt-to-raise": bigint;
+  "discount": bigint;
+  "ends-at": bigint;
+  "id": bigint;
+  "lot-size": bigint;
+  "lots-sold": bigint;
+  "total-collateral-sold": bigint;
+  "total-debt-burned": bigint;
+  "total-debt-raised": bigint;
+  "vault-id": bigint
+    }[], null>>;
+  getLastBid: (auctionId: number | bigint, lotIndex: number | bigint) => Promise<{
+  "collateral-amount": bigint;
   "collateral-token": string;
   "owner": string;
   "redeemed": boolean;
-  "usda": number
-      }>;
+  "usda": bigint
+    }>;
   getWinningLots: (owner: string) => Promise<{
-    "ids": {
-    "auction-id": number;
-  "lot-index": number
-      }[]
-      }>;
-  ERRAUCTIONNOTALLOWED: () => Promise<number>;
-  ERRAUCTIONNOTCLOSED: () => Promise<number>;
-  ERRAUCTIONNOTOPEN: () => Promise<number>;
-  ERRBLOCKHEIGHTNOTREACHED: () => Promise<number>;
-  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<number>;
-  ERRLOTALREADYREDEEMED: () => Promise<number>;
-  ERRLOTNOTOPEN: () => Promise<number>;
-  ERRLOTSOLD: () => Promise<number>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  ERRPOORBID: () => Promise<number>;
-  ERRTOKENTYPEMISMATCH: () => Promise<number>;
-  blocksPerDay: () => Promise<number>;
+  "ids": {
+  "auction-id": bigint;
+  "lot-index": bigint
+    }[]
+    }>;
+  ERRAUCTIONNOTALLOWED: () => Promise<bigint>;
+  ERRAUCTIONNOTCLOSED: () => Promise<bigint>;
+  ERRAUCTIONNOTOPEN: () => Promise<bigint>;
+  ERRBLOCKHEIGHTNOTREACHED: () => Promise<bigint>;
+  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<bigint>;
+  ERRLOTALREADYREDEEMED: () => Promise<bigint>;
+  ERRLOTNOTOPEN: () => Promise<bigint>;
+  ERRLOTSOLD: () => Promise<bigint>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  ERRPOORBID: () => Promise<bigint>;
+  ERRTOKENTYPEMISMATCH: () => Promise<bigint>;
+  blocksPerDay: () => Promise<bigint>;
   auctionEngineShutdownActivated: () => Promise<boolean>;
-  auctionIds: () => Promise<number[]>;
-  lastAuctionId: () => Promise<number>;
-  lotSize: () => Promise<number>;
-  removingAuctionId: () => Promise<number>;
+  auctionIds: () => Promise<bigint[]>;
+  lastAuctionId: () => Promise<bigint>;
+  lotSize: () => Promise<bigint>;
+  removingAuctionId: () => Promise<bigint>;
   auctions: (key: {
-    "id": number
-      }) => Promise<{
-    "auction-type": string;
-  "collateral-amount": number;
+  "id": bigint
+    }) => Promise<{
+  "auction-type": string;
+  "collateral-amount": bigint;
   "collateral-token": string;
-  "debt-to-raise": number;
-  "discount": number;
-  "ends-at": number;
-  "id": number;
-  "lot-size": number;
-  "lots-sold": number;
-  "total-collateral-sold": number;
-  "total-debt-burned": number;
-  "total-debt-raised": number;
-  "vault-id": number
-      } | null>;
+  "debt-to-raise": bigint;
+  "discount": bigint;
+  "ends-at": bigint;
+  "id": bigint;
+  "lot-size": bigint;
+  "lots-sold": bigint;
+  "total-collateral-sold": bigint;
+  "total-debt-burned": bigint;
+  "total-debt-raised": bigint;
+  "vault-id": bigint
+    } | null>;
   bids: (key: {
-    "auction-id": number;
-  "lot-index": number
-      }) => Promise<{
-    "collateral-amount": number;
+  "auction-id": bigint;
+  "lot-index": bigint
+    }) => Promise<{
+  "collateral-amount": bigint;
   "collateral-token": string;
   "owner": string;
   "redeemed": boolean;
-  "usda": number
-      } | null>;
+  "usda": bigint
+    } | null>;
   redeemingLot: (key: {
-    "user": string
-      }) => Promise<{
-    "auction-id": number;
-  "lot-index": number
-      } | null>;
+  "user": string
+    }) => Promise<{
+  "auction-id": bigint;
+  "lot-index": bigint
+    } | null>;
   winningLots: (key: {
-    "user": string
-      }) => Promise<{
-    "ids": {
-    "auction-id": number;
-  "lot-index": number
-      }[]
-      } | null>;
+  "user": string
+    }) => Promise<{
+  "ids": {
+  "auction-id": bigint;
+  "lot-index": bigint
+    }[]
+    } | null>;
 }

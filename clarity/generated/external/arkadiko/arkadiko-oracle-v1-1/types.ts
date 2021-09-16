@@ -1,28 +1,28 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoOracleV11Contract {
   fetchPrice: (token: string) => Transaction<{
-    "last-block": number;
-  "last-price-in-cents": number
-      }, null>;
-  setOracleOwner: (address: string) => Transaction<boolean, number>;
-  updatePrice: (token: string, price: number) => Transaction<number, number>;
+  "last-block": bigint;
+  "last-price-in-cents": bigint
+    }, null>;
+  setOracleOwner: (address: string) => Transaction<boolean, bigint>;
+  updatePrice: (token: string, price: number | bigint) => Transaction<bigint, bigint>;
   getPrice: (token: string) => Promise<{
-    "last-block": number;
-  "last-price-in-cents": number
-      }>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  ERRNOTWHITELISTED: () => Promise<number>;
-  lastBlock: () => Promise<number>;
-  lastPriceInCents: () => Promise<number>;
+  "last-block": bigint;
+  "last-price-in-cents": bigint
+    }>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  ERRNOTWHITELISTED: () => Promise<bigint>;
+  lastBlock: () => Promise<bigint>;
+  lastPriceInCents: () => Promise<bigint>;
   oracleOwner: () => Promise<string>;
   prices: (key: {
-    "token": string
-      }) => Promise<{
-    "last-block": number;
-  "last-price-in-cents": number
-      } | null>;
+  "token": string
+    }) => Promise<{
+  "last-block": bigint;
+  "last-price-in-cents": bigint
+    } | null>;
 }

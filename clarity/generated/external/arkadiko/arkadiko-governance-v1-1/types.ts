@@ -1,109 +1,109 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoGovernanceV11Contract {
-  addContractAddress: (name: string, address: string, qualifiedName: string, canMint: boolean, canBurn: boolean) => Transaction<boolean, number>;
-  endProposal: (proposalId: number) => Transaction<number, number>;
-  propose: (stakePoolDiko: string, startBlockHeight: number, title: string, url: string, contractChanges: {
-    "address": string;
+  addContractAddress: (name: string, address: string, qualifiedName: string, canMint: boolean, canBurn: boolean) => Transaction<boolean, bigint>;
+  endProposal: (proposalId: number | bigint) => Transaction<bigint, bigint>;
+  propose: (stakePoolDiko: string, startBlockHeight: number | bigint, title: string, url: string, contractChanges: {
+  "address": string;
   "can-burn": boolean;
   "can-mint": boolean;
   "name": string;
   "qualified-name": string
-      }[]) => Transaction<boolean, number>;
-  returnVotesToMember: (token: string, proposalId: number, member: string) => Transaction<boolean, number>;
-  toggleGovernanceShutdown: () => Transaction<boolean, number>;
-  tokenAmountToVotes: (stakePoolDiko: string, token: string, amount: number) => Transaction<number, number>;
-  voteAgainst: (stakePoolDiko: string, token: string, proposalId: number, amount: number) => Transaction<number, number>;
-  voteFor: (stakePoolDiko: string, token: string, proposalId: number, amount: number) => Transaction<number, number>;
-  getProposalById: (proposalId: number) => Promise<{
-    "contract-changes": {
-    "address": string;
+    }[]) => Transaction<boolean, bigint>;
+  returnVotesToMember: (token: string, proposalId: number | bigint, member: string) => Transaction<boolean, bigint>;
+  toggleGovernanceShutdown: () => Transaction<boolean, bigint>;
+  tokenAmountToVotes: (stakePoolDiko: string, token: string, amount: number | bigint) => Transaction<bigint, bigint>;
+  voteAgainst: (stakePoolDiko: string, token: string, proposalId: number | bigint, amount: number | bigint) => Transaction<bigint, bigint>;
+  voteFor: (stakePoolDiko: string, token: string, proposalId: number | bigint, amount: number | bigint) => Transaction<bigint, bigint>;
+  getProposalById: (proposalId: number | bigint) => Promise<{
+  "contract-changes": {
+  "address": string;
   "can-burn": boolean;
   "can-mint": boolean;
   "name": string;
   "qualified-name": string
-      }[];
-  "end-block-height": number;
-  "id": number;
+    }[];
+  "end-block-height": bigint;
+  "id": bigint;
   "is-open": boolean;
-  "no-votes": number;
+  "no-votes": bigint;
   "proposer": string;
-  "start-block-height": number;
+  "start-block-height": bigint;
   "title": string;
   "url": string;
-  "yes-votes": number
-      }>;
-  getProposalIds: () => Promise<ClarityTypes.Response<number[], null>>;
+  "yes-votes": bigint
+    }>;
+  getProposalIds: () => Promise<ClarityTypes.Response<bigint[], null>>;
   getProposals: () => Promise<ClarityTypes.Response<{
-    "contract-changes": {
-    "address": string;
+  "contract-changes": {
+  "address": string;
   "can-burn": boolean;
   "can-mint": boolean;
   "name": string;
   "qualified-name": string
-      }[];
-  "end-block-height": number;
-  "id": number;
+    }[];
+  "end-block-height": bigint;
+  "id": bigint;
   "is-open": boolean;
-  "no-votes": number;
+  "no-votes": bigint;
   "proposer": string;
-  "start-block-height": number;
+  "start-block-height": bigint;
   "title": string;
   "url": string;
-  "yes-votes": number
-      }[], null>>;
-  getTokensByMemberById: (proposalId: number, member: string, token: string) => Promise<{
-    "amount": number
-      }>;
-  getVotesByMemberById: (proposalId: number, member: string) => Promise<{
-    "vote-count": number
-      }>;
+  "yes-votes": bigint
+    }[], null>>;
+  getTokensByMemberById: (proposalId: number | bigint, member: string, token: string) => Promise<{
+  "amount": bigint
+    }>;
+  getVotesByMemberById: (proposalId: number | bigint, member: string) => Promise<{
+  "vote-count": bigint
+    }>;
   isTokenAccepted: (token: string) => Promise<boolean>;
   DAOOWNER: () => Promise<string>;
-  ERRBLOCKHEIGHTNOTREACHED: () => Promise<number>;
-  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<number>;
-  ERRNOCONTRACTCHANGES: () => Promise<number>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  ERRNOTENOUGHBALANCE: () => Promise<number>;
-  ERRWRONGTOKEN: () => Promise<number>;
-  STATUSOK: () => Promise<number>;
+  ERRBLOCKHEIGHTNOTREACHED: () => Promise<bigint>;
+  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<bigint>;
+  ERRNOCONTRACTCHANGES: () => Promise<bigint>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  ERRNOTENOUGHBALANCE: () => Promise<bigint>;
+  ERRWRONGTOKEN: () => Promise<bigint>;
+  STATUSOK: () => Promise<bigint>;
   governanceShutdownActivated: () => Promise<boolean>;
-  proposalCount: () => Promise<number>;
-  proposalIds: () => Promise<number[]>;
+  proposalCount: () => Promise<bigint>;
+  proposalIds: () => Promise<bigint[]>;
   proposals: (key: {
-    "id": number
-      }) => Promise<{
-    "contract-changes": {
-    "address": string;
+  "id": bigint
+    }) => Promise<{
+  "contract-changes": {
+  "address": string;
   "can-burn": boolean;
   "can-mint": boolean;
   "name": string;
   "qualified-name": string
-      }[];
-  "end-block-height": number;
-  "id": number;
+    }[];
+  "end-block-height": bigint;
+  "id": bigint;
   "is-open": boolean;
-  "no-votes": number;
+  "no-votes": bigint;
   "proposer": string;
-  "start-block-height": number;
+  "start-block-height": bigint;
   "title": string;
   "url": string;
-  "yes-votes": number
-      } | null>;
+  "yes-votes": bigint
+    } | null>;
   tokensByMember: (key: {
-    "member": string;
-  "proposal-id": number;
+  "member": string;
+  "proposal-id": bigint;
   "token": string
-      }) => Promise<{
-    "amount": number
-      } | null>;
+    }) => Promise<{
+  "amount": bigint
+    } | null>;
   votesByMember: (key: {
-    "member": string;
-  "proposal-id": number
-      }) => Promise<{
-    "vote-count": number
-      } | null>;
+  "member": string;
+  "proposal-id": bigint
+    }) => Promise<{
+  "vote-count": bigint
+    } | null>;
 }

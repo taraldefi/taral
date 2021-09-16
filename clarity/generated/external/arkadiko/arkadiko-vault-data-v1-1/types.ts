@@ -1,124 +1,124 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoVaultDataV11Contract {
-  closeVault: (vaultId: number) => Transaction<boolean, number>;
-  setLastVaultId: (vaultId: number) => Transaction<boolean, number>;
-  setStackerPayout: (vaultId: number, lotIndex: number, collateralAmount: number, recipient: string) => Transaction<boolean, number>;
-  updateVault: (vaultId: number, data: {
-    "auction-ended": boolean;
+  closeVault: (vaultId: number | bigint) => Transaction<boolean, bigint>;
+  setLastVaultId: (vaultId: number | bigint) => Transaction<boolean, bigint>;
+  setStackerPayout: (vaultId: number | bigint, lotIndex: number | bigint, collateralAmount: number | bigint, recipient: string) => Transaction<boolean, bigint>;
+  updateVault: (vaultId: number | bigint, data: {
+  "auction-ended": boolean;
   "auto-payoff": boolean;
-  "collateral": number;
+  "collateral": bigint;
   "collateral-token": string;
   "collateral-type": string;
-  "created-at-block-height": number;
-  "debt": number;
-  "id": number;
+  "created-at-block-height": bigint;
+  "debt": bigint;
+  "id": bigint;
   "is-liquidated": boolean;
-  "leftover-collateral": number;
+  "leftover-collateral": bigint;
   "owner": string;
   "revoked-stacking": boolean;
-  "stability-fee-accrued": number;
-  "stability-fee-last-accrued": number;
-  "stacked-tokens": number;
+  "stability-fee-accrued": bigint;
+  "stability-fee-last-accrued": bigint;
+  "stacked-tokens": bigint;
   "stacker-name": string;
-  "updated-at-block-height": number
-      }) => Transaction<boolean, number>;
-  updateVaultEntries: (user: string, vaultId: number) => Transaction<boolean, number>;
-  getLastVaultId: () => Promise<number>;
-  getStackingPayout: (vaultId: number, lotIndex: number) => Promise<{
-    "collateral-amount": number;
+  "updated-at-block-height": bigint
+    }) => Transaction<boolean, bigint>;
+  updateVaultEntries: (user: string, vaultId: number | bigint) => Transaction<boolean, bigint>;
+  getLastVaultId: () => Promise<bigint>;
+  getStackingPayout: (vaultId: number | bigint, lotIndex: number | bigint) => Promise<{
+  "collateral-amount": bigint;
   "principal": string
-      }>;
-  getStackingPayoutLots: (vaultId: number) => Promise<{
-    "ids": number[]
-      }>;
-  getVaultById: (id: number) => Promise<{
-    "auction-ended": boolean;
+    }>;
+  getStackingPayoutLots: (vaultId: number | bigint) => Promise<{
+  "ids": bigint[]
+    }>;
+  getVaultById: (id: number | bigint) => Promise<{
+  "auction-ended": boolean;
   "auto-payoff": boolean;
-  "collateral": number;
+  "collateral": bigint;
   "collateral-token": string;
   "collateral-type": string;
-  "created-at-block-height": number;
-  "debt": number;
-  "id": number;
+  "created-at-block-height": bigint;
+  "debt": bigint;
+  "id": bigint;
   "is-liquidated": boolean;
-  "leftover-collateral": number;
+  "leftover-collateral": bigint;
   "owner": string;
   "revoked-stacking": boolean;
-  "stability-fee-accrued": number;
-  "stability-fee-last-accrued": number;
-  "stacked-tokens": number;
+  "stability-fee-accrued": bigint;
+  "stability-fee-last-accrued": bigint;
+  "stacked-tokens": bigint;
   "stacker-name": string;
-  "updated-at-block-height": number
-      }>;
+  "updated-at-block-height": bigint
+    }>;
   getVaultEntries: (user: string) => Promise<{
-    "ids": number[]
-      }>;
+  "ids": bigint[]
+    }>;
   getVaults: (user: string) => Promise<ClarityTypes.Response<{
-    "auction-ended": boolean;
+  "auction-ended": boolean;
   "auto-payoff": boolean;
-  "collateral": number;
+  "collateral": bigint;
   "collateral-token": string;
   "collateral-type": string;
-  "created-at-block-height": number;
-  "debt": number;
-  "id": number;
+  "created-at-block-height": bigint;
+  "debt": bigint;
+  "id": bigint;
   "is-liquidated": boolean;
-  "leftover-collateral": number;
+  "leftover-collateral": bigint;
   "owner": string;
   "revoked-stacking": boolean;
-  "stability-fee-accrued": number;
-  "stability-fee-last-accrued": number;
-  "stacked-tokens": number;
+  "stability-fee-accrued": bigint;
+  "stability-fee-last-accrued": bigint;
+  "stacked-tokens": bigint;
   "stacker-name": string;
-  "updated-at-block-height": number
-      }[], null>>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  lastVaultId: () => Promise<number>;
+  "updated-at-block-height": bigint
+    }[], null>>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  lastVaultId: () => Promise<bigint>;
   closingVault: (key: {
-    "user": string
-      }) => Promise<{
-    "vault-id": number
-      } | null>;
+  "user": string
+    }) => Promise<{
+  "vault-id": bigint
+    } | null>;
   stackingPayout: (key: {
-    "lot-index": number;
-  "vault-id": number
-      }) => Promise<{
-    "collateral-amount": number;
+  "lot-index": bigint;
+  "vault-id": bigint
+    }) => Promise<{
+  "collateral-amount": bigint;
   "principal": string
-      } | null>;
+    } | null>;
   stackingPayoutLots: (key: {
-    "vault-id": number
-      }) => Promise<{
-    "ids": number[]
-      } | null>;
+  "vault-id": bigint
+    }) => Promise<{
+  "ids": bigint[]
+    } | null>;
   vaultEntries: (key: {
-    "user": string
-      }) => Promise<{
-    "ids": number[]
-      } | null>;
+  "user": string
+    }) => Promise<{
+  "ids": bigint[]
+    } | null>;
   vaults: (key: {
-    "id": number
-      }) => Promise<{
-    "auction-ended": boolean;
+  "id": bigint
+    }) => Promise<{
+  "auction-ended": boolean;
   "auto-payoff": boolean;
-  "collateral": number;
+  "collateral": bigint;
   "collateral-token": string;
   "collateral-type": string;
-  "created-at-block-height": number;
-  "debt": number;
-  "id": number;
+  "created-at-block-height": bigint;
+  "debt": bigint;
+  "id": bigint;
   "is-liquidated": boolean;
-  "leftover-collateral": number;
+  "leftover-collateral": bigint;
   "owner": string;
   "revoked-stacking": boolean;
-  "stability-fee-accrued": number;
-  "stability-fee-last-accrued": number;
-  "stacked-tokens": number;
+  "stability-fee-accrued": bigint;
+  "stability-fee-last-accrued": bigint;
+  "stacked-tokens": bigint;
   "stacker-name": string;
-  "updated-at-block-height": number
-      } | null>;
+  "updated-at-block-height": bigint
+    } | null>;
 }

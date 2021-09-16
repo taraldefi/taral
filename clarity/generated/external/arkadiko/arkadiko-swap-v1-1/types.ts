@@ -1,88 +1,88 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoSwapV11Contract {
-  addToPosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, x: number, y: number) => Transaction<boolean, number>;
-  collectFees: (tokenXTrait: string, tokenYTrait: string) => Transaction<number[], number>;
-  createPair: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, pairName: string, x: number, y: number) => Transaction<boolean, number>;
-  getBalances: (tokenXTrait: string, tokenYTrait: string) => Transaction<number[], ClarityTypes.Response<null, number>>;
+  addToPosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, x: number | bigint, y: number | bigint) => Transaction<boolean, bigint>;
+  collectFees: (tokenXTrait: string, tokenYTrait: string) => Transaction<bigint[], bigint>;
+  createPair: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, pairName: string, x: number | bigint, y: number | bigint) => Transaction<boolean, bigint>;
+  getBalances: (tokenXTrait: string, tokenYTrait: string) => Transaction<bigint[], ClarityTypes.Response<null, bigint>>;
   getData: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, owner: string) => Transaction<{
-    "balance": number;
-  "balances": number[];
-  "decimals": number;
+  "balance": bigint;
+  "balances": bigint[];
+  "decimals": bigint;
   "name": string;
-  "supply": number;
+  "supply": bigint;
   "symbol": string;
   "uri": string | null
-      }, null>;
-  getPosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string) => Transaction<number[], null>;
+    }, null>;
+  getPosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string) => Transaction<bigint[], null>;
   getSymbol: (tokenXTrait: string, tokenYTrait: string) => Transaction<string, null>;
-  reducePosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, percent: number) => Transaction<number[], number>;
-  setFeeToAddress: (tokenX: string, tokenY: string, address: string) => Transaction<boolean, number>;
-  swapXForY: (tokenXTrait: string, tokenYTrait: string, dx: number, minDy: number) => Transaction<number[], number>;
-  swapYForX: (tokenXTrait: string, tokenYTrait: string, dy: number, minDx: number) => Transaction<number[], number>;
-  getFeeToAddress: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<string | null, ClarityTypes.Response<null, number>>>;
-  getFees: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<number[], ClarityTypes.Response<null, number>>>;
-  getName: (tokenXTrait: string, tokenYTrait: string) => Promise<ClarityTypes.Response<string, ClarityTypes.Response<null, number>>>;
-  getPairContracts: (pairId: number) => Promise<{
-    "token-x": string;
+  reducePosition: (tokenXTrait: string, tokenYTrait: string, swapTokenTrait: string, percent: number | bigint) => Transaction<bigint[], bigint>;
+  setFeeToAddress: (tokenX: string, tokenY: string, address: string) => Transaction<boolean, bigint>;
+  swapXForY: (tokenXTrait: string, tokenYTrait: string, dx: number | bigint, minDy: number | bigint) => Transaction<bigint[], bigint>;
+  swapYForX: (tokenXTrait: string, tokenYTrait: string, dy: number | bigint, minDx: number | bigint) => Transaction<bigint[], bigint>;
+  getFeeToAddress: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<string | null, ClarityTypes.Response<null, bigint>>>;
+  getFees: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<bigint[], ClarityTypes.Response<null, bigint>>>;
+  getName: (tokenXTrait: string, tokenYTrait: string) => Promise<ClarityTypes.Response<string, ClarityTypes.Response<null, bigint>>>;
+  getPairContracts: (pairId: number | bigint) => Promise<{
+  "token-x": string;
   "token-y": string
-      }>;
-  getPairCount: () => Promise<ClarityTypes.Response<number, null>>;
+    }>;
+  getPairCount: () => Promise<ClarityTypes.Response<bigint, null>>;
   getPairDetails: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<{
-    "balance-x": number;
-  "balance-y": number;
-  "fee-balance-x": number;
-  "fee-balance-y": number;
+  "balance-x": bigint;
+  "balance-y": bigint;
+  "fee-balance-x": bigint;
+  "fee-balance-y": bigint;
   "fee-to-address": string | null;
   "name": string;
-  "shares-total": number;
+  "shares-total": bigint;
   "swap-token": string
-      } | null, ClarityTypes.Response<null, number>>>;
+    } | null, ClarityTypes.Response<null, bigint>>>;
   getPairs: () => Promise<ClarityTypes.Response<{
-    "token-x": string;
+  "token-x": string;
   "token-y": string
-      }[], null>>;
-  getShares: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<number, ClarityTypes.Response<null, number>>>;
-  getTotalSupply: (tokenXTrait: string, tokenYTrait: string) => Promise<ClarityTypes.Response<number, ClarityTypes.Response<null, number>>>;
-  ERRINVALIDLIQUIDITY: () => Promise<number>;
-  ERRNOFEETOADDRESS: () => Promise<number>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  INVALIDPAIRERR: () => Promise<ClarityTypes.Response<null, number>>;
-  balanceTooLowErr: () => Promise<ClarityTypes.Response<null, number>>;
-  noFeeXErr: () => Promise<ClarityTypes.Response<null, number>>;
-  noFeeYErr: () => Promise<ClarityTypes.Response<null, number>>;
-  noLiquidityErr: () => Promise<ClarityTypes.Response<null, number>>;
-  noSuchPositionErr: () => Promise<ClarityTypes.Response<null, number>>;
-  notOwnerErr: () => Promise<ClarityTypes.Response<null, number>>;
-  pairAlreadyExistsErr: () => Promise<ClarityTypes.Response<null, number>>;
-  tooManyPairsErr: () => Promise<ClarityTypes.Response<null, number>>;
-  tooMuchSlippageErr: () => Promise<ClarityTypes.Response<null, number>>;
-  transferXFailedErr: () => Promise<ClarityTypes.Response<null, number>>;
-  transferYFailedErr: () => Promise<ClarityTypes.Response<null, number>>;
-  valueOutOfRangeErr: () => Promise<ClarityTypes.Response<null, number>>;
-  wrongTokenErr: () => Promise<ClarityTypes.Response<null, number>>;
-  pairCount: () => Promise<number>;
-  pairsList: () => Promise<number[]>;
+    }[], null>>;
+  getShares: (tokenX: string, tokenY: string) => Promise<ClarityTypes.Response<bigint, ClarityTypes.Response<null, bigint>>>;
+  getTotalSupply: (tokenXTrait: string, tokenYTrait: string) => Promise<ClarityTypes.Response<bigint, ClarityTypes.Response<null, bigint>>>;
+  ERRINVALIDLIQUIDITY: () => Promise<bigint>;
+  ERRNOFEETOADDRESS: () => Promise<bigint>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  INVALIDPAIRERR: () => Promise<ClarityTypes.Response<null, bigint>>;
+  balanceTooLowErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  noFeeXErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  noFeeYErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  noLiquidityErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  noSuchPositionErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  notOwnerErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  pairAlreadyExistsErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  tooManyPairsErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  tooMuchSlippageErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  transferXFailedErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  transferYFailedErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  valueOutOfRangeErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  wrongTokenErr: () => Promise<ClarityTypes.Response<null, bigint>>;
+  pairCount: () => Promise<bigint>;
+  pairsList: () => Promise<bigint[]>;
   pairsDataMap: (key: {
-    "token-x": string;
+  "token-x": string;
   "token-y": string
-      }) => Promise<{
-    "balance-x": number;
-  "balance-y": number;
-  "fee-balance-x": number;
-  "fee-balance-y": number;
+    }) => Promise<{
+  "balance-x": bigint;
+  "balance-y": bigint;
+  "fee-balance-x": bigint;
+  "fee-balance-y": bigint;
   "fee-to-address": string | null;
   "name": string;
-  "shares-total": number;
+  "shares-total": bigint;
   "swap-token": string
-      } | null>;
+    } | null>;
   pairsMap: (key: {
-    "pair-id": number
-      }) => Promise<{
-    "token-x": string;
+  "pair-id": bigint
+    }) => Promise<{
+  "token-x": string;
   "token-y": string
-      } | null>;
+    } | null>;
 }

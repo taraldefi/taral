@@ -1,30 +1,30 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoStackerV11Contract {
-  enableVaultWithdrawals: (vaultId: number) => Transaction<boolean, number>;
+  enableVaultWithdrawals: (vaultId: number | bigint) => Transaction<boolean, bigint>;
   initiateStacking: (poxAddr: {
-    "hashbytes": Buffer;
+  "hashbytes": Buffer;
   "version": Buffer
-      }, startBurnHt: number, lockPeriod: number) => Transaction<number, number>;
-  requestStxForPayout: (ustxAmount: number) => Transaction<boolean, number>;
-  returnStx: (ustxAmount: number) => Transaction<boolean, number>;
-  toggleStackerShutdown: () => Transaction<boolean, number>;
-  getStackingStxStacked: () => Promise<ClarityTypes.Response<number, null>>;
-  getStackingUnlockBurnHeight: () => Promise<ClarityTypes.Response<number, null>>;
-  getStxBalance: () => Promise<number>;
-  ERRALREADYSTACKING: () => Promise<number>;
-  ERRBURNHEIGHTNOTREACHED: () => Promise<number>;
-  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<number>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  ERRSTILLSTACKING: () => Promise<number>;
-  ERRVAULTLIQUIDATED: () => Promise<number>;
-  ERRWRONGCOLLATERALTOKEN: () => Promise<number>;
-  ERRWRONGSTACKER: () => Promise<number>;
+    }, startBurnHt: number | bigint, lockPeriod: number | bigint) => Transaction<bigint, bigint>;
+  requestStxForPayout: (ustxAmount: number | bigint) => Transaction<boolean, bigint>;
+  returnStx: (ustxAmount: number | bigint) => Transaction<boolean, bigint>;
+  toggleStackerShutdown: () => Transaction<boolean, bigint>;
+  getStackingStxStacked: () => Promise<ClarityTypes.Response<bigint, null>>;
+  getStackingUnlockBurnHeight: () => Promise<ClarityTypes.Response<bigint, null>>;
+  getStxBalance: () => Promise<bigint>;
+  ERRALREADYSTACKING: () => Promise<bigint>;
+  ERRBURNHEIGHTNOTREACHED: () => Promise<bigint>;
+  ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<bigint>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  ERRSTILLSTACKING: () => Promise<bigint>;
+  ERRVAULTLIQUIDATED: () => Promise<bigint>;
+  ERRWRONGCOLLATERALTOKEN: () => Promise<bigint>;
+  ERRWRONGSTACKER: () => Promise<bigint>;
   stackerName: () => Promise<string>;
   stackerShutdownActivated: () => Promise<boolean>;
-  stackingStxStacked: () => Promise<number>;
-  stackingUnlockBurnHeight: () => Promise<number>;
+  stackingStxStacked: () => Promise<bigint>;
+  stackingUnlockBurnHeight: () => Promise<bigint>;
 }

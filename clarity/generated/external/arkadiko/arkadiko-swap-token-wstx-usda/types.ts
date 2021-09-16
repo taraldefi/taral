@@ -1,25 +1,25 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoSwapTokenWstxUsdaContract {
-  burn: (recipient: string, amount: number) => Transaction<boolean, number>;
-  mint: (recipient: string, amount: number) => Transaction<boolean, number>;
-  transfer: (amount: number, sender: string, recipient: string, memo: Buffer | null) => Transaction<boolean, number>;
-  getBalance: (owner: string) => Promise<ClarityTypes.Response<number, null>>;
+  burn: (recipient: string, amount: number | bigint) => Transaction<boolean, bigint>;
+  mint: (recipient: string, amount: number | bigint) => Transaction<boolean, bigint>;
+  transfer: (amount: number | bigint, sender: string, recipient: string, memo: Buffer | null) => Transaction<boolean, bigint>;
+  getBalance: (owner: string) => Promise<ClarityTypes.Response<bigint, null>>;
   getData: (owner: string) => Promise<ClarityTypes.Response<{
-    "balance": number;
-  "decimals": number;
+  "balance": bigint;
+  "decimals": bigint;
   "name": string;
-  "supply": number;
+  "supply": bigint;
   "symbol": string;
   "uri": string | null
-      }, null>>;
-  getDecimals: () => Promise<ClarityTypes.Response<number, null>>;
+    }, null>>;
+  getDecimals: () => Promise<ClarityTypes.Response<bigint, null>>;
   getName: () => Promise<ClarityTypes.Response<string, null>>;
   getSymbol: () => Promise<ClarityTypes.Response<string, null>>;
   getTokenUri: () => Promise<ClarityTypes.Response<string | null, null>>;
-  getTotalSupply: () => Promise<ClarityTypes.Response<number, null>>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
+  getTotalSupply: () => Promise<ClarityTypes.Response<bigint, null>>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
 }

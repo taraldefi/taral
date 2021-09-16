@@ -1,82 +1,82 @@
-import { Transaction } from "../../../lib/transaction";
-import { ClarityTypes } from "../../../lib/clarity/types";
+import { Transaction } from '../../../lib/transaction';
+import { ClarityTypes } from '../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface BtcFtSwapContract {
-  cancel: (id: number, ft: string) => Transaction<boolean, number>;
-  createSwap: (sats: number, btcReceiver: Buffer, amount: number, ftReceiver: string | null, ft: string) => Transaction<number, number>;
+  cancel: (id: number | bigint, ft: string) => Transaction<boolean, bigint>;
+  createSwap: (sats: number | bigint, btcReceiver: Buffer, amount: number | bigint, ftReceiver: string | null, ft: string) => Transaction<bigint, bigint>;
   getOutValue: (tx: {
-    "ins": {
-    "outpoint": {
-    "hash": Buffer;
+  "ins": {
+  "outpoint": {
+  "hash": Buffer;
   "index": Buffer
-      };
+    };
   "scriptSig": Buffer;
   "sequence": Buffer
-      }[];
+    }[];
   "locktime": Buffer;
   "outs": {
-    "scriptPubKey": Buffer;
+  "scriptPubKey": Buffer;
   "value": Buffer
-      }[];
+    }[];
   "version": Buffer
-      }, pubscriptkey: Buffer) => Transaction<{
-    "out": {
-    "scriptPubKey": Buffer;
-  "value": number
-      } | null;
+    }, pubscriptkey: Buffer) => Transaction<{
+  "out": {
+  "scriptPubKey": Buffer;
+  "value": bigint
+    } | null;
   "pubscriptkey": Buffer
-      }, null>;
-  setFtReceiver: (id: number) => Transaction<boolean, number>;
-  submitSwap: (id: number, block: {
-    "height": number;
+    }, null>;
+  setFtReceiver: (id: number | bigint) => Transaction<boolean, bigint>;
+  submitSwap: (id: number | bigint, block: {
+  "height": bigint;
   "merkle-root": Buffer;
   "nbits": Buffer;
   "nonce": Buffer;
   "parent": Buffer;
   "timestamp": Buffer;
   "version": Buffer
-      }, tx: {
-    "ins": {
-    "outpoint": {
-    "hash": Buffer;
+    }, tx: {
+  "ins": {
+  "outpoint": {
+  "hash": Buffer;
   "index": Buffer
-      };
+    };
   "scriptSig": Buffer;
   "sequence": Buffer
-      }[];
+    }[];
   "locktime": Buffer;
   "outs": {
-    "scriptPubKey": Buffer;
+  "scriptPubKey": Buffer;
   "value": Buffer
-      }[];
+    }[];
   "version": Buffer
-      }, proof: {
-    "hashes": Buffer[];
-  "tree-depth": number;
-  "tx-index": number
-      }, ft: string) => Transaction<boolean, number>;
-  ERR_ALREADY_DONE: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_FAILED_TO_PARSE_TX: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_INVALID_FUNGIBLE_TOKEN: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_INVALID_ID: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_NATIVE_FAILURE: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_NO_FT_RECEIVER: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_TOO_EARLY: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_TX_NOT_FOR_RECEIVER: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_TX_VALUE_TOO_SMALL: () => Promise<ClarityTypes.Response<null, number>>;
-  ERR_VERIFICATION_FAILED: () => Promise<ClarityTypes.Response<null, number>>;
-  expiry: () => Promise<number>;
-  nextId: () => Promise<number>;
-  swaps: (key: number) => Promise<{
-    "amount": number;
+    }, proof: {
+  "hashes": Buffer[];
+  "tree-depth": bigint;
+  "tx-index": bigint
+    }, ft: string) => Transaction<boolean, bigint>;
+  ERR_ALREADY_DONE: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_FAILED_TO_PARSE_TX: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INVALID_FUNGIBLE_TOKEN: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INVALID_ID: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_NATIVE_FAILURE: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_NO_FT_RECEIVER: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_TOO_EARLY: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_TX_NOT_FOR_RECEIVER: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_TX_VALUE_TOO_SMALL: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_VERIFICATION_FAILED: () => Promise<ClarityTypes.Response<null, bigint>>;
+  expiry: () => Promise<bigint>;
+  nextId: () => Promise<bigint>;
+  swaps: (key: bigint) => Promise<{
+  "amount": bigint;
   "btc-receiver": Buffer;
-  "done": number;
+  "done": bigint;
   "ft": string;
   "ft-receiver": string | null;
   "ft-sender": string;
-  "sats": number;
-  "when": number
-      } | null>;
+  "sats": bigint;
+  "when": bigint
+    } | null>;
 }

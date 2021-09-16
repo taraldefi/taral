@@ -1,26 +1,26 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoDikoInitContract {
-  foundationClaimTokens: (amount: number) => Transaction<boolean, number>;
-  foundersClaimTokens: (amount: number) => Transaction<boolean, number>;
-  setFoundationWallet: (address: string) => Transaction<boolean, number>;
-  setFoundersWallet: (address: string) => Transaction<boolean, number>;
-  getClaimedFoundationTokens: () => Promise<number>;
-  getClaimedFoundersTokens: () => Promise<number>;
-  getPendingFoundationTokens: () => Promise<ClarityTypes.Response<number, null>>;
-  getPendingFoundersTokens: () => Promise<ClarityTypes.Response<number, null>>;
-  BLOCKSPERMONTH: () => Promise<number>;
-  ERRNOTAUTHORIZED: () => Promise<ClarityTypes.Response<null, number>>;
-  ERRTOOMANYTOKENSCLAIMED: () => Promise<ClarityTypes.Response<null, number>>;
-  FOUNDERSTOKENSPERMONTH: () => Promise<number>;
-  TOTALFOUNDATION: () => Promise<number>;
-  TOTALFOUNDERS: () => Promise<number>;
-  contractStartBlock: () => Promise<number>;
-  foundationTokensClaimed: () => Promise<number>;
+  foundationClaimTokens: (amount: number | bigint) => Transaction<boolean, bigint>;
+  foundersClaimTokens: (amount: number | bigint) => Transaction<boolean, bigint>;
+  setFoundationWallet: (address: string) => Transaction<boolean, bigint>;
+  setFoundersWallet: (address: string) => Transaction<boolean, bigint>;
+  getClaimedFoundationTokens: () => Promise<bigint>;
+  getClaimedFoundersTokens: () => Promise<bigint>;
+  getPendingFoundationTokens: () => Promise<ClarityTypes.Response<bigint, null>>;
+  getPendingFoundersTokens: () => Promise<ClarityTypes.Response<bigint, null>>;
+  BLOCKSPERMONTH: () => Promise<bigint>;
+  ERRNOTAUTHORIZED: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRTOOMANYTOKENSCLAIMED: () => Promise<ClarityTypes.Response<null, bigint>>;
+  FOUNDERSTOKENSPERMONTH: () => Promise<bigint>;
+  TOTALFOUNDATION: () => Promise<bigint>;
+  TOTALFOUNDERS: () => Promise<bigint>;
+  contractStartBlock: () => Promise<bigint>;
+  foundationTokensClaimed: () => Promise<bigint>;
   foundationWallet: () => Promise<string>;
-  foundersTokensClaimed: () => Promise<number>;
+  foundersTokensClaimed: () => Promise<bigint>;
   foundersWallet: () => Promise<string>;
 }

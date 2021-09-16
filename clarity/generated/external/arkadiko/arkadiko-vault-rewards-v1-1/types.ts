@@ -1,31 +1,31 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoVaultRewardsV11Contract {
-  addCollateral: (collateral: number, user: string) => Transaction<boolean, number>;
-  claimPendingRewards: () => Transaction<number, number>;
-  claimPendingRewardsLiquidatedVault: (user: string) => Transaction<number, number>;
-  increaseCummRewardPerCollateral: () => Transaction<number, null>;
-  removeCollateral: (collateral: number, user: string) => Transaction<boolean, number>;
-  calculateCummRewardPerCollateral: () => Promise<number>;
-  getCollateralAmountOf: (user: string) => Promise<number>;
+  addCollateral: (collateral: number | bigint, user: string) => Transaction<boolean, bigint>;
+  claimPendingRewards: () => Transaction<bigint, bigint>;
+  claimPendingRewardsLiquidatedVault: (user: string) => Transaction<bigint, bigint>;
+  increaseCummRewardPerCollateral: () => Transaction<bigint, null>;
+  removeCollateral: (collateral: number | bigint, user: string) => Transaction<boolean, bigint>;
+  calculateCummRewardPerCollateral: () => Promise<bigint>;
+  getCollateralAmountOf: (user: string) => Promise<bigint>;
   getCollateralOf: (user: string) => Promise<{
-    "collateral": number;
-  "cumm-reward-per-collateral": number
-      }>;
-  getCummRewardPerCollateralOf: (user: string) => Promise<number>;
-  getPendingRewards: (user: string) => Promise<ClarityTypes.Response<number, null>>;
-  ERRNOTAUTHORIZED: () => Promise<number>;
-  ERRREWARDSCALC: () => Promise<number>;
-  cummRewardPerCollateral: () => Promise<number>;
-  lastRewardIncreaseBlock: () => Promise<number>;
-  totalCollateral: () => Promise<number>;
+  "collateral": bigint;
+  "cumm-reward-per-collateral": bigint
+    }>;
+  getCummRewardPerCollateralOf: (user: string) => Promise<bigint>;
+  getPendingRewards: (user: string) => Promise<ClarityTypes.Response<bigint, null>>;
+  ERRNOTAUTHORIZED: () => Promise<bigint>;
+  ERRREWARDSCALC: () => Promise<bigint>;
+  cummRewardPerCollateral: () => Promise<bigint>;
+  lastRewardIncreaseBlock: () => Promise<bigint>;
+  totalCollateral: () => Promise<bigint>;
   userCollateral: (key: {
-    "user": string
-      }) => Promise<{
-    "collateral": number;
-  "cumm-reward-per-collateral": number
-      } | null>;
+  "user": string
+    }) => Promise<{
+  "collateral": bigint;
+  "cumm-reward-per-collateral": bigint
+    } | null>;
 }

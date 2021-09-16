@@ -1,33 +1,33 @@
-import { Transaction } from "../../../../lib/transaction";
-import { ClarityTypes } from "../../../../lib/clarity/types";
+import { Transaction } from '../../../../lib/transaction';
+import { ClarityTypes } from '../../../../lib/clarity/types';
 
 // prettier-ignore
 
 export interface ArkadikoStakeRegistryV11Contract {
-  claimPendingRewards: (registryTrait: string, poolTrait: string) => Transaction<number, number>;
-  getPendingRewards: (registryTrait: string, poolTrait: string) => Transaction<number, number>;
-  stake: (registryTrait: string, poolTrait: string, tokenTrait: string, amount: number) => Transaction<number, number>;
-  stakePendingRewards: (registryTrait: string, poolTrait: string, dikoPoolTrait: string, dikoTokenTrait: string) => Transaction<number, number>;
-  unstake: (registryTrait: string, poolTrait: string, tokenTrait: string, amount: number) => Transaction<number, number>;
+  claimPendingRewards: (registryTrait: string, poolTrait: string) => Transaction<bigint, bigint>;
+  getPendingRewards: (registryTrait: string, poolTrait: string) => Transaction<bigint, bigint>;
+  stake: (registryTrait: string, poolTrait: string, tokenTrait: string, amount: number | bigint) => Transaction<bigint, bigint>;
+  stakePendingRewards: (registryTrait: string, poolTrait: string, dikoPoolTrait: string, dikoTokenTrait: string) => Transaction<bigint, bigint>;
+  unstake: (registryTrait: string, poolTrait: string, tokenTrait: string, amount: number | bigint) => Transaction<bigint, bigint>;
   getPoolData: (pool: string) => Promise<{
-    "deactivated-block": number;
-  "deactivated-rewards-per-block": number;
+  "deactivated-block": bigint;
+  "deactivated-rewards-per-block": bigint;
   "name": string;
-  "rewards-percentage": number
-      }>;
-  getPoolDeactivatedBlock: (pool: string) => Promise<ClarityTypes.Response<number, number>>;
-  getRewardsPerBlockForPool: (pool: string) => Promise<ClarityTypes.Response<number, null>>;
-  ERRINVALIDPOOL: () => Promise<ClarityTypes.Response<null, number>>;
-  ERRPOOLEXIST: () => Promise<ClarityTypes.Response<null, number>>;
-  ERRPOOLINACTIVE: () => Promise<ClarityTypes.Response<null, number>>;
-  ERRWRONGREGISTRY: () => Promise<ClarityTypes.Response<null, number>>;
-  poolCount: () => Promise<number>;
+  "rewards-percentage": bigint
+    }>;
+  getPoolDeactivatedBlock: (pool: string) => Promise<ClarityTypes.Response<bigint, bigint>>;
+  getRewardsPerBlockForPool: (pool: string) => Promise<ClarityTypes.Response<bigint, null>>;
+  ERRINVALIDPOOL: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRPOOLEXIST: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRPOOLINACTIVE: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRWRONGREGISTRY: () => Promise<ClarityTypes.Response<null, bigint>>;
+  poolCount: () => Promise<bigint>;
   poolsDataMap: (key: {
-    "pool": string
-      }) => Promise<{
-    "deactivated-block": number;
-  "deactivated-rewards-per-block": number;
+  "pool": string
+    }) => Promise<{
+  "deactivated-block": bigint;
+  "deactivated-rewards-per-block": bigint;
   "name": string;
-  "rewards-percentage": number
-      } | null>;
+  "rewards-percentage": bigint
+    } | null>;
 }
