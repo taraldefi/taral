@@ -39,6 +39,7 @@ export interface ScriptSig {
   asm: string;
   hex: string;
 }
+
 export interface Vin {
   coinbase: string;
   txinwitness: string[];
@@ -59,6 +60,7 @@ export interface Vout {
   n: number;
   scriptPubKey: ScriptPubKey;
 }
+
 export interface Tx {
   txid: string;
   hash: string;
@@ -71,6 +73,7 @@ export interface Tx {
   vout: Vout[];
   hex: string;
 }
+
 export interface Block {
   hash: string;
   confirmations: number;
