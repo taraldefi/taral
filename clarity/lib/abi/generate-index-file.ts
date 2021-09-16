@@ -8,9 +8,54 @@ import { getRelativeImportPath } from "./get-relative-import-path";
 export function generateIndexFile({
   contractFile,
   subFolder,
+  relativeImportPath,
   address,
 }: {
   contractFile: string;
+  subFolder: string;
+  relativeImportPath: string;
+  address: string;
+}) {
+  const contractName = getContractNameFromPath(contractFile);
+
+  const contractTitle = toCamelCase(contractName, true);
+  const varName = toCamelCase(contractName);
+  const contractType = `${contractTitle}Contract`;
+
+  const fileContents = `
+import { Contract } from '${relativeImportPath}lib/types';
+import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
+import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
+
+import type { ${contractType} } from './types';
+import { ${contractTitle}Interface } from './abi';
+
+export type { ${contractType} } from './types';
+
+export const ${varName}Contract = (provider: BaseProvider) => {
+  const contract = proxy<${contractType}>(${contractTitle}Interface, provider);
+  return contract;
+};
+
+export const ${varName}Info: Contract<${contractType}> = {
+  contract: ${varName}Contract,
+  address: '${address}',
+  contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
+};
+`;
+
+  return fileContents;
+}
+
+
+export function generateMockIndexFile({
+  contractFile,
+  relativeImportPath,
+  subFolder,
+  address,
+}: {
+  contractFile: string;
+  relativeImportPath: string;
   subFolder: string;
   address: string;
 }) {
@@ -20,12 +65,10 @@ export function generateIndexFile({
   const varName = toCamelCase(contractName);
   const contractType = `${contractTitle}Contract`;
 
-  const relativeImportPath = getRelativeImportPath(subFolder);
-
   const fileContents = `
-import { Contract } from '${relativeImportPath}lib/types';
-import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
-import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
+import { Contract } from '${relativeImportPath}/types';
+import { proxy } from '${relativeImportPath}/test-utils/proxy';
+import { BaseProvider } from '${relativeImportPath}/providers/base-provider';
 
 import type { ${contractType} } from './types';
 import { ${contractTitle}Interface } from './abi';
