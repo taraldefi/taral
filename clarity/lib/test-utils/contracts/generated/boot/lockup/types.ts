@@ -1,13 +1,15 @@
-import { ClarityTypes } from "../../../../../clarity/types";
+import { Transaction } from '../../../../../transaction';
+import { ClarityTypes } from '../../../../../types';
+
 // prettier-ignore
 
 export interface LockupContract {
-    getLockups: (stxBlockHeightOpt: number | null ) => Promise<ClarityTypes.Response<{
-        "amount": number;
-        "recipient": string
+  getLockups: (stxBlockHeightOpt: bigint | null) => Promise<ClarityTypes.Response<{
+  "amount": bigint;
+  "recipient": string
     }[], null>>;
-    lockups: (key: number) => Promise<{
-        "amount": number;
-        "recipient": string
+  lockups: (key: bigint) => Promise<{
+  "amount": bigint;
+  "recipient": string
     }[] | null>;
 }

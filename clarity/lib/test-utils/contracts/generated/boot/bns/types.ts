@@ -1,171 +1,171 @@
-import { ClarityTypes } from "../../../../../clarity/types";
-import { Transaction } from "../../../../../transaction";
+import { Transaction } from '../../../../../transaction';
+import { ClarityTypes } from '../../../../../types';
 
 // prettier-ignore
 
 export interface BnsContract {
-    nameImport: (namespace: Buffer, name: Buffer, beneficiary: string, zonefileHash: Buffer ) => Transaction<boolean, number>;
-    namePreorder: (hashedSaltedFqn: Buffer, stxToBurn: number ) => Transaction<number, number>;
-    nameRegister: (namespace: Buffer, name: Buffer, salt: Buffer, zonefileHash: Buffer ) => Transaction<boolean, number>;
-    nameRenewal: (namespace: Buffer, name: Buffer, stxToBurn: number, newOwner: string | null, zonefileHash: Buffer | null ) => Transaction<boolean, number>;
-    nameRevoke: (namespace: Buffer, name: Buffer ) => Transaction<boolean, number>;
-    nameTransfer: (namespace: Buffer, name: Buffer, newOwner: string, zonefileHash: Buffer | null ) => Transaction<boolean, number>;
-    nameUpdate: (namespace: Buffer, name: Buffer, zonefileHash: Buffer ) => Transaction<boolean, number>;
-    namespacePreorder: (hashedSaltedNamespace: Buffer, stxToBurn: number ) => Transaction<number, number>;
-    namespaceReady: (namespace: Buffer ) => Transaction<boolean, number>;
-    namespaceReveal: (namespace: Buffer, namespaceSalt: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number, lifetime: number, namespaceImport: string ) => Transaction<boolean, number>;
-    namespaceRevokeFunctionPriceEdition: (namespace: Buffer ) => Transaction<boolean, number>;
-    namespaceUpdateFunctionPrice: (namespace: Buffer, pFuncBase: number, pFuncCoeff: number, pFuncB1: number, pFuncB2: number, pFuncB3: number, pFuncB4: number, pFuncB5: number, pFuncB6: number, pFuncB7: number, pFuncB8: number, pFuncB9: number, pFuncB10: number, pFuncB11: number, pFuncB12: number, pFuncB13: number, pFuncB14: number, pFuncB15: number, pFuncB16: number, pFuncNonAlphaDiscount: number, pFuncNoVowelDiscount: number ) => Transaction<boolean, number>;
-    canNameBeRegistered: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
-    canNamespaceBeRegistered: (namespace: Buffer ) => Promise<ClarityTypes.Response<boolean, null>>;
-    canReceiveName: (owner: string ) => Promise<ClarityTypes.Response<boolean, number>>;
-    checkNameOpsPreconditions: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<{
-        "name-props": {
-            "imported-at": number | null;
-            "registered-at": number | null;
-            "revoked-at": number | null;
-            "zonefile-hash": Buffer
-        };
-        "namespace-props": {
-            "can-update-price-function": boolean;
-            "launched-at": number | null;
-            "lifetime": number;
-            "namespace-import": string;
-            "price-function": {
-                "base": number;
-                "buckets": number[];
-                "coeff": number;
-                "no-vowel-discount": number;
-                "nonalpha-discount": number
-            };
-            "revealed-at": number
-        };
-        "owner": string
-    }, number>>;
-    getNamePrice: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<number, number>>;
-    getNamespacePrice: (namespace: Buffer ) => Promise<ClarityTypes.Response<number, number>>;
-    getNamespaceProperties: (namespace: Buffer ) => Promise<ClarityTypes.Response<{
-        "namespace": Buffer;
-        "properties": {
-            "can-update-price-function": boolean;
-            "launched-at": number | null;
-            "lifetime": number;
-            "namespace-import": string;
-            "price-function": {
-                "base": number;
-                "buckets": number[];
-                "coeff": number;
-                "no-vowel-discount": number;
-                "nonalpha-discount": number
-            };
-            "revealed-at": number
-        }
-    }, number>>;
-    isNameInGracePeriod: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
-    isNameLeaseExpired: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<boolean, number>>;
-    nameResolve: (namespace: Buffer, name: Buffer ) => Promise<ClarityTypes.Response<{
-        "lease-ending-at": number | null;
-        "lease-started-at": number;
-        "owner": string;
-        "zonefile-hash": Buffer
-    }, number>>;
-    resolvePrincipal: (owner: string ) => Promise<ClarityTypes.Response<{
-        "name": Buffer;
-        "namespace": Buffer
+  nameImport: (namespace: Buffer, name: Buffer, beneficiary: string, zonefileHash: Buffer) => Transaction<boolean, bigint>;
+  namePreorder: (hashedSaltedFqn: Buffer, stxToBurn: number | bigint) => Transaction<bigint, bigint>;
+  nameRegister: (namespace: Buffer, name: Buffer, salt: Buffer, zonefileHash: Buffer) => Transaction<boolean, bigint>;
+  nameRenewal: (namespace: Buffer, name: Buffer, stxToBurn: number | bigint, newOwner: string | null, zonefileHash: Buffer | null) => Transaction<boolean, bigint>;
+  nameRevoke: (namespace: Buffer, name: Buffer) => Transaction<boolean, bigint>;
+  nameTransfer: (namespace: Buffer, name: Buffer, newOwner: string, zonefileHash: Buffer | null) => Transaction<boolean, bigint>;
+  nameUpdate: (namespace: Buffer, name: Buffer, zonefileHash: Buffer) => Transaction<boolean, bigint>;
+  namespacePreorder: (hashedSaltedNamespace: Buffer, stxToBurn: number | bigint) => Transaction<bigint, bigint>;
+  namespaceReady: (namespace: Buffer) => Transaction<boolean, bigint>;
+  namespaceReveal: (namespace: Buffer, namespaceSalt: Buffer, pFuncBase: number | bigint, pFuncCoeff: number | bigint, pFuncB1: number | bigint, pFuncB2: number | bigint, pFuncB3: number | bigint, pFuncB4: number | bigint, pFuncB5: number | bigint, pFuncB6: number | bigint, pFuncB7: number | bigint, pFuncB8: number | bigint, pFuncB9: number | bigint, pFuncB10: number | bigint, pFuncB11: number | bigint, pFuncB12: number | bigint, pFuncB13: number | bigint, pFuncB14: number | bigint, pFuncB15: number | bigint, pFuncB16: number | bigint, pFuncNonAlphaDiscount: number | bigint, pFuncNoVowelDiscount: number | bigint, lifetime: number | bigint, namespaceImport: string) => Transaction<boolean, bigint>;
+  namespaceRevokeFunctionPriceEdition: (namespace: Buffer) => Transaction<boolean, bigint>;
+  namespaceUpdateFunctionPrice: (namespace: Buffer, pFuncBase: number | bigint, pFuncCoeff: number | bigint, pFuncB1: number | bigint, pFuncB2: number | bigint, pFuncB3: number | bigint, pFuncB4: number | bigint, pFuncB5: number | bigint, pFuncB6: number | bigint, pFuncB7: number | bigint, pFuncB8: number | bigint, pFuncB9: number | bigint, pFuncB10: number | bigint, pFuncB11: number | bigint, pFuncB12: number | bigint, pFuncB13: number | bigint, pFuncB14: number | bigint, pFuncB15: number | bigint, pFuncB16: number | bigint, pFuncNonAlphaDiscount: number | bigint, pFuncNoVowelDiscount: number | bigint) => Transaction<boolean, bigint>;
+  canNameBeRegistered: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<boolean, bigint>>;
+  canNamespaceBeRegistered: (namespace: Buffer) => Promise<ClarityTypes.Response<boolean, null>>;
+  canReceiveName: (owner: string) => Promise<ClarityTypes.Response<boolean, bigint>>;
+  checkNameOpsPreconditions: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<{
+  "name-props": {
+  "imported-at": bigint | null;
+  "registered-at": bigint | null;
+  "revoked-at": bigint | null;
+  "zonefile-hash": Buffer
+    };
+  "namespace-props": {
+  "can-update-price-function": boolean;
+  "launched-at": bigint | null;
+  "lifetime": bigint;
+  "namespace-import": string;
+  "price-function": {
+  "base": bigint;
+  "buckets": bigint[];
+  "coeff": bigint;
+  "no-vowel-discount": bigint;
+  "nonalpha-discount": bigint
+    };
+  "revealed-at": bigint
+    };
+  "owner": string
+    }, bigint>>;
+  getNamePrice: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<bigint, bigint>>;
+  getNamespacePrice: (namespace: Buffer) => Promise<ClarityTypes.Response<bigint, bigint>>;
+  getNamespaceProperties: (namespace: Buffer) => Promise<ClarityTypes.Response<{
+  "namespace": Buffer;
+  "properties": {
+  "can-update-price-function": boolean;
+  "launched-at": bigint | null;
+  "lifetime": bigint;
+  "namespace-import": string;
+  "price-function": {
+  "base": bigint;
+  "buckets": bigint[];
+  "coeff": bigint;
+  "no-vowel-discount": bigint;
+  "nonalpha-discount": bigint
+    };
+  "revealed-at": bigint
+    }
+    }, bigint>>;
+  isNameInGracePeriod: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<boolean, bigint>>;
+  isNameLeaseExpired: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<boolean, bigint>>;
+  nameResolve: (namespace: Buffer, name: Buffer) => Promise<ClarityTypes.Response<{
+  "lease-ending-at": bigint | null;
+  "lease-started-at": bigint;
+  "owner": string;
+  "zonefile-hash": Buffer
+    }, bigint>>;
+  resolvePrincipal: (owner: string) => Promise<ClarityTypes.Response<{
+  "name": Buffer;
+  "namespace": Buffer
     }, {
-        "code": number;
-        "name": {
-            "name": Buffer;
-            "namespace": Buffer
-        } | null
+  "code": bigint;
+  "name": {
+  "name": Buffer;
+  "namespace": Buffer
+    } | null
     }>>;
-    ERR_INSUFFICIENT_FUNDS: () => Promise<number>;
-    ERR_NAMESPACE_ALREADY_EXISTS: () => Promise<number>;
-    ERR_NAMESPACE_ALREADY_LAUNCHED: () => Promise<number>;
-    ERR_NAMESPACE_BLANK: () => Promise<number>;
-    ERR_NAMESPACE_CHARSET_INVALID: () => Promise<number>;
-    ERR_NAMESPACE_HASH_MALFORMED: () => Promise<number>;
-    ERR_NAMESPACE_NOT_FOUND: () => Promise<number>;
-    ERR_NAMESPACE_NOT_LAUNCHED: () => Promise<number>;
-    ERR_NAMESPACE_OPERATION_UNAUTHORIZED: () => Promise<number>;
-    ERR_NAMESPACE_PREORDER_ALREADY_EXISTS: () => Promise<number>;
-    ERR_NAMESPACE_PREORDER_CLAIMABILITY_EXPIRED: () => Promise<number>;
-    ERR_NAMESPACE_PREORDER_EXPIRED: () => Promise<number>;
-    ERR_NAMESPACE_PREORDER_LAUNCHABILITY_EXPIRED: () => Promise<number>;
-    ERR_NAMESPACE_PREORDER_NOT_FOUND: () => Promise<number>;
-    ERR_NAMESPACE_PRICE_FUNCTION_INVALID: () => Promise<number>;
-    ERR_NAMESPACE_STX_BURNT_INSUFFICIENT: () => Promise<number>;
-    ERR_NAMESPACE_UNAVAILABLE: () => Promise<number>;
-    ERR_NAME_ALREADY_CLAIMED: () => Promise<number>;
-    ERR_NAME_BLANK: () => Promise<number>;
-    ERR_NAME_CHARSET_INVALID: () => Promise<number>;
-    ERR_NAME_CLAIMABILITY_EXPIRED: () => Promise<number>;
-    ERR_NAME_COULD_NOT_BE_MINTED: () => Promise<number>;
-    ERR_NAME_COULD_NOT_BE_TRANSFERED: () => Promise<number>;
-    ERR_NAME_EXPIRED: () => Promise<number>;
-    ERR_NAME_GRACE_PERIOD: () => Promise<number>;
-    ERR_NAME_HASH_MALFORMED: () => Promise<number>;
-    ERR_NAME_NOT_FOUND: () => Promise<number>;
-    ERR_NAME_NOT_RESOLVABLE: () => Promise<number>;
-    ERR_NAME_OPERATION_UNAUTHORIZED: () => Promise<number>;
-    ERR_NAME_PREORDERED_BEFORE_NAMESPACE_LAUNCH: () => Promise<number>;
-    ERR_NAME_PREORDER_ALREADY_EXISTS: () => Promise<number>;
-    ERR_NAME_PREORDER_EXPIRED: () => Promise<number>;
-    ERR_NAME_PREORDER_FUNDS_INSUFFICIENT: () => Promise<number>;
-    ERR_NAME_PREORDER_NOT_FOUND: () => Promise<number>;
-    ERR_NAME_REVOKED: () => Promise<number>;
-    ERR_NAME_STX_BURNT_INSUFFICIENT: () => Promise<number>;
-    ERR_NAME_TRANSFER_FAILED: () => Promise<number>;
-    ERR_NAME_UNAVAILABLE: () => Promise<number>;
-    ERR_PANIC: () => Promise<number>;
-    ERR_PRINCIPAL_ALREADY_ASSOCIATED: () => Promise<number>;
-    NAMESPACE_LAUNCHABILITY_TTL: () => Promise<number>;
-    NAMESPACE_PREORDER_CLAIMABILITY_TTL: () => Promise<number>;
-    NAMESPACE_PRICE_TIERS: () => Promise<number[]>;
-    NAME_GRACE_PERIOD_DURATION: () => Promise<number>;
-    NAME_PREORDER_CLAIMABILITY_TTL: () => Promise<number>;
-    attachmentIndex: () => Promise<number>;
-    namePreorders: (key: {
-        "buyer": string;
-        "hashed-salted-fqn": Buffer
+  ERR_INSUFFICIENT_FUNDS: () => Promise<bigint>;
+  ERR_NAMESPACE_ALREADY_EXISTS: () => Promise<bigint>;
+  ERR_NAMESPACE_ALREADY_LAUNCHED: () => Promise<bigint>;
+  ERR_NAMESPACE_BLANK: () => Promise<bigint>;
+  ERR_NAMESPACE_CHARSET_INVALID: () => Promise<bigint>;
+  ERR_NAMESPACE_HASH_MALFORMED: () => Promise<bigint>;
+  ERR_NAMESPACE_NOT_FOUND: () => Promise<bigint>;
+  ERR_NAMESPACE_NOT_LAUNCHED: () => Promise<bigint>;
+  ERR_NAMESPACE_OPERATION_UNAUTHORIZED: () => Promise<bigint>;
+  ERR_NAMESPACE_PREORDER_ALREADY_EXISTS: () => Promise<bigint>;
+  ERR_NAMESPACE_PREORDER_CLAIMABILITY_EXPIRED: () => Promise<bigint>;
+  ERR_NAMESPACE_PREORDER_EXPIRED: () => Promise<bigint>;
+  ERR_NAMESPACE_PREORDER_LAUNCHABILITY_EXPIRED: () => Promise<bigint>;
+  ERR_NAMESPACE_PREORDER_NOT_FOUND: () => Promise<bigint>;
+  ERR_NAMESPACE_PRICE_FUNCTION_INVALID: () => Promise<bigint>;
+  ERR_NAMESPACE_STX_BURNT_INSUFFICIENT: () => Promise<bigint>;
+  ERR_NAMESPACE_UNAVAILABLE: () => Promise<bigint>;
+  ERR_NAME_ALREADY_CLAIMED: () => Promise<bigint>;
+  ERR_NAME_BLANK: () => Promise<bigint>;
+  ERR_NAME_CHARSET_INVALID: () => Promise<bigint>;
+  ERR_NAME_CLAIMABILITY_EXPIRED: () => Promise<bigint>;
+  ERR_NAME_COULD_NOT_BE_MINTED: () => Promise<bigint>;
+  ERR_NAME_COULD_NOT_BE_TRANSFERED: () => Promise<bigint>;
+  ERR_NAME_EXPIRED: () => Promise<bigint>;
+  ERR_NAME_GRACE_PERIOD: () => Promise<bigint>;
+  ERR_NAME_HASH_MALFORMED: () => Promise<bigint>;
+  ERR_NAME_NOT_FOUND: () => Promise<bigint>;
+  ERR_NAME_NOT_RESOLVABLE: () => Promise<bigint>;
+  ERR_NAME_OPERATION_UNAUTHORIZED: () => Promise<bigint>;
+  ERR_NAME_PREORDERED_BEFORE_NAMESPACE_LAUNCH: () => Promise<bigint>;
+  ERR_NAME_PREORDER_ALREADY_EXISTS: () => Promise<bigint>;
+  ERR_NAME_PREORDER_EXPIRED: () => Promise<bigint>;
+  ERR_NAME_PREORDER_FUNDS_INSUFFICIENT: () => Promise<bigint>;
+  ERR_NAME_PREORDER_NOT_FOUND: () => Promise<bigint>;
+  ERR_NAME_REVOKED: () => Promise<bigint>;
+  ERR_NAME_STX_BURNT_INSUFFICIENT: () => Promise<bigint>;
+  ERR_NAME_TRANSFER_FAILED: () => Promise<bigint>;
+  ERR_NAME_UNAVAILABLE: () => Promise<bigint>;
+  ERR_PANIC: () => Promise<bigint>;
+  ERR_PRINCIPAL_ALREADY_ASSOCIATED: () => Promise<bigint>;
+  NAMESPACE_LAUNCHABILITY_TTL: () => Promise<bigint>;
+  NAMESPACE_PREORDER_CLAIMABILITY_TTL: () => Promise<bigint>;
+  NAMESPACE_PRICE_TIERS: () => Promise<bigint[]>;
+  NAME_GRACE_PERIOD_DURATION: () => Promise<bigint>;
+  NAME_PREORDER_CLAIMABILITY_TTL: () => Promise<bigint>;
+  attachmentIndex: () => Promise<bigint>;
+  namePreorders: (key: {
+  "buyer": string;
+  "hashed-salted-fqn": Buffer
     }) => Promise<{
-        "claimed": boolean;
-        "created-at": number;
-        "stx-burned": number
+  "claimed": boolean;
+  "created-at": bigint;
+  "stx-burned": bigint
     } | null>;
-    nameProperties: (key: {
-        "name": Buffer;
-        "namespace": Buffer
+  nameProperties: (key: {
+  "name": Buffer;
+  "namespace": Buffer
     }) => Promise<{
-        "imported-at": number | null;
-        "registered-at": number | null;
-        "revoked-at": number | null;
-        "zonefile-hash": Buffer
+  "imported-at": bigint | null;
+  "registered-at": bigint | null;
+  "revoked-at": bigint | null;
+  "zonefile-hash": Buffer
     } | null>;
-    namespacePreorders: (key: {
-        "buyer": string;
-        "hashed-salted-namespace": Buffer
+  namespacePreorders: (key: {
+  "buyer": string;
+  "hashed-salted-namespace": Buffer
     }) => Promise<{
-        "claimed": boolean;
-        "created-at": number;
-        "stx-burned": number
+  "claimed": boolean;
+  "created-at": bigint;
+  "stx-burned": bigint
     } | null>;
-    namespaces: (key: Buffer) => Promise<{
-        "can-update-price-function": boolean;
-        "launched-at": number | null;
-        "lifetime": number;
-        "namespace-import": string;
-        "price-function": {
-            "base": number;
-            "buckets": number[];
-            "coeff": number;
-            "no-vowel-discount": number;
-            "nonalpha-discount": number
-        };
-        "revealed-at": number
+  namespaces: (key: Buffer) => Promise<{
+  "can-update-price-function": boolean;
+  "launched-at": bigint | null;
+  "lifetime": bigint;
+  "namespace-import": string;
+  "price-function": {
+  "base": bigint;
+  "buckets": bigint[];
+  "coeff": bigint;
+  "no-vowel-discount": bigint;
+  "nonalpha-discount": bigint
+    };
+  "revealed-at": bigint
     } | null>;
-    ownerName: (key: string) => Promise<{
-        "name": Buffer;
-        "namespace": Buffer
+  ownerName: (key: string) => Promise<{
+  "name": Buffer;
+  "namespace": Buffer
     } | null>;
 }
