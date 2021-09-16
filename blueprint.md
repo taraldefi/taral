@@ -10,17 +10,19 @@
 
 [[ load:readme/1-Local-Testnet.md ]]
 
-[[ load:readme/2-Getting-started.md ]]
+[[ load:readme/2-Mentions.md ]]
 
-[[ load:readme/3-Develop-smart-contracts.md ]]
+[[ load:readme/3-Getting-started.md ]]
 
-[[ load:readme/4-Unit-tests.md ]]
+[[ load:readme/4-Develop-smart-contracts.md ]]
 
-[[ load:readme/5-Integration-tests.md ]]
+[[ load:readme/5-Unit-tests.md ]]
 
-[[ load:readme/6-Future-work.md ]]
+[[ load:readme/6-Integration-tests.md ]]
 
-[[ load:readme/7-FAQ.md ]]
+[[ load:readme/7-Future-work.md ]]
+
+[[ load:readme/8-FAQ.md ]]
 
 [[ template:contributors ]] 
 
