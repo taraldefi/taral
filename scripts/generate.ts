@@ -47,17 +47,19 @@ async function submitTestContractForAnalysis(
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
         provider,
-        outputFolder: '',
-        generate: false
+        outputFolder: "",
+        generate: false,
       });
     }
   }
 }
 
-async function generateTestContractAbis(testGroups: IContractGroup[],
+async function generateTestContractAbis(
+  testGroups: IContractGroup[],
   provider: NativeClarityBinProvider,
   deployerAddress: string,
-  outputFolder: string) {
+  outputFolder: string
+) {
   for (let group of testGroups) {
     for (let contract of group.contracts) {
       await submitAnalisysForContract({
@@ -66,7 +68,7 @@ async function generateTestContractAbis(testGroups: IContractGroup[],
         subFolder: group.subFolder,
         outputFolder: outputFolder,
         provider,
-        generate: true
+        generate: true,
       });
     }
   }
@@ -172,8 +174,16 @@ async function generate(regenerateMockContracts: boolean) {
   var testContractGroups = groupProject(testProject);
 
   if (regenerateMockContracts) {
-    await generateTestContractAbis(testContractGroups, provider, contracts.deployer.address, testProject.outputDirectory);
-    await generateProjectIndexFile(testContractGroups, testProject.outputDirectory);
+    await generateTestContractAbis(
+      testContractGroups,
+      provider,
+      contracts.deployer.address,
+      testProject.outputDirectory
+    );
+    await generateProjectIndexFile(
+      testContractGroups,
+      testProject.outputDirectory
+    );
   } else {
     await submitTestContractForAnalysis(
       testContractGroups,

@@ -30,8 +30,8 @@ type CVInput = string | boolean | TupleInput | number | bigint;
 
 export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
   if (isClarityAbiTuple(type)) {
-    if (typeof input !== 'object') {
-      throw new Error('Invalid tuple input');
+    if (typeof input !== "object") {
+      throw new Error("Invalid tuple input");
     }
 
     if (typeof input === "string") {
@@ -53,22 +53,23 @@ export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
     if (!input) return noneCV();
     return someCV(parseToCV(input, type.optional));
   } else if (isClarityAbiStringAscii(type)) {
-    if (typeof input !== 'string') {
-      throw new Error('Invalid string-ascii input');
+    if (typeof input !== "string") {
+      throw new Error("Invalid string-ascii input");
     }
     return stringAsciiCV(input);
   } else if (isClarityAbiStringUtf8(type)) {
-    if (typeof input !== 'string') {
-      throw new Error('Invalid string-ascii input');
+    if (typeof input !== "string") {
+      throw new Error("Invalid string-ascii input");
     }
     return stringUtf8CV(input);
-  } else if (type === 'bool') {
-    const inputString = typeof input === 'boolean' ? (input as any).toString() : input;
+  } else if (type === "bool") {
+    const inputString =
+      typeof input === "boolean" ? (input as any).toString() : input;
     return parseToCV(inputString as string, type);
-  } else if (type === 'uint128') {
+  } else if (type === "uint128") {
     const bigi = inputToBigInt(input);
     return uintCV(bigi.toString());
-  } else if (type === 'int128') {
+  } else if (type === "int128") {
     const bigi = inputToBigInt(input);
     return uintCV(bigi.toString());
   }
@@ -78,12 +79,12 @@ export function parseToCV(input: CVInput, type: ClarityAbiType): ClarityValue {
 }
 
 function inputToBigInt(input: CVInput) {
-  const isBigInt = typeof input === 'bigint';
-  const isNumber = typeof input === 'number';
-  const isString = typeof input === 'string';
+  const isBigInt = typeof input === "bigint";
+  const isNumber = typeof input === "number";
+  const isString = typeof input === "string";
   const isOk = isBigInt || isNumber || isString;
   if (!isOk) {
-    throw new Error('Invalid input type for integer');
+    throw new Error("Invalid input type for integer");
   }
   return BigInt(input);
 }

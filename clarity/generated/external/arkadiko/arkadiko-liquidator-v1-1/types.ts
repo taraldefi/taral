@@ -1,10 +1,13 @@
-import { Transaction } from '../../../../lib/transaction';
-import { ClarityTypes } from '../../../../lib/clarity/types';
-
-// prettier-ignore
+import { Transaction } from "../../../../lib/transaction";
 
 export interface ArkadikoLiquidatorV11Contract {
-  notifyRiskyVault: (vaultManager: string, auctionEngine: string, vaultId: number | bigint, collType: string, oracle: string) => Transaction<bigint, bigint>;
+  notifyRiskyVault: (
+    vaultManager: string,
+    auctionEngine: string,
+    vaultId: number | bigint,
+    collType: string,
+    oracle: string
+  ) => Transaction<bigint, bigint>;
   ERREMERGENCYSHUTDOWNACTIVATED: () => Promise<bigint>;
   ERRNOLIQUIDATIONREQUIRED: () => Promise<bigint>;
   ERRNOTAUTHORIZED: () => Promise<bigint>;

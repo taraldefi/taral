@@ -1,4 +1,3 @@
-import { NativeClarityBinProvider } from "../../lib/native-cli/native-provider";
 import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
 import {
   contracts as taralContracts,
@@ -10,6 +9,7 @@ import {
   getClarinetAccounts,
   getDefaultClarityBin,
 } from "../../lib";
+import { NativeClarityBinProvider } from "../../lib/native-cli/native-provider";
 import { TestProvider } from "../../lib/providers/test-provider";
 import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
 

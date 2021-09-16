@@ -1,4 +1,3 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import {
   ClarityAbiFunction,
   ClarityAbiType,
@@ -20,7 +19,8 @@ import {
   getDefaultClarityBin,
 } from "../adapter";
 import { ClarityAbiMap, cvToValue, parseToCV } from "../clarity";
-import { ClarinetAccount, ClarinetAccounts } from "../configuration";
+import { ClarinetAccounts } from "../configuration";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
@@ -40,7 +40,11 @@ export class TestProvider implements BaseProvider {
   private readonly contractIdentifier: string;
   private readonly contractFilePath: string;
 
-  constructor(clarityBin: NativeClarityBinProvider, contractIdentifier: string, contractFilePath: string) {
+  constructor(
+    clarityBin: NativeClarityBinProvider,
+    contractIdentifier: string,
+    contractFilePath: string
+  ) {
     this.clarityBin = clarityBin;
     this.contractIdentifier = contractIdentifier;
     this.contractFilePath = contractFilePath;

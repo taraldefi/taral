@@ -3,7 +3,10 @@ export const toCamelCase = (
   titleCase?: boolean
 ) => {
   const inputStr = typeof input === "string" ? input : String(input);
-  const [first, ...parts] = inputStr.replace("!", "").replace('?', '').split("-");
+  const [first, ...parts] = inputStr
+    .replace("!", "")
+    .replace("?", "")
+    .split("-");
   let result = titleCase ? `${first[0].toUpperCase()}${first.slice(1)}` : first;
   parts.forEach((part) => {
     const capitalized = part[0].toUpperCase() + part.slice(1);

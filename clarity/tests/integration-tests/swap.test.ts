@@ -4,14 +4,13 @@ import {
   RunFaucetResponse,
 } from "@stacks/blockchain-api-client";
 import * as btc from "bitcoinjs-lib";
-import { getWalletAtIndex } from "../../lib/configuration/get-wallet";
-import { HeaderPartsType } from "../../lib/swap/types";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
 import { Logger } from "../../lib";
 import { getBtcBalance } from "../../lib/bitcoin/balance";
 import { PaymentResponse } from "../../lib/bitcoin/models";
 import { getAccountFromMnemonic, makePayment } from "../../lib/bitcoin/payment";
+import { getWalletAtIndex } from "../../lib/configuration/get-wallet";
 import { ClarityBitcoinRequest } from "../../lib/swap/base-request";
 import {
   parseBlockHeader,
@@ -25,6 +24,7 @@ import {
   ParamsFromTxResponse,
 } from "../../lib/swap/params-from-tx";
 import { submitSwap } from "../../lib/swap/submit-swap";
+import { HeaderPartsType } from "../../lib/swap/types";
 import {
   verifyMerkleProof,
   verifyMerkleProof2,

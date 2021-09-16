@@ -1,5 +1,5 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { ClarityAbi } from "../clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { getContractNameFromPath } from "../utils";
 
 export async function generateInterface({

@@ -1,12 +1,9 @@
-
-import { Contract } from '../../../../../types';
-import { proxy } from '../../../../../test-utils/proxy';
-import { BaseProvider } from '../../../../../providers/base-provider';
-
-import type { CostVotingContract } from './types';
-import { CostVotingInterface } from './abi';
-
-export type { CostVotingContract } from './types';
+import { BaseProvider } from "../../../../../providers/base-provider";
+import { proxy } from "../../../../../test-utils/proxy";
+import { Contract } from "../../../../../types";
+import { CostVotingInterface } from "./abi";
+import type { CostVotingContract } from "./types";
+export type { CostVotingContract } from "./types";
 
 export const costVotingContract = (provider: BaseProvider) => {
   const contract = proxy<CostVotingContract>(CostVotingInterface, provider);
@@ -15,6 +12,6 @@ export const costVotingContract = (provider: BaseProvider) => {
 
 export const costVotingInfo: Contract<CostVotingContract> = {
   contract: costVotingContract,
-  address: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
-  contractFile: 'clarity/contracts/boot/cost-voting.clar',
+  address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+  contractFile: "clarity/contracts/boot/cost-voting.clar",
 };

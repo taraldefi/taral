@@ -1,7 +1,7 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { deserializeCV } from "@stacks/transactions";
 import { evalJson, executeJson } from "../adapter";
 import { cvToValue } from "../clarity";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 
 // maybe it's worth using the clarinet accounts here in the future?
 //

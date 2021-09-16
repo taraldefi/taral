@@ -1,4 +1,3 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import { mkdir, writeFile } from "fs/promises";
 import { normalize, relative, resolve } from "path";
 import {
@@ -11,6 +10,7 @@ import {
   generateTypesFile,
   getRelativeImportPath,
 } from ".";
+import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
@@ -29,7 +29,7 @@ export async function submitAnalisysForContract({
   outputFolder: string;
   subFolder: string;
   provider: NativeClarityBinProvider;
-  generate: boolean,
+  generate: boolean;
   contractAddress?: string;
 }) {
   const currentPath = process.cwd();
@@ -49,22 +49,37 @@ export async function submitAnalisysForContract({
   });
 
   if (generate) {
-    const relativeImportPath = '../../../../..';
-    const typesFile = generateMockTypesFile(abi, contractName, relativeImportPath);
+    const relativeImportPath = "../../../../..";
+    const typesFile = generateMockTypesFile(
+      abi,
+      contractName,
+      relativeImportPath
+    );
     if (!contractAddress && process.env.NODE_ENV !== "test") {
       console.warn("Please provide an address with every contract.");
     }
 
     const indexFile = generateMockIndexFile({
-      contractFile: relative(process.cwd(), tmpContractFilePath).replace(/\\/g, "/"),
+      contractFile: relative(process.cwd(), tmpContractFilePath).replace(
+        /\\/g,
+        "/"
+      ),
       address: contractAddress || "",
       subFolder: subFolder,
-      relativeImportPath
+      relativeImportPath,
     });
 
-    const abiFile = generateMockInterfaceFile({ contractFile, abi, relativeImportPath });
+    const abiFile = generateMockInterfaceFile({
+      contractFile,
+      abi,
+      relativeImportPath,
+    });
 
-    const outputPath = resolve(`${outputFolder}/${subFolder}`, ".", contractName);
+    const outputPath = resolve(
+      `${outputFolder}/${subFolder}`,
+      ".",
+      contractName
+    );
     await mkdir(outputPath, { recursive: true });
 
     await writeFile(resolve(outputPath, "abi.ts"), abiFile);
@@ -117,10 +132,14 @@ export async function generateFilesForContract({
     contractFile: relative(process.cwd(), contractFile).replace(/\\/g, "/"),
     address: contractAddress || "",
     subFolder: subFolder,
-    relativeImportPath
+    relativeImportPath,
   });
 
-  const abiFile = generateInterfaceFile({ contractFile, abi, relativeImportPath });
+  const abiFile = generateInterfaceFile({
+    contractFile,
+    abi,
+    relativeImportPath,
+  });
 
   const outputPath = resolve(`${outputFolder}/${subFolder}`, ".", contractName);
   await mkdir(outputPath, { recursive: true });

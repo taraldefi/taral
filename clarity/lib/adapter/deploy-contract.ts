@@ -1,7 +1,8 @@
 import { NativeClarityBinProvider } from "../native-cli/native-provider";
 
 export async function deployContract(
-  contractIdentifier: string, tmpContractFilePath: string,
+  contractIdentifier: string,
+  tmpContractFilePath: string,
   provider: NativeClarityBinProvider
 ) {
   const receipt = await provider.runCommand([

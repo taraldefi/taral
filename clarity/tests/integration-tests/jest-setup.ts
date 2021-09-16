@@ -1,4 +1,3 @@
-import { Contract, ContractInstances } from "../../lib";
 import { NETWORK } from "../../configuration";
 import {
   BtcFtSwapContract,
@@ -9,6 +8,7 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "../../generated/taral";
+import { Contract, ContractInstances } from "../../lib";
 import {
   ClarinetAccount,
   ClarinetAccounts,

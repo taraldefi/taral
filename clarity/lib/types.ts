@@ -1,6 +1,6 @@
-import { NativeClarityBinProvider } from "./native-cli/native-provider";
 import { StacksNetworkConfiguration } from "../configuration/stacks-network";
 import { ClarinetAccount, ClarinetAccounts } from "./configuration";
+import { NativeClarityBinProvider } from "./native-cli/native-provider";
 import type { BaseProvider, DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
 

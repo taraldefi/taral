@@ -1,14 +1,16 @@
-import { spawn, SpawnOptions } from 'child_process';
-import { Readable } from 'stream';
-import { CORE_SDK_TAG } from './constants';
-import { pipelineAsync, readStream } from './stream';
-import * as os from 'os';
-
-import * as fs from 'fs';
-import * as path from 'path';
-import { CheckResult, ExecuteOptions, ExecutionError, ExecutionResult, InitialAllocation, Provider, Receipt } from './types';
-import { getNormalizedContractFilePath, getTempFilePath } from './utils';
-
+import { spawn, SpawnOptions } from "child_process";
+import * as fs from "fs";
+import { pipelineAsync, readStream } from "./stream";
+import {
+  CheckResult,
+  ExecuteOptions,
+  ExecutionError,
+  ExecutionResult,
+  InitialAllocation,
+  Provider,
+  Receipt,
+} from "./types";
+import { getNormalizedContractFilePath, getTempFilePath } from "./utils";
 
 export async function executeCommand(
   command: string,
@@ -27,7 +29,7 @@ export async function executeCommand(
   const proc = spawn(command, args, spawnOpts);
 
   if (proc.stdout === null || proc.stderr === null || proc.stdin === null) {
-    throw new Error('clarity-cli spawn error');
+    throw new Error("clarity-cli spawn error");
   }
 
   const readStdout = readStream(proc.stdout, true);
@@ -35,8 +37,8 @@ export async function executeCommand(
 
   let writeStdin: Promise<void> = Promise.resolve();
   if (opts && opts.stdin) {
-    if (typeof opts.stdin === 'string') {
-      proc.stdin.end(opts.stdin, 'utf8');
+    if (typeof opts.stdin === "string") {
+      proc.stdin.end(opts.stdin, "utf8");
     } else {
       writeStdin = pipelineAsync(opts.stdin, proc.stdin).catch((error: any) => {
         console.debug(`spawn stdin error: ${error}`);
@@ -44,20 +46,24 @@ export async function executeCommand(
     }
   }
 
-  proc.on('error', (error: any) => {
+  proc.on("error", (error: any) => {
     console.error(`Unexpected process exec error: ${error}`);
   });
 
-  const exitCode = await new Promise<number>(resolve => {
-    proc.once('close', (code: number) => {
+  const exitCode = await new Promise<number>((resolve) => {
+    proc.once("close", (code: number) => {
       resolve(code);
     });
   });
 
-  const [stdoutData, stderrData] = await Promise.all([readStdout, readStderr, writeStdin]);
+  const [stdoutData, stderrData] = await Promise.all([
+    readStdout,
+    readStderr,
+    writeStdin,
+  ]);
 
-  const stdoutStr = stdoutData.toString('utf8');
-  const stderrStr = stderrData.toString('utf8');
+  const stdoutStr = stdoutData.toString("utf8");
+  const stderrStr = stderrData.toString("utf8");
 
   return {
     stdout: stdoutStr,
@@ -72,29 +78,32 @@ export class NativeClarityBinProvider {
   public readonly allocations: InitialAllocation[];
   private closeActions: ((() => Promise<any>) | (() => any))[] = [];
 
-
   /**
-  * Instantiates a new executor. Before returning, ensures db is ready with `initialize`.
-  * @param dbFilePath File path to the db. If not specified then a temporary file is created
-  *                   and gets deleted when `close` is invoked.
-  */
+   * Instantiates a new executor. Before returning, ensures db is ready with `initialize`.
+   * @param dbFilePath File path to the db. If not specified then a temporary file is created
+   *                   and gets deleted when `close` is invoked.
+   */
   static async create(
     allocations: InitialAllocation[],
     dbFilePath: string,
     clarityBinPath: string
   ): Promise<NativeClarityBinProvider> {
-    const executor = new NativeClarityBinProvider(allocations, dbFilePath, clarityBinPath);
+    const executor = new NativeClarityBinProvider(
+      allocations,
+      dbFilePath,
+      clarityBinPath
+    );
     await executor.initialize();
     return executor;
   }
 
   /**
-* Instantiates a new executor pointed at a new temporary database file.
-* The temp file is deleted when `close` is invoked.
-* Before returning, ensures db is ready with `initialize`.   *
-* @param allocations initializes the given accounts with amount of STXs at start.
-* @param clarityBinPath file path to the clarity binary, can be `getDefaultBinaryFilePath`.
-*/
+   * Instantiates a new executor pointed at a new temporary database file.
+   * The temp file is deleted when `close` is invoked.
+   * Before returning, ensures db is ready with `initialize`.   *
+   * @param allocations initializes the given accounts with amount of STXs at start.
+   * @param clarityBinPath file path to the clarity binary, can be `getDefaultBinaryFilePath`.
+   */
   static async createEphemeral(
     allocations: InitialAllocation[],
     clarityBinPath: string
@@ -111,8 +120,11 @@ export class NativeClarityBinProvider {
     return instance;
   }
 
-
-  constructor(allocations: InitialAllocation[], dbFilePath: string, clarityBinPath: string) {
+  constructor(
+    allocations: InitialAllocation[],
+    dbFilePath: string,
+    clarityBinPath: string
+  ) {
     this.dbFilePath = dbFilePath;
     this.clarityBinPath = clarityBinPath;
     this.allocations = allocations;
@@ -152,17 +164,26 @@ export class NativeClarityBinProvider {
     });
 
     // Normalize first EOL, and trim the trailing EOL.
-    result.stdout = result.stdout.replace(/\r\n|\r|\n/, '\n').replace(/\r\n|\r|\n$/, '');
+    result.stdout = result.stdout
+      .replace(/\r\n|\r|\n/, "\n")
+      .replace(/\r\n|\r|\n$/, "");
 
     // Normalize all stderr EOLs, trim the trailing EOL.
-    result.stderr = result.stderr.replace(/\r\n|\r|\n/g, '\n').replace(/\r\n|\r|\n$/, '');
+    result.stderr = result.stderr
+      .replace(/\r\n|\r|\n/g, "\n")
+      .replace(/\r\n|\r|\n$/, "");
 
     return result;
   }
 
   async checkContract(contractFilePath: string): Promise<CheckResult> {
     const filePath = getNormalizedContractFilePath(contractFilePath);
-    const result = await this.runCommand(["check", filePath, this.dbFilePath, "--output_analysis"]);
+    const result = await this.runCommand([
+      "check",
+      filePath,
+      this.dbFilePath,
+      "--output_analysis",
+    ]);
     if (result.exitCode !== 0) {
       return {
         success: false,
@@ -177,10 +198,18 @@ export class NativeClarityBinProvider {
     }
   }
 
-  async launchContract(contractName: string, contractFilePath: string): Promise<Receipt> {
+  async launchContract(
+    contractName: string,
+    contractFilePath: string
+  ): Promise<Receipt> {
     const filePath = getNormalizedContractFilePath(contractFilePath);
 
-    const result = await this.runCommand(["launch", contractName, filePath, this.dbFilePath]);
+    const result = await this.runCommand([
+      "launch",
+      contractName,
+      filePath,
+      this.dbFilePath,
+    ]);
     if (result.exitCode !== 0) {
       throw new ExecutionError(
         `Launch contract failed with bad exit code ${result.exitCode}: ${result.stderr}`,
@@ -225,7 +254,9 @@ export class NativeClarityBinProvider {
         result.stderr
       );
     }
-    const executed = result.stdout.startsWith("Transaction executed and committed.");
+    const executed = result.stdout.startsWith(
+      "Transaction executed and committed."
+    );
     const didReturnErr = result.stdout.includes(" Returned: (err");
     if (!executed || didReturnErr) {
       throw new ExecutionError(
@@ -282,7 +313,11 @@ export class NativeClarityBinProvider {
     atChaintip: boolean = true
   ): Promise<Receipt> {
     const result = await this.runCommand(
-      [`eval${atChaintip ? "_at_chaintip" : ""}`, contractName, this.dbFilePath],
+      [
+        `eval${atChaintip ? "_at_chaintip" : ""}`,
+        contractName,
+        this.dbFilePath,
+      ],
       {
         stdin: evalStatement,
       }
@@ -386,7 +421,9 @@ export class NativeClarityBinProvider {
       );
     }
     // Check and trim success prefix line.
-    const successPrefix = result.stdout.match(/(Simulated block height: (\r\n|\r|\n))/);
+    const successPrefix = result.stdout.match(
+      /(Simulated block height: (\r\n|\r|\n))/
+    );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Get block height failed with bad output: ${result.stdout}`,

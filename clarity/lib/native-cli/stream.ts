@@ -1,12 +1,12 @@
-import * as readline from 'readline';
+import * as readline from "readline";
 import {
   PassThrough,
   pipeline,
   Readable,
   Writable,
   WritableOptions,
-} from 'stream';
-import { promisify } from 'util';
+} from "stream";
+import { promisify } from "util";
 
 export const pipelineAsync = promisify(pipeline);
 
@@ -15,7 +15,11 @@ export class MemoryStream extends Writable {
   constructor(opts?: WritableOptions) {
     super(opts);
   }
-  _write(chunk: any, encoding: string, callback: (error?: Error | null) => void): void {
+  _write(
+    chunk: any,
+    encoding: string,
+    callback: (error?: Error | null) => void
+  ): void {
     if (chunk instanceof Buffer) {
       this.buffers.push(chunk);
     } else {
@@ -38,14 +42,16 @@ export async function readStream(
 ): Promise<Buffer> {
   const memStream = new MemoryStream();
   async function startReadInternal() {
-    const streamArr: (NodeJS.ReadableStream | NodeJS.WritableStream)[] = [stream];
+    const streamArr: (NodeJS.ReadableStream | NodeJS.WritableStream)[] = [
+      stream,
+    ];
     if (monitorCallback) {
       const passThrough = new PassThrough();
       const readStreamLine = readline.createInterface({
         input: passThrough,
         crlfDelay: Infinity,
       });
-      readStreamLine.on('line', lineData => {
+      readStreamLine.on("line", (lineData) => {
         monitorCallback(lineData);
       });
       streamArr.push(passThrough);

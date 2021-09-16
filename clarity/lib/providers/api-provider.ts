@@ -17,7 +17,6 @@ import {
 } from "@stacks/transactions";
 import BN from "bn.js";
 import { err, ok } from "neverthrow";
-import { SubmitOptions } from "..";
 import { StacksNetworkConfiguration } from "../../configuration/stacks-network";
 import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
@@ -117,7 +116,7 @@ export class ApiProvider implements BaseProvider {
     );
     Logger.debug(JSON.stringify(request));
 
-    const submit: Submitter<any, any> = async (options: SubmitOptions) => {
+    const submit: Submitter<any, any> = async () => {
       // if (!("x" in options)) {
       //   throw new Error("Passing `x` is required.");
       // }
@@ -159,7 +158,7 @@ export class ApiProvider implements BaseProvider {
             isOk: true,
             response: responseOkCV(resultCV),
             value: result,
-            events: sct.events
+            events: sct.events,
           };
 
           return Promise.resolve(response);

@@ -3,7 +3,41 @@ import {
   getContractNameFromPath,
   toCamelCase,
 } from "../utils";
-import { getRelativeImportPath } from "./get-relative-import-path";
+
+function generateIndexFileInternal({
+  contractFile,
+  subFolder,
+  imports,
+  address,
+}: {
+  contractFile: string;
+  subFolder: string;
+  imports: string;
+  address: string;
+}) {
+  const contractName = getContractNameFromPath(contractFile);
+
+  const contractTitle = toCamelCase(contractName, true);
+  const varName = toCamelCase(contractName);
+  const contractType = `${contractTitle}Contract`;
+
+  const fileContents = `
+  ${imports}
+  export type { ${contractType} } from './types';
+
+  export const ${varName}Contract = (provider: BaseProvider) => {
+    const contract = proxy<${contractType}>(${contractTitle}Interface, provider);
+    return contract;
+  };
+
+  export const ${varName}Info: Contract<${contractType}> = {
+    contract: ${varName}Contract,
+    address: '${address}',
+    contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
+  };`;
+
+  return fileContents;
+}
 
 export function generateIndexFile({
   contractFile,
@@ -17,36 +51,23 @@ export function generateIndexFile({
   address: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
-
   const contractTitle = toCamelCase(contractName, true);
-  const varName = toCamelCase(contractName);
   const contractType = `${contractTitle}Contract`;
 
-  const fileContents = `
-import { Contract } from '${relativeImportPath}lib/types';
-import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
-import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
+  const imports = `
+  import { Contract } from '${relativeImportPath}lib/types';
+  import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
+  import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
+  import type { ${contractType} } from './types';
+  import { ${contractTitle}Interface } from './abi';`;
 
-import type { ${contractType} } from './types';
-import { ${contractTitle}Interface } from './abi';
-
-export type { ${contractType} } from './types';
-
-export const ${varName}Contract = (provider: BaseProvider) => {
-  const contract = proxy<${contractType}>(${contractTitle}Interface, provider);
-  return contract;
-};
-
-export const ${varName}Info: Contract<${contractType}> = {
-  contract: ${varName}Contract,
-  address: '${address}',
-  contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
-};
-`;
-
-  return fileContents;
+  return generateIndexFileInternal({
+    contractFile,
+    subFolder,
+    imports,
+    address,
+  });
 }
-
 
 export function generateMockIndexFile({
   contractFile,
@@ -60,32 +81,20 @@ export function generateMockIndexFile({
   address: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
-
   const contractTitle = toCamelCase(contractName, true);
-  const varName = toCamelCase(contractName);
   const contractType = `${contractTitle}Contract`;
 
-  const fileContents = `
-import { Contract } from '${relativeImportPath}/types';
-import { proxy } from '${relativeImportPath}/test-utils/proxy';
-import { BaseProvider } from '${relativeImportPath}/providers/base-provider';
+  const imports = `
+  import { Contract } from '${relativeImportPath}/types';
+  import { proxy } from '${relativeImportPath}/test-utils/proxy';
+  import { BaseProvider } from '${relativeImportPath}/providers/base-provider';
+  import type { ${contractType} } from './types';
+  import { ${contractTitle}Interface } from './abi';`;
 
-import type { ${contractType} } from './types';
-import { ${contractTitle}Interface } from './abi';
-
-export type { ${contractType} } from './types';
-
-export const ${varName}Contract = (provider: BaseProvider) => {
-  const contract = proxy<${contractType}>(${contractTitle}Interface, provider);
-  return contract;
-};
-
-export const ${varName}Info: Contract<${contractType}> = {
-  contract: ${varName}Contract,
-  address: '${address}',
-  contractFile: '${contractWithSubDirectory(contractName, subFolder)}',
-};
-`;
-
-  return fileContents;
+  return generateIndexFileInternal({
+    contractFile,
+    subFolder,
+    imports,
+    address,
+  });
 }

@@ -1,7 +1,4 @@
-import { Transaction } from '../../../../lib/transaction';
-import { ClarityTypes } from '../../../../lib/clarity/types';
-
-// prettier-ignore
+import { ClarityTypes } from "../../../../lib/clarity/types";
 
 export interface ArkadikoDikoGuardianV11Contract {
   getStakingRewardsPerBlock: () => Promise<bigint>;

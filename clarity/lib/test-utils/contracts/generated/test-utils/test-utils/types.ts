@@ -1,7 +1,4 @@
-import { Transaction } from '../../../../../transaction';
-import { ClarityTypes } from '../../../../../types';
-
-// prettier-ignore
+import { Transaction } from "../../../../../transaction";
 
 export interface TestUtilsContract {
   mineBlock: () => Transaction<boolean, null>;

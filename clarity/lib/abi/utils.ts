@@ -57,27 +57,27 @@ export const jsTypeFromAbiType = (
   isArgument = false
 ): string => {
   if (isClarityAbiPrimitive(val)) {
-    if (val === 'uint128') {
-      if (isArgument) return 'number | bigint';
-      return 'bigint';
-    } else if (val === 'int128') {
-      if (isArgument) return 'number | bigint';
-      return 'bigint';
-    } else if (val === 'bool') {
-      return 'boolean';
-    } else if (val === 'principal') {
-      return 'string';
-    } else if (val === 'none') {
-      return 'null';
-    } else if (val === 'trait_reference') {
-      return 'string';
+    if (val === "uint128") {
+      if (isArgument) return "number | bigint";
+      return "bigint";
+    } else if (val === "int128") {
+      if (isArgument) return "number | bigint";
+      return "bigint";
+    } else if (val === "bool") {
+      return "boolean";
+    } else if (val === "principal") {
+      return "string";
+    } else if (val === "none") {
+      return "null";
+    } else if (val === "trait_reference") {
+      return "string";
     } else {
       throw new Error(
         `Unexpected Clarity ABI type primitive: ${JSON.stringify(val)}`
       );
     }
   } else if (isClarityAbiBuffer(val)) {
-    return 'Buffer';
+    return "Buffer";
   } else if (isClarityAbiResponse(val)) {
     const ok: any = jsTypeFromAbiType(val.response.ok);
     const err: any = jsTypeFromAbiType(val.response.error);
@@ -92,17 +92,17 @@ export const jsTypeFromAbiType = (
       tupleDefs.push(`"${name}": ${innerType}`);
     });
     return `{
-  ${tupleDefs.join(';\n  ')}
+  ${tupleDefs.join(";\n  ")}
     }`;
   } else if (isClarityAbiList(val)) {
     const innerType: any = jsTypeFromAbiType(val.list.type);
     return `${innerType}[]`;
   } else if (isClarityAbiStringAscii(val)) {
-    return 'string';
+    return "string";
   } else if (isClarityAbiStringUtf8(val)) {
-    return 'string';
-  } else if (val === 'trait_reference') {
-    return 'string';
+    return "string";
+  } else if (val === "trait_reference") {
+    return "string";
   } else {
     throw new Error(`Unexpected Clarity ABI type: ${JSON.stringify(val)}`);
   }
@@ -123,7 +123,10 @@ export const makeTypes = (abi: ClarityAbi) => {
     if (func.access === "private") return;
     let functionLine = `${toCamelCase(func.name)}: `;
     const args = func.args.map((arg) => {
-      return `${generateArgName(arg.name)}: ${jsTypeFromAbiType(arg.type, true)}`;
+      return `${generateArgName(arg.name)}: ${jsTypeFromAbiType(
+        arg.type,
+        true
+      )}`;
     });
 
     functionLine += `(${args.join(", ")}) => `;
