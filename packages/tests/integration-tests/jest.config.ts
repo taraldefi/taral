@@ -1,7 +1,7 @@
 export {};
 
 const { resolve } = require("path");
-const rootForIntegrationTests = resolve(__dirname, "../../");
+const rootForIntegrationTests = resolve(__dirname, "../");
 const rootConfigForIntegrationTests = require(`${rootForIntegrationTests}/jest.config.js`);
 
 module.exports = {

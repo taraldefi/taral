@@ -7,6 +7,12 @@
   "engines": {
     "node": ">=14"
   },
+
+  "scripts": {
+    "unit-tests": "jest --projects ./unit-tests --runInBand",
+    "util-unit-tests": "jest --projects ./utils-tests --runInBand",
+    "integration-tests": "jest --projects ./integration-tests --runInBand"
+  },
   
   "devDependencies": {
     "@appnest/readme": "^1.2.7",

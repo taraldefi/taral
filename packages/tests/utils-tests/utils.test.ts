@@ -1,5 +1,4 @@
 import {
-  btcAddressToStacksAddress,
   stacksAddressToBtcAddress,
   validateStacksAddress,
 } from "taral-shared";
@@ -20,13 +19,5 @@ test("Address should not be valid", async () => {
 test("Can derive btc address from stacks address", async () => {
   let stacksAddress = deployer.address;
   let btcAddress = stacksAddressToBtcAddress(stacksAddress);
-  expect(btcAddress).toBe("msbf5XektEjjiWHnAEMr2iXWWsBaJVb1RS");
-});
-
-test("Can derive btc address from stacks address", async () => {
-  let stacksAddress = deployer.address;
-  let stacksFromBtcAddress = btcAddressToStacksAddress(
-    "msbf5XektEjjiWHnAEMr2iXWWsBaJVb1RS"
-  );
-  expect(stacksFromBtcAddress).toBe(stacksAddress);
+  expect(btcAddress).toBe("mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH");
 });

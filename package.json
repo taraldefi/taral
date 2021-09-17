@@ -12,6 +12,9 @@
   ],
   
   "scripts": {
+    "unit-tests": "yarn workspace taral-tests unit-tests",
+    "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
+    "integration-tests": "Yarn workspace taral-tests integration-tests",
     "eol": "yarn workspace taral-clarity eol",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "testbed": "yarn workspace taral-scripts testbed",
