@@ -23,7 +23,7 @@
     "cleanup": "yarn workspace taral-scripts cleanup",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
     "deps": "npx depcheck",
-    "install-native-cli": "yarn workspace taral-scripts install-native-cli"
+    "install-native-cli": "yarn workspace taral-tests install-native-cli"
   },
   "repository": {
     "type": "git",

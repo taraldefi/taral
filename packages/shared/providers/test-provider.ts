@@ -10,7 +10,7 @@ import {
 } from "@stacks/transactions";
 import { err, ok } from "neverthrow";
 import { BaseProvider, IProviderRequest } from ".";
-import { SubmitOptions } from "..";
+import { getRootDirectory, SubmitOptions } from "..";
 import {
   deployContract,
   evalJson,
@@ -79,11 +79,12 @@ export class TestProvider implements BaseProvider {
       throw new Error("TestProvider must have an address");
     }
     const contractName = getContractNameFromPath(contract.contractFile);
+    const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
 
     const provider = await this.create({
       deploy,
       clarityBin,
-      contractFilePath: contract.contractFile,
+      contractFilePath: fullContractFilePath,
       contractIdentifier: `${address}.${contractName}`,
     });
     return contract.contract(provider);

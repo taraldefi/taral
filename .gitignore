@@ -108,5 +108,5 @@ docker/provisioning/private-testnet/bns-data/*
 !docker/provisioning/private-testnet/.gitkeep
 
 # native bin
-packages/scripts/.native-bin/*
-!packages/scripts/.native-bin/.gitkeep
+packages/tests/.native-bin/*
+!packages/tests/.native-bin/.gitkeep
