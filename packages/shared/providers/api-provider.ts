@@ -18,6 +18,7 @@ import {
 import BN from "bn.js";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "taral-configuration";
+import { getRootDirectory } from "..";
 import { ClarityAbiMap, cvToValue } from "../clarity";
 import { Logger } from "../logger";
 import { deployContractOnStacks } from "../stacks/deploy-contract";
@@ -213,10 +214,11 @@ export class ApiProvider implements BaseProvider {
       throw new Error("TestProvider must have an address");
     }
     const contractName = getContractNameFromPath(contract.contractFile);
-
+    const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
+    
     const provider = await this.create({
       deploy,
-      contractFilePath: contract.contractFile,
+      contractFilePath: fullContractFilePath,
       contractIdentifier: contractName,
       network,
       account,

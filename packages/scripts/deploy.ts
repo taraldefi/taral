@@ -6,6 +6,7 @@ import {
   Contracts,
   getClarinetAccounts,
   getContractNameFromPath,
+  getRootDirectory,
   handleTransaction,
   Logger,
 } from "taral-shared";
@@ -35,7 +36,8 @@ async function deployContract<T extends Contracts<M>, M>(
   senderKey: string
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
-  let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
+  const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
+  let codeBody = fs.readFileSync(`./${fullContractFilePath}`).toString();
 
   var transaction = await makeContractDeploy({
     contractName,
