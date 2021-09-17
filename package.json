@@ -14,7 +14,7 @@
   "scripts": {
     "eol": "yarn workspace taral-clarity eol",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
-    "testbed": "ts-node scripts/testbed.ts",
+    "testbed": "yarn workspace taral-scripts testbed",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
     "deps": "npx depcheck",
     "install-native-cli": "ts-node scripts/install-native-cli.ts"

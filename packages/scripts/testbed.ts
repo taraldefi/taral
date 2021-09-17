@@ -3,6 +3,8 @@ import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
 
 async function main() {
+  console.log('Taral testbed. A place to quickly prototype and test things.');
+  
   const outputScript = address.toOutputScript(
     "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
     btc.networks.regtest

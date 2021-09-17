@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "target": "ES2020",
-    "module": "CommonJS",
+    "module": "es2020",
     "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "importHelpers": false,

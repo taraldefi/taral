@@ -1,47 +1,47 @@
-import * as btc from "bitcoinjs-lib";
-import { address } from "bitcoinjs-lib";
-import { BtcFtSwapContract } from "../../generated/taral";
-import { Logger, txOk } from "..";
-import { makeBuffer } from "./utils";
+// import * as btc from "bitcoinjs-lib";
+// import { address } from "bitcoinjs-lib";
+// import { BtcFtSwapContract } from "../../generated/taral";
+// import { Logger, txOk } from "..";
+// import { makeBuffer } from "./utils";
 
-function btcToSats(btcAmount: number): number {
-  return btcAmount * 100_000_000;
-}
+// function btcToSats(btcAmount: number): number {
+//   return btcAmount * 100_000_000;
+// }
 
-export async function createBtcFtSwap(
-  { ftSellerBitcoinAddress, btcAmount, ftAmount, ftBuyerStacksAddress, ftContract, network, contract}: {
-    ftSellerBitcoinAddress: string;
-    btcAmount: number;
-    ftAmount: number;
-    ftBuyerStacksAddress: string;
-    ftContract: string;
-    network?: btc.networks.Network;
-    contract: BtcFtSwapContract
-  }
-): Promise<number> {
-  Logger.debug("Calling createBtcFtSwap");
+// export async function createBtcFtSwap(
+//   { ftSellerBitcoinAddress, btcAmount, ftAmount, ftBuyerStacksAddress, ftContract, network, contract}: {
+//     ftSellerBitcoinAddress: string;
+//     btcAmount: number;
+//     ftAmount: number;
+//     ftBuyerStacksAddress: string;
+//     ftContract: string;
+//     network?: btc.networks.Network;
+//     contract: BtcFtSwapContract
+//   }
+// ): Promise<number> {
+//   Logger.debug("Calling createBtcFtSwap");
 
-  const sats = btcToSats(btcAmount);
+//   const sats = btcToSats(btcAmount);
 
-  const ftSellerAddressScript = address
-    .toOutputScript(
-      ftSellerBitcoinAddress,
-      network ?? btc.networks.regtest
-    ).toString("hex");
+//   const ftSellerAddressScript = address
+//     .toOutputScript(
+//       ftSellerBitcoinAddress,
+//       network ?? btc.networks.regtest
+//     ).toString("hex");
 
-  let response = await txOk(
-    contract.createSwap(
-      sats,
-      makeBuffer(ftSellerAddressScript),
-      ftAmount,
-      ftBuyerStacksAddress,
-      ftContract
-    )
-  );
+//   let response = await txOk(
+//     contract.createSwap(
+//       sats,
+//       makeBuffer(ftSellerAddressScript),
+//       ftAmount,
+//       ftBuyerStacksAddress,
+//       ftContract
+//     )
+//   );
 
-  Logger.debug("createBtcFtSwap result");
-  Logger.debug(JSON.stringify(response));
-  Logger.debug("---------------");
+//   Logger.debug("createBtcFtSwap result");
+//   Logger.debug(JSON.stringify(response));
+//   Logger.debug("---------------");
 
-  return response.value;
-}
+//   return response.value;
+// }

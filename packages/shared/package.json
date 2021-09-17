@@ -4,7 +4,6 @@
   "author": "DoruC",
   "license": "ISC",
   "private": true,
-  "type": "module",
   "engines": {
     "node": ">=14"
   },

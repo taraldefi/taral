@@ -3,10 +3,15 @@
   "version": "1.0.0",
   "author": "DoruC",
   "license": "ISC",
-  "type": "module",
   "private": true,
   "engines": {
     "node": ">=14"
+  },
+  
+  "scripts": {
+    "generate": "ts-node generate.ts",
+    "deploy": "ts-node deploy.ts",
+    "testbed": "ts-node testbed.ts"
   },
   
   "devDependencies": {
