@@ -1,4 +1,4 @@
-import * as stacksgen from "../clarity/lib/stacksgen";
+import * as stacksgen from "taral-shared";
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
 

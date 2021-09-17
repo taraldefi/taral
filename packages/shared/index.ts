@@ -15,3 +15,5 @@ export * from "./utils";
 export * from './stacks';
 export * from './swap';
 export * from './bitcoin';
+export * from './native-cli';
+export * from './stacksgen';

@@ -1,4 +1,4 @@
-import { installDefaultPath } from "../clarity/lib/native-cli";
+import { installDefaultPath } from "taral-shared";
 
 export default (async () => {
   try {
