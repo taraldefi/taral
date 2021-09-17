@@ -22,7 +22,6 @@
     "generate": "yarn workspace taral-scripts generate",
     "cleanup": "yarn workspace taral-scripts cleanup",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
-    "deps": "npx depcheck",
     "install-native-cli": "yarn workspace taral-tests install-native-cli"
   },
   "repository": {
@@ -68,6 +67,7 @@
   "homepage": "https://github.com/taraldefi/taral#readme",
   "devDependencies": {
     "@appnest/readme": "^1.2.7",
-    "typescript": "^3.5.2"
+    "typescript": "^3.5.2",
+    "prettier": "^2.3.2"
   }
 }
