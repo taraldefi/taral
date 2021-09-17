@@ -1,5 +1,5 @@
 {
-  "name": "taral-ecosystem",
+  "name": "taral-docs",
   "version": "1.0.0",
   "description": "Taral local development environment for clarity contracts",
   "main": "index.js",
@@ -7,22 +7,8 @@
     "node": ">=14"
   },
   "private": "true",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
-    "clarinet-tests": "yarn workspace taral-clarity clarinet-tests",
-    "unit-tests": "yarn workspace taral-tests unit-tests",
-    "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
-    "integration-tests": "Yarn workspace taral-tests integration-tests",
-    "eol": "yarn workspace taral-clarity eol",
-    "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
-    "deploy": "yarn workspace taral-scripts deploy",
-    "testbed": "yarn workspace taral-scripts testbed",
-    "generate": "yarn workspace taral-scripts generate",
-    "cleanup": "yarn workspace taral-scripts cleanup",
-    "doc": "yarn workspace taral-docs doc",
-    "install-native-cli": "yarn workspace taral-tests install-native-cli"
+    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/packages/docs/assets/line.png --output=../../README.md"
   },
   "repository": {
     "type": "git",
@@ -66,6 +52,7 @@
   },
   "homepage": "https://github.com/taraldefi/taral#readme",
   "devDependencies": {
+    "@appnest/readme": "^1.2.7",
     "typescript": "^3.5.2",
     "prettier": "^2.3.2"
   }
