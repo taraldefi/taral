@@ -11,7 +11,7 @@ import {
 } from "taral-shared";
 import { NativeClarityBinProvider } from "taral-shared";
 import { TestProvider } from "taral-shared";
-import { TestUtilsProvider } from "taral-shared";
+import { TestUtilsProvider } from "taral-generated-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
