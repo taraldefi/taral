@@ -8,6 +8,10 @@
   "engines": {
     "node": ">=14"
   },
+
+  "scripts": {
+    "eol": "npx eolConverter \"contracts/**/*.clar\""
+  },
   
   "devDependencies": {
     "@appnest/readme": "^1.2.7",
