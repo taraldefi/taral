@@ -1,3 +1,4 @@
+// @ts-ignore
 import { Account, Chain, ReadOnlyFn } from "../dependencies.ts";
 
 export class Client {
