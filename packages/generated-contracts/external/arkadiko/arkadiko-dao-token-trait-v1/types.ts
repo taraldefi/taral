@@ -1,6 +1,1 @@
-
-
-
-export interface ArkadikoDaoTokenTraitV1Contract {
-
-}
+export interface ArkadikoDaoTokenTraitV1Contract {}

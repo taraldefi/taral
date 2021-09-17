@@ -27,7 +27,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
+    "strictNullChecks": true
   },
 
   // break
@@ -36,7 +36,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": [
-    "./*.ts",
-  ]
+  "include": ["./*.ts"]
 }

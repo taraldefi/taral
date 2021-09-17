@@ -1,6 +1,1 @@
-
-
-
-export interface ArkadikoAuctionEngineTraitV1Contract {
-
-}
+export interface ArkadikoAuctionEngineTraitV1Contract {}

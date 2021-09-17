@@ -3,40 +3,37 @@ import { toCamelCase } from "../utils";
 import { makeTypes } from "./utils";
 
 function generateTypesFileInternal(
-    abi: ClarityAbi,
-    contractName: string,
-    imports: string
+  abi: ClarityAbi,
+  contractName: string,
+  imports: string
 ) {
-    const name = toCamelCase(contractName, true);
-    const typings = makeTypes(abi);
-    const fileContents = `
+  const name = toCamelCase(contractName, true);
+  const typings = makeTypes(abi);
+  const fileContents = `
   ${imports}
 
   export interface ${name}Contract {
     ${typings}
   }`;
 
-    return fileContents;
+  return fileContents;
 }
 
-export const generateTypesFile = (
-    abi: ClarityAbi,
-    contractName: string
-) => {
-    const imports = `
+export const generateTypesFile = (abi: ClarityAbi, contractName: string) => {
+  const imports = `
   import { Transaction } from 'taral-shared';
   import { ClarityTypes } from 'taral-shared'`;
 
-    return generateTypesFileInternal(abi, contractName, imports);
+  return generateTypesFileInternal(abi, contractName, imports);
 };
 
 export const generateMockTypesFile = (
-    abi: ClarityAbi,
-    contractName: string
+  abi: ClarityAbi,
+  contractName: string
 ) => {
-    const imports = `
+  const imports = `
   import { Transaction } from 'taral-shared';
   import { ClarityTypes } from 'taral-shared'`;
 
-    return generateTypesFileInternal(abi, contractName, imports);
+  return generateTypesFileInternal(abi, contractName, imports);
 };

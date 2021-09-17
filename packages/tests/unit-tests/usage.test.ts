@@ -4,20 +4,20 @@ import { clarinetAccounts } from "../integration-tests/jest-setup";
 import { clarityBin } from "./jest-setup";
 
 test("Test that we can access the token without deploying", async () => {
-    const taralCoinInfo = taralContracts.taralCoin;
-    var contractInfo = await TestProvider.fromContracts(
-        false,
-        {
-            taralCoinInfo,
-        },
-        clarityBin
-    );
+  const taralCoinInfo = taralContracts.taralCoin;
+  var contractInfo = await TestProvider.fromContracts(
+    false,
+    {
+      taralCoinInfo,
+    },
+    clarityBin
+  );
 
-    var contract = contractInfo.taralCoinInfo.contract;
+  var contract = contractInfo.taralCoinInfo.contract;
 
-    const token = contract(clarinetAccounts.deployer);
+  const token = contract(clarinetAccounts.deployer);
 
-    const result = (await token.getDecimals())._unsafeUnwrap();
+  const result = (await token.getDecimals())._unsafeUnwrap();
 
-    expect(result).toEqual(6n);
+  expect(result).toEqual(6n);
 });

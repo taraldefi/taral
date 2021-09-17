@@ -37,7 +37,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": [
-    "./packages/**/*.ts"
-  ]
+  "include": ["./packages/**/*.ts"]
 }

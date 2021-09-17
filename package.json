@@ -10,7 +10,6 @@
   "workspaces": [
     "packages/*"
   ],
-  
   "scripts": {
     "unit-tests": "yarn workspace taral-tests unit-tests",
     "util-unit-tests": "yarn workspace taral-tests util-unit-tests",

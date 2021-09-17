@@ -7,7 +7,6 @@
   "engines": {
     "node": ">=14"
   },
-  
   "scripts": {
     "generate": "ts-node generate.ts",
     "deploy": "ts-node deploy.ts",
@@ -15,7 +14,6 @@
     "install-native-cli": "ts-node install-native-cli.ts",
     "cleanup": "ts-node cleanup.ts"
   },
-  
   "devDependencies": {
     "@appnest/readme": "^1.2.7",
     "@ltd/j-toml": "^1.12.2",

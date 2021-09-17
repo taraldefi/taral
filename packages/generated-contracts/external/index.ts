@@ -1,1 +1,1 @@
-export * from './arkadiko';
+export * from "./arkadiko";

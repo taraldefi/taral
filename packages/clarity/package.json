@@ -7,11 +7,9 @@
   "engines": {
     "node": ">=14"
   },
-
   "scripts": {
     "eol": "npx eolConverter \"contracts/**/*.clar\""
   },
-  
   "devDependencies": {
     "@appnest/readme": "^1.2.7",
     "@ltd/j-toml": "^1.12.2",

@@ -6,27 +6,27 @@ import { Logger } from "../logger";
  * Wrapper for c32ToB58. Converts a Stacks address to a Bitcoin address
  */
 export const stacksAddressToBtcAddress = (stacksAddress: string) =>
-    c32ToB58(stacksAddress);
+  c32ToB58(stacksAddress);
 
 /**
  * btcAddressToStacksAddress
  * Wrapper for b58ToC32. Converts a Bitcoin address to a Stacks address
  */
 export const btcAddressToStacksAddress = (btcAddress: string) =>
-    b58ToC32(btcAddress);
+  b58ToC32(btcAddress);
 
 /**
  * validateStacksAddress
  */
 export const validateStacksAddress = (stacksAddress: string) => {
-    let valid = false;
-    try {
-        if (c32addressDecode(stacksAddress)) {
-            valid = true;
-        }
-    } catch (e) {
-        valid = false;
-        Logger.debug("Not a valid Stacks address.");
+  let valid = false;
+  try {
+    if (c32addressDecode(stacksAddress)) {
+      valid = true;
     }
-    return valid;
+  } catch (e) {
+    valid = false;
+    Logger.debug("Not a valid Stacks address.");
+  }
+  return valid;
 };

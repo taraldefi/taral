@@ -1,14 +1,15 @@
 import {
-    CONTRACT_EXTENSION, getRootRelativeContractsFolder
+  CONTRACT_EXTENSION,
+  getRootRelativeContractsFolder,
 } from "../constants";
 
 export function contractWithSubDirectory(
-    contractName: string,
-    subfolder: string
+  contractName: string,
+  subfolder: string
 ): string {
-    if (contractName.endsWith(CONTRACT_EXTENSION)) {
-        return `${getRootRelativeContractsFolder()}/${subfolder}/${contractName}`;
-    }
+  if (contractName.endsWith(CONTRACT_EXTENSION)) {
+    return `${getRootRelativeContractsFolder()}/${subfolder}/${contractName}`;
+  }
 
-    return `${getRootRelativeContractsFolder()}/${subfolder}/${contractName}.clar`;
+  return `${getRootRelativeContractsFolder()}/${subfolder}/${contractName}.clar`;
 }

@@ -1,6 +1,1 @@
-
-
-
-export interface NftTraitContract {
-
-}
+export interface NftTraitContract {}

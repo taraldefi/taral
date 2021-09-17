@@ -2,45 +2,49 @@ import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
 import { NETWORK } from "taral-configuration";
 import { taralContracts } from "taral-generated-contracts";
-import { Contracts, getClarinetAccounts, getContractNameFromPath, handleTransaction, Logger } from "taral-shared";
-
-
+import {
+  Contracts,
+  getClarinetAccounts,
+  getContractNameFromPath,
+  handleTransaction,
+  Logger,
+} from "taral-shared";
 
 Logger.debug("Deploying contracts");
 deployMany(taralContracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
-    const cwd = `${process.cwd()}/clarity/`;
-    const clarinetAccounts = await getClarinetAccounts(cwd);
+  const cwd = `${process.cwd()}/clarity/`;
+  const clarinetAccounts = await getClarinetAccounts(cwd);
 
-    const deployer = clarinetAccounts.deployer;
+  const deployer = clarinetAccounts.deployer;
 
-    for (const k in contracts) {
-        const contract: T[Extract<keyof T, string>] = contracts[k];
+  for (const k in contracts) {
+    const contract: T[Extract<keyof T, string>] = contracts[k];
 
-        const contractName = getContractNameFromPath(contract.contractFile);
-        Logger.debug(`Deploying contract ${contractName}`);
+    const contractName = getContractNameFromPath(contract.contractFile);
+    Logger.debug(`Deploying contract ${contractName}`);
 
-        var result = await deployContract(contract, deployer.privateKey);
-        Logger.debug(`Contract deployed: ${contractName} with result ${result}`);
-    }
+    var result = await deployContract(contract, deployer.privateKey);
+    Logger.debug(`Contract deployed: ${contractName} with result ${result}`);
+  }
 }
 
 async function deployContract<T extends Contracts<M>, M>(
-    contract: T[Extract<keyof T, string>],
-    senderKey: string
+  contract: T[Extract<keyof T, string>],
+  senderKey: string
 ) {
-    const contractName = getContractNameFromPath(contract.contractFile);
-    let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
+  const contractName = getContractNameFromPath(contract.contractFile);
+  let codeBody = fs.readFileSync(`./${contract.contractFile}`).toString();
 
-    var transaction = await makeContractDeploy({
-        contractName,
-        codeBody,
-        senderKey: senderKey,
-        network: NETWORK,
-        anchorMode: 3,
-    });
+  var transaction = await makeContractDeploy({
+    contractName,
+    codeBody,
+    senderKey: senderKey,
+    network: NETWORK,
+    anchorMode: 3,
+  });
 
-    Logger.debug(`Deploying contract ${contractName}`);
-    return handleTransaction(transaction, NETWORK);
+  Logger.debug(`Deploying contract ${contractName}`);
+  return handleTransaction(transaction, NETWORK);
 }

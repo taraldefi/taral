@@ -1,6 +1,1 @@
-
-
-
-export interface ArkadikoSwapTraitV1Contract {
-
-}
+export interface ArkadikoSwapTraitV1Contract {}

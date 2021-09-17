@@ -3,30 +3,29 @@ import { Logger, txOk } from "..";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
 export async function submitSwap({
-    swapId, headerPartsCv, txPartsCv, proofCv, ftContract, contract
+  swapId,
+  headerPartsCv,
+  txPartsCv,
+  proofCv,
+  ftContract,
+  contract,
 }: {
-    swapId: bigint;
-    headerPartsCv: HeaderPartsType;
-    txPartsCv: TxPartsCvType;
-    proofCv: ProofCvType;
-    ftContract: string;
-    contract: BtcFtSwapContract
+  swapId: bigint;
+  headerPartsCv: HeaderPartsType;
+  txPartsCv: TxPartsCvType;
+  proofCv: ProofCvType;
+  ftContract: string;
+  contract: BtcFtSwapContract;
 }): Promise<boolean> {
-    Logger.debug("Calling submitSwap");
+  Logger.debug("Calling submitSwap");
 
-    const result = await txOk(
-        contract.submitSwap(
-            swapId,
-            headerPartsCv,
-            txPartsCv,
-            proofCv,
-            ftContract
-        )
-    );
+  const result = await txOk(
+    contract.submitSwap(swapId, headerPartsCv, txPartsCv, proofCv, ftContract)
+  );
 
-    Logger.debug("submitSwap result");
-    Logger.debug(JSON.stringify(result));
-    Logger.debug("---------------");
+  Logger.debug("submitSwap result");
+  Logger.debug(JSON.stringify(result));
+  Logger.debug("---------------");
 
-    return result.value;
+  return result.value;
 }
