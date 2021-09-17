@@ -1,15 +1,11 @@
-import { TestProvider } from "taral-shared";
-import { ClarinetAccount } from "taral-shared";
-import { NativeClarityBinProvider } from "taral-shared";
+import { ClarinetAccount, NativeClarityBinProvider, TestProvider } from "taral-shared";
 import {
     BnsContract,
     bootContracts,
     CostsContract,
     CostVotingContract,
     LockupContract,
-    PoxContract,
-    testutilsContracts,
-    TestUtilsContract,
+    PoxContract, TestUtilsContract, testutilsContracts
 } from ".";
 
 export class TestUtilsProvider {

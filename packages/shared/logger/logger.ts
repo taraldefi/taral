@@ -6,41 +6,41 @@ const levelToInt: { [level: string]: number } = {};
 const intToLevel: { [int: number]: string } = {};
 
 for (let index = 0; index < levels.length; index++) {
-  const level = levels[index];
-  levelToInt[level] = index;
-  intToLevel[index] = level;
+    const level = levels[index];
+    levelToInt[level] = index;
+    intToLevel[index] = level;
 }
 
 /**
  * @ignore
  */
 export class Logger {
-  static error(message: string, ...optionalParams: any[]) {
-    if (!this.shouldLog("error")) return;
-    console.error(this.logMessage("error", message), optionalParams);
-  }
+    static error(message: string, ...optionalParams: any[]) {
+        if (!this.shouldLog("error")) return;
+        console.error(this.logMessage("error", message), optionalParams);
+    }
 
-  static warn(message: string, ...optionalParams: any[]) {
-    if (!this.shouldLog("warn")) return;
-    console.warn(this.logMessage("warn", message), optionalParams);
-  }
+    static warn(message: string, ...optionalParams: any[]) {
+        if (!this.shouldLog("warn")) return;
+        console.warn(this.logMessage("warn", message), optionalParams);
+    }
 
-  static info(message: string, ...optionalParams: any[]) {
-    if (!this.shouldLog("info")) return;
-    console.log(this.logMessage("info", message), optionalParams);
-  }
+    static info(message: string, ...optionalParams: any[]) {
+        if (!this.shouldLog("info")) return;
+        console.log(this.logMessage("info", message), optionalParams);
+    }
 
-  static debug(message: string, ...optionalParams: any[]) {
-    if (!this.shouldLog("debug")) return;
-    console.log(this.logMessage("debug", message), optionalParams);
-  }
+    static debug(message: string, ...optionalParams: any[]) {
+        if (!this.shouldLog("debug")) return;
+        console.log(this.logMessage("debug", message), optionalParams);
+    }
 
-  static logMessage(level: string, message: string) {
-    return `[${level.toUpperCase()}] ${message}`;
-  }
+    static logMessage(level: string, message: string) {
+        return `[${level.toUpperCase()}] ${message}`;
+    }
 
-  static shouldLog(level: string) {
-    const currentLevel = levelToInt[config.logLevel];
-    return currentLevel <= levelToInt[level];
-  }
+    static shouldLog(level: string) {
+        const currentLevel = levelToInt[config.logLevel];
+        return currentLevel <= levelToInt[level];
+    }
 }

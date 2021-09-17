@@ -19,6 +19,7 @@
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "testbed": "yarn workspace taral-scripts testbed",
     "generate": "yarn workspace taral-scripts generate",
+    "cleanup": "yarn workspace taral-scripts cleanup",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
     "deps": "npx depcheck",
     "install-native-cli": "yarn workspace taral-scripts install-native-cli"

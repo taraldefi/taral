@@ -1,8 +1,8 @@
 export function unchanged(codeBody: string) {
-  return codeBody;
+    return codeBody;
 }
 
 export interface DeployerAccount {
-  secretKey: string;
-  stacksAddress: string;
+    secretKey: string;
+    stacksAddress: string;
 }

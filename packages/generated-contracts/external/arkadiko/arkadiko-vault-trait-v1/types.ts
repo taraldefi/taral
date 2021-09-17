@@ -1,8 +1,6 @@
 
-  
-  import { Transaction } from 'taral-shared';
-  import { ClarityTypes } from 'taral-shared'
 
-  export interface ArkadikoVaultTraitV1Contract {
-    
-  }
+
+export interface ArkadikoVaultTraitV1Contract {
+
+}

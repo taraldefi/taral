@@ -12,7 +12,8 @@
     "generate": "ts-node generate.ts",
     "deploy": "ts-node deploy.ts",
     "testbed": "ts-node testbed.ts",
-    "install-native-cli": "ts-node install-native-cli.ts"
+    "install-native-cli": "ts-node install-native-cli.ts",
+    "cleanup": "ts-node cleanup.ts"
   },
   
   "devDependencies": {

@@ -1,10 +1,10 @@
 
-  import { ClarityAbi } from 'taral-shared';
+import { ClarityAbi } from 'taral-shared';
 
-  export const ArkadikoStakePoolDikoTraitV1Interface: ClarityAbi = {
-  "functions": [],
-  "fungible_tokens": [],
-  "maps": [],
-  "non_fungible_tokens": [],
-  "variables": []
+export const ArkadikoStakePoolDikoTraitV1Interface: ClarityAbi = {
+    "functions": [],
+    "fungible_tokens": [],
+    "maps": [],
+    "non_fungible_tokens": [],
+    "variables": []
 };

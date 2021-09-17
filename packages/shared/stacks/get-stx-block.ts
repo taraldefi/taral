@@ -4,64 +4,64 @@ import { NETWORK } from "taral-configuration";
 import { Logger } from "../logger";
 
 export async function getStxBlock(bitcoinBlockHeight: number) {
-  Logger.debug("Calling getStxBlock");
+    Logger.debug("Calling getStxBlock");
 
-  let limit = 30;
-  let offset = 0;
+    let limit = 30;
+    let offset = 0;
 
-  const blocksApi = getBlocksApi();
+    const blocksApi = getBlocksApi();
 
-  const firstResponse = await blocksApi.getBlockList({ offset, limit });
+    const firstResponse = await blocksApi.getBlockList({ offset, limit });
 
-  const lastBlock = firstResponse.results[0];
+    const lastBlock = firstResponse.results[0];
 
-  Logger.debug(`Last block: ${JSON.stringify(lastBlock)}`);
+    Logger.debug(`Last block: ${JSON.stringify(lastBlock)}`);
 
-  let stxBlock = firstResponse.results.find(
-    (b) => b.burn_block_height === bitcoinBlockHeight
-  );
+    let stxBlock = firstResponse.results.find(
+        (b) => b.burn_block_height === bitcoinBlockHeight
+    );
 
-  offset += Math.max(
-    limit,
-    firstResponse.results[0].burn_block_height - bitcoinBlockHeight
-  );
+    offset += Math.max(
+        limit,
+        firstResponse.results[0].burn_block_height - bitcoinBlockHeight
+    );
 
-  while (!stxBlock) {
-    const blockListResponse = await blocksApi.getBlockList({ offset, limit });
-    const blocks = blockListResponse.results;
+    while (!stxBlock) {
+        const blockListResponse = await blocksApi.getBlockList({ offset, limit });
+        const blocks = blockListResponse.results;
 
-    stxBlock = blocks.find((b) => b.burn_block_height === bitcoinBlockHeight);
+        stxBlock = blocks.find((b) => b.burn_block_height === bitcoinBlockHeight);
 
-    offset -= limit;
+        offset -= limit;
 
-    const info = { offset };
+        const info = { offset };
 
-    Logger.debug(`getStxBlock result: ${JSON.stringify(info)}`);
+        Logger.debug(`getStxBlock result: ${JSON.stringify(info)}`);
 
-    if (
-      offset < 0 ||
-      blocks[blocks.length - 1].burn_block_height > bitcoinBlockHeight
-    ) {
-      return undefined;
+        if (
+            offset < 0 ||
+            blocks[blocks.length - 1].burn_block_height > bitcoinBlockHeight
+        ) {
+            return undefined;
+        }
     }
-  }
 
-  Logger.debug("getStxBlock result");
-  Logger.debug(JSON.stringify(stxBlock));
-  Logger.debug("---------------");
+    Logger.debug("getStxBlock result");
+    Logger.debug(JSON.stringify(stxBlock));
+    Logger.debug("---------------");
 
-  return stxBlock;
+    return stxBlock;
 }
 
 function getBlocksApi(): BlocksApi {
-  const basePath = NETWORK.coreApiUrl;
+    const basePath = NETWORK.coreApiUrl;
 
-  const configuration = new Configuration({
-    basePath,
-    fetchApi: fetch,
-  });
+    const configuration = new Configuration({
+        basePath,
+        fetchApi: fetch,
+    });
 
-  const blocksApi = new BlocksApi(configuration);
+    const blocksApi = new BlocksApi(configuration);
 
-  return blocksApi;
+    return blocksApi;
 }
