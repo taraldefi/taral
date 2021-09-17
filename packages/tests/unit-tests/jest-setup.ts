@@ -1,17 +1,17 @@
-import { contracts as arkadikoContracts } from "../../generated/external/arkadiko";
+import { arkadikoContracts } from "taral-generated-contracts";
 import {
-  contracts as taralContracts,
+  taralContracts,
   TaralCoinContract,
-} from "../../generated/taral";
+} from "taral-generated-contracts";
 import {
   ClarinetAccount,
   ClarinetAccounts,
   getClarinetAccounts,
   getDefaultClarityBin,
-} from "../../lib";
-import { NativeClarityBinProvider } from "../../lib/native-cli/native-provider";
-import { TestProvider } from "../../lib/providers/test-provider";
-import { TestUtilsProvider } from "../../lib/providers/test-utils-provider";
+} from "taral-shared";
+import { NativeClarityBinProvider } from "taral-shared";
+import { TestProvider } from "taral-shared";
+import { TestUtilsProvider } from "taral-shared";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;

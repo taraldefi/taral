@@ -1,4 +1,4 @@
-import { txOk } from "../../lib";
+import { txOk } from "taral-shared";
 import { clarinetAccounts, talToken } from "./jest-setup";
 
 test("Should have the correct token uri", async () => {

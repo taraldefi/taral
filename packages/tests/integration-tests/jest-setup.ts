@@ -3,11 +3,11 @@ import {
   BtcFtSwapContract,
   BtcNftSwapContract,
   ClarityBitcoinContract,
-  contracts as taralContracts,
+  taralContracts,
   NftTraitContract,
   Sip10FtStandardContract,
   TaralCoinContract,
-} from "../../generated/taral";
+} from "taral-generated-contracts";
 import { Contract, ContractInstances } from "taral-shared";
 import {
   ClarinetAccount,

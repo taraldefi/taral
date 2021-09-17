@@ -6,28 +6,28 @@ import {
 import * as btc from "bitcoinjs-lib";
 import crossfetch from "cross-fetch";
 import { NETWORK } from "../../configuration";
-import { Logger } from "../../lib";
-import { getBtcBalance } from "../../lib/bitcoin/balance";
-import { PaymentResponse } from "../../lib/bitcoin/models";
-import { getAccountFromMnemonic, makePayment } from "../../lib/bitcoin/payment";
-import { getWalletAtIndex } from "../../lib/configuration/get-wallet";
+import { Logger } from "taral-shared";
+import { getBtcBalance } from "taral-shared";
+import { PaymentResponse } from "taral-shared";
+import { getAccountFromMnemonic, makePayment } from "taral-shared";
+import { getWalletAtIndex } from "taral-shared";
 import {
   parseBlockHeader,
   verifyBlockHeader,
   verifyBlockHeader2,
-} from "../../lib/swap/block-header";
-import { createBtcFtSwap } from "../../lib/swap/create-swap";
-import { getReversedTxId } from "../../lib/swap/get-txid";
+} from "taral-shared";
+import { createBtcFtSwap } from "taral-shared";
+import { getReversedTxId } from "taral-shared";
 import {
   paramsFromTx,
-} from "../../lib/swap/params-from-tx";
-import { submitSwap } from "../../lib/swap/submit-swap";
-import { HeaderPartsType, ParamsFromTxResponse } from "../../lib/swap/types";
+} from "taral-shared";
+import { submitSwap } from "taral-shared";
+import { HeaderPartsType, ParamsFromTxResponse } from "taral-shared";
 import {
   verifyMerkleProof,
   verifyMerkleProof2,
-} from "../../lib/swap/verify-merkle-proof";
-import { wasTxMined, wasTxMinedFromHex } from "../../lib/swap/was-tx-mined";
+} from "taral-shared";
+import { wasTxMined, wasTxMinedFromHex } from "taral-shared";
 import { retry } from "../utils/retry";
 import {
   btcFtSwapContract,

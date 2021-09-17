@@ -1,4 +1,4 @@
-import { getBlockHeight, mineBlocks } from "../../lib/test-utils";
+import { getBlockHeight, mineBlocks } from "taral-shared";
 import { clarityBin } from "./jest-setup";
 
 test("Can get block height and mine blocks", async () => {
