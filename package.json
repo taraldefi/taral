@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Taral local development environment for clarity contracts",
   "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
+  "private": "true",
+  "workspaces": [
+    "packages/shared", "packages/configuration", "packages/clarity", "packages/tests"
+  ],
+  
   "scripts": {
     "clarinet-tests": "cd clarity && clarinet test ./tests/",
     "unit-tests": "jest --projects ./clarity/jest-tests/unit-tests --runInBand",
