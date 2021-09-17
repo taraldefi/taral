@@ -36,7 +36,7 @@ export const generateMockTypesFile = (
 ) => {
   const imports = `
   import { Transaction } from 'taral-shared';
-  import { ClarityTypes } from 'tarak-shared`;
+  import { ClarityTypes } from 'taral-shared'`;
 
   return generateTypesFileInternal(abi, contractName, imports);
 };

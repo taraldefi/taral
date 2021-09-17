@@ -11,8 +11,8 @@ export async function parseTx({ txCV, contract }: {txCV: Buffer; contract: Clari
     //
     let response = await contract.getTxid(txCV);
     result = response.toString();
-  } catch (error: any) {
-    Logger.error(`parse-tx failed: ${error.toString()}`);
+  } catch (error) {
+    Logger.error(`parse-tx failed: ${(error as any).toString()}`);
   }
 
   Logger.debug("getTxid result");

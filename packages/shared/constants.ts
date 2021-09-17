@@ -7,9 +7,3 @@ export function getRootRelativeContractsFolder() {
 
     return `${root}/packages/clarity/contracts`;
 }
-
-export function getRootRelativeTestContractsFolder() {
-    const root = getRootDirectory();
-
-    return `${root}/packages/shared/test-utils/contracts`;
-}

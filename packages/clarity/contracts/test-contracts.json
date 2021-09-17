@@ -1,0 +1,18 @@
+{
+    "outputDirectory": "packages/generated-contracts",
+    "configuration": [
+      {
+        "name": "TestUtils",
+        "subfolder": "test-utils",
+        "description": "Test util contract for testing purposes only",
+        "contracts": ["test-utils"]
+      },
+      {
+        "name": "boot",
+        "subfolder": "boot",
+        "description": "Boot contracts for development purposes only - they are not used",
+        "contracts": ["bns", "costs", "cost-voting", "lockup", "pox"]
+      }
+    ]
+  }
+  

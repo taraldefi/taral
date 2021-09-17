@@ -9,10 +9,8 @@ import {
   getClarinetAccounts,
   Logger,
   submitAnalisysForContract,
-  testContractWithSubdirectory,
   getRootDirectory,
   getRootRelativeContractsFolder,
-  getRootRelativeTestContractsFolder,
 } from "taral-shared";
 
 import { writeFile } from "fs/promises";
@@ -45,7 +43,7 @@ async function submitTestContractForAnalysis(
   for (let group of testGroups) {
     for (let contract of group.contracts) {
       await submitAnalisysForContract({
-        contractFile: testContractWithSubdirectory(contract, group.subFolder),
+        contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
         provider,
@@ -65,7 +63,7 @@ async function generateTestContractAbis(
   for (let group of testGroups) {
     for (let contract of group.contracts) {
       await submitAnalisysForContract({
-        contractFile: testContractWithSubdirectory(contract, group.subFolder),
+        contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
         outputFolder: outputFolder,
@@ -173,7 +171,7 @@ async function generate(regenerateMockContracts: boolean) {
     "/"
   );
 
-  const testProjectPath = resolve(normalize(`${getRootRelativeTestContractsFolder()}/contracts.json`)).replace(
+  const testProjectPath = resolve(normalize(`${getRootRelativeContractsFolder()}/test-contracts.json`)).replace(
     /\\/g,
     "/"
   );
@@ -223,4 +221,4 @@ async function generate(regenerateMockContracts: boolean) {
   await generateProjectIndexFile(contractGroups, projectOutputDirectory);
 }
 
-generate(false);
+generate(true);

@@ -1,7 +1,6 @@
 import {
   contractWithSubDirectory,
   getContractNameFromPath,
-  testContractWithSubdirectory,
   toCamelCase,
 } from "../utils";
 
@@ -96,7 +95,7 @@ export function generateMockIndexFile({
     subFolder,
     imports,
     address,
-    contractWithSubDirectory: testContractWithSubdirectory(
+    contractWithSubDirectory: contractWithSubDirectory(
       contractName,
       subFolder
     ),
