@@ -1,4 +1,4 @@
-import { contracts } from "../clarity/generated/taral";
+import { taralContracts } from "taral-generated-contracts";
 import { makeContractDeploy } from "@stacks/transactions";
 import { Logger } from "taral-shared";
 import * as fs from "fs";
@@ -11,7 +11,7 @@ import { getClarinetAccounts } from "taral-shared";
 import { handleTransaction } from "taral-shared";
 
 Logger.debug("Deploying contracts");
-deployMany(contracts);
+deployMany(taralContracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
   const cwd = `${process.cwd()}/clarity/`;
