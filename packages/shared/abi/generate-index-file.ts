@@ -44,12 +44,10 @@ function generateIndexFileInternal({
 export function generateIndexFile({
   contractFile,
   subFolder,
-  relativeImportPath,
   address,
 }: {
   contractFile: string;
   subFolder: string;
-  relativeImportPath: string;
   address: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
@@ -61,9 +59,7 @@ export function generateIndexFile({
   );
 
   const imports = `
-  import { Contract } from '${relativeImportPath}lib/types';
-  import { proxy } from '${relativeImportPath}lib/test-utils/proxy';
-  import { BaseProvider } from '${relativeImportPath}lib/providers/base-provider';
+  import { Contract, proxy, BaseProvider } from 'taral-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 
@@ -78,12 +74,10 @@ export function generateIndexFile({
 
 export function generateMockIndexFile({
   contractFile,
-  relativeImportPath,
   subFolder,
   address,
 }: {
   contractFile: string;
-  relativeImportPath: string;
   subFolder: string;
   address: string;
 }) {
@@ -91,10 +85,9 @@ export function generateMockIndexFile({
   const contractTitle = toCamelCase(contractName, true);
   const contractType = `${contractTitle}Contract`;
 
+
   const imports = `
-  import { Contract } from '${relativeImportPath}/types';
-  import { proxy } from '${relativeImportPath}/test-utils/proxy';
-  import { BaseProvider } from '${relativeImportPath}/providers/base-provider';
+  import { Contract, proxy, BaseProvider } from 'taral-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 

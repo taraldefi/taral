@@ -38,8 +38,6 @@
   "strict": true,
 
   "include": [
-    "./clarity/jest-tests/**/*.ts",
-    "./clarity/generated/**/*.ts",
-    "./clarity/lib/**/*.ts",
+    "./packages/**/*.ts"
   ]
 }

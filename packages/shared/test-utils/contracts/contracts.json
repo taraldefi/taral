@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "clarity/lib/test-utils/contracts/generated",
+  "outputDirectory": "packages/shared/test-utils/contracts/generated",
   "configuration": [
     {
       "name": "TestUtils",

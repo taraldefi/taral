@@ -1,7 +1,6 @@
 import { readFileSync } from "fs";
 
 import {
-  CONTRACT_FOLDER,
   generateFilesForContract,
   createDefaultTestProvider,
   contractWithSubDirectory,
@@ -11,11 +10,13 @@ import {
   Logger,
   submitAnalisysForContract,
   testContractWithSubdirectory,
-  TEST_CONTRACT_FOLDER,
+  getRootDirectory,
+  getRootRelativeContractsFolder,
+  getRootRelativeTestContractsFolder,
 } from "taral-shared";
 
 import { writeFile } from "fs/promises";
-import { resolve } from "path";
+import { normalize, resolve } from "path";
 import { NativeClarityBinProvider } from "taral-shared";
 
 interface IProject {
@@ -32,6 +33,7 @@ interface IProjectConfiguration {
 
 interface IContractGroup {
   subFolder: string;
+  name: string;
   contracts: string[];
 }
 
@@ -101,8 +103,10 @@ async function generateProjectIndexFile(
     const imports: string[] = [];
     const exports: string[] = [];
     const contractMap: string[] = [];
+    const groupName = group.name;
 
     for (let contract of group.contracts) {
+
       const contractName = getContractNameFromPath(contract);
       const contractVar = toCamelCase(contractName);
       const contractInfo = `${contractVar}Info`;
@@ -118,10 +122,12 @@ async function generateProjectIndexFile(
       contractMap.push(map);
     }
 
+    const contractsName = `${groupName.toLowerCase()}Contracts`;
+
     const file = `${imports.join("\n")}
     ${exports.join("\n")}
     
-    export const contracts = {
+    export const ${contractsName} = {
       ${contractMap.join("\n  ")}
     };
     `;
@@ -146,6 +152,7 @@ function groupProject(project: IProject): IContractGroup[] {
   var contractGroups: IContractGroup[] = project.configuration.map(
     (configuration) => {
       return {
+        name: configuration.name,
         contracts: configuration.contracts,
         subFolder: configuration.subfolder,
       };
@@ -156,13 +163,26 @@ function groupProject(project: IProject): IContractGroup[] {
 }
 
 async function generate(regenerateMockContracts: boolean) {
-  const cwd = `${process.cwd()}/clarity/`;
-  const contracts = await getClarinetAccounts(cwd);
 
-  const project: IProject = getProject(`./${CONTRACT_FOLDER}/contracts.json`);
-  const testProject: IProject = getProject(
-    `./${TEST_CONTRACT_FOLDER}/contracts.json`
+  const root = `${getRootDirectory()}/packages/clarity`;
+  const contracts = await getClarinetAccounts(root);
+
+
+  const projectPath = resolve(normalize(`${getRootRelativeContractsFolder()}/contracts.json`)).replace(
+    /\\/g,
+    "/"
   );
+
+  const testProjectPath = resolve(normalize(`${getRootRelativeTestContractsFolder()}/contracts.json`)).replace(
+    /\\/g,
+    "/"
+  );
+
+  const project: IProject = getProject(projectPath);
+  const testProject: IProject = getProject(testProjectPath);
+
+  const projectOutputDirectory = `${getRootDirectory()}/${project.outputDirectory}`;
+  const testProjectOutputDirectory = `${getRootDirectory()}/${testProject.outputDirectory}`;
 
   Logger.debug(
     `Generating interfaces with deployment contract ${contracts.deployer.address}`
@@ -178,11 +198,12 @@ async function generate(regenerateMockContracts: boolean) {
       testContractGroups,
       provider,
       contracts.deployer.address,
-      testProject.outputDirectory
+      testProjectOutputDirectory
     );
+
     await generateProjectIndexFile(
       testContractGroups,
-      testProject.outputDirectory
+      testProjectOutputDirectory
     );
   } else {
     await submitTestContractForAnalysis(
@@ -196,10 +217,10 @@ async function generate(regenerateMockContracts: boolean) {
     contractGroups,
     provider,
     contracts.deployer.address,
-    project.outputDirectory
+    projectOutputDirectory
   );
 
-  await generateProjectIndexFile(contractGroups, project.outputDirectory);
+  await generateProjectIndexFile(contractGroups, projectOutputDirectory);
 }
 
-generate(true);
+generate(false);

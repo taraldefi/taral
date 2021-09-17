@@ -24,14 +24,12 @@ function generateInterfaceForFileInternal({
 
 export function generateInterfaceFile({
   contractFile,
-  relativeImportPath,
   abi,
 }: {
   contractFile: string;
-  relativeImportPath: string;
   abi: ClarityAbi;
 }) {
-  const imports = `import { ClarityAbi } from '${relativeImportPath}lib/clarity/types`;
+  const imports = `import { ClarityAbi } from 'taral-shared`;
   return generateInterfaceForFileInternal({
     abi,
     contractFile,
@@ -41,14 +39,12 @@ export function generateInterfaceFile({
 
 export function generateMockInterfaceFile({
   contractFile,
-  relativeImportPath,
   abi,
 }: {
   contractFile: string;
-  relativeImportPath: string;
   abi: ClarityAbi;
 }) {
-  const imports = `import { ClarityAbi } from '${relativeImportPath}/clarity/types`;
+  const imports = `import { ClarityAbi } from 'taral-shared`;
   return generateInterfaceForFileInternal({
     abi,
     contractFile,

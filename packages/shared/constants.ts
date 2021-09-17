@@ -1,5 +1,15 @@
+import { getRootDirectory } from "./root";
+
 export const CONTRACT_EXTENSION = ".clar";
 
-export const CONTRACT_FOLDER = "clarity/contracts";
+export function getRootRelativeContractsFolder() {
+    const root = getRootDirectory();
 
-export const TEST_CONTRACT_FOLDER = "clarity/lib/test-utils/contracts";
+    return `${root}/packages/clarity/contracts`;
+}
+
+export function getRootRelativeTestContractsFolder() {
+    const root = getRootDirectory();
+
+    return `${root}/packages/shared/test-utils/contracts`;
+}

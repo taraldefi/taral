@@ -21,24 +21,22 @@ function generateTypesFileInternal(
 
 export const generateTypesFile = (
   abi: ClarityAbi,
-  contractName: string,
-  relativeImportPath: string
+  contractName: string
 ) => {
   const imports = `
-  import { Transaction } from '${relativeImportPath}lib/transaction';
-  import { ClarityTypes } from '${relativeImportPath}lib/clarity/types`;
+  import { Transaction } from 'taral-shared';
+  import { ClarityTypes } from 'taral-shared'`;
 
   return generateTypesFileInternal(abi, contractName, imports);
 };
 
 export const generateMockTypesFile = (
   abi: ClarityAbi,
-  contractName: string,
-  relativeImportPath: string
+  contractName: string
 ) => {
   const imports = `
-  import { Transaction } from '${relativeImportPath}/transaction';
-  import { ClarityTypes } from '${relativeImportPath}/types`;
+  import { Transaction } from 'taral-shared';
+  import { ClarityTypes } from 'tarak-shared`;
 
   return generateTypesFileInternal(abi, contractName, imports);
 };

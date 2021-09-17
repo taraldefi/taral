@@ -8,7 +8,6 @@ import {
   generateMockInterfaceFile,
   generateMockTypesFile,
   generateTypesFile,
-  getRelativeImportPath,
 } from ".";
 import { NativeClarityBinProvider } from "../native-cli/native-provider";
 import {
@@ -33,9 +32,7 @@ export async function submitAnalisysForContract({
   generate: boolean;
   contractAddress?: string;
 }) {
-  const currentPath = process.cwd();
-  var normalizedPath = normalize(currentPath).replace(/\\/g, "/");
-  const contractFile = resolve(normalizedPath, _contractFile).replace(
+  const contractFile = resolve(normalize(_contractFile)).replace(
     /\\/g,
     "/"
   );
@@ -50,11 +47,9 @@ export async function submitAnalisysForContract({
   });
 
   if (generate) {
-    const relativeImportPath = "../../../../..";
     const typesFile = generateMockTypesFile(
       abi,
-      contractName,
-      relativeImportPath
+      contractName
     );
     if (!contractAddress && process.env.NODE_ENV !== "test") {
       console.warn("Please provide an address with every contract.");
@@ -66,14 +61,12 @@ export async function submitAnalisysForContract({
         "/"
       ),
       address: contractAddress || "",
-      subFolder: subFolder,
-      relativeImportPath,
+      subFolder: subFolder
     });
 
     const abiFile = generateMockInterfaceFile({
       contractFile,
-      abi,
-      relativeImportPath,
+      abi
     });
 
     const outputPath = resolve(
@@ -104,9 +97,7 @@ export async function generateFilesForContract({
   provider: NativeClarityBinProvider;
   contractAddress?: string;
 }) {
-  const currentPath = process.cwd();
-  var normalizedPath = normalize(currentPath).replace(/\\/g, "/");
-  const contractFile = resolve(normalizedPath, _contractFile).replace(
+  const contractFile = resolve(_contractFile).replace(
     /\\/g,
     "/"
   );
@@ -123,8 +114,7 @@ export async function generateFilesForContract({
 
   cleanupTmpContractFile(tmpContractFilePath);
 
-  const relativeImportPath = getRelativeImportPath(subFolder);
-  const typesFile = generateTypesFile(abi, contractName, relativeImportPath);
+  const typesFile = generateTypesFile(abi, contractName);
   if (!contractAddress && process.env.NODE_ENV !== "test") {
     console.warn("Please provide an address with every contract.");
   }
@@ -132,14 +122,12 @@ export async function generateFilesForContract({
   const indexFile = generateIndexFile({
     contractFile: relative(process.cwd(), contractFile).replace(/\\/g, "/"),
     address: contractAddress || "",
-    subFolder: subFolder,
-    relativeImportPath,
+    subFolder: subFolder
   });
 
   const abiFile = generateInterfaceFile({
     contractFile,
-    abi,
-    relativeImportPath,
+    abi
   });
 
   const outputPath = resolve(`${outputFolder}/${subFolder}`, ".", contractName);
