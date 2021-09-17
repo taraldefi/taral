@@ -15,5 +15,5 @@ export const wrappedStxTokenInfo: Contract<WrappedStxTokenContract> = {
   contract: wrappedStxTokenContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
   contractFile:
-    "C:\biz\taral/packages/clarity/contracts/external/arkadiko/wrapped-stx-token.clar",
+    "packages/clarity/contracts/external/arkadiko/wrapped-stx-token.clar",
 };

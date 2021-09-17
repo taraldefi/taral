@@ -21,15 +21,4 @@ async function main() {
   console.log(outputScript.toString("hex"));
 }
 
-function getKeyAddress(key: btc.ECPairInterface): string {
-  const { address } = btc.payments.p2pkh({
-    pubkey: key.publicKey,
-    network: key.network,
-  });
-  if (!address) {
-    throw new Error("address generation failed");
-  }
-  return address;
-}
-
 main();

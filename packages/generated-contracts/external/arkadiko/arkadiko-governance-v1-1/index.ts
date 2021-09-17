@@ -16,5 +16,5 @@ export const arkadikoGovernanceV11Info: Contract<ArkadikoGovernanceV11Contract> 
     contract: arkadikoGovernanceV11Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-governance-v1-1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-governance-v1-1.clar",
   };

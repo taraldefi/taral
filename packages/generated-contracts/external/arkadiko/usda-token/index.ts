@@ -11,6 +11,5 @@ export const usdaTokenContract = (provider: BaseProvider) => {
 export const usdaTokenInfo: Contract<UsdaTokenContract> = {
   contract: usdaTokenContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/external/arkadiko/usda-token.clar",
+  contractFile: "packages/clarity/contracts/external/arkadiko/usda-token.clar",
 };

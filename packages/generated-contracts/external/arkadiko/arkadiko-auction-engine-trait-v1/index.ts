@@ -18,5 +18,5 @@ export const arkadikoAuctionEngineTraitV1Info: Contract<ArkadikoAuctionEngineTra
     contract: arkadikoAuctionEngineTraitV1Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-auction-engine-trait-v1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-auction-engine-trait-v1.clar",
   };

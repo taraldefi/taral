@@ -14,6 +14,5 @@ export const clarityBitcoinContract = (provider: BaseProvider) => {
 export const clarityBitcoinInfo: Contract<ClarityBitcoinContract> = {
   contract: clarityBitcoinContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/taral/clarity-bitcoin.clar",
+  contractFile: "packages/clarity/contracts/taral/clarity-bitcoin.clar",
 };

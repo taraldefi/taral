@@ -16,5 +16,5 @@ export const arkadikoLiquidatorV11Info: Contract<ArkadikoLiquidatorV11Contract> 
     contract: arkadikoLiquidatorV11Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-liquidator-v1-1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-liquidator-v1-1.clar",
   };

@@ -16,5 +16,5 @@ export const arkadikoSwapTokenWstxUsdaInfo: Contract<ArkadikoSwapTokenWstxUsdaCo
     contract: arkadikoSwapTokenWstxUsdaContract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-swap-token-wstx-usda.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-swap-token-wstx-usda.clar",
   };

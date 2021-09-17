@@ -11,6 +11,5 @@ export const xstxTokenContract = (provider: BaseProvider) => {
 export const xstxTokenInfo: Contract<XstxTokenContract> = {
   contract: xstxTokenContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/external/arkadiko/xstx-token.clar",
+  contractFile: "packages/clarity/contracts/external/arkadiko/xstx-token.clar",
 };

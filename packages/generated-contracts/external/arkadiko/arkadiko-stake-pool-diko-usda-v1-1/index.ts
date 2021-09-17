@@ -18,5 +18,5 @@ export const arkadikoStakePoolDikoUsdaV11Info: Contract<ArkadikoStakePoolDikoUsd
     contract: arkadikoStakePoolDikoUsdaV11Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-stake-pool-diko-usda-v1-1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-stake-pool-diko-usda-v1-1.clar",
   };

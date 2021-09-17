@@ -14,6 +14,5 @@ export const sip10FtStandardContract = (provider: BaseProvider) => {
 export const sip10FtStandardInfo: Contract<Sip10FtStandardContract> = {
   contract: sip10FtStandardContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/taral/sip-10-ft-standard.clar",
+  contractFile: "packages/clarity/contracts/taral/sip-10-ft-standard.clar",
 };

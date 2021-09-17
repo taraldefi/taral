@@ -16,5 +16,5 @@ export const sip010TraitFtStandardInfo: Contract<Sip010TraitFtStandardContract> 
     contract: sip010TraitFtStandardContract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/sip-010-trait-ft-standard.clar",
+      "packages/clarity/contracts/external/arkadiko/sip-010-trait-ft-standard.clar",
   };

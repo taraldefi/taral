@@ -3,6 +3,7 @@ import { writeFile } from "fs/promises";
 import { normalize, resolve } from "path";
 import {
   contractWithSubDirectory,
+  contractWithSubDirectoryRelativeFilePath,
   createDefaultTestProvider,
   generateFilesForContract,
   getClarinetAccounts,
@@ -41,6 +42,10 @@ async function submitTestContractForAnalysis(
   for (let group of testGroups) {
     for (let contract of group.contracts) {
       await submitAnalisysForContract({
+        contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
+          contract,
+          group.subFolder
+        ),
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
@@ -61,6 +66,10 @@ async function generateTestContractAbis(
   for (let group of testGroups) {
     for (let contract of group.contracts) {
       await submitAnalisysForContract({
+        contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
+          contract,
+          group.subFolder
+        ),
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
         subFolder: group.subFolder,
@@ -82,6 +91,10 @@ async function generateAbis(
     for (let contract of group.contracts) {
       await generateFilesForContract({
         contractFile: contractWithSubDirectory(contract, group.subFolder),
+        contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
+          contract,
+          group.subFolder
+        ),
         outputFolder: outputFolder,
         contractAddress: deployerAddress,
         subFolder: group.subFolder,

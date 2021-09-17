@@ -15,5 +15,5 @@ export const arkadikoFreddieV11Info: Contract<ArkadikoFreddieV11Contract> = {
   contract: arkadikoFreddieV11Contract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
   contractFile:
-    "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-freddie-v1-1.clar",
+    "packages/clarity/contracts/external/arkadiko/arkadiko-freddie-v1-1.clar",
 };

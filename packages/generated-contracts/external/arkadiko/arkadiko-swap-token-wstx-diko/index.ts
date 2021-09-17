@@ -16,5 +16,5 @@ export const arkadikoSwapTokenWstxDikoInfo: Contract<ArkadikoSwapTokenWstxDikoCo
     contract: arkadikoSwapTokenWstxDikoContract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-swap-token-wstx-diko.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-swap-token-wstx-diko.clar",
   };

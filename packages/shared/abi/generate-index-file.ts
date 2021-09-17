@@ -1,20 +1,14 @@
-import {
-  contractWithSubDirectory,
-  getContractNameFromPath,
-  toCamelCase,
-} from "../utils";
+import { getContractNameFromPath, toCamelCase } from "../utils";
 
 function generateIndexFileInternal({
   contractFile,
   imports,
   address,
-  contractWithSubDirectory,
 }: {
   contractFile: string;
   subFolder: string;
   imports: string;
   address: string;
-  contractWithSubDirectory: string;
 }) {
   const contractName = getContractNameFromPath(contractFile);
 
@@ -34,7 +28,7 @@ function generateIndexFileInternal({
   export const ${varName}Info: Contract<${contractType}> = {
     contract: ${varName}Contract,
     address: '${address}',
-    contractFile: '${contractWithSubDirectory}',
+    contractFile: '${contractFile}',
   };`;
 
   return fileContents;
@@ -52,10 +46,6 @@ export function generateIndexFile({
   const contractName = getContractNameFromPath(contractFile);
   const contractTitle = toCamelCase(contractName, true);
   const contractType = `${contractTitle}Contract`;
-  const contractFileWithSubDirectory = contractWithSubDirectory(
-    contractName,
-    subFolder
-  );
 
   const imports = `
   import { Contract, proxy, BaseProvider } from 'taral-shared';
@@ -67,7 +57,6 @@ export function generateIndexFile({
     subFolder,
     imports,
     address,
-    contractWithSubDirectory: contractFileWithSubDirectory,
   });
 }
 
@@ -94,6 +83,5 @@ export function generateMockIndexFile({
     subFolder,
     imports,
     address,
-    contractWithSubDirectory: contractWithSubDirectory(contractName, subFolder),
   });
 }

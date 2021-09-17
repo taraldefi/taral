@@ -11,5 +11,5 @@ export const lockupContract = (provider: BaseProvider) => {
 export const lockupInfo: Contract<LockupContract> = {
   contract: lockupContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "C:\biz\taral/packages/clarity/contracts/boot/lockup.clar",
+  contractFile: "packages/clarity/contracts/boot/lockup.clar",
 };

@@ -16,5 +16,5 @@ export const arkadikoStakeRegistryV11Info: Contract<ArkadikoStakeRegistryV11Cont
     contract: arkadikoStakeRegistryV11Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-stake-registry-v1-1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-stake-registry-v1-1.clar",
   };

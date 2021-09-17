@@ -11,5 +11,5 @@ export const nftTraitContract = (provider: BaseProvider) => {
 export const nftTraitInfo: Contract<NftTraitContract> = {
   contract: nftTraitContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "C:\biz\taral/packages/clarity/contracts/taral/nft-trait.clar",
+  contractFile: "packages/clarity/contracts/taral/nft-trait.clar",
 };

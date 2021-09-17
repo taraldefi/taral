@@ -11,6 +11,5 @@ export const btcNftSwapContract = (provider: BaseProvider) => {
 export const btcNftSwapInfo: Contract<BtcNftSwapContract> = {
   contract: btcNftSwapContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/taral/btc-nft-swap.clar",
+  contractFile: "packages/clarity/contracts/taral/btc-nft-swap.clar",
 };

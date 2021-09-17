@@ -15,5 +15,5 @@ export const arkadikoTokenInfo: Contract<ArkadikoTokenContract> = {
   contract: arkadikoTokenContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
   contractFile:
-    "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-token.clar",
+    "packages/clarity/contracts/external/arkadiko/arkadiko-token.clar",
 };

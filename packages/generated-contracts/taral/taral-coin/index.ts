@@ -11,5 +11,5 @@ export const taralCoinContract = (provider: BaseProvider) => {
 export const taralCoinInfo: Contract<TaralCoinContract> = {
   contract: taralCoinContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "C:\biz\taral/packages/clarity/contracts/taral/taral-coin.clar",
+  contractFile: "packages/clarity/contracts/taral/taral-coin.clar",
 };

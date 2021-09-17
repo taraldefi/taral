@@ -16,5 +16,5 @@ export const arkadikoVaultManagerTraitV1Info: Contract<ArkadikoVaultManagerTrait
     contract: arkadikoVaultManagerTraitV1Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-vault-manager-trait-v1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-vault-manager-trait-v1.clar",
   };

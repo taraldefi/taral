@@ -16,5 +16,5 @@ export const arkadikoDaoTokenTraitV1Info: Contract<ArkadikoDaoTokenTraitV1Contra
     contract: arkadikoDaoTokenTraitV1Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-dao-token-trait-v1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-dao-token-trait-v1.clar",
   };

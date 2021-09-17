@@ -11,6 +11,5 @@ export const btcFtSwapContract = (provider: BaseProvider) => {
 export const btcFtSwapInfo: Contract<BtcFtSwapContract> = {
   contract: btcFtSwapContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile:
-    "C:\biz\taral/packages/clarity/contracts/taral/btc-ft-swap.clar",
+  contractFile: "packages/clarity/contracts/taral/btc-ft-swap.clar",
 };

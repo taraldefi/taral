@@ -16,5 +16,5 @@ export const arkadikoDikoGuardianV11Info: Contract<ArkadikoDikoGuardianV11Contra
     contract: arkadikoDikoGuardianV11Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-diko-guardian-v1-1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-diko-guardian-v1-1.clar",
   };

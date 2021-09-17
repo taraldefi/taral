@@ -16,5 +16,5 @@ export const arkadikoOracleTraitV1Info: Contract<ArkadikoOracleTraitV1Contract> 
     contract: arkadikoOracleTraitV1Contract,
     address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
     contractFile:
-      "C:\biz\taral/packages/clarity/contracts/external/arkadiko/arkadiko-oracle-trait-v1.clar",
+      "packages/clarity/contracts/external/arkadiko/arkadiko-oracle-trait-v1.clar",
   };

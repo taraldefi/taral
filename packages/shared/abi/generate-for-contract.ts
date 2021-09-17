@@ -1,5 +1,5 @@
 import { mkdir, writeFile } from "fs/promises";
-import { normalize, relative, resolve } from "path";
+import { normalize, resolve } from "path";
 import {
   generateIndexFile,
   generateInterface,
@@ -18,6 +18,7 @@ import { getContractNameFromPath } from "../utils";
 
 export async function submitAnalisysForContract({
   contractFile: _contractFile,
+  contractRelativeFilePath,
   outputFolder,
   subFolder,
   provider,
@@ -26,6 +27,7 @@ export async function submitAnalisysForContract({
 }: {
   contractFile: string;
   outputFolder: string;
+  contractRelativeFilePath: string;
   subFolder: string;
   provider: NativeClarityBinProvider;
   generate: boolean;
@@ -49,10 +51,7 @@ export async function submitAnalisysForContract({
     }
 
     const indexFile = generateMockIndexFile({
-      contractFile: relative(process.cwd(), tmpContractFilePath).replace(
-        /\\/g,
-        "/"
-      ),
+      contractFile: contractRelativeFilePath,
       address: contractAddress || "",
       subFolder: subFolder,
     });
@@ -79,12 +78,14 @@ export async function submitAnalisysForContract({
 
 export async function generateFilesForContract({
   contractFile: _contractFile,
+  contractRelativeFilePath,
   outputFolder,
   subFolder,
   provider,
   contractAddress,
 }: {
   contractFile: string;
+  contractRelativeFilePath: string;
   outputFolder: string;
   subFolder: string;
   provider: NativeClarityBinProvider;
@@ -110,7 +111,7 @@ export async function generateFilesForContract({
   }
 
   const indexFile = generateIndexFile({
-    contractFile: relative(process.cwd(), contractFile).replace(/\\/g, "/"),
+    contractFile: contractRelativeFilePath,
     address: contractAddress || "",
     subFolder: subFolder,
   });

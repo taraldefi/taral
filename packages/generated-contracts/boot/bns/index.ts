@@ -11,5 +11,5 @@ export const bnsContract = (provider: BaseProvider) => {
 export const bnsInfo: Contract<BnsContract> = {
   contract: bnsContract,
   address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
-  contractFile: "C:\biz\taral/packages/clarity/contracts/boot/bns.clar",
+  contractFile: "packages/clarity/contracts/boot/bns.clar",
 };
