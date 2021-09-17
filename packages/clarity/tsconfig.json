@@ -35,6 +35,5 @@
   "jsx": "react",
   "sourceMap": true,
   "strict": true,
-
-  "include": ["./**/*.ts"]
+  "include": ["index.ts"]
 }

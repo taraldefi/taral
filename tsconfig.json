@@ -37,5 +37,11 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": ["./packages/**/*.ts"]
+  "include": [
+    "./packages/configuration/**/*.ts", 
+    "./packages/generated-contracts/**/*.ts",
+    "./packages/scripts/**/*.ts",
+    "./packages/shared/**/*.ts",
+    "./packages/tests/**/*.ts",
+  ]
 }
