@@ -3,20 +3,27 @@
   "version": "1.0.0",
   "description": "Taral local development environment for clarity contracts",
   "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
+  "private": "true",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
-    "clarinet-tests": "cd clarity && clarinet test ./tests/",
-    "unit-tests": "jest --projects ./clarity/jest-tests/unit-tests --runInBand",
-    "util-unit-tests": "jest --projects ./clarity/jest-tests/utils-tests --runInBand",
-    "integration-tests": "jest --projects ./clarity/jest-tests/integration-tests --runInBand",
-    "generate": "ts-node scripts/generate.ts",
-    "deploy": "ts-node scripts/deploy.ts",
-    "eol": "npx eolConverter \"clarity/contracts/**/*.clar\"",
+    "clarinet-tests": "yarn workspace taral-clarity clarinet-tests",
+    "unit-tests": "yarn workspace taral-tests unit-tests",
+    "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
+    "integration-tests": "Yarn workspace taral-tests integration-tests",
+    "eol": "yarn workspace taral-clarity eol",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
-    "cleanup": "ts-node scripts/cleanup.ts",
-    "testbed": "ts-node scripts/testbed.ts",
+    "deploy": "yarn workspace taral-scripts deploy",
+    "testbed": "yarn workspace taral-scripts testbed",
+    "generate": "yarn workspace taral-scripts generate",
+    "cleanup": "yarn workspace taral-scripts cleanup",
     "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/line.png",
     "deps": "npx depcheck",
-    "install-native-cli": "ts-node scripts/install-native-cli.ts"
+    "install-native-cli": "yarn workspace taral-tests install-native-cli"
   },
   "repository": {
     "type": "git",
@@ -89,7 +96,7 @@
     "@stacks/stacking": "^2.0.0-beta.0",
     "@stacks/stacks-blockchain-api-types": "^0.64.2",
     "@stacks/storage": "^2.0.0-beta.0",
-    "@stacks/transactions": "^2.0.0-beta.0",
+    "@stacks/transactions": "2.0.0-beta.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
