@@ -197,7 +197,7 @@ export class NodeProvider implements BaseProvider {
           stacksTransaction: tx,
           getResult: () => {
             if (success) {
-              const resultCV = deserializeCV(successfulFunctionCallResult);
+              const resultCV = deserializeCV(Buffer.from(successfulFunctionCallResult));
 
               const result = cvToValue(resultCV);
 

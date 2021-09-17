@@ -150,7 +150,7 @@ export class ApiProvider implements BaseProvider {
           const sct: SmartContractTransaction =
             successfulFunctionCallResult as any as SmartContractTransaction;
 
-          const resultCV = deserializeCV(sct.tx_result.hex);
+          const resultCV = deserializeCV(Buffer.from(sct.tx_result.hex));
 
           const result = cvToValue(resultCV);
 

@@ -97,7 +97,7 @@
     "@stacks/stacking": "^2.0.0-beta.0",
     "@stacks/stacks-blockchain-api-types": "^0.64.2",
     "@stacks/storage": "^2.0.0-beta.0",
-    "@stacks/transactions": "^2.0.0-beta.0",
+    "@stacks/transactions": "2.0.0-beta.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
