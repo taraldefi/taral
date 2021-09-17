@@ -2,7 +2,7 @@ import {
   btcAddressToStacksAddress,
   stacksAddressToBtcAddress,
   validateStacksAddress,
-} from "../../lib";
+} from "taral-shared";
 import { deployer } from "./jest-setup";
 
 test("Address should be valid", async () => {
