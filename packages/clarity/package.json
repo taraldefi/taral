@@ -8,7 +8,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "eol": "npx eolConverter \"contracts/**/*.clar\""
+    "eol": "npx eolConverter \"contracts/**/*.clar\"",
+    "clarinet-tests": "clarinet test ./tests/"
   },
   "devDependencies": {
     "@appnest/readme": "^1.2.7",

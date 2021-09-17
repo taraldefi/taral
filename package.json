@@ -11,11 +11,13 @@
     "packages/*"
   ],
   "scripts": {
+    "clarinet-tests": "yarn workspace taral-clarity clarinet-tests",
     "unit-tests": "yarn workspace taral-tests unit-tests",
     "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
     "integration-tests": "Yarn workspace taral-tests integration-tests",
     "eol": "yarn workspace taral-clarity eol",
     "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
+    "deploy": "yarn workspace taral-scripts deploy",
     "testbed": "yarn workspace taral-scripts testbed",
     "generate": "yarn workspace taral-scripts generate",
     "cleanup": "yarn workspace taral-scripts cleanup",
