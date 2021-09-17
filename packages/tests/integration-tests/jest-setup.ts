@@ -15,6 +15,7 @@ import {
   Contract,
   ContractInstances,
   getClarinetAccounts,
+  getRootDirectory,
   Logger,
 } from "taral-shared";
 
@@ -39,8 +40,9 @@ export let deployed: ContractInstances<
 
 beforeAll(async () => {
   jest.setTimeout(3000000);
-  const cwd = `${process.cwd()}/clarity/`;
-  clarinetAccounts = await getClarinetAccounts(cwd);
+  const root = `${getRootDirectory()}/packages/clarity`;
+  clarinetAccounts = await getClarinetAccounts(root);
+  
   var deployer = clarinetAccounts.deployer;
 
   // Comment out for now the core and arkadiko contracts untill we'll need them
