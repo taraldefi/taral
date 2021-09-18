@@ -11,6 +11,8 @@ import {
   Logger,
 } from "taral-shared";
 
+import { normalize, resolve } from "path";
+
 Logger.debug("Deploying contracts");
 deployMany(taralContracts);
 
@@ -36,10 +38,12 @@ async function deployContract<T extends Contracts<M>, M>(
   senderKey: string
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
-  const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
-  Logger.debug(`Reading from ${fullContractFilePath}`);
+  var normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");  
+  const fullContractFilePath = resolve(normalizedPath, contract.contractFile).replace(    /\\/g,    "/"  );
+
+  Logger.debug(`Reading contract from ${fullContractFilePath}`);
   
-  let codeBody = fs.readFileSync(`./${fullContractFilePath}`).toString();
+  let codeBody = fs.readFileSync(fullContractFilePath).toString();
 
   var transaction = await makeContractDeploy({
     contractName,
