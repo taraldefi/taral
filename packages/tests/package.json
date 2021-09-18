@@ -10,7 +10,6 @@
   "scripts": {
     "unit-tests": "jest --projects ./unit-tests --runInBand",
     "util-unit-tests": "jest --projects ./utils-tests --runInBand",
-    "install-native-cli": "ts-node install-native-cli.ts",
     "integration-tests": "jest --projects ./integration-tests --runInBand"
   },
   "devDependencies": {

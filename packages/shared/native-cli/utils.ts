@@ -1,6 +1,8 @@
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+import { normalize } from "path";
+import { getRootDirectory } from "..";
 import { CONTRACT_FILE_EXT, CORE_SDK_TAG } from "./constants";
 
 export function fileExists(filePath: string): boolean {
@@ -83,7 +85,7 @@ export function getDefaultBinaryFilePath({
   if (!versionTag) {
     versionTag = CORE_SDK_TAG;
   }
-  const thisPkgDir = path.resolve(getThisPackageDir());
+  const thisPkgDir = path.resolve(getThisWorkspaceDir());
   const binFileName = getExecutableFileName("clarity-cli");
   const binFilePath = path.join(
     thisPkgDir,
@@ -119,7 +121,7 @@ export function getExecutableFileName(file: string) {
  * Resolve the directory of the currently executing package
  * @see https://stackoverflow.com/a/49455609/794962
  */
-export function getThisPackageDir(): string {
-  const packagePath = path.dirname(`${process.cwd()}/package.json`);
+export function getThisWorkspaceDir(): string {
+  const packagePath = path.dirname(`${normalize(getRootDirectory()).replace(/\\/g, "/")}/package.json`);
   return packagePath;
 }
