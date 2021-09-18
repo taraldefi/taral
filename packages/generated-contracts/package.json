@@ -1,0 +1,17 @@
+{
+  "name": "taral-generated-contracts",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "taral-configuration": "1.0.0",
+    "taral-shared": "1.0.0"
+  }
+}

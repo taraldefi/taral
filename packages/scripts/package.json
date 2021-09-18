@@ -1,0 +1,27 @@
+{
+  "name": "taral-scripts",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "generate": "ts-node generate.ts",
+    "deploy": "ts-node deploy.ts",
+    "testbed": "ts-node testbed.ts",
+    "cleanup": "ts-node cleanup.ts",
+    "install-native-cli": "ts-node install-native-cli.ts"
+  },
+  "devDependencies": {
+    "ts-node": "^10.2.1",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "taral-configuration": "1.0.0",
+    "taral-generated-contracts": "1.0.0",
+    "taral-shared": "1.0.0",
+    "bitcoinjs-lib": "^5.2.0"
+  }
+}

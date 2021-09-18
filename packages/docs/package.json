@@ -1,0 +1,59 @@
+{
+  "name": "taral-docs",
+  "version": "1.0.0",
+  "description": "Taral local development environment for clarity contracts",
+  "main": "index.js",
+  "engines": {
+    "node": ">=14"
+  },
+  "private": "true",
+  "scripts": {
+    "doc": "npx @appnest/readme generate --line=https://raw.githubusercontent.com/taraldefi/taral/main/packages/docs/assets/line.png --output=../../README.md"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/taraldefi/taral.git"
+  },
+  "keywords": [
+    "stacks",
+    "blockchain",
+    "clarity",
+    "integration",
+    "tests",
+    "environment"
+  ],
+  "contributors": [
+    {
+      "name": "Doru Cioclea Octavian",
+      "url": "https://github.com/dorucioclea",
+      "img": "https://avatars.githubusercontent.com/u/39082034?s=460&v=4",
+      "info": [
+        "🔥"
+      ]
+    },
+    {
+      "name": "Vincent L",
+      "url": "https://github.com/vl5613",
+      "img": "https://avatars.githubusercontent.com/u/26676242?s=460&v=4",
+      "info": [
+        "🔥"
+      ]
+    },
+    {
+      "name": "You?",
+      "img": "https://joeschmoe.io/api/v1/random",
+      "url": "https://github.com/taraldefi/taral/blob/main/CONTRIBUTING.md"
+    }
+  ],
+  "author": "DoruC",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/taraldefi/taral/issues"
+  },
+  "homepage": "https://github.com/taraldefi/taral#readme",
+  "devDependencies": {
+    "@appnest/readme": "^1.2.7",
+    "typescript": "^3.5.2",
+    "prettier": "^2.3.2"
+  }
+}

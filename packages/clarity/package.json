@@ -1,0 +1,21 @@
+{
+  "name": "taral-clarity",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "eol": "npx eolConverter \"contracts/**/*.clar\"",
+    "clarinet:tests": "clarinet test",
+    "clarinet:check": "clarinet check"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "eol-converter-cli": "^1.0.8"
+  }
+}

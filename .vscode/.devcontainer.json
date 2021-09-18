@@ -1,0 +1,3 @@
+{
+  "extensions": ["denoland.vscode-deno", "hirosystems.clarity-lsp"]
+}

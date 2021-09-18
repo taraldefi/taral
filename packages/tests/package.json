@@ -1,0 +1,27 @@
+{
+  "name": "taral-tests",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "scripts": {
+    "unit-tests": "jest --projects ./unit-tests --runInBand",
+    "util-unit-tests": "jest --projects ./utils-tests --runInBand",
+    "integration-tests": "jest --projects ./integration-tests --runInBand"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.4",
+    "ts-node": "^10.2.1",
+    "@types/jest": "^26.0.15",
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "taral-configuration": "1.0.0",
+    "taral-generated-contracts": "1.0.0",
+    "taral-shared": "1.0.0"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "taral-configuration",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "typescript": "^3.5.2"
+  },
+  "dependencies": {
+    "@stacks/network": "^2.0.1",
+    "@stacks/transactions": "^2.0.0-beta.0"
+  }
+}

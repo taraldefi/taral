@@ -2,6 +2,6 @@ echo "Installing packages "
 
 echo "Using branch develop for the clarity-cli"
 
-export BLOCKSTACK_CORE_SOURCE_BRANCH=develop && yarn
+yarn && yarn install-native-cli
 
 echo "Done"
