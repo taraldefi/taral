@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "author": "DoruC",
   "license": "ISC",
-  "type": "module",
   "private": true,
   "engines": {
     "node": ">=14"
