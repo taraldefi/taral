@@ -1,4 +1,5 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 
 export async function parseTx({
@@ -22,7 +23,7 @@ export async function parseTx({
   }
 
   Logger.debug("getTxid result");
-  Logger.debug(JSON.stringify(result));
+  Logger.debug(toJSON(result));
   Logger.debug("---------------");
 
   return result;

@@ -1,6 +1,7 @@
 import { BlocksApi, Configuration } from "@stacks/blockchain-api-client";
 import fetch from "cross-fetch";
 import { NETWORK } from "taral-configuration";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 
 export async function getStxBlock(bitcoinBlockHeight: number) {
@@ -15,10 +16,10 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
 
   const lastBlock = firstResponse.results[0];
 
-  Logger.debug(`Last block: ${JSON.stringify(lastBlock)}`);
+  Logger.debug(`Last block: ${toJSON(lastBlock)}`);
 
   let stxBlock = firstResponse.results.find(
-    (b) => b.burn_block_height === bitcoinBlockHeight
+    (b: any) => b.burn_block_height === bitcoinBlockHeight
   );
 
   offset += Math.max(
@@ -30,13 +31,13 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
     const blockListResponse = await blocksApi.getBlockList({ offset, limit });
     const blocks = blockListResponse.results;
 
-    stxBlock = blocks.find((b) => b.burn_block_height === bitcoinBlockHeight);
+    stxBlock = blocks.find((b: any) => b.burn_block_height === bitcoinBlockHeight);
 
     offset -= limit;
 
     const info = { offset };
 
-    Logger.debug(`getStxBlock result: ${JSON.stringify(info)}`);
+    Logger.debug(`getStxBlock result: ${toJSON(info)}`);
 
     if (
       offset < 0 ||
@@ -47,7 +48,7 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
   }
 
   Logger.debug("getStxBlock result");
-  Logger.debug(JSON.stringify(stxBlock));
+  Logger.debug(toJSON(stxBlock));
   Logger.debug("---------------");
 
   return stxBlock;

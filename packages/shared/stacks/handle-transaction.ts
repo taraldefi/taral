@@ -5,6 +5,7 @@ import {
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import { StacksNetworkConfiguration } from "taral-configuration";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { getTransactionById, timeout } from "./utils";
 
@@ -13,7 +14,7 @@ export async function handleTransaction(
   network: StacksNetworkConfiguration
 ): Promise<TxBroadcastResultOk> {
   const result = await broadcastTransaction(transaction, network);
-  Logger.debug(`Broadcast transaction result: ${JSON.stringify(result)}`);
+  Logger.debug(`Broadcast transaction result: ${toJSON(result)}`);
 
   if ((result as TxBroadcastResultRejected).error) {
     if (
@@ -23,7 +24,7 @@ export async function handleTransaction(
       return "" as TxBroadcastResultOk;
     } else {
       throw new Error(
-        `failed to handle transaction ${transaction.txid()}: ${JSON.stringify(
+        `failed to handle transaction ${transaction.txid()}: ${toJSON(
           result
         )}`
       );
@@ -38,7 +39,7 @@ export async function handleTransaction(
     );
   }
 
-  Logger.debug(`Processed: ${processed}, Result: ${JSON.stringify(result)}`);
+  Logger.debug(`Processed: ${processed}, Result: ${toJSON(result)}`);
   return result as TxBroadcastResultOk;
 }
 
@@ -61,18 +62,18 @@ async function processingWithSidecar(
 
   if (value.tx_status === "success") {
     Logger.debug(`transaction ${tx} processed`);
-    Logger.debug(JSON.stringify(value));
+    Logger.debug(toJSON(value));
     return true;
   }
   if (value.tx_status === "pending") {
-    Logger.debug(JSON.stringify(value));
+    Logger.debug(toJSON(value));
   } else if (count === 3) {
-    Logger.debug(JSON.stringify(value));
+    Logger.debug(toJSON(value));
   }
 
   if (count > 20) {
     Logger.debug("failed after 20 tries");
-    Logger.debug(JSON.stringify(value));
+    Logger.debug(toJSON(value));
     return false;
   }
 

@@ -33,7 +33,7 @@ import {
   Contracts,
   FromApiContractOptions,
 } from "../types";
-import { getContractIdentifier, getContractNameFromPath } from "../utils";
+import { getContractIdentifier, getContractNameFromPath, toJSON } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
 import { DeployerAccount } from "./types";
 
@@ -98,8 +98,8 @@ export class ApiProvider implements BaseProvider {
       Logger.error("----------------");
       Logger.error(`Error calling readonly function ${request.function.name}`);
       Logger.error("Arguments:");
-      Logger.error(JSON.stringify(options));
-      Logger.error(JSON.stringify(error));
+      Logger.error(toJSON(options));
+      Logger.error(toJSON(error));
       Logger.error("----------------");
 
       return err(undefined);
@@ -115,7 +115,7 @@ export class ApiProvider implements BaseProvider {
     Logger.debug(
       `Calling public method ${request.function.name} on contract ${this.contractName}`
     );
-    Logger.debug(JSON.stringify(request));
+    Logger.debug(toJSON(request));
 
     const submit: Submitter<any, any> = async () => {
       // if (!("x" in options)) {
@@ -275,12 +275,12 @@ export class ApiProvider implements BaseProvider {
     };
 
     Logger.debug(`Contract function call on ${contractName}::${functionName}`);
-    Logger.debug(JSON.stringify(txOptions));
+    Logger.debug(toJSON(txOptions));
 
     const transaction = await makeContractCall(txOptions);
 
     Logger.debug(`Issued transaction on ${contractName}::${functionName}`);
-    Logger.debug(JSON.stringify(transaction));
+    Logger.debug(toJSON(transaction));
 
     return handleFunctionTransaction(
       transaction,

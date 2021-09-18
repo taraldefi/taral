@@ -3,6 +3,7 @@ import MerkleTree from "merkletreejs";
 import { NETWORK } from "taral-configuration";
 import { ClarityBitcoinContract } from "taral-generated-contracts";
 import { getBlockByHash, getBlockHeader } from "taral-shared";
+import { toJSON } from "..";
 import { getRpcClient } from "../bitcoin/client";
 import { getRawTransaction } from "../bitcoin/transaction";
 import { Logger } from "../logger";
@@ -145,7 +146,7 @@ export async function paramsFromTx({
   };
 
   Logger.debug(`params-from-tx :: assembled transaction parts`);
-  Logger.debug(JSON.stringify(txPartsCv));
+  Logger.debug(toJSON(txPartsCv));
 
   const txHexResponse = await concatTransaction({
     contract: contract,
@@ -156,10 +157,10 @@ export async function paramsFromTx({
     Logger.debug(
       "Got the transaction hex back from calling concat-tx function"
     );
-    Logger.debug(JSON.stringify(txHexResponse));
+    Logger.debug(toJSON(txHexResponse));
 
     Logger.error(
-      `Failed to match tx hex: ${JSON.stringify(txHexResponse)} against ${
+      `Failed to match tx hex: ${toJSON(txHexResponse)} against ${
         rawTransaction.hex
       }`
     );
@@ -175,7 +176,7 @@ export async function paramsFromTx({
   Logger.debug(
     `-------------------------- Block info --------------------------`
   );
-  Logger.debug(JSON.stringify(block));
+  Logger.debug(toJSON(block));
   Logger.debug(
     `--------------------------              --------------------------`
   );
@@ -188,7 +189,7 @@ export async function paramsFromTx({
   Logger.debug(
     `-------------------------- Block header --------------------------`
   );
-  Logger.debug(JSON.stringify(blockHeader));
+  Logger.debug(toJSON(blockHeader));
   Logger.debug(
     `--------------------------              --------------------------`
   );

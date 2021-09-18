@@ -1,6 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import Bluebird from "bluebird";
 import { RPCClient } from "rpc-bitcoin";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { MIN_TX_CONFIRMATIONS } from "./constants";
 import { time } from "./helpers";
@@ -38,7 +39,7 @@ export async function getRawTransaction(
   });
 
   Logger.debug("rawtransaction result");
-  Logger.debug(JSON.stringify(rawTransaction));
+  Logger.debug(toJSON(rawTransaction));
   Logger.debug("---------------");
 
   return rawTransaction;
@@ -66,7 +67,7 @@ export async function decodeRawTransaction(
   });
 
   Logger.debug("decoderawtransaction result");
-  Logger.debug(JSON.stringify(decodedResult));
+  Logger.debug(toJSON(decodedResult));
   Logger.debug("---------------");
 
   return decodedResult;

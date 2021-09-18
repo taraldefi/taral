@@ -1,7 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
 import { BtcFtSwapContract } from "taral-generated-contracts";
-import { Logger, txOk } from "..";
+import { Logger, toJSON, txOk } from "..";
 import { makeBuffer } from "./utils";
 
 function btcToSats(btcAmount: number): number {
@@ -44,7 +44,7 @@ export async function createBtcFtSwap({
   );
 
   Logger.debug("createBtcFtSwap result");
-  Logger.debug(JSON.stringify(response));
+  Logger.debug(toJSON(response));
   Logger.debug("---------------");
 
   return response.value;

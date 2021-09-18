@@ -1,6 +1,6 @@
 import { RPCClient } from "rpc-bitcoin";
 import { Block } from ".";
-import { Logger } from "..";
+import { Logger, toJSON } from "..";
 
 export async function getBlockByHash(
   rpcClient: RPCClient,
@@ -13,7 +13,7 @@ export async function getBlockByHash(
   });
 
   Logger.debug("getblock result");
-  Logger.debug(JSON.stringify(blockByHash));
+  Logger.debug(toJSON(blockByHash));
   Logger.debug("---------------");
 
   return blockByHash;
@@ -30,7 +30,7 @@ export async function getBlockHeader(
   });
 
   Logger.debug("getblockheader result");
-  Logger.debug(JSON.stringify(blockHeader));
+  Logger.debug(toJSON(blockHeader));
   Logger.debug("---------------");
 
   return blockHeader as string;

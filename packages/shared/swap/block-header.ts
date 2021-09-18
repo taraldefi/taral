@@ -1,4 +1,5 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { BlockCvType, HeaderPartsType } from "./types";
 import { makeBuffer } from "./utils";
@@ -19,7 +20,7 @@ export async function parseBlockHeader({
   let result = response as any as HeaderPartsType;
 
   Logger.debug(`parseBlockHeader result ${response}`);
-  Logger.debug(JSON.stringify(result));
+  Logger.debug(toJSON(result));
 
   return result;
 }
@@ -55,7 +56,7 @@ export async function verifyBlockHeader({
   let result = response;
 
   Logger.debug("verifyBlockHeader result");
-  Logger.debug(JSON.stringify(response));
+  Logger.debug(toJSON(response));
   Logger.debug("---------------");
 
   return result;

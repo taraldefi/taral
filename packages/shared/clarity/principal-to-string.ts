@@ -3,6 +3,7 @@ import {
   ClarityType,
   PrincipalCV,
 } from "@stacks/transactions";
+import { toJSON } from "..";
 
 export function principalToString(principal: PrincipalCV): string {
   if (principal.type === ClarityType.PrincipalStandard) {
@@ -11,6 +12,6 @@ export function principalToString(principal: PrincipalCV): string {
     const address = addressToString(principal.address);
     return `${address}.${principal.contractName.content}`;
   } else {
-    throw new Error(`Unexpected principal data: ${JSON.stringify(principal)}`);
+    throw new Error(`Unexpected principal data: ${toJSON(principal)}`);
   }
 }

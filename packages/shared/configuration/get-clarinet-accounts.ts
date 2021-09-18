@@ -1,5 +1,6 @@
 import { generateWallet, getStxAddress } from "@stacks/wallet-sdk";
 import { getClarinetTestnetConfig } from ".";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { ClarinetAccounts } from "./types";
 
@@ -20,7 +21,7 @@ export async function getClarinetAccounts(
 
       const privateKey = wallet.accounts[0].stxPrivateKey;
 
-      Logger.debug(`generated wallet: ${JSON.stringify(wallet)}`);
+      Logger.debug(`generated wallet: ${toJSON(wallet)}`);
 
       const [account] = wallet.accounts;
       const address = getStxAddress({ account });

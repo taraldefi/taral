@@ -1,4 +1,5 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { TxPartsCvType } from "./types";
 
@@ -20,7 +21,7 @@ export async function concatTransaction({
   }
 
   Logger.debug("concat-tx result");
-  Logger.debug(JSON.stringify(response));
+  Logger.debug(toJSON(response));
   Logger.debug("---------------");
 
   return result;

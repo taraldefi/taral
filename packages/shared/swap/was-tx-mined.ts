@@ -1,4 +1,5 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { toJSON } from "..";
 import { Logger } from "../logger";
 import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
@@ -46,7 +47,7 @@ export async function wasTxMinedFromHex({
   let result = response._unsafeUnwrap();
 
   Logger.debug("wasTxMinedFromHex result");
-  Logger.debug(JSON.stringify(result));
+  Logger.debug(toJSON(result));
   Logger.debug("---------------");
 
   return result;
