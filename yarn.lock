@@ -664,10 +664,10 @@
     "@stacks/common" "^1.2.2"
     "@stacks/encryption" "^1.2.3"
 
-"@stacks/transactions@2.0.0-beta.0":
-  version "2.0.0-beta.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.0-beta.0.tgz#7d3d4da699564683e1f2e18626143c615a465686"
-  integrity sha512-k/4EZDOIVlJ3VsIKGdXSEmcCRiRiajxm8v3vPI79vKEYKWpc9roBoh/7j+ntReUBnu2UCcAQQmTwkjRjtfKR3w==
+"@stacks/transactions@2.0.0-beta.1":
+  version "2.0.0-beta.1"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.0-beta.1.tgz#dcfff56b39f25b3ae67be801dca3cd416337b3db"
+  integrity sha512-Xy1Nt0jGCvRX+768O/3K6IV5wX5S5+jnSqoB/ZojjV46KTsvUIMYDuM8htyU7Yok+9NzlDOYoZBeZetppMJwyg==
   dependencies:
     "@stacks/common" "^2.0.0-beta.0"
     "@stacks/network" "^1.2.2"

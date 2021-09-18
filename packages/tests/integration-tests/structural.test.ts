@@ -18,5 +18,5 @@ test("Decimals should be 6", async () => {
   const result = (
     await talToken(clarinetAccounts.deployer).getDecimals()
   )._unsafeUnwrap();
-  expect(result).toEqual(6);
+  expect(result).toEqual(6n);
 });
