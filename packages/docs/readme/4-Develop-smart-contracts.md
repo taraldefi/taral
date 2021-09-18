@@ -1,6 +1,6 @@
 ## Development of smart contracts
 
-The `contracts` folder contains some example smart contracts already included. 
+The `contracts` folder contains the smart contracts powering taral (development in progress). 
 
 When developing/updating a new smart contract you need to generate: 
 

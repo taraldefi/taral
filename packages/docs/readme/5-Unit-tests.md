@@ -1,3 +1,3 @@
 ## Unit tests
 
-When writing unit tests you can use the examples included in `/test/counter.test.ts`
+Unit tests will run against an offline version of `clarity cli` without docker stacks blockchain on.
