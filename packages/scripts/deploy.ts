@@ -15,8 +15,8 @@ Logger.debug("Deploying contracts");
 deployMany(taralContracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
-  const cwd = `${process.cwd()}/clarity/`;
-  const clarinetAccounts = await getClarinetAccounts(cwd);
+  const root = `${getRootDirectory()}/packages/clarity`;
+  const clarinetAccounts = await getClarinetAccounts(root);
 
   const deployer = clarinetAccounts.deployer;
 
@@ -37,6 +37,8 @@ async function deployContract<T extends Contracts<M>, M>(
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
   const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
+  Logger.debug(`Reading from ${fullContractFilePath}`);
+  
   let codeBody = fs.readFileSync(`./${fullContractFilePath}`).toString();
 
   var transaction = await makeContractDeploy({
