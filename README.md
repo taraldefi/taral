@@ -58,10 +58,10 @@ This wouldn't be possible without the wonderful work of:
     Powering just about everything.
 
 * [Clarigen](https://github.com/obylabs/clarigen/)
-    Most api provider and contract generation code in the `/clarity/lib` is borrowed with gratitude from Clarigen and modified to fit our usecase. 
+    Most api provider and contract generation code in the `/packages/shared` is borrowed with gratitude from Clarigen and modified to fit our usecase. 
 
 * [Clarity-JS-SDK] (https://github.com/blockstack/clarity-js-sdk/)
-    The native cli provider code in `/clarity/lib/native-cli` is borrowed with gratitude from `@blockstack/clarity-js-sdk` and `Clarigen` with few modifications.
+    The native cli provider code in `/packages/shared/native-cli` is borrowed with gratitude from `@blockstack/clarity-js-sdk` and `Clarigen` with few modifications.
 
 * [Clarinet] (https://github.com/hirosystems/clarinet/)
     Used for checking smart contracts, powering a private testnet and testing. Still using the private testnet in `/clarity/docker` but will rely more and more on `Clarinet`.
@@ -78,7 +78,7 @@ This wouldn't be possible without the wonderful work of:
 
 ## ➤ Local testnet
 
-The `clarity/docker` folder contains a `docker-compose` configuration to run a local testnet `Stacks blockchain` environment from scratch
+The `docker` folder contains a `docker-compose` configuration to run a local testnet `Stacks blockchain` environment from scratch
 
 This starts the following `private testnet` components: 
 
@@ -123,7 +123,7 @@ If you did import the bns data, you need to uncomment (if previously commented o
 
 ## ➤ Development of smart contracts
 
-The `contracts` folder contains some example smart contracts already included. 
+The `contracts` folder contains the smart contracts powering taral (development in progress). 
 
 When developing/updating a new smart contract you need to generate: 
 
@@ -142,14 +142,14 @@ yarn generate
 
 ## ➤ Unit tests
 
-When writing unit tests you can use the examples included in `/test/counter.test.ts`
+Unit tests will run against an offline version of `clarity cli` without docker stacks blockchain on.
 
 
 [![-----------------------------------------------------](https://raw.githubusercontent.com/taraldefi/taral/main/packages/docs/assets/line.png)](#integration-tests)
 
 ## ➤ Integration tests
 
-When writing integration tests you can use the example included in `/test/integration.test.ts`
+Integration tests run against the local testnet stack started with docker.
 
 The way we run it is: 
 
@@ -159,10 +159,10 @@ First, start the local testnet by doing
 $> cd docker && docker-compose up
 ```
 
-Wait until the local testnet is fully started and then execute the integration test
+Wait until the local testnet is fully started and then execute the integration tests
 
 ```
-$> yarn integration
+$> yarn integration-tests
 ```
 
 
