@@ -38,11 +38,14 @@ async function deployContract<T extends Contracts<M>, M>(
   senderKey: string
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
-  var normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");  
-  const fullContractFilePath = resolve(normalizedPath, contract.contractFile).replace(    /\\/g,    "/"  );
+  var normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");
+  const fullContractFilePath = resolve(
+    normalizedPath,
+    contract.contractFile
+  ).replace(/\\/g, "/");
 
   Logger.debug(`Reading contract from ${fullContractFilePath}`);
-  
+
   let codeBody = fs.readFileSync(fullContractFilePath).toString();
 
   var transaction = await makeContractDeploy({

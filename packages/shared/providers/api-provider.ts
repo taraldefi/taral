@@ -33,7 +33,11 @@ import {
   Contracts,
   FromApiContractOptions,
 } from "../types";
-import { getContractIdentifier, getContractNameFromPath, toJSON } from "../utils";
+import {
+  getContractIdentifier,
+  getContractNameFromPath,
+  toJSON,
+} from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
 import { DeployerAccount } from "./types";
 
@@ -214,8 +218,10 @@ export class ApiProvider implements BaseProvider {
       throw new Error("TestProvider must have an address");
     }
     const contractName = getContractNameFromPath(contract.contractFile);
-    const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
-    
+    const fullContractFilePath = `${getRootDirectory()}/${
+      contract.contractFile
+    }`;
+
     const provider = await this.create({
       deploy,
       contractFilePath: fullContractFilePath,

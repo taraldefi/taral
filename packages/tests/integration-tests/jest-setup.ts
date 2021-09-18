@@ -42,7 +42,7 @@ beforeAll(async () => {
   jest.setTimeout(3000000);
   const root = `${getRootDirectory()}/packages/clarity`;
   clarinetAccounts = await getClarinetAccounts(root);
-  
+
   var deployer = clarinetAccounts.deployer;
 
   // Comment out for now the core and arkadiko contracts untill we'll need them

@@ -24,9 +24,7 @@ export async function handleTransaction(
       return "" as TxBroadcastResultOk;
     } else {
       throw new Error(
-        `failed to handle transaction ${transaction.txid()}: ${toJSON(
-          result
-        )}`
+        `failed to handle transaction ${transaction.txid()}: ${toJSON(result)}`
       );
     }
   }

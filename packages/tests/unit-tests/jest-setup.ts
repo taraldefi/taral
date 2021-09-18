@@ -24,7 +24,7 @@ beforeAll(async () => {
 
   const root = `${getRootDirectory()}/packages/clarity`;
   clarinetAccounts = await getClarinetAccounts(root);
-  
+
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 
   testUtilsProvider = await TestUtilsProvider.ensureTestContracts(clarityBin);

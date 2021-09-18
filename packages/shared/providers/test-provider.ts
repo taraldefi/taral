@@ -79,7 +79,9 @@ export class TestProvider implements BaseProvider {
       throw new Error("TestProvider must have an address");
     }
     const contractName = getContractNameFromPath(contract.contractFile);
-    const fullContractFilePath = `${getRootDirectory()}/${contract.contractFile}`;
+    const fullContractFilePath = `${getRootDirectory()}/${
+      contract.contractFile
+    }`;
 
     const provider = await this.create({
       deploy,

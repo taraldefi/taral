@@ -122,6 +122,8 @@ export function getExecutableFileName(file: string) {
  * @see https://stackoverflow.com/a/49455609/794962
  */
 export function getThisWorkspaceDir(): string {
-  const packagePath = path.dirname(`${normalize(getRootDirectory()).replace(/\\/g, "/")}/package.json`);
+  const packagePath = path.dirname(
+    `${normalize(getRootDirectory()).replace(/\\/g, "/")}/package.json`
+  );
   return packagePath;
 }

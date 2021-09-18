@@ -1,6 +1,13 @@
 // deno-lint-ignore-file no-explicit-any
 // @ts-ignore
-import { Account, assertEquals, Chain, Clarinet, Tx, types } from "../dependencies.ts";
+import {
+  Account,
+  assertEquals,
+  Chain,
+  Clarinet,
+  Tx,
+  types,
+} from "../dependencies.ts";
 
 const parts = [
   "0x00200020",
