@@ -9,7 +9,7 @@
   },
   "scripts": {
     "eol": "npx eolConverter \"contracts/**/*.clar\"",
-    "clarinet:tests": "clarinet test ./tests/",
+    "clarinet:tests": "clarinet test",
     "clarinet:check": "clarinet check"
   },
   "devDependencies": {

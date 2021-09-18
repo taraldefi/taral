@@ -55,13 +55,13 @@ jobs:
       uses: docker://hirosystems/clarinet:latest
       with:
         entrypoint: "bash"
-        args: -c "yarn clarinet:check"
-        
+        args: -c "cd packages/clarity && clarinet check"
+
     - name: "Execute Clarinet test suite"
       uses: docker://hirosystems/clarinet:latest
       with:
         entrypoint: "bash"
-        args: -c "yarn clarinet:tests"
+        args: -c "cd packages/clarity && clarinet test"
 
     - name: Run unit tests
       run: yarn unit-tests
