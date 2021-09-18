@@ -31,7 +31,9 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
     const blockListResponse = await blocksApi.getBlockList({ offset, limit });
     const blocks = blockListResponse.results;
 
-    stxBlock = blocks.find((b: any) => b.burn_block_height === bitcoinBlockHeight);
+    stxBlock = blocks.find(
+      (b: any) => b.burn_block_height === bitcoinBlockHeight
+    );
 
     offset -= limit;
 

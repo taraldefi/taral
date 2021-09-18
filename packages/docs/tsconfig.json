@@ -36,7 +36,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": [
-    "index.ts",
-  ]
+  "include": ["index.ts"]
 }

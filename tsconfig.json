@@ -38,10 +38,10 @@
   "strict": true,
 
   "include": [
-    "./packages/configuration/**/*.ts", 
+    "./packages/configuration/**/*.ts",
     "./packages/generated-contracts/**/*.ts",
     "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
-    "./packages/tests/**/*.ts",
+    "./packages/tests/**/*.ts"
   ]
 }
