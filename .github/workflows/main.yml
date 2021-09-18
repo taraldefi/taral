@@ -51,7 +51,19 @@ jobs:
         steps.cache-yarn-cache.outputs.cache-hit != 'true' ||
         steps.cache-node-modules.outputs.cache-hit != 'true'
 
-    - name: Run tests
+    - name: "Check contracts"
+      uses: docker://hirosystems/clarinet:latest
+      with:
+        entrypoint: "bash"
+        args: -c "yarn clarinet:check"
+        
+    - name: "Execute Clarinet test suite"
+      uses: docker://hirosystems/clarinet:latest
+      with:
+        entrypoint: "bash"
+        args: -c "yarn clarinet:tests"
+
+    - name: Run unit tests
       run: yarn unit-tests
     
     - name: Format

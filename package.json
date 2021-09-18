@@ -11,7 +11,8 @@
     "packages/*"
   ],
   "scripts": {
-    "clarinet-tests": "yarn workspace taral-clarity clarinet-tests",
+    "clarinet:check": "yarn workspace taral-clarity clarinet:check",
+    "clarinet:tests": "yarn workspace taral-clarity clarinet:tests",
     "unit-tests": "yarn workspace taral-tests unit-tests",
     "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
     "integration-tests": "Yarn workspace taral-tests integration-tests",
