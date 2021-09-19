@@ -20,6 +20,8 @@ import {
 } from "./types";
 import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
 
+const NAME = "params-from-tx";
+
 const ERR_API_FAILURE: string = "api failure";
 const ERR_DIFFERENT_HEX: string = "different hex";
 const ERR_NO_STACKS_BLOCK: string = "no stacks block";
@@ -94,8 +96,6 @@ export async function paramsFromTx({
   stxHeight?: number;
   contract: ClarityBitcoinContract;
 }): Promise<ParamsFromTxResponse> {
-  Logger.debug("Calling paramsFromTx");
-
   const bitcoinRpcClient = getRpcClient();
 
   const rawTransaction = await getRawTransaction(bitcoinRpcClient, btcTxId);
@@ -112,8 +112,6 @@ export async function paramsFromTx({
   } else {
     version = rawTransaction.hex.substr(0, 8);
   }
-
-  Logger.debug(`params-from-tx :: version - ${version}`);
 
   const txPartsCv: TxPartsCvType = {
     version: makeBuffer(version),
@@ -145,9 +143,6 @@ export async function paramsFromTx({
     ),
   };
 
-  Logger.debug(`params-from-tx :: assembled transaction parts`);
-  Logger.debug(toJSON(txPartsCv));
-
   const txHexResponse = await concatTransaction({
     contract: contract,
     txPartsCV: txPartsCv,
@@ -155,11 +150,13 @@ export async function paramsFromTx({
 
   if (txHexResponse != rawTransaction.hex) {
     Logger.debug(
-      "Got the transaction hex back from calling concat-tx function"
+      NAME,
+      "Got the transaction hex back from calling concat-tx function",
+      txHexResponse
     );
-    Logger.debug(toJSON(txHexResponse));
 
     Logger.error(
+      NAME,
       `Failed to match tx hex: ${toJSON(txHexResponse)} against ${
         rawTransaction.hex
       }`
@@ -173,31 +170,14 @@ export async function paramsFromTx({
     rawTransaction.blockhash
   );
 
-  Logger.debug(
-    `-------------------------- Block info --------------------------`
-  );
-  Logger.debug(toJSON(block));
-  Logger.debug(
-    `--------------------------              --------------------------`
-  );
-
   const blockHeader = await getBlockHeader(
     bitcoinRpcClient,
     rawTransaction.blockhash
   );
 
-  Logger.debug(
-    `-------------------------- Block header --------------------------`
-  );
-  Logger.debug(toJSON(blockHeader));
-  Logger.debug(
-    `--------------------------              --------------------------`
-  );
-
   let height: bigint;
   let stacksBlock;
   if (!stxHeight) {
-    Logger.debug("Finding stx height value by calling the stx block");
     const bitcoinBlockHeight = block.height;
     stacksBlock = await getStxBlock(bitcoinBlockHeight);
     if (!stacksBlock) {

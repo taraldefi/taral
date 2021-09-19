@@ -1,6 +1,8 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
-import { getClarinetAccounts, getRootDirectory } from "taral-shared";
+import { getClarinetAccounts, getRootDirectory, Logger } from "taral-shared";
+
+const NAME = "Testbed";
 
 async function main() {
   const cwd = `${process.cwd()}`;
@@ -11,14 +13,14 @@ async function main() {
   const root = `${getRootDirectory()}/packages/clarity`;
   const contracts = await getClarinetAccounts(root);
 
-  console.log(JSON.stringify(contracts));
+  Logger.debug(NAME, "Contracts are:", contracts);
 
   const outputScript = address.toOutputScript(
     "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
     btc.networks.regtest
   );
 
-  console.log(outputScript.toString("hex"));
+  Logger.debug(NAME, "Output script is:", outputScript.toString("hex"));
 }
 
 main();

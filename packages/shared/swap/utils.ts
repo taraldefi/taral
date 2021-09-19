@@ -13,7 +13,7 @@ export function numberToBuffer(value: number, size: number): Buffer {
   } else if (size === 8) {
     buf.writeUInt32LE(value, 0);
   } else {
-    Logger.error(`NumberToBuffer - unsupported size ${size}`);
+    Logger.error("number-to-buffer", `Unsupported size ${size}`);
     // not supported
   }
   // remove the extra byte again

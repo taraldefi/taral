@@ -16,7 +16,6 @@ export async function verifyMerkleProof({
   proofCV: ProofCvType;
   contract: ClarityBitcoinContract;
 }): Promise<string> {
-  Logger.debug("Calling verifyMerkleProof");
   // Call readonly function
   //
 
@@ -29,7 +28,7 @@ export async function verifyMerkleProof({
 
   let result = response.toString();
 
-  Logger.debug(`verifyMerkleProof result: ${result}`);
+  Logger.debug("verify-merkle-proof", "Received result ", response);
 
   return result;
 }
@@ -45,7 +44,6 @@ export async function verifyMerkleProof2({
   proofCV: ProofCvType;
   contract: ClarityBitcoinContract;
 }): Promise<string> {
-  Logger.debug("Calling verifyMerkleProof2");
   // Call readonly function
   //
 
@@ -57,8 +55,6 @@ export async function verifyMerkleProof2({
   if (reversedTxId.startsWith("0x")) {
     reversedTxId = reversedTxId.substring(2);
   }
-
-  Logger.debug(`VerifyMerkleProof2: REVERSED TX ID ${reversedTxId}`);
 
   const reversedTxIdBuffer = makeBuffer(reversedTxId);
   const merkleRootBuffer = headerPartsCV["merkle-root"];
@@ -73,6 +69,6 @@ export async function verifyMerkleProof2({
 
   let result = response.toString();
 
-  Logger.debug(`verifyMerkleProof2 result ${result}`);
+  Logger.debug("verify-merkle-proof-2", "Received result ", response);
   return result;
 }

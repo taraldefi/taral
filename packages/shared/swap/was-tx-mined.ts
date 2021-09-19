@@ -1,5 +1,4 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
-import { toJSON } from "..";
 import { Logger } from "../logger";
 import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
@@ -14,15 +13,13 @@ export async function wasTxMined({
   proofCV: ProofCvType;
   contract: ClarityBitcoinContract;
 }): Promise<boolean> {
-  Logger.debug("Calling wasTxMined");
-
   // Call readonly function
   //
   let response = await contract.wasTxMined(blockPartsCV, txCV, proofCV);
 
   let result = response._unsafeUnwrap();
 
-  Logger.debug(`wasTxMined result ${result}`);
+  Logger.debug("was-tx-mined", "Received result ", result);
 
   return result;
 }
@@ -38,17 +35,13 @@ export async function wasTxMinedFromHex({
   proofCV: ProofCvType;
   contract: ClarityBitcoinContract;
 }): Promise<boolean> {
-  Logger.debug("Calling wasTxMinedFromHex");
-
   // Call readonly function
   //
   let response = await contract.wasTxMinedCompact(blockCV, txCV, proofCV);
 
   let result = response._unsafeUnwrap();
 
-  Logger.debug("wasTxMinedFromHex result");
-  Logger.debug(toJSON(result));
-  Logger.debug("---------------");
+  Logger.debug("was-tx-mined-from-hex", "Received result ", result);
 
   return result;
 }

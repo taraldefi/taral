@@ -4,9 +4,9 @@ import { NETWORK } from "taral-configuration";
 import { toJSON } from "..";
 import { Logger } from "../logger";
 
-export async function getStxBlock(bitcoinBlockHeight: number) {
-  Logger.debug("Calling getStxBlock");
+const NAME = "get-stx-block";
 
+export async function getStxBlock(bitcoinBlockHeight: number) {
   let limit = 30;
   let offset = 0;
 
@@ -16,7 +16,7 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
 
   const lastBlock = firstResponse.results[0];
 
-  Logger.debug(`Last block: ${toJSON(lastBlock)}`);
+  Logger.debug(NAME, `Last block: ${toJSON(lastBlock)}`);
 
   let stxBlock = firstResponse.results.find(
     (b: any) => b.burn_block_height === bitcoinBlockHeight
@@ -37,10 +37,6 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
 
     offset -= limit;
 
-    const info = { offset };
-
-    Logger.debug(`getStxBlock result: ${toJSON(info)}`);
-
     if (
       offset < 0 ||
       blocks[blocks.length - 1].burn_block_height > bitcoinBlockHeight
@@ -49,10 +45,7 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
     }
   }
 
-  Logger.debug("getStxBlock result");
-  Logger.debug(toJSON(stxBlock));
-  Logger.debug("---------------");
-
+  Logger.debug(NAME, "Received result ", stxBlock);
   return stxBlock;
 }
 

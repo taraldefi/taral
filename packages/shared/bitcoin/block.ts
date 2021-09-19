@@ -1,20 +1,17 @@
 import { RPCClient } from "rpc-bitcoin";
 import { Block } from ".";
-import { Logger, toJSON } from "..";
+import { Logger } from "..";
 
 export async function getBlockByHash(
   rpcClient: RPCClient,
   blockHash: string
 ): Promise<Block> {
-  Logger.debug("Calling getblock by blockhash");
   var blockByHash = await rpcClient.getblock({
     blockhash: blockHash,
     verbosity: 2,
   });
 
-  Logger.debug("getblock result");
-  Logger.debug(toJSON(blockByHash));
-  Logger.debug("---------------");
+  Logger.debug("get-block-by-hash", "Received result ", blockByHash);
 
   return blockByHash;
 }
@@ -23,15 +20,12 @@ export async function getBlockHeader(
   rpcClient: RPCClient,
   blockHash: string
 ): Promise<string> {
-  Logger.debug("Calling getblockheader by blockhash");
   var blockHeader = await rpcClient.getblockheader({
     blockhash: blockHash,
     verbose: false,
   });
 
-  Logger.debug("getblockheader result");
-  Logger.debug(toJSON(blockHeader));
-  Logger.debug("---------------");
+  Logger.debug("get-block-header-by-hash", "Received result ", blockHeader);
 
   return blockHeader as string;
 }

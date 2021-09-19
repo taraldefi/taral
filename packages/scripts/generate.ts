@@ -193,6 +193,7 @@ async function generate(regenerateMockContracts: boolean) {
   }`;
 
   Logger.debug(
+    "Contracts generate tool",
     `Generating interfaces with deployment contract ${contracts.deployer.address}`
   );
 

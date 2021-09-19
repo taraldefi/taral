@@ -28,7 +28,7 @@ export const executeJson = async ({
   const response: ExecuteResult = JSON.parse(result.stdout);
 
   if (result.stderr) {
-    Logger.error(result.stderr);
+    Logger.error("execute-json", result.stderr);
   }
 
   if (response && "error" in response) {

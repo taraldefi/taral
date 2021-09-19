@@ -35,6 +35,8 @@ import {
   clarityBitcoinContract,
 } from "./jest-setup";
 
+const NAME = "swap-test";
+
 test("make btc transaction", async () => {
   const regtest = btc.networks.regtest;
   const ftContract = `${clarinetAccounts.deployer.address}.taral-coin`;
@@ -57,14 +59,14 @@ test("make btc transaction", async () => {
     sellerWallet.mnemonic
   );
 
-  Logger.debug(`Seller address ${sellerDerivedBtcInfo.address}`);
+  Logger.debug(NAME, `Seller address ${sellerDerivedBtcInfo.address}`);
 
   const buyerDerivedBtcInfo = await getAccountFromMnemonic(
     btc.networks.regtest,
     buyerWallet.mnemonic
   );
 
-  Logger.debug(`Buyer address ${buyerDerivedBtcInfo.address}`);
+  Logger.debug(NAME, `Buyer address ${buyerDerivedBtcInfo.address}`);
 
   const faucets = new FaucetsApi(apiConfig);
 
@@ -81,7 +83,7 @@ test("make btc transaction", async () => {
         buyerDerivedBtcInfo.address
       );
       expect(btcBalance).toBeTruthy();
-      Logger.debug(`Account balance is: ${btcBalance}`);
+      Logger.debug(NAME, `Account balance is: ${btcBalance}`);
       return btcBalance;
     },
     {
@@ -91,11 +93,11 @@ test("make btc transaction", async () => {
     }
   );
 
-  Logger.debug(`Buyer account balance (BTC) is: ${buyerBalance}`);
+  Logger.debug(NAME, `Buyer account balance (BTC) is: ${buyerBalance}`);
 
   expect(buyerBalance).toBeTruthy();
 
-  Logger.debug("Calling create swap");
+  Logger.debug(NAME, "Calling create swap");
   const swapId = await createBtcFtSwap({
     contract: btcFtSwapContract(sellerWallet),
     btcAmount: btcSwapAmount,
@@ -108,7 +110,7 @@ test("make btc transaction", async () => {
 
   expect(swapId).toBeLessThan(1000);
 
-  Logger.debug(`Created swap with ${swapId}`);
+  Logger.debug(NAME, `Created swap with ${swapId}`);
 
   // Make a BTC transaction
   //
@@ -130,7 +132,7 @@ test("make btc transaction", async () => {
     }
   );
 
-  Logger.debug("Bitcoin payment details: ");
+  Logger.debug(NAME, "Bitcoin payment details: ");
   console.log(toJSON(paymentForFtResponse));
 
   const sellerBalance: number = await retry<number>(
@@ -149,7 +151,7 @@ test("make btc transaction", async () => {
     }
   );
 
-  Logger.debug(`Seller account balance (BTC) is: ${sellerBalance}`);
+  Logger.debug(NAME, `Seller account balance (BTC) is: ${sellerBalance}`);
   expect(sellerBalance).toBeTruthy();
 
   type transactionChecks = [
@@ -175,9 +177,6 @@ test("make btc transaction", async () => {
         contract: clarityBitcoin,
         txCv: paramsFromTransaction.txCV,
       });
-
-      console.log("block::::::: ");
-      console.log(toJSON(paramsFromTransaction.block));
 
       const merkleProof1: string = await verifyMerkleProof({
         contract: clarityBitcoin,
@@ -244,32 +243,15 @@ test("make btc transaction", async () => {
 
   const paramsFromTransaction: ParamsFromTxResponse = validationResults[0];
 
-  Logger.info("Was tx mined result: ");
-  Logger.info(toJSON(validationResults[8]));
-
-  Logger.info("Params from transaction result: ");
-  Logger.info(toJSON(validationResults[0]));
-
-  Logger.info("Get reversed tx id result: ");
-  Logger.info(toJSON(validationResults[1]));
-
-  Logger.info("Merkleproof1 result: ");
-  Logger.info(toJSON(validationResults[2]));
-
-  Logger.info("Merkleproof2 result: ");
-  Logger.info(toJSON(validationResults[3]));
-
-  Logger.info("VerifyBlockHeader result: ");
-  Logger.info(toJSON(validationResults[4]));
-
-  Logger.info("VerifyBlockHeader2 result: ");
-  Logger.info(toJSON(validationResults[5]));
-
-  Logger.info("Was tx mined from hex result: ");
-  Logger.info(toJSON(validationResults[6]));
-
-  Logger.info("Parse block header result: ");
-  Logger.info(toJSON(validationResults[7]));
+  Logger.info(NAME, "Was tx mined result: ", validationResults[8]);
+  Logger.info(NAME, "Params from transaction result: ", validationResults[0]);
+  Logger.info(NAME, "Get reversed tx id result: ", validationResults[1]);
+  Logger.info(NAME, "Merkleproof1 result: ", validationResults[2]);
+  Logger.info(NAME, "Merkleproof2 result: ", validationResults[3]);
+  Logger.info(NAME, "VerifyBlockHeader result: ", validationResults[4]);
+  Logger.info(NAME, "VerifyBlockHeader2 result: ", validationResults[5]);
+  Logger.info(NAME, "Was tx mined from hex result: ", validationResults[6]);
+  Logger.info(NAME, "Parse block header result: ", validationResults[7]);
 
   const swap = await submitSwap({
     contract: claritySwap,
@@ -280,8 +262,6 @@ test("make btc transaction", async () => {
     txPartsCv: paramsFromTransaction.txPartsCv,
   });
 
-  Logger.info("Submitted swap with result: ");
-  Logger.info(toJSON(swap));
-
+  Logger.info(NAME, "Submitted swap with result: ", swap);
   expect(swap).toBe(true);
 });

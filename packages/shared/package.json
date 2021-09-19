@@ -47,6 +47,8 @@
     "prettier": "^2.3.2",
     "rpc-bitcoin": "^2.0.0",
     "wif": "^2.0.6",
-    "unzipper": "^0.10.11"
+    "unzipper": "^0.10.11",
+    "chalk": "^4.1.2",
+    "dayjs": "^1.10.6"
   }
 }
