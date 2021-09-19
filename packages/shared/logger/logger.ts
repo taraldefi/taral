@@ -35,8 +35,8 @@ for (let index = 0; index < levels.length; index++) {
 
   chalkLoggers[level] = new ChalkLoggerImpl({
     name: "",
-    level: loggerLevel, // the default value is INFO
-    date: true, // the default value is false.
+    level: loggerLevel, // the default value is FATAL
+    date: true, // the default value is true.
     colorful: true, // the default value is true.
   });
 }
