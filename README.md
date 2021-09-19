@@ -1,5 +1,5 @@
 <!-- ⚠️ This README has been generated from the file(s) "blueprint.md" ⚠️--><p align="center">
-  <img src="https://raw.githubusercontent.com/taraldefi/taral/main/readme/assets/logo.svg" alt="Logo" width="150" height="150" />
+  <img src="https://raw.githubusercontent.com/taraldefi/taral/main/packages/docs/assets/logo.svg" alt="Logo" width="150" height="150" />
 </p> 
 
 <h1 align="center">taral-docs</h1> 
