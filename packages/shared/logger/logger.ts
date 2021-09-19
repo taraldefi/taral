@@ -1,4 +1,4 @@
-import { ChalkLoggerImpl } from "./chalk-logger";
+import { ChalkLoggerImpl } from "./chalk-logger-impl";
 import { config } from "./config";
 import { DEBUG, ERROR, FATAL, INFO, Level, WARN } from "./level";
 
