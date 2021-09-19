@@ -26,7 +26,7 @@ export const validateStacksAddress = (stacksAddress: string) => {
     }
   } catch (e) {
     valid = false;
-    Logger.debug("Not a valid Stacks address.");
+    Logger.error("validate-stacks-address", "Not a valid Stacks address.");
   }
   return valid;
 };

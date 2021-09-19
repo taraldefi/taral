@@ -91,7 +91,11 @@ export async function makePayment(
   const txId = tx.getId();
   const sendTxResult: string = await time(
     () => client.sendrawtransaction({ hexstring: txHex }),
-    (ms) => Logger.debug(`sendrawtransaction took ${ms}`)
+    (ms) =>
+      Logger.debug(
+        "make-bitcoin-payment",
+        `sendrawtransaction took ${ms} milliseconds`
+      )
   );
 
   if (sendTxResult !== txId) {

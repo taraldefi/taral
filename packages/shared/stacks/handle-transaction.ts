@@ -9,18 +9,20 @@ import { toJSON } from "..";
 import { Logger } from "../logger";
 import { getTransactionById, timeout } from "./utils";
 
+const NAME = "handle-transaction";
+
 export async function handleTransaction(
   transaction: StacksTransaction,
   network: StacksNetworkConfiguration
 ): Promise<TxBroadcastResultOk> {
   const result = await broadcastTransaction(transaction, network);
-  Logger.debug(`Broadcast transaction result: ${toJSON(result)}`);
+  Logger.debug(NAME, "Broadcast transaction result: ", result);
 
   if ((result as TxBroadcastResultRejected).error) {
     if (
       (result as TxBroadcastResultRejected).reason === "ContractAlreadyExists"
     ) {
-      Logger.debug("Contract already deployed");
+      Logger.debug(NAME, "Contract already deployed");
       return "" as TxBroadcastResultOk;
     } else {
       throw new Error(
@@ -37,7 +39,7 @@ export async function handleTransaction(
     );
   }
 
-  Logger.debug(`Processed: ${processed}, Result: ${toJSON(result)}`);
+  Logger.debug(NAME, `Processed: ${processed}, Result: `, result);
   return result as TxBroadcastResultOk;
 }
 
@@ -56,22 +58,20 @@ async function processingWithSidecar(
 ): Promise<boolean> {
   var value = await getTransactionById(tx, network);
 
-  Logger.debug(`${count}`);
-
   if (value.tx_status === "success") {
-    Logger.debug(`transaction ${tx} processed`);
-    Logger.debug(toJSON(value));
+    Logger.debug(
+      NAME,
+      `transaction ${tx} processed with retry count ${count}`,
+      value
+    );
     return true;
   }
   if (value.tx_status === "pending") {
-    Logger.debug(toJSON(value));
-  } else if (count === 3) {
-    Logger.debug(toJSON(value));
+    Logger.debug(NAME, "Transaction execution pending ", value);
   }
 
   if (count > 20) {
-    Logger.debug("failed after 20 tries");
-    Logger.debug(toJSON(value));
+    Logger.debug(NAME, "failed after 20 tries", value);
     return false;
   }
 

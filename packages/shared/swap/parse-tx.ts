@@ -1,6 +1,7 @@
 import { ClarityBitcoinContract } from "taral-generated-contracts";
-import { toJSON } from "..";
 import { Logger } from "../logger";
+
+const NAME = "parse-tx";
 
 export async function parseTx({
   txCV,
@@ -9,8 +10,6 @@ export async function parseTx({
   txCV: Buffer;
   contract: ClarityBitcoinContract;
 }): Promise<string> {
-  Logger.debug("Calling getTxid");
-
   let result: string = "";
 
   try {
@@ -19,12 +18,10 @@ export async function parseTx({
     let response = await contract.getTxid(txCV);
     result = response.toString();
   } catch (error) {
-    Logger.error(`parse-tx failed: ${(error as any).toString()}`);
+    Logger.error(NAME, `parse-tx failed: ${(error as any).toString()}`);
   }
 
-  Logger.debug("getTxid result");
-  Logger.debug(toJSON(result));
-  Logger.debug("---------------");
+  Logger.debug("parse-tx", "Received result ", result);
 
   return result;
 }

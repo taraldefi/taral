@@ -1,7 +1,6 @@
 import * as btc from "bitcoinjs-lib";
 import Bluebird from "bluebird";
 import { RPCClient } from "rpc-bitcoin";
-import { toJSON } from "..";
 import { Logger } from "../logger";
 import { MIN_TX_CONFIRMATIONS } from "./constants";
 import { time } from "./helpers";
@@ -14,7 +13,11 @@ export async function getSpendableUtxos(
   const txOutSet = await getTxOutSet(client, address);
   const mempoolTxIds: string[] = await time(
     () => client.getrawmempool(),
-    (ms) => Logger.debug(`getrawmempool took ${ms} ms`)
+    (ms) =>
+      Logger.debug(
+        "get-spendable-utxos",
+        `getrawmempool took ${ms} milliseconds.`
+      )
   );
   const rawTxs = await getRawTransactions(client, mempoolTxIds);
   const spentUtxos = rawTxs.map((tx) => tx.vin).flat();
@@ -31,16 +34,12 @@ export async function getRawTransaction(
   client: RPCClient,
   txId: string
 ): Promise<GetRawTxResult> {
-  Logger.debug("Calling rawtransaction by id");
-
   const rawTransaction: GetRawTxResult = await client.getrawtransaction({
     txid: txId,
     verbose: true,
   });
 
-  Logger.debug("rawtransaction result");
-  Logger.debug(toJSON(rawTransaction));
-  Logger.debug("---------------");
+  Logger.debug("get-raw-transaction", "Received result ", rawTransaction);
 
   return rawTransaction;
 }
@@ -60,15 +59,11 @@ export async function decodeRawTransaction(
   client: RPCClient,
   rawTx: string
 ): Promise<any> {
-  Logger.debug("Calling decoderawtransaction by id");
-
   const decodedResult = await client.decoderawtransaction({
     hexstring: rawTx,
   });
 
-  Logger.debug("decoderawtransaction result");
-  Logger.debug(toJSON(decodedResult));
-  Logger.debug("---------------");
+  Logger.debug("decode-raw-transaction", "Received result ", decodedResult);
 
   return decodedResult;
 }
@@ -86,6 +81,7 @@ export async function getRawTransactions(
     },
     (ms) =>
       Logger.debug(
+        "get-raw-transactions",
         `batch getrawtransaction for ${txIds.length} txs took ${ms} ms`
       )
   );
@@ -113,10 +109,15 @@ export async function getTxOutSet(
         action: "start",
         scanobjects: [`addr(${address})`],
       }),
-    (ms) => Logger.debug(`scantxoutset for ${address} took ${ms} ms`)
+    (ms) =>
+      Logger.debug(
+        "get-transaction-outset",
+        `scantxoutset for ${address} took ${ms} ms`
+      )
   );
   if (!txOutSet.success) {
     Logger.warn(
+      "get-transaction-outset",
       "scantxoutset did not immediately complete -- polling for progress..."
     );
     let scanProgress = true;

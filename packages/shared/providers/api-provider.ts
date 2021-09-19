@@ -33,13 +33,11 @@ import {
   Contracts,
   FromApiContractOptions,
 } from "../types";
-import {
-  getContractIdentifier,
-  getContractNameFromPath,
-  toJSON,
-} from "../utils";
+import { getContractIdentifier, getContractNameFromPath } from "../utils";
 import { BaseProvider, IProviderRequest } from "./base-provider";
 import { DeployerAccount } from "./types";
+
+const NAME = "api-provider";
 
 export class ApiProvider implements BaseProvider {
   private readonly network: StacksNetworkConfiguration;
@@ -57,12 +55,12 @@ export class ApiProvider implements BaseProvider {
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
-    Logger.error("Method not implemented");
+    Logger.error(NAME, "Method not implemented");
     return this.asyncFunc();
   }
 
   callVariable(_variable: ClarityAbiVariable): Promise<void> {
-    Logger.error("Method not implemented");
+    Logger.error(NAME, "Method not implemented");
     return this.asyncFunc();
   }
 
@@ -99,13 +97,12 @@ export class ApiProvider implements BaseProvider {
           return value;
       }
     } catch (error) {
-      Logger.error("----------------");
-      Logger.error(`Error calling readonly function ${request.function.name}`);
-      Logger.error("Arguments:");
-      Logger.error(toJSON(options));
-      Logger.error(toJSON(error));
-      Logger.error("----------------");
-
+      Logger.error(
+        NAME,
+        `Error calling readonly function ${request.function.name} with arguments `,
+        options,
+        error
+      );
       return err(undefined);
     }
   }
@@ -117,9 +114,9 @@ export class ApiProvider implements BaseProvider {
     );
 
     Logger.debug(
+      NAME,
       `Calling public method ${request.function.name} on contract ${this.contractName}`
     );
-    Logger.debug(toJSON(request));
 
     const submit: Submitter<any, any> = async () => {
       // if (!("x" in options)) {
@@ -280,13 +277,7 @@ export class ApiProvider implements BaseProvider {
       nonce: callNonce,
     };
 
-    Logger.debug(`Contract function call on ${contractName}::${functionName}`);
-    Logger.debug(toJSON(txOptions));
-
     const transaction = await makeContractCall(txOptions);
-
-    Logger.debug(`Issued transaction on ${contractName}::${functionName}`);
-    Logger.debug(toJSON(transaction));
 
     return handleFunctionTransaction(
       transaction,

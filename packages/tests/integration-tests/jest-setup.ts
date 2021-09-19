@@ -56,7 +56,7 @@ beforeAll(async () => {
     stacksAddress: deployer.address,
   });
 
-  Logger.debug("Deployed contracts to priv. testnet");
+  Logger.debug("jest-setup", "Deployed contracts to priv. testnet");
   talToken = deployed.taralCoin.contract;
   clarityBitcoinContract = deployed.clarityBitcoin.contract;
   btcFtSwapContract = deployed.btcFtSwap.contract;

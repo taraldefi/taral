@@ -17,7 +17,7 @@
     "util-unit-tests": "yarn workspace taral-tests util-unit-tests",
     "integration-tests": "Yarn workspace taral-tests integration-tests",
     "eol": "yarn workspace taral-clarity eol",
-    "pretty": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
+    "format": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "deploy": "yarn workspace taral-scripts deploy",
     "testbed": "yarn workspace taral-scripts testbed",
     "generate": "yarn workspace taral-scripts generate",

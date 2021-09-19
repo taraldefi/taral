@@ -24,6 +24,8 @@ import {
 } from "./constants";
 import { getDefaultBinaryFilePath, getExecutableFileName } from "./utils";
 
+const NAME = "native-cli-installer";
+
 const pipelineAsync = promisify(pipeline);
 
 export async function installDefaultPath(): Promise<boolean> {
@@ -35,7 +37,7 @@ export async function installDefaultPath(): Promise<boolean> {
   const localPath = getOverriddenCoreSource();
 
   if (localPath) {
-    Logger.debug(`Found path source env var ${localPath}`);
+    Logger.debug(NAME, `Found path source env var ${localPath}`);
     return moveFromPath({
       outputFilePath: installPath,
       inputFilePAth: localPath,
@@ -73,6 +75,7 @@ function isDistAvailable():
     default:
       if (!isMacArm()) {
         Logger.error(
+          NAME,
           `System arch "${detectedArch}" not supported. Must build from source.`
         );
       }
@@ -97,6 +100,7 @@ function isDistAvailable():
       break;
     default:
       Logger.error(
+        NAME,
         `System platform "${os.platform()}" not supported. Must build from source.`
       );
       return false;
@@ -139,17 +143,18 @@ async function fetchDistributable(opts: {
 
   if (!downloadUrl) return false;
 
-  Logger.debug(`Fetching ${downloadUrl}`);
+  Logger.debug(NAME, `Fetching ${downloadUrl}`);
   const httpResponse = await fetch(downloadUrl, { redirect: "follow" });
   if (!httpResponse.ok) {
     Logger.error(
+      NAME,
       `Bad http response ${httpResponse.status} ${httpResponse.statusText}`
     );
     return false;
   }
 
   const tempExtractDir = makeUniqueTempDir();
-  Logger.debug(`Extracting to temp dir ${tempExtractDir}`);
+  Logger.debug(NAME, `Extracting to temp dir ${tempExtractDir}`);
 
   const unzipStream = unzip.Extract({ path: tempExtractDir });
   await pipelineAsync(httpResponse.body, unzipStream);
@@ -157,7 +162,7 @@ async function fetchDistributable(opts: {
   const binFileName = getExecutableFileName("clarity-cli");
   const tempBinFilePath = path.join(tempExtractDir, binFileName);
 
-  Logger.debug(`Moving ${tempBinFilePath} to ${opts.outputFilePath}`);
+  Logger.debug(NAME, `Moving ${tempBinFilePath} to ${opts.outputFilePath}`);
   fsExtra.moveSync(tempBinFilePath, opts.outputFilePath);
   fsExtra.removeSync(tempExtractDir);
   fsExtra.chmodSync(opts.outputFilePath, 0o775);
@@ -171,11 +176,12 @@ function isMacArm() {
 
 async function downloadMacArm(outputFilePath: string) {
   if (isMacArm()) {
-    Logger.debug("Fetching Apple Silicon version of clarity-cli");
+    Logger.debug(NAME, "Fetching Apple Silicon version of clarity-cli");
     const downloadUrl = MACOS_ARM_URL;
     const httpResponse = await fetch(downloadUrl, { redirect: "follow" });
     if (!httpResponse.ok) {
       Logger.error(
+        NAME,
         `Bad http response ${httpResponse.status} ${httpResponse.statusText}`
       );
       return false;
@@ -213,31 +219,36 @@ function verifyOutputFile(
       const stat = fs.lstatSync(fullFilePath);
       if (!stat.isFile()) {
         Logger.error(
+          NAME,
           `The specified output file path exists and is not a file: ${fullFilePath}`
         );
         return false;
       }
       if (!overwriteExisting) {
         Logger.error(
+          NAME,
           `The specified output file path already exists: ${fullFilePath}`
         );
-        Logger.error("Specify the overwrite option to ignore this error.");
+        Logger.error(
+          NAME,
+          "Specify the overwrite option to ignore this error."
+        );
         return false;
       }
-      Logger.debug(`Overwriting existing file: ${fullFilePath}`);
+      Logger.debug(NAME, `Overwriting existing file: ${fullFilePath}`);
       fs.unlinkSync(fullFilePath);
     } else {
       fsExtra.mkdirpSync(outputDirectory);
     }
     return true;
   } catch (error) {
-    Logger.error(error as any);
+    Logger.error(NAME, error as any);
     const fsErr = error as NodeJS.ErrnoException;
     if (fsErr.code === "EACCES" || fsErr.code === "EPERM") {
-      Logger.error(`Permission error writing to ${fullFilePath}`);
-      Logger.error("Try running with sudo or elevated permissions");
+      Logger.error(NAME, `Permission error writing to ${fullFilePath}`);
+      Logger.error(NAME, "Try running with sudo or elevated permissions");
     } else {
-      Logger.error(`Error writing to ${fullFilePath}`);
+      Logger.error(NAME, `Error writing to ${fullFilePath}`);
     }
     return false;
   }
@@ -247,7 +258,7 @@ const moveFromPath = (opts: {
   outputFilePath: string;
   inputFilePAth: string;
 }) => {
-  Logger.debug(`Copying ${opts.inputFilePAth} to ${opts.outputFilePath}`);
+  Logger.debug(NAME, `Copying ${opts.inputFilePAth} to ${opts.outputFilePath}`);
   const dirName = path.dirname(opts.outputFilePath);
   fsExtra.mkdirpSync(dirName);
   fs.copyFileSync(opts.inputFilePAth, opts.outputFilePath);
@@ -317,6 +328,7 @@ function detectArch(): string {
     }
   } catch (error) {
     Logger.error(
+      NAME,
       `Unexpected error trying to detect system architecture: ${error}`
     );
   }

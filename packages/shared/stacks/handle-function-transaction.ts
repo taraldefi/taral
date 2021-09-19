@@ -9,6 +9,8 @@ import { StacksNetworkConfiguration } from "taral-configuration";
 import { Logger } from "..";
 import { timeout } from "./utils";
 
+const NAME = "handle-function-transaction";
+
 export async function handleFunctionTransaction(
   transaction: StacksTransaction,
   network: StacksNetworkConfiguration,
@@ -63,17 +65,20 @@ async function functionProcessingWithSidecar(
 
   if (value.tx_status === "success") {
     Logger.debug(
-      `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`
+      NAME,
+      `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`,
+      value
     );
-    Logger.debug(value);
+
     return true;
   }
 
   if (count > 60) {
     Logger.error(
-      `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`
+      NAME,
+      `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`,
+      value
     );
-    Logger.error(value);
     return false;
   }
 

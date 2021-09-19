@@ -1,5 +1,5 @@
 import { BtcFtSwapContract } from "taral-generated-contracts";
-import { Logger, toJSON, txOk } from "..";
+import { Logger, txOk } from "..";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
 export async function submitSwap({
@@ -17,15 +17,10 @@ export async function submitSwap({
   ftContract: string;
   contract: BtcFtSwapContract;
 }): Promise<boolean> {
-  Logger.debug("Calling submitSwap");
-
   const result = await txOk(
     contract.submitSwap(swapId, headerPartsCv, txPartsCv, proofCv, ftContract)
   );
 
-  Logger.debug("submitSwap result");
-  Logger.debug(toJSON(result));
-  Logger.debug("---------------");
-
+  Logger.debug("submit-swap", "Received result ", result);
   return result.value;
 }

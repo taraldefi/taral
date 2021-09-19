@@ -67,7 +67,7 @@ jobs:
       run: yarn unit-tests
     
     - name: Format
-      run: yarn pretty
+      run: yarn format
     
     - name: Commit changes
       uses: stefanzweifel/git-auto-commit-action@v4.11.0

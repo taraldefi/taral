@@ -1,5 +1,6 @@
 import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
+import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
 import { taralContracts } from "taral-generated-contracts";
 import {
@@ -11,9 +12,9 @@ import {
   Logger,
 } from "taral-shared";
 
-import { normalize, resolve } from "path";
+const NAME = "Deploy tool";
 
-Logger.debug("Deploying contracts");
+Logger.debug(NAME, "Deploying contracts");
 deployMany(taralContracts);
 
 async function deployMany<T extends Contracts<M>, M>(contracts: T) {
@@ -26,10 +27,13 @@ async function deployMany<T extends Contracts<M>, M>(contracts: T) {
     const contract: T[Extract<keyof T, string>] = contracts[k];
 
     const contractName = getContractNameFromPath(contract.contractFile);
-    Logger.debug(`Deploying contract ${contractName}`);
+    Logger.debug(NAME, "Deploying contract", contractName);
 
     var result = await deployContract(contract, deployer.privateKey);
-    Logger.debug(`Contract deployed: ${contractName} with result ${result}`);
+    Logger.debug(
+      NAME,
+      `Contract deployed: ${contractName} with result ${result}`
+    );
   }
 }
 
@@ -44,7 +48,7 @@ async function deployContract<T extends Contracts<M>, M>(
     contract.contractFile
   ).replace(/\\/g, "/");
 
-  Logger.debug(`Reading contract from ${fullContractFilePath}`);
+  Logger.debug(NAME, `Reading contract from ${fullContractFilePath}`);
 
   let codeBody = fs.readFileSync(fullContractFilePath).toString();
 
@@ -56,6 +60,6 @@ async function deployContract<T extends Contracts<M>, M>(
     anchorMode: 3,
   });
 
-  Logger.debug(`Deploying contract ${contractName}`);
+  Logger.debug(NAME, `Deploying contract ${contractName}`);
   return handleTransaction(transaction, NETWORK);
 }

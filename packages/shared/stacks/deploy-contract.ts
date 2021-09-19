@@ -4,13 +4,15 @@ import { StacksNetworkConfiguration } from "taral-configuration";
 import { Logger } from "..";
 import { handleTransaction } from "./handle-transaction";
 
+const NAME = "contract-deployer";
+
 export async function deployContractOnStacks(
   contractName: string,
   contractPath: string,
   network: StacksNetworkConfiguration,
   secretDeployKey: string
 ) {
-  Logger.debug(`preparing to deploy contract ${contractName}`);
+  Logger.debug(NAME, `preparing to deploy contract ${contractName} ......`);
 
   let codeBody = fs.readFileSync(contractPath).toString();
 
@@ -22,7 +24,7 @@ export async function deployContractOnStacks(
     anchorMode: 3,
   });
 
-  Logger.debug(`deploy contract ${contractName}`);
+  Logger.debug(NAME, `contract deploy successful - ${contractName}`);
 
   return handleTransaction(transaction, network);
 }
