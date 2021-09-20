@@ -9,6 +9,9 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "daily"
+    ignore:
+      - dependency-name: "node-fetch"
+      - dependency-name: "@types/node-fetch"
     commit-message:
       # Prefix all commit messages with "npm"
       prefix: "npm"
