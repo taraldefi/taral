@@ -27,8 +27,8 @@ import {
   wasTxMined,
   wasTxMinedFromHex,
 } from "taral-shared";
-import { NETWORK } from "../../configuration";
-import { retry } from "../utils/retry";
+import { NETWORK } from "taral-configuration";
+import { retry } from "./utils/retry";
 import {
   btcFtSwapContract,
   clarinetAccounts,
