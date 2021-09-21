@@ -20,8 +20,6 @@ export let clarityBin: NativeClarityBinProvider;
 export let testUtilsProvider: TestUtilsProvider;
 
 beforeAll(async () => {
-  jest.setTimeout(3000000);
-
   const root = `${getRootDirectory()}/packages/clarity`;
   clarinetAccounts = await getClarinetAccounts(root);
 
@@ -37,4 +35,4 @@ beforeAll(async () => {
   );
 
   talToken = deployed.taralCoin.contract;
-});
+}, 3000000);
