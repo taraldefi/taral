@@ -39,7 +39,6 @@ export let deployed: ContractInstances<
 >;
 
 beforeAll(async () => {
-  jest.setTimeout(3000000);
   const root = `${getRootDirectory()}/packages/clarity`;
   clarinetAccounts = await getClarinetAccounts(root);
 
@@ -60,4 +59,4 @@ beforeAll(async () => {
   talToken = deployed.taralCoin.contract;
   clarityBitcoinContract = deployed.clarityBitcoin.contract;
   btcFtSwapContract = deployed.btcFtSwap.contract;
-});
+}, 3000000);

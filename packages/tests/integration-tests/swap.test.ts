@@ -264,4 +264,4 @@ test("make btc transaction", async () => {
 
   Logger.info(NAME, "Submitted swap with result: ", swap);
   expect(swap).toBe(true);
-});
+}, 3000000);
