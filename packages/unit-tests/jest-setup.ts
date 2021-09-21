@@ -16,12 +16,14 @@ import {
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
+export let deployer: ClarinetAccount;
 export let clarityBin: NativeClarityBinProvider;
 export let testUtilsProvider: TestUtilsProvider;
 
 beforeAll(async () => {
   const root = `${getRootDirectory()}/packages/clarity`;
   clarinetAccounts = await getClarinetAccounts(root);
+  deployer = clarinetAccounts.deployer;
 
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 

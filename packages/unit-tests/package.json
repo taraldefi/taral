@@ -1,5 +1,5 @@
 {
-  "name": "taral-tests",
+  "name": "taral-unit-tests",
   "version": "1.0.0",
   "author": "DoruC",
   "license": "ISC",
@@ -8,9 +8,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "unit-tests": "jest --projects ./unit-tests --runInBand",
-    "util-unit-tests": "jest --projects ./utils-tests --runInBand",
-    "integration-tests": "jest --projects ./integration-tests --runInBand"
+    "unit-tests": "jest --runInBand"
   },
   "devDependencies": {
     "jest": "^27.2.1",
