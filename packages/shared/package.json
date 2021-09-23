@@ -10,7 +10,7 @@
   "devDependencies": {
     "@ltd/j-toml": "^1.12.2",
     "@types/bluebird": "^3.5.36",
-    "@types/fs-extra": "^9.0.12",
+    "@types/fs-extra": "^9.0.13",
     "@types/node": "16.9.4",
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.3",
