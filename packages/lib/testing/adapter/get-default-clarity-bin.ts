@@ -1,6 +1,6 @@
-import { ClarinetAccounts } from "../configuration";
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
-import { createClarityBin } from "./create-clarity-bin";
+import { ClarinetAccounts } from "lib-shared";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { createClarityBin } from "lib-shared";
 
 export async function getDefaultClarityBin(
   clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts

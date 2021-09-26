@@ -2,7 +2,7 @@
   "compilerOptions": {
     "noEmit": true,
     "target": "ES2020",
-    "module": "es2020",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "lib": ["dom", "esnext"],
     "importHelpers": false,
@@ -27,8 +27,7 @@
     "suppressImplicitAnyIndexErrors": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strictNullChecks": true,
-    "baseUrl": "."
+    "strictNullChecks": true
   },
 
   // break
@@ -37,20 +36,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": [
-    "./packages/configuration/**/*.ts",
-    "./packages/generated-contracts/**/*.ts",
-    "./packages/scripts/**/*.ts",
-    "./packages/shared/**/*.ts",
-    "./packages/unit-tests/**/*.ts",
-    "./packages/integration-tests/**/*.ts",
-    "./packages/lib/bitcoin/**/*.ts",
-    "./packages/lib/clarity-bin/**/*.ts",
-    "./packages/lib/generate/**/*.ts",
-    "./packages/lib/shared/**/*.ts",
-    "./packages/lib/stacks/**/*.ts",
-    "./packages/lib/swap/**/*.ts",
-    "./packages/lib/testing/**/*.ts",
-    "./packages/lib/web/**/*.ts"
-  ]
+  "include": ["./**/*.ts"]
 }

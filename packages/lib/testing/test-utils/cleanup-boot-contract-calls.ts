@@ -1,0 +1,27 @@
+import * as fileSystem from "fs";
+
+const TESTNET_BOOT_CONTRACT = "ST000000000000000000002AMW42H";
+
+export function cleanupBootContractsCalls(path: string): string {
+  const tmpContractFilePath = path.replace(".clar", ".tmp");
+
+  let data = fileSystem.readFileSync(path, "utf8");
+
+  var regexExpression = new RegExp(`'${TESTNET_BOOT_CONTRACT}`, "g");
+
+  var result: string = data.replace(regexExpression, "");
+
+  let dos2UnixContent: string = replaceAll(result, "\r\n", "\n");
+
+  fileSystem.writeFileSync(tmpContractFilePath, dos2UnixContent, "utf8");
+
+  return tmpContractFilePath;
+}
+
+export function cleanupTmpContractFile(path: string) {
+  fileSystem.unlinkSync(path);
+}
+
+function replaceAll(str: string, find: string, replace: string) {
+  return str.replace(new RegExp(find, "g"), replace);
+}

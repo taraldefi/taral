@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { EvalResult } from "../types";
 
 export async function evalJson({

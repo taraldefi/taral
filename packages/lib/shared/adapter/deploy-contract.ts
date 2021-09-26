@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
 
 export async function deployContract(
   contractIdentifier: string,
