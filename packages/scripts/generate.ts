@@ -4,17 +4,23 @@ import { normalize, resolve } from "path";
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
-  createDefaultTestProvider,
-  generateFilesForContract,
   getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   getRootRelativeContractsFolder,
   Logger,
-  NativeClarityBinProvider,
-  submitAnalisysForContract,
   toCamelCase,
-} from "taral-shared";
+} from "lib-shared";
+
+import {
+  createDefaultTestProvider,
+  NativeClarityBinProvider
+} from 'lib-clarity-bin';
+
+import {
+  generateFilesForContract,
+  submitAnalisysForContract
+} from 'lib-generate';
 
 interface IProject {
   outputDirectory: string;

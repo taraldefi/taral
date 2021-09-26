@@ -1,1 +1,8 @@
-export interface Sip10FtStandardContract {}
+
+  
+  import { Transaction } from 'lib-shared';
+  import { ClarityTypes } from 'lib-shared'
+
+  export interface Sip10FtStandardContract {
+    
+  }

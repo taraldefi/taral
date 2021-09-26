@@ -48,7 +48,7 @@ export function generateIndexFile({
   const contractType = `${contractTitle}Contract`;
 
   const imports = `
-  import { Contract, proxy, BaseProvider } from 'taral-shared';
+  import { Contract, proxy, BaseProvider } from 'lib-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 
@@ -74,7 +74,7 @@ export function generateMockIndexFile({
   const contractType = `${contractTitle}Contract`;
 
   const imports = `
-  import { Contract, proxy, BaseProvider } from 'taral-shared';
+  import { Contract, proxy, BaseProvider } from 'lib-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 

@@ -10,9 +10,15 @@ import {
   getClarinetAccounts,
   getDefaultClarityBin,
   getRootDirectory,
+} from "lib-shared";
+
+import { 
   NativeClarityBinProvider,
-  TestProvider,
-} from "taral-shared";
+} from 'lib-clarity-bin';
+
+import {
+  TestProvider
+} from 'lib-testing';
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;

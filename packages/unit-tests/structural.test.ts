@@ -1,5 +1,4 @@
-import { clarinetAccounts } from "../integration-tests/jest-setup";
-import { talToken } from "./jest-setup";
+import { clarinetAccounts, talToken } from "./jest-setup";
 
 test("Should be named TARAL", async () => {
   const token = talToken(clarinetAccounts.deployer);

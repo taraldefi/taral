@@ -21,8 +21,8 @@ function generateTypesFileInternal(
 
 export const generateTypesFile = (abi: ClarityAbi, contractName: string) => {
   const imports = `
-  import { Transaction } from 'taral-shared';
-  import { ClarityTypes } from 'taral-shared'`;
+  import { Transaction } from 'lib-shared';
+  import { ClarityTypes } from 'lib-shared'`;
 
   return generateTypesFileInternal(abi, contractName, imports);
 };
@@ -32,8 +32,8 @@ export const generateMockTypesFile = (
   contractName: string
 ) => {
   const imports = `
-  import { Transaction } from 'taral-shared';
-  import { ClarityTypes } from 'taral-shared'`;
+  import { Transaction } from 'lib-shared';
+  import { ClarityTypes } from 'lib-shared'`;
 
   return generateTypesFileInternal(abi, contractName, imports);
 };

@@ -18,24 +18,24 @@ import {
 import BN from "bn.js";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { getRootDirectory } from "..";
-import { ClarityAbiMap, cvToValue } from "../clarity";
-import { Logger } from "../logger";
+import { getRootDirectory } from "lib-shared";
+import { ClarityAbiMap, cvToValue } from "lib-shared";
+import { Logger } from "lib-shared";
 import { deployContractOnStacks } from "../stacks/deploy-contract";
 import { formatArguments } from "../stacks/format-arguments";
 import { getNonce } from "../stacks/get-nonce";
-import { handleFunctionTransaction } from "../stacks/handle-function-transaction";
+import { handleFunctionTransaction } from "lib-stacks";
 import { getTransactionById } from "../stacks/utils";
-import { Submitter, Transaction, TransactionResult } from "../transaction";
+import { Submitter, Transaction, TransactionResult } from "lib-shared";
 import {
   ApiCreateOptions,
   ContractInstances,
   Contracts,
   FromApiContractOptions,
-} from "../types";
-import { getContractIdentifier, getContractNameFromPath } from "../utils";
-import { BaseProvider, IProviderRequest } from "./base-provider";
-import { DeployerAccount } from "./types";
+} from "lib-shared";
+import { getContractIdentifier, getContractNameFromPath } from "lib-shared";
+import { BaseProvider, IProviderRequest } from "lib-shared";
+import { DeployerAccount } from "lib-shared";
 
 const NAME = "api-provider";
 
