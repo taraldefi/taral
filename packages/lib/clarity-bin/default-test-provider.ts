@@ -1,5 +1,5 @@
-import { NativeClarityBinProvider } from "./native-cli/native-provider";
-import { getDefaultBinaryFilePath, getTempFilePath } from "./native-cli/utils";
+import { NativeClarityBinProvider } from "./native-provider";
+import { getDefaultBinaryFilePath, getTempFilePath } from "./utils";
 
 export async function createDefaultTestProvider() {
   const binFile = getDefaultBinaryFilePath();

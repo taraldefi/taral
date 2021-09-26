@@ -1,4 +1,4 @@
-import { stacksAddressToBtcAddress, validateStacksAddress } from "taral-shared";
+import { stacksAddressToBtcAddress, validateStacksAddress } from "lib-shared";
 import { deployer } from "./jest-setup";
 
 test("Address should be valid", async () => {

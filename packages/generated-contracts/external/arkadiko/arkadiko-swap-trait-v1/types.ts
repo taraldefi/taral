@@ -1,1 +1,8 @@
-export interface ArkadikoSwapTraitV1Contract {}
+
+  
+  import { Transaction } from 'lib-shared';
+  import { ClarityTypes } from 'lib-shared'
+
+  export interface ArkadikoSwapTraitV1Contract {
+    
+  }
