@@ -1,6 +1,6 @@
-import { Logger } from "..";
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
-import { ExecuteResult } from "../types";
+import { Logger } from "lib-shared";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { ExecuteResult } from "lib-shared";
 
 export const executeJson = async ({
   contractAddress,

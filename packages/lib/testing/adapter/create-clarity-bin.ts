@@ -1,6 +1,6 @@
-import { NativeClarityBinProvider } from "../native-cli/native-provider";
-import { getDefaultBinaryFilePath, getTempFilePath } from "../native-cli/utils";
-import { AllocationOrAccounts } from "../types";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { getDefaultBinaryFilePath, getTempFilePath } from "lib-clarity-bin";
+import { AllocationOrAccounts } from "lib-shared";
 import getAllocations from "./get-allocations";
 
 export async function createClarityBin({

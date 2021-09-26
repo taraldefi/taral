@@ -1,4 +1,4 @@
-import { installDefaultPath } from "taral-shared";
+import { installDefaultPath } from "lib-clarity-bin";
 
 export default (async () => {
   try {
