@@ -12,6 +12,7 @@ import {
   responseOkCV,
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
+  TxBroadcastResult,
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
@@ -128,7 +129,7 @@ export class ApiProvider implements BaseProvider {
       //   throw new Error("Passing `x` is required.");
       // }
 
-      var rawFunctionCallResult = await this.callContractFunction(
+      var rawFunctionCallResult: TxBroadcastResult = await this.callContractFunction(
         this.contractName,
         request.function.name,
         request.caller.privateKey,
@@ -136,26 +137,14 @@ export class ApiProvider implements BaseProvider {
         formattedArguments
       );
 
-      let successfulFunctionCallResult: TxBroadcastResultOk = "";
-      let unsuccessfullFunctionCalResult: TxBroadcastResultRejected;
+      var success = this.isBroadcastSuccessful(rawFunctionCallResult);
 
-      let success: boolean;
-      if ((rawFunctionCallResult as TxBroadcastResultRejected).error) {
-        success = false;
-        unsuccessfullFunctionCalResult =
-          rawFunctionCallResult as TxBroadcastResultRejected;
-      } else {
-        success = true;
-        successfulFunctionCallResult = await getTransactionById(
-          rawFunctionCallResult as TxBroadcastResultOk,
-          this.network
-        );
-      }
-
-      const getResult = (): Promise<TransactionResult<any, any>> => {
+      const getResult = async (): Promise<TransactionResult<any, any>> => {
         if (success) {
-          const sct: SmartContractTransaction =
-            successfulFunctionCallResult as any as SmartContractTransaction;
+          const sct: SmartContractTransaction = await getTransactionById(
+            rawFunctionCallResult.txid,
+            this.network
+          );
 
           const resultCV = deserializeCV(sct.tx_result.hex);
 
@@ -172,7 +161,7 @@ export class ApiProvider implements BaseProvider {
         } else {
           return Promise.resolve({
             isOk: false,
-            value: unsuccessfullFunctionCalResult.error,
+            value: rawFunctionCallResult.error,
             response: responseErrorCV(noneCV()),
           });
         }
@@ -251,6 +240,14 @@ export class ApiProvider implements BaseProvider {
     }
 
     return new this(network, account, contractIdentifier);
+  }
+
+  private isBroadcastSuccessful(result: TxBroadcastResult): boolean {
+    if (result.error || !result.txid) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   async callContractFunction(
