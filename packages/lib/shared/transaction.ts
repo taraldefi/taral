@@ -3,7 +3,6 @@ import {
   PostConditionMode,
   StacksTransaction,
 } from "@stacks/transactions";
-import { CoreNodeEvent } from ".";
 
 export interface ResultAssets {
   stx: Record<string, string>;
@@ -16,7 +15,7 @@ export interface TransactionResultOk<Ok> {
   value: Ok;
   response?: ResponseOk<Ok>;
   isOk: true;
-  events: CoreNodeEvent[];
+  events: Record<string, any>[];
   costs?: {
     [key: string]: any;
     runtime: number;
