@@ -38,7 +38,6 @@ import {
 import { getTransactionById } from "../stacks/utils";
 
 export interface NodeConfig {
-  privateKey: string;
   network: StacksNetworkConfiguration;
   deployerAddress?: string;
 }
@@ -46,13 +45,11 @@ export interface NodeConfig {
 export class NodeProvider implements BaseProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  privateKey: string;
   network: StacksNetworkConfiguration;
 
   constructor({
     network,
     identifier,
-    privateKey,
   }: NodeConfig & { identifier: string }) {
     const apiConfig = new Configuration({
       fetchApi: fetch,
@@ -62,7 +59,6 @@ export class NodeProvider implements BaseProvider {
     const apiClient = new SmartContractsApi(apiConfig);
     this.apiClient = apiClient;
     this.identifier = identifier;
-    this.privateKey = privateKey;
     this.network = network;
   }
 
@@ -108,7 +104,7 @@ export class NodeProvider implements BaseProvider {
       contractName,
       functionName: request.function.name,
       readOnlyFunctionArgs: {
-        sender: "STB44HYPYAT2BB2QE513NSP81HTMYWBJP02HPGK6",
+        sender: request.caller.address,
         arguments: argumentsFormatted,
       },
     });
@@ -143,7 +139,7 @@ export class NodeProvider implements BaseProvider {
       functionName: request.function.name,
       functionArgs: argumentsFormatted,
       network: this.network,
-      privateKey: this.privateKey,
+      privateKey: request.caller.privateKey,
     });
   }
 
