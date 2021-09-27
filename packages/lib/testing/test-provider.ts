@@ -8,7 +8,9 @@ import {
   responseErrorCV,
   responseOkCV,
 } from "@stacks/transactions";
+
 import { NativeClarityBinProvider } from "lib-clarity-bin";
+
 import {
   BaseProvider,
   ClarinetAccounts,
@@ -17,15 +19,10 @@ import {
   Contracts,
   CreateOptions,
   cvToValue,
-  deployContract,
-  evalJson,
   EvalOk,
-  evalWithCode,
-  executeJson,
   FromContractOptions,
   getContractIdentifier,
   getContractNameFromPath,
-  getDefaultClarityBin,
   getRootDirectory,
   IProviderRequest,
   parseToCV,
@@ -34,6 +31,15 @@ import {
   Transaction,
   TransactionResult,
 } from "lib-shared";
+
+import {
+  deployContract,
+  evalJson,
+  evalWithCode,
+  executeJson,
+  getDefaultClarityBin,
+} from "lib-testing";
+
 import { err, ok } from "neverthrow";
 import {
   cleanupBootContractsCalls,
