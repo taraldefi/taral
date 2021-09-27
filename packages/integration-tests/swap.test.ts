@@ -28,7 +28,7 @@ import{
 } from "lib-bitcoin";
 import { getWalletAtIndex, Logger, toJSON } from "lib-shared";
 import { NETWORK } from "taral-configuration";
-import { retry } from "./utils/retry";
+import { retry } from "lib-testing";
 import {
   btcFtSwapContract,
   clarinetAccounts,
