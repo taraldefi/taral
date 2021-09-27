@@ -3,10 +3,12 @@ import {
   ClarinetAccount,
   ClarinetAccounts,
   getClarinetAccounts,
-  getDefaultClarityBin,
   getRootDirectory,
 } from "lib-shared";
-import { TestProvider } from "lib-testing";
+import { 
+  TestProvider, 
+  getDefaultClarityBin,
+} from "lib-testing";
 import {
   arkadikoContracts,
   TaralCoinContract,
