@@ -518,10 +518,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@ltd/j-toml@^1.12.2":
-  version "1.15.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.15.0.tgz#daf85359b945547582e0082affd6781b03cb829f"
-  integrity sha512-FaDX0ec1KT5JRZxMXpOa2WGkVXuwsDIHCayqPt7/0mbHxHQaPlJCtk9rK5zZqD9mIbCwGM7v71AIlVsGZWR4cw==
+"@ltd/j-toml@^1.16.0":
+  version "1.16.0"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.16.0.tgz#7d66ae9396a8e03366adba97cf84c2f379f90f7c"
+  integrity sha512-hVIFd7dAG1hk2BkQl+JS6T3hIQaHhgeMrpKoS3YELMXbSMryhEfzs2pGul5IoBR77KAqMJey5Orla2u519ONDw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
