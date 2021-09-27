@@ -22,6 +22,7 @@
     "lib-shared": "1.0.0",
     "lib-stacks": "1.0.0",
     "lib-clarity-bin": "1.0.0",
+    "lib-testing": "1.0.0",
     "taral-generated-contracts": "1.0.0",
     "javascript-stringify": "2.1.0",
     "@stacks/blockchain-api-client": "^0.68.0",
