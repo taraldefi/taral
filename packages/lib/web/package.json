@@ -15,13 +15,17 @@
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.3",
     "ts-node": "^10.2.1",
-    "typescript": "^4.4.3"
+    "typescript": "^4.4.3",
+    "@stacks/connect": "5.0.5"
   },
   "dependencies": {
     "taral-configuration": "1.0.0",
     "taral-generated-contracts": "1.0.0",
     "javascript-stringify": "2.1.0",
     "lib-shared": "1.0.0",
+    "lib-stacks": "1.0.0",
+    "stacks-crypto": "1.0.0-beta.3",
+    "noble-secp256k1": "1.2.9",
     "@stacks/blockchain-api-client": "^0.68.0",
     "@stacks/common": "^2.0.0-beta.0",
     "@stacks/network": "^2.0.1",
