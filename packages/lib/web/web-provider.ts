@@ -1,5 +1,5 @@
 import { Configuration, SmartContractsApi } from '@stacks/blockchain-api-client';
-import { BufferReader, ClarityAbiFunction, ClarityAbiVariable, ClarityType, deserializeCV, deserializeTransaction, PostCondition, responseOkCV, serializeCV, serializePostCondition } from '@stacks/transactions';
+import { BufferReader, ClarityAbiVariable, ClarityType, deserializeCV, deserializeTransaction, PostCondition, responseOkCV, serializeCV, serializePostCondition } from '@stacks/transactions';
 import { ok, err } from 'neverthrow';
 import {
     BaseProvider,
@@ -182,7 +182,7 @@ export class WebProvider implements BaseProvider {
                 const successfulFunctionCallResult = await getTransactionById(
                     stacksTransaction.txid(),
                     this.network
-                  );
+                );
 
                 return {
                     txId: request.txId,
@@ -190,18 +190,18 @@ export class WebProvider implements BaseProvider {
                     getResult: () => {
                         const resultCV = deserializeCV(
                             Buffer.from(successfulFunctionCallResult)
-                          );
-            
-                          const result = cvToValue(resultCV);
-            
-                          const transactionResult: TransactionResult<any, any> = {
+                        );
+
+                        const result = cvToValue(resultCV);
+
+                        const transactionResult: TransactionResult<any, any> = {
                             isOk: true,
                             response: responseOkCV(resultCV),
                             value: result,
                             events: [], // leave events empty for now and figure later how to fetch them
-                          };
-            
-                          return Promise.resolve(transactionResult);
+                        };
+
+                        return Promise.resolve(transactionResult);
                     },
                 };
             },
