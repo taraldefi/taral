@@ -10,7 +10,7 @@ export async function getClarinetConfig(folder: string) {
     configContents,
     1.0,
     "\n",
-    false
+    true, { longer: true }
   ) as unknown as ClarinetConfig;
   return config;
 }
