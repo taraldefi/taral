@@ -1,13 +1,15 @@
 import SHA256 from "crypto-js/sha256";
+import {
+  getBlockByHash,
+  getBlockHeader,
+  getRawTransaction,
+  getRpcClient,
+} from "lib-bitcoin";
+import { Logger, toJSON } from "lib-shared";
+import { getStxBlock } from "lib-stacks";
 import MerkleTree from "merkletreejs";
 import { NETWORK } from "taral-configuration";
 import { ClarityBitcoinContract } from "taral-generated-contracts";
-import { getBlockByHash, getBlockHeader } from "lib-bitcoin";
-import { toJSON } from "lib-shared";
-import { getRpcClient } from "lib-bitcoin";
-import { getRawTransaction } from "lib-bitcoin";
-import { Logger } from "lib-shared";
-import { getStxBlock } from "lib-stacks";
 import { concatTransaction } from "./concat-transaction";
 import {
   BlockCvType,

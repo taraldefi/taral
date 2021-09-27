@@ -1,8 +1,8 @@
 import * as fs from "fs";
+import { getRootDirectory } from "lib-shared";
 import * as os from "os";
 import * as path from "path";
 import { normalize } from "path";
-import { getRootDirectory } from "lib-shared";
 import { CONTRACT_FILE_EXT, CORE_SDK_TAG } from "./constants";
 
 export function fileExists(filePath: string): boolean {

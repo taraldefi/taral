@@ -1,5 +1,5 @@
-import { taralContracts } from "taral-generated-contracts";
 import { TestProvider } from "lib-testing";
+import { taralContracts } from "taral-generated-contracts";
 import { clarinetAccounts, clarityBin } from "./jest-setup";
 
 test("Test that we can access the token without deploying", async () => {

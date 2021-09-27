@@ -5,8 +5,8 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { Logger } from "lib-shared";
+import { StacksNetworkConfiguration } from "taral-configuration";
 import { timeout } from "./utils";
 
 const NAME = "handle-function-transaction";

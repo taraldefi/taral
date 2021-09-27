@@ -8,32 +8,37 @@ import {
   responseErrorCV,
   responseOkCV,
 } from "@stacks/transactions";
-import { err, ok } from "neverthrow";
-import { BaseProvider, IProviderRequest } from "lib-shared";
-import { getRootDirectory, SubmitOptions } from "lib-shared";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
+  BaseProvider,
+  ClarinetAccounts,
+  ClarityAbiMap,
+  ContractInstances,
+  Contracts,
+  CreateOptions,
+  cvToValue,
   deployContract,
   evalJson,
+  EvalOk,
   evalWithCode,
   executeJson,
+  FromContractOptions,
+  getContractIdentifier,
+  getContractNameFromPath,
   getDefaultClarityBin,
+  getRootDirectory,
+  IProviderRequest,
+  parseToCV,
+  SubmitOptions,
+  Submitter,
+  Transaction,
+  TransactionResult,
 } from "lib-shared";
-import { ClarityAbiMap, cvToValue, parseToCV } from "lib-shared";
-import { ClarinetAccounts } from "lib-shared";
-import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { err, ok } from "neverthrow";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
 } from "./test-utils/cleanup-boot-contract-calls";
-import { Submitter, Transaction, TransactionResult } from "lib-shared";
-import {
-  ContractInstances,
-  Contracts,
-  CreateOptions,
-  EvalOk,
-  FromContractOptions,
-} from "lib-shared";
-import { getContractIdentifier, getContractNameFromPath } from "lib-shared";
 
 export class TestProvider implements BaseProvider {
   private readonly clarityBin: NativeClarityBinProvider;

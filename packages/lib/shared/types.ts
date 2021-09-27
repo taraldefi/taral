@@ -1,6 +1,6 @@
+import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { ClarinetAccount, ClarinetAccounts } from "./configuration";
-import { NativeClarityBinProvider } from "lib-clarity-bin";
 import type { BaseProvider, DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
 

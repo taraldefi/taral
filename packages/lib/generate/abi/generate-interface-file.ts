@@ -1,5 +1,4 @@
-import { ClarityAbi } from "lib-shared";
-import { getContractNameFromPath, toCamelCase } from "lib-shared";
+import { ClarityAbi, getContractNameFromPath, toCamelCase } from "lib-shared";
 
 function generateInterfaceForFileInternal({
   contractFile,

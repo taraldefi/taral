@@ -1,7 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
-import { BtcFtSwapContract } from "taral-generated-contracts";
 import { Logger, txOk } from "lib-shared";
+import { BtcFtSwapContract } from "taral-generated-contracts";
 import { makeBuffer } from "./utils";
 
 function btcToSats(btcAmount: number): number {

@@ -1,5 +1,5 @@
-import { ClarityBitcoinContract } from "taral-generated-contracts";
 import { Logger } from "lib-shared";
+import { ClarityBitcoinContract } from "taral-generated-contracts";
 import { BlockCvType, HeaderPartsType } from "./types";
 import { makeBuffer } from "./utils";
 

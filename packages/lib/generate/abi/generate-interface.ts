@@ -1,6 +1,5 @@
-import { ClarityAbi } from "lib-shared";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { getContractNameFromPath } from "lib-shared";
+import { ClarityAbi, getContractNameFromPath } from "lib-shared";
 
 export async function generateInterface({
   provider,

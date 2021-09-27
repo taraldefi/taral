@@ -1,16 +1,19 @@
+import { ClarityTypes, Transaction } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface ArkadikoDikoInitContract {
-      foundationClaimTokens: (amount: number | bigint) => Transaction<boolean, bigint>;
-  foundersClaimTokens: (amount: number | bigint) => Transaction<boolean, bigint>;
+export interface ArkadikoDikoInitContract {
+  foundationClaimTokens: (
+    amount: number | bigint
+  ) => Transaction<boolean, bigint>;
+  foundersClaimTokens: (
+    amount: number | bigint
+  ) => Transaction<boolean, bigint>;
   setFoundationWallet: (address: string) => Transaction<boolean, bigint>;
   setFoundersWallet: (address: string) => Transaction<boolean, bigint>;
   getClaimedFoundationTokens: () => Promise<bigint>;
   getClaimedFoundersTokens: () => Promise<bigint>;
-  getPendingFoundationTokens: () => Promise<ClarityTypes.Response<bigint, null>>;
+  getPendingFoundationTokens: () => Promise<
+    ClarityTypes.Response<bigint, null>
+  >;
   getPendingFoundersTokens: () => Promise<ClarityTypes.Response<bigint, null>>;
   BLOCKSPERMONTH: () => Promise<bigint>;
   ERRNOTAUTHORIZED: () => Promise<ClarityTypes.Response<null, bigint>>;
@@ -23,4 +26,4 @@
   foundationWallet: () => Promise<string>;
   foundersTokensClaimed: () => Promise<bigint>;
   foundersWallet: () => Promise<string>;
-  }
+}

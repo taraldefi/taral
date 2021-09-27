@@ -1,6 +1,13 @@
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
-import { normalize, resolve } from "path";
+import {
+  createDefaultTestProvider,
+  NativeClarityBinProvider,
+} from "lib-clarity-bin";
+import {
+  generateFilesForContract,
+  submitAnalisysForContract,
+} from "lib-generate";
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
@@ -11,16 +18,7 @@ import {
   Logger,
   toCamelCase,
 } from "lib-shared";
-
-import {
-  createDefaultTestProvider,
-  NativeClarityBinProvider
-} from 'lib-clarity-bin';
-
-import {
-  generateFilesForContract,
-  submitAnalisysForContract
-} from 'lib-generate';
+import { normalize, resolve } from "path";
 
 interface IProject {
   outputDirectory: string;

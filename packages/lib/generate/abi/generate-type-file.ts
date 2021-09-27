@@ -1,5 +1,4 @@
-import { ClarityAbi } from "lib-shared";
-import { toCamelCase } from "lib-shared";
+import { ClarityAbi, toCamelCase } from "lib-shared";
 import { makeTypes } from "./utils";
 
 function generateTypesFileInternal(

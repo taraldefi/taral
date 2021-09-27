@@ -5,6 +5,7 @@ import cp, {
 import * as fs from "fs";
 import { readdirSync } from "fs";
 import * as fsExtra from "fs-extra";
+import { Logger } from "lib-shared";
 import fetch from "node-fetch";
 import * as os from "os";
 import { platform } from "os";
@@ -12,7 +13,6 @@ import * as path from "path";
 import { pipeline } from "stream";
 import * as unzip from "unzipper";
 import { promisify } from "util";
-import { Logger } from "lib-shared";
 import {
   BLOCKSTACK_CORE_SOURCE_PATH_ENV_VAR,
   CLARITY_CLI_SOURCE_PATH,
