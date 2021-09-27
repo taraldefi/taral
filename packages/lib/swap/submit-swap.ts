@@ -1,5 +1,5 @@
-import { BtcFtSwapContract } from "taral-generated-contracts";
 import { Logger, txOk } from "lib-shared";
+import { BtcFtSwapContract } from "taral-generated-contracts";
 import { HeaderPartsType, ProofCvType, TxPartsCvType } from "./types";
 
 export async function submitSwap({

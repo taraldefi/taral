@@ -1,8 +1,7 @@
 import { BlocksApi, Configuration } from "@stacks/blockchain-api-client";
 import fetch from "cross-fetch";
+import { Logger, toJSON } from "lib-shared";
 import { NETWORK } from "taral-configuration";
-import { toJSON } from "lib-shared";
-import { Logger } from "lib-shared";
 
 const NAME = "get-stx-block";
 

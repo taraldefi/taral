@@ -1,17 +1,20 @@
+import { BaseProvider, Contract, proxy } from "lib-shared";
+import { ArkadikoVaultDataV11Interface } from "./abi";
+import type { ArkadikoVaultDataV11Contract } from "./types";
+export type { ArkadikoVaultDataV11Contract } from "./types";
 
-  
-  import { Contract, proxy, BaseProvider } from 'lib-shared';
-  import type { ArkadikoVaultDataV11Contract } from './types';
-  import { ArkadikoVaultDataV11Interface } from './abi';
-  export type { ArkadikoVaultDataV11Contract } from './types';
+export const arkadikoVaultDataV11Contract = (provider: BaseProvider) => {
+  const contract = proxy<ArkadikoVaultDataV11Contract>(
+    ArkadikoVaultDataV11Interface,
+    provider
+  );
+  return contract;
+};
 
-  export const arkadikoVaultDataV11Contract = (provider: BaseProvider) => {
-    const contract = proxy<ArkadikoVaultDataV11Contract>(ArkadikoVaultDataV11Interface, provider);
-    return contract;
-  };
-
-  export const arkadikoVaultDataV11Info: Contract<ArkadikoVaultDataV11Contract> = {
+export const arkadikoVaultDataV11Info: Contract<ArkadikoVaultDataV11Contract> =
+  {
     contract: arkadikoVaultDataV11Contract,
-    address: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM',
-    contractFile: 'packages/clarity/contracts/external/arkadiko/arkadiko-vault-data-v1-1.clar',
+    address: "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+    contractFile:
+      "packages/clarity/contracts/external/arkadiko/arkadiko-vault-data-v1-1.clar",
   };

@@ -4,9 +4,8 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
+import { Logger, toJSON } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { toJSON } from "lib-shared";
-import { Logger } from "lib-shared";
 import { getTransactionById, timeout } from "./utils";
 
 const NAME = "handle-transaction";

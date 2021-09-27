@@ -6,6 +6,13 @@ import {
 import * as btc from "bitcoinjs-lib";
 import crossfetch from "cross-fetch";
 import {
+  getAccountFromMnemonic,
+  getBtcBalance,
+  makePayment,
+  PaymentResponse,
+} from "lib-bitcoin";
+import { getWalletAtIndex, Logger, toJSON } from "lib-shared";
+import {
   createBtcFtSwap,
   getReversedTxId,
   HeaderPartsType,
@@ -20,15 +27,8 @@ import {
   wasTxMined,
   wasTxMinedFromHex,
 } from "lib-swap";
-import{
-  getAccountFromMnemonic,
-  getBtcBalance,
-  PaymentResponse,
-  makePayment,
-} from "lib-bitcoin";
-import { getWalletAtIndex, Logger, toJSON } from "lib-shared";
-import { NETWORK } from "taral-configuration";
 import { retry } from "lib-testing";
+import { NETWORK } from "taral-configuration";
 import {
   btcFtSwapContract,
   clarinetAccounts,

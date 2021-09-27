@@ -1,11 +1,10 @@
 import * as btc from "bitcoinjs-lib";
-import { coinSelect } from "./coinselect";
-import { Logger } from "lib-shared";
-import * as stacksgen from "./stacksgen";
-import { makeBuffer } from "lib-shared";
+import { Logger, makeBuffer } from "lib-shared";
 import { getRpcClient } from "./client";
+import { coinSelect } from "./coinselect";
 import { REGTEST_FEE_RATE } from "./constants";
 import { time } from "./helpers";
+import * as stacksgen from "./stacksgen";
 import { getKeyAddress, getSpendableUtxos } from "./transaction";
 import { PaymentResponse } from "./types";
 import { isValidBtcAddress } from "./validation";

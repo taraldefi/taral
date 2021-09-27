@@ -1,7 +1,7 @@
 import { deserializeCV } from "@stacks/transactions";
-import { evalJson, executeJson } from "../adapter";
-import { cvToValue } from "lib-shared";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { cvToValue } from "lib-shared";
+import { evalJson, executeJson } from "../adapter";
 
 // maybe it's worth using the clarinet accounts here in the future?
 //

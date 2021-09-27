@@ -1,7 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import Bluebird from "bluebird";
-import { RPCClient } from "rpc-bitcoin";
 import { Logger } from "lib-shared";
+import { RPCClient } from "rpc-bitcoin";
 import { MIN_TX_CONFIRMATIONS } from "./constants";
 import { time } from "./helpers";
 import { GetRawTxResult, TxOutSet, TxOutUnspent } from "./types";

@@ -1,3 +1,13 @@
+import {
+  ClarinetAccount,
+  ClarinetAccounts,
+  Contract,
+  ContractInstances,
+  getClarinetAccounts,
+  getRootDirectory,
+  Logger,
+} from "lib-shared";
+import { ApiProvider } from "lib-testing";
 import { NETWORK } from "taral-configuration";
 import {
   BtcFtSwapContract,
@@ -8,19 +18,6 @@ import {
   TaralCoinContract,
   taralContracts,
 } from "taral-generated-contracts";
-import {
-  ClarinetAccount,
-  ClarinetAccounts,
-  Contract,
-  ContractInstances,
-  getClarinetAccounts,
-  getRootDirectory,
-  Logger,
-} from "lib-shared";
-
-import { 
-  ApiProvider
-} from 'lib-testing';
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 export let clarityBitcoinContract: (

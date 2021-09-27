@@ -1,24 +1,41 @@
+import { ClarityTypes, Transaction } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface ArkadikoStakePoolWstxDikoV11Contract {
-      calculateCummRewardPerStake: (registryTrait: string) => Transaction<bigint, null>;
-  claimPendingRewards: (registryTrait: string, staker: string) => Transaction<bigint, bigint>;
+export interface ArkadikoStakePoolWstxDikoV11Contract {
+  calculateCummRewardPerStake: (
+    registryTrait: string
+  ) => Transaction<bigint, null>;
+  claimPendingRewards: (
+    registryTrait: string,
+    staker: string
+  ) => Transaction<bigint, bigint>;
   emergencyWithdraw: (registryTrait: string) => Transaction<bigint, bigint>;
-  getPendingRewards: (registryTrait: string, staker: string) => Transaction<bigint, null>;
-  increaseCummRewardPerStake: (registryTrait: string) => Transaction<bigint, bigint>;
-  stake: (registryTrait: string, token: string, staker: string, amount: number | bigint) => Transaction<bigint, bigint>;
-  unstake: (registryTrait: string, token: string, staker: string, amount: number | bigint) => Transaction<bigint, bigint>;
+  getPendingRewards: (
+    registryTrait: string,
+    staker: string
+  ) => Transaction<bigint, null>;
+  increaseCummRewardPerStake: (
+    registryTrait: string
+  ) => Transaction<bigint, bigint>;
+  stake: (
+    registryTrait: string,
+    token: string,
+    staker: string,
+    amount: number | bigint
+  ) => Transaction<bigint, bigint>;
+  unstake: (
+    registryTrait: string,
+    token: string,
+    staker: string,
+    amount: number | bigint
+  ) => Transaction<bigint, bigint>;
   getCummRewardPerStake: () => Promise<bigint>;
   getLastRewardIncreaseBlock: () => Promise<bigint>;
   getStakeAmountOf: (staker: string) => Promise<bigint>;
   getStakeCummRewardPerStakeOf: (staker: string) => Promise<bigint>;
   getStakeOf: (staker: string) => Promise<{
-  "cumm-reward-per-stake": bigint;
-  "uamount": bigint
-    }>;
+    "cumm-reward-per-stake": bigint;
+    uamount: bigint;
+  }>;
   getTotalStaked: () => Promise<bigint>;
   ERRINSUFFICIENTSTAKE: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERRNOTAUTHORIZED: () => Promise<ClarityTypes.Response<null, bigint>>;
@@ -29,10 +46,8 @@
   cummRewardPerStake: () => Promise<bigint>;
   lastRewardIncreaseBlock: () => Promise<bigint>;
   totalStaked: () => Promise<bigint>;
-  stakes: (key: {
-  "staker": string
-    }) => Promise<{
-  "cumm-reward-per-stake": bigint;
-  "uamount": bigint
-    } | null>;
-  }
+  stakes: (key: { staker: string }) => Promise<{
+    "cumm-reward-per-stake": bigint;
+    uamount: bigint;
+  } | null>;
+}

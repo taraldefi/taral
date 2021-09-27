@@ -1,6 +1,6 @@
+import { Logger } from "lib-shared";
 import { RPCClient } from "rpc-bitcoin";
 import { Block } from ".";
-import { Logger } from "lib-shared";
 
 export async function getBlockByHash(
   rpcClient: RPCClient,

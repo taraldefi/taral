@@ -9,8 +9,7 @@ import {
   isClarityAbiStringUtf8,
   isClarityAbiTuple,
 } from "@stacks/transactions";
-import { ClarityAbi, ClarityAbiMap } from "lib-shared";
-import { toCamelCase } from "lib-shared";
+import { ClarityAbi, ClarityAbiMap, toCamelCase } from "lib-shared";
 
 // Will add more to the reserved names if I need to
 //

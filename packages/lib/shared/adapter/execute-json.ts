@@ -1,5 +1,5 @@
-import { Logger } from "..";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { Logger } from "..";
 import { ExecuteResult } from "../types";
 
 export const executeJson = async ({

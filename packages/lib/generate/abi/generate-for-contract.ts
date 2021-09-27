@@ -1,4 +1,6 @@
 import { mkdir, writeFile } from "fs/promises";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { getContractNameFromPath } from "lib-shared";
 import { normalize, resolve } from "path";
 import {
   generateIndexFile,
@@ -9,12 +11,10 @@ import {
   generateMockTypesFile,
   generateTypesFile,
 } from ".";
-import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
 } from "../test-utils/cleanup-boot-contract-calls";
-import { getContractNameFromPath } from "lib-shared";
 
 export async function submitAnalisysForContract({
   contractFile: _contractFile,

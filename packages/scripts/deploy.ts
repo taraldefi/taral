@@ -1,8 +1,5 @@
 import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
-import { normalize, resolve } from "path";
-import { NETWORK } from "taral-configuration";
-import { taralContracts } from "taral-generated-contracts";
 import {
   Contracts,
   getClarinetAccounts,
@@ -10,10 +7,10 @@ import {
   getRootDirectory,
   Logger,
 } from "lib-shared";
-
-import {
-  handleTransaction
-} from "lib-stacks";
+import { handleTransaction } from "lib-stacks";
+import { normalize, resolve } from "path";
+import { NETWORK } from "taral-configuration";
+import { taralContracts } from "taral-generated-contracts";
 
 const NAME = "Deploy tool";
 

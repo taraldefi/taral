@@ -1,5 +1,8 @@
-import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { getDefaultBinaryFilePath, getTempFilePath } from "lib-clarity-bin";
+import {
+  getDefaultBinaryFilePath,
+  getTempFilePath,
+  NativeClarityBinProvider,
+} from "lib-clarity-bin";
 import { AllocationOrAccounts } from "../types";
 import getAllocations from "./get-allocations";
 
