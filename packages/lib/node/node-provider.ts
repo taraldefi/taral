@@ -3,6 +3,7 @@ import {
     SmartContractsApi,
 } from "@stacks/blockchain-api-client";
 import {
+    AnchorMode,
     broadcastTransaction,
     ClarityAbiVariable,
     ClarityType,
@@ -161,8 +162,7 @@ export class NodeProvider implements BaseProvider {
                 network: payload.network,
                 postConditions: options.postConditions,
                 postConditionMode: options.postConditionMode,
-                anchorMode: 3,
-                // fee: new BN(10000, 10),
+                anchorMode: AnchorMode.Any
             };
 
             if ("nonce" in options && options.nonce) {
