@@ -6,7 +6,7 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "taral-generated-contracts";
-import { Block } from "taral-shared";
+import { Block } from "lib-bitcoin";
 import { Contract, ContractInstances } from "lib-shared";
 
 export type DeployedContracts = ContractInstances<

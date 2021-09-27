@@ -8,9 +8,12 @@ import {
   getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
-  handleTransaction,
   Logger,
-} from "taral-shared";
+} from "lib-shared";
+
+import {
+  handleTransaction
+} from "lib-stacks";
 
 const NAME = "Deploy tool";
 
