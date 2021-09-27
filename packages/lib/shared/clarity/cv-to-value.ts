@@ -8,11 +8,11 @@ export function cvToValue(val: ClarityValue): any {
     case ClarityType.BoolFalse:
       return false;
     case ClarityType.Int:
-      return BigInt(`0x${val.value.toString("hex")}`);
+      return val.value;
     case ClarityType.UInt:
-      return BigInt(`0x${val.value.toString("hex")}`);
+      return val.value;
     case ClarityType.Buffer:
-      return `0x${val.buffer.toString("hex")}`;
+      return val.buffer;
     case ClarityType.OptionalNone:
       return null;
     case ClarityType.OptionalSome:
