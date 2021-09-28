@@ -12,7 +12,7 @@ export function cvToValue(val: ClarityValue): any {
     case ClarityType.UInt:
       return val.value;
     case ClarityType.Buffer:
-      return val.buffer;
+      return `0x${val.buffer.toString('hex')}`;
     case ClarityType.OptionalNone:
       return null;
     case ClarityType.OptionalSome:
