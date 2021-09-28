@@ -1,6 +1,9 @@
 import { Configuration, SmartContractsApi } from '@stacks/blockchain-api-client';
-import { BufferReader, ClarityAbiVariable, ClarityType, deserializeCV, deserializeTransaction, PostCondition, responseOkCV, serializeCV, serializePostCondition } from '@stacks/transactions';
+
+import { ClarityAbiVariable, ClarityType, deserializeCV, noneCV, PostCondition, responseErrorCV, responseOkCV, serializeCV, serializePostCondition } from '@stacks/transactions';
+
 import { ok, err } from 'neverthrow';
+
 import {
     BaseProvider,
     Transaction,
@@ -9,27 +12,28 @@ import {
     ContractInstances,
     cvToValue,
     parseToCV,
-    WebTransactionReceipt,
     SubmitOptions,
     IProviderRequest,
     ClarityAbiMap,
     TransactionResult,
-    WebSignerOptions,
+    WebSignerOptions
 } from 'lib-shared';
-import { StacksNetwork } from '@stacks/network';
-import { getPublicKey } from 'noble-secp256k1';
-import { TokenSigner } from 'stacks-crypto';
+
 import { StacksNetworkConfiguration } from 'taral-configuration';
 import { getTransactionById } from 'lib-stacks';
-import { AppDetails, WebConfig, WebTransaction, TxPayload, ContractCallPayload } from './types';
+import { WebConfig } from '../shared';
+import { AuthOptions, ContractCallTxOptions, makeContractCallToken, openTransactionPopup } from "micro-stacks/connect";
+import { } from "micro-stacks/connect"
+import { bytesToHex } from 'micro-stacks/common';
+import { IContractCall, MicroStacksWebTransaction, MicroStacksWebTransactionReceipt } from './types';
 
-export class WebProvider implements BaseProvider {
+export class MicroStacksWebProvider implements BaseProvider {
     apiClient: SmartContractsApi;
     identifier: string;
     stxAddress: string;
     privateKey: string;
     network: StacksNetworkConfiguration;
-    appDetails: AppDetails;
+    appDetails: AuthOptions['appDetails'];
 
     constructor({
         network,
@@ -51,9 +55,11 @@ export class WebProvider implements BaseProvider {
         this.network = network;
         this.appDetails = appDetails;
     }
+
     callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
         throw new Error('Method not implemented.');
     }
+
     callVariable(_variable: ClarityAbiVariable): Promise<void> {
         throw new Error('Method not implemented.');
     }
@@ -109,94 +115,98 @@ export class WebProvider implements BaseProvider {
         }
     }
 
-    callPublic(request: IProviderRequest): Transaction<any, any> {
+     callPublic(request: IProviderRequest): Transaction<any, any> {
         const argumentsFormatted = request.arguments.map((arg, index) => {
             const { type } = request.function.args[index];
             const valueCV = parseToCV(arg, type);
-            return serializeCV(valueCV).toString('hex');
+            return bytesToHex(serializeCV(valueCV));
         });
         const [contractAddress, contractName] = this.identifier.split('.');
 
-        return this.makeTx({
+        const payload: ContractCallTxOptions = {
             contractAddress,
             contractName,
             functionName: request.function.name,
             functionArgs: argumentsFormatted,
             network: this.network,
-            stxAddress: request.caller.address,
-            privateKey: request.caller.privateKey,
+            privateKey: this.privateKey,
             appDetails: this.appDetails,
-        });
-    }
+        };
 
-    private makeTx<Ok, Err>(payload: TxPayload): WebTransaction<Ok, Err> {
-        return {
+        const result: MicroStacksWebTransaction<any, any> = {
             payload,
-            submit: async (options: SubmitOptions): Promise<WebTransactionReceipt<Ok, Err>> => {
+            submit: async (options: SubmitOptions): Promise<MicroStacksWebTransactionReceipt<any, any>> => {
                 const postConditions = this.serializePostConditions((options as WebSignerOptions).postConditions);
-                const token = await this.makeContractCallToken({
-                    postConditions,
+
+                const token = await makeContractCallToken({
                     ...payload,
+                    postConditions: postConditions
                 });
 
-                if (!(window as any).StacksProvider) {
-                    throw new Error('Please install the wallet');
-                }
-                const request = await (window as any).StacksProvider.transactionRequest(token);
-                const { txRaw } = request;
-                const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
-                const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
-
-                const successfulFunctionCallResult = await getTransactionById(
-                    stacksTransaction.txid(),
-                    this.network
-                );
+                const result = await this.handlePopup(token);
+                const success = result.success;
+                const stacksTransaction = result.payload!.stacksTransaction;
 
                 return {
-                    txId: request.txId,
+                    txId: success ? result.payload?.txId: undefined,
                     stacksTransaction,
-                    getResult: () => {
-                        const resultCV = deserializeCV(
-                            Buffer.from(successfulFunctionCallResult)
-                        );
+                    getResult: async () => {
+                        if (success) {
+                            const successfulFunctionCallResult = await getTransactionById(
+                                stacksTransaction.txid(),
+                                this.network
+                            );
 
-                        const result = cvToValue(resultCV);
+                            const resultCV = deserializeCV(
+                                Buffer.from(successfulFunctionCallResult)
+                            );
 
-                        const transactionResult: TransactionResult<any, any> = {
-                            isOk: true,
-                            response: responseOkCV(resultCV),
-                            value: result,
-                            events: [], // leave events empty for now and figure later how to fetch them
-                        };
+                            const result = cvToValue(resultCV);
 
-                        return Promise.resolve(transactionResult);
+                            const transactionResult: TransactionResult<any, any> = {
+                                isOk: true,
+                                response: responseOkCV(resultCV),
+                                value: result,
+                                events: [], // leave events empty for now and figure later how to fetch them
+                            };
+
+                            return Promise.resolve(transactionResult);
+                        } else {
+                            return Promise.resolve({
+                                isOk: false,
+                                value: 'Cancelled',
+                                response: responseErrorCV(noneCV()),
+                            });
+                        }
                     },
                 };
             },
         };
+
+        return result;
     }
 
-
-    private async makeContractCallToken(options: TxPayload & { postConditions?: string[] }) {
-        const { functionArgs, privateKey, ...rest } = options;
-        const args: string[] = functionArgs.map(arg => {
-            if (typeof arg === 'string') {
-                return arg;
-            }
-            return serializeCV(arg).toString('hex');
+    private async handlePopup(token: string): Promise<IContractCall> {
+        const promise = new Promise<IContractCall>((resolve) => {
+            openTransactionPopup({
+                token,
+                onCancel: () => {
+                    resolve({
+                        success: false,
+                        payload: undefined,
+                    })
+                },
+                onFinish: (payload: any) => {
+                    resolve({
+                        payload,
+                        success: true
+                    })
+                }
+            });
         });
-        // const defaults = getDefaults(signer);
-        const publicKey = getPublicKey(privateKey, true);
-        const payload: ContractCallPayload = {
-            functionArgs: args,
-            txType: 'contract_call',
-            publicKey,
-            ...rest,
-        };
 
-        const tokenSigner = new TokenSigner('ES256k', privateKey);
-        const token = await tokenSigner.sign(payload as any);
-        return token;
+        const result = await promise;
+        return result;
     }
 
     private serializePostConditions(postConditions?: PostCondition[]): string[] {
@@ -206,5 +216,4 @@ export class WebProvider implements BaseProvider {
         }
         return pcSerialized;
     }
-
 }

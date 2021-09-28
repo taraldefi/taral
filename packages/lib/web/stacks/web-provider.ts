@@ -16,32 +16,20 @@ import {
     TransactionResult,
     WebSignerOptions,
 } from 'lib-shared';
-import { StacksNetwork } from '@stacks/network';
 import { getPublicKey } from 'noble-secp256k1';
 import { TokenSigner } from 'stacks-crypto';
 import { StacksNetworkConfiguration } from 'taral-configuration';
 import { getTransactionById } from 'lib-stacks';
-import { AppDetails, ContractCallPayload, TxPayload, WebConfig, WebTransaction, WebTransaction2 } from './types';
-import { AuthOptions, ContractCallOptions, makeContractCallToken, openTransactionPopup } from "micro-stacks/connect";
-import { bytesToHex } from 'micro-stacks/common';
+import { SimpleStacksWebTransaction, TxPayload, SimpleStacksContractCallPayload } from './types';
+import { AppDetails, WebConfig } from '../shared';
 
-export interface FinishedTxData {
-    txRaw: string;
-    txId: string;
-  }
-
-interface IContractCall{
-    payload: FinishedTxData;
-    success: boolean;
-}
-
-export class WebProvider2 implements BaseProvider {
+export class SimpleStacksWebProvider implements BaseProvider {
     apiClient: SmartContractsApi;
     identifier: string;
     stxAddress: string;
     privateKey: string;
     network: StacksNetworkConfiguration;
-    appDetails: AuthOptions['appDetails'];;
+    appDetails: AppDetails;
 
     constructor({
         network,
@@ -121,122 +109,95 @@ export class WebProvider2 implements BaseProvider {
         }
     }
 
-    async callPublic(request: IProviderRequest): Transaction<any, any> {
+    callPublic(request: IProviderRequest): Transaction<any, any> {
         const argumentsFormatted = request.arguments.map((arg, index) => {
-          const { type } = request.function.args[index];
-          const valueCV = parseToCV(arg, type);
-          return bytesToHex(serializeCV(valueCV));
+            const { type } = request.function.args[index];
+            const valueCV = parseToCV(arg, type);
+            return serializeCV(valueCV).toString('hex');
         });
         const [contractAddress, contractName] = this.identifier.split('.');
 
-        const payload: ContractCallOptions = {
+        return this.makeTx({
             contractAddress,
             contractName,
             functionName: request.function.name,
             functionArgs: argumentsFormatted,
             network: this.network,
-            stxAddress: this.stxAddress,
-            privateKey: this.privateKey,
+            stxAddress: request.caller.address,
+            privateKey: request.caller.privateKey,
             appDetails: this.appDetails,
-          };
+        });
+    }
 
-          const result: WebTransaction2<any, any> = {
+    private makeTx<Ok, Err>(payload: TxPayload): SimpleStacksWebTransaction<Ok, Err> {
+        return {
             payload,
             submit: async (options: SubmitOptions): Promise<WebTransactionReceipt<Ok, Err>> => {
                 const postConditions = this.serializePostConditions((options as WebSignerOptions).postConditions);
-
-                const token = await makeContractCallToken({
+                const token = await this.makeContractCallToken({
+                    postConditions,
                     ...payload,
-                    postConditions: postConditions
                 });
 
+                if (!(window as any).StacksProvider) {
+                    throw new Error('Please install the wallet');
+                }
+                const request = await (window as any).StacksProvider.transactionRequest(token);
+                const { txRaw } = request;
+                const txBuffer = Buffer.from(txRaw.replace(/^0x/, ''), 'hex');
+                const stacksTransaction = deserializeTransaction(new BufferReader(txBuffer));
 
-                const result = await this.handlePopup(token);
-
-                const success = result.success;
-                const stacksTransaction = result.payload.stacksTransaction;
+                const successfulFunctionCallResult = await getTransactionById(
+                    stacksTransaction.txid(),
+                    this.network
+                );
 
                 return {
                     txId: request.txId,
                     stacksTransaction,
-                    getResult: async () => {
-                        if (success) {
-                            const successfulFunctionCallResult = await getTransactionById(
-                                stacksTransaction.txid(),
-                                this.network
-                            );
+                    getResult: () => {
+                        const resultCV = deserializeCV(
+                            Buffer.from(successfulFunctionCallResult)
+                        );
 
-                            const resultCV = deserializeCV(
-                                Buffer.from(successfulFunctionCallResult)
-                            );
-    
-                            const result = cvToValue(resultCV);
-    
-                            const transactionResult: TransactionResult<any, any> = {
-                                isOk: true,
-                                response: responseOkCV(resultCV),
-                                value: result,
-                                events: [], // leave events empty for now and figure later how to fetch them
-                            };
-    
-                            return Promise.resolve(transactionResult);
-                        }else {
-                            return  Promise.resolve({
-                                isOk: false,
-                                value: broadcastResponse.error,
-                                response: responseErrorCV(noneCV()),
-                            });
-                        }
+                        const result = cvToValue(resultCV);
+
+                        const transactionResult: TransactionResult<any, any> = {
+                            isOk: true,
+                            response: responseOkCV(resultCV),
+                            value: result,
+                            events: [], // leave events empty for now and figure later how to fetch them
+                        };
+
+                        return Promise.resolve(transactionResult);
                     },
                 };
             },
         };
-      }
-
-      private async handlePopup(token: string): Promise<IContractCall> {
-          const promise = new Promise<IContractCall>((resolve) => {
-            openTransactionPopup({
-                token,
-                onCancel: () => {
-                    resolve({
-                        payload: null,
-                        success: false
-                    })
-                },
-                onFinish: (payload: any) => {
-                    resolve({
-                        payload,
-                        success: true
-                    })
-                }
-            });
-          });
-
-          const result = await promise;
-          return result;
-      }
-
-    // callPublic(request: IProviderRequest): Transaction<any, any> {
-    //     const argumentsFormatted = request.arguments.map((arg, index) => {
-    //         const { type } = request.function.args[index];
-    //         const valueCV = parseToCV(arg, type);
-    //         return serializeCV(valueCV).toString('hex');
-    //     });
-    //     const [contractAddress, contractName] = this.identifier.split('.');
-
-    //     return this.makeTx({
-    //         contractAddress,
-    //         contractName,
-    //         functionName: request.function.name,
-    //         functionArgs: argumentsFormatted,
-    //         network: this.network,
-    //         stxAddress: request.caller.address,
-    //         privateKey: request.caller.privateKey,
-    //         appDetails: this.appDetails,
-    //     });
-    // }
+    }
 
 
+    private async makeContractCallToken(options: TxPayload & { postConditions?: string[] }) {
+        const { functionArgs, privateKey, ...rest } = options;
+        const args: string[] = functionArgs.map(arg => {
+            if (typeof arg === 'string') {
+                return arg;
+            }
+            return serializeCV(arg).toString('hex');
+        });
+        // const defaults = getDefaults(signer);
+        const publicKey = getPublicKey(privateKey, true);
+        const payload: SimpleStacksContractCallPayload = {
+            functionArgs: args,
+            txType: 'contract_call',
+            publicKey,
+            ...rest,
+        };
+
+        const tokenSigner = new TokenSigner('ES256k', privateKey);
+        const token = await tokenSigner.sign(payload as any);
+        return token;
+    }
 
     private serializePostConditions(postConditions?: PostCondition[]): string[] {
         let pcSerialized: string[] = [];
