@@ -19,7 +19,7 @@
     "@stacks/connect": "5.0.5"
   },
   "dependencies": {
-    "micro-stacks": "0.0.3",
+    "micro-stacks": "0.0.27",
     "taral-configuration": "1.0.0",
     "taral-generated-contracts": "1.0.0",
     "javascript-stringify": "2.1.0",
