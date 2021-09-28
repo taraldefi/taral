@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { TaralCoinInterface } from "./abi";
 import type { TaralCoinContract } from "./types";
 export type { TaralCoinContract } from "./types";

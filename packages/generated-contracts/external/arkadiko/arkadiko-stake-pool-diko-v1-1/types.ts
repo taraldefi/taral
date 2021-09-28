@@ -1,4 +1,4 @@
-import { ClarityTypes, Transaction } from "taral-shared";
+import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface ArkadikoStakePoolDikoV11Contract {
   addRewardsToPool: (registryTrait: string) => Transaction<bigint, bigint>;

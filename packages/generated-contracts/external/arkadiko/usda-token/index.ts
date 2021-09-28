@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { UsdaTokenInterface } from "./abi";
 import type { UsdaTokenContract } from "./types";
 export type { UsdaTokenContract } from "./types";

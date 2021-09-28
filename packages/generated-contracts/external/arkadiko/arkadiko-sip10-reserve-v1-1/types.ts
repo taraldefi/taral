@@ -1,4 +1,4 @@
-import { Transaction } from "taral-shared";
+import { Transaction } from "lib-shared";
 
 export interface ArkadikoSip10ReserveV11Contract {
   burn: (

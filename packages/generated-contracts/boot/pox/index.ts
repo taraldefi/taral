@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { PoxInterface } from "./abi";
 import type { PoxContract } from "./types";
 export type { PoxContract } from "./types";

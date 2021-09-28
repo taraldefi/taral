@@ -1,4 +1,4 @@
-import { Transaction } from "taral-shared";
+import { Transaction } from "lib-shared";
 
 export interface CostVotingContract {
   confirmMiners: (proposalId: number | bigint) => Transaction<boolean, bigint>;

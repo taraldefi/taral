@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { WrappedStxTokenInterface } from "./abi";
 import type { WrappedStxTokenContract } from "./types";
 export type { WrappedStxTokenContract } from "./types";

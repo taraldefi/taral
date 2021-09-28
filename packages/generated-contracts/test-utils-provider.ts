@@ -1,8 +1,6 @@
-import {
-  ClarinetAccount,
-  NativeClarityBinProvider,
-  TestProvider,
-} from "taral-shared";
+import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { ClarinetAccount } from "lib-shared";
+import { TestProvider } from "lib-testing";
 import {
   BnsContract,
   bootContracts,

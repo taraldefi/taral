@@ -1,4 +1,4 @@
-import { ClarityTypes, Transaction } from "taral-shared";
+import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface ArkadikoVaultRewardsV11Contract {
   addCollateral: (

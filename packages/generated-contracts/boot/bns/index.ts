@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { BnsInterface } from "./abi";
 import type { BnsContract } from "./types";
 export type { BnsContract } from "./types";

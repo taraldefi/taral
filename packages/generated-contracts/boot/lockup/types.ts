@@ -1,4 +1,4 @@
-import { ClarityTypes } from "taral-shared";
+import { ClarityTypes } from "lib-shared";
 
 export interface LockupContract {
   getLockups: (stxBlockHeightOpt: bigint | null) => Promise<

@@ -8,7 +8,8 @@
   },
   "private": "true",
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "packages/lib/*"
   ],
   "scripts": {
     "clarinet:check": "yarn workspace taral-clarity clarinet:check",

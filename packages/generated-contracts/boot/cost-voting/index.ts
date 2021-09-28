@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { CostVotingInterface } from "./abi";
 import type { CostVotingContract } from "./types";
 export type { CostVotingContract } from "./types";

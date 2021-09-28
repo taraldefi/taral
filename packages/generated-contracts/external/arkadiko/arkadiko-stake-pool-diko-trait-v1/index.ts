@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { ArkadikoStakePoolDikoTraitV1Interface } from "./abi";
 import type { ArkadikoStakePoolDikoTraitV1Contract } from "./types";
 export type { ArkadikoStakePoolDikoTraitV1Contract } from "./types";

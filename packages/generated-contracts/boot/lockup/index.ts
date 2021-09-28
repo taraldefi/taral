@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { LockupInterface } from "./abi";
 import type { LockupContract } from "./types";
 export type { LockupContract } from "./types";

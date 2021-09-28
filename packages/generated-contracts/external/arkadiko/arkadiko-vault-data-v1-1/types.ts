@@ -1,4 +1,4 @@
-import { ClarityTypes, Transaction } from "taral-shared";
+import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface ArkadikoVaultDataV11Contract {
   closeVault: (vaultId: number | bigint) => Transaction<boolean, bigint>;

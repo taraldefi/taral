@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { Sip010TraitFtStandardInterface } from "./abi";
 import type { Sip010TraitFtStandardContract } from "./types";
 export type { Sip010TraitFtStandardContract } from "./types";

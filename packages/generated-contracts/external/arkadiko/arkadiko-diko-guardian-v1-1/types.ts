@@ -1,4 +1,4 @@
-import { ClarityTypes } from "taral-shared";
+import { ClarityTypes } from "lib-shared";
 
 export interface ArkadikoDikoGuardianV11Contract {
   getStakingRewardsPerBlock: () => Promise<bigint>;

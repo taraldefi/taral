@@ -1,4 +1,4 @@
-import { Transaction } from "taral-shared";
+import { Transaction } from "lib-shared";
 
 export interface ArkadikoOracleV11Contract {
   fetchPrice: (token: string) => Transaction<

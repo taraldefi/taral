@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { NftTraitInterface } from "./abi";
 import type { NftTraitContract } from "./types";
 export type { NftTraitContract } from "./types";

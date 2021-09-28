@@ -1,4 +1,4 @@
-import { ClarityTypes } from "taral-shared";
+import { ClarityTypes } from "lib-shared";
 
 export interface ClarityBitcoinContract {
   buffToU8: (byte: Buffer) => Promise<bigint>;

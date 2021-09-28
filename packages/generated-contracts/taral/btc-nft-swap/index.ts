@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { BtcNftSwapInterface } from "./abi";
 import type { BtcNftSwapContract } from "./types";
 export type { BtcNftSwapContract } from "./types";

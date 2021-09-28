@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { StdikoTokenInterface } from "./abi";
 import type { StdikoTokenContract } from "./types";
 export type { StdikoTokenContract } from "./types";

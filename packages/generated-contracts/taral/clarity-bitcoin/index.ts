@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { ClarityBitcoinInterface } from "./abi";
 import type { ClarityBitcoinContract } from "./types";
 export type { ClarityBitcoinContract } from "./types";

@@ -1,20 +1,24 @@
 import { readFileSync } from "fs";
 import { writeFile } from "fs/promises";
-import { normalize, resolve } from "path";
+import {
+  createDefaultTestProvider,
+  NativeClarityBinProvider,
+} from "lib-clarity-bin";
+import {
+  generateFilesForContract,
+  submitAnalisysForContract,
+} from "lib-generate";
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
-  createDefaultTestProvider,
-  generateFilesForContract,
   getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   getRootRelativeContractsFolder,
   Logger,
-  NativeClarityBinProvider,
-  submitAnalisysForContract,
   toCamelCase,
-} from "taral-shared";
+} from "lib-shared";
+import { normalize, resolve } from "path";
 
 interface IProject {
   outputDirectory: string;

@@ -1,4 +1,4 @@
-import { ClarityAbi } from "taral-shared";
+import { ClarityAbi } from "lib-shared";
 
 export const ArkadikoStackerPayerV11Interface: ClarityAbi = {
   functions: [

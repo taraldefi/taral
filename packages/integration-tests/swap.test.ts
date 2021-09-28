@@ -6,29 +6,29 @@ import {
 import * as btc from "bitcoinjs-lib";
 import crossfetch from "cross-fetch";
 import {
-  createBtcFtSwap,
   getAccountFromMnemonic,
   getBtcBalance,
-  getReversedTxId,
-  getWalletAtIndex,
-  HeaderPartsType,
-  Logger,
   makePayment,
+  PaymentResponse,
+} from "lib-bitcoin";
+import { getWalletAtIndex, Logger, toJSON } from "lib-shared";
+import {
+  createBtcFtSwap,
+  getReversedTxId,
+  HeaderPartsType,
   paramsFromTx,
   ParamsFromTxResponse,
   parseBlockHeader,
-  PaymentResponse,
   submitSwap,
-  toJSON,
   verifyBlockHeader,
   verifyBlockHeader2,
   verifyMerkleProof,
   verifyMerkleProof2,
   wasTxMined,
   wasTxMinedFromHex,
-} from "taral-shared";
+} from "lib-swap";
+import { retry } from "lib-testing";
 import { NETWORK } from "taral-configuration";
-import { retry } from "./utils/retry";
 import {
   btcFtSwapContract,
   clarinetAccounts,

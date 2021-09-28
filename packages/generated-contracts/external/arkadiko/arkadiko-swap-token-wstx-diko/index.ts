@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { ArkadikoSwapTokenWstxDikoInterface } from "./abi";
 import type { ArkadikoSwapTokenWstxDikoContract } from "./types";
 export type { ArkadikoSwapTokenWstxDikoContract } from "./types";

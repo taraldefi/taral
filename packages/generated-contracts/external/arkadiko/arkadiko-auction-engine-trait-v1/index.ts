@@ -1,4 +1,4 @@
-import { BaseProvider, Contract, proxy } from "taral-shared";
+import { BaseProvider, Contract, proxy } from "lib-shared";
 import { ArkadikoAuctionEngineTraitV1Interface } from "./abi";
 import type { ArkadikoAuctionEngineTraitV1Contract } from "./types";
 export type { ArkadikoAuctionEngineTraitV1Contract } from "./types";
