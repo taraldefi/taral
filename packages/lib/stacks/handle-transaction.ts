@@ -1,9 +1,11 @@
 import {
   broadcastTransaction,
   StacksTransaction,
+  TxBroadcastResult,
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
+import { error } from "console";
 import { Logger, toJSON } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById, timeout } from "./utils";
@@ -17,12 +19,15 @@ export async function handleTransaction(
   const result = await broadcastTransaction(transaction, network);
   Logger.debug(NAME, "Broadcast transaction result: ", result);
 
-  if ((result as TxBroadcastResultRejected).error) {
+  var success = isBroadcastSuccessful(result);
+
+  if (!success) {
     if (
       (result as TxBroadcastResultRejected).reason === "ContractAlreadyExists"
     ) {
       Logger.debug(NAME, "Contract already deployed");
-      return "" as TxBroadcastResultOk;
+
+      return result as TxBroadcastResultOk;
     } else {
       throw new Error(
         `failed to handle transaction ${transaction.txid()}: ${toJSON(result)}`
@@ -30,7 +35,7 @@ export async function handleTransaction(
     }
   }
 
-  const processed = await processing(network, result as TxBroadcastResultOk);
+  const processed = await processing(network, result.txid);
 
   if (!processed) {
     throw new Error(
@@ -40,6 +45,14 @@ export async function handleTransaction(
 
   Logger.debug(NAME, `Processed: ${processed}, Result: `, result);
   return result as TxBroadcastResultOk;
+}
+
+function isBroadcastSuccessful(result: TxBroadcastResult): boolean {
+  if (result.error || !result.txid) {
+    return false;
+  } else {
+    return true;
+  }
 }
 
 async function processing(
