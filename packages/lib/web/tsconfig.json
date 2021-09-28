@@ -36,5 +36,5 @@
   "sourceMap": true,
   "strict": true,
 
-  "include": ["./**/*.ts"]
+  "include": ["./stacks/*.ts", "./micro-stacks/*.ts"]
 }
