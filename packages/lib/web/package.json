@@ -16,7 +16,7 @@
     "@types/unzipper": "^0.10.3",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3",
-    "@stacks/connect": "5.0.5"
+    "@stacks/connect": "6.2.0"
   },
   "dependencies": {
     "micro-stacks": "0.0.27",
