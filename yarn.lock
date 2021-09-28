@@ -4231,10 +4231,10 @@ stack-utils@^2.0.3:
   dependencies:
     escape-string-regexp "^2.0.0"
 
-stacks-crypto@1.0.0-beta.3:
-  version "1.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/stacks-crypto/-/stacks-crypto-1.0.0-beta.3.tgz#93646517acd54bcfdb3c13c268f76cbb45221de0"
-  integrity sha512-Xzbp542tCc8qylcSlj9BS//RXqYzbpsV6sje6BqMX6/ArfQsmtQj/WpDTkNqGuqN69dR7M4Kf6NkGYjIMMpM7g==
+stacks-crypto@1.0.0-beta.4:
+  version "1.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/stacks-crypto/-/stacks-crypto-1.0.0-beta.4.tgz#f3ff78e8e665ce53b7ac7eb6bc57804b7beea4e4"
+  integrity sha512-6F/mraf9+MsGXR07y84+iVLpmPfyqJngJqKbdGfV34tR8cjyVzQPIvMEMo7txSiR2v3KkT8XD6W07CkRD086Lw==
   dependencies:
     buffer "6.0.3"
     ecdsa-sig-formatter "1.0.11"
