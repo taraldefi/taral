@@ -129,13 +129,14 @@ export class ApiProvider implements BaseProvider {
       //   throw new Error("Passing `x` is required.");
       // }
 
-      var rawFunctionCallResult: TxBroadcastResult = await this.callContractFunction(
-        this.contractName,
-        request.function.name,
-        request.caller.privateKey,
-        request.caller.address,
-        formattedArguments
-      );
+      var rawFunctionCallResult: TxBroadcastResult =
+        await this.callContractFunction(
+          this.contractName,
+          request.function.name,
+          request.caller.privateKey,
+          request.caller.address,
+          formattedArguments
+        );
 
       var success = this.isBroadcastSuccessful(rawFunctionCallResult);
 

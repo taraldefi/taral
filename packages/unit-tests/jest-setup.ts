@@ -5,10 +5,7 @@ import {
   getClarinetAccounts,
   getRootDirectory,
 } from "lib-shared";
-import { 
-  TestProvider, 
-  getDefaultClarityBin,
-} from "lib-testing";
+import { TestProvider, getDefaultClarityBin } from "lib-testing";
 import {
   arkadikoContracts,
   TaralCoinContract,

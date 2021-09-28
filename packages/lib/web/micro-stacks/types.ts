@@ -3,16 +3,17 @@ import { Transaction, TransactionReceiptBase } from "lib-shared";
 import { StacksTransaction } from "micro-stacks/transactions";
 
 export interface IContractCall {
-    payload: FinishedTxData | undefined;
-    success: boolean;
+  payload: FinishedTxData | undefined;
+  success: boolean;
 }
 
-export interface MicroStacksWebTransaction<Ok, Err> extends Transaction<Ok, Err> {
-    payload: ContractCallTxOptions;
+export interface MicroStacksWebTransaction<Ok, Err>
+  extends Transaction<Ok, Err> {
+  payload: ContractCallTxOptions;
 }
 
 export interface MicroStacksWebTransactionReceipt<Ok, Err>
-    extends TransactionReceiptBase<Ok, Err> {
-    txId: string | undefined;
-    stacksTransaction: StacksTransaction;
+  extends TransactionReceiptBase<Ok, Err> {
+  txId: string | undefined;
+  stacksTransaction: StacksTransaction;
 }
