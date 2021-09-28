@@ -24,7 +24,7 @@ export async function handleFunctionTransaction(
 
   const processed = await functionProcessing(
     network,
-    result as TxBroadcastResultOk,
+    result.txid,
     functionName,
     contractName
   );
