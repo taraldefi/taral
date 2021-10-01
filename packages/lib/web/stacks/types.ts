@@ -1,3 +1,4 @@
+import { FinishedTxData } from "@stacks/connect";
 import { Transaction } from "lib-shared";
 import { AuthOptions } from "micro-stacks/connect";
 import { StacksNetworkConfiguration } from "taral-configuration";
@@ -7,13 +8,17 @@ export interface SimpleStacksWebTransaction<Ok, Err>
   payload: TxPayload;
 }
 
+export interface IContractCall {
+  payload: FinishedTxData | undefined;
+  success: boolean;
+}
+
 export interface TxPayload {
   contractAddress: string;
   contractName: string;
   functionName: string;
   functionArgs: string[];
   network: StacksNetworkConfiguration;
-  privateKey: string;
   stxAddress: string;
   appDetails: AuthOptions["appDetails"];
 }
