@@ -3,12 +3,14 @@ import {
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
 import {
-  BufferReader,
+  AnchorMode,
   ClarityAbiVariable,
   ClarityType,
   deserializeCV,
-  deserializeTransaction,
+  noneCV,
   PostCondition,
+  PostConditionMode,
+  responseErrorCV,
   responseOkCV,
   serializeCV,
   serializePostCondition,
@@ -29,16 +31,15 @@ import {
   TransactionResult,
   WebSignerOptions,
 } from "lib-shared";
-import { getPublicKey } from "noble-secp256k1";
-import { TokenSigner } from "stacks-crypto";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById } from "lib-stacks";
 import {
   SimpleStacksWebTransaction,
   TxPayload,
-  SimpleStacksContractCallPayload,
+  IContractCall,
 } from "./types";
 import { AppDetails, WebConfig } from "../shared";
+import { ContractCallOptions, openContractCall } from "@stacks/connect";
 
 export class SimpleStacksWebProvider implements BaseProvider {
   apiClient: SmartContractsApi;
@@ -68,9 +69,11 @@ export class SimpleStacksWebProvider implements BaseProvider {
     this.network = network;
     this.appDetails = appDetails;
   }
+
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
+  
   callVariable(_variable: ClarityAbiVariable): Promise<void> {
     throw new Error("Method not implemented.");
   }
@@ -145,7 +148,6 @@ export class SimpleStacksWebProvider implements BaseProvider {
       functionArgs: argumentsFormatted,
       network: this.network,
       stxAddress: request.caller.address,
-      privateKey: request.caller.privateKey,
       appDetails: this.appDetails,
     });
   }
@@ -157,78 +159,86 @@ export class SimpleStacksWebProvider implements BaseProvider {
       payload,
       submit: async (
         options: SubmitOptions
-      ): Promise<WebTransactionReceipt<Ok, Err>> => {
+      ): Promise<WebTransactionReceipt<any, any>> => {
         const postConditions = this.serializePostConditions(
           (options as WebSignerOptions).postConditions
         );
-        const token = await this.makeContractCallToken({
-          postConditions,
-          ...payload,
-        });
 
-        if (!(window as any).StacksProvider) {
-          throw new Error("Please install the wallet");
-        }
-        const request = await (window as any).StacksProvider.transactionRequest(
-          token
-        );
-        const { txRaw } = request;
-        const txBuffer = Buffer.from(txRaw.replace(/^0x/, ""), "hex");
-        const stacksTransaction = deserializeTransaction(
-          new BufferReader(txBuffer)
-        );
+        const contractCallOptions: ContractCallOptions = {
+          contractAddress: payload.contractAddress,
+          contractName: payload.contractName,
+          functionArgs: payload.functionArgs,
+          functionName: payload.functionName,
+          anchorMode: AnchorMode.Any,
+          appDetails: this.appDetails,
+          network: payload.network,
+          stxAddress: payload.stxAddress,
+          postConditionMode: PostConditionMode.Allow,
+          postConditions
+        };
 
-        const successfulFunctionCallResult = await getTransactionById(
-          stacksTransaction.txid(),
-          this.network
-        );
-
+        const result = await this.handlePopup(contractCallOptions);
+        const success = result.success;
+        const stacksTransaction = result.payload!.stacksTransaction;
+        
         return {
-          txId: request.txId,
+          txId: success ? result.payload?.txId : undefined,
           stacksTransaction,
-          getResult: () => {
-            const resultCV = deserializeCV(
-              Buffer.from(successfulFunctionCallResult)
-            );
+          getResult: async () => {
+            if (success) {
+              const successfulFunctionCallResult = await getTransactionById(
+                stacksTransaction.txid(),
+                this.network
+              );
 
-            const result = cvToValue(resultCV);
+              const resultCV = deserializeCV(
+                Buffer.from(successfulFunctionCallResult)
+              );
 
-            const transactionResult: TransactionResult<any, any> = {
-              isOk: true,
-              response: responseOkCV(resultCV),
-              value: result,
-              events: [], // leave events empty for now and figure later how to fetch them
-            };
+              const result = cvToValue(resultCV);
 
-            return Promise.resolve(transactionResult);
+              const transactionResult: TransactionResult<any, any> = {
+                isOk: true,
+                response: responseOkCV(resultCV),
+                value: result,
+                events: [], // leave events empty for now and figure later how to fetch them
+              };
+
+              return Promise.resolve(transactionResult);
+            } else {
+              return Promise.resolve({
+                isOk: false,
+                value: "Cancelled",
+                response: responseErrorCV(noneCV()),
+              });
+            }
           },
         };
       },
     };
   }
 
-  private async makeContractCallToken(
-    options: TxPayload & { postConditions?: string[] }
-  ) {
-    const { functionArgs, privateKey, ...rest } = options;
-    const args: string[] = functionArgs.map((arg) => {
-      if (typeof arg === "string") {
-        return arg;
-      }
-      return serializeCV(arg).toString("hex");
+  private async handlePopup(contractCallOptions: ContractCallOptions): Promise<IContractCall> {
+    const promise = new Promise<IContractCall>((resolve) => {
+      openContractCall({
+        ...contractCallOptions,
+        onCancel: () => {
+          resolve({
+            success: false,
+            payload: undefined,
+          });
+        },
+        onFinish: (payload: any) => {
+          resolve({
+            payload,
+            success: true,
+          });
+        },
+      });
     });
-    // const defaults = getDefaults(signer);
-    const publicKey = getPublicKey(privateKey, true);
-    const payload: SimpleStacksContractCallPayload = {
-      functionArgs: args,
-      txType: "contract_call",
-      publicKey,
-      ...rest,
-    };
 
-    const tokenSigner = new TokenSigner("ES256k", privateKey);
-    const token = await tokenSigner.sign(payload as any);
-    return token;
+    const result = await promise;
+    return result;
   }
 
   private serializePostConditions(postConditions?: PostCondition[]): string[] {

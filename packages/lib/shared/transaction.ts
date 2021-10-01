@@ -44,7 +44,7 @@ export interface TransactionReceiptBase<Ok, Err> {
 
 export interface WebTransactionReceipt<Ok, Err>
   extends TransactionReceiptBase<Ok, Err> {
-  txId: string;
+  txId?: string;
   stacksTransaction: StacksTransaction;
 }
 
