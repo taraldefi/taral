@@ -17,7 +17,7 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
   taralContracts,
-} from "taral-generated-contracts";
+} from "taral-node-contracts";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 export let clarityBitcoinContract: (

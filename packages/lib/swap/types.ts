@@ -7,7 +7,7 @@ import {
   NftTraitContract,
   Sip10FtStandardContract,
   TaralCoinContract,
-} from "taral-generated-contracts";
+} from "taral-node-contracts";
 
 export type DeployedContracts = ContractInstances<
   {

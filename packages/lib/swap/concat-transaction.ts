@@ -1,5 +1,5 @@
 import { Logger } from "lib-shared";
-import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { ClarityBitcoinContract } from "taral-node-contracts";
 import { TxPartsCvType } from "./types";
 
 export async function concatTransaction({
