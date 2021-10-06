@@ -1,7 +1,7 @@
 import { getContractNameFromPath } from ".";
-import { Contract } from "../types";
+import { BaseContract } from "../contracts";
 
-export const getContractIdentifier = <T>(contract: Contract<T>) => {
+export const getContractIdentifier = (contract: BaseContract) => {
   const contractName = getContractNameFromPath(contract.contractFile);
   return `${contract.address}.${contractName}`;
 };
