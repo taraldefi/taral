@@ -19,18 +19,18 @@ import {
 import { ok, err } from "neverthrow";
 
 import {
-  BaseProvider,
   Transaction,
   getContractIdentifier,
-  Contracts,
-  ContractInstances,
   cvToValue,
+  WebContractInstances,
   parseToCV,
   SubmitOptions,
-  IProviderRequest,
   ClarityAbiMap,
   TransactionResult,
   WebSignerOptions,
+  BaseWebProvider,
+  IWebProviderRequest,
+  WebContracts,
 } from "lib-shared";
 
 import { StacksNetworkConfiguration } from "taral-configuration";
@@ -49,11 +49,10 @@ import {
 import { useTransactionPopup } from 'micro-stacks/react';
 import { StacksTestnet } from "micro-stacks/network";
 
-export class MicroStacksWebProvider implements BaseProvider {
+export class MicroStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
   stxAddress: string;
-  privateKey: string;
   network: StacksNetworkConfiguration;
   appDetails: AuthOptions["appDetails"];
 
@@ -61,7 +60,6 @@ export class MicroStacksWebProvider implements BaseProvider {
     network,
     identifier,
     stxAddress,
-    privateKey,
     appDetails,
   }: WebConfig & { identifier: string }) {
     const apiConfig = new Configuration({
@@ -72,7 +70,6 @@ export class MicroStacksWebProvider implements BaseProvider {
     const apiClient = new SmartContractsApi(apiConfig);
     this.apiClient = apiClient;
     this.identifier = identifier;
-    this.privateKey = privateKey;
     this.stxAddress = stxAddress;
     this.network = network;
     this.appDetails = appDetails;
@@ -86,11 +83,11 @@ export class MicroStacksWebProvider implements BaseProvider {
     throw new Error("Method not implemented.");
   }
 
-  static fromContracts<T extends Contracts<M>, M>(
+  static fromContracts<T extends WebContracts<M>, M>(
     contracts: T,
     config: WebConfig
-  ): ContractInstances<T, M> {
-    const instances = {} as ContractInstances<T, M>;
+  ): WebContractInstances<T, M> {
+    const instances = {} as WebContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
       const identifier = getContractIdentifier(contract);
@@ -107,7 +104,7 @@ export class MicroStacksWebProvider implements BaseProvider {
     return instances;
   }
 
-  async callReadOnly(request: IProviderRequest) {
+  async callReadOnly(request: IWebProviderRequest) {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -119,7 +116,7 @@ export class MicroStacksWebProvider implements BaseProvider {
       contractName,
       functionName: request.function.name,
       readOnlyFunctionArgs: {
-        sender: request.caller.address,
+        sender: this.stxAddress,
         arguments: argumentsFormatted,
       },
     });
@@ -141,15 +138,11 @@ export class MicroStacksWebProvider implements BaseProvider {
     }
   }
 
-  callPublic(request: IProviderRequest): Transaction<any, any> {
+  callPublic(request: IWebProviderRequest): Transaction<any, any> {
     const result: Transaction<any, any> = {
       submit: async (
         options: SubmitOptions
       ): Promise<MicroStacksWebTransactionReceipt<any, any>> => {
-        const postConditions = this.serializePostConditions(
-          (options as WebSignerOptions).postConditions
-        );
-
         const contractCallResult = await this.handleContractCallInternal(request, (options as WebSignerOptions).postConditions);
 
         const success = contractCallResult.success;
@@ -193,7 +186,7 @@ export class MicroStacksWebProvider implements BaseProvider {
     return result;
   }
 
-  private async handleContractCallInternal(request: IProviderRequest, postConditions?: PostCondition[]): Promise<IContractCall> {
+  private async handleContractCallInternal(request: IWebProviderRequest, postConditions?: PostCondition[]): Promise<IContractCall> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);

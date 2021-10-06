@@ -1,9 +1,9 @@
-import { ClarinetAccount } from ".";
-import { ClarityAbi } from "./clarity";
-import { BaseProvider } from "./providers";
-import { toCamelCase } from "./utils";
+import { ClarinetAccount } from "..";
+import { ClarityAbi } from "../clarity";
+import { BaseNodeProvider, BaseProvider } from "../providers";
+import { toCamelCase } from "../utils";
 
-const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
+const makeNodeHandler = (provider: BaseNodeProvider, caller: ClarinetAccount) => {
   const handler: ProxyHandler<ClarityAbi> = {
     get: (contract, property) => {
       const foundFunction = contract.functions.find((func) => {
@@ -54,7 +54,7 @@ const makeHandler = (provider: BaseProvider, caller: ClarinetAccount) => {
   return handler;
 };
 
-interface ProxyConstructor {
+interface NodeProxyConstructor {
   revocable<T extends object, S extends object>(
     target: T,
     handler: ProxyHandler<S>
@@ -66,12 +66,12 @@ interface ProxyConstructor {
   ): T;
 }
 
-declare const Proxy: ProxyConstructor;
+declare const NodeProxy: NodeProxyConstructor;
 
-export const proxy = <T extends object>(
+export const nodeProxy = <T extends object>(
   target: ClarityAbi,
   provider: BaseProvider
 ): ((account: ClarinetAccount) => T) => {
   return (account: ClarinetAccount) =>
-    new Proxy<T, ClarityAbi>(target, makeHandler(provider, account));
+    new NodeProxy<T, ClarityAbi>(target, makeNodeHandler(provider, account));
 };
