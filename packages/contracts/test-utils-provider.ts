@@ -3,14 +3,15 @@ import { ClarinetAccount } from "lib-shared";
 import { TestProvider } from "lib-testing";
 import {
   BnsContract,
-  bootContracts,
+  nodeBootContracts,
   CostsContract,
   CostVotingContract,
   LockupContract,
   PoxContract,
   TestUtilsContract,
-  testutilsContracts,
 } from ".";
+
+import { nodeTestUtilsContracts } from './test-utils'
 
 export class TestUtilsProvider {
   private readonly _testContract: (
@@ -64,21 +65,21 @@ export class TestUtilsProvider {
   ): Promise<TestUtilsProvider> {
     var deployedTestUtils = await TestProvider.fromContracts(
       true,
-      testutilsContracts,
+      nodeTestUtilsContracts,
       clarityBin
     );
     var deployedBootUtils = await TestProvider.fromContracts(
       true,
-      bootContracts,
+      nodeBootContracts,
       clarityBin
     );
     return new TestUtilsProvider(
-      deployedTestUtils.testUtils.contract,
-      deployedBootUtils.bns.contract,
-      deployedBootUtils.costVoting.contract,
-      deployedBootUtils.costs.contract,
-      deployedBootUtils.lockup.contract,
-      deployedBootUtils.pox.contract
+      deployedTestUtils.nodeTestUtils.contract,
+      deployedBootUtils.nodeBns.contract,
+      deployedBootUtils.nodeCostVoting.contract,
+      deployedBootUtils.nodeCosts.contract,
+      deployedBootUtils.nodeLockup.contract,
+      deployedBootUtils.nodePox.contract
     );
   }
 }

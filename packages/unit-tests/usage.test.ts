@@ -1,9 +1,9 @@
 import { TestProvider } from "lib-testing";
-import { taralContracts } from "taral-contracts";
+import { nodeTaralContracts } from "taral-contracts";
 import { clarinetAccounts, clarityBin } from "./jest-setup";
 
 test("Test that we can access the token without deploying", async () => {
-  const taralCoinInfo = taralContracts.taralCoin;
+  const taralCoinInfo = nodeTaralContracts.nodeTaralCoin;
   var contractInfo = await TestProvider.fromContracts(
     false,
     {
