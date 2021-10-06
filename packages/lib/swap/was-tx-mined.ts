@@ -1,5 +1,5 @@
 import { Logger } from "lib-shared";
-import { ClarityBitcoinContract } from "taral-node-contracts";
+import { ClarityBitcoinContract } from "taral-contracts";
 import { BlockCvType, BlockPartsType, ProofCvType } from "./types";
 
 export async function wasTxMined({

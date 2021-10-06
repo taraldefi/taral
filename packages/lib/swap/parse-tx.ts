@@ -1,5 +1,5 @@
 import { Logger } from "lib-shared";
-import { ClarityBitcoinContract } from "taral-node-contracts";
+import { ClarityBitcoinContract } from "taral-contracts";
 
 const NAME = "parse-tx";
 
