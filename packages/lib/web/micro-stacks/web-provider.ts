@@ -9,6 +9,7 @@ import {
   deserializeCV,
   noneCV,
   PostCondition,
+  PostConditionMode,
   responseErrorCV,
   responseOkCV,
   serializeCV,
@@ -37,17 +38,16 @@ import { getTransactionById } from "lib-stacks";
 import { WebConfig } from "../shared";
 import {
   AuthOptions,
-  ContractCallTxOptions,
-  makeContractCallToken,
-  openTransactionPopup,
 } from "micro-stacks/connect";
 import {} from "micro-stacks/connect";
 import { bytesToHex } from "micro-stacks/common";
 import {
   IContractCall,
-  MicroStacksWebTransaction,
   MicroStacksWebTransactionReceipt,
 } from "./types";
+
+import { useTransactionPopup } from 'micro-stacks/react';
+import { StacksTestnet } from "micro-stacks/network";
 
 export class MicroStacksWebProvider implements BaseProvider {
   apiClient: SmartContractsApi;
@@ -142,25 +142,7 @@ export class MicroStacksWebProvider implements BaseProvider {
   }
 
   callPublic(request: IProviderRequest): Transaction<any, any> {
-    const argumentsFormatted = request.arguments.map((arg, index) => {
-      const { type } = request.function.args[index];
-      const valueCV = parseToCV(arg, type);
-      return bytesToHex(serializeCV(valueCV));
-    });
-    const [contractAddress, contractName] = this.identifier.split(".");
-
-    const payload: ContractCallTxOptions = {
-      contractAddress,
-      contractName,
-      functionName: request.function.name,
-      functionArgs: argumentsFormatted,
-      network: this.network,
-      privateKey: this.privateKey,
-      appDetails: this.appDetails,
-    };
-
-    const result: MicroStacksWebTransaction<any, any> = {
-      payload,
+    const result: Transaction<any, any> = {
       submit: async (
         options: SubmitOptions
       ): Promise<MicroStacksWebTransactionReceipt<any, any>> => {
@@ -168,22 +150,17 @@ export class MicroStacksWebProvider implements BaseProvider {
           (options as WebSignerOptions).postConditions
         );
 
-        const token = await makeContractCallToken({
-          ...payload,
-          postConditions: postConditions,
-        });
+        const contractCallResult = await this.handleContractCallInternal(request, (options as WebSignerOptions).postConditions);
 
-        const result = await this.handlePopup(token);
-        const success = result.success;
-        const stacksTransaction = result.payload!.stacksTransaction;
+        const success = contractCallResult.success;
 
         return {
-          txId: success ? result.payload?.txId : undefined,
-          stacksTransaction,
+          txId: success ? contractCallResult.payload?.txId : undefined,
+          stacksTransaction: success ? contractCallResult.payload!.stacksTransaction: undefined,
           getResult: async () => {
             if (success) {
               const successfulFunctionCallResult = await getTransactionById(
-                stacksTransaction.txid(),
+                contractCallResult.payload!.stacksTransaction.txid(),
                 this.network
               );
 
@@ -216,22 +193,45 @@ export class MicroStacksWebProvider implements BaseProvider {
     return result;
   }
 
-  private async handlePopup(token: string): Promise<IContractCall> {
-    const promise = new Promise<IContractCall>((resolve) => {
-      openTransactionPopup({
-        token,
+  private async handleContractCallInternal(request: IProviderRequest, postConditions?: PostCondition[]): Promise<IContractCall> {
+    const argumentsFormatted = request.arguments.map((arg, index) => {
+      const { type } = request.function.args[index];
+      const valueCV = parseToCV(arg, type);
+      return bytesToHex(serializeCV(valueCV));
+    });
+
+    const serializedPostConditions = this.serializePostConditions(
+      postConditions
+    );
+
+    const [contractAddress, contractName] = this.identifier.split(".");
+
+    const { handleContractCall } = useTransactionPopup();
+
+    const promise = new Promise<IContractCall>(async (resolve) => {
+
+      await handleContractCall({
+        onFinish: (data: any) => {
+          resolve({
+            success: true,
+            payload: data
+          });
+        },
         onCancel: () => {
           resolve({
             success: false,
             payload: undefined,
           });
         },
-        onFinish: (payload: any) => {
-          resolve({
-            payload,
-            success: true,
-          });
-        },
+        contractAddress,
+        contractName, 
+        functionArgs: argumentsFormatted,
+        network: new StacksTestnet(),
+        functionName: request.function.name,
+        postConditionMode: PostConditionMode.Allow,
+        validateWithAbi: true,
+        appDetails: this.appDetails,
+        postConditions: serializedPostConditions,
       });
     });
 
