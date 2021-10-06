@@ -7,9 +7,9 @@ import {
 } from "lib-shared";
 import { TestProvider, getDefaultClarityBin } from "lib-testing";
 import {
-  arkadikoContracts,
+  nodeArkadikoContracts,
   TaralCoinContract,
-  taralContracts,
+  nodeTaralContracts,
   TestUtilsProvider,
 } from "taral-contracts";
 
@@ -27,13 +27,13 @@ beforeAll(async () => {
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 
   testUtilsProvider = await TestUtilsProvider.ensureTestContracts(clarityBin);
-  await TestProvider.fromContracts(true, arkadikoContracts, clarityBin);
+  await TestProvider.fromContracts(true, nodeArkadikoContracts, clarityBin);
 
   const deployed = await TestProvider.fromContracts(
     true,
-    taralContracts,
+    nodeTaralContracts,
     clarityBin
   );
 
-  talToken = deployed.taralCoin.contract;
+  talToken = deployed.nodeTaralCoin.contract;
 }, 3000000);

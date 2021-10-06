@@ -1,8 +1,8 @@
 import {
   ClarinetAccount,
   ClarinetAccounts,
-  Contract,
-  ContractInstances,
+  NodeContract,
+  NodeContractInstances,
   getClarinetAccounts,
   getRootDirectory,
   Logger,
@@ -16,7 +16,7 @@ import {
   NftTraitContract,
   Sip10FtStandardContract,
   TaralCoinContract,
-  taralContracts,
+  nodeTaralContracts,
 } from "taral-contracts";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
@@ -26,17 +26,14 @@ export let clarityBitcoinContract: (
 export let btcFtSwapContract: (account: ClarinetAccount) => BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 
-export let deployed: ContractInstances<
-  {
-    sip10FtStandard: Contract<Sip10FtStandardContract>;
-    nftTrait: Contract<NftTraitContract>;
-    taralCoin: Contract<TaralCoinContract>;
-    clarityBitcoin: Contract<ClarityBitcoinContract>;
-    btcFtSwap: Contract<BtcFtSwapContract>;
-    btcNftSwap: Contract<BtcNftSwapContract>;
-  },
-  unknown
->;
+export let deployed: NodeContractInstances< {
+  nodeSip10FtStandard: NodeContract<Sip10FtStandardContract>;
+  nodeNftTrait: NodeContract<NftTraitContract>;
+  nodeTaralCoin: NodeContract<TaralCoinContract>;
+  nodeClarityBitcoin: NodeContract<ClarityBitcoinContract>;
+  nodeBtcFtSwap: NodeContract<BtcFtSwapContract>;
+  nodeBtcNftSwap: NodeContract<BtcNftSwapContract>;
+  }, unknown>;
 
 beforeAll(async () => {
   const root = `${getRootDirectory()}/packages/clarity`;
@@ -50,13 +47,13 @@ beforeAll(async () => {
   //   stacksAddress: deployer.address,
   // });
 
-  deployed = await ApiProvider.fromContracts(false, taralContracts, NETWORK, {
+  deployed = await ApiProvider.fromContracts(false, nodeTaralContracts, NETWORK, {
     secretKey: deployer.privateKey,
     stacksAddress: deployer.address,
   });
 
   Logger.debug("jest-setup", "Deployed contracts to priv. testnet");
-  talToken = deployed.taralCoin.contract;
-  clarityBitcoinContract = deployed.clarityBitcoin.contract;
-  btcFtSwapContract = deployed.btcFtSwap.contract;
+  talToken = deployed.nodeTaralCoin.contract;
+  clarityBitcoinContract = deployed.nodeClarityBitcoin.contract;
+  btcFtSwapContract = deployed.nodeBtcFtSwap.contract;
 }, 3000000);

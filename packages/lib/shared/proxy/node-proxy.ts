@@ -1,7 +1,8 @@
 import { ClarinetAccount } from "..";
 import { ClarityAbi } from "../clarity";
-import { BaseNodeProvider, BaseProvider } from "../providers";
+import { BaseNodeProvider } from "../providers";
 import { toCamelCase } from "../utils";
+import { ProxyConstructor } from ".";
 
 const makeNodeHandler = (provider: BaseNodeProvider, caller: ClarinetAccount) => {
   const handler: ProxyHandler<ClarityAbi> = {
@@ -54,24 +55,12 @@ const makeNodeHandler = (provider: BaseNodeProvider, caller: ClarinetAccount) =>
   return handler;
 };
 
-interface NodeProxyConstructor {
-  revocable<T extends object, S extends object>(
-    target: T,
-    handler: ProxyHandler<S>
-  ): { proxy: T; revoke: () => void };
-  new <T extends object>(target: T, handler: ProxyHandler<T>): T;
-  new <T extends object, S extends object>(
-    target: S,
-    handler: ProxyHandler<S>
-  ): T;
-}
-
-declare const NodeProxy: NodeProxyConstructor;
+declare const Proxy: ProxyConstructor;
 
 export const nodeProxy = <T extends object>(
   target: ClarityAbi,
-  provider: BaseProvider
+  provider: BaseNodeProvider
 ): ((account: ClarinetAccount) => T) => {
   return (account: ClarinetAccount) =>
-    new NodeProxy<T, ClarityAbi>(target, makeNodeHandler(provider, account));
+    new Proxy<T, ClarityAbi>(target, makeNodeHandler(provider, account));
 };
