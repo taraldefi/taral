@@ -23,11 +23,11 @@ import BN from "bn.js";
 import fetch from "cross-fetch";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { BaseProvider, IProviderRequest } from "lib-shared";
+import { BaseProvider, INodeProviderRequest } from "lib-shared";
 import {
   ClarityAbiMap,
-  ContractInstances,
-  Contracts,
+  NodeContractInstances,
+  NodeContracts,
   cvToValue,
   getContractIdentifier,
   parseToCV,
@@ -61,11 +61,11 @@ export class NodeProvider implements BaseProvider {
     this.network = network;
   }
 
-  static fromContracts<T extends Contracts<M>, M>(
+  static fromContracts<T extends NodeContracts<M>, M>(
     contracts: T,
     config: NodeConfig
-  ): ContractInstances<T, M> {
-    const instances = {} as ContractInstances<T, M>;
+  ): NodeContractInstances<T, M> {
+    const instances = {} as NodeContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
       contract.address = config.deployerAddress || contract.address;
@@ -91,7 +91,7 @@ export class NodeProvider implements BaseProvider {
     throw new Error("Not implemented");
   }
 
-  async callReadOnly(request: IProviderRequest) {
+  async callReadOnly(request: INodeProviderRequest) {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -125,7 +125,7 @@ export class NodeProvider implements BaseProvider {
     }
   }
 
-  callPublic(request: IProviderRequest): Transaction<any, any> {
+  callPublic(request: INodeProviderRequest): Transaction<any, any> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
