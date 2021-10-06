@@ -1,13 +1,12 @@
 import { ClarinetAccount } from "../configuration";
 import { BaseNodeProvider } from "../providers";
+import { BaseContract } from "./types";
 
 export type NodeContractBuilder<T> = (
     provider: BaseNodeProvider
   ) => (account: ClarinetAccount) => T;
   
-  export interface NodeContract<T> {
-    address: string;
-    contractFile: string;
+  export interface NodeContract<T> extends BaseContract {
     contract: NodeContractBuilder<T>;
   }
   

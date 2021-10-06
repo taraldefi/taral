@@ -1,6 +1,11 @@
-import { testUtilsInfo } from "./test-utils";
-export type { TestUtilsContract } from "./test-utils";
+import { nodeTestUtilsInfo, webTestUtilsInfo } from './test-utils';
+    export type { TestUtilsContract } from './test-utils';
+    
+    export const nodeTestUtilsContracts = {
+      nodeTestUtils: nodeTestUtilsInfo,
+    };
 
-export const testutilsContracts = {
-  testUtils: testUtilsInfo,
-};
+    export const webTestUtilsContracts = {
+      webTestUtils: webTestUtilsInfo,
+    };
+    

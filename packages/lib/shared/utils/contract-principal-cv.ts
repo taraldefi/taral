@@ -1,9 +1,9 @@
 import { ContractPrincipalCV, contractPrincipalCV } from "@stacks/transactions";
 import { getContractNameFromPath } from ".";
-import { Contract } from "../types";
+import { BaseContract } from "..";
 
-export const getContractPrincipalCV = <T>(
-  contract: Contract<T>
+export const getContractPrincipalCV = (
+  contract: BaseContract
 ): ContractPrincipalCV => {
   const contractName = getContractNameFromPath(contract.contractFile);
   return contractPrincipalCV(contract.address, contractName);
