@@ -7,6 +7,9 @@ export interface IProviderRequest {
   function: ClarityAbiFunction;
   caller: ClarinetAccount;
   arguments: any[];
+
+  onFinish?: () => void;
+  onCancel?: () => void;
 }
 
 export abstract class BaseProvider {
