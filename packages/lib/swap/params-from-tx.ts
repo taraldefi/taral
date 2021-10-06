@@ -9,7 +9,7 @@ import { Logger, toJSON } from "lib-shared";
 import { getStxBlock } from "lib-stacks";
 import MerkleTree from "merkletreejs";
 import { NETWORK } from "taral-configuration";
-import { ClarityBitcoinContract } from "taral-generated-contracts";
+import { ClarityBitcoinContract } from "taral-node-contracts";
 import { concatTransaction } from "./concat-transaction";
 import {
   BlockCvType,
