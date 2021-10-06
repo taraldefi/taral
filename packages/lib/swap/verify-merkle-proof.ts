@@ -1,6 +1,6 @@
 import { Logger } from "lib-shared";
 import MerkleTree from "merkletreejs";
-import { ClarityBitcoinContract } from "taral-node-contracts";
+import { ClarityBitcoinContract } from "taral-contracts";
 import { getReversedTxId } from "./get-txid";
 import { HeaderPartsType, ProofCvType } from "./types";
 import { makeBuffer, reverse } from "./utils";

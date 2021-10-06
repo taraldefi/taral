@@ -10,7 +10,7 @@ import {
 import { handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
-import { taralContracts } from "taral-node-contracts";
+import { taralContracts } from "taral-contracts";
 
 const NAME = "Deploy tool";
 

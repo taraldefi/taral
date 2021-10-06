@@ -39,7 +39,7 @@
 
   "include": [
     "./packages/configuration/**/*.ts",
-    "./packages/generated-contracts/**/*.ts",
+    "./packages/contracts/**/*.ts",
     "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
     "./packages/unit-tests/**/*.ts",
