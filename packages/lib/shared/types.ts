@@ -1,31 +1,9 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { ClarinetAccount, ClarinetAccounts } from "./configuration";
-import type { BaseProvider, DeployerAccount } from "./providers";
+import {  ClarinetAccounts } from "./configuration";
+import { NodeContract } from "./contracts";
+import type { DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
-
-export type ContractBuilder<T> = (
-  provider: BaseProvider
-) => (account: ClarinetAccount) => T;
-
-export interface Contract<T> {
-  address: string;
-  contractFile: string;
-  contract: ContractBuilder<T>;
-}
-
-export interface Contracts<T> {
-  [key: string]: Contract<T>;
-}
-
-export interface ContractInstance<T> {
-  identifier: string;
-  contract: T;
-}
-
-export type ContractInstances<T extends Contracts<M>, M> = {
-  [Name in keyof T]: ContractInstance<ReturnType<T[Name]["contract"]>>;
-};
 
 export interface EvalOk {
   success: true;
@@ -94,7 +72,7 @@ export interface CreateOptions extends BaseCreateOptions {
 
 export interface FromApiContractOptions<T> {
   deploy: boolean;
-  contract: Contract<T>;
+  contract: NodeContract<T>;
   network: StacksNetworkConfiguration;
   account: DeployerAccount;
 }
@@ -102,7 +80,7 @@ export interface FromApiContractOptions<T> {
 export interface FromContractOptions<T> {
   deploy: boolean;
   clarityBin: NativeClarityBinProvider;
-  contract: Contract<T>;
+  contract: NodeContract<T>;
 }
 
 export interface UtilsContract {

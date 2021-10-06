@@ -17,19 +17,19 @@ import {
 } from "@stacks/transactions";
 import { ok, err } from "neverthrow";
 import {
-  BaseProvider,
   Transaction,
   getContractIdentifier,
-  Contracts,
-  ContractInstances,
+  WebContracts,
+  WebContractInstances,
   cvToValue,
   parseToCV,
   WebTransactionReceipt,
   SubmitOptions,
-  IProviderRequest,
   ClarityAbiMap,
   TransactionResult,
   WebSignerOptions,
+  BaseWebProvider,
+  IWebProviderRequest,
 } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById } from "lib-stacks";
@@ -41,11 +41,10 @@ import {
 import { AppDetails, WebConfig } from "../shared";
 import { ContractCallOptions, openContractCall } from "@stacks/connect";
 
-export class SimpleStacksWebProvider implements BaseProvider {
+export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
   stxAddress: string;
-  privateKey: string;
   network: StacksNetworkConfiguration;
   appDetails: AppDetails;
 
@@ -53,7 +52,6 @@ export class SimpleStacksWebProvider implements BaseProvider {
     network,
     identifier,
     stxAddress,
-    privateKey,
     appDetails,
   }: WebConfig & { identifier: string }) {
     const apiConfig = new Configuration({
@@ -64,7 +62,6 @@ export class SimpleStacksWebProvider implements BaseProvider {
     const apiClient = new SmartContractsApi(apiConfig);
     this.apiClient = apiClient;
     this.identifier = identifier;
-    this.privateKey = privateKey;
     this.stxAddress = stxAddress;
     this.network = network;
     this.appDetails = appDetails;
@@ -78,11 +75,11 @@ export class SimpleStacksWebProvider implements BaseProvider {
     throw new Error("Method not implemented.");
   }
 
-  static fromContracts<T extends Contracts<M>, M>(
+  static fromContracts<T extends WebContracts<M>, M>(
     contracts: T,
     config: WebConfig
-  ): ContractInstances<T, M> {
-    const instances = {} as ContractInstances<T, M>;
+  ): WebContractInstances<T, M> {
+    const instances = {} as WebContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
       const identifier = getContractIdentifier(contract);
@@ -99,7 +96,7 @@ export class SimpleStacksWebProvider implements BaseProvider {
     return instances;
   }
 
-  async callReadOnly(request: IProviderRequest) {
+  async callReadOnly(request: IWebProviderRequest) {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -111,7 +108,7 @@ export class SimpleStacksWebProvider implements BaseProvider {
       contractName,
       functionName: request.function.name,
       readOnlyFunctionArgs: {
-        sender: request.caller.address,
+        sender: this.stxAddress,
         arguments: argumentsFormatted,
       },
     });
@@ -133,7 +130,7 @@ export class SimpleStacksWebProvider implements BaseProvider {
     }
   }
 
-  callPublic(request: IProviderRequest): Transaction<any, any> {
+  callPublic(request: IWebProviderRequest): Transaction<any, any> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -147,7 +144,7 @@ export class SimpleStacksWebProvider implements BaseProvider {
       functionName: request.function.name,
       functionArgs: argumentsFormatted,
       network: this.network,
-      stxAddress: request.caller.address,
+      stxAddress: this.stxAddress,
       appDetails: this.appDetails,
     });
   }

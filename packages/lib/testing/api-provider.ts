@@ -21,15 +21,15 @@ import {
   ApiCreateOptions,
   BaseProvider,
   ClarityAbiMap,
-  ContractInstances,
-  Contracts,
+  NodeContractInstances,
+  NodeContracts,
   cvToValue,
   DeployerAccount,
   FromApiContractOptions,
   getContractIdentifier,
   getContractNameFromPath,
   getRootDirectory,
-  IProviderRequest,
+  INodeProviderRequest,
   Logger,
   Submitter,
   Transaction,
@@ -74,7 +74,7 @@ export class ApiProvider implements BaseProvider {
     await new Promise<void>((resolve) => resolve());
   };
 
-  async callReadOnly(request: IProviderRequest): Promise<any> {
+  async callReadOnly(request: INodeProviderRequest): Promise<any> {
     let formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
@@ -113,7 +113,7 @@ export class ApiProvider implements BaseProvider {
     }
   }
 
-  callPublic(request: IProviderRequest): Transaction<any, any> {
+  callPublic(request: INodeProviderRequest): Transaction<any, any> {
     let formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
@@ -176,13 +176,13 @@ export class ApiProvider implements BaseProvider {
     };
   }
 
-  public static async fromContracts<T extends Contracts<M>, M>(
+  public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
     network: StacksNetworkConfiguration,
     account: DeployerAccount
-  ): Promise<ContractInstances<T, M>> {
-    const instances = {} as ContractInstances<T, M>;
+  ): Promise<NodeContractInstances<T, M>> {
+    const instances = {} as NodeContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({

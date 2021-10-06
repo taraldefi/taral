@@ -15,8 +15,8 @@ import {
   BaseProvider,
   ClarinetAccounts,
   ClarityAbiMap,
-  ContractInstances,
-  Contracts,
+  NodeContractInstances,
+  NodeContracts,
   CreateOptions,
   cvToValue,
   EvalOk,
@@ -24,7 +24,7 @@ import {
   getContractIdentifier,
   getContractNameFromPath,
   getRootDirectory,
-  IProviderRequest,
+  INodeProviderRequest,
   parseToCV,
   SubmitOptions,
   Submitter,
@@ -103,23 +103,23 @@ export class TestProvider implements BaseProvider {
     return contract.contract(provider);
   }
 
-  public static async fromContracts<T extends Contracts<M>, M>(
+  public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
     clarityBin?: NativeClarityBinProvider
-  ): Promise<ContractInstances<T, M>>;
-  public static async fromContracts<T extends Contracts<M>, M>(
+  ): Promise<NodeContractInstances<T, M>>;
+  public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
     accounts?: ClarinetAccounts
-  ): Promise<ContractInstances<T, M>>;
-  public static async fromContracts<T extends Contracts<M>, M>(
+  ): Promise<NodeContractInstances<T, M>>;
+  public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
     clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
-  ): Promise<ContractInstances<T, M>> {
+  ): Promise<NodeContractInstances<T, M>> {
     const clarityBin = await getDefaultClarityBin(clarityBinOrAccounts);
-    const instances = {} as ContractInstances<T, M>;
+    const instances = {} as NodeContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
       const instance = await this.fromContract({
@@ -161,7 +161,7 @@ export class TestProvider implements BaseProvider {
     return this.handleEvalResponse(result);
   }
 
-  async callReadOnly(request: IProviderRequest) {
+  async callReadOnly(request: INodeProviderRequest) {
     const argsFormatted = this.formatArguments(
       request.function,
       request.arguments
@@ -176,7 +176,7 @@ export class TestProvider implements BaseProvider {
     return this.handleEvalResponse(result);
   }
 
-  callPublic(request: IProviderRequest): Transaction<any, any> {
+  callPublic(request: INodeProviderRequest): Transaction<any, any> {
     const argsFormatted = this.formatArguments(
       request.function,
       request.arguments
