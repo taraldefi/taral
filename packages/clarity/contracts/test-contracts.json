@@ -1,5 +1,5 @@
 {
-  "outputDirectory": "packages/generated-contracts",
+  "outputDirectory": "packages/contracts",
   "configuration": [
     {
       "name": "TestUtils",
