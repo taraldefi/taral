@@ -11,7 +11,7 @@ import {
   TaralCoinContract,
   taralContracts,
   TestUtilsProvider,
-} from "taral-node-contracts";
+} from "taral-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
