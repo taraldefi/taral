@@ -1,10 +1,10 @@
 import { ClarityAbi } from "../clarity";
-import { BaseProvider, BaseWebProvider } from "../providers";
+import { BaseWebProvider } from "../providers";
 import { toCamelCase } from "../utils";
 import { Noop } from "./types";
+import { ProxyConstructor } from ".";
 
 const makeWebHandler = (provider: BaseWebProvider, onFinish?: Noop, onCancel?: Noop) => {
-
     const noop: Noop = () => { };
     const handler: ProxyHandler<ClarityAbi> = {
         get: (contract, property) => {
@@ -58,24 +58,12 @@ const makeWebHandler = (provider: BaseWebProvider, onFinish?: Noop, onCancel?: N
     return handler;
 };
 
-interface WebProxyConstructor {
-    revocable<T extends object, S extends object>(
-        target: T,
-        handler: ProxyHandler<S>
-    ): { proxy: T; revoke: () => void };
-    new <T extends object>(target: T, handler: ProxyHandler<T>): T;
-    new <T extends object, S extends object>(
-        target: S,
-        handler: ProxyHandler<S>
-    ): T;
-}
-
-declare const WebProxy: WebProxyConstructor;
+declare const Proxy: ProxyConstructor;
 
 export const webProxy = <T extends object>(
     target: ClarityAbi,
-    provider: BaseProvider
+    provider: BaseWebProvider
 ): ((onFinish?: Noop, onCancel?: Noop) => T) => {
     return (onFinish?: Noop, onCancel?: Noop) =>
-        new WebProxy<T, ClarityAbi>(target, makeWebHandler(provider, onFinish, onCancel));
+        new Proxy<T, ClarityAbi>(target, makeWebHandler(provider, onFinish, onCancel));
 };
