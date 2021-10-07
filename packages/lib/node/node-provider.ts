@@ -16,8 +16,6 @@ import {
   serializeCV,
   SignedContractCallOptions,
   TxBroadcastResult,
-  TxBroadcastResultOk,
-  TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import BN from "bn.js";
 import fetch from "cross-fetch";
