@@ -7,7 +7,6 @@ export type AppDetails = {
 
 export interface WebConfig {
   stxAddress: string;
-  privateKey: string;
   network: StacksNetworkConfiguration;
   appDetails: AppDetails;
 }
