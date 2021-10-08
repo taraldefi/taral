@@ -3,73 +3,63 @@ import Image from 'next/image';
 
 import styles from '@/styles/Home.module.css';
 
+import {
+  showConnect,
+  UserData,
+  UserSession,
+} from "@stacks/connect";
+import { StacksMainnet } from "@stacks/network";
+import React, { useState } from "react";
+import { SimpleStacksWebProvider } from "lib-web";
+import { webTaralContracts } from "taral-contracts";
+import { NETWORK } from "taral-configuration";
+
+const userSession = new UserSession();
+const network = new StacksMainnet();
+
 export default function Home() {
+
+  async function callGetName() {
+    const webProvider = SimpleStacksWebProvider.fromContracts(webTaralContracts, {
+      appDetails: {
+        icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
+        name: 'Testing'
+      },
+      network: NETWORK,
+      stxAddress: ''
+    });
+
+    const name = (await webProvider.webTaralCoin.contract().getName())._unsafeUnwrap();
+    console.log(name);
+  }
+
+  const [user, setUser] = useState<UserData>();
+  if (user || userSession.isUserSignedIn()) {
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>TypeScript starter for Next.js</title>
-        <meta
-          name="description"
-          content="TypeScript starter for Next.js that includes all you need to build amazing apps"
-        />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{` `}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <p className={styles.description}>This is not an official starter!</p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=typescript-nextjs-starter"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
-      </main>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=typescript-nextjs-starter"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{` `}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+    <div>
+      <button onClick={async () => await callGetName()}> Get name </button>
+      <button onClick={async () => await callGetName()}> Disconnect </button>
     </div>
   );
+  }else {
+    return (
+      <div>
+        <button
+          onClick={() =>
+            showConnect({
+              appDetails: {
+                name: "Testing",
+                icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
+              },
+              onFinish: () => {
+                setUser(userSession.loadUserData());
+              },
+            })
+          }
+        >
+          Connect with Stacks Wallet
+        </button>
+      </div>
+    );
+  }
 }
