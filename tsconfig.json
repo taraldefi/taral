@@ -42,6 +42,7 @@
     "./packages/contracts/**/*.ts",
     "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
+    "./packages/web/**/*.ts",
     "./packages/unit-tests/**/*.ts",
     "./packages/integration-tests/**/*.ts",
     "./packages/lib/bitcoin/**/*.ts",
