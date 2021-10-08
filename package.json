@@ -15,6 +15,7 @@
     "clarinet:check": "yarn workspace taral-clarity clarinet:check",
     "clarinet:tests": "yarn workspace taral-clarity clarinet:tests",
     "unit-tests": "yarn workspace taral-unit-tests unit-tests",
+    "dashboard:dev": "yarn workspace taral-web dev",
     "integration-tests": "Yarn workspace taral-integration-tests integration-tests",
     "eol": "yarn workspace taral-clarity eol",
     "format": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
