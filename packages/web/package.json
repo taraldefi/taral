@@ -24,9 +24,19 @@
     ]
   },
   "dependencies": {
+    "taral-configuration": "1.0.0",
+    "lib-shared": "1.0.0",
+    "taral-contracts": "1.0.0",
+    "lib-web": "1.0.0",
     "next": "11.1.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "@stacks/common": "^2.0.0-beta.0",
+    "@stacks/network": "^2.0.1",
+    "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
+    "@stacks/stacks-blockchain-api-types": "^0.68.0",
+    "@stacks/transactions": "2.0.1",
+    "@stacks/connect": "6.2.0"
   },
   "devDependencies": {
     "@commitlint/cli": "13.2.0",
