@@ -1,5 +1,4 @@
 import { ClarityAbiVariable } from "@stacks/transactions";
-import { INodeProviderRequest, IWebProviderRequest } from "..";
 import { ClarityAbiMap } from "../clarity";
 import { Transaction } from "../transaction";
 

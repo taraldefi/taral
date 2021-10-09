@@ -1,252 +1,251 @@
+import { ClarityAbi } from "lib-shared";
 
-  import { ClarityAbi } from 'lib-shared';
-
-  export const ArkadikoTokenInterface: ClarityAbi = {
-  "functions": [
+export const ArkadikoTokenInterface: ClarityAbi = {
+  functions: [
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "amount",
-          "type": "uint128"
+          name: "amount",
+          type: "uint128",
         },
         {
-          "name": "sender",
-          "type": "principal"
-        }
+          name: "sender",
+          type: "principal",
+        },
       ],
-      "name": "burn-for-dao",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "bool"
-          }
-        }
-      }
+      name: "burn-for-dao",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "amount",
-          "type": "uint128"
+          name: "amount",
+          type: "uint128",
         },
         {
-          "name": "recipient",
-          "type": "principal"
-        }
+          name: "recipient",
+          type: "principal",
+        },
       ],
-      "name": "mint-for-dao",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "bool"
-          }
-        }
-      }
+      name: "mint-for-dao",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "owner",
-          "type": "principal"
-        }
+          name: "owner",
+          type: "principal",
+        },
       ],
-      "name": "set-contract-owner",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "bool"
-          }
-        }
-      }
+      name: "set-contract-owner",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "value",
-          "type": {
+          name: "value",
+          type: {
             "string-utf8": {
-              "length": 256
-            }
-          }
-        }
+              length: 256,
+            },
+          },
+        },
       ],
-      "name": "set-token-uri",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "bool"
-          }
-        }
-      }
+      name: "set-token-uri",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "amount",
-          "type": "uint128"
+          name: "amount",
+          type: "uint128",
         },
         {
-          "name": "sender",
-          "type": "principal"
+          name: "sender",
+          type: "principal",
         },
         {
-          "name": "recipient",
-          "type": "principal"
+          name: "recipient",
+          type: "principal",
         },
         {
-          "name": "memo",
-          "type": {
-            "optional": {
-              "buffer": {
-                "length": 34
-              }
-            }
-          }
-        }
+          name: "memo",
+          type: {
+            optional: {
+              buffer: {
+                length: 34,
+              },
+            },
+          },
+        },
       ],
-      "name": "transfer",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "bool"
-          }
-        }
-      }
+      name: "transfer",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [
+      access: "read_only",
+      args: [
         {
-          "name": "account",
-          "type": "principal"
-        }
+          name: "account",
+          type: "principal",
+        },
       ],
-      "name": "get-balance",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "get-balance",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-decimals",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": "uint128"
-          }
-        }
-      }
+      access: "read_only",
+      args: [],
+      name: "get-decimals",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-name",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": {
+      access: "read_only",
+      args: [],
+      name: "get-name",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: {
               "string-ascii": {
-                "length": 14
-              }
-            }
-          }
-        }
-      }
+                length: 14,
+              },
+            },
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-symbol",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": {
+      access: "read_only",
+      args: [],
+      name: "get-symbol",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: {
               "string-ascii": {
-                "length": 4
-              }
-            }
-          }
-        }
-      }
+                length: 4,
+              },
+            },
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-token-uri",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": {
-              "optional": {
+      access: "read_only",
+      args: [],
+      name: "get-token-uri",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: {
+              optional: {
                 "string-utf8": {
-                  "length": 256
-                }
-              }
-            }
-          }
-        }
-      }
+                  length: 256,
+                },
+              },
+            },
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-total-supply",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": "uint128"
-          }
-        }
-      }
-    }
+      access: "read_only",
+      args: [],
+      name: "get-total-supply",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "uint128",
+          },
+        },
+      },
+    },
   ],
-  "fungible_tokens": [
+  fungible_tokens: [
     {
-      "name": "diko"
-    }
+      name: "diko",
+    },
   ],
-  "maps": [],
-  "non_fungible_tokens": [],
-  "variables": [
+  maps: [],
+  non_fungible_tokens: [],
+  variables: [
     {
-      "access": "constant",
-      "name": "ERR-NOT-AUTHORIZED",
-      "type": "uint128"
+      access: "constant",
+      name: "ERR-NOT-AUTHORIZED",
+      type: "uint128",
     },
     {
-      "access": "variable",
-      "name": "contract-owner",
-      "type": "principal"
+      access: "variable",
+      name: "contract-owner",
+      type: "principal",
     },
     {
-      "access": "variable",
-      "name": "token-uri",
-      "type": {
+      access: "variable",
+      name: "token-uri",
+      type: {
         "string-utf8": {
-          "length": 256
-        }
-      }
-    }
-  ]
+          length: 256,
+        },
+      },
+    },
+  ],
 };

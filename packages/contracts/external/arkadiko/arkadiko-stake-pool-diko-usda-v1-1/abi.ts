@@ -1,351 +1,350 @@
+import { ClarityAbi } from "lib-shared";
 
-  import { ClarityAbi } from 'lib-shared';
-
-  export const ArkadikoStakePoolDikoUsdaV11Interface: ClarityAbi = {
-  "functions": [
+export const ArkadikoStakePoolDikoUsdaV11Interface: ClarityAbi = {
+  functions: [
     {
-      "access": "private",
-      "args": [
+      access: "private",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
-        }
+          name: "registry-trait",
+          type: "trait_reference",
+        },
       ],
-      "name": "get-last-block-height",
-      "outputs": {
-        "type": "uint128"
-      }
+      name: "get-last-block-height",
+      outputs: {
+        type: "uint128",
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
-        }
+          name: "registry-trait",
+          type: "trait_reference",
+        },
       ],
-      "name": "calculate-cumm-reward-per-stake",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "calculate-cumm-reward-per-stake",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
+          name: "registry-trait",
+          type: "trait_reference",
         },
         {
-          "name": "staker",
-          "type": "principal"
-        }
+          name: "staker",
+          type: "principal",
+        },
       ],
-      "name": "claim-pending-rewards",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "claim-pending-rewards",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
-        }
+          name: "registry-trait",
+          type: "trait_reference",
+        },
       ],
-      "name": "emergency-withdraw",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "emergency-withdraw",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
+          name: "registry-trait",
+          type: "trait_reference",
         },
         {
-          "name": "staker",
-          "type": "principal"
-        }
+          name: "staker",
+          type: "principal",
+        },
       ],
-      "name": "get-pending-rewards",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "none",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "get-pending-rewards",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
-        }
+          name: "registry-trait",
+          type: "trait_reference",
+        },
       ],
-      "name": "increase-cumm-reward-per-stake",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "increase-cumm-reward-per-stake",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
+          name: "registry-trait",
+          type: "trait_reference",
         },
         {
-          "name": "token",
-          "type": "trait_reference"
+          name: "token",
+          type: "trait_reference",
         },
         {
-          "name": "staker",
-          "type": "principal"
+          name: "staker",
+          type: "principal",
         },
         {
-          "name": "amount",
-          "type": "uint128"
-        }
+          name: "amount",
+          type: "uint128",
+        },
       ],
-      "name": "stake",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "stake",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "public",
-      "args": [
+      access: "public",
+      args: [
         {
-          "name": "registry-trait",
-          "type": "trait_reference"
+          name: "registry-trait",
+          type: "trait_reference",
         },
         {
-          "name": "token",
-          "type": "trait_reference"
+          name: "token",
+          type: "trait_reference",
         },
         {
-          "name": "staker",
-          "type": "principal"
+          name: "staker",
+          type: "principal",
         },
         {
-          "name": "amount",
-          "type": "uint128"
-        }
+          name: "amount",
+          type: "uint128",
+        },
       ],
-      "name": "unstake",
-      "outputs": {
-        "type": {
-          "response": {
-            "error": "uint128",
-            "ok": "uint128"
-          }
-        }
-      }
+      name: "unstake",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-cumm-reward-per-stake",
-      "outputs": {
-        "type": "uint128"
-      }
+      access: "read_only",
+      args: [],
+      name: "get-cumm-reward-per-stake",
+      outputs: {
+        type: "uint128",
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-last-reward-increase-block",
-      "outputs": {
-        "type": "uint128"
-      }
+      access: "read_only",
+      args: [],
+      name: "get-last-reward-increase-block",
+      outputs: {
+        type: "uint128",
+      },
     },
     {
-      "access": "read_only",
-      "args": [
+      access: "read_only",
+      args: [
         {
-          "name": "staker",
-          "type": "principal"
-        }
+          name: "staker",
+          type: "principal",
+        },
       ],
-      "name": "get-stake-amount-of",
-      "outputs": {
-        "type": "uint128"
-      }
+      name: "get-stake-amount-of",
+      outputs: {
+        type: "uint128",
+      },
     },
     {
-      "access": "read_only",
-      "args": [
+      access: "read_only",
+      args: [
         {
-          "name": "staker",
-          "type": "principal"
-        }
+          name: "staker",
+          type: "principal",
+        },
       ],
-      "name": "get-stake-cumm-reward-per-stake-of",
-      "outputs": {
-        "type": "uint128"
-      }
+      name: "get-stake-cumm-reward-per-stake-of",
+      outputs: {
+        type: "uint128",
+      },
     },
     {
-      "access": "read_only",
-      "args": [
+      access: "read_only",
+      args: [
         {
-          "name": "staker",
-          "type": "principal"
-        }
+          name: "staker",
+          type: "principal",
+        },
       ],
-      "name": "get-stake-of",
-      "outputs": {
-        "type": {
-          "tuple": [
+      name: "get-stake-of",
+      outputs: {
+        type: {
+          tuple: [
             {
-              "name": "cumm-reward-per-stake",
-              "type": "uint128"
+              name: "cumm-reward-per-stake",
+              type: "uint128",
             },
             {
-              "name": "uamount",
-              "type": "uint128"
-            }
-          ]
-        }
-      }
+              name: "uamount",
+              type: "uint128",
+            },
+          ],
+        },
+      },
     },
     {
-      "access": "read_only",
-      "args": [],
-      "name": "get-total-staked",
-      "outputs": {
-        "type": "uint128"
-      }
-    }
-  ],
-  "fungible_tokens": [],
-  "maps": [
-    {
-      "key": {
-        "tuple": [
-          {
-            "name": "staker",
-            "type": "principal"
-          }
-        ]
+      access: "read_only",
+      args: [],
+      name: "get-total-staked",
+      outputs: {
+        type: "uint128",
       },
-      "name": "stakes",
-      "value": {
-        "tuple": [
+    },
+  ],
+  fungible_tokens: [],
+  maps: [
+    {
+      key: {
+        tuple: [
           {
-            "name": "cumm-reward-per-stake",
-            "type": "uint128"
+            name: "staker",
+            type: "principal",
+          },
+        ],
+      },
+      name: "stakes",
+      value: {
+        tuple: [
+          {
+            name: "cumm-reward-per-stake",
+            type: "uint128",
           },
           {
-            "name": "uamount",
-            "type": "uint128"
-          }
-        ]
-      }
-    }
+            name: "uamount",
+            type: "uint128",
+          },
+        ],
+      },
+    },
   ],
-  "non_fungible_tokens": [],
-  "variables": [
+  non_fungible_tokens: [],
+  variables: [
     {
-      "access": "constant",
-      "name": "ERR-INSUFFICIENT-STAKE",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
+      access: "constant",
+      name: "ERR-INSUFFICIENT-STAKE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
     {
-      "access": "constant",
-      "name": "ERR-NOT-AUTHORIZED",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
+      access: "constant",
+      name: "ERR-NOT-AUTHORIZED",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
     {
-      "access": "constant",
-      "name": "ERR-REWARDS-CALC",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
+      access: "constant",
+      name: "ERR-REWARDS-CALC",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
     {
-      "access": "constant",
-      "name": "ERR-WRONG-REGISTRY",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
+      access: "constant",
+      name: "ERR-WRONG-REGISTRY",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
     {
-      "access": "constant",
-      "name": "ERR-WRONG-TOKEN",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
+      access: "constant",
+      name: "ERR-WRONG-TOKEN",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
     {
-      "access": "constant",
-      "name": "POOL-TOKEN",
-      "type": "principal"
+      access: "constant",
+      name: "POOL-TOKEN",
+      type: "principal",
     },
     {
-      "access": "variable",
-      "name": "cumm-reward-per-stake",
-      "type": "uint128"
+      access: "variable",
+      name: "cumm-reward-per-stake",
+      type: "uint128",
     },
     {
-      "access": "variable",
-      "name": "last-reward-increase-block",
-      "type": "uint128"
+      access: "variable",
+      name: "last-reward-increase-block",
+      type: "uint128",
     },
     {
-      "access": "variable",
-      "name": "total-staked",
-      "type": "uint128"
-    }
-  ]
+      access: "variable",
+      name: "total-staked",
+      type: "uint128",
+    },
+  ],
 };

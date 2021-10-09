@@ -1,10 +1,13 @@
+import { ProxyConstructor } from ".";
 import { ClarinetAccount } from "..";
 import { ClarityAbi } from "../clarity";
 import { BaseNodeProvider } from "../providers";
 import { toCamelCase } from "../utils";
-import { ProxyConstructor } from ".";
 
-const makeNodeHandler = (provider: BaseNodeProvider, caller: ClarinetAccount) => {
+const makeNodeHandler = (
+  provider: BaseNodeProvider,
+  caller: ClarinetAccount
+) => {
   const handler: ProxyHandler<ClarityAbi> = {
     get: (contract, property) => {
       const foundFunction = contract.functions.find((func) => {

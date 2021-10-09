@@ -1,28 +1,29 @@
+import { Transaction } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface ArkadikoOracleV11Contract {
-      fetchPrice: (token: string) => Transaction<{
-  "last-block": bigint;
-  "last-price-in-cents": bigint
-    }, null>;
+export interface ArkadikoOracleV11Contract {
+  fetchPrice: (token: string) => Transaction<
+    {
+      "last-block": bigint;
+      "last-price-in-cents": bigint;
+    },
+    null
+  >;
   setOracleOwner: (address: string) => Transaction<boolean, bigint>;
-  updatePrice: (token: string, price: number | bigint) => Transaction<bigint, bigint>;
+  updatePrice: (
+    token: string,
+    price: number | bigint
+  ) => Transaction<bigint, bigint>;
   getPrice: (token: string) => Promise<{
-  "last-block": bigint;
-  "last-price-in-cents": bigint
-    }>;
+    "last-block": bigint;
+    "last-price-in-cents": bigint;
+  }>;
   ERRNOTAUTHORIZED: () => Promise<bigint>;
   ERRNOTWHITELISTED: () => Promise<bigint>;
   lastBlock: () => Promise<bigint>;
   lastPriceInCents: () => Promise<bigint>;
   oracleOwner: () => Promise<string>;
-  prices: (key: {
-  "token": string
-    }) => Promise<{
-  "last-block": bigint;
-  "last-price-in-cents": bigint
-    } | null>;
-  }
+  prices: (key: { token: string }) => Promise<{
+    "last-block": bigint;
+    "last-price-in-cents": bigint;
+  } | null>;
+}
