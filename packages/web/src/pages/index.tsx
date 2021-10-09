@@ -4,6 +4,7 @@ import Image from 'next/image';
 import styles from '@/styles/Home.module.css';
 
 import {
+  AppConfig,
   showConnect,
   UserData,
   UserSession,
@@ -14,8 +15,8 @@ import { SimpleStacksWebProvider } from "lib-web";
 import { webTaralContracts } from "taral-contracts";
 import { NETWORK } from "taral-configuration";
 
-const userSession = new UserSession();
-const network = new StacksMainnet();
+const appConfig = new AppConfig();
+const userSession = new UserSession({appConfig});
 
 export default function Home() {
 
@@ -47,6 +48,7 @@ export default function Home() {
         <button
           onClick={() =>
             showConnect({
+              redirectTo: '/',
               appDetails: {
                 name: "Testing",
                 icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
