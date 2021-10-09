@@ -10,10 +10,12 @@
   "devDependencies": {
     "@ltd/j-toml": "^1.20.0",
     "@types/bluebird": "^3.5.36",
+    "@types/crypto-js": "^4.0.2",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "16.10.4",
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.3",
+    "@types/wif": "^2.0.2",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.3"
   },
@@ -31,8 +33,7 @@
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
     "@stacks/stacks-blockchain-api-types": "^0.69.0",
     "@stacks/transactions": "2.0.1",
-    "@types/crypto-js": "^4.0.2",
-    "@types/wif": "^2.0.2",
+    "@types/json-schema": "^7.0.9",
     "ajv": "^8.6.3",
     "bip32": "^2.0.4",
     "bip39": "^3.0.4",
@@ -40,18 +41,18 @@
     "bluebird": "^3.7.2",
     "bn.js": "^5.2.0",
     "c32check": "^1.1.2",
+    "chalk": "^4.1.2",
     "cross-fetch": "^3.1.4",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
+    "dayjs": "^1.10.6",
     "fs-extra": "^10.0.0",
     "merkletreejs": "^0.2.24",
     "neverthrow": "4.2.2",
     "node-fetch": "2.6.1",
     "prettier": "^2.3.2",
     "rpc-bitcoin": "^2.0.0",
-    "wif": "^2.0.6",
     "unzipper": "^0.10.11",
-    "chalk": "^4.1.2",
-    "dayjs": "^1.10.6"
+    "wif": "^2.0.6"
   }
 }
