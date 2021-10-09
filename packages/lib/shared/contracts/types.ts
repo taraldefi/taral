@@ -1,5 +1,4 @@
-
 export interface BaseContract {
-    address: string;
-    contractFile: string;
+  address: string;
+  contractFile: string;
 }

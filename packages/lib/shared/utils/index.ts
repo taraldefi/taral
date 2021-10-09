@@ -7,6 +7,6 @@ export * from "./contract-principal-cv";
 export * from "./contract-with-subdirectory";
 export * from "./make-buffer";
 export * from "./to-camel-case";
-export * from "./to-pascal-case";
 export * from "./to-json";
+export * from "./to-pascal-case";
 export * from "./transaction";

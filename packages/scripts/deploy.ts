@@ -1,11 +1,11 @@
 import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
 import {
-  NodeContracts,
   getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   Logger,
+  NodeContracts,
 } from "lib-shared";
 import { handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";

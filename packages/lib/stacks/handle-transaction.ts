@@ -5,7 +5,6 @@ import {
   TxBroadcastResultOk,
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
-import { error } from "console";
 import { Logger, toJSON } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById, timeout } from "./utils";

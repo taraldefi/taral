@@ -13,16 +13,12 @@ import {
   SignedContractCallOptions,
   SignedMultiSigContractCallOptions,
   TxBroadcastResult,
-  TxBroadcastResultOk,
-  TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import BN from "bn.js";
 import {
   ApiCreateOptions,
   BaseProvider,
   ClarityAbiMap,
-  NodeContractInstances,
-  NodeContracts,
   cvToValue,
   DeployerAccount,
   FromApiContractOptions,
@@ -31,6 +27,8 @@ import {
   getRootDirectory,
   INodeProviderRequest,
   Logger,
+  NodeContractInstances,
+  NodeContracts,
   Submitter,
   Transaction,
   TransactionResult,
