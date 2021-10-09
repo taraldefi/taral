@@ -8,8 +8,11 @@ import {
   nodeArkadikoContracts,
   nodeTaralContracts,
   TaralCoinContract,
-  TestUtilsProvider,
 } from "taral-contracts";
+
+import { 
+  TestUtilsProvider
+} from "lib-testing"
 
 import {
   ClarinetAccount,
