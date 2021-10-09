@@ -9,7 +9,6 @@ import {
   UserData,
   UserSession,
 } from "@stacks/connect";
-import { StacksMainnet } from "@stacks/network";
 import React, { useState } from "react";
 import { SimpleStacksWebProvider } from "lib-web";
 import { webTaralContracts } from "taral-contracts";
