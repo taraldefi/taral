@@ -1,7 +1,5 @@
 import {
-  ClarinetAccount,
-  ClarinetAccounts,
-  getClarinetAccounts,
+
   getRootDirectory,
   Logger,
   NodeContract,
@@ -18,6 +16,12 @@ import {
   Sip10FtStandardContract,
   TaralCoinContract,
 } from "taral-contracts";
+
+import {
+  ClarinetAccount,
+  ClarinetAccounts,
+  getClarinetAccounts,
+} from "lib-infra";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 export let clarityBitcoinContract: (

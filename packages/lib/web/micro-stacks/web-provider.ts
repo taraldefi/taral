@@ -36,7 +36,7 @@ import { useTransactionPopup } from "micro-stacks/react";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "taral-configuration";
 import { WebConfig } from "../shared";
-import { IContractCall, MicroStacksWebTransactionReceipt } from "./types";
+import { IMCContractCall, MicroStacksWebTransactionReceipt } from "./types";
 
 export class MicroStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
@@ -183,7 +183,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
   private async handleContractCallInternal(
     request: IWebProviderRequest,
     postConditions?: PostCondition[]
-  ): Promise<IContractCall> {
+  ): Promise<IMCContractCall> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -197,7 +197,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
 
     const { handleContractCall } = useTransactionPopup();
 
-    const promise = new Promise<IContractCall>(async (resolve) => {
+    const promise = new Promise<IMCContractCall>(async (resolve) => {
       await handleContractCall({
         onFinish: (data: any) => {
           resolve({

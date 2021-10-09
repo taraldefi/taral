@@ -1,7 +1,6 @@
 // created from 'create-ts-index'
 
 export * from "./clarity";
-export * from "./configuration";
 export * from "./constants";
 export * from "./contracts";
 export * from "./events";

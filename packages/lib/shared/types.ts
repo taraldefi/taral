@@ -1,6 +1,5 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { ClarinetAccounts } from "./configuration";
 import { NodeContract } from "./contracts";
 import type { DeployerAccount } from "./providers";
 import { ResultAssets } from "./transaction";
@@ -20,11 +19,6 @@ export interface EvalErr {
 }
 
 export type EvalResult = EvalOk | EvalErr;
-
-export interface Allocation {
-  principal: string;
-  amount: number;
-}
 
 export interface ExecuteOk {
   success: true;
@@ -53,38 +47,6 @@ export interface ExecuteErr {
 
 export type ExecuteResult = ExecuteOk | ExecuteErr;
 
-export interface BaseCreateOptions {
-  allocations?: Allocation[];
-  contractIdentifier: string;
-  contractFilePath: string;
-}
-
-export interface ApiCreateOptions extends BaseCreateOptions {
-  deploy: boolean;
-  network: StacksNetworkConfiguration;
-  account: DeployerAccount;
-}
-
-export interface CreateOptions extends BaseCreateOptions {
-  deploy: boolean;
-  clarityBin: NativeClarityBinProvider;
-}
-
-export interface FromApiContractOptions<T> {
-  deploy: boolean;
-  contract: NodeContract<T>;
-  network: StacksNetworkConfiguration;
-  account: DeployerAccount;
-}
-
-export interface FromContractOptions<T> {
-  deploy: boolean;
-  clarityBin: NativeClarityBinProvider;
-  contract: NodeContract<T>;
-}
-
 export interface UtilsContract {
   getBlockHeight: Promise<number>;
 }
-
-export type AllocationOrAccounts = ClarinetAccounts | Allocation[];

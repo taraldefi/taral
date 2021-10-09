@@ -10,3 +10,4 @@ export interface WebConfig {
   network: StacksNetworkConfiguration;
   appDetails: AppDetails;
 }
+
