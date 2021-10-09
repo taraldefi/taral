@@ -11,12 +11,9 @@ import {
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
   BaseProvider,
-  ClarinetAccounts,
   ClarityAbiMap,
-  CreateOptions,
   cvToValue,
   EvalOk,
-  FromContractOptions,
   getContractIdentifier,
   getContractNameFromPath,
   getRootDirectory,
@@ -41,6 +38,11 @@ import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
 } from "./test-utils/cleanup-boot-contract-calls";
+import {
+  ClarinetAccounts,
+  CreateOptions,
+  FromContractOptions
+} from "lib-infra";
 
 export class TestProvider implements BaseProvider {
   private readonly clarityBin: NativeClarityBinProvider;

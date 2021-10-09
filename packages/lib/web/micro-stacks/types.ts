@@ -2,7 +2,7 @@ import { Transaction, TransactionReceiptBase } from "lib-shared";
 import { FinishedTxData } from "micro-stacks/connect";
 import { StacksTransaction } from "micro-stacks/transactions";
 
-export interface IContractCall {
+export interface IMCContractCall {
   payload: FinishedTxData | undefined;
   success: boolean;
 }

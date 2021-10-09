@@ -1,5 +1,5 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { ClarinetAccount } from "lib-shared";
+import { ClarinetAccount } from "lib-infra";
 import { TestProvider } from "lib-testing";
 import {
   BnsContract,
@@ -9,8 +9,8 @@ import {
   nodeBootContracts,
   PoxContract,
   TestUtilsContract,
-} from ".";
-import { nodeTestUtilsContracts } from "./test-utils";
+} from "taral-contracts";
+import { nodeTestUtilsContracts } from "taral-contracts";
 
 export class TestUtilsProvider {
   private readonly _testContract: (
