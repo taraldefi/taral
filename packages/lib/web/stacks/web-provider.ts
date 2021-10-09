@@ -2,6 +2,7 @@ import {
   Configuration,
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
+import { ContractCallOptions, openContractCall } from "@stacks/connect";
 import {
   AnchorMode,
   ClarityAbiVariable,
@@ -15,31 +16,26 @@ import {
   serializeCV,
   serializePostCondition,
 } from "@stacks/transactions";
-import { ok, err } from "neverthrow";
 import {
-  Transaction,
-  getContractIdentifier,
-  WebContracts,
-  WebContractInstances,
-  cvToValue,
-  parseToCV,
-  WebTransactionReceipt,
-  SubmitOptions,
-  ClarityAbiMap,
-  TransactionResult,
-  WebSignerOptions,
   BaseWebProvider,
+  ClarityAbiMap,
+  cvToValue,
+  getContractIdentifier,
   IWebProviderRequest,
+  parseToCV,
+  SubmitOptions,
+  Transaction,
+  TransactionResult,
+  WebContractInstances,
+  WebContracts,
+  WebSignerOptions,
+  WebTransactionReceipt,
 } from "lib-shared";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById } from "lib-stacks";
-import {
-  SimpleStacksWebTransaction,
-  TxPayload,
-  IContractCall,
-} from "./types";
+import { err, ok } from "neverthrow";
+import { StacksNetworkConfiguration } from "taral-configuration";
 import { AppDetails, WebConfig } from "../shared";
-import { ContractCallOptions, openContractCall } from "@stacks/connect";
+import { IContractCall, SimpleStacksWebTransaction, TxPayload } from "./types";
 
 export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
@@ -70,7 +66,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
     throw new Error("Method not implemented.");
   }
-  
+
   callVariable(_variable: ClarityAbiVariable): Promise<void> {
     throw new Error("Method not implemented.");
   }
@@ -171,13 +167,13 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
           network: payload.network,
           stxAddress: payload.stxAddress,
           postConditionMode: PostConditionMode.Allow,
-          postConditions
+          postConditions,
         };
 
         const result = await this.handlePopup(contractCallOptions);
         const success = result.success;
         const stacksTransaction = result.payload!.stacksTransaction;
-        
+
         return {
           txId: success ? result.payload?.txId : undefined,
           stacksTransaction,
@@ -215,7 +211,9 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     };
   }
 
-  private async handlePopup(contractCallOptions: ContractCallOptions): Promise<IContractCall> {
+  private async handlePopup(
+    contractCallOptions: ContractCallOptions
+  ): Promise<IContractCall> {
     const promise = new Promise<IContractCall>((resolve) => {
       openContractCall({
         ...contractCallOptions,

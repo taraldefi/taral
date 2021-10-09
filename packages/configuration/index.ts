@@ -15,5 +15,5 @@ export function getTransactionUrl(
 }
 
 export const TESTNET: StacksTestnet = new StacksTestnet({
-  url: 'http://localhost:3999'
+  url: "http://localhost:3999",
 });

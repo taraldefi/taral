@@ -5,11 +5,11 @@ import {
   getClarinetAccounts,
   getRootDirectory,
 } from "lib-shared";
-import { TestProvider, getDefaultClarityBin } from "lib-testing";
+import { getDefaultClarityBin, TestProvider } from "lib-testing";
 import {
   nodeArkadikoContracts,
-  TaralCoinContract,
   nodeTaralContracts,
+  TaralCoinContract,
   TestUtilsProvider,
 } from "taral-contracts";
 

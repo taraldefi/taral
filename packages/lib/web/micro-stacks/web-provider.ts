@@ -2,7 +2,6 @@ import {
   Configuration,
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
-
 import {
   ClarityAbiVariable,
   ClarityType,
@@ -15,39 +14,29 @@ import {
   serializeCV,
   serializePostCondition,
 } from "@stacks/transactions";
-
-import { ok, err } from "neverthrow";
-
 import {
-  Transaction,
-  getContractIdentifier,
+  BaseWebProvider,
+  ClarityAbiMap,
   cvToValue,
-  WebContractInstances,
+  getContractIdentifier,
+  IWebProviderRequest,
   parseToCV,
   SubmitOptions,
-  ClarityAbiMap,
+  Transaction,
   TransactionResult,
-  WebSignerOptions,
-  BaseWebProvider,
-  IWebProviderRequest,
+  WebContractInstances,
   WebContracts,
+  WebSignerOptions,
 } from "lib-shared";
-
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById } from "lib-stacks";
-import { WebConfig } from "../shared";
-import {
-  AuthOptions,
-} from "micro-stacks/connect";
-import {} from "micro-stacks/connect";
 import { bytesToHex } from "micro-stacks/common";
-import {
-  IContractCall,
-  MicroStacksWebTransactionReceipt,
-} from "./types";
-
-import { useTransactionPopup } from 'micro-stacks/react';
+import { AuthOptions } from "micro-stacks/connect";
 import { StacksTestnet } from "micro-stacks/network";
+import { useTransactionPopup } from "micro-stacks/react";
+import { err, ok } from "neverthrow";
+import { StacksNetworkConfiguration } from "taral-configuration";
+import { WebConfig } from "../shared";
+import { IContractCall, MicroStacksWebTransactionReceipt } from "./types";
 
 export class MicroStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
@@ -143,13 +132,18 @@ export class MicroStacksWebProvider implements BaseWebProvider {
       submit: async (
         options: SubmitOptions
       ): Promise<MicroStacksWebTransactionReceipt<any, any>> => {
-        const contractCallResult = await this.handleContractCallInternal(request, (options as WebSignerOptions).postConditions);
+        const contractCallResult = await this.handleContractCallInternal(
+          request,
+          (options as WebSignerOptions).postConditions
+        );
 
         const success = contractCallResult.success;
 
         return {
           txId: success ? contractCallResult.payload?.txId : undefined,
-          stacksTransaction: success ? contractCallResult.payload!.stacksTransaction: undefined,
+          stacksTransaction: success
+            ? contractCallResult.payload!.stacksTransaction
+            : undefined,
           getResult: async () => {
             if (success) {
               const successfulFunctionCallResult = await getTransactionById(
@@ -186,28 +180,29 @@ export class MicroStacksWebProvider implements BaseWebProvider {
     return result;
   }
 
-  private async handleContractCallInternal(request: IWebProviderRequest, postConditions?: PostCondition[]): Promise<IContractCall> {
+  private async handleContractCallInternal(
+    request: IWebProviderRequest,
+    postConditions?: PostCondition[]
+  ): Promise<IContractCall> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
       return bytesToHex(serializeCV(valueCV));
     });
 
-    const serializedPostConditions = this.serializePostConditions(
-      postConditions
-    );
+    const serializedPostConditions =
+      this.serializePostConditions(postConditions);
 
     const [contractAddress, contractName] = this.identifier.split(".");
 
     const { handleContractCall } = useTransactionPopup();
 
     const promise = new Promise<IContractCall>(async (resolve) => {
-
       await handleContractCall({
         onFinish: (data: any) => {
           resolve({
             success: true,
-            payload: data
+            payload: data,
           });
         },
         onCancel: () => {
@@ -217,7 +212,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
           });
         },
         contractAddress,
-        contractName, 
+        contractName,
         functionArgs: argumentsFormatted,
         network: new StacksTestnet(),
         functionName: request.function.name,

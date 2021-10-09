@@ -3,15 +3,14 @@ import { ClarinetAccount } from "lib-shared";
 import { TestProvider } from "lib-testing";
 import {
   BnsContract,
-  nodeBootContracts,
   CostsContract,
   CostVotingContract,
   LockupContract,
+  nodeBootContracts,
   PoxContract,
   TestUtilsContract,
 } from ".";
-
-import { nodeTestUtilsContracts } from './test-utils'
+import { nodeTestUtilsContracts } from "./test-utils";
 
 export class TestUtilsProvider {
   private readonly _testContract: (

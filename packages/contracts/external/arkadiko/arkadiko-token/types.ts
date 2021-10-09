@@ -1,14 +1,22 @@
+import { ClarityTypes, Transaction } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface ArkadikoTokenContract {
-      burnForDao: (amount: number | bigint, sender: string) => Transaction<boolean, bigint>;
-  mintForDao: (amount: number | bigint, recipient: string) => Transaction<boolean, bigint>;
+export interface ArkadikoTokenContract {
+  burnForDao: (
+    amount: number | bigint,
+    sender: string
+  ) => Transaction<boolean, bigint>;
+  mintForDao: (
+    amount: number | bigint,
+    recipient: string
+  ) => Transaction<boolean, bigint>;
   setContractOwner: (owner: string) => Transaction<boolean, bigint>;
   setTokenUri: (value: string) => Transaction<boolean, bigint>;
-  transfer: (amount: number | bigint, sender: string, recipient: string, memo: Buffer | null) => Transaction<boolean, bigint>;
+  transfer: (
+    amount: number | bigint,
+    sender: string,
+    recipient: string,
+    memo: Buffer | null
+  ) => Transaction<boolean, bigint>;
   getBalance: (account: string) => Promise<ClarityTypes.Response<bigint, null>>;
   getDecimals: () => Promise<ClarityTypes.Response<bigint, null>>;
   getName: () => Promise<ClarityTypes.Response<string, null>>;
@@ -18,4 +26,4 @@
   ERRNOTAUTHORIZED: () => Promise<bigint>;
   contractOwner: () => Promise<string>;
   tokenUri: () => Promise<string>;
-  }
+}

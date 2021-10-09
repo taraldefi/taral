@@ -1,23 +1,44 @@
+import { ClarityTypes, Transaction } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface ArkadikoStakePoolDikoV11Contract {
-      addRewardsToPool: (registryTrait: string) => Transaction<bigint, bigint>;
-  claimPendingRewards: (registryTrait: string, staker: string) => Transaction<bigint, null>;
-  dikoForStdiko: (registryTrait: string, amount: number | bigint, stdikoSupply: number | bigint) => Transaction<bigint, null>;
+export interface ArkadikoStakePoolDikoV11Contract {
+  addRewardsToPool: (registryTrait: string) => Transaction<bigint, bigint>;
+  claimPendingRewards: (
+    registryTrait: string,
+    staker: string
+  ) => Transaction<bigint, null>;
+  dikoForStdiko: (
+    registryTrait: string,
+    amount: number | bigint,
+    stdikoSupply: number | bigint
+  ) => Transaction<bigint, null>;
   executeSlash: (percentage: number | bigint) => Transaction<bigint, bigint>;
-  getPendingRewards: (registryTrait: string, staker: string) => Transaction<bigint, null>;
-  getStakeOf: (registryTrait: string, staker: string, stdikoSupply: number | bigint) => Transaction<bigint, null>;
-  stake: (registryTrait: string, token: string, staker: string, amount: number | bigint) => Transaction<bigint, bigint>;
+  getPendingRewards: (
+    registryTrait: string,
+    staker: string
+  ) => Transaction<bigint, null>;
+  getStakeOf: (
+    registryTrait: string,
+    staker: string,
+    stdikoSupply: number | bigint
+  ) => Transaction<bigint, null>;
+  stake: (
+    registryTrait: string,
+    token: string,
+    staker: string,
+    amount: number | bigint
+  ) => Transaction<bigint, bigint>;
   startCooldown: () => Transaction<bigint, null>;
-  unstake: (registryTrait: string, token: string, staker: string, amount: number | bigint) => Transaction<bigint, bigint>;
+  unstake: (
+    registryTrait: string,
+    token: string,
+    staker: string,
+    amount: number | bigint
+  ) => Transaction<bigint, bigint>;
   dikoStdikoRatio: () => Promise<ClarityTypes.Response<bigint, null>>;
   getCooldownInfoOf: (wallet: string) => Promise<{
-  "redeem-period-end-block": bigint;
-  "redeem-period-start-block": bigint
-    }>;
+    "redeem-period-end-block": bigint;
+    "redeem-period-start-block": bigint;
+  }>;
   getLastRewardAddBlock: () => Promise<bigint>;
   getTotalStaked: () => Promise<bigint>;
   walletCanRedeem: (wallet: string) => Promise<boolean>;
@@ -28,10 +49,8 @@
   ERRWRONGTOKEN: () => Promise<ClarityTypes.Response<null, bigint>>;
   POOLTOKEN: () => Promise<string>;
   lastRewardAddBlock: () => Promise<bigint>;
-  walletCooldown: (key: {
-  "wallet": string
-    }) => Promise<{
-  "redeem-period-end-block": bigint;
-  "redeem-period-start-block": bigint
-    } | null>;
-  }
+  walletCooldown: (key: { wallet: string }) => Promise<{
+    "redeem-period-end-block": bigint;
+    "redeem-period-start-block": bigint;
+  } | null>;
+}
