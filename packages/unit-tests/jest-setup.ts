@@ -1,8 +1,6 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
-  ClarinetAccount,
-  ClarinetAccounts,
-  getClarinetAccounts,
+
   getRootDirectory,
 } from "lib-shared";
 import { getDefaultClarityBin, TestProvider } from "lib-testing";
@@ -12,6 +10,12 @@ import {
   TaralCoinContract,
   TestUtilsProvider,
 } from "taral-contracts";
+
+import {
+  ClarinetAccount,
+  ClarinetAccounts,
+  getClarinetAccounts,
+} from "lib-infra";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;

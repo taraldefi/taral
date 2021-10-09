@@ -11,7 +11,6 @@ import {
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
-  getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   getRootRelativeContractsFolder,
@@ -20,6 +19,9 @@ import {
   toPascalCase,
 } from "lib-shared";
 import { normalize, resolve } from "path";
+import {
+  getClarinetAccounts
+} from "lib-infra";
 
 interface IProject {
   outputDirectory: string;

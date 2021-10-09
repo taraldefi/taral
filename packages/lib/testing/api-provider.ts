@@ -16,12 +16,10 @@ import {
 } from "@stacks/transactions";
 import BN from "bn.js";
 import {
-  ApiCreateOptions,
   BaseProvider,
   ClarityAbiMap,
   cvToValue,
   DeployerAccount,
-  FromApiContractOptions,
   getContractIdentifier,
   getContractNameFromPath,
   getRootDirectory,
@@ -36,10 +34,14 @@ import {
 import { handleFunctionTransaction } from "lib-stacks";
 import { err, ok } from "neverthrow";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { deployContractOnStacks } from "../stacks/deploy-contract";
+import { deployContractOnStacks } from "./stacks/deploy-contract";
 import { formatArguments } from "../stacks/format-arguments";
 import { getNonce } from "../stacks/get-nonce";
 import { getTransactionById } from "../stacks/utils";
+import {
+  ApiCreateOptions,
+  FromApiContractOptions,
+} from "lib-infra";
 
 const NAME = "api-provider";
 

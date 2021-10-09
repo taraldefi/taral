@@ -2,7 +2,7 @@ import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
 import { Logger } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
-import { handleTransaction } from "./handle-transaction";
+import { handleTransaction } from "lib-stacks";
 
 const NAME = "contract-deployer";
 

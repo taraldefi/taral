@@ -3,7 +3,7 @@ import {
   getTempFilePath,
   NativeClarityBinProvider,
 } from "lib-clarity-bin";
-import { AllocationOrAccounts } from "lib-shared";
+import { AllocationOrAccounts } from "lib-infra";
 import getAllocations from "./get-allocations";
 
 export async function createClarityBin({

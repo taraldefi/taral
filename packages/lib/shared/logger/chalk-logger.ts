@@ -1,7 +1,6 @@
 import type { Chalk } from "chalk";
 import chalk from "chalk";
 import dayjs from "dayjs";
-import fs from "fs-extra";
 import { inspect } from "util";
 import type { Color } from "./color";
 import { colorToChalk } from "./color";
@@ -101,10 +100,6 @@ export class ChalkLogger {
 
     // set log write function
     if (write != null) self.write = write;
-    else if (filepath != null) {
-      self.write = (text: string) =>
-        fs.appendFileSync(filepath!, text, encoding);
-    }
 
     // set dateChalk
     if (dateChalk != null) {
