@@ -26,7 +26,7 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-
+const nodeExternals = require('webpack-node-externals');
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -159,6 +159,7 @@ module.exports = function (webpackEnv) {
   };
 
   return {
+    target: 'web',
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     // Stop compilation early in production
     bail: isEnvProduction,
@@ -307,6 +308,10 @@ module.exports = function (webpackEnv) {
         name: entrypoint => `runtime-${entrypoint.name}`,
       },
     },
+    externals: [
+      nodeExternals({
+        modulesDir: path.resolve(__dirname, '../../../node_modules')
+    })],
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
       // We placed these paths second because we want `node_modules` to "win"
@@ -328,6 +333,9 @@ module.exports = function (webpackEnv) {
         // Support React Native Web
         // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
         'react-native': 'react-native-web',
+        'stream': 'stream-browserify',
+        'crypto': 'crypto-browserify',
+        'buffer': 'buffer',
         // Allows for better profiling with ReactDevTools
         ...(isEnvProductionProfile && {
           'react-dom$': 'react-dom/profiling',
@@ -347,7 +355,7 @@ module.exports = function (webpackEnv) {
         new ModuleScopePlugin(paths.appSrc, [
           paths.appPackageJson,
           reactRefreshOverlayEntry,
-        ]),
+        ])
       ],
     },
     resolveLoader: {
@@ -406,6 +414,8 @@ module.exports = function (webpackEnv) {
                       runtime: hasJsxRuntime ? 'automatic' : 'classic',
                     },
                   ],
+                  '@babel/preset-typescript',
+                  '@babel/preset-react'
                 ],
                 
                 plugins: [
@@ -420,6 +430,11 @@ module.exports = function (webpackEnv) {
                       },
                     },
                   ],
+                  ['@babel/plugin-proposal-class-properties', { loose: true }],
+                    '@babel/plugin-transform-runtime',
+                    '@babel/plugin-proposal-nullish-coalescing-operator',
+                    '@babel/plugin-proposal-optional-chaining',
+                    'babel-plugin-styled-components',
                   isEnvDevelopment &&
                     shouldUseReactRefresh &&
                     require.resolve('react-refresh/babel'),
@@ -436,7 +451,7 @@ module.exports = function (webpackEnv) {
             // Process any JS outside of the app with Babel.
             // Unlike the application JS, we only compile the standard ES features.
             {
-              test: /\.(js|mjs)$/,
+              test: /\.(js|mjs|ts)$/,
               exclude: /@babel(?:\/|\\{1,2})runtime/,
               loader: require.resolve('babel-loader'),
               options: {
