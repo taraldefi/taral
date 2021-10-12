@@ -91,9 +91,11 @@
     "stream-browserify": "^3.0.0",
     "ts-loader": "^7.0.0",
     "ts-node": "^9.1.1",
-    "tsconfig-paths": "^3.9.0"
+    "tsconfig-paths": "^3.9.0",
+    "proxy-memoize": "^0.3.7"
   },
   "devDependencies": {
+    "@types/html-minifier-terser": "6.0.0",
     "@babel/plugin-proposal-class-properties": "^7.5.5",
     "@babel/plugin-transform-regenerator": "^7.4.5",
     "@babel/plugin-transform-runtime": "^7.9.0",
@@ -101,9 +103,9 @@
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
     "babel-plugin-styled-components": "^1.10.7",
-    "@babel/runtime": "^7.9.2",
-    "webpack-node-externals": "3.0.0"
+    "@babel/runtime": "^7.9.2"
   },
+  
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
@@ -178,10 +180,6 @@
       "jest-watch-typeahead/testname"
     ],
     "resetMocks": true
-  },
-  "babel": {
-    "presets": [
-      "react-app"
-    ]
   }
+  
 }
