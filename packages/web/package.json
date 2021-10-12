@@ -105,7 +105,6 @@
     "babel-plugin-styled-components": "^1.10.7",
     "@babel/runtime": "^7.9.2"
   },
-  
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
@@ -181,5 +180,4 @@
     ],
     "resetMocks": true
   }
-  
 }

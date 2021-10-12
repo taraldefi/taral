@@ -7,10 +7,10 @@ import {
   CostVotingContract,
   LockupContract,
   nodeBootContracts,
+  nodeTestUtilsContracts,
   PoxContract,
   TestUtilsContract,
 } from "taral-contracts";
-import { nodeTestUtilsContracts } from "taral-contracts";
 
 export class TestUtilsProvider {
   private readonly _testContract: (

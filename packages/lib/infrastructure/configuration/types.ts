@@ -1,5 +1,5 @@
-import { DeployerAccount, NodeContract } from "lib-shared";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { DeployerAccount, NodeContract } from "lib-shared";
 import { StacksNetworkConfiguration } from "taral-configuration";
 
 export interface ClarinetConfigAccount {
@@ -43,13 +43,10 @@ export interface ConfigContract {
 
 export type AllocationOrAccounts = ClarinetAccounts | Allocation[];
 
-
 export interface Allocation {
   principal: string;
   amount: number;
 }
-
-
 
 export interface BaseCreateOptions {
   allocations?: Allocation[];
