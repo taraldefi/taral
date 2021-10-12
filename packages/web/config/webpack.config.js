@@ -26,7 +26,6 @@ const ModuleNotFoundPlugin = require('react-dev-utils/ModuleNotFoundPlugin');
 const ForkTsCheckerWebpackPlugin = require('react-dev-utils/ForkTsCheckerWebpackPlugin');
 const typescriptFormatter = require('react-dev-utils/typescriptFormatter');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
-const nodeExternals = require('webpack-node-externals');
 const postcssNormalize = require('postcss-normalize');
 
 const appPackageJson = require(paths.appPackageJson);
@@ -308,16 +307,12 @@ module.exports = function (webpackEnv) {
         name: entrypoint => `runtime-${entrypoint.name}`,
       },
     },
-    externals: [
-      nodeExternals({
-        modulesDir: path.resolve(__dirname, '../../../node_modules')
-    })],
     resolve: {
       // This allows you to set a fallback for where webpack should look for modules.
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
       // https://github.com/facebook/create-react-app/issues/253
-      modules: ['node_modules', paths.appNodeModules].concat(
+      modules: ['node_modules',  paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),
       // These are the reasonable defaults supported by the Node ecosystem.
@@ -401,7 +396,14 @@ module.exports = function (webpackEnv) {
             // The preset includes JSX, Flow, TypeScript, and some ESnext features.
             {
               test: /\.(js|mjs|jsx|ts|tsx)$/,
-              include: paths.appSrc,
+              include: [
+                paths.appSrc,
+                path.resolve(__dirname, '../../configuration'),
+                path.resolve(__dirname, '../../contracts'),
+                path.resolve(__dirname, '../../lib/shared'),
+                path.resolve(__dirname, '../../lib/web'),
+                path.resolve(__dirname, '../../lib/stacks')
+              ],
               loader: require.resolve('babel-loader'),
               options: {
                 customize: require.resolve(
