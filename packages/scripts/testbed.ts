@@ -7,7 +7,7 @@ const NAME = "Testbed";
 
 async function main() {
   const cwd = `${process.cwd()}`;
-  console.log("Taral testned 1.0");
+  console.log("Taral testbed");
   console.log("A place to quickly prototype and test things.");
   console.log(`Ran from ${cwd}`);
 
