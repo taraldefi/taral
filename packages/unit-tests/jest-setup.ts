@@ -1,15 +1,19 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
-  ClarinetAccount,
-  ClarinetAccounts,
   getClarinetAccounts,
 } from "lib-infra";
-import { getRootDirectory } from "lib-shared";
+import { 
+  getRootDirectory,
+  ClarinetAccount,
+  ClarinetAccounts
+} from "lib-shared";
+
 import {
   getDefaultClarityBin,
   TestProvider,
   TestUtilsProvider,
 } from "lib-testing";
+
 import {
   nodeArkadikoContracts,
   nodeTaralContracts,

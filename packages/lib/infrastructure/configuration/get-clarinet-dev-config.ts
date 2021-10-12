@@ -1,7 +1,7 @@
 import { parse } from "@ltd/j-toml";
 import { readFile } from "fs/promises";
 import { resolve } from "path";
-import { ClarinetDevConfig } from ".";
+import { ClarinetDevConfig } from "lib-shared";
 
 export async function getClarinetDevConfig(
   folder: string
