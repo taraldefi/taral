@@ -1,4 +1,4 @@
-import { ClarinetAccount, ClarinetAccounts } from "./types";
+import { ClarinetAccount, ClarinetAccounts } from "lib-shared";
 
 export function getWalletAtIndex(
   accounts: ClarinetAccounts,

@@ -1,5 +1,5 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { ClarinetAccount } from "lib-infra";
+import { ClarinetAccount } from "lib-shared";
 import { TestProvider } from "lib-testing";
 import {
   BnsContract,

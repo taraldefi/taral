@@ -6,19 +6,21 @@ import {
   UserSession,
 } from "@stacks/connect";
 import { useState } from "react";
-import { SimpleStacksWebProvider } from "lib-web";
+import { AppDetails, SimpleStacksWebProvider } from "lib-web";
 import { webTaralContracts } from "taral-contracts";
 import { NETWORK } from "taral-configuration";
 
 const appConfig = new AppConfig();
 const userSession = new UserSession({appConfig});
 
+const appDetails: AppDetails = {
+  icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
+  name: 'Testing'
+};
+
 async function callGetName() {
   const webProvider = SimpleStacksWebProvider.fromContracts(webTaralContracts, {
-    appDetails: {
-      icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
-      name: 'Testing'
-    },
+    appDetails,
     network: NETWORK,
     stxAddress: ''
   });
@@ -55,13 +57,13 @@ function App() {
         <button
           onClick={() =>
             showConnect({
-              appDetails: {
-                name: "Webflow",
-                icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
-              },
+              appDetails,
               onFinish: () => {
                 setUser(userSession.loadUserData());
               },
+              onCancel: () => {
+                console.error('Cancelled connect');
+              }
             })
           }
         >

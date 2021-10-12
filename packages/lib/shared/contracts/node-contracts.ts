@@ -1,4 +1,4 @@
-import { ClarinetAccount } from "../configuration";
+import { ClarinetAccount } from "..";
 import { BaseNodeProvider } from "../providers";
 import { BaseContract } from "./types";
 

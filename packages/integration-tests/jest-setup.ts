@@ -1,13 +1,14 @@
 import {
-  ClarinetAccount,
-  ClarinetAccounts,
   getClarinetAccounts,
 } from "lib-infra";
+
 import {
   getRootDirectory,
   Logger,
   NodeContract,
   NodeContractInstances,
+  ClarinetAccount,
+  ClarinetAccounts
 } from "lib-shared";
 import { ApiProvider } from "lib-testing";
 import { NETWORK } from "taral-configuration";

@@ -1,6 +1,6 @@
 import { generateWallet, getStxAddress } from "@stacks/wallet-sdk";
 import { getClarinetTestnetConfig } from ".";
-import { ClarinetAccounts } from "./types";
+import { ClarinetAccounts } from "lib-shared";
 
 export async function getClarinetAccounts(
   folder: string

@@ -10,7 +10,6 @@ import {
 } from "@stacks/transactions";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import {
-  ClarinetAccounts,
   CreateOptions,
   FromContractOptions,
 } from "lib-infra";
@@ -30,6 +29,7 @@ import {
   Submitter,
   Transaction,
   TransactionResult,
+  ClarinetAccounts
 } from "lib-shared";
 import {
   deployContract,
