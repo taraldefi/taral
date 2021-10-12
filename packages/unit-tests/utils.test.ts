@@ -18,5 +18,3 @@ test("Can derive btc address from stacks address", async () => {
   let btcAddress = stacksAddressToBtcAddress(stacksAddress);
   expect(btcAddress).toBe("mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH");
 });
-
-

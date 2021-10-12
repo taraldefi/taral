@@ -1,7 +1,7 @@
 import { parse } from "@ltd/j-toml";
 import { readFile } from "fs/promises";
-import { resolve } from "path";
 import { ClarinetConfig } from "lib-shared";
+import { resolve } from "path";
 
 export async function getClarinetConfig(folder: string) {
   const baseConfigPath = resolve(folder, "Clarinet.toml");

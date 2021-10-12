@@ -1,3 +1,11 @@
 {
-  "cSpell.words": ["bitcoinjs", "crossfetch", "Merkle", "taral"]
+  "cSpell.words": [
+    "bitcoinjs",
+    "crossfetch",
+    "Merkle",
+    "Merkleproof",
+    "merkleroot",
+    "regtest",
+    "taral"
+  ]
 }
