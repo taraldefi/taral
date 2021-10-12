@@ -1,4 +1,4 @@
-import { Allocation, AllocationOrAccounts } from "lib-shared";
+import { Allocation, AllocationOrAccounts } from "lib-infra";
 
 export default function getAllocations(
   allocations?: AllocationOrAccounts
