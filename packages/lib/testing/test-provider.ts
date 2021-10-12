@@ -9,12 +9,10 @@ import {
   responseOkCV,
 } from "@stacks/transactions";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import {
-  CreateOptions,
-  FromContractOptions,
-} from "lib-infra";
+import { CreateOptions, FromContractOptions } from "lib-infra";
 import {
   BaseProvider,
+  ClarinetAccounts,
   ClarityAbiMap,
   cvToValue,
   EvalOk,
@@ -29,7 +27,6 @@ import {
   Submitter,
   Transaction,
   TransactionResult,
-  ClarinetAccounts
 } from "lib-shared";
 import {
   deployContract,

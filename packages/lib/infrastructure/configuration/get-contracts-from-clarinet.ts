@@ -1,5 +1,5 @@
-import { ConfigContract, getClarinetConfig } from ".";
 import { ClarinetAccounts } from "lib-shared";
+import { ConfigContract, getClarinetConfig } from ".";
 
 export async function getContractsFromClarinet(
   folder: string,
