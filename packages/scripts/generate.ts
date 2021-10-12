@@ -8,6 +8,7 @@ import {
   generateFilesForContract,
   submitAnalisysForContract,
 } from "lib-generate";
+import { getClarinetAccounts } from "lib-infra";
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
@@ -19,9 +20,6 @@ import {
   toPascalCase,
 } from "lib-shared";
 import { normalize, resolve } from "path";
-import {
-  getClarinetAccounts
-} from "lib-infra";
 
 interface IProject {
   outputDirectory: string;

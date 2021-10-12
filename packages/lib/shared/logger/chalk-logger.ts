@@ -72,8 +72,6 @@ export class ChalkLogger {
       inline,
       colorful,
       write,
-      filepath,
-      encoding = "utf-8",
       dateChalk,
       nameChalk,
       placeholderRegex,

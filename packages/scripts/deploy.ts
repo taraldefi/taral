@@ -1,5 +1,6 @@
 import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
+import { getClarinetAccounts } from "lib-infra";
 import {
   getContractNameFromPath,
   getRootDirectory,
@@ -10,9 +11,6 @@ import { handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
 import { nodeTaralContracts } from "taral-contracts";
-import {
-  getClarinetAccounts
-} from "lib-infra";
 
 const NAME = "Deploy tool";
 

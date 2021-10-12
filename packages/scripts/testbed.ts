@@ -1,7 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
-import { getRootDirectory, Logger } from "lib-shared";
 import { getClarinetAccounts } from "lib-infra";
+import { getRootDirectory, Logger } from "lib-shared";
 
 const NAME = "Testbed";
 
