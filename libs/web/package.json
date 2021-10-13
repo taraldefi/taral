@@ -54,7 +54,7 @@
     "node-fetch": "2.6.1",
     "prettier": "^2.3.2",
     "rpc-bitcoin": "^2.0.0",
-    "stacks-crypto": "1.0.0-beta.3",
+    "stacks-crypto": "1.0.0-beta.4",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
     "unzipper": "^0.10.11",
