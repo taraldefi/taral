@@ -15,7 +15,7 @@ const userSession = new UserSession({appConfig});
 
 const appDetails: AppDetails = {
   icon: "https://webpack.js.org/site-logo.1fcab817090e78435061.svg",
-  name: 'Testing'
+  name: 'Taral testbed'
 };
 
 async function callGetName(userSession: UserSession) {
@@ -24,8 +24,11 @@ async function callGetName(userSession: UserSession) {
     appDetails,
     network: NETWORK,
   });
+  const stxAddress = userSession.loadUserData().profile.stxAddress.testnet;
+  console.log(stxAddress);
 
-  const name = (await webProvider.webTaralCoin.contract(userSession.loadUserData().identityAddress).getName())._unsafeUnwrap();
+
+  const name = (await webProvider.webTaralCoin.contract(stxAddress).getName())._unsafeUnwrap();
   console.log(name);
 }
 
@@ -39,7 +42,7 @@ function App() {
         <button
           onClick={async () => await callGetName(userSession)}
         >
-          Call
+          Call public function get-name
         </button>
         <button
           onClick={() => {
