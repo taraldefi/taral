@@ -401,9 +401,9 @@ module.exports = function (webpackEnv) {
                 paths.appSrc,
                 path.resolve(__dirname, "../../configuration"),
                 path.resolve(__dirname, "../../contracts"),
-                path.resolve(__dirname, "../../lib/shared"),
-                path.resolve(__dirname, "../../lib/web"),
-                path.resolve(__dirname, "../../lib/stacks"),
+                path.resolve(__dirname, "../../../libs/shared"),
+                path.resolve(__dirname, "../../../libs/web"),
+                path.resolve(__dirname, "../../../libs/stacks"),
               ],
               loader: require.resolve("babel-loader"),
               options: {
