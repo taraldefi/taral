@@ -19,7 +19,8 @@ import {
   ClarityAbiMap,
   cvToValue,
   getContractIdentifier,
-  IWebProviderRequest,
+  IWebProviderPublicRequest,
+  IWebProviderReadonlyRequest,
   parseToCV,
   SubmitOptions,
   Transaction,
@@ -41,14 +42,12 @@ import { IMCContractCall, MicroStacksWebTransactionReceipt } from "./types";
 export class MicroStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  stxAddress: string;
   network: StacksNetworkConfiguration;
   appDetails: AuthOptions["appDetails"];
 
   constructor({
     network,
     identifier,
-    stxAddress,
     appDetails,
   }: WebConfig & { identifier: string }) {
     const apiConfig = new Configuration({
@@ -59,7 +58,6 @@ export class MicroStacksWebProvider implements BaseWebProvider {
     const apiClient = new SmartContractsApi(apiConfig);
     this.apiClient = apiClient;
     this.identifier = identifier;
-    this.stxAddress = stxAddress;
     this.network = network;
     this.appDetails = appDetails;
   }
@@ -93,7 +91,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
     return instances;
   }
 
-  async callReadOnly(request: IWebProviderRequest) {
+  async callReadOnly(request: IWebProviderReadonlyRequest) {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -105,7 +103,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
       contractName,
       functionName: request.function.name,
       readOnlyFunctionArgs: {
-        sender: this.stxAddress,
+        sender: request.caller,
         arguments: argumentsFormatted,
       },
     });
@@ -127,7 +125,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
     }
   }
 
-  callPublic(request: IWebProviderRequest): Transaction<any, any> {
+  callPublic(request: IWebProviderPublicRequest): Transaction<any, any> {
     const result: Transaction<any, any> = {
       submit: async (
         options: SubmitOptions
@@ -181,7 +179,7 @@ export class MicroStacksWebProvider implements BaseWebProvider {
   }
 
   private async handleContractCallInternal(
-    request: IWebProviderRequest,
+    request: IWebProviderPublicRequest,
     postConditions?: PostCondition[]
   ): Promise<IMCContractCall> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
