@@ -3470,10 +3470,10 @@ micro-base58@0.5.0:
   resolved "https://registry.yarnpkg.com/micro-base58/-/micro-base58-0.5.0.tgz#d113d25d6df8e499e78739f9820687a4fbd5c02a"
   integrity sha512-Gm4qJ1Y5PG0QhR4Vo/Nj4Ll9g/efuyK0w2hYjQaG34/Qtw9Ozpw8ANGNwhHjXfv+rjLlBm8Cd4xvvsI6/go97g==
 
-micro-stacks@0.0.27:
-  version "0.0.27"
-  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.0.27.tgz#bd1ee4401e96a0a3cb7c2198a9230e0cb220923c"
-  integrity sha512-L3H8sRxryvUGFvhYBsveCbMdEqCT+v4BH6bdMiRyD0DyynC0FTISgcchLFU625J9M7Vvav/6QybL+ZMGgHLnqg==
+micro-stacks@0.0.30:
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.0.30.tgz#5870d6a5dfb5a123c71eefab980fe5b56cfcd9a4"
+  integrity sha512-feuTaBlYq5Gbd196VGZ5UkusKvbSNsk9pVxwRqUyuyLqDnDDZk3nWruNraOy5qZm50dIYEKEm1noidL6Ukx+zg==
   dependencies:
     noble-secp256k1 "1.2.9"
 
