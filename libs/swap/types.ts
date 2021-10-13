@@ -1,5 +1,5 @@
 import { Block } from "lib-bitcoin";
-import { Contract, ContractInstances } from "lib-shared";
+import { NodeContract, NodeContractInstances } from "lib-shared";
 import {
   BtcFtSwapContract,
   BtcNftSwapContract,
@@ -9,14 +9,14 @@ import {
   TaralCoinContract,
 } from "taral-contracts";
 
-export type DeployedContracts = ContractInstances<
+export type DeployedContracts = NodeContractInstances<
   {
-    sip10FtStandard: Contract<Sip10FtStandardContract>;
-    nftTrait: Contract<NftTraitContract>;
-    taralCoin: Contract<TaralCoinContract>;
-    clarityBitcoin: Contract<ClarityBitcoinContract>;
-    btcFtSwap: Contract<BtcFtSwapContract>;
-    btcNftSwap: Contract<BtcNftSwapContract>;
+    sip10FtStandard: NodeContract<Sip10FtStandardContract>;
+    nftTrait: NodeContract<NftTraitContract>;
+    taralCoin: NodeContract<TaralCoinContract>;
+    clarityBitcoin: NodeContract<ClarityBitcoinContract>;
+    btcFtSwap: NodeContract<BtcFtSwapContract>;
+    btcNftSwap: NodeContract<BtcNftSwapContract>;
   },
   unknown
 >;

@@ -1,19 +1,19 @@
 FROM blockstack/stacks-blockchain as builder
 FROM alpine
-ARG BTC_URL="https://github.com/blockstackpbc/bitcoin-docker/releases/download/0.20.99.0.0/musl-v0.20.99.0.0.tar.gz"
+ARG BTC_URL="https://github.com/blockstackpbc/bitcoin-docker/releases/download/0.21.1/musl-v0.21.1.tar.gz"
 
 WORKDIR /
 
 COPY --from=builder /bin/puppet-chain /bin/
-
-RUN apk add --update \
+# RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.1/main' >> /etc/apk/repositories
+RUN apk add --no-cache \
     curl \
     dos2unix \
     gnupg \
+    boost-chrono \
     boost-system \
     boost-filesystem \
     boost-thread \
-    boost-chrono \
     libevent \
     libzmq \
     libgcc \
