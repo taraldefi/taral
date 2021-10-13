@@ -19,7 +19,7 @@ const makeWebHandler = (
       if (foundFunction) {
         if (foundFunction.access === "read_only") {
           if (caller == undefined) {
-            throw new Error('Caller needed for readonly function call');
+            throw new Error("Caller needed for readonly function call");
           }
           const callerStxAddress = caller;
           return (...args: any[]) => {
@@ -77,6 +77,6 @@ export const webProxy = <T extends object>(
   return (caller?: string, onFinish?: Noop, onCancel?: Noop) =>
     new Proxy<T, ClarityAbi>(
       target,
-      makeWebHandler(provider, caller,  onFinish, onCancel)
+      makeWebHandler(provider, caller, onFinish, onCancel)
     );
 };

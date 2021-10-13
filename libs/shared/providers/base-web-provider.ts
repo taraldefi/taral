@@ -1,5 +1,9 @@
 import { ClarityAbiVariable } from "@stacks/transactions";
-import { BaseProvider, IWebProviderPublicRequest, IWebProviderReadonlyRequest } from ".";
+import {
+  BaseProvider,
+  IWebProviderPublicRequest,
+  IWebProviderReadonlyRequest,
+} from ".";
 import { ClarityAbiMap, Transaction } from "..";
 
 export abstract class BaseWebProvider implements BaseProvider {

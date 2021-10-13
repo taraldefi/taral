@@ -139,7 +139,6 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
       functionArgs: argumentsFormatted,
       network: this.network,
       appDetails: this.appDetails,
-    
     });
   }
 
