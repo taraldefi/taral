@@ -8,13 +8,13 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@ltd/j-toml": "^1.16.0",
+    "@ltd/j-toml": "^1.20.0",
     "@types/bluebird": "^3.5.36",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "16.10.2",
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.3",
-    "ts-node": "^10.2.1",
+    "ts-node": "^10.3.0",
     "typescript": "^4.4.3"
   },
   "dependencies": {
@@ -26,7 +26,7 @@
     "@stacks/common": "^2.0.0-beta.0",
     "@stacks/network": "^2.0.1",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
-    "@stacks/stacks-blockchain-api-types": "^0.68.0",
+    "@stacks/stacks-blockchain-api-types": "^0.69.0",
     "@stacks/transactions": "2.0.1",
     "@types/crypto-js": "^4.0.2",
     "@types/wif": "^2.0.2",
