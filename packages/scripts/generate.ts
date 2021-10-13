@@ -8,15 +8,16 @@ import {
   generateFilesForContract,
   submitAnalisysForContract,
 } from "lib-generate";
+import { getClarinetAccounts } from "lib-infra";
 import {
   contractWithSubDirectory,
   contractWithSubDirectoryRelativeFilePath,
-  getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   getRootRelativeContractsFolder,
   Logger,
   toCamelCase,
+  toPascalCase,
 } from "lib-shared";
 import { normalize, resolve } from "path";
 
@@ -115,32 +116,44 @@ async function generateProjectIndexFile(
   for (let group of groups) {
     const imports: string[] = [];
     const exports: string[] = [];
-    const contractMap: string[] = [];
+    const nodeContractMap: string[] = [];
+    const webContractMap: string[] = [];
+
     const groupName = group.name;
 
     for (let contract of group.contracts) {
       const contractName = getContractNameFromPath(contract);
-      const contractVar = toCamelCase(contractName);
-      const contractInfo = `${contractVar}Info`;
+
+      const nodeContractVar = `node${toPascalCase(contractName)}`;
+      const webContractVar = `web${toPascalCase(contractName)}`;
+
+      const nodeContractInfo = `${nodeContractVar}Info`;
+      const webContractInfo = `${webContractVar}Info`;
+
       const contractInterface = `${toCamelCase(contractName, true)}Contract`;
       const importPath = `'./${contractName}'`;
-      const _import = `import { ${contractInfo} } from ${importPath};`;
+      const _import = `import { ${nodeContractInfo}, ${webContractInfo} } from ${importPath};`;
       imports.push(_import);
 
       const _export = `export type { ${contractInterface} } from ${importPath};`;
       exports.push(_export);
 
-      const map = `${contractVar}: ${contractInfo},`;
-      contractMap.push(map);
+      nodeContractMap.push(`${nodeContractVar}: ${nodeContractInfo},`);
+      webContractMap.push(`${webContractVar}: ${webContractInfo},`);
     }
 
-    const contractsName = `${groupName.toLowerCase()}Contracts`;
+    const webContractsName = `web${toPascalCase(groupName)}Contracts`;
+    const nodeContractsName = `node${toPascalCase(groupName)}Contracts`;
 
     const file = `${imports.join("\n")}
     ${exports.join("\n")}
     
-    export const ${contractsName} = {
-      ${contractMap.join("\n  ")}
+    export const ${nodeContractsName} = {
+      ${nodeContractMap.join("\n  ")}
+    };
+
+    export const ${webContractsName} = {
+      ${webContractMap.join("\n  ")}
     };
     `;
 

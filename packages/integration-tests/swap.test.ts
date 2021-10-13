@@ -11,7 +11,8 @@ import {
   makePayment,
   PaymentResponse,
 } from "lib-bitcoin";
-import { getWalletAtIndex, Logger, toJSON } from "lib-shared";
+import { getWalletAtIndex } from "lib-infra";
+import { Logger, toJSON } from "lib-shared";
 import {
   createBtcFtSwap,
   getReversedTxId,

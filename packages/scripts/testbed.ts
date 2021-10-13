@@ -1,12 +1,13 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
-import { getClarinetAccounts, getRootDirectory, Logger } from "lib-shared";
+import { getClarinetAccounts } from "lib-infra";
+import { getRootDirectory, Logger } from "lib-shared";
 
 const NAME = "Testbed";
 
 async function main() {
   const cwd = `${process.cwd()}`;
-  console.log("Taral testned 1.0");
+  console.log("Taral testbed");
   console.log("A place to quickly prototype and test things.");
   console.log(`Ran from ${cwd}`);
 

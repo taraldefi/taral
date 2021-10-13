@@ -1,17 +1,20 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { getClarinetAccounts } from "lib-infra";
 import {
   ClarinetAccount,
   ClarinetAccounts,
-  getClarinetAccounts,
   getRootDirectory,
 } from "lib-shared";
-import { TestProvider, getDefaultClarityBin } from "lib-testing";
 import {
-  arkadikoContracts,
-  TaralCoinContract,
-  taralContracts,
+  getDefaultClarityBin,
+  TestProvider,
   TestUtilsProvider,
-} from "taral-generated-contracts";
+} from "lib-testing";
+import {
+  nodeArkadikoContracts,
+  nodeTaralContracts,
+  TaralCoinContract,
+} from "taral-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let clarinetAccounts: ClarinetAccounts;
@@ -27,13 +30,13 @@ beforeAll(async () => {
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 
   testUtilsProvider = await TestUtilsProvider.ensureTestContracts(clarityBin);
-  await TestProvider.fromContracts(true, arkadikoContracts, clarityBin);
+  await TestProvider.fromContracts(true, nodeArkadikoContracts, clarityBin);
 
   const deployed = await TestProvider.fromContracts(
     true,
-    taralContracts,
+    nodeTaralContracts,
     clarityBin
   );
 
-  talToken = deployed.taralCoin.contract;
+  talToken = deployed.nodeTaralCoin.contract;
 }, 3000000);

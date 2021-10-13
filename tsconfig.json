@@ -1,10 +1,10 @@
 {
   "compilerOptions": {
     "noEmit": true,
-    "target": "ES2020",
-    "module": "es2020",
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "module": "esnext",
     "moduleResolution": "node",
-    "lib": ["dom", "esnext"],
     "importHelpers": false,
     "declaration": true,
     "sourceMap": true,
@@ -39,18 +39,19 @@
 
   "include": [
     "./packages/configuration/**/*.ts",
-    "./packages/generated-contracts/**/*.ts",
+    "./packages/contracts/**/*.ts",
     "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
+    "./packages/web/**/*.ts",
     "./packages/unit-tests/**/*.ts",
     "./packages/integration-tests/**/*.ts",
-    "./packages/lib/bitcoin/**/*.ts",
-    "./packages/lib/clarity-bin/**/*.ts",
-    "./packages/lib/generate/**/*.ts",
-    "./packages/lib/shared/**/*.ts",
-    "./packages/lib/stacks/**/*.ts",
-    "./packages/lib/swap/**/*.ts",
-    "./packages/lib/testing/**/*.ts",
-    "./packages/lib/web/**/*.ts"
+    "./libs/bitcoin/**/*.ts",
+    "./libs/clarity-bin/**/*.ts",
+    "./libs/generate/**/*.ts",
+    "./libs/shared/**/*.ts",
+    "./libs/stacks/**/*.ts",
+    "./libs/swap/**/*.ts",
+    "./libs/testing/**/*.ts",
+    "./libs/web/**/*.ts"
   ]
 }

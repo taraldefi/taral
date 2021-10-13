@@ -1,11 +1,11 @@
+import { getClarinetAccounts } from "lib-infra";
 import {
   ClarinetAccount,
   ClarinetAccounts,
-  Contract,
-  ContractInstances,
-  getClarinetAccounts,
   getRootDirectory,
   Logger,
+  NodeContract,
+  NodeContractInstances,
 } from "lib-shared";
 import { ApiProvider } from "lib-testing";
 import { NETWORK } from "taral-configuration";
@@ -14,10 +14,10 @@ import {
   BtcNftSwapContract,
   ClarityBitcoinContract,
   NftTraitContract,
+  nodeTaralContracts,
   Sip10FtStandardContract,
   TaralCoinContract,
-  taralContracts,
-} from "taral-generated-contracts";
+} from "taral-contracts";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 export let clarityBitcoinContract: (
@@ -26,14 +26,14 @@ export let clarityBitcoinContract: (
 export let btcFtSwapContract: (account: ClarinetAccount) => BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
 
-export let deployed: ContractInstances<
+export let deployed: NodeContractInstances<
   {
-    sip10FtStandard: Contract<Sip10FtStandardContract>;
-    nftTrait: Contract<NftTraitContract>;
-    taralCoin: Contract<TaralCoinContract>;
-    clarityBitcoin: Contract<ClarityBitcoinContract>;
-    btcFtSwap: Contract<BtcFtSwapContract>;
-    btcNftSwap: Contract<BtcNftSwapContract>;
+    nodeSip10FtStandard: NodeContract<Sip10FtStandardContract>;
+    nodeNftTrait: NodeContract<NftTraitContract>;
+    nodeTaralCoin: NodeContract<TaralCoinContract>;
+    nodeClarityBitcoin: NodeContract<ClarityBitcoinContract>;
+    nodeBtcFtSwap: NodeContract<BtcFtSwapContract>;
+    nodeBtcNftSwap: NodeContract<BtcNftSwapContract>;
   },
   unknown
 >;
@@ -50,13 +50,18 @@ beforeAll(async () => {
   //   stacksAddress: deployer.address,
   // });
 
-  deployed = await ApiProvider.fromContracts(false, taralContracts, NETWORK, {
-    secretKey: deployer.privateKey,
-    stacksAddress: deployer.address,
-  });
+  deployed = await ApiProvider.fromContracts(
+    false,
+    nodeTaralContracts,
+    NETWORK,
+    {
+      secretKey: deployer.privateKey,
+      stacksAddress: deployer.address,
+    }
+  );
 
   Logger.debug("jest-setup", "Deployed contracts to priv. testnet");
-  talToken = deployed.taralCoin.contract;
-  clarityBitcoinContract = deployed.clarityBitcoin.contract;
-  btcFtSwapContract = deployed.btcFtSwap.contract;
+  talToken = deployed.nodeTaralCoin.contract;
+  clarityBitcoinContract = deployed.nodeClarityBitcoin.contract;
+  btcFtSwapContract = deployed.nodeBtcFtSwap.contract;
 }, 3000000);

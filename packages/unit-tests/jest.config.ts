@@ -3,10 +3,8 @@ export {};
 const { resolve } = require("path");
 
 const rootForUnitTests = resolve(__dirname);
-const rootConfigForUnitTests = require(`${rootForUnitTests}/jest.config.js`);
 
 module.exports = {
-  ...rootConfigForUnitTests,
   rootDir: rootForUnitTests,
   displayName: "[Taral unit tests]",
   setupFilesAfterEnv: ["<rootDir>/jest-setup.ts"],
@@ -14,4 +12,6 @@ module.exports = {
   restoreMocks: true,
   clearMocks: true,
   resetMocks: true,
+  testEnvironment: "node",
+  preset: "ts-jest",
 };

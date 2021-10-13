@@ -1,23 +1,23 @@
 import { makeContractDeploy } from "@stacks/transactions";
 import * as fs from "fs";
+import { getClarinetAccounts } from "lib-infra";
 import {
-  Contracts,
-  getClarinetAccounts,
   getContractNameFromPath,
   getRootDirectory,
   Logger,
+  NodeContracts,
 } from "lib-shared";
 import { handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
-import { taralContracts } from "taral-generated-contracts";
+import { nodeTaralContracts } from "taral-contracts";
 
 const NAME = "Deploy tool";
 
 Logger.debug(NAME, "Deploying contracts");
-deployMany(taralContracts);
+deployMany(nodeTaralContracts);
 
-async function deployMany<T extends Contracts<M>, M>(contracts: T) {
+async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
   const root = `${getRootDirectory()}/packages/clarity`;
   const clarinetAccounts = await getClarinetAccounts(root);
 
@@ -37,7 +37,7 @@ async function deployMany<T extends Contracts<M>, M>(contracts: T) {
   }
 }
 
-async function deployContract<T extends Contracts<M>, M>(
+async function deployContract<T extends NodeContracts<M>, M>(
   contract: T[Extract<keyof T, string>],
   senderKey: string
 ) {
