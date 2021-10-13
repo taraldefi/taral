@@ -9,7 +9,7 @@
   "private": "true",
   "workspaces": [
     "packages/*",
-    "packages/lib/*"
+    "libs/*"
   ],
   "scripts": {
     "clarinet:check": "yarn workspace taral-clarity clarinet:check",
