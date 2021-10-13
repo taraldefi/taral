@@ -32,7 +32,7 @@ async function callGetName(userSession: UserSession): Promise<string> {
 function App() {
   
   const [user, setUser] = useState<UserData>();
-  const [name, setName] = useState('None');
+  const [name, setName] = useState('Not yet requested');
 
   if (user || userSession.isUserSignedIn()) {
     return (
@@ -53,7 +53,7 @@ function App() {
         >
           Disconnect
         </button>
-        <p>{name}</p>
+        <p>Get name result: {name}</p>
       </div>
     );
   } else {
