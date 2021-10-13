@@ -18,29 +18,30 @@ const appDetails: AppDetails = {
   name: 'Taral testbed'
 };
 
-async function callGetName(userSession: UserSession) {
-  // UserSession
+async function callGetName(userSession: UserSession): Promise<string> {
   const webProvider = SimpleStacksWebProvider.fromContracts(webTaralContracts, {
     appDetails,
     network: NETWORK,
   });
+
   const stxAddress = userSession.loadUserData().profile.stxAddress.testnet;
-  console.log(stxAddress);
-
-
   const name = (await webProvider.webTaralCoin.contract(stxAddress).getName())._unsafeUnwrap();
-  console.log(name);
+  return name;
 }
 
 function App() {
   
   const [user, setUser] = useState<UserData>();
+  const [name, setName] = useState('None');
 
   if (user || userSession.isUserSignedIn()) {
     return (
       <div>
         <button
-          onClick={async () => await callGetName(userSession)}
+          onClick={async () => {
+            const name = await callGetName(userSession);
+            setName(name);
+          }}
         >
           Call public function get-name
         </button>
@@ -52,6 +53,7 @@ function App() {
         >
           Disconnect
         </button>
+        <p>{name}</p>
       </div>
     );
   } else {
