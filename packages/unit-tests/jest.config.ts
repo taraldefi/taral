@@ -13,5 +13,5 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
   testEnvironment: "node",
-  preset: "ts-jest"
+  preset: "ts-jest",
 };
