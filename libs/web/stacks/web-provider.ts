@@ -21,7 +21,8 @@ import {
   ClarityAbiMap,
   cvToValue,
   getContractIdentifier,
-  IWebProviderRequest,
+  IWebProviderPublicRequest,
+  IWebProviderReadonlyRequest,
   parseToCV,
   SubmitOptions,
   Transaction,
@@ -40,14 +41,12 @@ import { IContractCall, SimpleStacksWebTransaction, TxPayload } from "./types";
 export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  stxAddress: string;
   network: StacksNetworkConfiguration;
   appDetails: AppDetails;
 
   constructor({
     network,
     identifier,
-    stxAddress,
     appDetails,
   }: WebConfig & { identifier: string }) {
     const apiConfig = new Configuration({
@@ -58,7 +57,6 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     const apiClient = new SmartContractsApi(apiConfig);
     this.apiClient = apiClient;
     this.identifier = identifier;
-    this.stxAddress = stxAddress;
     this.network = network;
     this.appDetails = appDetails;
   }
@@ -92,7 +90,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     return instances;
   }
 
-  async callReadOnly(request: IWebProviderRequest) {
+  async callReadOnly(request: IWebProviderReadonlyRequest) {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -104,7 +102,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
       contractName,
       functionName: request.function.name,
       readOnlyFunctionArgs: {
-        sender: this.stxAddress,
+        sender: request.caller,
         arguments: argumentsFormatted,
       },
     });
@@ -126,7 +124,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     }
   }
 
-  callPublic(request: IWebProviderRequest): Transaction<any, any> {
+  callPublic(request: IWebProviderPublicRequest): Transaction<any, any> {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
@@ -140,8 +138,8 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
       functionName: request.function.name,
       functionArgs: argumentsFormatted,
       network: this.network,
-      stxAddress: this.stxAddress,
       appDetails: this.appDetails,
+    
     });
   }
 
@@ -165,7 +163,6 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
           anchorMode: AnchorMode.Any,
           appDetails: this.appDetails,
           network: payload.network,
-          stxAddress: payload.stxAddress,
           postConditionMode: PostConditionMode.Allow,
           postConditions,
         };

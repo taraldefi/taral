@@ -18,14 +18,14 @@ const appDetails: AppDetails = {
   name: 'Testing'
 };
 
-async function callGetName() {
+async function callGetName(userSession: UserSession) {
+  // UserSession
   const webProvider = SimpleStacksWebProvider.fromContracts(webTaralContracts, {
     appDetails,
     network: NETWORK,
-    stxAddress: ''
   });
 
-  const name = (await webProvider.webTaralCoin.contract().getName())._unsafeUnwrap();
+  const name = (await webProvider.webTaralCoin.contract(userSession.loadUserData().identityAddress).getName())._unsafeUnwrap();
   console.log(name);
 }
 
@@ -37,7 +37,7 @@ function App() {
     return (
       <div>
         <button
-          onClick={async () => await callGetName()}
+          onClick={async () => await callGetName(userSession)}
         >
           Call
         </button>

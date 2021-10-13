@@ -6,6 +6,7 @@ import { Noop } from "./types";
 
 const makeWebHandler = (
   provider: BaseWebProvider,
+  caller?: string,
   onFinish?: Noop,
   onCancel?: Noop
 ) => {
@@ -17,9 +18,14 @@ const makeWebHandler = (
       });
       if (foundFunction) {
         if (foundFunction.access === "read_only") {
+          if (caller == undefined) {
+            throw new Error('Caller needed for readonly function call');
+          }
+          const callerStxAddress = caller;
           return (...args: any[]) => {
             return provider.callReadOnly({
               arguments: args,
+              caller: callerStxAddress,
               function: foundFunction,
               onCancel: onCancel || noop,
               onFinish: onFinish || noop,
@@ -67,10 +73,10 @@ declare const Proxy: ProxyConstructor;
 export const webProxy = <T extends object>(
   target: ClarityAbi,
   provider: BaseWebProvider
-): ((onFinish?: Noop, onCancel?: Noop) => T) => {
-  return (onFinish?: Noop, onCancel?: Noop) =>
+): ((caller?: string, onFinish?: Noop, onCancel?: Noop) => T) => {
+  return (caller?: string, onFinish?: Noop, onCancel?: Noop) =>
     new Proxy<T, ClarityAbi>(
       target,
-      makeWebHandler(provider, onFinish, onCancel)
+      makeWebHandler(provider, caller,  onFinish, onCancel)
     );
 };

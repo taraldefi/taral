@@ -1,14 +1,14 @@
 import { ClarityAbiVariable } from "@stacks/transactions";
-import { BaseProvider, IWebProviderRequest } from ".";
+import { BaseProvider, IWebProviderPublicRequest, IWebProviderReadonlyRequest } from ".";
 import { ClarityAbiMap, Transaction } from "..";
 
 export abstract class BaseWebProvider implements BaseProvider {
   // eslint-disable-next-line @typescript-eslint/require-await
-  async callReadOnly(_request: IWebProviderRequest): Promise<any> {
+  async callReadOnly(_request: IWebProviderReadonlyRequest): Promise<any> {
     throw new Error("Not implemented");
   }
 
-  callPublic(_request: IWebProviderRequest): Transaction<any, any> {
+  callPublic(_request: IWebProviderPublicRequest): Transaction<any, any> {
     throw new Error("Not implemented");
   }
 

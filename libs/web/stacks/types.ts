@@ -19,7 +19,6 @@ export interface TxPayload {
   functionName: string;
   functionArgs: string[];
   network: StacksNetworkConfiguration;
-  stxAddress: string;
   appDetails: AuthOptions["appDetails"];
 }
 

@@ -6,7 +6,6 @@ export type AppDetails = {
 };
 
 export interface WebConfig {
-  stxAddress: string;
   network: StacksNetworkConfiguration;
   appDetails: AppDetails;
 }

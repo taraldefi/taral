@@ -50,7 +50,15 @@ export interface INodeProviderRequest {
   arguments: any[];
 }
 
-export interface IWebProviderRequest {
+export interface IWebProviderReadonlyRequest {
+  function: ClarityAbiFunction;
+  caller: string;
+  arguments: any[];
+  onFinish: Noop;
+  onCancel: Noop;
+}
+
+export interface IWebProviderPublicRequest {
   function: ClarityAbiFunction;
   arguments: any[];
   onFinish: Noop;

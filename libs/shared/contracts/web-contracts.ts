@@ -2,7 +2,7 @@ import { BaseContract, BaseWebProvider, Noop } from "..";
 
 export type WebContractBuilder<T> = (
   provider: BaseWebProvider
-) => (onFinish?: Noop, onCancel?: Noop) => T;
+) => (caller?: string, onFinish?: Noop, onCancel?: Noop) => T;
 
 export interface WebContract<T> extends BaseContract {
   contract: WebContractBuilder<T>;
