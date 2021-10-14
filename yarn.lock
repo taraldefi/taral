@@ -9622,6 +9622,11 @@ noble-secp256k1@1.1.3:
   resolved "https://registry.yarnpkg.com/noble-secp256k1/-/noble-secp256k1-1.1.3.tgz#49d2dc49827addb843a3189a0cea0a4fc06e17ab"
   integrity sha512-FmPNbkZmQsqhlpEUYROlw85eYt7X845u4yuUTsrCggL7Hzpfe08i/7StOrnfZSSezpXDhSwtuBwdei9xvMiYYA==
 
+noble-secp256k1@1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/noble-secp256k1/-/noble-secp256k1-1.2.10.tgz#0331f4a2aa37707b33cb7589663fb36be795647c"
+  integrity sha512-PXlDRYoWD5JHm+fKVx8PsiLVsuYLIp+5ZhO76L//H/q2/YcQZAS59z9aXO7lcq4IMOq8a1U18KXgpijnkz+C5A==
+
 noble-secp256k1@1.2.9:
   version "1.2.9"
   resolved "https://registry.yarnpkg.com/noble-secp256k1/-/noble-secp256k1-1.2.9.tgz#9cbbed8b53f972453a7117a648076bdf173d6cdb"
