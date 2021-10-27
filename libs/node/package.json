@@ -43,7 +43,7 @@
     "fs-extra": "^10.0.0",
     "lib-shared": "1.0.0",
     "merkletreejs": "^0.2.24",
-    "neverthrow": "4.2.2",
+    "neverthrow": "4.3.0",
     "node-fetch": "2.6.1",
     "prettier": "^2.3.2",
     "rpc-bitcoin": "^2.0.0",
