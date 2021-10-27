@@ -90,7 +90,7 @@
     "crypto-browserify": "^3.12.0",
     "stream-browserify": "^3.0.0",
     "ts-loader": "^9.2.1",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.9.0",
     "proxy-memoize": "^0.3.7"
   },
