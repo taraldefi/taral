@@ -1705,10 +1705,10 @@
     "@types/yargs" "^16.0.0"
     chalk "^4.0.0"
 
-"@ltd/j-toml@^1.16.0", "@ltd/j-toml@^1.20.0":
-  version "1.20.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.20.0.tgz#8cfdebc15197f8aa205043fc18e229ab06a80008"
-  integrity sha512-w/xDX0b3S6IL6Yup0P8aLNNJCempldcB3AXPRDRxc12huvE1+KSkgk1XPnmkH0a4zBpNcJUoORK49HWLSwUksA==
+"@ltd/j-toml@^1.22.0":
+  version "1.22.0"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.22.0.tgz#95bf3e30302daeb4f714643917e44f7ab48fd016"
+  integrity sha512-6a6ZoGvOOSkFtT4K738g6sr61dXY390ZPvl1Bp/lMOfkRUDWzpe4XgiEO6HdvesYFyWadZy+HuFyLjwQl/vY7A==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
