@@ -102,7 +102,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
-    "babel-plugin-styled-components": "^1.10.7",
+    "babel-plugin-styled-components": "^1.13.3",
     "@babel/runtime": "^7.9.2"
   },
   "scripts": {
