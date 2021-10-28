@@ -50,7 +50,7 @@
     "merkletreejs": "^0.2.24",
     "micro-stacks": "0.0.35",
     "neverthrow": "4.3.0",
-    "noble-secp256k1": "1.2.10",
+    "noble-secp256k1": "1.2.14",
     "node-fetch": "2.6.1",
     "prettier": "^2.3.2",
     "rpc-bitcoin": "^2.0.0",
