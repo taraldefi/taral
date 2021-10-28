@@ -16,7 +16,7 @@
     "@types/jest": "^26.0.15",
     "@types/node": "^16.11.6",
     "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.0",
+    "@types/react-dom": "^17.0.10",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
     "babel-eslint": "^10.1.0",
@@ -27,7 +27,7 @@
     "bfj": "^7.0.2",
     "camelcase": "^6.1.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
-    "css-loader": "5.2.7",
+    "css-loader": "6.5.0",
     "dotenv": "10.0.0",
     "dotenv-expand": "5.1.0",
     "eslint": "^8.1.0",
@@ -102,7 +102,7 @@
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
     "@babel/preset-typescript": "^7.9.0",
-    "babel-plugin-styled-components": "^1.10.7",
+    "babel-plugin-styled-components": "^1.13.3",
     "@babel/runtime": "^7.9.2"
   },
   "scripts": {
