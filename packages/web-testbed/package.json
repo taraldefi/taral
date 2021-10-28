@@ -79,7 +79,7 @@
     "@stacks/common": "^2.0.1",
     "@stacks/network": "^2.0.1",
     "@stacks/wallet-sdk": "^2.0.1",
-    "@stacks/stacks-blockchain-api-types": "^0.68.0",
+    "@stacks/stacks-blockchain-api-types": "^0.70.1",
     "@stacks/transactions": "2.0.1",
     "@stacks/connect": "6.2.0",
     "react-query": "^3.27.0",
