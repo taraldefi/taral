@@ -97,7 +97,7 @@
   "devDependencies": {
     "@types/html-minifier-terser": "6.0.0",
     "@babel/plugin-proposal-class-properties": "^7.16.0",
-    "@babel/plugin-transform-regenerator": "^7.4.5",
+    "@babel/plugin-transform-regenerator": "^7.16.0",
     "@babel/plugin-transform-runtime": "^7.16.0",
     "@babel/preset-env": "^7.9.5",
     "@babel/preset-react": "^7.9.4",
