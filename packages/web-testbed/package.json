@@ -99,7 +99,7 @@
     "@babel/plugin-proposal-class-properties": "^7.16.0",
     "@babel/plugin-transform-regenerator": "^7.16.0",
     "@babel/plugin-transform-runtime": "^7.16.0",
-    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "babel-plugin-styled-components": "^1.13.3",
