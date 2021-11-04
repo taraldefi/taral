@@ -7838,10 +7838,10 @@ micro-memoize@^4.0.9:
   resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.9.tgz#b44a38c9dffbee1cefc2fd139bc8947952268b62"
   integrity sha512-Z2uZi/IUMGQDCXASdujXRqrXXEwSY0XffUrAOllhqzQI3wpUyZbiZTiE2JuYC0HSG2G7DbCS5jZmsEKEGZuemg==
 
-micro-stacks@0.0.36:
-  version "0.0.36"
-  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.0.36.tgz#5e051a027249cbcda0815bb4596dae1a4283abeb"
-  integrity sha512-+p72LltQHXjFqlTihR4zO22Vx2O0AAq3Nn2vxtfGpHuT1ch3uUHVVLXEgHr3t/nZo5SgRwgoy+kOvoezsSH7/g==
+micro-stacks@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.1.0.tgz#dbde95a600f3c4072928272022715feb2a6f1370"
+  integrity sha512-ydFjga2LQIzGYCqeVV8sv3v9XMgPK6mGEvSQdKC9XrGSiliULz7IusDORcAsv+6O7VJx3i8i3AbC3/6wLgeY4Q==
   dependencies:
     noble-hashes "0.2.2"
     noble-secp256k1 "1.2.14"
