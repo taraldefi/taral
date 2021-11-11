@@ -3313,6 +3313,18 @@ bip32@2.0.6, bip32@^2.0.4:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
+bip32@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-3.0.0.tgz#d29e8a99c0efb6da3553c914f56129550edce2f2"
+  integrity sha512-lcIPU2oY8Lvc9lPN66aCwqgDC0kZmzTHrU2Ka1KhJnmujIBpF7igfpBmZRXAwGMiFuhGm0avdVrZre9o7OdpsQ==
+  dependencies:
+    "@types/node" "10.12.18"
+    bs58check "^2.1.1"
+    create-hash "^1.2.0"
+    create-hmac "^1.1.7"
+    typeforce "^1.11.5"
+    wif "^2.0.6"
+
 bip39@^3.0.2, bip39@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/bip39/-/bip39-3.0.4.tgz#5b11fed966840b5e1b8539f0f54ab6392969b2a0"
