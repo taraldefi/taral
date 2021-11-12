@@ -8,7 +8,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@ltd/j-toml": "^1.23.0",
+    "@ltd/j-toml": "^1.24.0",
     "@types/bluebird": "^3.5.36",
     "@types/crypto-js": "^4.0.2",
     "@types/fs-extra": "^9.0.13",
