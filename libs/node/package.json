@@ -29,7 +29,7 @@
     "@types/json-schema": "^7.0.9",
     "@types/wif": "^2.0.2",
     "ajv": "^8.7.1",
-    "bip32": "^2.0.4",
+    "bip32": "^3.0.0",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^5.2.0",
     "bluebird": "^3.7.2",
