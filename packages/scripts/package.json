@@ -26,7 +26,7 @@
     "lib-stacks": "1.0.0",
     "lib-generate": "1.0.0",
     "lib-clarity-bin": "1.0.0",
-    "bitcoinjs-lib": "^5.2.0",
+    "bitcoinjs-lib": "^6.0.0",
     "ts-morph": "^12.2.0"
   }
 }
