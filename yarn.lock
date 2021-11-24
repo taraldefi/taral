@@ -2350,10 +2350,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.34":
-  version "17.0.34"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.34.tgz#797b66d359b692e3f19991b6b07e4b0c706c0102"
-  integrity sha512-46FEGrMjc2+8XhHXILr+3+/sTe3OfzSPU9YGKILLrUYbQ1CLQC9Daqo1KzENGXAWwrFwiY0l4ZbF20gRvgpWTg==
+"@types/react@*", "@types/react@^17.0.36":
+  version "17.0.36"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.36.tgz#0d81e0e2419e6a8e9ba6af5e3a0608e70835d7d1"
+  integrity sha512-CUFUp01OdfbpN/76v4koqgcpcRGT3sYOq3U3N6q0ZVGcyeP40NUdVU+EWe3hs34RNaTefiYyBzOpxBBidCc5zw==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -3318,10 +3318,10 @@ bip32@2.0.6, bip32@^2.0.4:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
-bip32@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-3.0.0.tgz#d29e8a99c0efb6da3553c914f56129550edce2f2"
-  integrity sha512-lcIPU2oY8Lvc9lPN66aCwqgDC0kZmzTHrU2Ka1KhJnmujIBpF7igfpBmZRXAwGMiFuhGm0avdVrZre9o7OdpsQ==
+bip32@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-3.0.1.tgz#1d1121469cce6e910e0ec3a5a1990dd62687e2a3"
+  integrity sha512-Uhpp9aEx3iyiO7CpbNGFxv9WcMIVdGoHG04doQ5Ln0u60uwDah7jUSc3QMV/fSZGm/Oo01/OeAmYevXV+Gz5jQ==
   dependencies:
     "@types/node" "10.12.18"
     bs58check "^2.1.1"
