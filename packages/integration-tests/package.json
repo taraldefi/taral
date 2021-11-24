@@ -14,7 +14,7 @@
     "jest": "^27.3.1",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
-    "@types/node": "16.11.7",
+    "@types/node": "16.11.10",
     "@types/jest": "^27.0.2",
     "typescript": "^4.4.4"
   },
