@@ -1653,10 +1653,10 @@
     jsontokens "^3.0.0"
     query-string "^6.13.1"
 
-"@stacks/blockchain-api-client@^0.71.0":
-  version "0.71.0"
-  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-0.71.0.tgz#0320a29dab03db0f9b245b9a6dcff41d3033b60b"
-  integrity sha512-H/VCJ60ApR/BDlQ0RD28Myqqkty8DWh1ne6HBN2ojjOHdxSiiRVXSJQBJ3FdCb97oFRi2WOx4N2VfAJ/2v7InA==
+"@stacks/blockchain-api-client@^0.71.2":
+  version "0.71.2"
+  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-0.71.2.tgz#19c9d7d9b9ee874c7b4b2ddd5919f477d645e164"
+  integrity sha512-tJmSpkPnRVzn+pcg9aHY3LZpaG3+Kq7EMsaVV3WTlxv7SRzv1rFls57LCoGqJPkHgubbdhWcGiORYS4SwHe23g==
   dependencies:
     "@stacks/stacks-blockchain-api-types" "*"
     "@types/ws" "^7.4.0"
