@@ -15,7 +15,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.3",
     "ts-node": "^10.4.0",
-    "typescript": "^4.4.4",
+    "typescript": "^4.5.2",
     "@stacks/connect": "6.2.1"
   },
   "dependencies": {
