@@ -69,6 +69,6 @@
   "homepage": "https://github.com/taraldefi/taral#readme",
   "devDependencies": {
     "typescript": "^4.5.2",
-    "prettier": "^2.3.2"
+    "prettier": "^2.5.0"
   }
 }
