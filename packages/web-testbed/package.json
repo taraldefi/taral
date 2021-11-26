@@ -18,7 +18,7 @@
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
-    "@typescript-eslint/parser": "^5.3.1",
+    "@typescript-eslint/parser": "^5.4.0",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.3.1",
     "babel-loader": "8.2.3",
@@ -48,7 +48,7 @@
     "jest-circus": "27.3.1",
     "jest-resolve": "27.3.1",
     "jest-watch-typeahead": "1.0.0",
-    "mini-css-extract-plugin": "2.4.4",
+    "mini-css-extract-plugin": "2.4.5",
     "optimize-css-assets-webpack-plugin": "6.0.1",
     "pnp-webpack-plugin": "1.7.0",
     "postcss-flexbugs-fixes": "5.0.2",
@@ -91,7 +91,7 @@
     "stream-browserify": "^3.0.0",
     "ts-loader": "^9.2.6",
     "ts-node": "^10.4.0",
-    "tsconfig-paths": "^3.9.0",
+    "tsconfig-paths": "^3.12.0",
     "proxy-memoize": "^0.3.7"
   },
   "devDependencies": {
