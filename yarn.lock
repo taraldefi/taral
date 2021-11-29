@@ -1503,10 +1503,10 @@
     source-map "^0.6.1"
     write-file-atomic "^3.0.0"
 
-"@jest/types@^27.2.5":
-  version "27.2.5"
-  resolved "https://registry.yarnpkg.com/@jest/types/-/types-27.2.5.tgz#420765c052605e75686982d24b061b4cbba22132"
-  integrity sha512-nmuM4VuDtCZcY+eTpw+0nvstwReMsjPoj7ZR80/BbixulhLaiX+fbv8oeLW8WZlJMcsGQsTmMKT/iTZu1Uy/lQ==
+"@jest/types@^27.2.5", "@jest/types@^27.4.0":
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/@jest/types/-/types-27.4.0.tgz#ac5c04d29ce47e0b96439dfd44ec3cd930fc9f86"
+  integrity sha512-jIsLdASXMf8GS7P7oGFGwobNse/6Ewq3GBPHoo0i6XRmja+NrUoDqJm4a1ffF2bHGleKJizxokcp1sCqSktP3g==
   dependencies:
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^3.0.0"
@@ -6938,21 +6938,26 @@ jest-get-type@^27.3.1:
   resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-27.3.1.tgz#a8a2b0a12b50169773099eee60a0e6dd11423eff"
   integrity sha512-+Ilqi8hgHSAdhlQ3s12CAVNd8H96ZkQBfYoXmArzZnOfAtVAJEiPDBirjByEblvG/4LPJmkL+nBqPO3A1YJAEg==
 
-jest-haste-map@^27.3.1:
-  version "27.3.1"
-  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-27.3.1.tgz#7656fbd64bf48bda904e759fc9d93e2c807353ee"
-  integrity sha512-lYfNZIzwPccDJZIyk9Iz5iQMM/MH56NIIcGj7AFU1YyA4ewWFBl8z+YPJuSCRML/ee2cCt2y3W4K3VXPT6Nhzg==
+jest-get-type@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-get-type/-/jest-get-type-27.4.0.tgz#7503d2663fffa431638337b3998d39c5e928e9b5"
+  integrity sha512-tk9o+ld5TWq41DkK14L4wox4s2D9MtTpKaAVzXfr5CUKm5ZK2ExcaFE0qls2W71zE/6R2TxxrK9w2r6svAFDBQ==
+
+jest-haste-map@^27.3.1, jest-haste-map@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-haste-map/-/jest-haste-map-27.4.0.tgz#d07e0db356bbaa2996f922facf23e85f53e6c3b7"
+  integrity sha512-xTXw1/JBJvdvTEsnTlRj9u9AAg2t23r5GHbtc5eC6AuEIRPfGWV02Y67U0p4K1KpEWLsk9Pb3b6Kfde/5a3C5A==
   dependencies:
-    "@jest/types" "^27.2.5"
+    "@jest/types" "^27.4.0"
     "@types/graceful-fs" "^4.1.2"
     "@types/node" "*"
     anymatch "^3.0.3"
     fb-watchman "^2.0.0"
     graceful-fs "^4.2.4"
-    jest-regex-util "^27.0.6"
-    jest-serializer "^27.0.6"
-    jest-util "^27.3.1"
-    jest-worker "^27.3.1"
+    jest-regex-util "^27.4.0"
+    jest-serializer "^27.4.0"
+    jest-util "^27.4.0"
+    jest-worker "^27.4.0"
     micromatch "^4.0.4"
     walker "^1.0.7"
   optionalDependencies:
@@ -7033,6 +7038,11 @@ jest-regex-util@^27.0.0, jest-regex-util@^27.0.6:
   resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-27.0.6.tgz#02e112082935ae949ce5d13b2675db3d8c87d9c5"
   integrity sha512-SUhPzBsGa1IKm8hx2F4NfTGGp+r7BXJ4CulsZ1k2kI+mGLG+lxGrs76veN2LF/aUdGosJBzKgXmNCw+BzFqBDQ==
 
+jest-regex-util@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-27.4.0.tgz#e4c45b52653128843d07ad94aec34393ea14fbca"
+  integrity sha512-WeCpMpNnqJYMQoOjm1nTtsgbR4XHAk1u00qDoNBQoykM280+/TmgA5Qh5giC1ecy6a5d4hbSsHzpBtu5yvlbEg==
+
 jest-resolve-dependencies@^27.3.1:
   version "27.3.1"
   resolved "https://registry.yarnpkg.com/jest-resolve-dependencies/-/jest-resolve-dependencies-27.3.1.tgz#85b99bdbdfa46e2c81c6228fc4c91076f624f6e2"
@@ -7042,18 +7052,18 @@ jest-resolve-dependencies@^27.3.1:
     jest-regex-util "^27.0.6"
     jest-snapshot "^27.3.1"
 
-jest-resolve@27.3.1, jest-resolve@^27.3.1:
-  version "27.3.1"
-  resolved "https://registry.yarnpkg.com/jest-resolve/-/jest-resolve-27.3.1.tgz#0e5542172a1aa0270be6f66a65888647bdd74a3e"
-  integrity sha512-Dfzt25CFSPo3Y3GCbxynRBZzxq9AdyNN+x/v2IqYx6KVT5Z6me2Z/PsSGFSv3cOSUZqJ9pHxilao/I/m9FouLw==
+jest-resolve@27.4.0, jest-resolve@^27.3.1:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-resolve/-/jest-resolve-27.4.0.tgz#1afbdf5938f9ad4808ed6ab31a9cf77c0f4b58f1"
+  integrity sha512-XF54RYG9a9fHTlovCwC5U49TVAfCkHLoJnMhgaT2AYif4E5BechlKUAlhYE4fkbr1J5LzP7O9qfgRA5JSR8HzQ==
   dependencies:
-    "@jest/types" "^27.2.5"
+    "@jest/types" "^27.4.0"
     chalk "^4.0.0"
     graceful-fs "^4.2.4"
-    jest-haste-map "^27.3.1"
+    jest-haste-map "^27.4.0"
     jest-pnp-resolver "^1.2.2"
-    jest-util "^27.3.1"
-    jest-validate "^27.3.1"
+    jest-util "^27.4.0"
+    jest-validate "^27.4.0"
     resolve "^1.20.0"
     resolve.exports "^1.1.0"
     slash "^3.0.0"
@@ -7118,10 +7128,10 @@ jest-runtime@^27.3.1:
     strip-bom "^4.0.0"
     yargs "^16.2.0"
 
-jest-serializer@^27.0.6:
-  version "27.0.6"
-  resolved "https://registry.yarnpkg.com/jest-serializer/-/jest-serializer-27.0.6.tgz#93a6c74e0132b81a2d54623251c46c498bb5bec1"
-  integrity sha512-PtGdVK9EGC7dsaziskfqaAPib6wTViY3G8E5wz9tLVPhHyiDNTZn/xjZ4khAw+09QkoOVpn7vF5nPSN6dtBexA==
+jest-serializer@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-serializer/-/jest-serializer-27.4.0.tgz#34866586e1cae2388b7d12ffa2c7819edef5958a"
+  integrity sha512-RDhpcn5f1JYTX2pvJAGDcnsNTnsV9bjYPU8xcV+xPwOXnUPOQwf4ZEuiU6G9H1UztH+OapMgu/ckEVwO87PwnQ==
   dependencies:
     "@types/node" "*"
     graceful-fs "^4.2.4"
@@ -7156,29 +7166,29 @@ jest-snapshot@^27.3.1:
     pretty-format "^27.3.1"
     semver "^7.3.2"
 
-jest-util@^27.0.0, jest-util@^27.3.1:
-  version "27.3.1"
-  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-27.3.1.tgz#a58cdc7b6c8a560caac9ed6bdfc4e4ff23f80429"
-  integrity sha512-8fg+ifEH3GDryLQf/eKZck1DEs2YuVPBCMOaHQxVVLmQwl/CDhWzrvChTX4efLZxGrw+AA0mSXv78cyytBt/uw==
+jest-util@^27.0.0, jest-util@^27.3.1, jest-util@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-util/-/jest-util-27.4.0.tgz#7b803e8a7da99728c7b1a7af74c33cb225df94d5"
+  integrity sha512-9HL5h/IWeg2u2dt0UIiseVRCnadh7CMPD4B9AeoEO23/NofaEfcPzIfl8dw45CpGHjP+xenw1viQYMd25DWquA==
   dependencies:
-    "@jest/types" "^27.2.5"
+    "@jest/types" "^27.4.0"
     "@types/node" "*"
     chalk "^4.0.0"
     ci-info "^3.2.0"
     graceful-fs "^4.2.4"
     picomatch "^2.2.3"
 
-jest-validate@^27.3.1:
-  version "27.3.1"
-  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-27.3.1.tgz#3a395d61a19cd13ae9054af8cdaf299116ef8a24"
-  integrity sha512-3H0XCHDFLA9uDII67Bwi1Vy7AqwA5HqEEjyy934lgVhtJ3eisw6ShOF1MDmRPspyikef5MyExvIm0/TuLzZ86Q==
+jest-validate@^27.3.1, jest-validate@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-validate/-/jest-validate-27.4.0.tgz#911f6b681bbe4d13cf9b8411f3e84fe1b4a9ee05"
+  integrity sha512-Gsfh/KtS7fXDNzz3oKmB1F8dFVqWwqOwhUqEHhKM8Y0R0bJK8R2HLiuqKfnqfbuybdiGiVdzqaK5c0poZaQAew==
   dependencies:
-    "@jest/types" "^27.2.5"
+    "@jest/types" "^27.4.0"
     camelcase "^6.2.0"
     chalk "^4.0.0"
-    jest-get-type "^27.3.1"
+    jest-get-type "^27.4.0"
     leven "^3.1.0"
-    pretty-format "^27.3.1"
+    pretty-format "^27.4.0"
 
 jest-watch-typeahead@1.0.0:
   version "1.0.0"
@@ -7219,6 +7229,15 @@ jest-worker@^27.0.6, jest-worker@^27.3.1:
   version "27.3.1"
   resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.3.1.tgz#0def7feae5b8042be38479799aeb7b5facac24b2"
   integrity sha512-ks3WCzsiZaOPJl/oMsDjaf0TRiSv7ctNgs0FqRr2nARsovz6AWWy4oLElwcquGSz692DzgZQrCLScPNs5YlC4g==
+  dependencies:
+    "@types/node" "*"
+    merge-stream "^2.0.0"
+    supports-color "^8.0.0"
+
+jest-worker@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/jest-worker/-/jest-worker-27.4.0.tgz#fa10dddc611cbb47a4153543dd16a0c7e7fd745c"
+  integrity sha512-4WuKcUxtzxBoKOUFbt1MtTY9fJwPVD4aN/4Cgxee7OLetPZn5as2bjfZz98XSf2Zq1JFfhqPZpS+43BmWXKgCA==
   dependencies:
     "@types/node" "*"
     merge-stream "^2.0.0"
@@ -9202,6 +9221,16 @@ pretty-format@^27.0.0, pretty-format@^27.0.2, pretty-format@^27.3.1:
   integrity sha512-DR/c+pvFc52nLimLROYjnXPtolawm+uWDxr4FjuLDLUn+ktWnSN851KoHwHzzqq6rfCOjkzN8FLgDrSub6UDuA==
   dependencies:
     "@jest/types" "^27.2.5"
+    ansi-regex "^5.0.1"
+    ansi-styles "^5.0.0"
+    react-is "^17.0.1"
+
+pretty-format@^27.4.0:
+  version "27.4.0"
+  resolved "https://registry.yarnpkg.com/pretty-format/-/pretty-format-27.4.0.tgz#440a7b86612a18b0865831a6d8585d989a5420e9"
+  integrity sha512-n0QR6hMREfp6nLzfVksXMAfIxk1ffOOfbb/FzKHFmRtn9iJKaZXB8WMzLr8a72IASShEAhqK06nlwp1gVWgqKg==
+  dependencies:
+    "@jest/types" "^27.4.0"
     ansi-regex "^5.0.1"
     ansi-styles "^5.0.0"
     react-is "^17.0.1"
