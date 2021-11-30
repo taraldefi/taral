@@ -1723,6 +1723,16 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
+"@stacks/common@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-2.0.2.tgz#ac9822b0afabdc9c1ae4a0aea77f97d943d197c9"
+  integrity sha512-RpuNIqf+XmcHlMjXeVZE4fS3yIUlCvOYmxyBKOarh010Kx3Gs/LhAeejn/329lYcIE6VwNPoeXPSE9deq7Yjcw==
+  dependencies:
+    "@types/node" "^14.14.43"
+    bn.js "^4.12.0"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.4"
+
 "@stacks/connect-ui@5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.2.0.tgz#b475029823a6bc3ebc8fda27acfc583527347cce"
@@ -1730,16 +1740,16 @@
   dependencies:
     "@stencil/core" "^2.6.0"
 
-"@stacks/connect@6.2.1":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.2.1.tgz#a185ca71fe453b7f432bce253dd68088ff498f9c"
-  integrity sha512-d3EYla/ADIeCJSXxIgr7kEnMJITGoAxeB8r2TLXpWin+VMVcW8b5QKJ+MwB+PiOoT371swyrzcsjGy+ZA/4oxw==
+"@stacks/connect@6.4.0":
+  version "6.4.0"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.0.tgz#f9d5e83420a818dc59e46b61743b72ea08a301d0"
+  integrity sha512-cZTK6esZi71QkSM1IBcXK0OlR8xDWYm8QOOJYboemmj6MR5qnAXNeLfQth6da/RbiWy1BnXic2QVaymrQZFBwA==
   dependencies:
     "@stacks/auth" "2.0.1"
     "@stacks/connect-ui" "5.2.0"
-    "@stacks/network" "2.0.2"
+    "@stacks/network" "2.0.1"
     "@stacks/prettier-config" "0.0.8"
-    "@stacks/transactions" "2.0.1"
+    "@stacks/transactions" "2.1.0-beta.2"
     bn.js "^5.2.0"
     buffer "6.0.3"
     jsontokens "^3.0.0"
@@ -1776,10 +1786,10 @@
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
 
-"@stacks/network@2.0.2", "@stacks/network@^2.0.1", "@stacks/network@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.2.tgz#a03dc34ff9fc7f8eaf7a2896d1412019c41b601f"
-  integrity sha512-DX6yFP8NgrxZ1bMwTbIoYzcCcjo979Mao1YsyClFr0Bv6JBF7+jh091A9hJ62jPLZDGbZA/PNWn6QGR+t3VY/w==
+"@stacks/network@2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.1.tgz#b48cf3c50793e7aff5a1fbe5ee6ed4bf86da7db5"
+  integrity sha512-eA4AHrhFcIXIurW54HxzIoR6cYqe7hg/eS6aebtgyOUBaMc5w+RwR2iqZwG4M5aO4/Bwe3xdReINUUXJgMFK3g==
   dependencies:
     "@stacks/common" "^2.0.1"
 
@@ -1789,6 +1799,13 @@
   integrity sha512-xcWwuRrLJn9qqi3PEBcP2UPZHQztTZd31C0aVlzYHttNMir/sY9SrUqSnw45z2Jo4O9pIYYPIiPRtdV91Ho3fw==
   dependencies:
     "@stacks/common" "^1.2.2"
+
+"@stacks/network@^2.0.1", "@stacks/network@^2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.2.tgz#a03dc34ff9fc7f8eaf7a2896d1412019c41b601f"
+  integrity sha512-DX6yFP8NgrxZ1bMwTbIoYzcCcjo979Mao1YsyClFr0Bv6JBF7+jh091A9hJ62jPLZDGbZA/PNWn6QGR+t3VY/w==
+  dependencies:
+    "@stacks/common" "^2.0.1"
 
 "@stacks/prettier-config@0.0.8":
   version "0.0.8"
@@ -1861,6 +1878,28 @@
     "@types/sha.js" "^2.4.0"
     bn.js "^4.12.0"
     c32check "^1.1.2"
+    cross-fetch "^3.1.4"
+    elliptic "^6.5.4"
+    lodash "^4.17.20"
+    randombytes "^2.1.0"
+    ripemd160-min "^0.0.6"
+    sha.js "^2.4.11"
+    smart-buffer "^4.1.0"
+
+"@stacks/transactions@2.1.0-beta.2":
+  version "2.1.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.1.0-beta.2.tgz#d5a0ad36a2f40a244b4d06656d48e90757a8a513"
+  integrity sha512-IXYt/edMuDtmdhnfJT5cjColpetymEODTail/014k+KIeprmmHZW7PztokZCHVK/OV6k+J6gSZPCIc0iykNTKA==
+  dependencies:
+    "@stacks/common" "^2.0.2"
+    "@stacks/network" "^2.0.1"
+    "@types/bn.js" "^4.11.6"
+    "@types/elliptic" "^6.4.12"
+    "@types/node" "^14.14.43"
+    "@types/randombytes" "^2.0.0"
+    "@types/sha.js" "^2.4.0"
+    bn.js "^4.12.0"
+    c32check "^1.1.3"
     cross-fetch "^3.1.4"
     elliptic "^6.5.4"
     lodash "^4.17.20"
