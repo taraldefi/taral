@@ -1573,6 +1573,16 @@
   resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.24.0.tgz#4c993610586964fb21fd38a84bb41913f6e4f5ff"
   integrity sha512-XWEvSNLJ2YeCvlNDd/DQfTMldJqBZWX8+RKgPMY2i3MShqsB9XvtY2UfHqcuPb+eRrNO1WR7w4xlNfzCzop+Ig==
 
+"@noble/hashes@0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-0.4.1.tgz#ef8ef347cfb3a03692f16ed31fda717f8e78d392"
+  integrity sha512-Qxy9mZoDf5SyFrQ8hpWHeMZ2Scmb9BAz/lt23sKdr/QHnACW9dD6S+/WVJHd3R/BPoNHcUYWXoXXe74cxSEYoA==
+
+"@noble/secp256k1@1.3.0":
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.3.0.tgz#426880cf0355b24d81c129af1ec31dfa6eee8b9c"
+  integrity sha512-wuFthUc6Ul4xflhY5u1+p1bDILPzVEisekxt5M+iLg4R+gG6+k2jnRR19sC9fMtzlsN5sKloBwprziDS0XlmyQ==
+
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
   resolved "https://registry.yarnpkg.com/@nodelib/fs.scandir/-/fs.scandir-2.1.5.tgz#7619c2eb21b25483f6d167548b4cfd5a7488c3d5"
@@ -1713,17 +1723,7 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@stacks/common@^2.0.0-beta.0", "@stacks/common@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-2.0.1.tgz#fd1a241b721ee6dc06db82855a5714af09e15f2f"
-  integrity sha512-PXU3Niimk7WK6Q2uetPZmwGhCXIc1u8RBZWvHKYe4dZxdDgT0QLX+eNAui591lsPWOH4ZkhpgSyWtJrtM9hU8g==
-  dependencies:
-    "@types/node" "^14.14.43"
-    bn.js "^5.2.0"
-    buffer "^6.0.3"
-    cross-fetch "^3.1.4"
-
-"@stacks/common@^2.0.2":
+"@stacks/common@^2.0.1", "@stacks/common@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@stacks/common/-/common-2.0.2.tgz#ac9822b0afabdc9c1ae4a0aea77f97d943d197c9"
   integrity sha512-RpuNIqf+XmcHlMjXeVZE4fS3yIUlCvOYmxyBKOarh010Kx3Gs/LhAeejn/329lYcIE6VwNPoeXPSE9deq7Yjcw==
@@ -2563,23 +2563,15 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/parser@^5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.4.0.tgz#3aa83ce349d66e39b84151f6d5464928044ca9e3"
-  integrity sha512-JoB41EmxiYpaEsRwpZEYAJ9XQURPFer8hpkIW9GiaspVLX8oqbqNM8P4EP8HOZg96yaALiLEVWllA2E8vwsIKw==
+"@typescript-eslint/parser@^5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.5.0.tgz#a38070e225330b771074daa659118238793f7fcd"
+  integrity sha512-JsXBU+kgQOAgzUn2jPrLA+Rd0Y1dswOlX3hp8MuRO1hQDs6xgHtbCXEiAu7bz5hyVURxbXcA2draasMbNqrhmg==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.4.0"
-    "@typescript-eslint/types" "5.4.0"
-    "@typescript-eslint/typescript-estree" "5.4.0"
+    "@typescript-eslint/scope-manager" "5.5.0"
+    "@typescript-eslint/types" "5.5.0"
+    "@typescript-eslint/typescript-estree" "5.5.0"
     debug "^4.3.2"
-
-"@typescript-eslint/scope-manager@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.4.0.tgz#aaab08415f4a9cf32b870c7750ae8ba4607126a1"
-  integrity sha512-pRxFjYwoi8R+n+sibjgF9iUiAELU9ihPBtHzocyW8v8D8G8KeQvXTsW7+CBYIyTYsmhtNk50QPGLE3vrvhM5KA==
-  dependencies:
-    "@typescript-eslint/types" "5.4.0"
-    "@typescript-eslint/visitor-keys" "5.4.0"
 
 "@typescript-eslint/scope-manager@5.5.0":
   version "5.5.0"
@@ -2589,28 +2581,10 @@
     "@typescript-eslint/types" "5.5.0"
     "@typescript-eslint/visitor-keys" "5.5.0"
 
-"@typescript-eslint/types@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.4.0.tgz#b1c130f4b381b77bec19696c6e3366f9781ce8f2"
-  integrity sha512-GjXNpmn+n1LvnttarX+sPD6+S7giO+9LxDIGlRl4wK3a7qMWALOHYuVSZpPTfEIklYjaWuMtfKdeByx0AcaThA==
-
 "@typescript-eslint/types@5.5.0":
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.5.0.tgz#fee61ae510e84ed950a53937a2b443e078107003"
   integrity sha512-OaYTqkW3GnuHxqsxxJ6KypIKd5Uw7bFiQJZRyNi1jbMJnK3Hc/DR4KwB6KJj6PBRkJJoaNwzMNv9vtTk87JhOg==
-
-"@typescript-eslint/typescript-estree@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.4.0.tgz#fe524fb308973c68ebeb7428f3b64499a6ba5fc0"
-  integrity sha512-nhlNoBdhKuwiLMx6GrybPT3SFILm5Gij2YBdPEPFlYNFAXUJWX6QRgvi/lwVoadaQEFsizohs6aFRMqsXI2ewA==
-  dependencies:
-    "@typescript-eslint/types" "5.4.0"
-    "@typescript-eslint/visitor-keys" "5.4.0"
-    debug "^4.3.2"
-    globby "^11.0.4"
-    is-glob "^4.0.3"
-    semver "^7.3.5"
-    tsutils "^3.21.0"
 
 "@typescript-eslint/typescript-estree@5.5.0":
   version "5.5.0"
@@ -2624,14 +2598,6 @@
     is-glob "^4.0.3"
     semver "^7.3.5"
     tsutils "^3.21.0"
-
-"@typescript-eslint/visitor-keys@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.4.0.tgz#09bc28efd3621f292fe88c86eef3bf4893364c8c"
-  integrity sha512-PVbax7MeE7tdLfW5SA0fs8NGVVr+buMPrcj+CWYWPXsZCH8qZ1THufDzbXm1xrZ2b2PA1iENJ0sRq5fuUtvsJg==
-  dependencies:
-    "@typescript-eslint/types" "5.4.0"
-    eslint-visitor-keys "^3.0.0"
 
 "@typescript-eslint/visitor-keys@5.5.0":
   version "5.5.0"
@@ -7961,13 +7927,13 @@ micro-memoize@^4.0.9:
   resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.9.tgz#b44a38c9dffbee1cefc2fd139bc8947952268b62"
   integrity sha512-Z2uZi/IUMGQDCXASdujXRqrXXEwSY0XffUrAOllhqzQI3wpUyZbiZTiE2JuYC0HSG2G7DbCS5jZmsEKEGZuemg==
 
-micro-stacks@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.1.4.tgz#9cd10603f7526e987f1b3768c6b30e42c56f2e79"
-  integrity sha512-qvBRVfyk0fsUy1ZGx7vmwgoWXjAaEeukz5mql3pknCcT6zMFUL4KuCee69EEcYg350aKMpFq0IVJ3jxTP4KTrw==
+micro-stacks@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.1.5.tgz#24978359d46eabd2e996d0d20172fcf04e532996"
+  integrity sha512-7ZgnSk9inJ0JTlMZmv57uXcplPDBeg6hzh+Gm4zQHT5QSyCoZA9OTNc2NnVVBXenkj/YmEBJhUya2kMsAfPN4A==
   dependencies:
-    noble-hashes "0.2.2"
-    noble-secp256k1 "1.2.14"
+    "@noble/hashes" "0.4.1"
+    "@noble/secp256k1" "1.3.0"
 
 microevent.ts@~0.1.1:
   version "0.1.1"
@@ -8206,11 +8172,6 @@ no-case@^3.0.4:
   dependencies:
     lower-case "^2.0.2"
     tslib "^2.0.3"
-
-noble-hashes@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/noble-hashes/-/noble-hashes-0.2.2.tgz#f174cc18ba2fd1ee8b416e4da568f6706f00bb34"
-  integrity sha512-5wKykPleHvJ8y6htmb4+4ecgHA0n1F4n0xtfMdXjkhqoQsZE9QTp+nriQzss9RQKJ86GUWZwXnq0CM4VW8ApSg==
 
 noble-secp256k1@1.1.3:
   version "1.1.3"
