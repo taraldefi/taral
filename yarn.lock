@@ -1679,6 +1679,16 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
+"@stacks/common@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.0.0.tgz#e254ce29b8d62b002f713aa171004e9523eefbec"
+  integrity sha512-48zCfU8zX0r8b8eP2n6l/bicAiFQyHPTMimdBwot9JqgzWW8WqGpcZD3qSZIwV0tBHD5LMLxNY018OqQIH6c5Q==
+  dependencies:
+    "@types/node" "^14.14.43"
+    bn.js "^4.12.0"
+    buffer "^6.0.3"
+    cross-fetch "^3.1.4"
+
 "@stacks/connect-ui@5.2.0":
   version "5.2.0"
   resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.2.0.tgz#b475029823a6bc3ebc8fda27acfc583527347cce"
