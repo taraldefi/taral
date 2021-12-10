@@ -11,7 +11,7 @@
     "unit-tests": "jest --runInBand"
   },
   "devDependencies": {
-    "jest": "^27.4.2",
+    "jest": "^27.4.4",
     "ts-jest": "^27.0.7",
     "ts-node": "^10.4.0",
     "@types/jest": "^27.0.3",
