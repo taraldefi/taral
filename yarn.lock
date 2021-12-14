@@ -7289,14 +7289,15 @@ jest@27.4.2, jest@^27.4.2:
     import-local "^3.0.2"
     jest-cli "^27.4.2"
 
-jotai-query-toolkit@^0.1.19:
-  version "0.1.19"
-  resolved "https://registry.yarnpkg.com/jotai-query-toolkit/-/jotai-query-toolkit-0.1.19.tgz#8326958a734f99f5a27b3298b41f20db512263cc"
-  integrity sha512-5xQ19MOv2QtgLaomCnZ/aCQrbm0qaXF4OhGsdzmXlcaRy9IzP6i655cdV5tJ4bisWn2VE/6F48MU6/eWHNkFlQ==
+jotai-query-toolkit@^0.1.22:
+  version "0.1.22"
+  resolved "https://registry.yarnpkg.com/jotai-query-toolkit/-/jotai-query-toolkit-0.1.22.tgz#0cd8b5106aca042ff8c5247b1ce676f8b55b9830"
+  integrity sha512-GkDtbUvCLNxCrTw+PjuyGd5jBR+57mGyi5j8jTFn/OA5CVInUSIaoZe8HD7o7MWtG8nThwsLly4f7YtHtR3mCw==
   dependencies:
     fast-deep-equal latest
     jotai latest
     react-query latest
+    use-memo-one "1.1.2"
 
 jotai@latest, "jotai@npm:jotai@1.3.8":
   version "1.3.8"
@@ -11197,6 +11198,11 @@ urlgrey@1.0.0:
   integrity sha512-hJfIzMPJmI9IlLkby8QrsCykQ+SXDeO2W5Q9QTW3QpqZVTx4a/K7p8/5q+/isD8vsbVaFgql/gvAoQCRQ2Cb5w==
   dependencies:
     fast-url-parser "^1.1.3"
+
+use-memo-one@1.1.2:
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/use-memo-one/-/use-memo-one-1.1.2.tgz#0c8203a329f76e040047a35a1197defe342fab20"
+  integrity sha512-u2qFKtxLsia/r8qG0ZKkbytbztzRb317XCkT7yP8wxL0tZ/CzK2G+WWie5vWvpyeP7+YoPIwbJoIHJ4Ba4k0oQ==
 
 use@^3.1.0:
   version "3.1.1"
