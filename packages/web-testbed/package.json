@@ -67,7 +67,7 @@
     "sass-loader": "^12.3.0",
     "semver": "7.3.5",
     "style-loader": "3.3.1",
-    "terser-webpack-plugin": "5.2.5",
+    "terser-webpack-plugin": "5.3.0",
     "ts-pnp": "1.2.0",
     "typescript": "^4.5.2",
     "url-loader": "4.1.1",
@@ -75,7 +75,7 @@
     "webpack": "5.64.4",
     "webpack-dev-server": "4.6.0",
     "webpack-manifest-plugin": "4.0.2",
-    "workbox-webpack-plugin": "6.4.1",
+    "workbox-webpack-plugin": "6.4.2",
     "@stacks/common": "^3.0.0",
     "@stacks/network": "^2.0.2",
     "@stacks/wallet-sdk": "^2.0.1",
@@ -103,7 +103,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/preset-typescript": "^7.16.0",
     "babel-plugin-styled-components": "^2.0.2",
-    "@babel/runtime": "^7.16.3"
+    "@babel/runtime": "^7.16.5"
   },
   "scripts": {
     "start": "node scripts/start.js",
