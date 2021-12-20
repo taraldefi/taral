@@ -1,3 +1,4 @@
+import { StacksNetwork } from "@stacks/network";
 import {
   broadcastTransaction,
   StacksTransaction,
@@ -6,14 +7,13 @@ import {
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import { Logger } from "lib-shared";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { timeout } from "./utils";
 
 const NAME = "handle-function-transaction";
 
 export async function handleFunctionTransaction(
   transaction: StacksTransaction,
-  network: StacksNetworkConfiguration,
+  network: StacksNetwork,
   functionName: string,
   contractName: string
 ): Promise<TxBroadcastResult> {
@@ -37,7 +37,7 @@ export async function handleFunctionTransaction(
 }
 
 async function functionProcessing(
-  network: StacksNetworkConfiguration,
+  network: StacksNetwork,
   tx: String,
   functionName: string,
   contractName: string,
@@ -55,7 +55,7 @@ async function functionProcessing(
 async function functionProcessingWithSidecar(
   tx: String,
   count: number = 0,
-  network: StacksNetworkConfiguration,
+  network: StacksNetwork,
   functionName: string,
   contractName: string
 ): Promise<boolean> {

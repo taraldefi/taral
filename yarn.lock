@@ -1691,12 +1691,19 @@
   dependencies:
     "@stacks/common" "^1.2.2"
 
-"@stacks/network@^2.0.1", "@stacks/network@^2.0.2":
+"@stacks/network@^2.0.1":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.2.tgz#a03dc34ff9fc7f8eaf7a2896d1412019c41b601f"
   integrity sha512-DX6yFP8NgrxZ1bMwTbIoYzcCcjo979Mao1YsyClFr0Bv6JBF7+jh091A9hJ62jPLZDGbZA/PNWn6QGR+t3VY/w==
   dependencies:
     "@stacks/common" "^2.0.1"
+
+"@stacks/network@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-3.0.0.tgz#b4a7f3de8e4651d5426fc715a90f20b7123b166c"
+  integrity sha512-JJbQqCN8JlJz8bZu7enW9OBkMG5vEfHnp0rdY6AEp3Gzq9JsFD1C0BbbhMv/IqmCcLuAGmMwo+2C1NKCDJBUdQ==
+  dependencies:
+    "@stacks/common" "^3.0.0"
 
 "@stacks/prettier-config@0.0.8":
   version "0.0.8"
@@ -1755,20 +1762,20 @@
     bitcoinjs-lib "^5.2.0"
     jsontokens "^3.0.0"
 
-"@stacks/transactions@2.0.1", "@stacks/transactions@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
-  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
+"@stacks/transactions@2.1.0-beta.2":
+  version "2.1.0-beta.2"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.1.0-beta.2.tgz#d5a0ad36a2f40a244b4d06656d48e90757a8a513"
+  integrity sha512-IXYt/edMuDtmdhnfJT5cjColpetymEODTail/014k+KIeprmmHZW7PztokZCHVK/OV6k+J6gSZPCIc0iykNTKA==
   dependencies:
-    "@stacks/common" "^2.0.1"
-    "@stacks/network" "^1.2.2"
+    "@stacks/common" "^2.0.2"
+    "@stacks/network" "^2.0.1"
     "@types/bn.js" "^4.11.6"
     "@types/elliptic" "^6.4.12"
     "@types/node" "^14.14.43"
     "@types/randombytes" "^2.0.0"
     "@types/sha.js" "^2.4.0"
     bn.js "^4.12.0"
-    c32check "^1.1.2"
+    c32check "^1.1.3"
     cross-fetch "^3.1.4"
     elliptic "^6.5.4"
     lodash "^4.17.20"
@@ -1777,13 +1784,13 @@
     sha.js "^2.4.11"
     smart-buffer "^4.1.0"
 
-"@stacks/transactions@2.1.0-beta.2":
-  version "2.1.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.1.0-beta.2.tgz#d5a0ad36a2f40a244b4d06656d48e90757a8a513"
-  integrity sha512-IXYt/edMuDtmdhnfJT5cjColpetymEODTail/014k+KIeprmmHZW7PztokZCHVK/OV6k+J6gSZPCIc0iykNTKA==
+"@stacks/transactions@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-3.1.0.tgz#1d78e730696a07ed6365e2d9643c14a6146e607f"
+  integrity sha512-K+E7Ip4AUVqV9cluZ3IMPueBodgfkM7JG4y/cQsvj04+BypD81eYIQKGdDte3XDe+MbVBnXJJRySu7bMFrjIiA==
   dependencies:
-    "@stacks/common" "^2.0.2"
-    "@stacks/network" "^2.0.1"
+    "@stacks/common" "^3.0.0"
+    "@stacks/network" "^3.0.0"
     "@types/bn.js" "^4.11.6"
     "@types/elliptic" "^6.4.12"
     "@types/node" "^14.14.43"
@@ -1816,6 +1823,28 @@
     elliptic "^6.5.3"
     lodash "^4.17.20"
     lodash-es "4.17.20"
+    randombytes "^2.1.0"
+    ripemd160-min "^0.0.6"
+    sha.js "^2.4.11"
+    smart-buffer "^4.1.0"
+
+"@stacks/transactions@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
+  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
+  dependencies:
+    "@stacks/common" "^2.0.1"
+    "@stacks/network" "^1.2.2"
+    "@types/bn.js" "^4.11.6"
+    "@types/elliptic" "^6.4.12"
+    "@types/node" "^14.14.43"
+    "@types/randombytes" "^2.0.0"
+    "@types/sha.js" "^2.4.0"
+    bn.js "^4.12.0"
+    c32check "^1.1.2"
+    cross-fetch "^3.1.4"
+    elliptic "^6.5.4"
+    lodash "^4.17.20"
     randombytes "^2.1.0"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"

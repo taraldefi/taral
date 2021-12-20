@@ -3,6 +3,7 @@ import {
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
 import { ContractCallOptions, openContractCall } from "@stacks/connect";
+import { StacksNetwork } from "@stacks/network";
 import {
   AnchorMode,
   ClarityAbiVariable,
@@ -34,14 +35,13 @@ import {
 } from "lib-shared";
 import { getTransactionById } from "lib-stacks";
 import { err, ok } from "neverthrow";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { AppDetails, WebConfig } from "../shared";
 import { IContractCall, SimpleStacksWebTransaction, TxPayload } from "./types";
 
 export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   appDetails: AppDetails;
 
   constructor({

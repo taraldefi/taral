@@ -1,3 +1,4 @@
+import { StacksNetwork } from "@stacks/network";
 import {
   broadcastTransaction,
   StacksTransaction,
@@ -6,14 +7,13 @@ import {
   TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import { Logger, toJSON } from "lib-shared";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { getTransactionById, timeout } from "./utils";
 
 const NAME = "handle-transaction";
 
 export async function handleTransaction(
   transaction: StacksTransaction,
-  network: StacksNetworkConfiguration
+  network: StacksNetwork
 ): Promise<TxBroadcastResultOk> {
   const result = await broadcastTransaction(transaction, network);
   Logger.debug(NAME, "Broadcast transaction result: ", result);
@@ -55,7 +55,7 @@ function isBroadcastSuccessful(result: TxBroadcastResult): boolean {
 }
 
 async function processing(
-  network: StacksNetworkConfiguration,
+  network: StacksNetwork,
   tx: string,
   count: number = 0
 ): Promise<boolean> {
@@ -65,7 +65,7 @@ async function processing(
 async function processingWithSidecar(
   tx: string,
   count: number = 0,
-  network: StacksNetworkConfiguration
+  network: StacksNetwork
 ): Promise<boolean> {
   var value = await getTransactionById(tx, network);
 

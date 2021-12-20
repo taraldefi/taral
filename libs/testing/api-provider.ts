@@ -1,3 +1,4 @@
+import { StacksNetwork } from "@stacks/network";
 import { SmartContractTransaction } from "@stacks/stacks-blockchain-api-types";
 import {
   callReadOnlyFunction,
@@ -34,7 +35,6 @@ import {
 } from "lib-shared";
 import { handleFunctionTransaction } from "lib-stacks";
 import { err, ok } from "neverthrow";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { formatArguments } from "../stacks/format-arguments";
 import { getNonce } from "../stacks/get-nonce";
 import { getTransactionById } from "../stacks/utils";
@@ -43,12 +43,12 @@ import { deployContractOnStacks } from "./stacks/deploy-contract";
 const NAME = "api-provider";
 
 export class ApiProvider implements BaseProvider {
-  private readonly network: StacksNetworkConfiguration;
+  private readonly network: StacksNetwork;
   private readonly deployerAccount: DeployerAccount;
   private readonly contractName: string;
 
   constructor(
-    network: StacksNetworkConfiguration,
+    network: StacksNetwork,
     deployerAccount: DeployerAccount,
     contractName: string
   ) {
@@ -176,7 +176,7 @@ export class ApiProvider implements BaseProvider {
   public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
-    network: StacksNetworkConfiguration,
+    network: StacksNetwork,
     account: DeployerAccount
   ): Promise<NodeContractInstances<T, M>> {
     const instances = {} as NodeContractInstances<T, M>;

@@ -1,4 +1,4 @@
-import { StacksNetworkConfiguration } from "taral-configuration";
+import { StacksNetwork } from "@stacks/network";
 
 export type AppDetails = {
   name: string;
@@ -6,6 +6,6 @@ export type AppDetails = {
 };
 
 export interface WebConfig {
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   appDetails: AppDetails;
 }

@@ -1,6 +1,6 @@
+import { StacksNetwork } from "@stacks/network";
 import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { ClarinetAccounts, DeployerAccount, NodeContract } from "lib-shared";
-import { StacksNetworkConfiguration } from "taral-configuration";
 
 export interface ConfigContract {
   address: string;
@@ -22,7 +22,7 @@ export interface BaseCreateOptions {
 
 export interface ApiCreateOptions extends BaseCreateOptions {
   deploy: boolean;
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   account: DeployerAccount;
 }
 
@@ -34,7 +34,7 @@ export interface CreateOptions extends BaseCreateOptions {
 export interface FromApiContractOptions<T> {
   deploy: boolean;
   contract: NodeContract<T>;
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   account: DeployerAccount;
 }
 

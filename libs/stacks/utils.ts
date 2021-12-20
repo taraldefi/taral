@@ -1,6 +1,6 @@
+import { StacksNetwork } from "@stacks/network";
 import {
   getTransactionUrl,
-  StacksNetworkConfiguration,
 } from "taral-configuration";
 
 export async function timeout(ms: number) {
@@ -9,7 +9,7 @@ export async function timeout(ms: number) {
 
 export async function getTransactionById(
   txId: string,
-  network: StacksNetworkConfiguration
+  network: StacksNetwork
 ): Promise<any> {
   const url = getTransactionUrl(txId, network);
   var result = await fetch(url);

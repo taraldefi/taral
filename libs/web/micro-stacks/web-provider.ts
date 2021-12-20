@@ -2,6 +2,7 @@ import {
   Configuration,
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
+import { StacksNetwork } from "@stacks/network";
 import {
   ClarityAbiVariable,
   ClarityType,
@@ -35,14 +36,13 @@ import { AuthOptions } from "micro-stacks/connect";
 import { StacksTestnet } from "micro-stacks/network";
 import { useTransactionPopup } from "micro-stacks/react";
 import { err, ok } from "neverthrow";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { WebConfig } from "../shared";
 import { IMCContractCall, MicroStacksWebTransactionReceipt } from "./types";
 
 export class MicroStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   appDetails: AuthOptions["appDetails"];
 
   constructor({

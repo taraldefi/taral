@@ -20,7 +20,6 @@ import {
 import BN from "bn.js";
 import fetch from "cross-fetch";
 import { err, ok } from "neverthrow";
-import { StacksNetworkConfiguration } from "taral-configuration";
 import { BaseProvider, INodeProviderRequest } from "lib-shared";
 import {
   ClarityAbiMap,
@@ -36,16 +35,17 @@ import {
   WebTransactionReceipt,
 } from "lib-shared";
 import { getTransactionById } from "../stacks/utils";
+import { StacksNetwork } from "@stacks/network";
 
 export interface NodeConfig {
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   deployerAddress?: string;
 }
 
 export class NodeProvider implements BaseProvider {
   apiClient: SmartContractsApi;
   identifier: string;
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
 
   constructor({ network, identifier }: NodeConfig & { identifier: string }) {
     const apiConfig = new Configuration({
@@ -230,7 +230,7 @@ interface TxPayload {
   contractName: string;
   functionName: string;
   functionArgs: ClarityValue[];
-  network: StacksNetworkConfiguration;
+  network: StacksNetwork;
   privateKey: string;
   nonce?: string;
   // privateKey: string;
