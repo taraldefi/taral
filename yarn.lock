@@ -7088,10 +7088,10 @@ jest@27.4.5, jest@^27.4.5:
     import-local "^3.0.2"
     jest-cli "^27.4.5"
 
-jotai-query-toolkit@^0.1.22:
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/jotai-query-toolkit/-/jotai-query-toolkit-0.1.22.tgz#0cd8b5106aca042ff8c5247b1ce676f8b55b9830"
-  integrity sha512-GkDtbUvCLNxCrTw+PjuyGd5jBR+57mGyi5j8jTFn/OA5CVInUSIaoZe8HD7o7MWtG8nThwsLly4f7YtHtR3mCw==
+jotai-query-toolkit@^0.1.23:
+  version "0.1.23"
+  resolved "https://registry.yarnpkg.com/jotai-query-toolkit/-/jotai-query-toolkit-0.1.23.tgz#41bdd0db8e7869a01d7ee5936b5e1e4b6f6432db"
+  integrity sha512-g6yljA4ZPAbBWYVY6h9MceImvx+kW3GdcWwfTdvmrJKOqemMJpiuAG6B4MxLOyBddfyxTf9ZUHO7mvs9a4OEvA==
   dependencies:
     fast-deep-equal latest
     jotai latest
