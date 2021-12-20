@@ -1,7 +1,5 @@
 import { StacksNetwork } from "@stacks/network";
-import {
-  getTransactionUrl,
-} from "taral-configuration";
+import { getTransactionUrl } from "taral-configuration";
 
 export async function timeout(ms: number) {
   await new Promise((resolve) => setTimeout(resolve, ms));
