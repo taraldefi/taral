@@ -1345,15 +1345,15 @@
   resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.24.0.tgz#4c993610586964fb21fd38a84bb41913f6e4f5ff"
   integrity sha512-XWEvSNLJ2YeCvlNDd/DQfTMldJqBZWX8+RKgPMY2i3MShqsB9XvtY2UfHqcuPb+eRrNO1WR7w4xlNfzCzop+Ig==
 
-"@noble/hashes@0.4.4":
-  version "0.4.4"
-  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-0.4.4.tgz#1662c9ebef111fc8952dc35fffb4d04043def3f4"
-  integrity sha512-crq2J2g8nIcczVZjYjIQ73GafloqJ6sSual8I/iC8iacMyHwI/ZVskR8Jn8ZmYBq48VC4G+16d2R0SYWVARYGg==
+"@noble/hashes@0.5.5":
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-0.5.5.tgz#32ee0eecf4aa0933a97cbc5ba5a35715b917c7ab"
+  integrity sha512-RoQFap5Fgb9ZZnUivFT9JXXoX65UBxhnOPGYLZL/j3vuFkB7xfssVIAREuBMt/GQ8dlV1VdUqAezNZPiW1P4dA==
 
-"@noble/secp256k1@1.3.3":
-  version "1.3.3"
-  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.3.3.tgz#238160421281ffa9afac721361e20d3b8c99322c"
-  integrity sha512-uzKQA9AzoypXGQusSQahpZbNYYnzZblOgr4AjNjI9s3cGy15V+exxmEnjcC6L/slVKMR30NC+srp00Ch6Pm2hg==
+"@noble/secp256k1@1.3.4":
+  version "1.3.4"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.3.4.tgz#158ded712d09237c0d3428be60dc01ce8ebab9fb"
+  integrity sha512-ZVRouDO5mbdCiDg4zCd3ZZABduRtpy4tCnB33Gh9upHe9tRzpiqbRSN1VTjrj/2g8u2c6MBi0YLNnNQpBYOiWg==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -7439,13 +7439,13 @@ micro-memoize@^4.0.9:
   resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.9.tgz#b44a38c9dffbee1cefc2fd139bc8947952268b62"
   integrity sha512-Z2uZi/IUMGQDCXASdujXRqrXXEwSY0XffUrAOllhqzQI3wpUyZbiZTiE2JuYC0HSG2G7DbCS5jZmsEKEGZuemg==
 
-micro-stacks@0.1.15:
-  version "0.1.15"
-  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.1.15.tgz#55f121cbd00b8ab76da361776daad3216d079ce4"
-  integrity sha512-kAaBrd1C7J4MnOGxGVzHALQyNlsOXujkW0vX+xpfG59y0JkVv/rtyCVA8TwNI0S7kn77YJHT/56Dw2MWu0hOcA==
+micro-stacks@0.1.17:
+  version "0.1.17"
+  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.1.17.tgz#2fbf9444509128871419015bda5641eb3dcd932a"
+  integrity sha512-LXPjGI58FT+vIP3xXdXnqveEdK0sIO/1b+c49Y4sc8MAhnQFH59nDqViLHKDWT4Uw6RyyTLxDYJo+SOP31TqVg==
   dependencies:
-    "@noble/hashes" "0.4.4"
-    "@noble/secp256k1" "1.3.3"
+    "@noble/hashes" "0.5.5"
+    "@noble/secp256k1" "1.3.4"
 
 micromatch@^4.0.0, micromatch@^4.0.2, micromatch@^4.0.4:
   version "4.0.4"
