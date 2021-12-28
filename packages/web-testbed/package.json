@@ -85,7 +85,7 @@
     "react-query": "^3.34.5",
     "react-router-dom": "^6.2.1",
     "micro-memoize": "^4.0.9",
-    "micro-stacks": "0.1.15",
+    "micro-stacks": "0.1.17",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "stream-browserify": "^3.0.0",
