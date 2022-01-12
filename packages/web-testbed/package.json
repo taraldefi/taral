@@ -9,7 +9,7 @@
     "lib-web": "1.0.0",
     "@babel/core": "7.16.7",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
-    "@svgr/webpack": "6.1.2",
+    "@svgr/webpack": "6.2.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",
