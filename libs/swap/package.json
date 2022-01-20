@@ -32,7 +32,7 @@
     "@stacks/transactions": "3.1.0",
     "@types/crypto-js": "^4.1.0",
     "@types/wif": "^2.0.2",
-    "ajv": "^8.8.2",
+    "ajv": "^8.9.0",
     "bip32": "^3.0.1",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^6.0.1",
