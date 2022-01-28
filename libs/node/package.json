@@ -15,7 +15,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.5",
     "ts-node": "^10.4.0",
-    "typescript": "^4.5.4"
+    "typescript": "^4.5.5"
   },
   "dependencies": {
     "javascript-stringify": "2.1.0",
