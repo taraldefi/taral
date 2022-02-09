@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "@stacks/network": "^3.0.0",
-    "@stacks/transactions": "3.1.0"
+    "@stacks/transactions": "3.2.0"
   }
 }
