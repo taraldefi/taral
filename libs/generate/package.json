@@ -29,7 +29,7 @@
     "@stacks/network": "^3.0.0",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
     "@stacks/stacks-blockchain-api-types": "^1.0.7",
-    "@stacks/transactions": "3.1.0",
+    "@stacks/transactions": "3.2.0",
     "@types/crypto-js": "^4.1.0",
     "@types/wif": "^2.0.2",
     "ajv": "^8.9.0",
