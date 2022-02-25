@@ -1595,13 +1595,13 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/common@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.0.0.tgz#e254ce29b8d62b002f713aa171004e9523eefbec"
-  integrity sha512-48zCfU8zX0r8b8eP2n6l/bicAiFQyHPTMimdBwot9JqgzWW8WqGpcZD3qSZIwV0tBHD5LMLxNY018OqQIH6c5Q==
+"@stacks/common@^3.0.0", "@stacks/common@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.3.0.tgz#d43a3f32981ba8a2b85027b46d84cfb787f8c4eb"
+  integrity sha512-PVZiGGvl1WwUa47PCF5mPq3KGik/e+DXQZ7NqHBwNi5GOpjAo0M6nPSF1R+iSnHQ7DHtfXSoIQz8PlCxlYIYKw==
   dependencies:
     "@types/node" "^14.14.43"
-    bn.js "^4.12.0"
+    bn.js "^5.2.0"
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
@@ -2323,10 +2323,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@17.0.18", "@types/node@^17.0.18":
-  version "17.0.18"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.18.tgz#3b4fed5cfb58010e3a2be4b6e74615e4847f1074"
-  integrity sha512-eKj4f/BsN/qcculZiRSujogjvp5O/k4lOW5m35NopjZM/QwLOR075a8pJW5hD+Rtdm2DaCVPENS6KtSQnUD6BA==
+"@types/node@*", "@types/node@17.0.21", "@types/node@^17.0.21":
+  version "17.0.21"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.21.tgz#864b987c0c68d07b4345845c3e63b75edd143644"
+  integrity sha512-DBZCJbhII3r90XbQxI8Y9IjjiiOGlZ0Hr32omXIZvwwZ7p4DMMXGrKXVyPfuoBOri9XNtL0UK69jYIBIsRX3QQ==
 
 "@types/node@10.12.18":
   version "10.12.18"
@@ -7560,10 +7560,10 @@ merkle-lib@^2.0.10:
   resolved "https://registry.yarnpkg.com/merkle-lib/-/merkle-lib-2.0.10.tgz#82b8dbae75e27a7785388b73f9d7725d0f6f3326"
   integrity sha1-grjbrnXieneFOItz+ddyXQ9vMyY=
 
-merkletreejs@^0.2.27:
-  version "0.2.27"
-  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.2.27.tgz#0691df1e1c80ebea7e35439dca5d9abd843b21d3"
-  integrity sha512-6fPGBdfbDyTiprK5JBBAxg+0u33xI3UM8EOeIz7Zy+5czuXH8vOhLMK1hMZFWPdCNgETWkpj+GOMKKhKZPOvaQ==
+merkletreejs@^0.2.30:
+  version "0.2.30"
+  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.2.30.tgz#d29743aecd0f6a3339e4a16882f9dbaff0631cf7"
+  integrity sha512-gBKGRAx8CUjAneaE48U92ObjTp2lD6iYk61ub12NI1YjpNgJ12ROGN+PlZ4G5RyKcs81ArGHRDOt08wkojMGgg==
   dependencies:
     bignumber.js "^9.0.1"
     buffer-reverse "^1.0.1"
