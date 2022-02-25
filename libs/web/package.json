@@ -43,7 +43,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.10.6",
-    "fs-extra": "^10.0.0",
+    "fs-extra": "^10.0.1",
     "javascript-stringify": "2.1.0",
     "lib-shared": "1.0.0",
     "lib-stacks": "1.0.0",
