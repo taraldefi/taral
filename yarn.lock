@@ -1421,7 +1421,7 @@
   resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.29.0.tgz#54ef5d1691da757a1c56206f9de27c043acce2ff"
   integrity sha512-Q5yaMeTAHAnCwnFu2bu+FwqKt60qJLHZx8jGKxos8KocrKu04uoV3/y/DBWqW9ilUbBFCIQm/4YZ7nMrRjTf2Q==
 
-"@noble/hashes@1.0.0":
+"@noble/hashes@1.0.0", "@noble/hashes@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.0.0.tgz#d5e38bfbdaba174805a4e649f13be9a9ed3351ae"
   integrity sha512-DZVbtY62kc3kkBtMHqwCOfXrT/hnoORy5BJ4+HU1IR59X0KWAOqsfzQPcUl/lQLlG7qXbe/fZ3r/emxtAl+sqg==
@@ -1430,6 +1430,11 @@
   version "1.5.2"
   resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.5.2.tgz#40399e4fba54f588fda14fc03a4499044fdcab24"
   integrity sha512-5mzA40W2q55VCRuC9XzmkiEnODdY0c5a7qsK2QcOfI5/MuVQyBaWGQyE6YOEF7kDwp+tDVWGsCDVJUME+wsWWw==
+
+"@noble/secp256k1@^1.5.2":
+  version "1.5.5"
+  resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.5.5.tgz#315ab5745509d1a8c8e90d0bdf59823ccf9bcfc3"
+  integrity sha512-sZ1W6gQzYnu45wPrWx8D3kwI2/U29VYTx9OjbDAd7jwRItJ0cSTMPRL/C8AWZFn9kWFLQGqEXVEE86w4Z8LpIQ==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1586,13 +1591,13 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/common@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.0.0.tgz#e254ce29b8d62b002f713aa171004e9523eefbec"
-  integrity sha512-48zCfU8zX0r8b8eP2n6l/bicAiFQyHPTMimdBwot9JqgzWW8WqGpcZD3qSZIwV0tBHD5LMLxNY018OqQIH6c5Q==
+"@stacks/common@^3.0.0", "@stacks/common@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.3.0.tgz#d43a3f32981ba8a2b85027b46d84cfb787f8c4eb"
+  integrity sha512-PVZiGGvl1WwUa47PCF5mPq3KGik/e+DXQZ7NqHBwNi5GOpjAo0M6nPSF1R+iSnHQ7DHtfXSoIQz8PlCxlYIYKw==
   dependencies:
     "@types/node" "^14.14.43"
-    bn.js "^4.12.0"
+    bn.js "^5.2.0"
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
@@ -1670,12 +1675,12 @@
   dependencies:
     "@stacks/common" "^2.0.1"
 
-"@stacks/network@^3.0.0", "@stacks/network@^3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-3.2.0.tgz#3cfb6929f4667877ed50b2c2e56c3317192e1800"
-  integrity sha512-jMw7JT5PpwUdPKL4CyCyiuc1jj26yKbM/Zsyo6MzXdgyx0dhniO2xXSbxytwYZMNEGd/r/SefcfJa94pEvwlKg==
+"@stacks/network@^3.0.0", "@stacks/network@^3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-3.3.0.tgz#1e3b4d0917d1d33720986846de7d0100f36a2610"
+  integrity sha512-s9YCCBoYCETOT4ssYMvSPXc8pthosq0JqzOpvwTsmqdZB8JQfS/XYzzWoT59Wm3hjaz1AaW9YXNxqvh5DRRs9A==
   dependencies:
-    "@stacks/common" "^3.0.0"
+    "@stacks/common" "^3.3.0"
 
 "@stacks/prettier-config@0.0.8":
   version "0.0.8"
@@ -1756,22 +1761,22 @@
     sha.js "^2.4.11"
     smart-buffer "^4.1.0"
 
-"@stacks/transactions@3.2.0":
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-3.2.0.tgz#15138d008332bb7a001f93750ca8490531e0fc15"
-  integrity sha512-7exiwNjlUk0kkmNc76ttJXYezGJLLgDTSDGCi396CvJgkdHgSUZefPkBivHOJsMGnNnZcu2QLpWRauQzwIE7qg==
+"@stacks/transactions@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-3.3.0.tgz#ccc489196dc406d06271631f28f41937b96de897"
+  integrity sha512-nYm0OufeaQauHfdxuL5dH12GPhkYux8nHX+eTNua0UW6xyE7KpFdk2oS/oCAI/q3r29MaMKuY7uduqelUIbTew==
   dependencies:
-    "@stacks/common" "^3.0.0"
-    "@stacks/network" "^3.2.0"
+    "@noble/hashes" "^1.0.0"
+    "@noble/secp256k1" "^1.5.2"
+    "@stacks/common" "^3.3.0"
+    "@stacks/network" "^3.3.0"
     "@types/bn.js" "^4.11.6"
-    "@types/elliptic" "^6.4.12"
     "@types/node" "^14.14.43"
     "@types/randombytes" "^2.0.0"
     "@types/sha.js" "^2.4.0"
-    bn.js "^4.12.0"
+    bn.js "^5.2.0"
     c32check "^1.1.3"
     cross-fetch "^3.1.4"
-    elliptic "^6.5.4"
     lodash.clonedeep "^4.5.0"
     randombytes "^2.1.0"
     ripemd160-min "^0.0.6"
