@@ -58,7 +58,9 @@
         "taral-coin",
         "clarity-bitcoin",
         "btc-ft-swap",
-        "btc-nft-swap"
+        "btc-nft-swap",
+        "taral-oracle-trait-v1",
+        "taral-oracle-v1"
       ]
     }
   ]
