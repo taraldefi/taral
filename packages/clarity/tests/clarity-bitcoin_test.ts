@@ -80,7 +80,7 @@ Clarinet.test({
           // reversed tx of
           // 7ad9187efd4fa01ce8690015a1a711d7958f18c248fb4c47a32d00732cfc4a61
           "0x614afc2c73002da3474cfb48c2188f95d711a7a1150069e81ca04ffd7e18d97a",
-          // reversed merkel root of
+          // reversed Merkel root of
           // 0x5af66bfeb6d1307baae361666038ac6fffdfef311ec0b67894b770ef983685ed
           "0xed853698ef70b79478b6c01e31efdfff6fac38606661e3aa7b30d1b6fe6bf65a",
           // proof
