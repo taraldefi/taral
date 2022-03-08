@@ -14,9 +14,12 @@ import {
   nodeArkadikoContracts,
   nodeTaralContracts,
   TaralCoinContract,
+  TaralOracleV1Contract,
 } from "taral-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
+export let taralOracle: (caller: ClarinetAccount) => TaralOracleV1Contract;
+
 export let clarinetAccounts: ClarinetAccounts;
 export let deployer: ClarinetAccount;
 export let clarityBin: NativeClarityBinProvider;
@@ -39,4 +42,5 @@ beforeAll(async () => {
   );
 
   talToken = deployed.nodeTaralCoin.contract;
+  taralOracle = deployed.nodeTaralOracleV1.contract;
 }, 3000000);
