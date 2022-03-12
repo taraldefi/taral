@@ -2,10 +2,12 @@
   "cSpell.words": [
     "bitcoinjs",
     "crossfetch",
+    "ecpair",
     "Merkle",
     "Merkleproof",
     "merkleroot",
     "regtest",
+    "Secp",
     "taral"
   ]
 }
