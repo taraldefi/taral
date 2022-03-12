@@ -5,6 +5,7 @@ import { RPCClient } from "rpc-bitcoin";
 import { MIN_TX_CONFIRMATIONS } from "./constants";
 import { time } from "./helpers";
 import { GetRawTxResult, TxOutSet, TxOutUnspent } from "./types";
+import * as ecPair from 'ecpair';
 
 export async function getSpendableUtxos(
   client: RPCClient,
@@ -88,7 +89,7 @@ export async function getRawTransactions(
   return batchRawTxRes;
 }
 
-export function getKeyAddress(key: btc.ECPairInterface): string {
+export function getKeyAddress(key: ecPair.ECPairInterface): string {
   const { address } = btc.payments.p2pkh({
     pubkey: key.publicKey,
     network: key.network,

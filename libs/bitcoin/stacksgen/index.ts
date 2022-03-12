@@ -1,12 +1,12 @@
 import * as stacks_transactions from "@stacks/transactions";
 import * as bip39 from "bip39";
-import * as btc from "bitcoinjs-lib";
 import * as c32c from "c32check";
 import * as crypto from "crypto";
 import * as wif from "wif";
+import { ECPair } from "../utils/ecpair";
+import { bip32 } from "../utils/bip32";
 
 const { mnemonicToSeed } = bip39;
-const { bip32, ECPair } = btc;
 const { getAddressFromPrivateKey, TransactionVersion } = stacks_transactions;
 
 const networkDerivationPath = `m/44'/5757'/0'/0/0`;
@@ -81,10 +81,11 @@ export async function generateKeys(seed_phrase: string): Promise<{
   wif: string;
 }> {
   const seedBuffer = await mnemonicToSeed(seed_phrase);
+
   const masterKeychain = bip32.fromSeed(seedBuffer);
   const keys = deriveStxAddressChain()(masterKeychain);
 
-  const uncompressed_hex = btc.ECPair.fromPublicKey(keys.publicKey, {
+  const uncompressed_hex = ECPair.fromPublicKey(keys.publicKey, {
     compressed: false,
   }).publicKey.toString("hex");
 
