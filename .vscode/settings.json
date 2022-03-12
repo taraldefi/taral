@@ -3,10 +3,12 @@
     "bitcoinjs",
     "crossfetch",
     "ecpair",
+    "Keychain",
     "Merkle",
     "Merkleproof",
     "merkleroot",
     "regtest",
+    "ripemd",
     "Secp",
     "taral"
   ]
