@@ -15,16 +15,17 @@ async function main() {
   // const root = `${getRootDirectory()}/packages/clarity`;
   // const contracts = await getClarinetAccounts(root);
   // Logger.debug(NAME, "Contracts are:", contracts);
-  // const outputScript = address.toOutputScript(
-  //   "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
-  //   btc.networks.regtest
-  // );
-  // Logger.debug(NAME, "Output script is:", outputScript.toString("hex"));
-
-  const result = decodeBtcAddress('myfTfju9XSMRusaY2qTitSEMSchsWRA441');
+  const result = decodeBtcAddress('mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH');
 
   Logger.debug(NAME, "Decoded btc address: ", `0x${result.data.toString('hex')}`);
   Logger.debug("Decoded btc raw response", JSON.stringify(result));
+
+
+  const outputScript = address.toOutputScript(
+    "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
+    btc.networks.regtest
+  );
+  Logger.debug(NAME, "Output script is:", outputScript.toString("hex"));
 }
 
 main();
