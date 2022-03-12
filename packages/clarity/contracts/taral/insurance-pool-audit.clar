@@ -77,7 +77,7 @@
         (get amount (print (var-get last-price)))))))
 
 (define-public (wrapped-oracle-get-price-stx-btc (height uint))
-  (ok (oracle-get-price-stx-btc)))
+  (ok (oracle-get-price-stx-btc height)))
 
 ;; any user can submit a tx that contains payments into the pool's address
 ;; the value of the tx is added to the block
