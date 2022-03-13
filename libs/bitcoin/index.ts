@@ -6,4 +6,5 @@ export * from "./helpers";
 export * from "./payment";
 export * from "./transaction";
 export * from "./types";
+export * from "./utils/pox-address-helpers";
 export * from "./validation";

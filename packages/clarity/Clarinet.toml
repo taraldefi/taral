@@ -275,3 +275,20 @@ path = "contracts/taral/taral-oracle-trait-v1.clar"
 [contracts.taral-oracle-v1]
 depends_on = ["taral-oracle-trait-v1"]
 path = "contracts/taral/taral-oracle-v1.clar"
+
+[contracts.insurance-pool-oracle]
+path = "contracts/taral/insurance-pool-oracle.clar"
+depends_on = []
+
+[contracts.insurance-pool-audit-compact]
+path = "contracts/taral/insurance-pool-audit-compact.clar"
+depends_on = ["clarity-bitcoin"]
+
+[contracts.insurance-pool-audit]
+path = "contracts/taral/insurance-pool-audit.clar"
+depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
+
+
+[contracts.insurance-pool-admin]
+path = "contracts/taral/insurance-pool-admin.clar"
+depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
