@@ -9,7 +9,7 @@
 (define-map rewards-per-cycle uint uint)
 
 (define-data-var last-price (tuple (amount uint) (height uint) (timestamp uint))
-  (unwrap! (contract-call? .oracle get-price "artifix-binance" "STX-BTC") ERR_FAILED_TO_GET_PRICE))
+  (unwrap! (contract-call? .insurance-pool-oracle get-price "artifix-binance" "STX-BTC") ERR_FAILED_TO_GET_PRICE))
 
 ;; Backport of .pox's burn-height-to-reward-cycle
 (define-read-only (burn-height-to-reward-cycle (height uint))
@@ -60,7 +60,7 @@
 
 (define-private (oracle-by-hash (height uint))
   (match (get-block-info? id-header-hash height)
-    hash (match (at-block hash (contract-call? .oracle get-price "artifix-binance" "STX-BTC"))
+    hash (match (at-block hash (contract-call? .insurance-pool-oracle get-price "artifix-binance" "STX-BTC"))
           price (begin
                   (update price height)
                   (some (get amount price)))
