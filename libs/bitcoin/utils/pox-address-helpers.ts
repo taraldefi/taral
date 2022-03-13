@@ -1,4 +1,3 @@
-import { address } from "bitcoinjs-lib";
 import {
   AddressHashMode,
   BufferCV,
@@ -6,8 +5,9 @@ import {
   TupleCV,
   tupleCV,
 } from "@stacks/transactions";
-import * as c32 from "c32check";
+import { address } from "bitcoinjs-lib";
 import BN from "bn.js";
+import * as c32 from "c32check";
 
 export function getAddressHashMode(btcAddress: string) {
   if (btcAddress.startsWith("bc1") || btcAddress.startsWith("tb1")) {

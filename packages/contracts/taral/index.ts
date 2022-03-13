@@ -4,6 +4,22 @@ import {
   nodeClarityBitcoinInfo,
   webClarityBitcoinInfo,
 } from "./clarity-bitcoin";
+import {
+  nodeInsurancePoolAdminInfo,
+  webInsurancePoolAdminInfo,
+} from "./insurance-pool-admin";
+import {
+  nodeInsurancePoolAuditInfo,
+  webInsurancePoolAuditInfo,
+} from "./insurance-pool-audit";
+import {
+  nodeInsurancePoolAuditCompactInfo,
+  webInsurancePoolAuditCompactInfo,
+} from "./insurance-pool-audit-compact";
+import {
+  nodeInsurancePoolOracleInfo,
+  webInsurancePoolOracleInfo,
+} from "./insurance-pool-oracle";
 import { nodeNftTraitInfo, webNftTraitInfo } from "./nft-trait";
 import {
   nodeSip10FtStandardInfo,
@@ -18,6 +34,10 @@ import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
 export type { BtcFtSwapContract } from "./btc-ft-swap";
 export type { BtcNftSwapContract } from "./btc-nft-swap";
 export type { ClarityBitcoinContract } from "./clarity-bitcoin";
+export type { InsurancePoolAdminContract } from "./insurance-pool-admin";
+export type { InsurancePoolAuditContract } from "./insurance-pool-audit";
+export type { InsurancePoolAuditCompactContract } from "./insurance-pool-audit-compact";
+export type { InsurancePoolOracleContract } from "./insurance-pool-oracle";
 export type { NftTraitContract } from "./nft-trait";
 export type { Sip10FtStandardContract } from "./sip-10-ft-standard";
 export type { TaralCoinContract } from "./taral-coin";
@@ -33,6 +53,10 @@ export const nodeTaralContracts = {
   nodeBtcNftSwap: nodeBtcNftSwapInfo,
   nodeTaralOracleTraitV1: nodeTaralOracleTraitV1Info,
   nodeTaralOracleV1: nodeTaralOracleV1Info,
+  nodeInsurancePoolOracle: nodeInsurancePoolOracleInfo,
+  nodeInsurancePoolAuditCompact: nodeInsurancePoolAuditCompactInfo,
+  nodeInsurancePoolAudit: nodeInsurancePoolAuditInfo,
+  nodeInsurancePoolAdmin: nodeInsurancePoolAdminInfo,
 };
 
 export const webTaralContracts = {
@@ -44,4 +68,8 @@ export const webTaralContracts = {
   webBtcNftSwap: webBtcNftSwapInfo,
   webTaralOracleTraitV1: webTaralOracleTraitV1Info,
   webTaralOracleV1: webTaralOracleV1Info,
+  webInsurancePoolOracle: webInsurancePoolOracleInfo,
+  webInsurancePoolAuditCompact: webInsurancePoolAuditCompactInfo,
+  webInsurancePoolAudit: webInsurancePoolAuditInfo,
+  webInsurancePoolAdmin: webInsurancePoolAdminInfo,
 };

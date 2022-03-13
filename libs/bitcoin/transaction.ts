@@ -1,11 +1,11 @@
 import * as btc from "bitcoinjs-lib";
 import Bluebird from "bluebird";
+import * as ecPair from "ecpair";
 import { Logger } from "lib-shared";
 import { RPCClient } from "rpc-bitcoin";
 import { MIN_TX_CONFIRMATIONS } from "./constants";
 import { time } from "./helpers";
 import { GetRawTxResult, TxOutSet, TxOutUnspent } from "./types";
-import * as ecPair from 'ecpair';
 
 export async function getSpendableUtxos(
   client: RPCClient,

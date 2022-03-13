@@ -1,5 +1,5 @@
-import { clarinetAccounts, taralOracle } from "./jest-setup";
 import { ClarinetAccount, txErr, txOk } from "lib-shared";
+import { clarinetAccounts, taralOracle } from "./jest-setup";
 
 const UnauthorizedAddress: string = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
 const UnauthorizedClarinetAccount: ClarinetAccount = {

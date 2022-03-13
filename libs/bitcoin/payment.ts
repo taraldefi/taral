@@ -1,4 +1,5 @@
 import * as btc from "bitcoinjs-lib";
+import * as ecPair from "ecpair";
 import { Logger, makeBuffer } from "lib-shared";
 import { getRpcClient } from "./client";
 import { coinSelect } from "./coinselect";
@@ -7,10 +8,8 @@ import { time } from "./helpers";
 import * as stacksgen from "./stacksgen";
 import { getKeyAddress, getSpendableUtxos } from "./transaction";
 import { PaymentResponse } from "./types";
-import { isValidBtcAddress } from "./validation";
-import * as ecPair from 'ecpair';
 import { ECPair } from "./utils/ecpair";
-
+import { isValidBtcAddress } from "./validation";
 
 export async function getAccountFromMnemonic(
   network: btc.Network,
@@ -83,10 +82,14 @@ export async function makePayment(
   });
 
   psbt.signAllInputs(bobsWallet.key);
-  if (!psbt.validateSignaturesOfAllInputs((pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
-    const keypair = ECPair.fromPublicKey(pubkey);
-    return keypair.verify(msghash, signature);
-  })) {
+  if (
+    !psbt.validateSignaturesOfAllInputs(
+      (pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
+        const keypair = ECPair.fromPublicKey(pubkey);
+        return keypair.verify(msghash, signature);
+      }
+    )
+  ) {
     throw new Error("invalid psbt signature");
   }
   psbt.finalizeAllInputs();

@@ -3,8 +3,8 @@ import * as bip39 from "bip39";
 import * as c32c from "c32check";
 import * as crypto from "crypto";
 import * as wif from "wif";
-import { ECPair } from "../utils/ecpair";
 import { bip32 } from "../utils/bip32";
+import { ECPair } from "../utils/ecpair";
 
 const { mnemonicToSeed } = bip39;
 const { getAddressFromPrivateKey, TransactionVersion } = stacks_transactions;

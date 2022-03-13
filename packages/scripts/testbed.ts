@@ -1,8 +1,7 @@
 import * as btc from "bitcoinjs-lib";
 import { address } from "bitcoinjs-lib";
-import { getClarinetAccounts } from "lib-infra";
-import { getRootDirectory, Logger } from "lib-shared";
-import { decodeBtcAddress, getAddressHashMode } from "lib-bitcoin";
+import { decodeBtcAddress } from "lib-bitcoin";
+import { Logger } from "lib-shared";
 
 const NAME = "Testbed";
 
@@ -15,11 +14,14 @@ async function main() {
   // const root = `${getRootDirectory()}/packages/clarity`;
   // const contracts = await getClarinetAccounts(root);
   // Logger.debug(NAME, "Contracts are:", contracts);
-  const result = decodeBtcAddress('mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH');
+  const result = decodeBtcAddress("mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH");
 
-  Logger.debug(NAME, "Decoded btc address: ", `0x${result.data.toString('hex')}`);
+  Logger.debug(
+    NAME,
+    "Decoded btc address: ",
+    `0x${result.data.toString("hex")}`
+  );
   Logger.debug("Decoded btc raw response", JSON.stringify(result));
-
 
   const outputScript = address.toOutputScript(
     "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
