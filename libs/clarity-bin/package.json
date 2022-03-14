@@ -15,7 +15,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.5",
     "ts-node": "^10.5.0",
-    "typescript": "^4.5.5"
+    "typescript": "^4.6.2"
   },
   "dependencies": {
     "taral-configuration": "1.0.0",
