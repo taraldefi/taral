@@ -1,12 +1,19 @@
-// deno-lint-ignore-file no-explicit-any
-// @ts-ignore
-import { Account, Chain, Clarinet, Tx, types } from "../dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Clarinet } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Tx } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Chain } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Account } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { types } from "../src/dependencies.ts";
 
 Clarinet.test({
   name: "oracle: only current oracle owner can update owner and prices",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
-    let deployer = accounts.get("deployer")!;
-    let wallet_1 = accounts.get("wallet_1")!;
+  fn(chain: Chain, accounts: Map<string, Account>) {
+    const deployer = accounts.get("deployer")!;
+    const walletOne = accounts.get("wallet_1")!;
 
     // Update price
     let block = chain.mineBlock([
@@ -24,7 +31,7 @@ Clarinet.test({
       Tx.contractCall(
         "taral-oracle-v1",
         "set-oracle-owner",
-        [types.principal(wallet_1.address)],
+        [types.principal(walletOne.address)],
         deployer.address
       ),
     ]);

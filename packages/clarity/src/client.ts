@@ -1,5 +1,5 @@
-// @ts-ignore
-import { Account, Chain, ReadOnlyFn } from "../dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Account, Chain, ReadOnlyFn } from "./dependencies.ts";
 
 export class Client {
   contractName: string;

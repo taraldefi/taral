@@ -1,11 +1,16 @@
-import {
-  Clarinet,
-  Tx,
-  Chain,
-  Account,
-  types,
-  assertEquals,
-} from "../dependencies.ts";
+// deno-lint-ignore-file no-explicit-any
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Clarinet } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Tx } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Chain } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Account } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { types } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { assertEquals } from "../src/dependencies.ts";
 
 function poxAllowContractCaller(deployer: Account, wallet: Account) {
   return Tx.contractCall(
@@ -28,15 +33,13 @@ function poolAllowContractCaller(deployer: Account, wallet: Account) {
 Clarinet.test({
   name: "Ensure that user can pay in",
   fn(chain: Chain, accounts: Map<string, Account>) {
-    let wallet_1 = accounts.get("wallet_1")!;
-    let deployer = accounts.get("deployer")!;
-
-    let block = chain.mineBlock([
+    const walletOne = accounts.get("wallet_1")!;
+    const block = chain.mineBlock([
       Tx.contractCall(
         "insurance-pool-admin",
         "payin",
         [types.uint(1000000), types.uint(1)],
-        wallet_1.address
+        walletOne.address
       ),
     ]);
 
@@ -49,13 +52,13 @@ Clarinet.test({
 
 Clarinet.test({
   name: "Ensure that user can receive rewards",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
-    let wallet_1 = accounts.get("wallet_1")!;
-    let deployer = accounts.get("deployer")!;
+  fn(chain: Chain, accounts: Map<string, Account>) {
+    const walletOne = accounts.get("wallet_1")!;
+    const deployer = accounts.get("deployer")!;
 
     let block = chain.mineBlock([
-      poxAllowContractCaller(deployer, wallet_1),
-      poolAllowContractCaller(deployer, wallet_1),
+      poxAllowContractCaller(deployer, walletOne),
+      poolAllowContractCaller(deployer, walletOne),
 
       Tx.contractCall(
         "insurance-pool-admin",
@@ -65,10 +68,13 @@ Clarinet.test({
           types.principal(deployer.address + ".insurance-pool-admin"),
           types.some(types.uint(450)),
           types.none(),
-          types.tuple({ version: "0x01", hashbytes: "0x12345678901234567890" }),
+          types.tuple({ 
+            version: "0x01", 
+            hashbytes: "0x12345678901234567890" 
+          }),
           types.uint(2),
         ],
-        wallet_1.address
+        walletOne.address
       ),
     ]);
     assertEquals(block.height, 2);
@@ -83,7 +89,7 @@ Clarinet.test({
         "insurance-pool-admin",
         "get-next-cycle",
         [],
-        wallet_1.address
+        walletOne.address
       ).result,
       types.uint(1)
     );
@@ -95,7 +101,7 @@ Clarinet.test({
         "insurance-pool-admin",
         "get-next-cycle",
         [],
-        wallet_1.address
+        walletOne.address
       ).result,
       types.uint(2)
     );
@@ -111,7 +117,7 @@ Clarinet.test({
         "insurance-pool-admin",
         "claim-rewards",
         [types.uint(0)],
-        wallet_1.address
+        walletOne.address
       ),
     ]);
 

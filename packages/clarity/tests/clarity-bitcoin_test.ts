@@ -1,13 +1,16 @@
 // deno-lint-ignore-file no-explicit-any
-// @ts-ignore
-import {
-  Account,
-  assertEquals,
-  Chain,
-  Clarinet,
-  Tx,
-  types,
-} from "../dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Clarinet } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Tx } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Chain } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Account } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { types } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { assertEquals } from "../src/dependencies.ts";
 
 const parts = [
   "0x00200020",
@@ -56,7 +59,7 @@ Clarinet.test({
           // reversed tx of
           // 3bd3a1309a518c381248fdc26c3a6bd62c35db7705069f59206684308cc237b3
           "0xb337c28c30846620599f060577db352cd66b3a6cc2fd4812388c519a30a1d33b",
-          // reversed merkel root of
+          // reversed merkle root of
           // 0x25c8487847de572c21bff029a95d9a9fecd9f4c2736984b979d37258cd47bd1f
           "0x1fbd47cd5872d379b9846973c2f4d9ec9f9a5da929f0bf212c57de477848c825",
           // proof
@@ -80,7 +83,7 @@ Clarinet.test({
           // reversed tx of
           // 7ad9187efd4fa01ce8690015a1a711d7958f18c248fb4c47a32d00732cfc4a61
           "0x614afc2c73002da3474cfb48c2188f95d711a7a1150069e81ca04ffd7e18d97a",
-          // reversed Merkel root of
+          // reversed Merkle root of
           // 0x5af66bfeb6d1307baae361666038ac6fffdfef311ec0b67894b770ef983685ed
           "0xed853698ef70b79478b6c01e31efdfff6fac38606661e3aa7b30d1b6fe6bf65a",
           // proof

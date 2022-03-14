@@ -1,18 +1,22 @@
-import {
-  Clarinet,
-  Tx,
-  Chain,
-  Account,
-  types,
-  assertEquals,
-} from "../dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Clarinet } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Tx } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Chain } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { Account } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { types } from "../src/dependencies.ts";
+// @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
+import { assertEquals } from "../src/dependencies.ts";
 
 Clarinet.test({
   name: "Ensure that invalid txs are not accepted",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
-    let wallet_1 = accounts.get("wallet_1")!;
+  fn(chain: Chain, accounts: Map<string, Account>) {
+    const walletOne = accounts.get("wallet_1")!;
     const block1 = chain.mineBlock([]);
-    let block = chain.mineBlock([
+    const block = chain.mineBlock([
       Tx.contractCall(
         "insurance-pool-audit",
         "submit-reward-tx",
@@ -42,7 +46,7 @@ Clarinet.test({
             "tree-depth": types.uint(1),
           }),
         ],
-        wallet_1.address
+        walletOne.address
       ),
       Tx.contractCall(
         "insurance-pool-audit-compact",
@@ -50,7 +54,7 @@ Clarinet.test({
         [
           "0x0100000001c8bd3502a21f810da7692e323cc46e0e9ec1def7a93cc610f6d65b60193174e2030000006a47304402204ffe267e6b5aab28350be80c1f4ea94424c483f3f44f175594bb6273000f80e8022042ebd5668420c8b29d2ec2791e2c8aa0d7784d8a6283f958fe581e0be129c61b0121037435c194e9b01b3d7f7a2802d6684a3af68d05bbf4ec8f17021980d777691f1dfdffffff040000000000000000536a4c5058365b13588072c8b4eca88a505db5c453123c5c91db98d90ac1cd124402dba596531ebf945361dbdbcb0a43e8d6984ab8eee14982d0341eab198fc74d2d917c6d95dc001e21c20008001e1fc2001d0210270000000000001976a9146d78de7b0625dfbfc16c3a8a5735f6dc3dc3f2ce88ac10270000000000001976a9146c575e9f31715b180b22738136895876ade678cb88ac752f7c5c000000001976a914ba27f99e007c7f605a8305e318c1abde3cd220ac88ac00000000",
         ],
-        wallet_1.address
+        walletOne.address
       ),
     ]);
     assertEquals(block.height, 3);
@@ -104,14 +108,13 @@ const validTx = types.tuple({
 
 Clarinet.test({
   name: "Ensure that valid txs report the correct amount",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
-    let wallet_1 = accounts.get("wallet_1")!;
-
-    let value = chain.callReadOnlyFn(
+  fn(chain: Chain, accounts: Map<string, Account>) {
+    const walletOne = accounts.get("wallet_1")!;
+    const value = chain.callReadOnlyFn(
       "insurance-pool-audit",
       "get-tx-value-for-pool",
       [validTx],
-      wallet_1.address
+      walletOne.address
     );
     value.result.expectOk().expectUint(10000);
   },
@@ -119,9 +122,9 @@ Clarinet.test({
 
 Clarinet.test({
   name: "Ensure that valid txs can be reported",
-  async fn(chain: Chain, accounts: Map<string, Account>) {
-    let wallet_1 = accounts.get("wallet_1")!;
-    let block = chain.mineBlock([
+  fn(chain: Chain, accounts: Map<string, Account>) {
+    const walletOne = accounts.get("wallet_1")!;
+    const block = chain.mineBlock([
       Tx.contractCall(
         "insurance-pool-audit",
         "submit-reward-tx",
@@ -152,7 +155,7 @@ Clarinet.test({
             "tree-depth": types.uint(5),
           }),
         ],
-        wallet_1.address
+        walletOne.address
       ),
     ]);
     assertEquals(block.height, 2);
