@@ -68,9 +68,9 @@ Clarinet.test({
           types.principal(deployer.address + ".insurance-pool-admin"),
           types.some(types.uint(450)),
           types.none(),
-          types.tuple({ 
-            version: "0x01", 
-            hashbytes: "0x12345678901234567890" 
+          types.tuple({
+            version: "0x01",
+            hashbytes: "0x12345678901234567890",
           }),
           types.uint(2),
         ],
