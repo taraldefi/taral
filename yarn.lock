@@ -1409,10 +1409,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@ltd/j-toml@^1.29.0":
-  version "1.29.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.29.0.tgz#54ef5d1691da757a1c56206f9de27c043acce2ff"
-  integrity sha512-Q5yaMeTAHAnCwnFu2bu+FwqKt60qJLHZx8jGKxos8KocrKu04uoV3/y/DBWqW9ilUbBFCIQm/4YZ7nMrRjTf2Q==
+"@ltd/j-toml@^1.30.0":
+  version "1.30.0"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.30.0.tgz#13e9f80ec4e3fbed585b6703e235f0ea54726f5e"
+  integrity sha512-RMylvTbZiU9B5bx+bZmPtacKobjMJOJBDxn3TPraEe4bz/gG0ZpVKCedDqLgrDYIlCSxUutoFan1IJ2EHxvo3Q==
 
 "@noble/hashes@1.0.0", "@noble/hashes@^1.0.0":
   version "1.0.0"
