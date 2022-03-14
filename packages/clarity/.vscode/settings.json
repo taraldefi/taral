@@ -1,5 +1,13 @@
 {
   "deno.enable": true,
   "deno.unstable": true,
-  "deno.lint": true
+  "deno.lint": true,
+  "cSpell.words": [
+    "hashbytes",
+    "locktime",
+    "merkle",
+    "nbits",
+    "payin",
+    "taral"
+  ]
 }
