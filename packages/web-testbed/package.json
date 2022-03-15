@@ -7,7 +7,7 @@
     "lib-shared": "1.0.0",
     "taral-contracts": "1.0.0",
     "lib-web": "1.0.0",
-    "@babel/core": "7.17.5",
+    "@babel/core": "7.17.7",
     "@pmmmwh/react-refresh-webpack-plugin": "0.5.4",
     "@svgr/webpack": "6.2.1",
     "@testing-library/jest-dom": "^5.16.2",
