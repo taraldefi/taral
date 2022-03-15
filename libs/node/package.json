@@ -21,7 +21,7 @@
     "javascript-stringify": "2.1.0",
     "@stacks/blockchain-api-client": "^2.1.1",
     "@stacks/common": "^3.3.0",
-    "@stacks/stacks-blockchain-api-types": "^2.1.1",
+    "@stacks/stacks-blockchain-api-types": "^3.0.1",
     "@stacks/network": "^3.0.0",
     "@stacks/transactions": "3.3.0",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
