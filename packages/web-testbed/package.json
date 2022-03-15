@@ -91,7 +91,7 @@
     "stream-browserify": "^3.0.0",
     "ts-loader": "^9.2.8",
     "ts-node": "^10.5.0",
-    "tsconfig-paths": "^3.12.0",
+    "tsconfig-paths": "^3.14.0",
     "proxy-memoize": "^0.3.7"
   },
   "devDependencies": {
