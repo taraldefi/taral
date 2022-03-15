@@ -15,7 +15,7 @@
     "install-native-cli": "ts-node install-native-cli.ts"
   },
   "devDependencies": {
-    "ts-node": "^10.5.0",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.2"
   },
   "dependencies": {
