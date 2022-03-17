@@ -1068,10 +1068,10 @@
     core-js-pure "^3.16.0"
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.17.2", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
-  version "7.17.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.2.tgz#66f68591605e59da47523c631416b18508779941"
-  integrity sha512-hzeyJyMA1YGdJTuWU0e/j4wKXrU4OMFvY2MSlaI9B7VQb0r5cxTE3EAIS2Q7Tn2RIcDkRvTA/v2JsAEhxe99uw==
+"@babel/runtime@^7.10.2", "@babel/runtime@^7.11.2", "@babel/runtime@^7.12.5", "@babel/runtime@^7.16.3", "@babel/runtime@^7.17.7", "@babel/runtime@^7.5.5", "@babel/runtime@^7.6.2", "@babel/runtime@^7.7.2", "@babel/runtime@^7.7.6", "@babel/runtime@^7.8.4", "@babel/runtime@^7.9.2":
+  version "7.17.7"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.17.7.tgz#a5f3328dc41ff39d803f311cfe17703418cf9825"
+  integrity sha512-L6rvG9GDxaLgFjg41K+5Yv9OMrU98sWe+Ykmc6FDJW/+vYZMhdOMKkISgzptMaERHvS2Y2lw9MDRm2gHhlQQoA==
   dependencies:
     regenerator-runtime "^0.13.4"
 
@@ -1586,7 +1586,7 @@
   dependencies:
     cross-fetch "^3.0.6"
 
-"@stacks/common@^2.0.1", "@stacks/common@^2.0.2":
+"@stacks/common@^2.0.1":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@stacks/common/-/common-2.0.2.tgz#ac9822b0afabdc9c1ae4a0aea77f97d943d197c9"
   integrity sha512-RpuNIqf+XmcHlMjXeVZE4fS3yIUlCvOYmxyBKOarh010Kx3Gs/LhAeejn/329lYcIE6VwNPoeXPSE9deq7Yjcw==
@@ -1606,23 +1606,23 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/connect-ui@5.2.0":
-  version "5.2.0"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.2.0.tgz#b475029823a6bc3ebc8fda27acfc583527347cce"
-  integrity sha512-pBRcCBU4Ka0/PuUFsucML1oDVpXupV5hrW2TVh3HbKTRTyJ6HYWuTh4ckxkPlUKY8q+v3tQ7avwPXQaEfstFiA==
+"@stacks/connect-ui@5.4.0":
+  version "5.4.0"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.4.0.tgz#79306b096b60ab5234ed1d2aff420773ae2370ff"
+  integrity sha512-S4Tz60nnZNX11uphssCZ9yVKMKJP1KeOG3S4yi1EXLapaJkElicB4aOOSUtlfqY1d6V+Q7lSMrVem2uQoa6Vkg==
   dependencies:
     "@stencil/core" "^2.6.0"
 
-"@stacks/connect@6.4.0":
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.0.tgz#f9d5e83420a818dc59e46b61743b72ea08a301d0"
-  integrity sha512-cZTK6esZi71QkSM1IBcXK0OlR8xDWYm8QOOJYboemmj6MR5qnAXNeLfQth6da/RbiWy1BnXic2QVaymrQZFBwA==
+"@stacks/connect@6.4.1":
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.1.tgz#223f7464bf85e744e10779013a61e9f8e7358675"
+  integrity sha512-NnYmkpikguwqjcUQST92evQR2DmoyOr4pkUEk1tTdtLYLn7KZGfPkPSWvmKHCR+0gzIttKGOfE1efTB4lmvvlQ==
   dependencies:
     "@stacks/auth" "2.0.1"
-    "@stacks/connect-ui" "5.2.0"
+    "@stacks/connect-ui" "5.4.0"
     "@stacks/network" "2.0.1"
     "@stacks/prettier-config" "0.0.8"
-    "@stacks/transactions" "2.1.0-beta.2"
+    "@stacks/transactions" "2.0.1"
     bn.js "^5.2.0"
     buffer "6.0.3"
     jsontokens "^3.0.0"
@@ -1744,20 +1744,20 @@
     bitcoinjs-lib "^5.2.0"
     jsontokens "^3.0.0"
 
-"@stacks/transactions@2.1.0-beta.2":
-  version "2.1.0-beta.2"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.1.0-beta.2.tgz#d5a0ad36a2f40a244b4d06656d48e90757a8a513"
-  integrity sha512-IXYt/edMuDtmdhnfJT5cjColpetymEODTail/014k+KIeprmmHZW7PztokZCHVK/OV6k+J6gSZPCIc0iykNTKA==
+"@stacks/transactions@2.0.1", "@stacks/transactions@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
+  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
   dependencies:
-    "@stacks/common" "^2.0.2"
-    "@stacks/network" "^2.0.1"
+    "@stacks/common" "^2.0.1"
+    "@stacks/network" "^1.2.2"
     "@types/bn.js" "^4.11.6"
     "@types/elliptic" "^6.4.12"
     "@types/node" "^14.14.43"
     "@types/randombytes" "^2.0.0"
     "@types/sha.js" "^2.4.0"
     bn.js "^4.12.0"
-    c32check "^1.1.3"
+    c32check "^1.1.2"
     cross-fetch "^3.1.4"
     elliptic "^6.5.4"
     lodash "^4.17.20"
@@ -1805,28 +1805,6 @@
     elliptic "^6.5.3"
     lodash "^4.17.20"
     lodash-es "4.17.20"
-    randombytes "^2.1.0"
-    ripemd160-min "^0.0.6"
-    sha.js "^2.4.11"
-    smart-buffer "^4.1.0"
-
-"@stacks/transactions@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
-  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
-  dependencies:
-    "@stacks/common" "^2.0.1"
-    "@stacks/network" "^1.2.2"
-    "@types/bn.js" "^4.11.6"
-    "@types/elliptic" "^6.4.12"
-    "@types/node" "^14.14.43"
-    "@types/randombytes" "^2.0.0"
-    "@types/sha.js" "^2.4.0"
-    bn.js "^4.12.0"
-    c32check "^1.1.2"
-    cross-fetch "^3.1.4"
-    elliptic "^6.5.4"
-    lodash "^4.17.20"
     randombytes "^2.1.0"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
@@ -2391,10 +2369,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react@*", "@types/react@^17.0.39":
-  version "17.0.39"
-  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.39.tgz#d0f4cde092502a6db00a1cded6e6bf2abb7633ce"
-  integrity sha512-UVavlfAxDd/AgAacMa60Azl7ygyQNRwC/DsHZmKgNvPmRR5p70AJ5Q9EAmL2NWOJmeV+vVUI4IAP7GZrN8h8Ug==
+"@types/react@*", "@types/react@^17.0.40":
+  version "17.0.40"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-17.0.40.tgz#dc010cee6254d5239a138083f3799a16638e6bad"
+  integrity sha512-UrXhD/JyLH+W70nNSufXqMZNuUD2cXHu6UjCllC6pmOQgBX4SGXOH8fjRka0O0Ee0HrFxapDD8Bwn81Kmiz6jQ==
   dependencies:
     "@types/prop-types" "*"
     "@types/scheduler" "*"
@@ -2559,14 +2537,14 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/parser@^5.14.0", "@typescript-eslint/parser@^5.5.0":
-  version "5.14.0"
-  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.14.0.tgz#7c79f898aa3cff0ceee6f1d34eeed0f034fb9ef3"
-  integrity sha512-aHJN8/FuIy1Zvqk4U/gcO/fxeMKyoSv/rS46UXMXOJKVsLQ+iYPuXNbpbH7cBLcpSbmyyFbwrniLx5+kutu1pw==
+"@typescript-eslint/parser@^5.15.0", "@typescript-eslint/parser@^5.5.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.15.0.tgz#95f603f8fe6eca7952a99bfeef9b85992972e728"
+  integrity sha512-NGAYP/+RDM2sVfmKiKOCgJYPstAO40vPAgACoWPO/+yoYKSgAXIFaBKsV8P0Cc7fwKgvj27SjRNX4L7f4/jCKQ==
   dependencies:
-    "@typescript-eslint/scope-manager" "5.14.0"
-    "@typescript-eslint/types" "5.14.0"
-    "@typescript-eslint/typescript-estree" "5.14.0"
+    "@typescript-eslint/scope-manager" "5.15.0"
+    "@typescript-eslint/types" "5.15.0"
+    "@typescript-eslint/typescript-estree" "5.15.0"
     debug "^4.3.2"
 
 "@typescript-eslint/scope-manager@5.12.1":
@@ -2584,6 +2562,14 @@
   dependencies:
     "@typescript-eslint/types" "5.14.0"
     "@typescript-eslint/visitor-keys" "5.14.0"
+
+"@typescript-eslint/scope-manager@5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/scope-manager/-/scope-manager-5.15.0.tgz#d97afab5e0abf4018d1289bd711be21676cdd0ee"
+  integrity sha512-EFiZcSKrHh4kWk0pZaa+YNJosvKE50EnmN4IfgjkA3bTHElPtYcd2U37QQkNTqwMCS7LXeDeZzEqnsOH8chjSg==
+  dependencies:
+    "@typescript-eslint/types" "5.15.0"
+    "@typescript-eslint/visitor-keys" "5.15.0"
 
 "@typescript-eslint/scope-manager@5.9.1":
   version "5.9.1"
@@ -2612,6 +2598,11 @@
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.14.0.tgz#96317cf116cea4befabc0defef371a1013f8ab11"
   integrity sha512-BR6Y9eE9360LNnW3eEUqAg6HxS9Q35kSIs4rp4vNHRdfg0s+/PgHgskvu5DFTM7G5VKAVjuyaN476LCPrdA7Mw==
 
+"@typescript-eslint/types@5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.15.0.tgz#c7bdd103843b1abae97b5518219d3e2a0d79a501"
+  integrity sha512-yEiTN4MDy23vvsIksrShjNwQl2vl6kJeG9YkVJXjXZnkJElzVK8nfPsWKYxcsGWG8GhurYXP4/KGj3aZAxbeOA==
+
 "@typescript-eslint/types@5.9.1":
   version "5.9.1"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/types/-/types-5.9.1.tgz#1bef8f238a2fb32ebc6ff6d75020d9f47a1593c6"
@@ -2637,6 +2628,19 @@
   dependencies:
     "@typescript-eslint/types" "5.14.0"
     "@typescript-eslint/visitor-keys" "5.14.0"
+    debug "^4.3.2"
+    globby "^11.0.4"
+    is-glob "^4.0.3"
+    semver "^7.3.5"
+    tsutils "^3.21.0"
+
+"@typescript-eslint/typescript-estree@5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/typescript-estree/-/typescript-estree-5.15.0.tgz#81513a742a9c657587ad1ddbca88e76c6efb0aac"
+  integrity sha512-Hb0e3dGc35b75xLzixM3cSbG1sSbrTBQDfIScqdyvrfJZVEi4XWAT+UL/HMxEdrJNB8Yk28SKxPLtAhfCbBInA==
+  dependencies:
+    "@typescript-eslint/types" "5.15.0"
+    "@typescript-eslint/visitor-keys" "5.15.0"
     debug "^4.3.2"
     globby "^11.0.4"
     is-glob "^4.0.3"
@@ -2694,6 +2698,14 @@
   integrity sha512-yL0XxfzR94UEkjBqyymMLgCBdojzEuy/eim7N9/RIcTNxpJudAcqsU8eRyfzBbcEzGoPWfdM3AGak3cN08WOIw==
   dependencies:
     "@typescript-eslint/types" "5.14.0"
+    eslint-visitor-keys "^3.0.0"
+
+"@typescript-eslint/visitor-keys@5.15.0":
+  version "5.15.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/visitor-keys/-/visitor-keys-5.15.0.tgz#5669739fbf516df060f978be6a6dce75855a8027"
+  integrity sha512-+vX5FKtgvyHbmIJdxMJ2jKm9z2BIlXJiuewI8dsDYMp5LzPUcuTT78Ya5iwvQg3VqSVdmxyM8Anj1Jeq7733ZQ==
+  dependencies:
+    "@typescript-eslint/types" "5.15.0"
     eslint-visitor-keys "^3.0.0"
 
 "@typescript-eslint/visitor-keys@5.9.1":
@@ -7604,10 +7616,10 @@ merkle-lib@^2.0.10:
   resolved "https://registry.yarnpkg.com/merkle-lib/-/merkle-lib-2.0.10.tgz#82b8dbae75e27a7785388b73f9d7725d0f6f3326"
   integrity sha1-grjbrnXieneFOItz+ddyXQ9vMyY=
 
-merkletreejs@^0.2.30:
-  version "0.2.30"
-  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.2.30.tgz#d29743aecd0f6a3339e4a16882f9dbaff0631cf7"
-  integrity sha512-gBKGRAx8CUjAneaE48U92ObjTp2lD6iYk61ub12NI1YjpNgJ12ROGN+PlZ4G5RyKcs81ArGHRDOt08wkojMGgg==
+merkletreejs@^0.2.31:
+  version "0.2.31"
+  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.2.31.tgz#c8ae7bebf1678c0f92d6d8266aeddd3d97cc0c37"
+  integrity sha512-dnK2sE43OebmMe5Qnq1wXvvMIjZjm1u6CcB2KeW6cghlN4p21OpCUr2p56KTVf20KJItNChVsGnimcscp9f+yw==
   dependencies:
     bignumber.js "^9.0.1"
     buffer-reverse "^1.0.1"
