@@ -50,7 +50,7 @@
     "merkletreejs": "^0.2.31",
     "neverthrow": "4.3.1",
     "node-fetch": "2.6.1",
-    "prettier": "^2.5.1",
+    "prettier": "^2.6.0",
     "rpc-bitcoin": "^2.0.0",
     "unzipper": "^0.10.11",
     "wif": "^2.0.6"
