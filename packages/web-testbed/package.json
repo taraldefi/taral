@@ -92,7 +92,7 @@
     "ts-loader": "^9.2.8",
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^3.14.0",
-    "proxy-memoize": "^0.3.7"
+    "proxy-memoize": "^0.3.8"
   },
   "devDependencies": {
     "@types/html-minifier-terser": "6.1.0",
