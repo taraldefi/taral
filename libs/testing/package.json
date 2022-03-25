@@ -34,7 +34,7 @@
     "@stacks/stacks-blockchain-api-types": "^3.0.2",
     "@stacks/transactions": "3.3.0",
     "@types/json-schema": "^7.0.10",
-    "ajv": "^8.10.0",
+    "ajv": "^8.11.0",
     "bip32": "^3.0.1",
     "bip39": "^3.0.4",
     "bitcoinjs-lib": "^6.0.1",
