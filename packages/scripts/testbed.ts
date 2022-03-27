@@ -1,6 +1,4 @@
-import * as btc from "bitcoinjs-lib";
-import { address } from "bitcoinjs-lib";
-import { decodeBtcAddress, decodeStxAddress } from "lib-bitcoin";
+import { decodeStxAddress } from "lib-bitcoin";
 import { getClarinetAccounts } from "lib-infra";
 import { getRootDirectory, Logger } from "lib-shared";
 
