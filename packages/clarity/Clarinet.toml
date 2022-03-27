@@ -268,12 +268,8 @@ depends_on = ["sip-10-ft-standard", "clarity-bitcoin"]
 path = "contracts/taral/btc-nft-swap.clar"
 depends_on = ["nft-trait", "clarity-bitcoin"]
 
-[contracts.taral-oracle-trait-v1]
-depends_on = []
-path = "contracts/taral/taral-oracle-trait-v1.clar"
-
 [contracts.taral-oracle-v1]
-depends_on = ["taral-oracle-trait-v1"]
+depends_on = []
 path = "contracts/taral/taral-oracle-v1.clar"
 
 [contracts.insurance-pool-oracle]

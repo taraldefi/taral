@@ -59,7 +59,6 @@
         "clarity-bitcoin",
         "btc-ft-swap",
         "btc-nft-swap",
-        "taral-oracle-trait-v1",
         "taral-oracle-v1",
         "insurance-pool-oracle",
         "insurance-pool-audit-compact",
