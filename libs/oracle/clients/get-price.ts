@@ -1,11 +1,6 @@
-import { Logger, txOk } from "lib-shared";
+import { Logger } from "lib-shared";
 import { TaralOracleV1Contract } from "taral-contracts";
-
-export interface IOraclePriceEntry {
-    amount: bigint,
-    height: bigint,
-    timestamp: bigint
-}
+import { IOraclePriceEntry } from "./types";
 
 export async function getPrice({
     contract,
@@ -17,7 +12,7 @@ export async function getPrice({
     symbol: string
 }): Promise<IOraclePriceEntry> {
     const response = await contract.getPrice(source, symbol);
-
+    
     Logger.debug("get-price", "Received result ", response);
 
     return <IOraclePriceEntry> {

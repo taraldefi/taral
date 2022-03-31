@@ -1,11 +1,6 @@
 import { Logger, txOk } from "lib-shared";
 import { TaralOracleV1Contract } from "taral-contracts";
-
-export interface OraclePrice {
-    source: string;
-    payload: Buffer;
-    signature: Buffer;
-}
+import { OraclePrice } from "./types";
 
 interface InternalOraclePrice {
     src: string,
