@@ -10,8 +10,8 @@ import { ORACLE_SK } from "../../config.js";
 import { BINANCE_FILTER } from "./filter";
 
 interface IBinanceFilter {
-    symbol: string;
-    decimals: number;
+  symbol: string;
+  decimals: number;
 }
 
 type Filter = { [key: string]: IBinanceFilter };
