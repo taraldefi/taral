@@ -19,7 +19,7 @@ export async function retrieveOKCoinFeed() {
   const src = "artifix-okcoin";
   const keys = Object.keys(OKCOIN_FILTER);
 
-  for (let key of keys) {
+  for (const key of keys) {
     const pair = getPair(key, instruments);
     if (!pair) {
       console.log("key not found", key);

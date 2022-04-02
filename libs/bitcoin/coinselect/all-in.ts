@@ -1,7 +1,6 @@
 import * as utils from "./utils";
 export function allIn(utxos: string | any[], outputs: any[], feeRate: number) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
-
   let bytesAccum = utils.transactionBytes([], outputs);
 
   let inAccum = 0;

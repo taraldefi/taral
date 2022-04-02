@@ -25,8 +25,8 @@ export async function retrieveBinanceFeed() {
   const src = "artifix-binance";
   const keys = Object.keys(BINANCE_FILTER);
 
-  for (let key of keys) {
-    var filterItem = BINANCE_FILTER[key];
+  for (const key of keys) {
+    const filterItem = BINANCE_FILTER[key];
     // console.log(`${filter[key].symbol} ${parseFloat(ticker[key])} ${parseFloat(ticker[key]) * filter[key].decimals}`)
     const msg = buildPayload(
       timestamp,

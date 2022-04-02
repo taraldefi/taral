@@ -33,7 +33,14 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
     'node/no-extraneous-import': 'off',
-    "@typescript-eslint/no-unsafe-return": "off",
-    "@typescript-eslint/ban-types": "off"
+    '@typescript-eslint/no-unsafe-return': 'off',
+    '@typescript-eslint/ban-types': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/unbound-method': 'off',
+    '@typescript-eslint/no-unused-vars': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
+    '@typescript-eslint/no-floating-promises': 'off',
+    'no-constant-condition': 'off',
+    'no-case-declarations': 'off'
   },
 };

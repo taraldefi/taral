@@ -9,7 +9,7 @@ export async function checkSource({
   source: string;
   contract: TaralOracleV1Contract;
 }): Promise<IOracleSource | null> {
-  let response = await contract.checkSource(source);
+  const response = await contract.checkSource(source);
 
   Logger.debug("check-source", "Received result ", response);
 

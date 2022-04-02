@@ -9,7 +9,7 @@ export async function addPrice({
   contract: TaralOracleV1Contract;
   priceFeed: OraclePrice;
 }): Promise<boolean> {
-  let response = await txOk(
+  const response = await txOk(
     contract.addPrice(priceFeed.source, priceFeed.payload, priceFeed.signature)
   );
 

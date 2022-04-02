@@ -10,7 +10,7 @@ export async function addSource({
   publicKey: Buffer;
   contract: TaralOracleV1Contract;
 }): Promise<boolean> {
-  let response = await txOk(contract.addSource(source, publicKey));
+  const response = await txOk(contract.addSource(source, publicKey));
 
   Logger.debug("add-source", "Received result ", response);
 

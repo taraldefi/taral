@@ -15,7 +15,7 @@ export async function addPrices({
   contract: TaralOracleV1Contract;
   priceFeed: OraclePrice[];
 }): Promise<boolean> {
-  var map = priceFeed.map(
+  const map = priceFeed.map(
     (feed) =>
       <InternalOraclePrice>{
         msg: feed.payload,
@@ -24,7 +24,7 @@ export async function addPrices({
       }
   );
 
-  let response = await txOk(contract.addPrices(map));
+  const response = await txOk(contract.addPrices(map));
 
   Logger.debug("add-prices", "Received result ", response);
   return response.value;

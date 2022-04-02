@@ -64,6 +64,7 @@ export class ChalkLogger {
     if (options.name != null) {
       self.name = options.name;
     }
+
     const {
       mode,
       level,

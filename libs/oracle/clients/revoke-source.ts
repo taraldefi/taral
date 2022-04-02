@@ -8,7 +8,7 @@ export async function revokeSource({
   source: string;
   contract: TaralOracleV1Contract;
 }): Promise<boolean> {
-  let response = await txOk(contract.revokeSource(source));
+  const response = await txOk(contract.revokeSource(source));
 
   Logger.debug("revoke-source", "Received result ", response);
 
