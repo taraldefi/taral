@@ -40,7 +40,6 @@
   "include": [
     "./packages/configuration/**/*.ts",
     "./packages/contracts/**/*.ts",
-    "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
     "./packages/web/**/*.ts",
     "./packages/unit-tests/**/*.ts",
@@ -52,6 +51,7 @@
     "./libs/stacks/**/*.ts",
     "./libs/swap/**/*.ts",
     "./libs/testing/**/*.ts",
-    "./libs/web/**/*.ts"
+    "./libs/web/**/*.ts",
+    "./apps/scripts/**/*.ts"
   ]
 }
