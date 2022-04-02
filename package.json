@@ -15,7 +15,7 @@
   "scripts": {
     "cm": "cz",
     "coverage": "codecov",
-    "lint": "eslint ./packages/**/* --fix",
+    "lint": "eslint ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix",
     "prepare": "husky install",
     "clarinet:check": "yarn workspace taral-clarity clarinet:check",
     "clarinet:tests": "yarn workspace taral-clarity clarinet:tests",
