@@ -28,7 +28,7 @@ export function generateInterfaceFile({
   contractFile: string;
   abi: ClarityAbi;
 }) {
-  const imports = `import { ClarityAbi } from 'lib-shared`;
+  const imports = "import { ClarityAbi } from 'lib-shared";
   return generateInterfaceForFileInternal({
     abi,
     contractFile,
@@ -43,7 +43,7 @@ export function generateMockInterfaceFile({
   contractFile: string;
   abi: ClarityAbi;
 }) {
-  const imports = `import { ClarityAbi } from 'lib-shared`;
+  const imports = "import { ClarityAbi } from 'lib-shared";
   return generateInterfaceForFileInternal({
     abi,
     contractFile,

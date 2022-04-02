@@ -10,9 +10,9 @@ export async function getTxId({
 }): Promise<string> {
   // Call readonly function
   //
-  let response = await contract.getTxid(txBuffCV);
+  const response = await contract.getTxid(txBuffCV);
 
-  let result = response.toString();
+  const result = response.toString();
 
   Logger.debug("get-tx-id", "Received result ", response);
   return result;
@@ -27,9 +27,9 @@ export async function getReversedTxId({
 }): Promise<string> {
   // Call readonly function
   //
-  let response = await contract.getReversedTxid(txCv);
+  const response = await contract.getReversedTxid(txCv);
 
-  let result = response.toString();
+  const result = response.toString();
 
   Logger.debug("get-reversed-tx-id", "Received result ", response);
   return result;

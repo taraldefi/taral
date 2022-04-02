@@ -31,7 +31,7 @@ export async function createBtcFtSwap({
     .toOutputScript(ftSellerBitcoinAddress, network ?? btc.networks.regtest)
     .toString("hex");
 
-  let response = await txOk(
+  const response = await txOk(
     contract.createSwap(
       sats,
       makeBuffer(ftSellerAddressScript),

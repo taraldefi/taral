@@ -62,7 +62,7 @@ export class TestProvider implements BaseProvider {
     contractFilePath,
     contractIdentifier,
   }: CreateOptions) {
-    let tmpContractFilePath: string = "";
+    let tmpContractFilePath = "";
     if (deploy) {
       tmpContractFilePath = cleanupBootContractsCalls(contractFilePath);
     }
@@ -220,7 +220,7 @@ export class TestProvider implements BaseProvider {
   }
 
   formatArguments(func: ClarityAbiFunction, args: any[]): string[] {
-    var formatted = args.map((arg, index) => {
+    const formatted = args.map((arg, index) => {
       const { type } = func.args[index];
       return this.formatArgument(type, arg);
     });

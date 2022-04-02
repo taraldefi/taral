@@ -33,6 +33,7 @@ module.exports = {
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-unsafe-call': 'off',
     'node/no-extraneous-import': 'off',
-    "@typescript-eslint/no-unsafe-return": "off"
+    "@typescript-eslint/no-unsafe-return": "off",
+    "@typescript-eslint/ban-types": "off"
   },
 };

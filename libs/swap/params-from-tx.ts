@@ -24,9 +24,9 @@ import { makeBuffer, numberToBuffer, reverse, txForHash } from "./utils";
 
 const NAME = "params-from-tx";
 
-const ERR_API_FAILURE: string = "api failure";
-const ERR_DIFFERENT_HEX: string = "different hex";
-const ERR_NO_STACKS_BLOCK: string = "no stacks block";
+const ERR_API_FAILURE = "api failure";
+const ERR_DIFFERENT_HEX = "different hex";
+const ERR_NO_STACKS_BLOCK = "no stacks block";
 
 function getFailureResponse(error: string): ParamsFromTxResponse {
   return {

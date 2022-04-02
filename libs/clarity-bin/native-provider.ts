@@ -286,9 +286,10 @@ export class NativeClarityBinProvider {
       );
     }
     // Check and trim success prefix line.
-    const successPrefix = result.stdout.match(
-      /(Program executed successfully! Output: (\r\n|\r|\n))/
-    );
+    const successPrefix =
+      /(Program executed successfully! Output: (\r\n|\r|\n))/.exec(
+        result.stdout
+      );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Eval raw expression failed with bad output: ${result.stdout}`,
@@ -310,7 +311,7 @@ export class NativeClarityBinProvider {
     contractName: string,
     evalStatement: string,
     includeDebugOutput?: boolean,
-    atChaintip: boolean = true
+    atChaintip = true
   ): Promise<Receipt> {
     const result = await this.runCommand(
       [
@@ -332,9 +333,10 @@ export class NativeClarityBinProvider {
       );
     }
     // Check and trim success prefix line.
-    const successPrefix = result.stdout.match(
-      /(Program executed successfully! Output: (\r\n|\r|\n))/
-    );
+    const successPrefix =
+      /(Program executed successfully! Output: (\r\n|\r|\n))/.exec(
+        result.stdout
+      );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Eval expression on contract failed with bad output: ${result.stdout}`,
@@ -421,8 +423,8 @@ export class NativeClarityBinProvider {
       );
     }
     // Check and trim success prefix line.
-    const successPrefix = result.stdout.match(
-      /(Simulated block height: (\r\n|\r|\n))/
+    const successPrefix = /(Simulated block height: (\r\n|\r|\n))/.exec(
+      result.stdout
     );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(

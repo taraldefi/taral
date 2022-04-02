@@ -135,7 +135,7 @@ export async function retry<T>(
 
   if (options.factor.constructor !== Number || options.factor < 0) {
     throw new Error(
-      `Value for factor must be a number greater than or equal to 0`
+      "Value for factor must be a number greater than or equal to 0"
     );
   }
 
@@ -162,7 +162,7 @@ export async function retry<T>(
     }
 
     if (context.aborted) {
-      const err: any = new Error(`Attempt aborted`);
+      const err: any = new Error("Attempt aborted");
       err.code = "ATTEMPT_ABORTED";
       throw err;
     }

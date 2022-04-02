@@ -136,8 +136,7 @@ export interface Provider {
   close(): Promise<void>;
 }
 
-export interface CheckResult
-  extends ResultInterface<ContractInterface, string> {}
+export type CheckResult = ResultInterface<ContractInterface, string>;
 
 export class ExecutionError extends Error {
   readonly code: number;

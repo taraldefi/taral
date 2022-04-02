@@ -8,7 +8,7 @@ test("Address should be valid", async () => {
 });
 
 test("Address should not be valid", async () => {
-  const stacksAddress = deployer.address.replace('ST', 'SM');
+  const stacksAddress = deployer.address.replace("ST", "SM");
   const isValid = validateStacksAddress(stacksAddress);
   expect(isValid).toBe(false);
 });

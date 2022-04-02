@@ -10,12 +10,12 @@ export async function parseTx({
   txCV: Buffer;
   contract: ClarityBitcoinContract;
 }): Promise<string> {
-  let result: string = "";
+  let result = "";
 
   try {
     // Call readonly function
     //
-    let response = await contract.getTxid(txCV);
+    const response = await contract.getTxid(txCV);
     result = response.toString();
   } catch (error) {
     Logger.error(NAME, `parse-tx failed: ${(error as any).toString()}`);

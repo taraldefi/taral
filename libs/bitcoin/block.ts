@@ -6,7 +6,7 @@ export async function getBlockByHash(
   rpcClient: RPCClient,
   blockHash: string
 ): Promise<Block> {
-  var blockByHash = await rpcClient.getblock({
+  const blockByHash = await rpcClient.getblock({
     blockhash: blockHash,
     verbosity: 2,
   });
@@ -20,7 +20,7 @@ export async function getBlockHeader(
   rpcClient: RPCClient,
   blockHash: string
 ): Promise<string> {
-  var blockHeader = await rpcClient.getblockheader({
+  const blockHeader = await rpcClient.getblockheader({
     blockhash: blockHash,
     verbose: false,
   });

@@ -34,10 +34,7 @@ export function getAddressHashMode(btcAddress: string) {
   }
 }
 
-export function addressHashModeToBtcVersion(
-  hashMode: number,
-  mainnet: boolean = true
-) {
+export function addressHashModeToBtcVersion(hashMode: number, mainnet = true) {
   switch (hashMode) {
     case AddressHashMode.SerializeP2PKH:
       return mainnet ? 0 : 111;

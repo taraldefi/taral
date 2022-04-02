@@ -7,8 +7,7 @@ export interface IMCContractCall {
   success: boolean;
 }
 
-export interface MicroStacksWebTransaction<Ok, Err>
-  extends Transaction<Ok, Err> {}
+export type MicroStacksWebTransaction<Ok, Err> = Transaction<Ok, Err>;
 
 export interface MicroStacksWebTransactionReceipt<Ok, Err>
   extends TransactionReceiptBase<Ok, Err> {

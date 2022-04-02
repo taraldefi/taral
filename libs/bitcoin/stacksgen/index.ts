@@ -9,7 +9,7 @@ import { ECPair } from "../utils/ecpair";
 const { mnemonicToSeed } = bip39;
 const { getAddressFromPrivateKey, TransactionVersion } = stacks_transactions;
 
-const networkDerivationPath = `m/44'/5757'/0'/0/0`;
+const networkDerivationPath = "m/44'/5757'/0'/0/0";
 
 export function privateKeyToWIF(
   private_key_hex:
@@ -55,13 +55,13 @@ function deriveStxAddressChain() {
 }
 
 export function sha256(data: crypto.BinaryLike): Buffer {
-  let hash = crypto.createHash("sha256");
+  const hash = crypto.createHash("sha256");
   hash.update(data);
   return hash.digest();
 }
 
 export function ripemd160(data: Buffer | crypto.BinaryLike): Buffer {
-  let hash = crypto.createHash("ripemd160");
+  const hash = crypto.createHash("ripemd160");
   hash.update(data);
   return hash.digest();
 }

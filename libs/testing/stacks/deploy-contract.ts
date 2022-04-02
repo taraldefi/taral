@@ -14,9 +14,9 @@ export async function deployContractOnStacks(
 ) {
   Logger.debug(NAME, `preparing to deploy contract ${contractName} ......`);
 
-  let codeBody = fs.readFileSync(contractPath).toString();
+  const codeBody = fs.readFileSync(contractPath).toString();
 
-  var transaction = await makeContractDeploy({
+  const transaction = await makeContractDeploy({
     contractName,
     codeBody,
     senderKey: secretDeployKey,

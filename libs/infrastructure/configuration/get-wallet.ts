@@ -4,6 +4,6 @@ export function getWalletAtIndex(
   accounts: ClarinetAccounts,
   index: number
 ): ClarinetAccount {
-  var firstWallet = accounts[`wallet_${index}`];
+  const firstWallet = accounts[`wallet_${index}`];
   return firstWallet;
 }

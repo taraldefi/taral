@@ -35,7 +35,7 @@ export async function submitAnalisysForContract({
 }) {
   const contractFile = resolve(normalize(_contractFile)).replace(/\\/g, "/");
 
-  let tmpContractFilePath = cleanupBootContractsCalls(contractFile);
+  const tmpContractFilePath = cleanupBootContractsCalls(contractFile);
   const contractName = getContractNameFromPath(contractFile);
 
   const abi = await generateInterface({
@@ -95,7 +95,7 @@ export async function generateFilesForContract({
 
   const contractName = getContractNameFromPath(contractFile);
 
-  let tmpContractFilePath = cleanupBootContractsCalls(contractFile);
+  const tmpContractFilePath = cleanupBootContractsCalls(contractFile);
 
   const abi = await generateInterface({
     contractFile: tmpContractFilePath,

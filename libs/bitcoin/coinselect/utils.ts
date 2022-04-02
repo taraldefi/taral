@@ -55,12 +55,12 @@ export function sumOrNaN(range: any[]) {
   }, 0);
 }
 
-export var BLANK_OUTPUT = outputBytes({});
+export const BLANK_OUTPUT = outputBytes({});
 
 export function finalize(inputs: any[], outputs: any[], feeRate: number) {
-  var bytesAccum = transactionBytes(inputs, outputs);
-  var feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT);
-  var remainderAfterExtraOutput =
+  const bytesAccum = transactionBytes(inputs, outputs);
+  const feeAfterExtraOutput = feeRate * (bytesAccum + BLANK_OUTPUT);
+  const remainderAfterExtraOutput =
     sumOrNaN(inputs) - (sumOrNaN(outputs) + feeAfterExtraOutput);
 
   // is it worth a change output?
@@ -68,7 +68,7 @@ export function finalize(inputs: any[], outputs: any[], feeRate: number) {
     outputs = outputs.concat({ value: remainderAfterExtraOutput });
   }
 
-  var fee = sumOrNaN(inputs) - sumOrNaN(outputs);
+  const fee = sumOrNaN(inputs) - sumOrNaN(outputs);
   if (!isFinite(fee)) return { fee: feeRate * bytesAccum };
 
   return {

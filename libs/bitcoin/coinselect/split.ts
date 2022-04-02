@@ -3,26 +3,26 @@ import * as utils from "./utils";
 export function split(utxos: any[], outputs: any[], feeRate: number) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
 
-  var bytesAccum = utils.transactionBytes(utxos, outputs);
-  var fee = feeRate * bytesAccum;
+  const bytesAccum = utils.transactionBytes(utxos, outputs);
+  const fee = feeRate * bytesAccum;
   if (outputs.length === 0) return { fee: fee };
 
-  var inAccum = utils.sumOrNaN(utxos);
-  var outAccum = utils.sumForgiving(outputs);
-  var remaining = inAccum - outAccum - fee;
+  const inAccum = utils.sumOrNaN(utxos);
+  const outAccum = utils.sumForgiving(outputs);
+  const remaining = inAccum - outAccum - fee;
   if (!isFinite(remaining) || remaining < 0) return { fee: fee };
 
-  var unspecified = outputs.reduce(function (a, x) {
+  const unspecified = outputs.reduce(function (a, x) {
     return a + !isFinite(x.value);
   }, 0);
 
   if (remaining === 0 && unspecified === 0)
     return utils.finalize(utxos, outputs, feeRate);
 
-  var splitOutputsCount = outputs.reduce(function (a, x) {
+  const splitOutputsCount = outputs.reduce(function (a, x) {
     return a + !x.value;
   }, 0);
-  var splitValue = (remaining / splitOutputsCount) >>> 0;
+  const splitValue = (remaining / splitOutputsCount) >>> 0;
 
   // ensure every output is either user defined, or over the threshold
   if (
@@ -39,8 +39,8 @@ export function split(utxos: any[], outputs: any[], feeRate: number) {
     if (x.value !== undefined) return x;
 
     // not user defined, but still copy over any non-value fields
-    var y: any = {};
-    for (var k in x) y[k] = x[k];
+    const y: any = {};
+    for (const k in x) y[k] = x[k];
     y.value = splitValue;
     return y;
   });
