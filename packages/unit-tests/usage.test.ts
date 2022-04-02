@@ -4,7 +4,7 @@ import { clarinetAccounts, clarityBin } from "./jest-setup";
 
 test("Test that we can access the token without deploying", async () => {
   const taralCoinInfo = nodeTaralContracts.nodeTaralCoin;
-  var contractInfo = await TestProvider.fromContracts(
+  const contractInfo = await TestProvider.fromContracts(
     false,
     {
       taralCoinInfo,
@@ -12,7 +12,7 @@ test("Test that we can access the token without deploying", async () => {
     clarityBin
   );
 
-  var contract = contractInfo.taralCoinInfo.contract;
+  const contract = contractInfo.taralCoinInfo.contract;
 
   const token = contract(clarinetAccounts.deployer);
 

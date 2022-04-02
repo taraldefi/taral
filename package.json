@@ -13,6 +13,10 @@
     "apps/*"
   ],
   "scripts": {
+    "cm": "cz",
+    "coverage": "codecov",
+    "lint": "eslint ./packages/**/* --fix",
+    "prepare": "husky install",
     "clarinet:check": "yarn workspace taral-clarity clarinet:check",
     "clarinet:tests": "yarn workspace taral-clarity clarinet:tests",
     "unit-tests": "yarn workspace taral-unit-tests unit-tests",
