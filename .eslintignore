@@ -1,1 +1,2 @@
-packages/clarity/contracts/*
+!packages/clarity/contracts/*
+!packages/docs/*
