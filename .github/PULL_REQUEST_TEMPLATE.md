@@ -30,8 +30,13 @@
 -->
 
 - [ ] Code is up-to-date with the `main` branch
-- [ ] `npm run lint` passes with this change
-- [ ] `npm run test` passes with this change
+- [ ] `yarn lint` passes with this change
+- [ ] `yarn clarinet:check` passes with this change
+- [ ] `yarn clarinet:tests` passes with this 
+- [ ] `yarn unit-tests` passes with this
+- [ ] Run `yarn eol`
+- [ ] Run `yarn format`
+- [ ] Run `yarn cleanup`
 - [ ] This pull request links relevant issues as `Fixes #0000`
 - [ ] There are new or updated unit tests validating the change
 - [ ] Documentation has been updated to reflect this change
