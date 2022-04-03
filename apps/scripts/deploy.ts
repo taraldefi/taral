@@ -29,7 +29,7 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
     const contractName = getContractNameFromPath(contract.contractFile);
     Logger.debug(NAME, "Deploying contract", contractName);
 
-    var result = await deployContract(contract, deployer.privateKey);
+    const result = await deployContract(contract, deployer.privateKey);
     Logger.debug(
       NAME,
       `Contract deployed: ${contractName} with result ${result}`
@@ -42,7 +42,7 @@ async function deployContract<T extends NodeContracts<M>, M>(
   senderKey: string
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
-  var normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");
+  const normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");
   const fullContractFilePath = resolve(
     normalizedPath,
     contract.contractFile
@@ -50,9 +50,9 @@ async function deployContract<T extends NodeContracts<M>, M>(
 
   Logger.debug(NAME, `Reading contract from ${fullContractFilePath}`);
 
-  let codeBody = fs.readFileSync(fullContractFilePath).toString();
+  const codeBody = fs.readFileSync(fullContractFilePath).toString();
 
-  var transaction = await makeContractDeploy({
+  const transaction = await makeContractDeploy({
     contractName,
     codeBody,
     senderKey: senderKey,

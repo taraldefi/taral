@@ -42,5 +42,6 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": "off",
     "no-constant-condition": "off",
     "no-case-declarations": "off",
+    "no-process-exit": "off"
   },
 };

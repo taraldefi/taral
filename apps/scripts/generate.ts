@@ -1,5 +1,5 @@
 import { readFileSync } from "fs";
-import { writeFile } from "fs/promises";
+import { writeFile } from "fs-extra";
 import {
   createDefaultTestProvider,
   NativeClarityBinProvider,
@@ -44,8 +44,8 @@ async function submitTestContractForAnalysis(
   provider: NativeClarityBinProvider,
   deployerAddress: string
 ): Promise<void> {
-  for (let group of testGroups) {
-    for (let contract of group.contracts) {
+  for (const group of testGroups) {
+    for (const contract of group.contracts) {
       await submitAnalisysForContract({
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
           contract,
@@ -68,8 +68,8 @@ async function generateTestContractAbis(
   deployerAddress: string,
   outputFolder: string
 ) {
-  for (let group of testGroups) {
-    for (let contract of group.contracts) {
+  for (const group of testGroups) {
+    for (const contract of group.contracts) {
       await submitAnalisysForContract({
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
           contract,
@@ -92,8 +92,8 @@ async function generateAbis(
   deployerAddress: string,
   outputFolder: string
 ): Promise<void> {
-  for (let group of groups) {
-    for (let contract of group.contracts) {
+  for (const group of groups) {
+    for (const contract of group.contracts) {
       await generateFilesForContract({
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
@@ -113,7 +113,7 @@ async function generateProjectIndexFile(
   groups: IContractGroup[],
   outputFolder: string
 ): Promise<void> {
-  for (let group of groups) {
+  for (const group of groups) {
     const imports: string[] = [];
     const exports: string[] = [];
     const nodeContractMap: string[] = [];
@@ -121,7 +121,7 @@ async function generateProjectIndexFile(
 
     const groupName = group.name;
 
-    for (let contract of group.contracts) {
+    for (const contract of group.contracts) {
       const contractName = getContractNameFromPath(contract);
 
       const nodeContractVar = `node${toPascalCase(contractName)}`;
@@ -157,9 +157,9 @@ async function generateProjectIndexFile(
     };
     `;
 
-    var subFolder = group.subFolder;
+    const subFolder = group.subFolder;
 
-    var fullOutputFolder = `${outputFolder}/${subFolder}/`;
+    const fullOutputFolder = `${outputFolder}/${subFolder}/`;
 
     await writeFile(resolve(fullOutputFolder, "index.ts"), file);
   }
@@ -174,7 +174,7 @@ function getProject(path: string): IProject {
 }
 
 function groupProject(project: IProject): IContractGroup[] {
-  var contractGroups: IContractGroup[] = project.configuration.map(
+  const contractGroups: IContractGroup[] = project.configuration.map(
     (configuration) => {
       return {
         name: configuration.name,
@@ -216,8 +216,8 @@ async function generate(regenerateMockContracts: boolean) {
 
   const provider: NativeClarityBinProvider = await createDefaultTestProvider();
 
-  var contractGroups = groupProject(project);
-  var testContractGroups = groupProject(testProject);
+  const contractGroups = groupProject(project);
+  const testContractGroups = groupProject(testProject);
 
   if (regenerateMockContracts) {
     await generateTestContractAbis(
