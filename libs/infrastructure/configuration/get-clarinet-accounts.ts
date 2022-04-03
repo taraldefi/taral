@@ -1,11 +1,11 @@
 import { generateWallet, getStxAddress } from "@stacks/wallet-sdk";
 import { ClarinetAccounts } from "lib-shared";
-import { getClarinetTestnetConfig } from ".";
+import { getClarinetDevConfig } from ".";
 
 export async function getClarinetAccounts(
   folder: string
 ): Promise<ClarinetAccounts> {
-  const devConfig = await getClarinetTestnetConfig(folder);
+  const devConfig = await getClarinetDevConfig(folder);
 
   // console.log('Dev config');
   // console.log(JSON.stringify(devConfig));
