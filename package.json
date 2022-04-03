@@ -35,6 +35,9 @@
     "type": "git",
     "url": "git+https://github.com/taraldefi/taral.git"
   },
+  "lint-staged": {
+    "*.ts": "eslint --cache --cache-location .eslintcache ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix"
+  },
   "keywords": [
     "stacks",
     "blockchain",
