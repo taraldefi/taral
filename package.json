@@ -35,9 +35,6 @@
     "type": "git",
     "url": "git+https://github.com/taraldefi/taral.git"
   },
-  "lint-staged": {
-    "*.ts": "eslint --cache --cache-location .eslintcache ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix"
-  },
   "keywords": [
     "stacks",
     "blockchain",
@@ -94,5 +91,18 @@
     "lint-staged": "^10.5.4",
     "semantic-release": "^17.4.7",
     "ts-node": "^10.2.1"
+  },
+  "lint-staged": {
+    "*.ts": "eslint --cache --cache-location .eslintcache ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "release": {
+    "branches": [
+      "main"
+    ]
   }
 }
