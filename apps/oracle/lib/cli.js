@@ -1,12 +1,11 @@
-'use strict';
-Object.defineProperty(exports, '__esModule', { value: true });
-const commander_1 = require('commander');
-const packageJson = require('../package.json');
-const version = packageJson.version;
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const commander_1 = require("commander");
 const program = new commander_1.Command();
-program
-  .version(version)
-  .name('my-command')
-  .option('-d, --debug', 'enables verbose logging', false)
-  .parse(process.argv);
-// Function code for CLI goes here
+program.command('hello').action(() => {
+    console.log('hello there');
+});
+program.command('bye').action(() => {
+    console.log('bye there');
+});
+program.parse(process.argv);

@@ -1,7 +1,7 @@
-'use strict';
+"use strict";
 describe('cli', () => {
-  it('should exist', () => {
-    const cli = require('../../src/cli');
-    expect(cli).toBeTruthy();
-  });
+    it('should exist', () => {
+        const cli = require('../../src/cli');
+        expect(cli).toBeTruthy();
+    });
 });

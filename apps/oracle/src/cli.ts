@@ -1,14 +1,13 @@
 import { Command } from 'commander';
 
-const packageJson = require('../package.json');
-const version: string = packageJson.version;
-
 const program = new Command();
 
-program
-  .version(version)
-  .name('my-command')
-  .option('-d, --debug', 'enables verbose logging', false)
-  .parse(process.argv);
+program.command('hello').action(() => {
+  console.log('hello there');
+});
 
-// Function code for CLI goes here
+program.command('bye').action(() => {
+  console.log('bye there');
+});
+
+program.parse(process.argv);

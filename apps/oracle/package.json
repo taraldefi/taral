@@ -8,7 +8,7 @@
     "bin/**/*"
   ],
   "bin": {
-    "my-command": "./bin/index.js"
+    "oracle": "./bin/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -16,8 +16,6 @@
     "cm": "cz",
     "coverage": "codecov",
     "lint": "eslint ./src/ --fix",
-    "prepare": "husky install",
-    "semantic-release": "semantic-release",
     "test:watch": "jest --watch",
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit"
