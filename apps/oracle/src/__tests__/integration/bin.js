@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-'use strict';
+"use strict";
 
-require('ts-node/register');
-require('../../cli');
+require("ts-node/register");
+require("../../cli");

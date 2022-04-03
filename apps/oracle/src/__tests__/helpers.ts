@@ -1,8 +1,8 @@
-import path from 'path';
-import execa from 'execa';
-import chalk from 'chalk';
+import path from "path";
+import execa from "execa";
+import chalk from "chalk";
 
-const TEST_CLI_PATH = path.resolve(__dirname, './integration/bin.js');
+const TEST_CLI_PATH = path.resolve(__dirname, "./integration/bin.js");
 
 type RunOptions = {
   nodeOptions?: string;
@@ -54,7 +54,7 @@ function getExecaOptions(options: SpawnOptions) {
 
   const cwd = isRelative ? path.resolve(__dirname, options.cwd) : options.cwd;
 
-  const env = Object.assign({}, process.env, { FORCE_COLOR: '0' });
+  const env = Object.assign({}, process.env, { FORCE_COLOR: "0" });
 
   if (options.nodeOptions) {
     env.NODE_OPTIONS = options.nodeOptions;
@@ -79,11 +79,11 @@ function handleTestFailure(
 ) {
   if (!options.expectedFailure && result.code !== 0) {
     console.log(`Running ${cmd} command failed for unexpected reason. Here's more info:
-${chalk.bold('cmd:')}     ${cmd}
-${chalk.bold('options:')} ${JSON.stringify(options)}
-${chalk.bold('args:')}    ${(args || []).join(' ')}
-${chalk.bold('stderr:')}  ${result.stderr}
-${chalk.bold('stdout:')}  ${result.stdout}
-${chalk.bold('code:')}    ${result.code}`);
+${chalk.bold("cmd:")}     ${cmd}
+${chalk.bold("options:")} ${JSON.stringify(options)}
+${chalk.bold("args:")}    ${(args || []).join(" ")}
+${chalk.bold("stderr:")}  ${result.stderr}
+${chalk.bold("stdout:")}  ${result.stdout}
+${chalk.bold("code:")}    ${result.code}`);
   }
 }
