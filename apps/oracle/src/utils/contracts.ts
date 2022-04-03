@@ -9,9 +9,14 @@ import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
 import { NETWORK } from "taral-configuration";
 import { ApiProvider } from "lib-testing";
 
-export async function getOracleContract(): Promise<
-  NodeContractInstance<(account: ClarinetAccount) => TaralOracleV1Contract>
-> {
+interface IOracleContractInfo {
+  contract: NodeContractInstance<
+    (account: ClarinetAccount) => TaralOracleV1Contract
+  >;
+  account: ClarinetAccount;
+}
+
+export async function getOracleContract(): Promise<IOracleContractInfo> {
   const root = `${getRootDirectory()}/packages/clarity`;
   const clarinetAccounts = await getClarinetAccounts(root);
 
@@ -28,5 +33,8 @@ export async function getOracleContract(): Promise<
 
   Logger.debug("get-oracle", "Getting oracle contract from private testnet");
 
-  return deployed.nodeTaralOracleV1;
+  return {
+    account: deployer,
+    contract: deployed.nodeTaralOracleV1,
+  };
 }
