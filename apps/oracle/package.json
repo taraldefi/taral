@@ -1,7 +1,7 @@
 {
-  "name": "typescript-npm-cli-template",
-  "version": "0.0.0-development",
-  "description": "A template for creating npm CLI tools using TypeScript and VSCode",
+  "name": "taral-oracle-cli",
+  "version": "1.0.0",
+  "description": "Taral oracle CLI",
   "files": [
     "!lib/__tests__/**/*",
     "lib/**/*",
@@ -22,35 +22,9 @@
     "test": "jest --coverage",
     "typecheck": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ryansonshine/typescript-npm-cli-template.git"
-  },
-  "license": "MIT",
-  "author": {
-    "name": "Ryan Sonshine",
-    "email": "ryansonshine@users.noreply.github.com",
-    "url": "https://github.com/ryansonshine"
-  },
   "engines": {
     "node": ">=12.0"
   },
-  "keywords": [
-    "boilerplate",
-    "cli",
-    "template",
-    "typescript",
-    "vscode",
-    "jest",
-    "husky",
-    "commitizen",
-    "semantic-release",
-    "codecov"
-  ],
-  "bugs": {
-    "url": "https://github.com/ryansonshine/typescript-npm-cli-template/issues"
-  },
-  "homepage": "https://github.com/ryansonshine/typescript-npm-cli-template#readme",
   "dependencies": {
     "commander": "^7.2.0",
     "taral-configuration": "1.0.0",
@@ -85,18 +59,5 @@
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
     "typescript": "^4.2.4"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
-  },
-  "lint-staged": {
-    "*.ts": "eslint --cache --cache-location .eslintcache --fix"
-  },
-  "release": {
-    "branches": [
-      "main"
-    ]
   }
 }
