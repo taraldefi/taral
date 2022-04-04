@@ -1,12 +1,8 @@
 import { addSource } from "lib-oracle";
-import { getOracleContract } from "../utils/contracts";
+import { ORACLE_HELPER } from "../utils/contract-helper";
 
 export async function addSourceCommand() {
-  const oracleContractInfo = await getOracleContract();
-  const oracleContract = oracleContractInfo.contract;
-  const account = oracleContractInfo.account;
-
-  const contract = oracleContract.contract(account);
+  const contract = await ORACLE_HELPER.buildOracleContract();
 
   await addSource({
     contract: contract,

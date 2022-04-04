@@ -11,5 +11,6 @@
     "ripemd",
     "Secp",
     "taral"
-  ]
+  ],
+  "js/ts.implicitProjectConfig.experimentalDecorators": true
 }

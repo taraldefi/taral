@@ -43,5 +43,6 @@ module.exports = {
     "no-constant-condition": "off",
     "no-case-declarations": "off",
     "no-process-exit": "off",
+    "no-prototype-builtins": "off",
   },
 };

@@ -1,15 +1,11 @@
 import { checkSource } from "lib-oracle";
 import { Logger } from "lib-shared";
-import { getOracleContract } from "../utils/contracts";
+import { ORACLE_HELPER } from "../utils/contract-helper";
 
-const LOGGER_CATEGORY = "add-source-command";
+const LOGGER_CATEGORY = "check-sources-command";
 
-export async function addSourceCommand() {
-  const oracleContractInfo = await getOracleContract();
-  const oracleContract = oracleContractInfo.contract;
-  const account = oracleContractInfo.account;
-
-  const contract = oracleContract.contract(account);
+export async function checkSourcesCommand() {
+  const contract = await ORACLE_HELPER.buildOracleContract();
 
   const coinbaseSource = await checkSource({
     source: "coinbase",
