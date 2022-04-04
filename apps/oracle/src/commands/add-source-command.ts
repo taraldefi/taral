@@ -16,6 +16,7 @@ export async function addSourceCommand() {
       "hex"
     ),
   });
+
   await addSource({
     source: "test2",
     contract: contract,
