@@ -14,8 +14,11 @@ import { COINBASE_ENDPOINT } from "../../const";
 import { convertSig } from "../../utils";
 import { COINBASE_FILTER } from "./filter";
 import { Logger } from "lib-shared";
+import { IOraclePriceFeed } from "../../clients";
 
-export async function retrieveFeed() {
+export async function retrieveCoinbaseOracleFeed(): Promise<
+  IOraclePriceFeed[]
+> {
   const path = "/oracle";
   const method = "GET";
   const body = "";
@@ -43,14 +46,14 @@ export async function retrieveFeed() {
     ).text();
     const data = JSON.parse(json);
     const keys = Object.keys(data.prices);
-    const feed = [];
+    const feed: IOraclePriceFeed[] = [];
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i];
       if (COINBASE_FILTER.indexOf(key) !== -1) {
         feed.push({
-          src: "coinbase",
-          msg: Buffer.from(data.messages[i].slice(2), "hex"),
-          sig: convertSig(data.signatures[i]),
+          source: "coinbase",
+          payload: Buffer.from(data.messages[i].slice(2), "hex"),
+          signature: convertSig(data.signatures[i]),
         });
       }
     }

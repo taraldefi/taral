@@ -1,4 +1,4 @@
-export interface OraclePrice {
+export interface IOraclePriceFeed {
   source: string;
   payload: Buffer;
   signature: Buffer;
