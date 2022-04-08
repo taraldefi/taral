@@ -33,7 +33,8 @@
     "lib-testing": "1.0.0",
     "bitcoinjs-lib": "^6.0.1",
     "ts-morph": "^14.0.0",
-    "typescript-memoize": "1.1.0"
+    "typescript-memoize": "1.1.0",
+    "dotenv": "16.0.0"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
