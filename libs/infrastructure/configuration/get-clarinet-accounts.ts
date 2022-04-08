@@ -5,7 +5,7 @@ import { getClarinetDevConfig } from ".";
 export async function getClarinetAccounts(
   folder: string
 ): Promise<ClarinetAccounts> {
-  const devConfig = await getClarinetDevConfig(folder);
+  const devConfig = getClarinetDevConfig(folder);
 
   // console.log('Dev config');
   // console.log(JSON.stringify(devConfig));
@@ -14,7 +14,7 @@ export async function getClarinetAccounts(
     Object.entries(devConfig.accounts).map(async ([key, info]) => {
       const wallet = await generateWallet({
         secretKey: info.mnemonic,
-        password: "password",
+        password: "",
       });
 
       console.log(JSON.stringify(wallet));
