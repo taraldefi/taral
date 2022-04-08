@@ -1,20 +1,16 @@
 import { IOraclePriceFeed } from "../../clients";
-import { ORACLE_SK } from "../../config";
 import { buildPayload } from "../../utils";
 import { signPayload } from "../../utils/sign-payload";
+import { IOkCoinFeedRequest } from "../types";
 import { fetchInstruments } from "./fetch-instruments";
 import { OKCOIN_FILTER } from "./filter";
 import { OkCoinInstruments } from "./types";
 
-export async function retrieveOKCoinFeed(): Promise<IOraclePriceFeed[]> {
+export async function retrieveOKCoinFeed(
+  request: IOkCoinFeedRequest
+): Promise<IOraclePriceFeed[]> {
   const timestamp = Math.floor(Date.now() / 1000);
   const instruments = await fetchInstruments();
-  // const stx_usd = getPair('STX-USD', instruments)
-  // const stx_btc = getPair('STX-BTC', instruments)
-  // const btc_usd = getPair('BTC-USD', instruments)
-  // console.log(`okcoin:  stx-usd ${midPrice(stx_usd)}`)
-  // console.log(`okcoin:  stx-btc ${midPrice(stx_btc)}`)
-  // console.log(`okcoin:  btc-usd ${midPrice(btc_usd)}`)
 
   const feed: IOraclePriceFeed[] = [];
   const src = "artifix-okcoin";
@@ -33,7 +29,11 @@ export async function retrieveOKCoinFeed(): Promise<IOraclePriceFeed[]> {
       Math.floor(midPrice(pair!) * OKCOIN_FILTER[key].decimals)
     );
     // console.log("msg", msg.toString('hex'))
-    const sig = signPayload(msg, ORACLE_SK);
+    const sig = signPayload({
+      infuraApiUrl: request.infuraApiKey,
+      payload: msg,
+      secretKey: request.oracleSignKey,
+    });
     // console.log("sig_okcoin", sig.toString('hex'))
     feed.push({
       source: src,

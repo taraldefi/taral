@@ -1,12 +1,13 @@
 import Web3 from "web3";
-import { INFURA_API_URL } from "../config";
-// Show web3 where it needs to look for the Ethereum node.
-const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_API_URL));
+import { ISignPayloadRequest } from "./types";
 
 const EMPTY_BUFFER =
   "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
-export function signPayload(msg: Buffer, secret_key: string) {
+export function signPayload(request: ISignPayloadRequest) {
+  // Show web3 where it needs to look for the Ethereum node.
+  const web3 = new Web3(new Web3.providers.HttpProvider(request.infuraApiUrl));
+
   // console.log("=====> signPayload", msg, secret_key)
 
   // signature is 96 bytes (check is either 1b or 1c, but on 32 bytes)
@@ -19,8 +20,11 @@ export function signPayload(msg: Buffer, secret_key: string) {
 
   // console.log("signing", `0x${msg.toString('hex')}`, `0x${secret_key}`)
 
-  const hash = web3.utils.keccak256(`0x${msg.toString("hex")}`);
-  const signed = web3.eth.accounts.sign(hash, `0x${secret_key.slice(0, 64)}`); // remove compression byte
+  const hash = web3.utils.keccak256(`0x${request.payload.toString("hex")}`);
+  const signed = web3.eth.accounts.sign(
+    hash,
+    `0x${request.secretKey.slice(0, 64)}`
+  ); // remove compression byte
 
   const r_buffer = Buffer.from(signed.r.slice(2), "hex");
   const s_buffer = Buffer.from(signed.s.slice(2), "hex");

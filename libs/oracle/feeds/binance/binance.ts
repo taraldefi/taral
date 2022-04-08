@@ -6,18 +6,13 @@ const binance = new Binance().options();
 // }
 
 import { buildPayload, signPayload } from "../../utils";
-import { ORACLE_SK } from "../../config.js";
 import { BINANCE_FILTER } from "./filter";
 import { IOraclePriceFeed } from "../../clients";
+import { IBinanceFeedRequest } from "../types";
 
-interface IBinanceFilter {
-  symbol: string;
-  decimals: number;
-}
-
-type Filter = { [key: string]: IBinanceFilter };
-
-export async function retrieveBinanceFeed(): Promise<IOraclePriceFeed[]> {
+export async function retrieveBinanceFeed(
+  request: IBinanceFeedRequest
+): Promise<IOraclePriceFeed[]> {
   const ticker = await binance.prices();
   // console.log(ticker)
   const timestamp = Math.floor(Date.now() / 1000);
@@ -35,7 +30,12 @@ export async function retrieveBinanceFeed(): Promise<IOraclePriceFeed[]> {
       Math.floor(parseFloat(ticker[key]) * filterItem.decimals)
     );
     // console.log("msg", msg.toString('hex'))
-    const sig = signPayload(msg, ORACLE_SK);
+    const sig = signPayload({
+      infuraApiUrl: request.infuraApiKey,
+      payload: msg,
+      secretKey: request.oracleSignKey,
+    });
+
     // console.log("sig_binance", sig.toString('hex'))
     feed.push({ source: src, payload: msg, signature: sig });
   }

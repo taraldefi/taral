@@ -1,6 +1,6 @@
 import { Logger, txOk } from "lib-shared";
 import { TaralOracleV1Contract } from "taral-contracts";
-import { OraclePrice } from "./types";
+import { IOraclePriceFeed } from "./types";
 
 interface InternalOraclePrice {
   src: string;
@@ -13,7 +13,7 @@ export async function addPrices({
   priceFeed,
 }: {
   contract: TaralOracleV1Contract;
-  priceFeed: OraclePrice[];
+  priceFeed: IOraclePriceFeed[];
 }): Promise<boolean> {
   const map = priceFeed.map(
     (feed) =>
@@ -27,5 +27,6 @@ export async function addPrices({
   const response = await txOk(contract.addPrices(map));
 
   Logger.debug("add-prices", "Received result ", response);
+
   return response.value;
 }
