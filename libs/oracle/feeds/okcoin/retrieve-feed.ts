@@ -32,7 +32,7 @@ export async function retrieveOKCoinFeed(
     const sig = signPayload({
       infuraApiUrl: request.infuraApiKey,
       payload: msg,
-      secretKey: request.oracleSignKey,
+      secretKey: request.oracleSecretKey,
     });
     // console.log("sig_okcoin", sig.toString('hex'))
     feed.push({

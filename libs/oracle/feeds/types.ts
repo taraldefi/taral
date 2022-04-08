@@ -6,12 +6,12 @@ export interface IFilterItem {
 export type Filter = { [key: string]: IFilterItem };
 
 export interface IOkCoinFeedRequest {
-  oracleSignKey: string;
+  oracleSecretKey: string;
   infuraApiKey: string;
 }
 
 export interface IBinanceFeedRequest {
-  oracleSignKey: string;
+  oracleSecretKey: string;
   infuraApiKey: string;
 }
 

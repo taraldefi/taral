@@ -27,12 +27,12 @@ export async function updatePricesCommand() {
 
   const binance_feed = await retrieveBinanceFeed({
     infuraApiKey: INFURA_API_URL,
-    oracleSignKey: ORACLE_SK,
+    oracleSecretKey: ORACLE_SK,
   });
 
   const okcoin_feed = await retrieveOKCoinFeed({
     infuraApiKey: INFURA_API_URL,
-    oracleSignKey: ORACLE_SK,
+    oracleSecretKey: ORACLE_SK,
   });
 
   const feed: IOraclePriceFeed[] = coinbase_oracle_feed.concat(
