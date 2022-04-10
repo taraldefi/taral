@@ -1,20 +1,4 @@
-import { decodeStxAddress } from "lib-bitcoin";
-import { getClarinetAccounts } from "lib-infra";
-import { getRootDirectory, Logger } from "lib-shared";
-import { makeECPrivateKey, publicKeyToAddress } from "@stacks/encryption";
-import { generateWallet, getStxAddress } from "@stacks/wallet-sdk";
-import { c32addressDecode, c32address } from "c32check";
-import RIPEMD160 from "ripemd160-min";
-import { sha256, sha512 } from "sha.js";
-import {
-  pubKeyfromPrivKey,
-  getAddressFromPublicKey,
-} from "./utils/stacks-utils";
-
 import { getDeployerPublicKey } from "./testbeds/public-key-testbed";
-
-import { ec as EC } from "elliptic";
-
 const NAME = "Testbed";
 
 async function main() {
