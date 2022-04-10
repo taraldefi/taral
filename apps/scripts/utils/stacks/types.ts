@@ -3,6 +3,12 @@ export interface StacksPrivateKey {
   compressed: boolean;
 }
 
+export interface Address {
+  readonly type: StacksMessageType.Address;
+  readonly version: AddressVersion;
+  readonly hash160: string;
+}
+
 export enum StacksMessageType {
   Address,
   Principal,
@@ -15,6 +21,11 @@ export enum StacksMessageType {
   Payload,
   MessageSignature,
   TransactionAuthField,
+}
+
+export interface StacksPublicKey {
+  readonly type: StacksMessageType.PublicKey;
+  readonly data: Buffer;
 }
 
 export enum TransactionVersion {

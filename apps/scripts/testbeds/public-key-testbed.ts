@@ -3,8 +3,8 @@ import { getRootDirectory, Logger } from "lib-shared";
 import {
   getAddressFromPublicKey,
   publicKeyFromPrivKey,
-} from "../utils/stacks-utils";
-import { TransactionVersion } from "../utils/types";
+  TransactionVersion,
+} from "../utils";
 
 const LOGGER_CATEGORY = "DERIVE_PUBLIC_KEY";
 
