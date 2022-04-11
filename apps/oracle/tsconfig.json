@@ -10,5 +10,5 @@
     "declaration": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["src/**/*.ts", "./jest.config.js"]
+  "include": ["src/**/*.ts", "./**/*.js"]
 }

@@ -10,14 +10,18 @@ export async function getPrice({
   contract: TaralOracleV1Contract;
   source: string;
   symbol: string;
-}): Promise<IOraclePriceEntry> {
+}): Promise<IOraclePriceEntry | null> {
   const response = await contract.getPrice(source, symbol);
 
   Logger.debug("get-price", "Received result ", response);
 
+  if (response == null) {
+    return null;
+  }
+
   return <IOraclePriceEntry>{
-    amount: response?.amount,
-    height: response?.height,
-    timestamp: response?.timestamp,
+    amount: response.amount,
+    height: response.height,
+    timestamp: response.timestamp,
   };
 }

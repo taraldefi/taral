@@ -10,7 +10,8 @@
     "regtest",
     "ripemd",
     "Secp",
-    "taral"
+    "taral",
+    "zoes"
   ],
   "js/ts.implicitProjectConfig.experimentalDecorators": true
 }

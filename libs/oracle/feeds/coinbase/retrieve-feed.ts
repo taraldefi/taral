@@ -1,5 +1,4 @@
 import { signRequest } from "./sign-request";
-import fetch from "node-fetch";
 import { COINBASE_ENDPOINT } from "../../const";
 import { convertSig } from "../../utils";
 import { COINBASE_FILTER } from "./filter";

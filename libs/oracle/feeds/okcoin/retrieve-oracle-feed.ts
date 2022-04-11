@@ -1,4 +1,3 @@
-import fetch from "node-fetch";
 import { IOraclePriceFeed } from "../../clients";
 import { OKCOIN_ENDPOINT } from "../../const";
 import { convertSig } from "../../utils";

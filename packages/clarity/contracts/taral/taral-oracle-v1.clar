@@ -3,7 +3,7 @@
 (define-constant err-not-owner (err u63))
 (define-constant err-older-timestamp (err u64))
 
-;; TODO(psq): change address for mainnet, change to deployment address (ORACLE_STX)
+;; TODO: change address for mainnet, change to deployment address (ORACLE_STX)
 (define-constant contract-owner 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM)
 
 ;; "\x19Ethereum Signed Message:\n32"

@@ -95,7 +95,7 @@ export async function feedOraclePricesCommand() {
 
     let next_nonce = await getNonce();
 
-    // TODO(psq): check for > instead, caching can be bad with this LB
+    // TODO: check for > instead, caching can be bad with this LB
     while (next_nonce <= nonce) {
       console.log("next_nonce", next_nonce, "nonce", nonce);
       await timeout(1000 * 60); // 1 minute
