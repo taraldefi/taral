@@ -2226,10 +2226,10 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/common@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.3.0.tgz#d43a3f32981ba8a2b85027b46d84cfb787f8c4eb"
-  integrity sha512-PVZiGGvl1WwUa47PCF5mPq3KGik/e+DXQZ7NqHBwNi5GOpjAo0M6nPSF1R+iSnHQ7DHtfXSoIQz8PlCxlYIYKw==
+"@stacks/common@^3.3.0", "@stacks/common@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-3.5.0.tgz#51510f1b3fb338bef8ae59830a1404f1ee6c0115"
+  integrity sha512-ipkBg4smtMURuPugIlFRaDhGw33fxpwqvqPyPSZ38CCuHgaQDQLqBO49ml0IlOXLQa854UI8ZUbyy5GBU+DrsA==
   dependencies:
     "@types/node" "^14.14.43"
     bn.js "^5.2.0"
