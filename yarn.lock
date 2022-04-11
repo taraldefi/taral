@@ -2334,10 +2334,10 @@
   dependencies:
     "@stacks/common" "^2.0.1"
 
-"@stacks/network@^3.0.0", "@stacks/network@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-3.3.0.tgz#1e3b4d0917d1d33720986846de7d0100f36a2610"
-  integrity sha512-s9YCCBoYCETOT4ssYMvSPXc8pthosq0JqzOpvwTsmqdZB8JQfS/XYzzWoT59Wm3hjaz1AaW9YXNxqvh5DRRs9A==
+"@stacks/network@^3.3.0", "@stacks/network@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-3.5.0.tgz#daba9e957dbe45a354645a6440757d8f5986d33d"
+  integrity sha512-qSj2fe7cmB8fLKKEnpeiYoKSLZ8kqwlpV+dC9xhg6izMYl9Zpe4F27WVAbsqf5dU7q2oXRFWQ8xiSIv/8Ha6ng==
   dependencies:
     "@stacks/common" "^3.3.0"
 
