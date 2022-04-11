@@ -4,7 +4,7 @@ import {
   getAddressFromPublicKey,
   publicKeyFromPrivKey,
   TransactionVersion,
-} from "../utils";
+} from "lib-stacks";
 
 const LOGGER_CATEGORY = "DERIVE_PUBLIC_KEY";
 
