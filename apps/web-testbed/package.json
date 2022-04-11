@@ -82,7 +82,7 @@
     "@stacks/stacks-blockchain-api-types": "^3.0.3",
     "@stacks/transactions": "3.3.0",
     "@stacks/connect": "6.4.1",
-    "react-query": "^3.34.16",
+    "react-query": "^3.34.19",
     "react-router-dom": "^6.2.2",
     "micro-memoize": "^4.0.9",
     "micro-stacks": "0.2.3",
