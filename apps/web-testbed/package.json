@@ -83,7 +83,7 @@
     "@stacks/transactions": "3.5.0",
     "@stacks/connect": "6.4.1",
     "react-query": "^3.34.19",
-    "react-router-dom": "^6.2.2",
+    "react-router-dom": "^6.3.0",
     "micro-memoize": "^4.0.9",
     "micro-stacks": "0.2.3",
     "buffer": "^6.0.3",
