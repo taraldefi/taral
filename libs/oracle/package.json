@@ -16,9 +16,9 @@
   "dependencies": {
     "@stacks/blockchain-api-client": "^3.0.3",
     "@stacks/common": "^3.5.0",
-    "@stacks/network": "^3.0.0",
-    "@stacks/stacks-blockchain-api-types": "^3.0.2",
-    "@stacks/transactions": "3.3.0",
+    "@stacks/network": "^3.5.0",
+    "@stacks/stacks-blockchain-api-types": "^3.0.3",
+    "@stacks/transactions": "3.5.0",
     "@types/coinbase": "^2.0.8",
     "@types/node-fetch": "^2.6.1",
     "@types/web3": "^1.2.2",
@@ -28,6 +28,6 @@
     "node-binance-api": "^0.13.1",
     "node-fetch": "^3.2.3",
     "taral-configuration": "1.0.0",
-    "web3": "^1.7.1"
+    "web3": "^1.7.3"
   }
 }
