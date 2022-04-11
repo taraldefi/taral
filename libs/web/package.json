@@ -15,7 +15,7 @@
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.5",
     "ts-node": "^10.7.0",
-    "typescript": "^4.6.2",
+    "typescript": "^4.6.3",
     "@stacks/connect": "6.4.1"
   },
   "dependencies": {
@@ -29,7 +29,7 @@
     "@stacks/transactions": "3.5.0",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
     "@types/crypto-js": "^4.1.1",
-    "@types/json-schema": "^7.0.10",
+    "@types/json-schema": "^7.0.11",
     "@types/wif": "^2.0.2",
     "ajv": "^8.11.0",
     "bip32": "^3.0.1",
@@ -48,7 +48,7 @@
     "lib-shared": "1.0.0",
     "lib-stacks": "1.0.0",
     "merkletreejs": "^0.2.31",
-    "micro-stacks": "0.2.3",
+    "micro-stacks": "0.3.0",
     "neverthrow": "4.3.1",
     "noble-secp256k1": "1.2.14",
     "node-fetch": "2.6.1",
