@@ -4,7 +4,7 @@ import {
   TransactionVersion,
 } from "lib-stacks";
 
-test("Test that we can access the token without deploying", () => {
+test("Test public key generation", () => {
   // secret_key: 753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601
   // stx_address: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
   // btc_address: mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH
@@ -12,14 +12,16 @@ test("Test that we can access the token without deploying", () => {
   const privateKey =
     "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
 
-  const publicKey = publicKeyFromPrivKey(privateKey);
+  const publicKeyResult = publicKeyFromPrivKey(privateKey);
 
-  expect(Buffer.from(publicKey.data)).toEqual(
+  const publicKey = publicKeyResult.data.toString("hex");
+
+  expect(publicKey).toEqual(
     "0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa"
   );
 
   const address = getAddressFromPublicKey(
-    publicKey.data,
+    publicKeyResult.data,
     TransactionVersion.Testnet
   );
 
