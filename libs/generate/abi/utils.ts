@@ -107,7 +107,7 @@ export const jsTypeFromAbiType = (
   }
 };
 function generateArgName(argName: string): string {
-  var camelCaseArg = toCamelCase(argName);
+  const camelCaseArg = toCamelCase(argName);
 
   if (reservedNames.includes(camelCaseArg)) {
     return `${camelCaseArg}Variable`;

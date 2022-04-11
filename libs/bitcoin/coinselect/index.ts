@@ -13,7 +13,7 @@ export function coinSelect(utxos: any[], outputs: any, feeRate: number) {
   });
 
   // attempt to use the blackjack strategy first (no change output)
-  var base = blackjack(utxos, outputs, feeRate);
+  const base = blackjack(utxos, outputs, feeRate);
   if (base.inputs) return base;
 
   // else, try the accumulative strategy

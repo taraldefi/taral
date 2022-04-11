@@ -10,8 +10,8 @@ export async function getTransactionById(
   network: StacksNetwork
 ): Promise<any> {
   const url = getTransactionUrl(txId, network);
-  var result = await fetch(url);
-  var value = await result.json();
+  const result = await fetch(url);
+  const value = await result.json();
 
   return value;
 }

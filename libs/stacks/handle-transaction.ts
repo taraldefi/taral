@@ -18,7 +18,7 @@ export async function handleTransaction(
   const result = await broadcastTransaction(transaction, network);
   Logger.debug(NAME, "Broadcast transaction result: ", result);
 
-  var success = isBroadcastSuccessful(result);
+  const success = isBroadcastSuccessful(result);
 
   if (!success) {
     if (
@@ -57,17 +57,17 @@ function isBroadcastSuccessful(result: TxBroadcastResult): boolean {
 async function processing(
   network: StacksNetwork,
   tx: string,
-  count: number = 0
+  count = 0
 ): Promise<boolean> {
   return processingWithSidecar(tx, count, network);
 }
 
 async function processingWithSidecar(
   tx: string,
-  count: number = 0,
+  count = 0,
   network: StacksNetwork
 ): Promise<boolean> {
-  var value = await getTransactionById(tx, network);
+  const value = await getTransactionById(tx, network);
 
   if (value.tx_status === "success") {
     Logger.debug(

@@ -7,7 +7,7 @@ export const NETWORK: StacksTestnet = new StacksTestnet({
 });
 
 export function getTransactionUrl(
-  transaction: String,
+  transaction: string,
   network: StacksNetwork
 ): string {
   return `${network.coreApiUrl}/extended/v1/tx/${transaction}`;

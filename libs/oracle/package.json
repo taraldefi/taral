@@ -1,0 +1,33 @@
+{
+  "name": "lib-oracle",
+  "version": "1.0.0",
+  "author": "DoruC",
+  "license": "ISC",
+  "private": true,
+  "engines": {
+    "node": ">=14"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.13",
+    "@types/node": "17.0.23",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "@stacks/blockchain-api-client": "^3.0.2",
+    "@stacks/common": "^3.3.0",
+    "@stacks/network": "^3.0.0",
+    "@stacks/stacks-blockchain-api-types": "^3.0.2",
+    "@stacks/transactions": "3.3.0",
+    "@types/coinbase": "^2.0.8",
+    "@types/node-fetch": "^2.6.1",
+    "@types/web3": "^1.2.2",
+    "coinbase": "^2.0.8",
+    "javascript-stringify": "2.1.0",
+    "lib-shared": "1.0.0",
+    "node-binance-api": "^0.13.1",
+    "node-fetch": "^3.2.3",
+    "taral-configuration": "1.0.0",
+    "web3": "^1.7.1"
+  }
+}

@@ -1,18 +1,23 @@
 import { generateWallet, getStxAddress } from "@stacks/wallet-sdk";
 import { ClarinetAccounts } from "lib-shared";
-import { getClarinetTestnetConfig } from ".";
+import { getClarinetDevConfig } from ".";
 
 export async function getClarinetAccounts(
   folder: string
 ): Promise<ClarinetAccounts> {
-  const devConfig = await getClarinetTestnetConfig(folder);
+  const devConfig = getClarinetDevConfig(folder);
+
+  // console.log('Dev config');
+  // console.log(JSON.stringify(devConfig));
 
   const accountEntries = await Promise.all(
     Object.entries(devConfig.accounts).map(async ([key, info]) => {
       const wallet = await generateWallet({
         secretKey: info.mnemonic,
-        password: "password",
+        password: "",
       });
+
+      console.log(JSON.stringify(wallet));
 
       const privateKey = wallet.accounts[0].stxPrivateKey;
 

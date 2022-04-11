@@ -22,11 +22,11 @@ export async function verifyMerkleProof({
   const bufferedTxId = reverse(MerkleTree.bufferify(txId));
   const bufferedMerkleRoot = reverse(MerkleTree.bufferify(merkleRoot));
 
-  let response = (
+  const response = (
     await contract.verifyMerkleProof(bufferedTxId, bufferedMerkleRoot, proofCV)
   )._unsafeUnwrap();
 
-  let result = response.toString();
+  const result = response.toString();
 
   Logger.debug("verify-merkle-proof", "Received result ", response);
 
@@ -59,7 +59,7 @@ export async function verifyMerkleProof2({
   const reversedTxIdBuffer = makeBuffer(reversedTxId);
   const merkleRootBuffer = headerPartsCV["merkle-root"];
 
-  let response = (
+  const response = (
     await contract.verifyMerkleProof(
       reversedTxIdBuffer,
       merkleRootBuffer,
@@ -67,7 +67,7 @@ export async function verifyMerkleProof2({
     )
   )._unsafeUnwrap();
 
-  let result = response.toString();
+  const result = response.toString();
 
   Logger.debug("verify-merkle-proof-2", "Received result ", response);
   return result;

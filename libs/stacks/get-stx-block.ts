@@ -6,7 +6,7 @@ import { NETWORK } from "taral-configuration";
 const NAME = "get-stx-block";
 
 export async function getStxBlock(bitcoinBlockHeight: number) {
-  let limit = 30;
+  const limit = 30;
   let offset = 0;
 
   const blocksApi = getBlocksApi();

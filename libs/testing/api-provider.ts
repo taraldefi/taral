@@ -72,12 +72,12 @@ export class ApiProvider implements BaseProvider {
   };
 
   async callReadOnly(request: INodeProviderRequest): Promise<any> {
-    let formattedArguments: ClarityValue[] = formatArguments(
+    const formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
     );
 
-    let options: ReadOnlyFunctionOptions = {
+    const options: ReadOnlyFunctionOptions = {
       contractAddress: this.deployerAccount.stacksAddress,
       contractName: this.contractName,
       functionArgs: formattedArguments,
@@ -87,7 +87,7 @@ export class ApiProvider implements BaseProvider {
     };
 
     try {
-      var cv = await callReadOnlyFunction(options);
+      const cv = await callReadOnlyFunction(options);
 
       const value = cvToValue(cv);
 
@@ -111,7 +111,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   callPublic(request: INodeProviderRequest): Transaction<any, any> {
-    let formattedArguments: ClarityValue[] = formatArguments(
+    const formattedArguments: ClarityValue[] = formatArguments(
       request.function,
       request.arguments
     );
@@ -126,7 +126,7 @@ export class ApiProvider implements BaseProvider {
       //   throw new Error("Passing `x` is required.");
       // }
 
-      var rawFunctionCallResult: TxBroadcastResult =
+      const rawFunctionCallResult: TxBroadcastResult =
         await this.callContractFunction(
           this.contractName,
           request.function.name,
@@ -135,7 +135,7 @@ export class ApiProvider implements BaseProvider {
           formattedArguments
         );
 
-      var success = this.isBroadcastSuccessful(rawFunctionCallResult);
+      const success = this.isBroadcastSuccessful(rawFunctionCallResult);
 
       const getResult = async (): Promise<TransactionResult<any, any>> => {
         if (success) {

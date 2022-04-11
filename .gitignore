@@ -110,3 +110,4 @@ docker/provisioning/private-testnet/bns-data/*
 # native bin
 .native-bin/*
 !.native-bin/.gitkeep
+apps/oracle/lib

@@ -40,7 +40,6 @@
   "include": [
     "./packages/configuration/**/*.ts",
     "./packages/contracts/**/*.ts",
-    "./packages/scripts/**/*.ts",
     "./packages/shared/**/*.ts",
     "./packages/web/**/*.ts",
     "./packages/unit-tests/**/*.ts",
@@ -48,10 +47,14 @@
     "./libs/bitcoin/**/*.ts",
     "./libs/clarity-bin/**/*.ts",
     "./libs/generate/**/*.ts",
+    "./libs/oracle/**/*.ts",
     "./libs/shared/**/*.ts",
     "./libs/stacks/**/*.ts",
     "./libs/swap/**/*.ts",
+    "./libs/node/**/*.ts",
     "./libs/testing/**/*.ts",
-    "./libs/web/**/*.ts"
+    "./libs/web/**/*.ts",
+    "./apps/scripts/**/*.ts",
+    "./apps/oracle/**/*.ts"
   ]
 }

@@ -6,17 +6,17 @@ export function accumulative(
   feeRate: number
 ) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
-  var bytesAccum = utils.transactionBytes([], outputs);
+  let bytesAccum = utils.transactionBytes([], outputs);
 
-  var inAccum = 0;
-  var inputs = [];
-  var outAccum = utils.sumOrNaN(outputs);
+  let inAccum = 0;
+  const inputs = [];
+  const outAccum = utils.sumOrNaN(outputs);
 
-  for (var i = 0; i < utxos.length; ++i) {
-    var utxo = utxos[i];
-    var utxoBytes = utils.inputBytes(utxo);
-    var utxoFee = feeRate * utxoBytes;
-    var utxoValue = utils.uintOrNaN(utxo.value);
+  for (let i = 0; i < utxos.length; ++i) {
+    const utxo = utxos[i];
+    const utxoBytes = utils.inputBytes(utxo);
+    const utxoFee = feeRate * utxoBytes;
+    const utxoValue = utils.uintOrNaN(utxo.value);
 
     // skip detrimental input
     if (utxoFee > utxo.value) {
@@ -29,7 +29,7 @@ export function accumulative(
     inAccum += utxoValue;
     inputs.push(utxo);
 
-    var fee = feeRate * bytesAccum;
+    const fee = feeRate * bytesAccum;
 
     // go again?
     if (inAccum < outAccum + fee) continue;

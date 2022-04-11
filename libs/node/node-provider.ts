@@ -81,10 +81,12 @@ export class NodeProvider implements BaseProvider {
     return instances;
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async callMap(_map: ClarityAbiMap, _key: any) {
     throw new Error("Not implemented");
   }
 
+  // eslint-disable-next-line @typescript-eslint/require-await
   async callVariable(_variable: ClarityAbiVariable) {
     throw new Error("Not implemented");
   }
@@ -170,7 +172,7 @@ export class NodeProvider implements BaseProvider {
         payload.network
       );
 
-      var success = this.isBroadcastSuccessful(broadcastResponse);
+      const success = this.isBroadcastSuccessful(broadcastResponse);
 
       return {
         txId: broadcastResponse.txid,

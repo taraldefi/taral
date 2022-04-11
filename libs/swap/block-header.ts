@@ -14,7 +14,7 @@ export async function parseBlockHeader({
     await contract.parseBlockHeader(makeBuffer(header))
   )._unsafeUnwrap();
 
-  let result = response as any as HeaderPartsType;
+  const result = response as any as HeaderPartsType;
 
   Logger.debug("parse-block-header", "Received result ", result);
 
@@ -42,12 +42,12 @@ export async function verifyBlockHeader({
 
   // Call readonly function
   //
-  let response = await contract.verifyBlockHeader(
+  const response = await contract.verifyBlockHeader(
     headerPartsBuffer,
     stacksBlockHeight
   );
 
-  let result = response;
+  const result = response;
 
   Logger.debug("verify-block-header", "Received result ", result);
   return result;
@@ -62,12 +62,12 @@ export async function verifyBlockHeader2({
 }): Promise<boolean> {
   // Call readonly function
   //
-  let response = await contract.verifyBlockHeader(
+  const response = await contract.verifyBlockHeader(
     blockCV["header"],
     blockCV["height"]
   );
 
-  let result = response;
+  const result = response;
 
   Logger.debug("verify-block-header", "Received result ", result);
   return result;

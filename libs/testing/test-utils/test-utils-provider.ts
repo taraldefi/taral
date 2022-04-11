@@ -62,12 +62,12 @@ export class TestUtilsProvider {
   public static async ensureTestContracts(
     clarityBin: NativeClarityBinProvider
   ): Promise<TestUtilsProvider> {
-    var deployedTestUtils = await TestProvider.fromContracts(
+    const deployedTestUtils = await TestProvider.fromContracts(
       true,
       nodeTestUtilsContracts,
       clarityBin
     );
-    var deployedBootUtils = await TestProvider.fromContracts(
+    const deployedBootUtils = await TestProvider.fromContracts(
       true,
       nodeBootContracts,
       clarityBin

@@ -9,7 +9,7 @@ export async function concatTransaction({
   txPartsCV: TxPartsCvType;
   contract: ClarityBitcoinContract;
 }): Promise<string> {
-  let response = await contract.concatTx(txPartsCV);
+  const response = await contract.concatTx(txPartsCV);
 
   let result = response.toString();
 

@@ -71,7 +71,7 @@ test("make btc transaction", async () => {
 
   const faucets = new FaucetsApi(apiConfig);
 
-  var faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
+  const faucetTransaction: RunFaucetResponse = await faucets.runFaucetBtc({
     address: buyerDerivedBtcInfo.address,
   });
 

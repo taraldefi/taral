@@ -29,9 +29,9 @@ export function txForHash(tx: string) {
 }
 
 export function reverse(src: Buffer): Buffer {
-  var buffer = Buffer.allocUnsafe(src.length);
+  const buffer = Buffer.allocUnsafe(src.length);
 
-  for (var i = 0, j = src.length - 1; i <= j; ++i, --j) {
+  for (let i = 0, j = src.length - 1; i <= j; ++i, --j) {
     buffer[i] = src[j];
     buffer[j] = src[i];
   }

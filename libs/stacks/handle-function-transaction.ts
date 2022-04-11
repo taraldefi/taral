@@ -38,10 +38,10 @@ export async function handleFunctionTransaction(
 
 async function functionProcessing(
   network: StacksNetwork,
-  tx: String,
+  tx: string,
   functionName: string,
   contractName: string,
-  count: number = 0
+  count = 0
 ): Promise<boolean> {
   return functionProcessingWithSidecar(
     tx,
@@ -53,15 +53,15 @@ async function functionProcessing(
 }
 
 async function functionProcessingWithSidecar(
-  tx: String,
-  count: number = 0,
+  tx: string,
+  count = 0,
   network: StacksNetwork,
   functionName: string,
   contractName: string
 ): Promise<boolean> {
   const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
-  var result = await fetch(url);
-  var value = await result.json();
+  const result = await fetch(url);
+  const value = await result.json();
 
   if (value.tx_status === "success") {
     Logger.debug(

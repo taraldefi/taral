@@ -15,9 +15,9 @@ export async function wasTxMined({
 }): Promise<boolean> {
   // Call readonly function
   //
-  let response = await contract.wasTxMined(blockPartsCV, txCV, proofCV);
+  const response = await contract.wasTxMined(blockPartsCV, txCV, proofCV);
 
-  let result = response._unsafeUnwrap();
+  const result = response._unsafeUnwrap();
 
   Logger.debug("was-tx-mined", "Received result ", result);
 
@@ -37,9 +37,9 @@ export async function wasTxMinedFromHex({
 }): Promise<boolean> {
   // Call readonly function
   //
-  let response = await contract.wasTxMinedCompact(blockCV, txCV, proofCV);
+  const response = await contract.wasTxMinedCompact(blockCV, txCV, proofCV);
 
-  let result = response._unsafeUnwrap();
+  const result = response._unsafeUnwrap();
 
   Logger.debug("was-tx-mined-from-hex", "Received result ", result);
 

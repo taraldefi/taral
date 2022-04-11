@@ -15,7 +15,7 @@ export async function getAccountFromMnemonic(
   network: btc.Network,
   mnemonic: string
 ): Promise<{ key: ecPair.ECPairInterface; address: string }> {
-  var keys = await stacksgen.generateKeys(mnemonic);
+  const keys = await stacksgen.generateKeys(mnemonic);
   const key = ECPair.fromWIF(keys.wif, network);
   return { key, address: getKeyAddress(key) };
 }

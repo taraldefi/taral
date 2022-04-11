@@ -1,42 +1,77 @@
-import { ClarinetAccount, txErr, txOk } from "lib-shared";
+import { Logger, txErr, txOk } from "lib-shared";
 import { clarinetAccounts, taralOracle } from "./jest-setup";
+import { publicKeyFromPrivKey } from "lib-stacks";
+import {
+  retrieveOKCoinOracleFeed,
+  retrieveBinanceFeed,
+  retrieveOKCoinFeed,
+  IOraclePriceFeed,
+  addPrices,
+  getPrice,
+} from "lib-oracle";
 
-const UnauthorizedAddress: string = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
-const UnauthorizedClarinetAccount: ClarinetAccount = {
-  address: UnauthorizedAddress,
-  mnemonic: "",
-  privateKey: "",
-  balance: BigInt(0),
-};
+const INFURA_API_URL =
+  "https://mainnet.infura.io/v3/ad2e183a77d0483a8cb3cc31cb467496";
 
-test("Can set price", async () => {
-  const token = taralOracle(clarinetAccounts.deployer);
-  const result = await txOk(
-    token.setOracleOwner(clarinetAccounts.deployer.address)
+test("Oracle tests", async () => {
+  const zoe = clarinetAccounts.deployer;
+  const bob = clarinetAccounts["wallet_1"];
+
+  const oracleZoe = taralOracle(zoe);
+  const oracleBob = taralOracle(bob);
+
+  const bobsPrivateKey = Buffer.from(
+    publicKeyFromPrivKey(bob.privateKey).data.toString("hex"),
+    "hex"
   );
-  expect(result.value).toBe(true);
-}, 3000000);
 
-test("Cannot set price", async () => {
-  const token = taralOracle(UnauthorizedClarinetAccount);
-  const result = await txErr(token.setOracleOwner(UnauthorizedAddress));
-  expect(result.value).toBe(8401n);
-}, 3000000);
-
-test("Can update price", async () => {
-  const token = taralOracle(clarinetAccounts.deployer);
-  const result = await txOk(
-    token.setOracleOwner(clarinetAccounts.deployer.address)
+  const zoesPrivateKey = Buffer.from(
+    publicKeyFromPrivKey(zoe.privateKey).data.toString("hex"),
+    "hex"
   );
-  expect(result.value).toBe(true);
-  const priceUpdateResult = await txOk(token.updatePrice("STX", 2n, 2));
-  expect(priceUpdateResult.value).toBe(2n);
-  var getPriceResult = await token.getPrice("STX");
-  expect(getPriceResult["last-price"]).toBe(2n);
-}, 3000000);
 
-test("Cannot update price", async () => {
-  const token = taralOracle(UnauthorizedClarinetAccount);
-  const priceUpdateResult = await txErr(token.updatePrice("STX", 2n, 2));
-  expect(priceUpdateResult.value).toBe(851n);
+  await txOk(oracleZoe.addSource("source1", zoesPrivateKey));
+  await txOk(oracleZoe.revokeSource("source1"));
+  let error = await txErr(oracleBob.addSource("source2", bobsPrivateKey));
+
+  // (define-constant err-not-owner (err u63))
+  expect(error.value).toEqual(63n);
+
+  error = await txErr(oracleBob.revokeSource("source2"));
+
+  // (define-constant err-not-owner (err u63))
+  expect(error.value).toEqual(63n);
+
+  const okcoin_oracle_feed = await retrieveOKCoinOracleFeed();
+
+  const binance_feed = await retrieveBinanceFeed({
+    infuraApiKey: INFURA_API_URL,
+    oracleSecretKey: zoe.privateKey,
+  });
+
+  const okcoin_feed = await retrieveOKCoinFeed({
+    infuraApiKey: INFURA_API_URL,
+    oracleSecretKey: zoe.privateKey,
+  });
+
+  const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
+    binance_feed.concat(okcoin_feed)
+  );
+
+  const priceAddResult = await addPrices({
+    contract: oracleZoe,
+    priceFeed: feed,
+  });
+
+  expect(priceAddResult).toBe(true);
+
+  const okCoinBTC = await getPrice({
+    contract: oracleZoe,
+    source: "okcoin",
+    symbol: "BTC",
+  });
+
+  expect(okCoinBTC).toBeTruthy();
+
+  Logger.debug("ORACLE", "OKCOIN.BTC", okCoinBTC);
 }, 3000000);
