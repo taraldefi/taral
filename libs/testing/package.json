@@ -27,7 +27,7 @@
     "lib-testing": "1.0.0",
     "taral-contracts": "1.0.0",
     "javascript-stringify": "2.1.0",
-    "@stacks/blockchain-api-client": "^3.0.2",
+    "@stacks/blockchain-api-client": "^3.0.3",
     "@stacks/common": "^3.3.0",
     "@stacks/network": "^3.0.0",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
@@ -50,7 +50,7 @@
     "merkletreejs": "^0.2.31",
     "neverthrow": "4.3.1",
     "node-fetch": "2.6.1",
-    "prettier": "^2.6.0",
+    "prettier": "^2.6.2",
     "rpc-bitcoin": "^2.0.0",
     "unzipper": "^0.10.11",
     "wif": "^2.0.6"
