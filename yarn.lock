@@ -2196,10 +2196,10 @@
     jsontokens "^3.0.0"
     query-string "^6.13.1"
 
-"@stacks/blockchain-api-client@^3.0.2":
-  version "3.0.2"
-  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-3.0.2.tgz#f5a4832845cacad2ed34915a1d52a406e112ff1c"
-  integrity sha512-ly3SB2XeWECWyn+nhR4HUpArYnEe+D/4Kwgqej+OLO6I/qzc82xFIGUy7ukQmsHAtp1VQfVxY8nhNK5SGcZCTQ==
+"@stacks/blockchain-api-client@^3.0.3":
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-3.0.3.tgz#541040e82d48e99ab8b3d87fa9fb783f5e24d94a"
+  integrity sha512-1lSt+Rc8EdWV2Uo6JSI7OrlJoIPNzTO+KIyocicdvS8IlvpJNQITFwL/1/X6DA1H7u0C0Pk8e1EzGZXyabNsCg==
   dependencies:
     "@stacks/stacks-blockchain-api-types" "*"
     "@types/ws" "^7.4.0"
@@ -15722,15 +15722,10 @@ ws@^3.0.0:
     safe-buffer "~5.1.0"
     ultron "~1.1.0"
 
-ws@^7.2.0:
+ws@^7.2.0, ws@^7.4.0, ws@^7.4.6:
   version "7.5.7"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.7.tgz#9e0ac77ee50af70d58326ecff7e85eb3fa375e67"
   integrity sha512-KMvVuFzpKBuiIXW3E4u3mySRO2/mCHSyZDJQM5NQ9Q9KHWHWh0NHgfbRMLLrceUK5qAL4ytALJbpRMjixFZh8A==
-
-ws@^7.4.0, ws@^7.4.6:
-  version "7.5.5"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.5.tgz#8b4bc4af518cfabd0473ae4f99144287b33eb881"
-  integrity sha512-BAkMFcAzl8as1G/hArkxOxq3G7pjUqQ3gzYbLL0/5zNkph70e+lCoxBGnm6AW1+/aiNeV4fnKqZ8m4GZewmH2w==
 
 ws@^8.4.2:
   version "8.5.0"
