@@ -6,7 +6,10 @@ import { feedOraclePricesCommand } from "./commands/feed-oracle-prices-command";
 import { revokeSourceCommand } from "./commands/revoke-source-command";
 import { updatePricesCommand } from "./commands/update-prices-command";
 
-const program = new Command();
+import packageJson from "../package.json";
+const version: string = packageJson.version;
+
+const program = new Command().version(version).name("oracle");
 
 program.command("add-source").action(async () => {
   await addSourceCommand();
