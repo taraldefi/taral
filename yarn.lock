@@ -2263,20 +2263,20 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/connect-ui@5.4.0":
-  version "5.4.0"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.4.0.tgz#79306b096b60ab5234ed1d2aff420773ae2370ff"
-  integrity sha512-S4Tz60nnZNX11uphssCZ9yVKMKJP1KeOG3S4yi1EXLapaJkElicB4aOOSUtlfqY1d6V+Q7lSMrVem2uQoa6Vkg==
+"@stacks/connect-ui@5.4.1":
+  version "5.4.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.4.1.tgz#7237ae4642ce94adafec6cf47e482380ce0946b7"
+  integrity sha512-JRa2dOTwaVwrLboI17WIg7AjEHoXH1pD0kmQSDD7PbgDDLIw8cb1rA7jm8XLn/aeoI0/2e9b52yVCD687Yv2Wg==
   dependencies:
-    "@stencil/core" "^2.6.0"
+    "@stencil/core" "2.15.0"
 
-"@stacks/connect@6.4.1":
-  version "6.4.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.1.tgz#223f7464bf85e744e10779013a61e9f8e7358675"
-  integrity sha512-NnYmkpikguwqjcUQST92evQR2DmoyOr4pkUEk1tTdtLYLn7KZGfPkPSWvmKHCR+0gzIttKGOfE1efTB4lmvvlQ==
+"@stacks/connect@6.4.2":
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.2.tgz#6943a1c5999a03e1a9c4159cc8faf0f814d2b4b4"
+  integrity sha512-m8J8F/Jincc6N8qPJjjZkVQT2adMx78TDzOEokLU8/imS+rxQZqAkb3+wHrOzP+Fiqs/ZrE9PlaenObwDquplg==
   dependencies:
     "@stacks/auth" "2.0.1"
-    "@stacks/connect-ui" "5.4.0"
+    "@stacks/connect-ui" "5.4.1"
     "@stacks/network" "2.0.1"
     "@stacks/prettier-config" "0.0.8"
     "@stacks/transactions" "2.0.1"
@@ -2520,10 +2520,10 @@
     triplesec "^3.0.27"
     zone-file "^1.0.0"
 
-"@stencil/core@^2.6.0":
-  version "2.9.0"
-  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.9.0.tgz#cbac84b996475b8fc983931539ed1261174e2df3"
-  integrity sha512-kY3xYolZoJO1MKslL0NQccHy72R3TIl1prHgfmIrEoGcnMgc6uiskdWaGMuI5/sCGz9T+QuTVz76B1H2ySyBZg==
+"@stencil/core@2.15.0":
+  version "2.15.0"
+  resolved "https://registry.yarnpkg.com/@stencil/core/-/core-2.15.0.tgz#cc49f090a24906b28c926e2f6dc49e75c4adaedf"
+  integrity sha512-58+FPFpJCJScd5nmqVsZN+qk7aui57wFcMHWzySr1SQzoY8Efst9OPG7XRf27UsNj1DNeEdYWTtdrTfJyn3mZg==
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
