@@ -1,3 +1,4 @@
 !packages/clarity/contracts/*
 !packages/docs/*
 **/*.json
+**/*.js

@@ -216,3 +216,6 @@
 (map-set sources {source: "artifix-okcoin"} {public-key: 0x0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa})  ;; stx: ST31HHVBKYCYQQJ5AQ25ZHA6W2A548ZADDQ6S16GP
 (map-set sources {source: "artifix-binance"} {public-key: 0x0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa})  ;; stx: ST31HHVBKYCYQQJ5AQ25ZHA6W2A548ZADDQ6S16GP
 
+;; oracle trait points to test-oracle-1
+;; test-oracle-2 audit + tests > proposal TIPS -> DAO -> Execute on the dao protocol => deploy new version, set parameter in the gateway contract, switch (agree on a block height)
+

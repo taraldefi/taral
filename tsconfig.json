@@ -56,5 +56,6 @@
     "./libs/web/**/*.ts",
     "./apps/scripts/**/*.ts",
     "./apps/oracle/**/*.ts"
-  ]
+  ],
+  "exclude": ["libs/**/*.js", "apps/**/*.js", "packages/**/*.js"]
 }
