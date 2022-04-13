@@ -1,11 +1,11 @@
 import { ClarinetAccounts } from "lib-shared";
 import { ConfigContract, getClarinetConfig } from ".";
 
-export async function getContractsFromClarinet(
+export function getContractsFromClarinet(
   folder: string,
   accounts: ClarinetAccounts
-): Promise<ConfigContract[]> {
-  const clarinetConfig = await getClarinetConfig(folder);
+): ConfigContract[] {
+  const clarinetConfig = getClarinetConfig(folder);
   const deployerAddress = accounts.deployer.address;
   const contracts: ConfigContract[] = Object.entries(
     clarinetConfig.contracts
