@@ -40,7 +40,7 @@
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
     "dayjs": "^1.11.1",
-    "fs-extra": "^10.0.1",
+    "fs-extra": "^10.1.0",
     "lib-shared": "1.0.0",
     "merkletreejs": "^0.2.31",
     "neverthrow": "4.3.1",
