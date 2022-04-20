@@ -26,7 +26,7 @@
     "lib-testing": "1.0.0",
     "@stacks/blockchain-api-client": "^3.0.3",
     "@stacks/common": "^3.5.0",
-    "@stacks/network": "^3.5.0",
+    "@stacks/network": "^4.0.0",
     "@stacks/wallet-sdk": "^1.0.0-wallet-sdk.4",
     "@stacks/stacks-blockchain-api-types": "^3.0.3",
     "@stacks/transactions": "3.5.0",
