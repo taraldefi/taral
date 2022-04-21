@@ -2208,16 +2208,15 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@stacks/auth@2.0.1", "@stacks/auth@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-2.0.1.tgz#cd774036f5edd1c8bdc5270dddb8bc06d41b74cf"
-  integrity sha512-RwKu3+Z2ryxOuS6wB8Y9hFeTnKM+31tOR4toalyPJRbkNsAqWWb0kuuPu7N5hD65zZsiyCImubAzNphJW1MGYw==
+"@stacks/auth@4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-4.0.0.tgz#51e3eb6c240c82ef6dd8749a9c2f0cd1784bb492"
+  integrity sha512-vGl7ozNbm2aktcGwSbFrr6aXrRLoJLAVvf5wX59p/EyotwvrzbblHSzyXFEoY61Nw8FW/cdwDA2ThY9nvBxsnA==
   dependencies:
-    "@stacks/common" "^2.0.1"
-    "@stacks/encryption" "^2.0.1"
-    "@stacks/network" "^2.0.1"
-    "@stacks/profile" "^2.0.1"
-    c32check "^1.1.2"
+    "@stacks/common" "^4.0.0"
+    "@stacks/encryption" "^4.0.0"
+    "@stacks/network" "^4.0.0"
+    "@stacks/profile" "^4.0.0"
     cross-fetch "^3.1.4"
     jsontokens "^3.0.0"
     query-string "^6.13.1"
@@ -2233,6 +2232,20 @@
     "@stacks/profile" "^1.2.3"
     codecov "^3.7.2"
     cross-fetch "^3.0.5"
+    jsontokens "^3.0.0"
+    query-string "^6.13.1"
+
+"@stacks/auth@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/auth/-/auth-2.0.1.tgz#cd774036f5edd1c8bdc5270dddb8bc06d41b74cf"
+  integrity sha512-RwKu3+Z2ryxOuS6wB8Y9hFeTnKM+31tOR4toalyPJRbkNsAqWWb0kuuPu7N5hD65zZsiyCImubAzNphJW1MGYw==
+  dependencies:
+    "@stacks/common" "^2.0.1"
+    "@stacks/encryption" "^2.0.1"
+    "@stacks/network" "^2.0.1"
+    "@stacks/profile" "^2.0.1"
+    c32check "^1.1.2"
+    cross-fetch "^3.1.4"
     jsontokens "^3.0.0"
     query-string "^6.13.1"
 
@@ -2276,23 +2289,23 @@
     buffer "^6.0.3"
     cross-fetch "^3.1.4"
 
-"@stacks/connect-ui@5.4.1":
-  version "5.4.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.4.1.tgz#7237ae4642ce94adafec6cf47e482380ce0946b7"
-  integrity sha512-JRa2dOTwaVwrLboI17WIg7AjEHoXH1pD0kmQSDD7PbgDDLIw8cb1rA7jm8XLn/aeoI0/2e9b52yVCD687Yv2Wg==
+"@stacks/connect-ui@5.5.0":
+  version "5.5.0"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.5.0.tgz#ed4158f83b7494dddbcf8b1504b05663e76a151a"
+  integrity sha512-SGSyAx43eS4CwcJ+iT4mdbRuAEk7tLrQDBLSm9XsipNu3f1nCbcQKxYYUNEpEmVhiQJPBMMeyQaOChFv8LS4Jw==
   dependencies:
     "@stencil/core" "2.15.0"
 
-"@stacks/connect@6.4.2":
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.4.2.tgz#6943a1c5999a03e1a9c4159cc8faf0f814d2b4b4"
-  integrity sha512-m8J8F/Jincc6N8qPJjjZkVQT2adMx78TDzOEokLU8/imS+rxQZqAkb3+wHrOzP+Fiqs/ZrE9PlaenObwDquplg==
+"@stacks/connect@6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.5.0.tgz#8873eae3c440f3613ac2b48785da811ad729d00f"
+  integrity sha512-CMSvPa8LMp7dwPhruSW3CqySw++kyG37oO810E+0U9KvyfqDgrHC7PbMRz95nkbhRhpsAGMaYc/8PrW9KnW4Gw==
   dependencies:
-    "@stacks/auth" "2.0.1"
-    "@stacks/connect-ui" "5.4.1"
-    "@stacks/network" "2.0.1"
+    "@stacks/auth" "4.0.0"
+    "@stacks/connect-ui" "5.5.0"
+    "@stacks/network" "4.0.0"
     "@stacks/prettier-config" "0.0.8"
-    "@stacks/transactions" "2.0.1"
+    "@stacks/transactions" "4.0.0"
     bn.js "^5.2.0"
     buffer "6.0.3"
     jsontokens "^3.0.0"
@@ -2346,12 +2359,12 @@
     sha.js "^2.4.11"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/network@2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-2.0.1.tgz#b48cf3c50793e7aff5a1fbe5ee6ed4bf86da7db5"
-  integrity sha512-eA4AHrhFcIXIurW54HxzIoR6cYqe7hg/eS6aebtgyOUBaMc5w+RwR2iqZwG4M5aO4/Bwe3xdReINUUXJgMFK3g==
+"@stacks/network@4.0.0", "@stacks/network@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.0.0.tgz#1375a1aeec9fdf6a8102557132f055ba14db91e5"
+  integrity sha512-EcZRBUCio1K/YcL0BvA4uOPuyidiTsyDGwEY6O/aft1c+okrOwuk9blGLmwSfMvGXKD7R6o9Y3DBix55oofFnA==
   dependencies:
-    "@stacks/common" "^2.0.1"
+    "@stacks/common" "^4.0.0"
 
 "@stacks/network@^1.2.2":
   version "1.2.2"
@@ -2366,13 +2379,6 @@
   integrity sha512-DX6yFP8NgrxZ1bMwTbIoYzcCcjo979Mao1YsyClFr0Bv6JBF7+jh091A9hJ62jPLZDGbZA/PNWn6QGR+t3VY/w==
   dependencies:
     "@stacks/common" "^2.0.1"
-
-"@stacks/network@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.0.0.tgz#1375a1aeec9fdf6a8102557132f055ba14db91e5"
-  integrity sha512-EcZRBUCio1K/YcL0BvA4uOPuyidiTsyDGwEY6O/aft1c+okrOwuk9blGLmwSfMvGXKD7R6o9Y3DBix55oofFnA==
-  dependencies:
-    "@stacks/common" "^4.0.0"
 
 "@stacks/prettier-config@0.0.8":
   version "0.0.8"
@@ -2406,6 +2412,18 @@
     schema-inspector "^2.0.1"
     zone-file "^1.0.0"
 
+"@stacks/profile@^4.0.0":
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/@stacks/profile/-/profile-4.0.0.tgz#eddb3e25d98bd60b281dcdc4f08d60d351e93877"
+  integrity sha512-7PUrg7zxbAP3AzOeaF+AKkEKZhyvA9JGgBfDO1btq1Y+H/kFmEEV2I0O6XyQSLQeGRxj6Y87TJzsWEG1ypszXA==
+  dependencies:
+    "@stacks/common" "^4.0.0"
+    "@stacks/network" "^4.0.0"
+    "@stacks/transactions" "^4.0.0"
+    jsontokens "^3.0.0"
+    schema-inspector "^2.0.1"
+    zone-file "^2.0.0-beta.3"
+
 "@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-3.0.3.tgz#6f1e3ec3ccb9d5ef357ed5ac3d38cf4b9a0d85bb"
@@ -2431,29 +2449,7 @@
     bitcoinjs-lib "^5.2.0"
     jsontokens "^3.0.0"
 
-"@stacks/transactions@2.0.1", "@stacks/transactions@^2.0.1":
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
-  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
-  dependencies:
-    "@stacks/common" "^2.0.1"
-    "@stacks/network" "^1.2.2"
-    "@types/bn.js" "^4.11.6"
-    "@types/elliptic" "^6.4.12"
-    "@types/node" "^14.14.43"
-    "@types/randombytes" "^2.0.0"
-    "@types/sha.js" "^2.4.0"
-    bn.js "^4.12.0"
-    c32check "^1.1.2"
-    cross-fetch "^3.1.4"
-    elliptic "^6.5.4"
-    lodash "^4.17.20"
-    randombytes "^2.1.0"
-    ripemd160-min "^0.0.6"
-    sha.js "^2.4.11"
-    smart-buffer "^4.1.0"
-
-"@stacks/transactions@4.0.0":
+"@stacks/transactions@4.0.0", "@stacks/transactions@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-4.0.0.tgz#9abe8004ce97723da41520d6b22b261eb9799340"
   integrity sha512-84FKWlr2BZKisIMHdEjmmHzP+KmKLF2LCN18U8e4gYYlElqI+DsUTMquA9acPA820JgWoEBUiSu82KLsz0sxJA==
@@ -2490,6 +2486,28 @@
     elliptic "^6.5.3"
     lodash "^4.17.20"
     lodash-es "4.17.20"
+    randombytes "^2.1.0"
+    ripemd160-min "^0.0.6"
+    sha.js "^2.4.11"
+    smart-buffer "^4.1.0"
+
+"@stacks/transactions@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-2.0.1.tgz#6a9270d49f2b93067f678fe45474a1d72247d4c1"
+  integrity sha512-q+8nCbn+0m1T8NbGG2sfMcBcCxdaH/F+vgBEHkhMIFHFLYXVYBGYbTX2llGS9StLp/tQq6p2Bfb1kzKFSw8FRQ==
+  dependencies:
+    "@stacks/common" "^2.0.1"
+    "@stacks/network" "^1.2.2"
+    "@types/bn.js" "^4.11.6"
+    "@types/elliptic" "^6.4.12"
+    "@types/node" "^14.14.43"
+    "@types/randombytes" "^2.0.0"
+    "@types/sha.js" "^2.4.0"
+    bn.js "^4.12.0"
+    c32check "^1.1.2"
+    cross-fetch "^3.1.4"
+    elliptic "^6.5.4"
+    lodash "^4.17.20"
     randombytes "^2.1.0"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
@@ -15784,3 +15802,8 @@ zone-file@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/zone-file/-/zone-file-1.0.0.tgz#93f4ae26d1a13974f8178f6dfff14b41466c6029"
   integrity sha512-dJynTf/5XCobE6diQBpNWQQRBzXE8d1QhHKemzrkffrZ36F9uKlbBVyIXXbG2CJoaTGZGh8zt2AHX/mG4txtqA==
+
+zone-file@^2.0.0-beta.3:
+  version "2.0.0-beta.3"
+  resolved "https://registry.yarnpkg.com/zone-file/-/zone-file-2.0.0-beta.3.tgz#fad3eb8c624ad8ae746b4547e9947804283048a1"
+  integrity sha512-6tE3PSRcpN5lbTTLlkLez40WkNPc9vw/u1J2j6DBiy0jcVX48nCkWrx2EC+bWHqC2SLp069Xw4AdnYn/qp/W5g==
