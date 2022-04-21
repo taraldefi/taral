@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@stacks/blockchain-api-client": "^3.0.3",
-    "@stacks/common": "^3.5.0",
+    "@stacks/common": "^4.0.0",
     "@stacks/network": "^4.0.0",
     "@stacks/stacks-blockchain-api-types": "^3.0.3",
     "@stacks/transactions": "3.5.0",
