@@ -1,4 +1,10 @@
 {
+  "ts-node": {
+    // these options are overrides used only by ts-node
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
   "compilerOptions": {
     "noEmit": true,
     "target": "ES2020",
@@ -32,7 +38,6 @@
 
   // break
   "importHelpers": true,
-  "jsx": "react",
   "sourceMap": true,
   "strict": true,
 
