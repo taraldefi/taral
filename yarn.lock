@@ -10382,10 +10382,10 @@ micro-base58@0.5.0:
   resolved "https://registry.yarnpkg.com/micro-base58/-/micro-base58-0.5.0.tgz#d113d25d6df8e499e78739f9820687a4fbd5c02a"
   integrity sha512-Gm4qJ1Y5PG0QhR4Vo/Nj4Ll9g/efuyK0w2hYjQaG34/Qtw9Ozpw8ANGNwhHjXfv+rjLlBm8Cd4xvvsI6/go97g==
 
-micro-memoize@^4.0.9:
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.9.tgz#b44a38c9dffbee1cefc2fd139bc8947952268b62"
-  integrity sha512-Z2uZi/IUMGQDCXASdujXRqrXXEwSY0XffUrAOllhqzQI3wpUyZbiZTiE2JuYC0HSG2G7DbCS5jZmsEKEGZuemg==
+micro-memoize@^4.0.10:
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.10.tgz#cedf7682df990cd2290700af4537afa6dba7d4e9"
+  integrity sha512-rk0OlvEQkShjbr2EvGn1+GdCsgLDgABQyM9ZV6VoHNU7hiNM+eSOkjGWhiNabU/XWiEalWbjNQrNO+zcqd+pEA==
 
 micro-stacks@0.3.0:
   version "0.3.0"
