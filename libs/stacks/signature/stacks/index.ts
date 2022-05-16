@@ -10,6 +10,8 @@ export * from "./create-private-key";
 
 export * from "./public-key-from-private-key";
 
+export * from "./public-key-from-signature";
+
 export * from "./types";
 
 export * from "./utils";
