@@ -62,3 +62,9 @@ export enum PubKeyEncoding {
   Compressed = 0x00,
   Uncompressed = 0x01,
 }
+
+export interface VerifyMessageSignatureArgs {
+  signature: string;
+  message: string | Buffer;
+  publicKey: string;
+}
