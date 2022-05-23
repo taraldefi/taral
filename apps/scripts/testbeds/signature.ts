@@ -47,6 +47,12 @@ export async function signature() {
     PubKeyEncoding.Compressed
   );
 
+  console.log("Compressed public key from signature ", compressedPubKeyFromSig);
+  console.log(
+    "Equality between keys",
+    compressedPubKeyFromSig === publicKey.data.toString("hex")
+  );
+
   const result = verifyMessageSignatureRsv({
     message: Buffer.from(messageHex, "hex"),
     publicKey: compressedPubKeyFromSig,

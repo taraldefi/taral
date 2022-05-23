@@ -10,9 +10,6 @@ export function verifyMessageSignature({
   message,
   publicKey,
 }: VerifyMessageSignatureArgs): boolean {
-  console.log("Verify signature: ", signature);
-
-  // todo: remove method and pull body to `verifyMessageSignatureRsv`
   const { r, s } = parseRecoverableSignature(signature);
   const sig = new Signature(hexToBigInt(r), hexToBigInt(s));
   const hashedMsg =

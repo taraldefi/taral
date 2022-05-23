@@ -38,7 +38,7 @@ test("Signature verification successful", () => {
     PubKeyEncoding.Compressed
   );
 
-  expect(publicKeyFromSignatureVrs).toEqual(publicKey);
+  expect(compressedPubKeyFromSig).toEqual(publicKey.data.toString("hex"));
 
   const signatureVerificationResult = verifyMessageSignatureRsv({
     message: Buffer.from(messageHex, "hex"),
