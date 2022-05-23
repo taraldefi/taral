@@ -1,3 +1,4 @@
+import { signature } from "./testbeds/signature";
 import { getDeployerPublicKey } from "./testbeds/public-key-testbed";
 const NAME = "Testbed";
 
@@ -6,7 +7,9 @@ async function main() {
   console.log("Taral testbed");
   console.log("A place to quickly prototype and test things.");
   console.log(`Ran from ${cwd}`);
-  await getDeployerPublicKey();
+  // await getDeployerPublicKey();
+
+  await signature();
 }
 
 main();
