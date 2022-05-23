@@ -1,6 +1,4 @@
 import { signature } from "./testbeds/signature";
-import { getDeployerPublicKey } from "./testbeds/public-key-testbed";
-const NAME = "Testbed";
 
 async function main() {
   const cwd = `${process.cwd()}`;

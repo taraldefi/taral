@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import packageJson from "../package.json";
 import { addSourceCommand } from "./commands/add-source-command";
 import { checkPricesCommand } from "./commands/check-prices-command";
 import { checkSourcesCommand } from "./commands/check-sources-command";
@@ -6,7 +7,6 @@ import { feedOraclePricesCommand } from "./commands/feed-oracle-prices-command";
 import { revokeSourceCommand } from "./commands/revoke-source-command";
 import { updatePricesCommand } from "./commands/update-prices-command";
 
-import packageJson from "../package.json";
 const version: string = packageJson.version;
 
 const program = new Command().version(version).name("oracle");

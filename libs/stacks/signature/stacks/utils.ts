@@ -1,11 +1,10 @@
-import { Address, StacksPublicKey } from "./types";
+import { IntegerType, intToBigInt } from "@stacks/common";
 import { c32address } from "c32check";
 import RIPEMD160 from "ripemd160-min";
 import { sha256 } from "sha.js";
-import { StacksMessageType } from "./types";
-import { IntegerType, intToBigInt } from "@stacks/common";
-import { encode, decode, encodingLength } from "varuint-bitcoin";
-import { CHAIN_PREFIX, RECOVERABLE_ECDSA_SIG_LENGTH_BYTES } from "./constants";
+import { encode } from "varuint-bitcoin";
+import { CHAIN_PREFIX } from "./constants";
+import { Address, StacksMessageType, StacksPublicKey } from "./types";
 
 // The following methods are based on `@noble/hashes` implementation
 // https://github.com/paulmillr/noble-hashes

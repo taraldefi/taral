@@ -1,25 +1,22 @@
 import { readFileSync, writeFileSync } from "fs";
 import {
-  addPrices,
   IOraclePriceFeed,
   retrieveBinanceFeed,
   retrieveCoinbaseOracleFeed,
   retrieveOKCoinFeed,
   retrieveOKCoinOracleFeed,
 } from "lib-oracle";
-
+import { Logger } from "lib-shared";
+import { timeout } from "lib-stacks";
 import {
-  ORACLE_STX,
-  STACKS_API_URL,
   COINBASE_KEY,
   COINBASE_PASSPHRASE,
   COINBASE_SECRET,
   INFURA_API_URL,
   ORACLE_SK,
+  ORACLE_STX,
+  STACKS_API_URL,
 } from "../config";
-
-import { Logger } from "lib-shared";
-import { timeout } from "lib-stacks";
 import { ORACLE_HELPER } from "../utils/contract-helper";
 
 const LOGGER_CATEGORY = "feed-prices-command";
@@ -77,10 +74,6 @@ export async function feedOraclePricesCommand() {
     );
 
     console.log("feed", feed.length);
-    const result = await addPrices({
-      contract,
-      priceFeed: feed,
-    });
 
     writeFileSync(
       filename,

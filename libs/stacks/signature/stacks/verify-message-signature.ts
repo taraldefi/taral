@@ -1,14 +1,6 @@
-import { hashMessage, hexToBigInt, parseRecoverableSignature } from "./utils";
-import {
-  getPublicKey,
-  getSharedSecret,
-  Point,
-  Signature,
-  signSync,
-  utils,
-  verify,
-} from "@noble/secp256k1";
+import { Signature, verify } from "@noble/secp256k1";
 import { VerifyMessageSignatureArgs } from "./types";
+import { hashMessage, hexToBigInt, parseRecoverableSignature } from "./utils";
 
 /**
  * Verify message signature with recoverable public key
@@ -18,6 +10,8 @@ export function verifyMessageSignature({
   message,
   publicKey,
 }: VerifyMessageSignatureArgs): boolean {
+  console.log("Verify signature: ", signature);
+
   // todo: remove method and pull body to `verifyMessageSignatureRsv`
   const { r, s } = parseRecoverableSignature(signature);
   const sig = new Signature(hexToBigInt(r), hexToBigInt(s));

@@ -5,9 +5,9 @@ import {
   Logger,
   NodeContractInstance,
 } from "lib-shared";
-import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
-import { NETWORK } from "taral-configuration";
 import { ApiProvider } from "lib-testing";
+import { NETWORK } from "taral-configuration";
+import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
 
 interface IOracleContractInfo {
   contract: NodeContractInstance<

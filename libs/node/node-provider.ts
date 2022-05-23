@@ -2,6 +2,7 @@ import {
   Configuration,
   SmartContractsApi,
 } from "@stacks/blockchain-api-client";
+import { StacksNetwork } from "@stacks/network";
 import {
   AnchorMode,
   broadcastTransaction,
@@ -19,14 +20,14 @@ import {
 } from "@stacks/transactions";
 import BN from "bn.js";
 import fetch from "cross-fetch";
-import { err, ok } from "neverthrow";
-import { BaseProvider, INodeProviderRequest } from "lib-shared";
 import {
+  BaseProvider,
   ClarityAbiMap,
-  NodeContractInstances,
-  NodeContracts,
   cvToValue,
   getContractIdentifier,
+  INodeProviderRequest,
+  NodeContractInstances,
+  NodeContracts,
   parseToCV,
   SubmitOptions,
   Submitter,
@@ -34,8 +35,8 @@ import {
   TransactionResult,
   WebTransactionReceipt,
 } from "lib-shared";
+import { err, ok } from "neverthrow";
 import { getTransactionById } from "../stacks/utils";
-import { StacksNetwork } from "@stacks/network";
 
 export interface NodeConfig {
   network: StacksNetwork;

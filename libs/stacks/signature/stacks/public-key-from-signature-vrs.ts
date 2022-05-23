@@ -1,21 +1,19 @@
+import { Point, Signature } from "@noble/secp256k1";
 import { MessageSignature, PubKeyEncoding } from "./types";
-import { hexToBigInt, parseRecoverableSignature } from "./utils";
 import {
-  getPublicKey,
-  getSharedSecret,
-  Point,
-  Signature,
-  signSync,
-  utils,
-  verify,
-} from "@noble/secp256k1";
+  hexToBigInt,
+  parseRecoverableSignature,
+  signatureRsvToVrs,
+} from "./utils";
 
 export function publicKeyFromSignatureVrs(
   message: string,
   messageSignature: MessageSignature,
   pubKeyEncoding = PubKeyEncoding.Compressed
 ): string {
-  const parsedSignature = parseRecoverableSignature(messageSignature.data);
+  const parsedSignature = parseRecoverableSignature(
+    signatureRsvToVrs(messageSignature.data)
+  );
   const signature = new Signature(
     hexToBigInt(parsedSignature.r),
     hexToBigInt(parsedSignature.s)

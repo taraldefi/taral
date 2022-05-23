@@ -1,14 +1,6 @@
+import { Point, Signature } from "@noble/secp256k1";
 import { MessageSignature, PubKeyEncoding } from "./types";
 import { hexToBigInt, parseRecoverableSignature } from "./utils";
-import {
-  getPublicKey,
-  getSharedSecret,
-  Point,
-  Signature,
-  signSync,
-  utils,
-  verify,
-} from "@noble/secp256k1";
 
 export function publicKeyFromSignatureRsv(
   message: string,

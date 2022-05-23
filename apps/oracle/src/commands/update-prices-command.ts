@@ -1,14 +1,10 @@
 import {
-  addPrices,
   IOraclePriceFeed,
   retrieveBinanceFeed,
   retrieveCoinbaseOracleFeed,
   retrieveOKCoinFeed,
   retrieveOKCoinOracleFeed,
 } from "lib-oracle";
-
-import { ORACLE_HELPER } from "../utils/contract-helper";
-
 import {
   COINBASE_KEY,
   COINBASE_PASSPHRASE,
@@ -16,6 +12,7 @@ import {
   INFURA_API_URL,
   ORACLE_SK,
 } from "../config";
+import { ORACLE_HELPER } from "../utils/contract-helper";
 
 export async function updatePricesCommand() {
   const coinbase_oracle_feed = await retrieveCoinbaseOracleFeed({
@@ -42,8 +39,4 @@ export async function updatePricesCommand() {
   const contract = await ORACLE_HELPER.buildOracleContract();
 
   console.log("feed", feed.length);
-  const result = await addPrices({
-    contract,
-    priceFeed: feed,
-  });
 }

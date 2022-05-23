@@ -1,7 +1,7 @@
-import { Logger } from "lib-shared";
-import { decodeBtcAddress } from "lib-bitcoin";
-import { address } from "bitcoinjs-lib";
 import * as btc from "bitcoinjs-lib";
+import { address } from "bitcoinjs-lib";
+import { decodeBtcAddress } from "lib-bitcoin";
+import { Logger } from "lib-shared";
 
 const LOGGER_CATEGORY = "GET_OUTPUT_SCRIPT";
 
