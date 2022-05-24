@@ -21,7 +21,7 @@
     "clarinet:tests": "yarn eol && yarn workspace taral-clarity clarinet:tests",
     "unit-tests": "yarn workspace taral-unit-tests unit-tests",
     "web-testbed:dev": "yarn workspace taral-web-testbed start",
-    "integration-tests": "Yarn workspace taral-integration-tests integration-tests",
+    "integration-tests": "yarn workspace taral-integration-tests integration-tests",
     "eol": "yarn workspace taral-clarity eol",
     "format": "prettier --write \"./**/*.{js,jsx,ts,json}\"",
     "deploy": "yarn workspace taral-scripts deploy",
