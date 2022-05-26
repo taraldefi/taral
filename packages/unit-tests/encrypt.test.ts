@@ -1,11 +1,9 @@
 import { clarinetAccounts, deployer } from "./jest-setup";
 import {
-  createStacksPrivateKey,
   decryptContent,
   ecPrivateKey,
   encryptContent,
   getPublicKeyFromPrivate,
-  privateKeyToBuffer,
 } from "lib-stacks";
 import { PRIVATE_KEY_UNCOMPRESSED_LENGTH } from "@stacks/common";
 

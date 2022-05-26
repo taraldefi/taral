@@ -28,9 +28,6 @@ export function decryptContent(
 
   try {
     const cipherObject = JSON.parse(content);
-
-    console.log("Decrypt ecies", opts.privateKey, cipherObject);
-
     return decryptECIES(opts.privateKey, cipherObject);
   } catch (err) {
     if (err instanceof SyntaxError) {
