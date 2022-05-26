@@ -17,7 +17,6 @@ import {
   ORACLE_STX,
   STACKS_API_URL,
 } from "../config";
-import { ORACLE_HELPER } from "../utils/contract-helper";
 
 const LOGGER_CATEGORY = "feed-prices-command";
 
@@ -47,8 +46,6 @@ export async function feedOraclePricesCommand() {
     await timeout(1000 * 60); // 1 minute
     nonce = await getNonce();
   }
-
-  const contract = await ORACLE_HELPER.buildOracleContract();
 
   while (true) {
     const coinbase_oracle_feed = await retrieveCoinbaseOracleFeed({

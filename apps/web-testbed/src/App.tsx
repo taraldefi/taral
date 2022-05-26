@@ -21,7 +21,7 @@ const appDetails: AppDetails = {
 async function callGetName(userSession: UserSession): Promise<string> {
   const webProvider = SimpleStacksWebProvider.fromContracts(webTaralContracts, {
     appDetails,
-    network: NETWORK,
+    network: NETWORK
   });
 
   const stxAddress = userSession.loadUserData().profile.stxAddress.testnet;

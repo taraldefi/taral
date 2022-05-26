@@ -21,6 +21,7 @@ export enum StacksMessageType {
   Payload,
   MessageSignature,
   TransactionAuthField,
+  PrivateKey,
 }
 
 export interface MessageSignature {

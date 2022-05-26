@@ -1,3 +1,4 @@
+import { Signature, verify } from "@noble/secp256k1";
 import {
   bytesToHex,
   createStacksPrivateKey,
@@ -15,7 +16,6 @@ import {
   verifyMessageSignatureRsv,
 } from "lib-stacks";
 import { clarinetAccounts } from "./jest-setup";
-import { Signature, verify } from "@noble/secp256k1";
 
 test("Signature verification successful", () => {
   const message = "Hello world";

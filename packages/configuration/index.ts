@@ -2,7 +2,7 @@
 
 import { StacksNetwork, StacksTestnet } from "@stacks/network";
 
-export const NETWORK: StacksTestnet = new StacksTestnet({
+export const NETWORK: StacksNetwork = new StacksTestnet({
   url: "http://localhost:3999",
 });
 
