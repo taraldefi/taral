@@ -1,7 +1,7 @@
 import { FinishedTxData } from "@stacks/connect";
 import { StacksNetwork } from "@stacks/network";
 import { Transaction } from "lib-shared";
-import { AuthOptions } from "micro-stacks/connect";
+import { AppDetails } from "../shared";
 
 export interface SimpleStacksWebTransaction<Ok, Err>
   extends Transaction<Ok, Err> {
@@ -19,7 +19,7 @@ export interface TxPayload {
   functionName: string;
   functionArgs: string[];
   network: StacksNetwork;
-  appDetails: AuthOptions["appDetails"];
+  appDetails: AppDetails;
 }
 
 export interface SimpleStacksContractCallPayload

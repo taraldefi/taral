@@ -5,15 +5,6 @@ import {
 import { ContractCallOptions, openContractCall } from "@stacks/connect";
 import { StacksNetwork } from "@stacks/network";
 import {
-  StacksTransaction,
-  Authorization,
-  SponsoredAuthorization,
-  StandardAuthorization,
-  createSponsoredAuth,
-  createMultiSigSpendingCondition,
-  createSingleSigSpendingCondition,
-} from "@stacks/transactions";
-import {
   AnchorMode,
   ClarityAbiVariable,
   ClarityType,
@@ -25,6 +16,7 @@ import {
   responseOkCV,
   serializeCV,
   serializePostCondition,
+  StacksTransaction,
 } from "@stacks/transactions";
 import {
   BaseWebProvider,

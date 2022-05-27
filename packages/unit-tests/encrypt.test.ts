@@ -1,11 +1,11 @@
-import { deployer } from "./jest-setup";
+import { PRIVATE_KEY_UNCOMPRESSED_LENGTH } from "@stacks/common";
 import {
   decryptString,
   ecPrivateKey,
   encryptString,
   getPublicKeyFromPrivate,
 } from "lib-stacks";
-import { PRIVATE_KEY_UNCOMPRESSED_LENGTH } from "@stacks/common";
+import { deployer } from "./jest-setup";
 
 test("Encryption tests", async () => {
   const content = "Test encryption";

@@ -1,5 +1,5 @@
 import { getPublicKey, getSharedSecret, utils } from "@noble/secp256k1";
-import { bytesToHex, publicKeyFromPrivKey } from "../signature";
+import { bytesToHex } from "../signature";
 import {
   concatBytes,
   getPublicKeyFromPrivate,

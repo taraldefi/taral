@@ -1,9 +1,8 @@
-import { Point } from "@noble/secp256k1";
+import { getPublicKey as nobleGetPublicKey, Point } from "@noble/secp256k1";
 import { StacksNetwork } from "@stacks/network";
 import { getTransactionUrl } from "taral-configuration";
-import { InvalidPublicKeyReason } from "./types";
-import { getPublicKey as nobleGetPublicKey } from "@noble/secp256k1";
 import { privateKeyToBuffer } from "./signature";
+import { InvalidPublicKeyReason } from "./types";
 
 export async function timeout(ms: number) {
   await new Promise((resolve) => setTimeout(resolve, ms));

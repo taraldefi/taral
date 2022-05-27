@@ -1,4 +1,3 @@
-import BN from "bn.js";
 import { ec as EC } from "elliptic";
 import { createStacksPrivateKey } from "./create-private-key";
 import { StacksPublicKey } from "./types";
