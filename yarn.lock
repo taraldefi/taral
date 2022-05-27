@@ -1819,12 +1819,12 @@
   resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.30.0.tgz#13e9f80ec4e3fbed585b6703e235f0ea54726f5e"
   integrity sha512-RMylvTbZiU9B5bx+bZmPtacKobjMJOJBDxn3TPraEe4bz/gG0ZpVKCedDqLgrDYIlCSxUutoFan1IJ2EHxvo3Q==
 
-"@noble/hashes@1.0.0", "@noble/hashes@^1.0.0", "@noble/hashes@~1.0.0":
+"@noble/hashes@^1.0.0", "@noble/hashes@~1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@noble/hashes/-/hashes-1.0.0.tgz#d5e38bfbdaba174805a4e649f13be9a9ed3351ae"
   integrity sha512-DZVbtY62kc3kkBtMHqwCOfXrT/hnoORy5BJ4+HU1IR59X0KWAOqsfzQPcUl/lQLlG7qXbe/fZ3r/emxtAl+sqg==
 
-"@noble/secp256k1@1.5.5", "@noble/secp256k1@^1.5.5", "@noble/secp256k1@~1.5.2":
+"@noble/secp256k1@^1.5.5", "@noble/secp256k1@~1.5.2":
   version "1.5.5"
   resolved "https://registry.yarnpkg.com/@noble/secp256k1/-/secp256k1-1.5.5.tgz#315ab5745509d1a8c8e90d0bdf59823ccf9bcfc3"
   integrity sha512-sZ1W6gQzYnu45wPrWx8D3kwI2/U29VYTx9OjbDAd7jwRItJ0cSTMPRL/C8AWZFn9kWFLQGqEXVEE86w4Z8LpIQ==
@@ -2399,7 +2399,7 @@
     ripemd160-min "^0.0.6"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/network@4.2.0", "@stacks/network@^4.2.0", "@stacks/network@^4.3.0":
+"@stacks/network@4.2.0", "@stacks/network@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.2.0.tgz#7fbe9e4f240e19373231a746566aad82ce1e94ff"
   integrity sha512-hngDy/olmTvJm+7A7pMTpghwI9Pd0mCUdxq7ogIwfvirRiQVnwwf+Zs0ySFkTNhVzUi9+DQIWEyyaXFBiqzQbw==
@@ -10018,14 +10018,6 @@ micro-memoize@^4.0.10:
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/micro-memoize/-/micro-memoize-4.0.10.tgz#cedf7682df990cd2290700af4537afa6dba7d4e9"
   integrity sha512-rk0OlvEQkShjbr2EvGn1+GdCsgLDgABQyM9ZV6VoHNU7hiNM+eSOkjGWhiNabU/XWiEalWbjNQrNO+zcqd+pEA==
-
-micro-stacks@0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/micro-stacks/-/micro-stacks-0.3.0.tgz#da3ed81d5417af3378d9484845ee4d480614c53d"
-  integrity sha512-RHOMtMaptyAffSQvwR2mvLyN3y72PP0cq3qaTY74sFt/yPzQa4eihQHD2Fbw9eI8uean20mqZ4e+A+nLUmQeYQ==
-  dependencies:
-    "@noble/hashes" "1.0.0"
-    "@noble/secp256k1" "1.5.5"
 
 micromatch@^4.0.0, micromatch@^4.0.2, micromatch@^4.0.4:
   version "4.0.4"
