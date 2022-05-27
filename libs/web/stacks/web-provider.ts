@@ -5,6 +5,15 @@ import {
 import { ContractCallOptions, openContractCall } from "@stacks/connect";
 import { StacksNetwork } from "@stacks/network";
 import {
+  StacksTransaction,
+  Authorization,
+  SponsoredAuthorization,
+  StandardAuthorization,
+  createSponsoredAuth,
+  createMultiSigSpendingCondition,
+  createSingleSigSpendingCondition,
+} from "@stacks/transactions";
+import {
   AnchorMode,
   ClarityAbiVariable,
   ClarityType,
@@ -168,7 +177,17 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
 
         const result = await this.handlePopup(contractCallOptions);
         const success = result.success;
-        const stacksTransaction = result.payload!.stacksTransaction;
+
+        const connectTransaction = result.payload!.stacksTransaction;
+        const stacksTransaction = new StacksTransaction(
+          connectTransaction.version,
+          connectTransaction.auth,
+          connectTransaction.payload,
+          connectTransaction.postConditions,
+          connectTransaction.postConditionMode,
+          connectTransaction.anchorMode,
+          connectTransaction.chainId
+        );
 
         return {
           txId: success ? result.payload?.txId : undefined,
