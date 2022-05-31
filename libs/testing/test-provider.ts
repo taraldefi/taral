@@ -1,9 +1,11 @@
 import {
   ClarityAbiFunction,
   ClarityAbiType,
+  ClarityAbiTypeTuple,
   ClarityAbiVariable,
   ClarityType,
-  cvToString,
+  ClarityValue,
+  // cvToString,
   deserializeCV,
   responseErrorCV,
   responseOkCV,
@@ -23,6 +25,7 @@ import {
   NodeContractInstances,
   NodeContracts,
   parseToCV,
+  principalToString,
   SubmitOptions,
   Submitter,
   Transaction,
@@ -228,15 +231,15 @@ export class TestProvider implements BaseProvider {
     return formatted;
   }
 
-  formatArgument(type: ClarityAbiType, arg: any) {
+  formatArgument(type: ClarityAbiTypeTuple | ClarityAbiType, arg: any) {
     if (type === "trait_reference") {
       return `'${arg}`;
     }
     const argCV = parseToCV(arg, type);
-    const cvString = cvToString(argCV);
-    if (type === "principal") {
-      return `'${cvString}`;
-    }
+    const cvString = this.cvToString(argCV);
+    // if (type === "principal") {
+    //   return `'${cvString}`;
+    // }
     return cvString;
   }
 
@@ -252,6 +255,50 @@ export class TestProvider implements BaseProvider {
         return err(value);
       default:
         return value;
+    }
+  }
+
+  cvToString(val: ClarityValue, encoding: "tryAscii" | "hex" = "hex"): string {
+    switch (val.type) {
+      case ClarityType.BoolTrue:
+        return "true";
+      case ClarityType.BoolFalse:
+        return "false";
+      case ClarityType.Int:
+        return val.value.toString();
+      case ClarityType.UInt:
+        return `u${val.value.toString()}`;
+      case ClarityType.Buffer:
+        if (encoding === "tryAscii") {
+          const str = val.buffer.toString("ascii");
+          if (/[ -~]/.test(str)) {
+            return JSON.stringify(str);
+          }
+        }
+        return `0x${val.buffer.toString("hex")}`;
+      case ClarityType.OptionalNone:
+        return "none";
+      case ClarityType.OptionalSome:
+        return `(some ${this.cvToString(val.value, encoding)})`;
+      case ClarityType.ResponseErr:
+        return `(err ${this.cvToString(val.value, encoding)})`;
+      case ClarityType.ResponseOk:
+        return `(ok ${this.cvToString(val.value, encoding)})`;
+      case ClarityType.PrincipalStandard:
+      case ClarityType.PrincipalContract:
+        return `'${principalToString(val)}`;
+      case ClarityType.List:
+        return `(list ${val.list
+          .map((v) => this.cvToString(v, encoding))
+          .join(" ")})`;
+      case ClarityType.Tuple:
+        return `(tuple ${Object.keys(val.data)
+          .map((key) => `(${key} ${this.cvToString(val.data[key], encoding)})`)
+          .join(" ")})`;
+      case ClarityType.StringASCII:
+        return `"${val.data}"`;
+      case ClarityType.StringUTF8:
+        return `u"${val.data}"`;
     }
   }
 }

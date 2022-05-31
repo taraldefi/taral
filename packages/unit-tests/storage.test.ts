@@ -30,10 +30,7 @@ test("[File storage] - Can list file", async () => {
     )
   );
 
-  console.log("Result ", result);
-
-  expect(result).toEqual(true);
-
+  expect(result.value).toEqual(true);
   filesForMember = await onChainStorage.getFilesByMember(deployer.address);
   expect(filesForMember["file-ids"]).toHaveLength(2);
   expect(filesForMember["file-ids"][1]).toEqual(1n);
