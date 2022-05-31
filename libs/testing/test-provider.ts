@@ -134,7 +134,7 @@ export class TestProvider implements BaseProvider {
   }
 
   async callMap(map: ClarityAbiMap, key: any): Promise<void> {
-    const keyFormatted = this.formatArgument(map.key, key);
+    const keyFormatted = this.formatArgument(map.key as ClarityAbiType, key);
     const evalCode = `(map-get? ${map.name} ${keyFormatted})`;
     const result = await evalWithCode({
       contractAddress: this.contractIdentifier,
