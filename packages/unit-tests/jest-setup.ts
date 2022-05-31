@@ -15,10 +15,12 @@ import {
   nodeTaralContracts,
   TaralCoinContract,
   TaralOracleV1Contract,
+  TaralStorageContract,
 } from "taral-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let taralOracle: (caller: ClarinetAccount) => TaralOracleV1Contract;
+export let taralStorage: (caller: ClarinetAccount) => TaralStorageContract;
 
 export let clarinetAccounts: ClarinetAccounts;
 export let deployer: ClarinetAccount;
@@ -43,4 +45,5 @@ beforeAll(async () => {
 
   talToken = deployed.nodeTaralCoin.contract;
   taralOracle = deployed.nodeTaralOracleV1.contract;
+  taralStorage = deployed.nodeTaralStorage.contract;
 }, 3000000);

@@ -288,3 +288,6 @@ depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
 [contracts.insurance-pool-admin]
 path = "contracts/taral/insurance-pool-admin.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
+
+[contracts.taral-storage]
+path = "contracts/taral/taral-storage.clar"
