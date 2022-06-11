@@ -19,9 +19,95 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "public",
       args: [
         {
-          name: "name",
+          name: "role-to-add",
+          type: "uint128",
+        },
+        {
+          name: "principal-to-add",
+          type: "principal",
+        },
+      ],
+      name: "add-principal-to-role",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+        {
+          name: "can-read",
+          type: "bool",
+        },
+        {
+          name: "can-write",
+          type: "bool",
+        },
+      ],
+      name: "grant-access",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "name-to-set",
           type: {
-            "string-utf8": {
+            "string-ascii": {
+              length: 32,
+            },
+          },
+        },
+        {
+          name: "symbol-to-set",
+          type: {
+            "string-ascii": {
+              length: 32,
+            },
+          },
+        },
+        {
+          name: "decimals-to-set",
+          type: "uint128",
+        },
+        {
+          name: "initial-owner",
+          type: "principal",
+        },
+      ],
+      name: "initialize",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "filename",
+          type: {
+            "string-ascii": {
               length: 128,
             },
           },
@@ -29,37 +115,165 @@ export const TaralStorageInterface: ClarityAbi = {
         {
           name: "hash",
           type: {
-            "string-utf8": {
+            buffer: {
               length: 256,
             },
           },
         },
         {
-          name: "owners",
+          name: "signature",
           type: {
-            list: {
-              length: 50,
-              type: {
-                tuple: [
-                  {
-                    name: "address",
-                    type: "principal",
-                  },
-                  {
-                    name: "can-read",
-                    type: "bool",
-                  },
-                  {
-                    name: "can-write",
-                    type: "bool",
-                  },
-                ],
-              },
+            buffer: {
+              length: 65,
             },
           },
         },
       ],
       name: "register-file",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "role-to-remove",
+          type: "uint128",
+        },
+        {
+          name: "principal-to-remove",
+          type: "principal",
+        },
+      ],
+      name: "remove-principal-from-role",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+      ],
+      name: "revoke-access",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+        {
+          name: "can-read",
+          type: "bool",
+        },
+        {
+          name: "can-write",
+          type: "bool",
+        },
+      ],
+      name: "update-access",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "principal-to-update",
+          type: "principal",
+        },
+        {
+          name: "set-blacklisted",
+          type: "bool",
+        },
+      ],
+      name: "update-blacklisted",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+        {
+          name: "hash",
+          type: {
+            buffer: {
+              length: 256,
+            },
+          },
+        },
+        {
+          name: "signature",
+          type: {
+            buffer: {
+              length: 65,
+            },
+          },
+        },
+      ],
+      name: "update-file",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "participant",
+          type: "principal",
+        },
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+      ],
+      name: "can-read-file",
       outputs: {
         type: {
           response: {
@@ -73,30 +287,233 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "read_only",
       args: [
         {
-          name: "member",
+          name: "participant",
+          type: "principal",
+        },
+        {
+          name: "file-id",
+          type: "uint128",
+        },
+      ],
+      name: "can-write-file",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: "bool",
+          },
+        },
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "participant",
           type: "principal",
         },
       ],
-      name: "get-files-by-member",
+      name: "detect-restriction",
       outputs: {
         type: {
-          tuple: [
-            {
-              name: "file-ids",
-              type: {
-                list: {
-                  length: 1000,
-                  type: "uint128",
-                },
-              },
-            },
-          ],
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
         },
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "role-to-check",
+          type: "uint128",
+        },
+        {
+          name: "principal-to-check",
+          type: "principal",
+        },
+      ],
+      name: "has-role",
+      outputs: {
+        type: "bool",
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "message",
+          type: {
+            buffer: {
+              length: 256,
+            },
+          },
+        },
+      ],
+      name: "hash-message",
+      outputs: {
+        type: {
+          buffer: {
+            length: 32,
+          },
+        },
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "principal-to-check",
+          type: "principal",
+        },
+      ],
+      name: "is-blacklisted",
+      outputs: {
+        type: "bool",
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
+          name: "hash",
+          type: {
+            buffer: {
+              length: 32,
+            },
+          },
+        },
+        {
+          name: "signature",
+          type: {
+            buffer: {
+              length: 65,
+            },
+          },
+        },
+        {
+          name: "signer",
+          type: "principal",
+        },
+      ],
+      name: "validate-signature",
+      outputs: {
+        type: "bool",
       },
     },
   ],
   fungible_tokens: [],
   maps: [
+    {
+      key: {
+        tuple: [
+          {
+            name: "account",
+            type: "principal",
+          },
+        ],
+      },
+      name: "blacklist",
+      value: {
+        tuple: [
+          {
+            name: "blacklisted",
+            type: "bool",
+          },
+        ],
+      },
+    },
+    {
+      key: {
+        tuple: [
+          {
+            name: "id",
+            type: "uint128",
+          },
+          {
+            name: "participant",
+            type: "principal",
+          },
+        ],
+      },
+      name: "file-authorizations",
+      value: {
+        tuple: [
+          {
+            name: "can-read",
+            type: "bool",
+          },
+          {
+            name: "can-write",
+            type: "bool",
+          },
+          {
+            name: "owns",
+            type: "bool",
+          },
+        ],
+      },
+    },
+    {
+      key: {
+        tuple: [
+          {
+            name: "id",
+            type: "uint128",
+          },
+        ],
+      },
+      name: "file-hash",
+      value: {
+        tuple: [
+          {
+            name: "hash",
+            type: {
+              buffer: {
+                length: 256,
+              },
+            },
+          },
+          {
+            name: "name",
+            type: {
+              "string-ascii": {
+                length: 128,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      key: {
+        tuple: [
+          {
+            name: "hash",
+            type: {
+              buffer: {
+                length: 256,
+              },
+            },
+          },
+          {
+            name: "id",
+            type: "uint128",
+          },
+        ],
+      },
+      name: "file-versions",
+      value: {
+        tuple: [
+          {
+            name: "changed-by",
+            type: "principal",
+          },
+        ],
+      },
+    },
     {
       key: {
         tuple: [
@@ -110,54 +527,26 @@ export const TaralStorageInterface: ClarityAbi = {
       value: {
         tuple: [
           {
-            name: "created-at",
-            type: {
-              optional: "uint128",
-            },
+            name: "created",
+            type: "uint128",
           },
           {
             name: "hash",
             type: {
-              "string-utf8": {
+              buffer: {
                 length: 256,
               },
             },
           },
           {
-            name: "last-modified",
-            type: {
-              optional: "uint128",
-            },
+            name: "last-updated",
+            type: "uint128",
           },
           {
             name: "name",
             type: {
-              "string-utf8": {
+              "string-ascii": {
                 length: 128,
-              },
-            },
-          },
-          {
-            name: "owners",
-            type: {
-              list: {
-                length: 50,
-                type: {
-                  tuple: [
-                    {
-                      name: "address",
-                      type: "principal",
-                    },
-                    {
-                      name: "can-read",
-                      type: "bool",
-                    },
-                    {
-                      name: "can-write",
-                      type: "bool",
-                    },
-                  ],
-                },
               },
             },
           },
@@ -168,22 +557,56 @@ export const TaralStorageInterface: ClarityAbi = {
       key: {
         tuple: [
           {
-            name: "member",
+            name: "hash",
+            type: {
+              buffer: {
+                length: 256,
+              },
+            },
+          },
+          {
+            name: "name",
+            type: {
+              "string-ascii": {
+                length: 128,
+              },
+            },
+          },
+          {
+            name: "participant",
             type: "principal",
           },
         ],
       },
-      name: "files-by-member",
+      name: "files-by-name",
       value: {
         tuple: [
           {
-            name: "file-ids",
-            type: {
-              list: {
-                length: 1000,
-                type: "uint128",
-              },
-            },
+            name: "id",
+            type: "uint128",
+          },
+        ],
+      },
+    },
+    {
+      key: {
+        tuple: [
+          {
+            name: "account",
+            type: "principal",
+          },
+          {
+            name: "role",
+            type: "uint128",
+          },
+        ],
+      },
+      name: "roles",
+      value: {
+        tuple: [
+          {
+            name: "allowed",
+            type: "bool",
           },
         ],
       },
@@ -191,6 +614,101 @@ export const TaralStorageInterface: ClarityAbi = {
   ],
   non_fungible_tokens: [],
   variables: [
+    {
+      access: "constant",
+      name: "BLACKLISTER_ROLE",
+      type: "uint128",
+    },
+    {
+      access: "constant",
+      name: "ERR_EMPTY_FILENAME",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_EMPTY_HASH",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_EMPTY_SIGNATURE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_FILE_ALREADY_REGISTERED",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_FILE_NOT_FOUND",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_INVALID_FILE_ID",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_INVALID_PRINCIPAL",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_INVALID_ROLE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_INVALID_SIGNATURE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
     {
       access: "constant",
       name: "ERR_NOT_FOUND",
@@ -222,9 +740,49 @@ export const TaralStorageInterface: ClarityAbi = {
       },
     },
     {
+      access: "constant",
+      name: "ERR_UNKNOWN_FILE_ACCESS",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "OWNER_ROLE",
+      type: "uint128",
+    },
+    {
+      access: "constant",
+      name: "PERMISSION_DENIED_ERROR",
+      type: "uint128",
+    },
+    {
+      access: "constant",
+      name: "RESTRICTION_BLACKLIST",
+      type: "uint128",
+    },
+    {
+      access: "constant",
+      name: "RESTRICTION_NONE",
+      type: "uint128",
+    },
+    {
+      access: "variable",
+      name: "deployer-principal",
+      type: "principal",
+    },
+    {
       access: "variable",
       name: "files-count",
       type: "uint128",
+    },
+    {
+      access: "variable",
+      name: "is-initialized",
+      type: "bool",
     },
     {
       access: "variable",

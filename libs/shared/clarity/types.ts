@@ -2,26 +2,13 @@ import type * as Clarity from "@stacks/transactions";
 import {
   ClarityAbi as _ClarityAbi,
   ClarityAbiType,
-  ClarityAbiTypeTuple,
 } from "@stacks/transactions";
 import { Result } from "neverthrow";
 
 export interface ClarityAbiMap {
   name: string;
-  key:
-    | {
-        name: string;
-        type: ClarityAbiType;
-      }[]
-    | ClarityAbiTypeTuple
-    | ClarityAbiType;
-  value:
-    | {
-        name: string;
-        type: ClarityAbiType;
-      }[]
-    | ClarityAbiTypeTuple
-    | ClarityAbiType;
+  key: ClarityAbiType;
+  value: ClarityAbiType;
 }
 export interface ClarityAbi extends Omit<_ClarityAbi, "maps"> {
   maps: ClarityAbiMap[];

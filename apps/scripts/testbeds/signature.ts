@@ -1,10 +1,11 @@
 import { Signature, verify } from "@noble/secp256k1";
-import { getClarinetAccounts } from "lib-infra";
-import { getRootDirectory } from "lib-shared";
+import { createHash } from "crypto";
 import {
   bytesToHex,
   createStacksPrivateKey,
   getAddressFromPublicKey,
+  hashMessage,
+  hashStacksMessage,
   hexToBigInt,
   parseRecoverableSignature,
   PubKeyEncoding,
@@ -12,32 +13,42 @@ import {
   publicKeyFromSignatureVrs,
   signatureRsvToVrs,
   signMessageHashRsv,
+  signWithKey,
   StacksPrivateKey,
   TransactionVersion,
   utf8ToBytes,
   verifyMessageSignatureRsv,
 } from "lib-stacks";
 
-export async function signature() {
-  const root = `${getRootDirectory()}/packages/clarity`;
+// const ascii_message_prefix = "Stacks Signed Message: ";
 
-  const contracts = await getClarinetAccounts(root);
+// function signMessageForVerification(
+//   private_key: StacksPrivateKey,
+//   message: string
+// ): Buffer {
+//   const hash = createHash("sha256")
+//     .update(Buffer.from(`${ascii_message_prefix}${message}`, "ascii"))
+//     .digest();
+//   const data = signWithKey(private_key, hash.toString("hex")).data;
+//   // signWithKey returns a signature in vrs order, Clarity requires rsv.
+//   return Buffer.from(data.slice(2) + data.slice(0, 2), "hex");
+// }
 
-  const deployerPrivateKey = contracts.deployer.privateKey;
+export function signature() {
+  const deployerPrivateKey =
+    "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
   const publicKey = publicKeyFromPrivKey(deployerPrivateKey);
-
-  const address = getAddressFromPublicKey(
-    publicKey.data,
-    TransactionVersion.Testnet
-  );
 
   const stacksPrivateKey: StacksPrivateKey =
     createStacksPrivateKey(deployerPrivateKey);
 
-  const messageHex = bytesToHex(utf8ToBytes(address));
+  const messageRaw =
+    "e2d0fe1585a63ec6009c8016ff8dda8b17719a637405a4e23c0ff81339148249";
+
+  const messageHex = hashStacksMessage({ message: messageRaw });
 
   const signature = signMessageHashRsv({
-    messageHash: messageHex,
+    message: messageRaw,
     privateKey: stacksPrivateKey,
   });
 
@@ -81,8 +92,18 @@ export async function signature() {
     TransactionVersion.Testnet
   );
 
+  // const simpleSignatureBuffer = signMessageForVerification(
+  //   stacksPrivateKey,
+  //   messageRaw
+  // );
+
   console.log("Noble signature verification: ", nobleVerify);
+  // console.log("Simple signature: ", simpleSignatureBuffer.toString("hex"));
   console.log("Signature verification: ", result);
+  console.log("Noble signature: ", nobleSignature.toCompactHex());
+  console.log("Noble (der) signature hex: ", nobleSignature.toDERHex(true));
   console.log(publicKey.data.toString("hex"));
+  console.log("Signature: ", signature.data);
+  console.log("Message hex: ", messageHex);
   console.log(addressFromPublicKey);
 }

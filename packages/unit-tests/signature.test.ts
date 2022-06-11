@@ -1,8 +1,8 @@
 import { Signature, verify } from "@noble/secp256k1";
 import {
-  bytesToHex,
   createStacksPrivateKey,
   getAddressFromPublicKey,
+  hashStacksMessage,
   hexToBigInt,
   parseRecoverableSignature,
   PubKeyEncoding,
@@ -12,7 +12,6 @@ import {
   signMessageHashRsv,
   StacksPrivateKey,
   TransactionVersion,
-  utf8ToBytes,
   verifyMessageSignatureRsv,
 } from "lib-stacks";
 import { clarinetAccounts } from "./jest-setup";
@@ -25,10 +24,10 @@ test("Signature verification successful", () => {
   const stacksPrivateKey: StacksPrivateKey =
     createStacksPrivateKey(deployerPrivateKey);
 
-  const messageHex = bytesToHex(utf8ToBytes(message));
+  const messageHex = hashStacksMessage({ message });
 
   const signature = signMessageHashRsv({
-    messageHash: messageHex,
+    message: message,
     privateKey: stacksPrivateKey,
   });
 
