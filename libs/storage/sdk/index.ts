@@ -6,4 +6,6 @@ export * from "./can-write";
 
 export * from "./grant-access";
 
+export * from "./update-file";
+
 export * from "./types";

@@ -35,3 +35,13 @@ export interface IStorageFileAccessGrant {
 
   canWrite: boolean;
 }
+
+export interface IStorageFileUpdate {
+  contract: TaralStorageContract;
+
+  fileId: bigint;
+
+  privateKey: string;
+
+  fileBuffer: Buffer;
+}
