@@ -9,3 +9,19 @@ export interface IStorageFileRegister {
 
   contract: TaralStorageContract;
 }
+
+export interface IStorageFileWriteInterrogation {
+  participant: string;
+
+  fileId: bigint;
+
+  contract: TaralStorageContract;
+}
+
+export interface IStorageFileReadInterrogation {
+  participant: string;
+
+  fileId: bigint;
+
+  contract: TaralStorageContract;
+}
