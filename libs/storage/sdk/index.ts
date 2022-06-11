@@ -8,4 +8,6 @@ export * from "./grant-access";
 
 export * from "./update-file";
 
+export * from "./get-file-hash";
+
 export * from "./types";

@@ -6,9 +6,13 @@ import {
   IStorageFileRegister,
   canWrite,
   canRead,
+  getFileHash,
 } from "lib-storage";
 
-test("[File storage] - API", async () => {
+test("[File storage] - Happy flow", async () => {
+  const firstFileHash =
+    "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
+
   const deployer = clarinetAccounts.deployer;
 
   const onChainStorage = taralStorage(deployer);
@@ -26,6 +30,10 @@ test("[File storage] - API", async () => {
   const registerFileResult = await registerFile(registerFilePayload);
 
   expect(registerFileResult).toEqual(1n);
+
+  const onChainHash = await getFileHash(1n, onChainStorage);
+
+  expect(onChainHash).toEqual(firstFileHash);
 
   const canWriteFile = await canWrite({
     contract: onChainStorage,
