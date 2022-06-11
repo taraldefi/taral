@@ -172,7 +172,6 @@
         (if (and
             (not (is-blacklisted participant))
             (is-eq (get can-write file-authorization) true)
-            (is-eq (get owns file-authorization ) true)
         )   
             (ok true)
             (ok false)
@@ -422,9 +421,19 @@
         ;; Mutate the authorization for this file
         ;;
         (map-delete file-authorizations { id: file-id, participant: participant })
+
         (map-set file-authorizations { id: file-id, participant: participant }
             (merge existing-file-authorizationsorization { owns: false, can-read: can-read, can-write: can-write })
         )
+
+        (print {
+            contract: "taral-storage",
+            event: "update-access",
+            action: "update-file-authorizations",
+            can-read: (get can-read (unwrap! (map-get? file-authorizations { id: file-id, participant: participant }) ERR_UNKNOWN_FILE_ACCESS)),
+            can-write: (get can-write (unwrap! (map-get? file-authorizations { id: file-id, participant: participant }) ERR_UNKNOWN_FILE_ACCESS)),
+            id: file-id
+        })
 
         ;; Add it to the files by name
         ;;
