@@ -1,11 +1,11 @@
 import { Logger, txOk } from "lib-shared";
-import { IStorageFileAccessGrant } from "./types";
+import { IStorageFileAccessUpdate } from "./types";
 
-export async function grantAccessToFile(
-  request: IStorageFileAccessGrant
+export async function updateAccessToFile(
+  request: IStorageFileAccessUpdate
 ): Promise<boolean> {
   const response = await txOk(
-    request.contract.grantAccess(
+    request.contract.updateAccess(
       request.participant,
       request.fileId,
       request.canRead,
@@ -13,6 +13,6 @@ export async function grantAccessToFile(
     )
   );
 
-  Logger.debug("grant-access", "Received result ", response);
+  Logger.debug("update-access", "Received result ", response);
   return response.value;
 }

@@ -352,6 +352,7 @@
 ;; off-chain file storage
 ;;
 (define-public (grant-access
+    (participant principal)
     (file-id uint)
     (can-read bool)
     (can-write bool)
@@ -363,9 +364,11 @@
 
         (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
 
+        (asserts! (is-some (some participant)) ERR_INVALID_PRINCIPAL)
+
         ;; Add this authorization rule
         ;;
-        (map-set file-authorizations { id: file-id, participant: tx-sender } {
+        (map-set file-authorizations { id: file-id, participant: participant } {
             owns: false, 
             can-read: can-read, 
             can-write: can-write 
@@ -373,12 +376,12 @@
 
         ;; Add it to the files by name
         ;;
-        (map-set files-by-name {name: (get name existing-file), participant: tx-sender, hash: (get hash existing-file) } { id: file-id })
+        (map-set files-by-name {name: (get name existing-file), participant: participant, hash: (get hash existing-file) } { id: file-id })
 
         (print {
             contract: "taral-storage",
             event: "grant-access",
-            participant: tx-sender,
+            participant: participant,
             can-read: can-read,
             can-write: can-write,
             id: file-id
@@ -401,32 +404,36 @@
 ;; Allows updating access to the file
 ;;
 (define-public (update-access
+    (participant principal)
     (file-id uint)
     (can-read bool)
     (can-write bool)
 )
     (
         let (
-            (existing-file-authorizationsorization (unwrap! (map-get? file-authorizations { id: file-id, participant: tx-sender }) ERR_UNKNOWN_FILE_ACCESS))
+            (existing-file-authorizationsorization (unwrap! (map-get? file-authorizations { id: file-id, participant: participant }) ERR_UNKNOWN_FILE_ACCESS))
             (existing-file (unwrap! (map-get? files {id: file-id }) ERR_FILE_NOT_FOUND))
         )
 
         (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
 
+        (asserts! (is-some (some participant)) ERR_INVALID_PRINCIPAL)
+
         ;; Mutate the authorization for this file
         ;;
-        (map-set file-authorizations { id: file-id, participant: tx-sender }
+        (map-delete file-authorizations { id: file-id, participant: participant })
+        (map-set file-authorizations { id: file-id, participant: participant }
             (merge existing-file-authorizationsorization { owns: false, can-read: can-read, can-write: can-write })
         )
 
         ;; Add it to the files by name
         ;;
-        (map-set files-by-name {name: (get name existing-file), participant: tx-sender, hash: (get hash existing-file) } { id: file-id })
+        (map-set files-by-name {name: (get name existing-file), participant: participant, hash: (get hash existing-file) } { id: file-id })
 
         (print {
             contract: "taral-storage",
             event: "update-access",
-            participant: tx-sender,
+            participant: participant,
             can-read: can-read,
             can-write: can-write,
             id: file-id

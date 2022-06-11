@@ -1,19 +1,23 @@
 import { readFileSync } from "fs";
 import { getRootDirectory } from "lib-shared";
-import { clarinetAccounts, taralStorage } from "./jest-setup";
 import {
-  registerFile,
-  IStorageFileRegister,
-  canWrite,
   canRead,
+  canWrite,
   getFileHash,
+  grantAccessToFile,
+  IStorageFileRegister,
+  registerFile,
+  updateAccessToFile,
 } from "lib-storage";
+import { clarinetAccounts, taralStorage } from "./jest-setup";
 
 test("[File storage] - Happy flow", async () => {
   const firstFileHash =
     "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
 
   const deployer = clarinetAccounts.deployer;
+
+  const bob = clarinetAccounts["wallet_1"];
 
   const onChainStorage = taralStorage(deployer);
   const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
@@ -49,4 +53,69 @@ test("[File storage] - Happy flow", async () => {
 
   expect(canWriteFile).toBeTruthy();
   expect(canReadFile).toBeTruthy();
+
+  let canBobWriteFile = await canWrite({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  let canBobReadFile = await canRead({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(canBobWriteFile).toBeFalsy();
+  expect(canBobReadFile).toBeFalsy();
+
+  const grantAccessToBobResult = await grantAccessToFile({
+    canRead: true,
+    canWrite: false,
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(grantAccessToBobResult).toBeTruthy();
+
+  canBobWriteFile = await canWrite({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  canBobReadFile = await canRead({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(canBobWriteFile).toBeFalsy();
+  expect(canBobReadFile).toBeTruthy();
+
+  const updateAccessResult = await updateAccessToFile({
+    canRead: true,
+    canWrite: true,
+    contract: onChainStorage,
+    participant: bob.address,
+    fileId: 1n,
+  });
+
+  expect(updateAccessResult).toBeTruthy();
+
+  const bobsNewWritePermissions = await canWrite({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  const bobsNewReadPermissions = await canRead({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(bobsNewWritePermissions).toBeTruthy();
+  expect(bobsNewReadPermissions).toBeTruthy();
 });

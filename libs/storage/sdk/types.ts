@@ -34,6 +34,20 @@ export interface IStorageFileAccessGrant {
   canRead: boolean;
 
   canWrite: boolean;
+
+  participant: string;
+}
+
+export interface IStorageFileAccessUpdate {
+  contract: TaralStorageContract;
+
+  fileId: bigint;
+
+  canRead: boolean;
+
+  canWrite: boolean;
+
+  participant: string;
 }
 
 export interface IStorageFileUpdate {

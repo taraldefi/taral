@@ -6,6 +6,7 @@ export interface TaralStorageContract {
     principalToAdd: string
   ) => Transaction<boolean, bigint>;
   grantAccess: (
+    participant: string,
     fileId: number | bigint,
     canRead: boolean,
     canWrite: boolean
@@ -27,6 +28,7 @@ export interface TaralStorageContract {
   ) => Transaction<boolean, bigint>;
   revokeAccess: (fileId: number | bigint) => Transaction<boolean, bigint>;
   updateAccess: (
+    participant: string,
     fileId: number | bigint,
     canRead: boolean,
     canWrite: boolean
@@ -82,6 +84,7 @@ export interface TaralStorageContract {
   PERMISSION_DENIED_ERROR: () => Promise<bigint>;
   RESTRICTION_BLACKLIST: () => Promise<bigint>;
   RESTRICTION_NONE: () => Promise<bigint>;
+  messagePrefix: () => Promise<Buffer>;
   deployerPrincipal: () => Promise<string>;
   filesCount: () => Promise<bigint>;
   isInitialized: () => Promise<boolean>;

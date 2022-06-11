@@ -1,13 +1,8 @@
-export * from "./register-file";
-
 export * from "./can-read";
-
 export * from "./can-write";
-
-export * from "./grant-access";
-
-export * from "./update-file";
-
 export * from "./get-file-hash";
-
+export * from "./grant-access";
+export * from "./register-file";
 export * from "./types";
+export * from "./update-access";
+export * from "./update-file";

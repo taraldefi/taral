@@ -41,6 +41,10 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "public",
       args: [
         {
+          name: "participant",
+          type: "principal",
+        },
+        {
           name: "file-id",
           type: "uint128",
         },
@@ -182,6 +186,10 @@ export const TaralStorageInterface: ClarityAbi = {
     {
       access: "public",
       args: [
+        {
+          name: "participant",
+          type: "principal",
+        },
         {
           name: "file-id",
           type: "uint128",
@@ -768,6 +776,15 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "constant",
       name: "RESTRICTION_NONE",
       type: "uint128",
+    },
+    {
+      access: "constant",
+      name: "message-prefix",
+      type: {
+        buffer: {
+          length: 23,
+        },
+      },
     },
     {
       access: "variable",

@@ -1,7 +1,5 @@
 import {
   ClarityAbiType,
-  ClarityAbiTypeId,
-  ClarityAbiTypeBuffer,
   ClarityValue,
   contractPrincipalCV,
   intCV,
@@ -18,8 +16,6 @@ import {
   stringUtf8CV,
   tupleCV,
   uintCV,
-  isClarityAbiBuffer,
-  bufferCV,
 } from "@stacks/transactions";
 
 type TupleInput = Record<string, any>;

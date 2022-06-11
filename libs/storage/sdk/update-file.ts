@@ -1,3 +1,4 @@
+import * as crypto from "crypto";
 import { Logger, txOk } from "lib-shared";
 import {
   createStacksPrivateKey,
@@ -6,7 +7,6 @@ import {
   utf8ToBytes,
 } from "lib-stacks";
 import { IStorageFileUpdate } from "./types";
-import * as crypto from "crypto";
 
 export async function updateFile(
   request: IStorageFileUpdate

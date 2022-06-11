@@ -1,13 +1,12 @@
-import { IStorageFileRegister } from "./types";
 import * as crypto from "crypto";
+import { Logger, txOk } from "lib-shared";
 import {
   createStacksPrivateKey,
-  hashStacksMessage,
   signMessageHashRsv,
   StacksPrivateKey,
   utf8ToBytes,
 } from "lib-stacks";
-import { Logger, txOk } from "lib-shared";
+import { IStorageFileRegister } from "./types";
 
 export async function registerFile(
   request: IStorageFileRegister

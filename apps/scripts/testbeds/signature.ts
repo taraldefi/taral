@@ -1,10 +1,7 @@
 import { Signature, verify } from "@noble/secp256k1";
-import { createHash } from "crypto";
 import {
-  bytesToHex,
   createStacksPrivateKey,
   getAddressFromPublicKey,
-  hashMessage,
   hashStacksMessage,
   hexToBigInt,
   parseRecoverableSignature,
@@ -13,10 +10,8 @@ import {
   publicKeyFromSignatureVrs,
   signatureRsvToVrs,
   signMessageHashRsv,
-  signWithKey,
   StacksPrivateKey,
   TransactionVersion,
-  utf8ToBytes,
   verifyMessageSignatureRsv,
 } from "lib-stacks";
 
