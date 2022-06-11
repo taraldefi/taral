@@ -33,6 +33,5 @@ export async function registerFile(
   );
 
   Logger.debug("register-file", "Received result ", response);
-  Logger.debug("register-file-result", response.value.toString());
   return response.value;
 }

@@ -25,3 +25,13 @@ export interface IStorageFileReadInterrogation {
 
   contract: TaralStorageContract;
 }
+
+export interface IStorageFileAccessGrant {
+  contract: TaralStorageContract;
+
+  fileId: bigint;
+
+  canRead: boolean;
+
+  canWrite: boolean;
+}
