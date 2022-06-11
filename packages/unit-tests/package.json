@@ -27,6 +27,7 @@
     "lib-oracle": "1.0.0",
     "lib-infra": "1.0.0",
     "lib-testing": "1.0.0",
-    "lib-clarity-bin": "1.0.0"
+    "lib-clarity-bin": "1.0.0",
+    "lib-storage": "1.0.0"
   }
 }
