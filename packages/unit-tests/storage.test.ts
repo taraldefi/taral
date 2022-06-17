@@ -6,6 +6,7 @@ import {
   IStorageFileRegister,
   IStorageFileUpdate,
   registerFile,
+  revokeAccessFromFile,
   updateAccessToFile,
   updateFile,
 } from "lib-storage";
@@ -141,4 +142,27 @@ test("[File storage] - Happy flow", async () => {
 
   const newOnChainHash = await getFileHash(1n, onChainStorage);
   expect(newOnChainHash).toEqual(secondFileHash);
+
+  const revokeAccessResult = await revokeAccessFromFile({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(revokeAccessResult).toEqual(true);
+
+  const bobsRevokeAccessWritePermissions = await canWrite({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  const bobsRevokeAccessReadPermissions = await canRead({
+    contract: onChainStorage,
+    fileId: 1n,
+    participant: bob.address,
+  });
+
+  expect(bobsRevokeAccessWritePermissions).toBeFalsy();
+  expect(bobsRevokeAccessReadPermissions).toBeFalsy();
 });
