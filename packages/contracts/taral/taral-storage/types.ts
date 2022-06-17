@@ -26,7 +26,10 @@ export interface TaralStorageContract {
     roleToRemove: number | bigint,
     principalToRemove: string
   ) => Transaction<boolean, bigint>;
-  revokeAccess: (fileId: number | bigint) => Transaction<boolean, bigint>;
+  revokeAccess: (
+    fileId: number | bigint,
+    participant: string
+  ) => Transaction<boolean, bigint>;
   updateAccess: (
     participant: string,
     fileId: number | bigint,

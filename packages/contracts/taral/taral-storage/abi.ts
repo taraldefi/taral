@@ -172,6 +172,10 @@ export const TaralStorageInterface: ClarityAbi = {
           name: "file-id",
           type: "uint128",
         },
+        {
+          name: "participant",
+          type: "principal",
+        },
       ],
       name: "revoke-access",
       outputs: {

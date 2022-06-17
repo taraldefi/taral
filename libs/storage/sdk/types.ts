@@ -59,3 +59,11 @@ export interface IStorageFileUpdate {
 
   fileBuffer: Buffer;
 }
+
+export interface IStorageFileAccessRevoke {
+  contract: TaralStorageContract;
+
+  fileId: bigint;
+
+  participant: string;
+}

@@ -1,5 +1,3 @@
-import { readFileSync } from "fs";
-import { getRootDirectory } from "lib-shared";
 import {
   canRead,
   canWrite,
