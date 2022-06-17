@@ -6,14 +6,23 @@ import {
   getFileHash,
   grantAccessToFile,
   IStorageFileRegister,
+  IStorageFileUpdate,
   registerFile,
   updateAccessToFile,
+  updateFile,
 } from "lib-storage";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
+import { readTestFile } from "./test-utils";
 
 test("[File storage] - Happy flow", async () => {
   const firstFileHash =
     "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
+
+  const secondFileHash =
+    "0x39373839393763306535616630353865633736393535333062643163313633393430656461333935393734633939356165373665386463313131343638363235";
+
+  const firstVersionFileName = "file-first-version.txt";
+  const secondVersionFileName = "file-second-version.txt";
 
   const deployer = clarinetAccounts.deployer;
 
@@ -21,12 +30,12 @@ test("[File storage] - Happy flow", async () => {
 
   const onChainStorage = taralStorage(deployer);
   const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
-  const filename = "file.txt";
-  const filePath = `${getRootDirectory()}/packages/unit-tests/${filename}`;
-  const fileBuffer = readFileSync(filePath);
+
+  const firstFileBuffer = readTestFile(firstVersionFileName);
+
   const registerFilePayload: IStorageFileRegister = {
-    fileBuffer: fileBuffer,
-    fileName: filename,
+    fileBuffer: firstFileBuffer,
+    fileName: firstVersionFileName,
     privateKey: deployerPrivateKey,
     contract: onChainStorage,
   };
@@ -118,4 +127,20 @@ test("[File storage] - Happy flow", async () => {
 
   expect(bobsNewWritePermissions).toBeTruthy();
   expect(bobsNewReadPermissions).toBeTruthy();
+
+  const secondFileBuffer = readTestFile(secondVersionFileName);
+
+  const updateFilePayload: IStorageFileUpdate = {
+    fileBuffer: secondFileBuffer,
+    fileId: 1n,
+    privateKey: deployerPrivateKey,
+    contract: onChainStorage,
+  };
+
+  const updateFileResult = await updateFile(updateFilePayload);
+
+  expect(updateFileResult).toEqual(true);
+
+  const newOnChainHash = await getFileHash(1n, onChainStorage);
+  expect(newOnChainHash).toEqual(secondFileHash);
 });
