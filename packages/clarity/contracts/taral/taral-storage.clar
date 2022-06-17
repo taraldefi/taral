@@ -465,22 +465,23 @@
 ;;
 (define-public (revoke-access 
     (file-id uint)
+    (participant principal)
 )
     (
         let (
-            (existing-file-authorizationsorization (unwrap! (map-get? file-authorizations {id: file-id, participant: tx-sender }) ERR_UNKNOWN_FILE_ACCESS))
+            (existing-file-authorizationsorization (unwrap! (map-get? file-authorizations {id: file-id, participant: participant }) ERR_UNKNOWN_FILE_ACCESS))
         )
 
         (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
 
-        (map-set file-authorizations { id: file-id, participant: tx-sender }
+        (map-set file-authorizations { id: file-id, participant: participant }
             (merge existing-file-authorizationsorization { owns: false, can-read: false, can-write: false })
         )
 
         (print {
             contract: "taral-storage",
             event: "revoke-access",
-            participant: tx-sender,
+            participant: participant,
             can-read: false,
             can-write: false,
             id: file-id
