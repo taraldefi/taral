@@ -3,16 +3,16 @@ import { TaralOracleV1Contract } from "taral-contracts";
 import { IOraclePriceFeed } from "./types";
 
 export async function addPrice({
-    contract,
-    priceFeed,
+  contract,
+  priceFeed,
 }: {
-    contract: TaralOracleV1Contract;
-    priceFeed: IOraclePriceFeed;
+  contract: TaralOracleV1Contract;
+  priceFeed: IOraclePriceFeed;
 }): Promise<boolean> {
-    const response = await txOk(
-        contract.addPrice(priceFeed.source, priceFeed.payload, priceFeed.signature)
-    );
+  const response = await txOk(
+    contract.addPrice(priceFeed.source, priceFeed.payload, priceFeed.signature)
+  );
 
-    Logger.debug("add-price", "Received result ", response);
-    return response.value;
+  Logger.debug("add-price", "Received result ", response);
+  return response.value;
 }

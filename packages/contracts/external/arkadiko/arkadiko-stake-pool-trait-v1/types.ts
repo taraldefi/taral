@@ -1,1 +1,1 @@
-export interface ArkadikoStakePoolTraitV1Contract { }
+export interface ArkadikoStakePoolTraitV1Contract {}

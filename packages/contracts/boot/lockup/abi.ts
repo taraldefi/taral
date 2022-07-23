@@ -1,68 +1,68 @@
 import { ClarityAbi } from "lib-shared";
 
 export const LockupInterface: ClarityAbi = {
-    functions: [
+  functions: [
+    {
+      access: "read_only",
+      args: [
         {
-            access: "read_only",
-            args: [
-                {
-                    name: "stx-block-height-opt",
-                    type: {
-                        optional: "uint128",
-                    },
-                },
-            ],
-            name: "get-lockups",
-            outputs: {
+          name: "stx-block-height-opt",
+          type: {
+            optional: "uint128",
+          },
+        },
+      ],
+      name: "get-lockups",
+      outputs: {
+        type: {
+          response: {
+            error: "none",
+            ok: {
+              list: {
+                length: 4430,
                 type: {
-                    response: {
-                        error: "none",
-                        ok: {
-                            list: {
-                                length: 4430,
-                                type: {
-                                    tuple: [
-                                        {
-                                            name: "amount",
-                                            type: "uint128",
-                                        },
-                                        {
-                                            name: "recipient",
-                                            type: "principal",
-                                        },
-                                    ],
-                                },
-                            },
-                        },
+                  tuple: [
+                    {
+                      name: "amount",
+                      type: "uint128",
                     },
-                },
-            },
-        },
-    ],
-    fungible_tokens: [],
-    maps: [
-        {
-            key: "uint128",
-            name: "lockups",
-            value: {
-                list: {
-                    length: 4430,
-                    type: {
-                        tuple: [
-                            {
-                                name: "amount",
-                                type: "uint128",
-                            },
-                            {
-                                name: "recipient",
-                                type: "principal",
-                            },
-                        ],
+                    {
+                      name: "recipient",
+                      type: "principal",
                     },
+                  ],
                 },
+              },
             },
+          },
         },
-    ],
-    non_fungible_tokens: [],
-    variables: [],
+      },
+    },
+  ],
+  fungible_tokens: [],
+  maps: [
+    {
+      key: "uint128",
+      name: "lockups",
+      value: {
+        list: {
+          length: 4430,
+          type: {
+            tuple: [
+              {
+                name: "amount",
+                type: "uint128",
+              },
+              {
+                name: "recipient",
+                type: "principal",
+              },
+            ],
+          },
+        },
+      },
+    },
+  ],
+  non_fungible_tokens: [],
+  variables: [],
 };

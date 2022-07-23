@@ -1,1 +1,1 @@
-export interface ArkadikoVaultTraitV1Contract { }
+export interface ArkadikoVaultTraitV1Contract {}

@@ -1,29 +1,29 @@
 import { nodeBtcFtSwapInfo, webBtcFtSwapInfo } from "./btc-ft-swap";
 import { nodeBtcNftSwapInfo, webBtcNftSwapInfo } from "./btc-nft-swap";
 import {
-    nodeClarityBitcoinInfo,
-    webClarityBitcoinInfo
+  nodeClarityBitcoinInfo,
+  webClarityBitcoinInfo,
 } from "./clarity-bitcoin";
 import {
-    nodeInsurancePoolAdminInfo,
-    webInsurancePoolAdminInfo
+  nodeInsurancePoolAdminInfo,
+  webInsurancePoolAdminInfo,
 } from "./insurance-pool-admin";
 import {
-    nodeInsurancePoolAuditInfo,
-    webInsurancePoolAuditInfo
+  nodeInsurancePoolAuditInfo,
+  webInsurancePoolAuditInfo,
 } from "./insurance-pool-audit";
 import {
-    nodeInsurancePoolAuditCompactInfo,
-    webInsurancePoolAuditCompactInfo
+  nodeInsurancePoolAuditCompactInfo,
+  webInsurancePoolAuditCompactInfo,
 } from "./insurance-pool-audit-compact";
 import {
-    nodeInsurancePoolOracleInfo,
-    webInsurancePoolOracleInfo
+  nodeInsurancePoolOracleInfo,
+  webInsurancePoolOracleInfo,
 } from "./insurance-pool-oracle";
 import { nodeNftTraitInfo, webNftTraitInfo } from "./nft-trait";
 import {
-    nodeSip10FtStandardInfo,
-    webSip10FtStandardInfo
+  nodeSip10FtStandardInfo,
+  webSip10FtStandardInfo,
 } from "./sip-10-ft-standard";
 import { nodeTaralCoinInfo, webTaralCoinInfo } from "./taral-coin";
 import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
@@ -42,31 +42,31 @@ export type { TaralOracleV1Contract } from "./taral-oracle-v1";
 export type { TaralStorageContract } from "./taral-storage";
 
 export const nodeTaralContracts = {
-    nodeSip10FtStandard: nodeSip10FtStandardInfo,
-    nodeNftTrait: nodeNftTraitInfo,
-    nodeTaralCoin: nodeTaralCoinInfo,
-    nodeClarityBitcoin: nodeClarityBitcoinInfo,
-    nodeBtcFtSwap: nodeBtcFtSwapInfo,
-    nodeBtcNftSwap: nodeBtcNftSwapInfo,
-    nodeTaralOracleV1: nodeTaralOracleV1Info,
-    nodeInsurancePoolOracle: nodeInsurancePoolOracleInfo,
-    nodeInsurancePoolAuditCompact: nodeInsurancePoolAuditCompactInfo,
-    nodeInsurancePoolAudit: nodeInsurancePoolAuditInfo,
-    nodeInsurancePoolAdmin: nodeInsurancePoolAdminInfo,
-    nodeTaralStorage: nodeTaralStorageInfo,
+  nodeSip10FtStandard: nodeSip10FtStandardInfo,
+  nodeNftTrait: nodeNftTraitInfo,
+  nodeTaralCoin: nodeTaralCoinInfo,
+  nodeClarityBitcoin: nodeClarityBitcoinInfo,
+  nodeBtcFtSwap: nodeBtcFtSwapInfo,
+  nodeBtcNftSwap: nodeBtcNftSwapInfo,
+  nodeTaralOracleV1: nodeTaralOracleV1Info,
+  nodeInsurancePoolOracle: nodeInsurancePoolOracleInfo,
+  nodeInsurancePoolAuditCompact: nodeInsurancePoolAuditCompactInfo,
+  nodeInsurancePoolAudit: nodeInsurancePoolAuditInfo,
+  nodeInsurancePoolAdmin: nodeInsurancePoolAdminInfo,
+  nodeTaralStorage: nodeTaralStorageInfo,
 };
 
 export const webTaralContracts = {
-    webSip10FtStandard: webSip10FtStandardInfo,
-    webNftTrait: webNftTraitInfo,
-    webTaralCoin: webTaralCoinInfo,
-    webClarityBitcoin: webClarityBitcoinInfo,
-    webBtcFtSwap: webBtcFtSwapInfo,
-    webBtcNftSwap: webBtcNftSwapInfo,
-    webTaralOracleV1: webTaralOracleV1Info,
-    webInsurancePoolOracle: webInsurancePoolOracleInfo,
-    webInsurancePoolAuditCompact: webInsurancePoolAuditCompactInfo,
-    webInsurancePoolAudit: webInsurancePoolAuditInfo,
-    webInsurancePoolAdmin: webInsurancePoolAdminInfo,
-    webTaralStorage: webTaralStorageInfo,
+  webSip10FtStandard: webSip10FtStandardInfo,
+  webNftTrait: webNftTraitInfo,
+  webTaralCoin: webTaralCoinInfo,
+  webClarityBitcoin: webClarityBitcoinInfo,
+  webBtcFtSwap: webBtcFtSwapInfo,
+  webBtcNftSwap: webBtcNftSwapInfo,
+  webTaralOracleV1: webTaralOracleV1Info,
+  webInsurancePoolOracle: webInsurancePoolOracleInfo,
+  webInsurancePoolAuditCompact: webInsurancePoolAuditCompactInfo,
+  webInsurancePoolAudit: webInsurancePoolAuditInfo,
+  webInsurancePoolAdmin: webInsurancePoolAdminInfo,
+  webTaralStorage: webTaralStorageInfo,
 };

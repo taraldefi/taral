@@ -18,12 +18,8 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@libs/storage": [
-        "../../libs/storage"
-      ],
-      "@libs/stacks": [
-        "../../libs/stacks"
-      ]
+      "@libs/storage": ["../../libs/storage"],
+      "@libs/stacks": ["../../libs/stacks"]
     }
   }
 }

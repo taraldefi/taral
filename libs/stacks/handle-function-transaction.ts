@@ -1,10 +1,10 @@
 import { StacksNetwork } from "@stacks/network";
 import {
-    broadcastTransaction,
-    StacksTransaction,
-    TxBroadcastResult,
-    TxBroadcastResultOk,
-    TxBroadcastResultRejected
+  broadcastTransaction,
+  StacksTransaction,
+  TxBroadcastResult,
+  TxBroadcastResultOk,
+  TxBroadcastResultRejected,
 } from "@stacks/transactions";
 import { Logger } from "lib-shared";
 import { timeout } from "./utils";
@@ -12,76 +12,76 @@ import { timeout } from "./utils";
 const NAME = "handle-function-transaction";
 
 export async function handleFunctionTransaction(
-    transaction: StacksTransaction,
-    network: StacksNetwork,
-    functionName: string,
-    contractName: string
+  transaction: StacksTransaction,
+  network: StacksNetwork,
+  functionName: string,
+  contractName: string
 ): Promise<TxBroadcastResult> {
-    const result = await broadcastTransaction(transaction, network);
-    if ((result as TxBroadcastResultRejected).error) {
-        return result as TxBroadcastResultRejected;
-    }
+  const result = await broadcastTransaction(transaction, network);
+  if ((result as TxBroadcastResultRejected).error) {
+    return result as TxBroadcastResultRejected;
+  }
 
-    const processed = await functionProcessing(
-        network,
-        result.txid,
-        functionName,
-        contractName
-    );
+  const processed = await functionProcessing(
+    network,
+    result.txid,
+    functionName,
+    contractName
+  );
 
-    if (!processed) {
-        return result as TxBroadcastResultRejected;
-    }
+  if (!processed) {
+    return result as TxBroadcastResultRejected;
+  }
 
-    return result as TxBroadcastResultOk;
+  return result as TxBroadcastResultOk;
 }
 
 async function functionProcessing(
-    network: StacksNetwork,
-    tx: string,
-    functionName: string,
-    contractName: string,
-    count = 0
+  network: StacksNetwork,
+  tx: string,
+  functionName: string,
+  contractName: string,
+  count = 0
 ): Promise<boolean> {
-    return functionProcessingWithSidecar(
-        tx,
-        count,
-        network,
-        functionName,
-        contractName
-    );
+  return functionProcessingWithSidecar(
+    tx,
+    count,
+    network,
+    functionName,
+    contractName
+  );
 }
 
 async function functionProcessingWithSidecar(
-    tx: string,
-    count = 0,
-    network: StacksNetwork,
-    functionName: string,
-    contractName: string
+  tx: string,
+  count = 0,
+  network: StacksNetwork,
+  functionName: string,
+  contractName: string
 ): Promise<boolean> {
-    const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
-    const result = await fetch(url);
-    const value = await result.json();
+  const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
+  const result = await fetch(url);
+  const value = await result.json();
 
-    if (value.tx_status === "success") {
-        Logger.debug(
-            NAME,
-            `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`,
-            value
-        );
+  if (value.tx_status === "success") {
+    Logger.debug(
+      NAME,
+      `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`,
+      value
+    );
 
-        return true;
-    }
+    return true;
+  }
 
-    if (count > 60) {
-        Logger.error(
-            NAME,
-            `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`,
-            value
-        );
-        return false;
-    }
+  if (count > 60) {
+    Logger.error(
+      NAME,
+      `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`,
+      value
+    );
+    return false;
+  }
 
-    await timeout(3000);
-    return functionProcessing(network, tx, functionName, contractName, count + 1);
+  await timeout(3000);
+  return functionProcessing(network, tx, functionName, contractName, count + 1);
 }

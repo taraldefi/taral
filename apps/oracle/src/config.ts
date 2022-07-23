@@ -5,7 +5,7 @@ dotenv.config({ path: "./.env" });
 export const COINBASE_KEY: string = process.env.COINBASE_KEY as string;
 export const COINBASE_SECRET: string = process.env.COINBASE_SECRET as string;
 export const COINBASE_PASSPHRASE: string = process.env
-    .COINBASE_PASSPHRASE as string;
+  .COINBASE_PASSPHRASE as string;
 export const INFURA_API_URL: string = process.env.INFURA_API_URL as string;
 
 export const STACKS_API_URL: string = process.env.STACKS_API_URL as string;

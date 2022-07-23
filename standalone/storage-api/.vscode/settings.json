@@ -1,9 +1,5 @@
 {
-  "conventionalCommits.scopes": [
-    "files",
-    "deploy",
-    "auth"
-  ],
+  "conventionalCommits.scopes": ["files", "deploy", "auth"],
   "cSpell.words": [
     "bbaeb",
     "bytea",

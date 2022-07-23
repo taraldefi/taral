@@ -146,11 +146,10 @@ export class FilesService {
     onDiskName: string,
     externalFileId: number,
   ): Promise<void> {
-
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
     );
-    
+
     runOnTransactionComplete((cb) => console.log('Transaction Complete'));
 
     const fileEntity = await this.fileRepository.findOneOrFail({
@@ -178,11 +177,10 @@ export class FilesService {
     fileName: string,
     onDiskName: string,
   ): Promise<number> {
-    
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
     );
-    
+
     runOnTransactionComplete((cb) => console.log('Transaction Complete'));
 
     const fileVersionEntity = await this.createFileVersion(
@@ -193,7 +191,7 @@ export class FilesService {
     );
 
     const fileEntity = new FileEntity();
-    
+
     fileEntity.original_name = fileName;
     fileEntity.created = now;
     fileEntity.last_updated = now;
@@ -202,7 +200,6 @@ export class FilesService {
 
     var result = await this.fileRepository.save(fileEntity);
     return result.id;
-
   }
 
   private async createFileVersion(
@@ -211,7 +208,6 @@ export class FilesService {
     path: string,
     fileNameOnDisk: string,
   ): Promise<FileVersionEntity> {
-
     const fileVersionEntity = new FileVersionEntity();
 
     fileVersionEntity.created = now;
@@ -223,7 +219,11 @@ export class FilesService {
     return fileVersionEntity;
   }
 
-  private createFileResponse(fileName: string, fileHash: string, id: number): CreateFileResponse {
+  private createFileResponse(
+    fileName: string,
+    fileHash: string,
+    id: number,
+  ): CreateFileResponse {
     const result = new CreateFileResponse();
 
     result.hash = fileHash;
@@ -249,10 +249,8 @@ export class FilesService {
   private sortFileVersionsByDate(
     fileVersions: FileVersionEntity[],
   ): FileVersionEntity[] {
-
     return fileVersions.sort((a: FileVersionEntity, b: FileVersionEntity) => {
       return this.getTime(a.created) - this.getTime(b.created);
     });
-
   }
 }

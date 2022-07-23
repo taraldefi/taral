@@ -4,24 +4,24 @@ import { ClarityBitcoinContract } from "taral-contracts";
 const NAME = "parse-tx";
 
 export async function parseTx({
-    txCV,
-    contract,
+  txCV,
+  contract,
 }: {
-    txCV: Buffer;
-    contract: ClarityBitcoinContract;
+  txCV: Buffer;
+  contract: ClarityBitcoinContract;
 }): Promise<string> {
-    let result = "";
+  let result = "";
 
-    try {
-        // Call readonly function
-        //
-        const response = await contract.getTxid(txCV);
-        result = response.toString();
-    } catch (error) {
-        Logger.error(NAME, `parse-tx failed: ${(error as any).toString()}`);
-    }
+  try {
+    // Call readonly function
+    //
+    const response = await contract.getTxid(txCV);
+    result = response.toString();
+  } catch (error) {
+    Logger.error(NAME, `parse-tx failed: ${(error as any).toString()}`);
+  }
 
-    Logger.debug("parse-tx", "Received result ", result);
+  Logger.debug("parse-tx", "Received result ", result);
 
-    return result;
+  return result;
 }

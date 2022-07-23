@@ -5,42 +5,42 @@ import { BtcFtSwapContract } from "taral-contracts";
 import { makeBuffer } from "./utils";
 
 function btcToSats(btcAmount: number): number {
-    return btcAmount * 100_000_000;
+  return btcAmount * 100_000_000;
 }
 
 export async function createBtcFtSwap({
-    ftSellerBitcoinAddress,
-    btcAmount,
-    ftAmount,
-    ftBuyerStacksAddress,
-    ftContract,
-    network,
-    contract,
+  ftSellerBitcoinAddress,
+  btcAmount,
+  ftAmount,
+  ftBuyerStacksAddress,
+  ftContract,
+  network,
+  contract,
 }: {
-    ftSellerBitcoinAddress: string;
-    btcAmount: number;
-    ftAmount: number;
-    ftBuyerStacksAddress: string;
-    ftContract: string;
-    network?: btc.networks.Network;
-    contract: BtcFtSwapContract;
+  ftSellerBitcoinAddress: string;
+  btcAmount: number;
+  ftAmount: number;
+  ftBuyerStacksAddress: string;
+  ftContract: string;
+  network?: btc.networks.Network;
+  contract: BtcFtSwapContract;
 }): Promise<bigint> {
-    const sats = btcToSats(btcAmount);
+  const sats = btcToSats(btcAmount);
 
-    const ftSellerAddressScript = address
-        .toOutputScript(ftSellerBitcoinAddress, network ?? btc.networks.regtest)
-        .toString("hex");
+  const ftSellerAddressScript = address
+    .toOutputScript(ftSellerBitcoinAddress, network ?? btc.networks.regtest)
+    .toString("hex");
 
-    const response = await txOk(
-        contract.createSwap(
-            sats,
-            makeBuffer(ftSellerAddressScript),
-            ftAmount,
-            ftBuyerStacksAddress,
-            ftContract
-        )
-    );
+  const response = await txOk(
+    contract.createSwap(
+      sats,
+      makeBuffer(ftSellerAddressScript),
+      ftAmount,
+      ftBuyerStacksAddress,
+      ftContract
+    )
+  );
 
-    Logger.debug("create-btc-ft-swap", "Received result ", response);
-    return response.value;
+  Logger.debug("create-btc-ft-swap", "Received result ", response);
+  return response.value;
 }

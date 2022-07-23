@@ -10,17 +10,17 @@ export type { LockupContract } from "./lockup";
 export type { PoxContract } from "./pox";
 
 export const nodeBootContracts = {
-    nodeBns: nodeBnsInfo,
-    nodeCosts: nodeCostsInfo,
-    nodeCostVoting: nodeCostVotingInfo,
-    nodeLockup: nodeLockupInfo,
-    nodePox: nodePoxInfo,
+  nodeBns: nodeBnsInfo,
+  nodeCosts: nodeCostsInfo,
+  nodeCostVoting: nodeCostVotingInfo,
+  nodeLockup: nodeLockupInfo,
+  nodePox: nodePoxInfo,
 };
 
 export const webBootContracts = {
-    webBns: webBnsInfo,
-    webCosts: webCostsInfo,
-    webCostVoting: webCostVotingInfo,
-    webLockup: webLockupInfo,
-    webPox: webPoxInfo,
+  webBns: webBnsInfo,
+  webCosts: webCostsInfo,
+  webCostVoting: webCostVotingInfo,
+  webLockup: webLockupInfo,
+  webPox: webPoxInfo,
 };

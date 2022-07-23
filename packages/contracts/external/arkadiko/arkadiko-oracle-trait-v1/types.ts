@@ -1,1 +1,1 @@
-export interface ArkadikoOracleTraitV1Contract { }
+export interface ArkadikoOracleTraitV1Contract {}

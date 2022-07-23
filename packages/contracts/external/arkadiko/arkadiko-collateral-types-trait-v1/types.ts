@@ -1,1 +1,1 @@
-export interface ArkadikoCollateralTypesTraitV1Contract { }
+export interface ArkadikoCollateralTypesTraitV1Contract {}
