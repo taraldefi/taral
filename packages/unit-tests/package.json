@@ -8,7 +8,7 @@
     "node": ">=14"
   },
   "scripts": {
-    "unit-tests": "jest --runInBand"
+    "unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts"
   },
   "devDependencies": {
     "jest": "^28.0.2",
