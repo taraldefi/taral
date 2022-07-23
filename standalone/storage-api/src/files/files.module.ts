@@ -9,6 +9,7 @@ import {
   MemoryStoredFile,
   NestjsFormDataModule,
 } from 'src/core/modules/multipart';
+import { FilesOnChainService } from './files.on-chain.service';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import {
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
-  providers: [ConfigModule, ConfigService, FilesService],
+  providers: [ConfigModule, ConfigService, FilesService, FilesOnChainService],
 })
 export class FilesModule {}
