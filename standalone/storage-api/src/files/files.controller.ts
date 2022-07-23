@@ -39,7 +39,9 @@ export class FilesController {
   })
   @Post('create-file')
   @FormDataRequest({ storage: MemoryStoredFile })
-  async createFile(@Body() fileData: CreateFileDataDto): Promise<CreateFileResponse> {
+  async createFile(
+    @Body() fileData: CreateFileDataDto,
+  ): Promise<CreateFileResponse> {
     const response = await this.filesService.createFile(fileData);
     return response;
   }

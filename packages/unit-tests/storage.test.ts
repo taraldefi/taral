@@ -38,7 +38,6 @@ test("[File storage] - Happy flow", async () => {
     privateKey: deployerPrivateKey,
     contract: onChainStorage,
   };
-  
 
   const registerFileResult = await registerFile(registerFilePayload);
 
