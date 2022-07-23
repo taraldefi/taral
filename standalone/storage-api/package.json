@@ -150,7 +150,9 @@
   },
   "moduleNameMapper": {
     "@libs/storage/(.*)": "<rootDir>/libs/storage/$1",
-    "@libs/storage": "<rootDir>/../../libs/storage"
+    "@libs/storage": "<rootDir>/../../libs/storage",
+    "@libs/stacks/(.*)": "<rootDir>/libs/stacks/$1",
+    "@libs/stacks": "<rootDir>/../../libs/stacks"
   },
   "jest": {
     "moduleFileExtensions": [

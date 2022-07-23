@@ -1,1 +1,1 @@
-export interface ArkadikoStakeRegistryTraitV1Contract {}
+export interface ArkadikoStakeRegistryTraitV1Contract { }

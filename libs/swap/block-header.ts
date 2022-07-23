@@ -4,71 +4,71 @@ import { BlockCvType, HeaderPartsType } from "./types";
 import { makeBuffer } from "./utils";
 
 export async function parseBlockHeader({
-  header,
-  contract,
+    header,
+    contract,
 }: {
-  header: string;
-  contract: ClarityBitcoinContract;
+    header: string;
+    contract: ClarityBitcoinContract;
 }): Promise<HeaderPartsType> {
-  const response = (
-    await contract.parseBlockHeader(makeBuffer(header))
-  )._unsafeUnwrap();
+    const response = (
+        await contract.parseBlockHeader(makeBuffer(header))
+    )._unsafeUnwrap();
 
-  const result = response as any as HeaderPartsType;
+    const result = response as any as HeaderPartsType;
 
-  Logger.debug("parse-block-header", "Received result ", result);
+    Logger.debug("parse-block-header", "Received result ", result);
 
-  return result;
+    return result;
 }
 
 export async function verifyBlockHeader({
-  headerParts,
-  stacksBlockHeight,
-  contract,
+    headerParts,
+    stacksBlockHeight,
+    contract,
 }: {
-  headerParts: string[];
-  stacksBlockHeight: bigint;
-  contract: ClarityBitcoinContract;
+    headerParts: string[];
+    stacksBlockHeight: bigint;
+    contract: ClarityBitcoinContract;
 }): Promise<boolean> {
-  const summedUpHeaderParts =
-    headerParts[0] +
-    headerParts[1] +
-    headerParts[2] +
-    headerParts[3] +
-    headerParts[4] +
-    headerParts[5];
+    const summedUpHeaderParts =
+        headerParts[0] +
+        headerParts[1] +
+        headerParts[2] +
+        headerParts[3] +
+        headerParts[4] +
+        headerParts[5];
 
-  const headerPartsBuffer = makeBuffer(summedUpHeaderParts);
+    const headerPartsBuffer = makeBuffer(summedUpHeaderParts);
 
-  // Call readonly function
-  //
-  const response = await contract.verifyBlockHeader(
-    headerPartsBuffer,
-    stacksBlockHeight
-  );
+    // Call readonly function
+    //
+    const response = await contract.verifyBlockHeader(
+        headerPartsBuffer,
+        stacksBlockHeight
+    );
 
-  const result = response;
+    const result = response;
 
-  Logger.debug("verify-block-header", "Received result ", result);
-  return result;
+    Logger.debug("verify-block-header", "Received result ", result);
+    return result;
 }
 
 export async function verifyBlockHeader2({
-  blockCV,
-  contract,
+    blockCV,
+    contract,
 }: {
-  blockCV: BlockCvType;
-  contract: ClarityBitcoinContract;
+    blockCV: BlockCvType;
+    contract: ClarityBitcoinContract;
 }): Promise<boolean> {
-  // Call readonly function
-  //
-  const response = await contract.verifyBlockHeader(
-    blockCV["header"],
-    blockCV["height"]
-  );
+    // Call readonly function
+    //
+    const response = await contract.verifyBlockHeader(
+        blockCV["header"],
+        blockCV["height"]
+    );
 
-  const result = response;
+    const result = response;
 
-  Logger.debug("verify-block-header", "Received result ", result);
-  return result;
+    Logger.debug("verify-block-header", "Received result ", result);
+    return result;
 }

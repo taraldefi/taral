@@ -21,6 +21,9 @@
       "@libs/storage": [
         "../../libs/storage"
       ],
+      "@libs/stacks": [
+        "../../libs/stacks"
+      ]
     }
   }
 }

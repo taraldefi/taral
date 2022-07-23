@@ -1,169 +1,169 @@
 import {
-  canRead,
-  canWrite,
-  getFileHash,
-  grantAccessToFile,
-  IStorageFileRegister,
-  IStorageFileUpdate,
-  registerFile,
-  revokeAccessFromFile,
-  updateAccessToFile,
-  updateFile,
+    canRead,
+    canWrite,
+    getFileHash,
+    grantAccessToFile,
+    IStorageFileRegister,
+    IStorageFileUpdate,
+    registerFile,
+    revokeAccessFromFile,
+    updateAccessToFile,
+    updateFile
 } from "lib-storage";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { readTestFile } from "./test-utils";
 
 test("[File storage] - Happy flow", async () => {
-  const firstFileHash =
-    "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
+    const firstFileHash =
+        "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
 
-  const secondFileHash =
-    "0x39373839393763306535616630353865633736393535333062643163313633393430656461333935393734633939356165373665386463313131343638363235";
+    const secondFileHash =
+        "0x39373839393763306535616630353865633736393535333062643163313633393430656461333935393734633939356165373665386463313131343638363235";
 
-  const firstVersionFileName = "file-first-version.txt";
-  const secondVersionFileName = "file-second-version.txt";
+    const firstVersionFileName = "file-first-version.txt";
+    const secondVersionFileName = "file-second-version.txt";
 
-  const deployer = clarinetAccounts.deployer;
+    const deployer = clarinetAccounts.deployer;
 
-  const bob = clarinetAccounts["wallet_1"];
+    const bob = clarinetAccounts["wallet_1"];
 
-  const onChainStorage = taralStorage(deployer);
-  const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
+    const onChainStorage = taralStorage(deployer);
+    const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
 
-  const firstFileBuffer = readTestFile(firstVersionFileName);
+    const firstFileBuffer = readTestFile(firstVersionFileName);
 
-  const registerFilePayload: IStorageFileRegister = {
-    fileBuffer: firstFileBuffer,
-    fileName: firstVersionFileName,
-    privateKey: deployerPrivateKey,
-    contract: onChainStorage,
-  };
-  
+    const registerFilePayload: IStorageFileRegister = {
+        fileBuffer: firstFileBuffer,
+        fileName: firstVersionFileName,
+        privateKey: deployerPrivateKey,
+        contract: onChainStorage,
+    };
 
-  const registerFileResult = await registerFile(registerFilePayload);
 
-  expect(registerFileResult).toEqual(1n);
+    const registerFileResult = await registerFile(registerFilePayload);
 
-  const onChainHash = await getFileHash(1n, onChainStorage);
+    expect(registerFileResult).toEqual(1n);
 
-  expect(onChainHash).toEqual(firstFileHash);
+    const onChainHash = await getFileHash(1n, onChainStorage);
 
-  const canWriteFile = await canWrite({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: deployer.address,
-  });
+    expect(onChainHash).toEqual(firstFileHash);
 
-  const canReadFile = await canRead({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: deployer.address,
-  });
+    const canWriteFile = await canWrite({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: deployer.address,
+    });
 
-  expect(canWriteFile).toBeTruthy();
-  expect(canReadFile).toBeTruthy();
+    const canReadFile = await canRead({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: deployer.address,
+    });
 
-  let canBobWriteFile = await canWrite({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    expect(canWriteFile).toBeTruthy();
+    expect(canReadFile).toBeTruthy();
 
-  let canBobReadFile = await canRead({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    let canBobWriteFile = await canWrite({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  expect(canBobWriteFile).toBeFalsy();
-  expect(canBobReadFile).toBeFalsy();
+    let canBobReadFile = await canRead({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  const grantAccessToBobResult = await grantAccessToFile({
-    canRead: true,
-    canWrite: false,
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    expect(canBobWriteFile).toBeFalsy();
+    expect(canBobReadFile).toBeFalsy();
 
-  expect(grantAccessToBobResult).toBeTruthy();
+    const grantAccessToBobResult = await grantAccessToFile({
+        canRead: true,
+        canWrite: false,
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  canBobWriteFile = await canWrite({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    expect(grantAccessToBobResult).toBeTruthy();
 
-  canBobReadFile = await canRead({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    canBobWriteFile = await canWrite({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  expect(canBobWriteFile).toBeFalsy();
-  expect(canBobReadFile).toBeTruthy();
+    canBobReadFile = await canRead({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  const updateAccessResult = await updateAccessToFile({
-    canRead: true,
-    canWrite: true,
-    contract: onChainStorage,
-    participant: bob.address,
-    fileId: 1n,
-  });
+    expect(canBobWriteFile).toBeFalsy();
+    expect(canBobReadFile).toBeTruthy();
 
-  expect(updateAccessResult).toBeTruthy();
+    const updateAccessResult = await updateAccessToFile({
+        canRead: true,
+        canWrite: true,
+        contract: onChainStorage,
+        participant: bob.address,
+        fileId: 1n,
+    });
 
-  const bobsNewWritePermissions = await canWrite({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    expect(updateAccessResult).toBeTruthy();
 
-  const bobsNewReadPermissions = await canRead({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    const bobsNewWritePermissions = await canWrite({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  expect(bobsNewWritePermissions).toBeTruthy();
-  expect(bobsNewReadPermissions).toBeTruthy();
+    const bobsNewReadPermissions = await canRead({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  const secondFileBuffer = readTestFile(secondVersionFileName);
+    expect(bobsNewWritePermissions).toBeTruthy();
+    expect(bobsNewReadPermissions).toBeTruthy();
 
-  const updateFilePayload: IStorageFileUpdate = {
-    fileBuffer: secondFileBuffer,
-    fileId: 1n,
-    privateKey: deployerPrivateKey,
-    contract: onChainStorage,
-  };
+    const secondFileBuffer = readTestFile(secondVersionFileName);
 
-  const updateFileResult = await updateFile(updateFilePayload);
+    const updateFilePayload: IStorageFileUpdate = {
+        fileBuffer: secondFileBuffer,
+        fileId: 1n,
+        privateKey: deployerPrivateKey,
+        contract: onChainStorage,
+    };
 
-  expect(updateFileResult).toEqual(true);
+    const updateFileResult = await updateFile(updateFilePayload);
 
-  const newOnChainHash = await getFileHash(1n, onChainStorage);
-  expect(newOnChainHash).toEqual(secondFileHash);
+    expect(updateFileResult).toEqual(true);
 
-  const revokeAccessResult = await revokeAccessFromFile({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    const newOnChainHash = await getFileHash(1n, onChainStorage);
+    expect(newOnChainHash).toEqual(secondFileHash);
 
-  expect(revokeAccessResult).toEqual(true);
+    const revokeAccessResult = await revokeAccessFromFile({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  const bobsRevokeAccessWritePermissions = await canWrite({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    expect(revokeAccessResult).toEqual(true);
 
-  const bobsRevokeAccessReadPermissions = await canRead({
-    contract: onChainStorage,
-    fileId: 1n,
-    participant: bob.address,
-  });
+    const bobsRevokeAccessWritePermissions = await canWrite({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
 
-  expect(bobsRevokeAccessWritePermissions).toBeFalsy();
-  expect(bobsRevokeAccessReadPermissions).toBeFalsy();
+    const bobsRevokeAccessReadPermissions = await canRead({
+        contract: onChainStorage,
+        fileId: 1n,
+        participant: bob.address,
+    });
+
+    expect(bobsRevokeAccessWritePermissions).toBeFalsy();
+    expect(bobsRevokeAccessReadPermissions).toBeFalsy();
 });
