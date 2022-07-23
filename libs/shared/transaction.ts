@@ -104,7 +104,7 @@ export async function tx<A, B>(tx: Transaction<A, B>) {
 
 export async function txOk<A, B>(
   _tx: Transaction<A, B>
-): Promise<TransactionResultOk<A>> {
+) {
   const result = await tx(_tx);
 
   if (!result.isOk) {
@@ -116,7 +116,7 @@ export async function txOk<A, B>(
 
 export async function txErr<A, B>(
   _tx: Transaction<A, B>
-): Promise<TransactionResultErr<B>> {
+) {
   const result = await tx(_tx);
 
   if (result.isOk) {
