@@ -9,6 +9,7 @@ import {
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { FileVersionEntity } from './file-version.entity';
+import { FileParticipantEntity } from './file-participant.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
@@ -29,6 +30,9 @@ export class FileEntity extends EntityHelper {
 
   @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
   versions: FileVersionEntity[];
+
+  @OneToMany(() => FileParticipantEntity, (fileParticipant) => fileParticipant.file)
+  participants: FileParticipantEntity[];
 
   @AfterLoad()
   @AfterInsert()
