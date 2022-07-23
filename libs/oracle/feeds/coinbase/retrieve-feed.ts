@@ -1,10 +1,10 @@
-import { signRequest } from "./sign-request";
-import { COINBASE_ENDPOINT } from "../../const";
-import { convertSig } from "../../utils";
-import { COINBASE_FILTER } from "./filter";
 import { Logger } from "lib-shared";
 import { IOraclePriceFeed } from "../../clients";
+import { COINBASE_ENDPOINT } from "../../const";
+import { convertSig } from "../../utils";
 import { IOracleFeedRequest } from "../types";
+import { COINBASE_FILTER } from "./filter";
+import { signRequest } from "./sign-request";
 
 const NAME = "coinbase-feed";
 

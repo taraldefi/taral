@@ -1,14 +1,13 @@
 import Binance from "node-binance-api";
-const binance = new Binance().options();
+import { IOraclePriceFeed } from "../../clients";
 // {
 //   APIKEY: '<key>',
 //   APISECRET: '<secret>'
 // }
-
 import { buildPayload, signPayload } from "../../utils";
-import { BINANCE_FILTER } from "./filter";
-import { IOraclePriceFeed } from "../../clients";
 import { IBinanceFeedRequest } from "../types";
+import { BINANCE_FILTER } from "./filter";
+const binance = new Binance().options();
 
 export async function retrieveBinanceFeed(
   request: IBinanceFeedRequest

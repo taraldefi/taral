@@ -48,6 +48,7 @@
     "./libs/clarity-bin/**/*.ts",
     "./libs/generate/**/*.ts",
     "./libs/oracle/**/*.ts",
+    "./libs/storage/**/*.ts",
     "./libs/shared/**/*.ts",
     "./libs/stacks/**/*.ts",
     "./libs/swap/**/*.ts",

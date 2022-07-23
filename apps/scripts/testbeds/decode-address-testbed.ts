@@ -1,5 +1,5 @@
-import { Logger } from "lib-shared";
 import { decodeStxAddress } from "lib-bitcoin";
+import { Logger } from "lib-shared";
 
 const LOGGER_CATEGORY = "DECODE_ADDRESS";
 

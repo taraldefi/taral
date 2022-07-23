@@ -21,6 +21,12 @@ export enum StacksMessageType {
   Payload,
   MessageSignature,
   TransactionAuthField,
+  PrivateKey,
+}
+
+export interface MessageSignature {
+  readonly type: StacksMessageType.MessageSignature;
+  data: string;
 }
 
 export interface StacksPublicKey {
@@ -51,4 +57,15 @@ export enum AddressHashMode {
   SerializeP2WPKH = 0x02,
   /** MultiSigHashMode - hash160(segwit-program-00(public-keys)), same as bitcoin's p2sh-p2wsh */
   SerializeP2WSH = 0x03,
+}
+
+export enum PubKeyEncoding {
+  Compressed = 0x00,
+  Uncompressed = 0x01,
+}
+
+export interface VerifyMessageSignatureArgs {
+  signature: string;
+  message: string | Buffer;
+  publicKey: string;
 }

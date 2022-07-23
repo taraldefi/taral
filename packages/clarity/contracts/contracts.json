@@ -63,7 +63,8 @@
         "insurance-pool-oracle",
         "insurance-pool-audit-compact",
         "insurance-pool-audit",
-        "insurance-pool-admin"
+        "insurance-pool-admin",
+        "taral-storage"
       ]
     }
   ]

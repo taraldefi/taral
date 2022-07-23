@@ -1,0 +1,13 @@
+{
+  "conventionalCommits.scopes": ["files", "deploy", "auth"],
+  "cSpell.words": [
+    "bbaeb",
+    "bytea",
+    "nestjs",
+    "opentelemetry",
+    "pino",
+    "pretypeorm",
+    "signin",
+    "typeorm"
+  ]
+}

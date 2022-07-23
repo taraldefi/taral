@@ -1,14 +1,14 @@
-import { Logger, txErr, txOk } from "lib-shared";
-import { clarinetAccounts, taralOracle } from "./jest-setup";
-import { publicKeyFromPrivKey } from "lib-stacks";
 import {
-  retrieveOKCoinOracleFeed,
-  retrieveBinanceFeed,
-  retrieveOKCoinFeed,
-  IOraclePriceFeed,
   addPrices,
   getPrice,
+  IOraclePriceFeed,
+  retrieveBinanceFeed,
+  retrieveOKCoinFeed,
+  retrieveOKCoinOracleFeed,
 } from "lib-oracle";
+import { Logger, txErr, txOk } from "lib-shared";
+import { publicKeyFromPrivKey } from "lib-stacks";
+import { clarinetAccounts, taralOracle } from "./jest-setup";
 
 const INFURA_API_URL =
   "https://mainnet.infura.io/v3/ad2e183a77d0483a8cb3cc31cb467496";

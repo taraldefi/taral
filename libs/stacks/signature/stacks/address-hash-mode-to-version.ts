@@ -1,4 +1,4 @@
-import { AddressHashMode, TransactionVersion, AddressVersion } from "./types";
+import { AddressHashMode, AddressVersion, TransactionVersion } from "./types";
 
 export function addressHashModeToVersion(
   hashMode: AddressHashMode,

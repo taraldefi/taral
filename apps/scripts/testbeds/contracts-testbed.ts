@@ -1,6 +1,5 @@
 import { getClarinetAccounts } from "lib-infra";
 import { getRootDirectory, Logger } from "lib-shared";
-import { decodeBtcAddress } from "lib-bitcoin";
 
 const LOGGER_CATEGORY = "EVALUATE_CONTRACTS";
 

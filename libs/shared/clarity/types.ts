@@ -10,7 +10,6 @@ export interface ClarityAbiMap {
   key: ClarityAbiType;
   value: ClarityAbiType;
 }
-
 export interface ClarityAbi extends Omit<_ClarityAbi, "maps"> {
   maps: ClarityAbiMap[];
   clarity_version?: string;
