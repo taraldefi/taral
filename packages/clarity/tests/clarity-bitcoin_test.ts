@@ -218,7 +218,7 @@ Clarinet.test({
         WALLET_1.address
       ),
     ]);
-    assertEquals(block.height, 3);
+    assertEquals(block.height,5);
     assertEquals(block.receipts[0].result, "(ok true)");
     assertEquals(
       block.receipts[3].result,
