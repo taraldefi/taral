@@ -5,6 +5,7 @@ import {
   MaxFileSize,
   MemoryStoredFile,
 } from 'src/core/modules/multipart';
+import { FileParticipantDto } from './file-participant.dto';
 
 export class CreateFileDataDto {
   @IsFile()
@@ -19,4 +20,6 @@ export class CreateFileDataDto {
     },
   })
   file: MemoryStoredFile;
+
+  owner: FileParticipantDto;
 }
