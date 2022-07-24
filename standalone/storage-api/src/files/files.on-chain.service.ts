@@ -13,30 +13,43 @@ import {
   updateFile,
 } from '@libs/storage';
 import { SignatureVerificationModel } from './models/signature-verification.model';
-import { getAddressFromPublicKey, hashStacksMessage, hexToBigInt, MessageSignature, parseRecoverableSignature, PubKeyEncoding, publicKeyFromSignatureVrs, signatureRsvToVrs, StacksMessageType, TransactionVersion } from '@libs/stacks';
+import {
+  getAddressFromPublicKey,
+  hashStacksMessage,
+  hexToBigInt,
+  MessageSignature,
+  parseRecoverableSignature,
+  PubKeyEncoding,
+  publicKeyFromSignatureVrs,
+  signatureRsvToVrs,
+  StacksMessageType,
+  TransactionVersion,
+} from '@libs/stacks';
 import { Signature, verify } from '@noble/secp256k1';
 
 @Injectable()
 export class FilesOnChainService {
-
-  verifySignature(signature: string, message: string): SignatureVerificationModel {
+  verifySignature(
+    signature: string,
+    message: string,
+  ): SignatureVerificationModel {
     const messageHex = hashStacksMessage({ message });
     const { r, s } = parseRecoverableSignature(signatureRsvToVrs(signature));
 
     const messageSignature: MessageSignature = {
       data: signature,
-      type: StacksMessageType.MessageSignature
+      type: StacksMessageType.MessageSignature,
     };
 
     const compressedPubKeyFromSig = publicKeyFromSignatureVrs(
       messageHex,
       messageSignature,
-      PubKeyEncoding.Compressed
+      PubKeyEncoding.Compressed,
     );
 
     const nobleSignature: Signature = new Signature(
       hexToBigInt(r),
-      hexToBigInt(s)
+      hexToBigInt(s),
     );
 
     const nobleSignatureVerificationResult = verify(
@@ -45,26 +58,26 @@ export class FilesOnChainService {
       compressedPubKeyFromSig,
       {
         strict: true,
-      }
+      },
     );
 
     if (!nobleSignatureVerificationResult) {
       return {
         address: '',
         publicKey: '',
-        isValid: false
-      }
+        isValid: false,
+      };
     }
 
     const addressFromPublicKey = getAddressFromPublicKey(
       compressedPubKeyFromSig,
-      TransactionVersion.Testnet
+      TransactionVersion.Testnet,
     );
 
     return {
       address: addressFromPublicKey,
       isValid: true,
-      publicKey: compressedPubKeyFromSig
-    }
+      publicKey: compressedPubKeyFromSig,
+    };
   }
 }
