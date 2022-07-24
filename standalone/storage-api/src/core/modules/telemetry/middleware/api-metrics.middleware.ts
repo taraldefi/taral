@@ -1,5 +1,5 @@
 import { Inject, Injectable, NestMiddleware } from '@nestjs/common';
-import * as responseTime from 'response-time';
+import responseTime from 'response-time';
 import * as urlParser from 'url';
 import { Counter, Attributes, Histogram } from '@opentelemetry/api-metrics';
 import { OpenTelemetryModuleOptions } from '../interfaces';
