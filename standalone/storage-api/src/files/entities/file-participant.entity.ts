@@ -26,10 +26,10 @@ export class FileParticipantEntity extends EntityHelper {
   created: Date;
 
   @ManyToMany(() => FileEntity, (file) => file.participants, {
-      cascade: true,
+    cascade: true,
   })
   @JoinTable()
-  files: FileEntity[]
+  files: FileEntity[];
 
   @AfterLoad()
   @AfterInsert()

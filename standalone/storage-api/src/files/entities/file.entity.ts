@@ -32,8 +32,11 @@ export class FileEntity extends EntityHelper {
   @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
   versions: FileVersionEntity[];
 
-  @ManyToMany(() => FileParticipantEntity, (fileParticipant) => fileParticipant.files)
-  participants: FileParticipantEntity[]
+  @ManyToMany(
+    () => FileParticipantEntity,
+    (fileParticipant) => fileParticipant.files,
+  )
+  participants: FileParticipantEntity[];
 
   @AfterLoad()
   @AfterInsert()
