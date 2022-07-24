@@ -5,6 +5,7 @@ import {
   AfterLoad,
   AfterInsert,
   OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -31,8 +32,8 @@ export class FileEntity extends EntityHelper {
   @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
   versions: FileVersionEntity[];
 
-  @OneToMany(() => FileParticipantEntity, (fileParticipant) => fileParticipant.file)
-  participants: FileParticipantEntity[];
+  @ManyToMany(() => FileParticipantEntity, (fileParticipant) => fileParticipant.files)
+  participants: FileParticipantEntity[]
 
   @AfterLoad()
   @AfterInsert()

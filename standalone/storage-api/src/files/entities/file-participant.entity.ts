@@ -6,6 +6,8 @@ import {
   AfterLoad,
   Column,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -23,10 +25,11 @@ export class FileParticipantEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   created: Date;
 
-  @ManyToOne(() => FileEntity, {
-    eager: true,
+  @ManyToMany(() => FileEntity, (file) => file.participants, {
+      cascade: true,
   })
-  file: FileEntity;
+  @JoinTable()
+  files: FileEntity[]
 
   @AfterLoad()
   @AfterInsert()
