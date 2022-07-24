@@ -25,10 +25,9 @@ import { FilesOnChainService } from './files.on-chain.service';
 })
 export class FilesController {
   constructor(
-    private readonly filesService: FilesService, 
-    private readonly onChainService: FilesOnChainService) {
-
-    }
+    private readonly filesService: FilesService,
+    private readonly onChainService: FilesOnChainService,
+  ) {}
 
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -47,7 +46,10 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-    const validationResult = this.onChainService.verifySignature(fileData.owner.signature, fileData.owner.signedMessage);
+    const validationResult = this.onChainService.verifySignature(
+      fileData.owner.signature,
+      fileData.owner.signedMessage,
+    );
 
     console.log(validationResult);
 

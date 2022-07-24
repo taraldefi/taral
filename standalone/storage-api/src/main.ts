@@ -10,9 +10,7 @@ import validationOptions from './utils/validation-options';
 // import otelSDK from './tracing';
 
 async function bootstrap() {
-
-  require('tsconfig-paths/register')
-
+  require('tsconfig-paths/register');
 
   initializeTransactionalContext(); // Initialize cls-hooked
   //TODO: when we want telemetry enabled - enable this line:
