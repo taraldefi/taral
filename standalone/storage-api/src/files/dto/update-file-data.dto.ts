@@ -6,6 +6,7 @@ import {
   MaxFileSize,
   MemoryStoredFile,
 } from 'src/core/modules/multipart';
+import { FileParticipantDto } from './file-participant.dto';
 
 export class UpdateFileDataDto {
   @IsFile()
@@ -24,4 +25,13 @@ export class UpdateFileDataDto {
   @ApiProperty({ example: '1' })
   @IsNumberString()
   id: number;
+
+  @ApiProperty({
+    example: {
+      owner: {
+        signature: '0x000000000000000'
+      },
+    },
+  })
+  owner: FileParticipantDto;
 }

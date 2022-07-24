@@ -21,5 +21,12 @@ export class CreateFileDataDto {
   })
   file: MemoryStoredFile;
 
+  @ApiProperty({
+    example: {
+      owner: {
+        signature: '0x000000000000000'
+      },
+    },
+  })
   owner: FileParticipantDto;
 }
