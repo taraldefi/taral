@@ -2,6 +2,8 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  HttpException,
+  HttpStatus,
   Post,
   Res,
   StreamableFile,
@@ -50,6 +52,18 @@ export class FilesController {
       fileData.signature,
       fileData.signedMessage,
     );
+
+    if (!validationResult.isValid) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            signature: 'incorrectSignature',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
 
     console.log(validationResult);
 
