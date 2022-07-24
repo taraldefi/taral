@@ -8,7 +8,6 @@ import {
   Entity,
   JoinTable,
   ManyToMany,
-  ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FileEntity } from './file.entity';
@@ -21,6 +20,10 @@ export class FileParticipantEntity extends EntityHelper {
   @Allow()
   @Column()
   wallet: string;
+
+  @Allow()
+  @Column()
+  publicKey: string;
 
   @Column({ type: 'timestamptz' }) // Recommended
   created: Date;
