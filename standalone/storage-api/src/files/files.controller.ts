@@ -47,8 +47,8 @@ export class FilesController {
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
     const validationResult = this.onChainService.verifySignature(
-      fileData.owner.signature,
-      fileData.owner.signedMessage,
+      fileData.signature,
+      fileData.signedMessage,
     );
 
     console.log(validationResult);
