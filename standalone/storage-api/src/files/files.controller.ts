@@ -16,6 +16,7 @@ import { UpdateFileDataDto } from './dto/update-file-data.dto';
 import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
 import { createReadStream } from 'graceful-fs';
+import { FilesOnChainService } from './files.on-chain.service';
 
 @ApiTags('Files')
 @Controller({
@@ -23,7 +24,11 @@ import { createReadStream } from 'graceful-fs';
   version: '1',
 })
 export class FilesController {
-  constructor(private readonly filesService: FilesService) {}
+  constructor(
+    private readonly filesService: FilesService, 
+    private readonly onChainService: FilesOnChainService) {
+
+    }
 
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -42,6 +47,10 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
+    const validationResult = this.onChainService.verifySignature(fileData.owner.signature, fileData.owner.signedMessage);
+
+    console.log(validationResult);
+
     const response = await this.filesService.createFile(fileData);
     return response;
   }

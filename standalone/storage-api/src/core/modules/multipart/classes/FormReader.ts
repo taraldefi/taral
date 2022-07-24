@@ -1,5 +1,5 @@
 import { FormDataInterceptorConfig } from '../interfaces';
-import * as busboy from 'busboy';
+import busboy from 'busboy';
 import * as appendField from 'append-field';
 import { BadRequestException } from '@nestjs/common';
 import { StoredFile } from './storage';
