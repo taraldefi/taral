@@ -14,9 +14,4 @@ import {
 } from '@libs/storage';
 
 @Injectable()
-export class FilesOnChainService {
-
-
-  
-
-}
+export class FilesOnChainService {}
