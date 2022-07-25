@@ -8,11 +8,16 @@ import { decryptString, encryptString } from 'lib-stacks';
 })
 export class EncryptionService {
   private readonly privateKey: string;
+  private readonly publicKey: string;
 
   constructor(private configService: ConfigService) {
     this.privateKey = this.configService.get(
       'onchain.deployerprivatekey',
     ) as string;
+
+    this.publicKey = this.configService.get(
+        'onchain.deployerpublickey',
+      ) as string;
   }
 
   public async decrypt(content: Buffer): Promise<Buffer> {
@@ -30,6 +35,14 @@ export class EncryptionService {
     const stringContent = content.toString('utf8');
 
     const encryptedContent = await encryptString(publicKey, stringContent);
+
+    return Buffer.from(encryptedContent, 'utf8');
+  }
+
+  public async encryptForStorage(content: Buffer): Promise<Buffer> {
+    const stringContent = content.toString('utf8');
+
+    const encryptedContent = await encryptString(this.publicKey, stringContent);
 
     return Buffer.from(encryptedContent, 'utf8');
   }

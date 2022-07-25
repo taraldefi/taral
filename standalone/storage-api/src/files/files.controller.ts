@@ -48,24 +48,23 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-    const validationResult = this.signatureService.verifySignature(
+    const signatureResult = this.signatureService.verifySignature(
       fileData.signature,
       fileData.signedMessage,
     );
 
-    if (!validationResult.isValid) {
+    if (!signatureResult.isValid) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            signature: 'incorrectSignature',
+            signature: 'incorrect-signature',
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
 
-    console.log(validationResult);
 
     const response = await this.filesService.createFile(fileData);
     return response;
@@ -91,7 +90,25 @@ export class FilesController {
   async updateFile(
     @Body() fileData: UpdateFileDataDto,
   ): Promise<UpdateFileResponse> {
-    const response = await this.filesService.updateFile(fileData);
+
+    const signatureResult = this.signatureService.verifySignature(
+      fileData.signature,
+      fileData.signedMessage,
+    );
+
+    if (!signatureResult.isValid) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            signature: 'incorrect-signature',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    const response = await this.filesService.updateFile(fileData, signatureResult);
     return response;
   }
 

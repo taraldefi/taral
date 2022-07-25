@@ -17,6 +17,9 @@ import { FileRepository } from '../repositories/file.repository';
 import { UpdateFileDataDto } from '../dto/update-file-data.dto';
 import { UpdateFileResponse } from '../dto/update-file-response.dto';
 import { RequestFileInfo } from '../dto/request-file-info.dto';
+import { OnChainService } from './onchain/on-chain.service';
+import { EncryptionService } from './onchain/encryption.service';
+import { SignatureVerificationModel } from '../models/signature-verification.model';
 
 @Injectable()
 export class FilesService {
@@ -26,6 +29,10 @@ export class FilesService {
 
     @InjectRepository(FileVersionEntity)
     private fileVersionsRepository: FileVersionRepository,
+
+    private onChainService: OnChainService,
+
+    private encryptionService: EncryptionService
   ) {}
 
   async getLatestFileVersion(externalId: number): Promise<RequestFileInfo> {
@@ -58,7 +65,7 @@ export class FilesService {
     };
   }
 
-  async updateFile(file: UpdateFileDataDto): Promise<UpdateFileResponse> {
+  async updateFile(file: UpdateFileDataDto, signature: SignatureVerificationModel): Promise<UpdateFileResponse> {
     if (!file || !file.newFile) {
       throw new HttpException(
         {
@@ -83,6 +90,20 @@ export class FilesService {
       );
     }
 
+    var canUpdate = await this.onChainService.canWrite(file.id, signature.address);
+
+    if (!canUpdate) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            externalId: 'no-rights-on-chain',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
     const onDiskFilename = `${uuidv4()}.pdf`;
     const storage = Storage.disk('files');
 
@@ -91,7 +112,10 @@ export class FilesService {
     const fileName = file.newFile.originalName;
 
     const fileHash = this.createFileHash(fileBuffer);
-    const storageResponse = await storage.put(onDiskFilename, fileBuffer);
+
+    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(fileBuffer);
+
+    const storageResponse = await storage.put(onDiskFilename, encryptedFileBuffer);
 
     await this.updateFileEntity(
       now,
