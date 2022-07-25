@@ -18,7 +18,6 @@ import { Signature, verify } from '@noble/secp256k1';
 
 @Injectable()
 export class SignatureService {
-
   public verifySignature(
     signature: string,
     message: string,
