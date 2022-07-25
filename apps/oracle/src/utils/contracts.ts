@@ -5,7 +5,7 @@ import {
   Logger,
   NodeContractInstance,
 } from "lib-shared";
-import { ApiProvider } from "lib-testing";
+import { ApiProvider } from "lib-api";
 import { NETWORK } from "taral-configuration";
 import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
 

@@ -7,7 +7,7 @@ import {
   NodeContract,
   NodeContractInstances,
 } from "lib-shared";
-import { ApiProvider } from "lib-testing";
+import { ApiProvider } from "lib-api";
 import { NETWORK } from "taral-configuration";
 import {
   BtcFtSwapContract,

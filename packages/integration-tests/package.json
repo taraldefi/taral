@@ -24,6 +24,7 @@
     "taral-contracts": "1.0.0",
     "lib-testing": "1.0.0",
     "lib-shared": "1.0.0",
-    "lib-bitcoin": "1.0.0"
+    "lib-bitcoin": "1.0.0",
+    "lib-api": "1.0.0"
   }
 }
