@@ -10,7 +10,7 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { FilesService } from './files.service';
+import { FilesService } from './services/files.service';
 import { FormDataRequest, MemoryStoredFile } from 'src/core/modules/multipart';
 import { CreateFileDataDto } from './dto/create-file-data.dto';
 import { CreateFileResponse } from './dto/create-file-response.dto';
@@ -18,7 +18,7 @@ import { UpdateFileDataDto } from './dto/update-file-data.dto';
 import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
 import { createReadStream } from 'graceful-fs';
-import { FilesOnChainService } from './files.on-chain.service';
+import { SignatureService } from './services/signature.service';
 
 @ApiTags('Files')
 @Controller({
@@ -28,7 +28,7 @@ import { FilesOnChainService } from './files.on-chain.service';
 export class FilesController {
   constructor(
     private readonly filesService: FilesService,
-    private readonly onChainService: FilesOnChainService,
+    private readonly signatureService: SignatureService,
   ) {}
 
   @ApiConsumes('multipart/form-data')
@@ -48,7 +48,7 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-    const validationResult = this.onChainService.verifySignature(
+    const validationResult = this.signatureService.verifySignature(
       fileData.signature,
       fileData.signedMessage,
     );

@@ -12,7 +12,7 @@ import {
   updateAccessToFile,
   updateFile,
 } from '@libs/storage';
-import { SignatureVerificationModel } from './models/signature-verification.model';
+import { SignatureVerificationModel } from '../models/signature-verification.model';
 import {
   getAddressFromPublicKey,
   hashStacksMessage,
@@ -28,7 +28,7 @@ import {
 import { Signature, verify } from '@noble/secp256k1';
 
 @Injectable()
-export class FilesOnChainService {
+export class SignatureService {
   verifySignature(
     signature: string,
     message: string,

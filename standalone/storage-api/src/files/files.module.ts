@@ -3,13 +3,13 @@ import { FilesController } from './files.controller';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileEntity } from './entities/file.entity';
-import { FilesService } from './files.service';
+import { FilesService } from './services/files.service';
 import { FileVersionEntity } from './entities/file-version.entity';
 import {
   MemoryStoredFile,
   NestjsFormDataModule,
 } from 'src/core/modules/multipart';
-import { FilesOnChainService } from './files.on-chain.service';
+import { SignatureService } from './services/signature.service';
 
 @Module({
   imports: [
@@ -17,6 +17,6 @@ import { FilesOnChainService } from './files.on-chain.service';
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
-  providers: [ConfigModule, ConfigService, FilesService, FilesOnChainService],
+  providers: [ConfigModule, ConfigService, FilesService, SignatureService],
 })
 export class FilesModule {}

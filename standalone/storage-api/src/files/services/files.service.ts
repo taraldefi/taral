@@ -1,22 +1,22 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FileEntity } from './entities/file.entity';
-import { CreateFileDataDto } from './dto/create-file-data.dto';
+import { FileEntity } from '../entities/file.entity';
+import { CreateFileDataDto } from '../dto/create-file-data.dto';
 import * as crypto from 'crypto';
-import { FileVersionEntity } from './entities/file-version.entity';
-import { Storage } from '../core/modules/storage';
-import { CreateFileResponse } from './dto/create-file-response.dto';
+import { FileVersionEntity } from '../entities/file-version.entity';
+import { Storage } from '../../core/modules/storage';
+import { CreateFileResponse } from '../dto/create-file-response.dto';
 import { v4 as uuidv4 } from 'uuid';
 import {
   runOnTransactionComplete,
   runOnTransactionRollback,
   Transactional,
 } from 'src/core/modules/transaction';
-import { FileVersionRepository } from './repositories/file-version.repository';
-import { FileRepository } from './repositories/file.repository';
-import { UpdateFileDataDto } from './dto/update-file-data.dto';
-import { UpdateFileResponse } from './dto/update-file-response.dto';
-import { RequestFileInfo } from './dto/request-file-info.dto';
+import { FileVersionRepository } from '../repositories/file-version.repository';
+import { FileRepository } from '../repositories/file.repository';
+import { UpdateFileDataDto } from '../dto/update-file-data.dto';
+import { UpdateFileResponse } from '../dto/update-file-response.dto';
+import { RequestFileInfo } from '../dto/request-file-info.dto';
 
 @Injectable()
 export class FilesService {
