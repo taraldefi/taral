@@ -19,6 +19,13 @@ import { EncryptionService } from './services/onchain/encryption.service';
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
-  providers: [ConfigModule, ConfigService, FilesService, SignatureService, OnChainService, EncryptionService],
+  providers: [
+    ConfigModule,
+    ConfigService,
+    FilesService,
+    SignatureService,
+    OnChainService,
+    EncryptionService,
+  ],
 })
 export class FilesModule {}
