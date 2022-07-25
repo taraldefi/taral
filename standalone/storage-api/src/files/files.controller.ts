@@ -150,25 +150,13 @@ export class FilesController {
       );
     }
 
-    const fileVersion = await this.filesService.getLatestFileVersion(
-      data.externalId,
-    );
-
-    const fileStream = fs.readFileSync(fileVersion.path);
-
-    const encryptedForConsume =
-      await this.encryptionService.decryptAndEncryptBack(
-        fileStream,
-        signatureResult.publicKey,
-      );
-
-    const file = ReadStream.from(encryptedForConsume);
+    const requestFileResult = await this.filesService.requestFile(data, signatureResult);
 
     res.set({
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${fileVersion.name}"`,
+      'Content-Disposition': `attachment; filename="${requestFileResult.name}"`,
     });
 
-    return new StreamableFile(file);
+    return requestFileResult.file;
   }
 }

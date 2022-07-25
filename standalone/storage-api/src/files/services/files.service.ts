@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileEntity } from '../entities/file.entity';
 import { CreateFileDataDto } from '../dto/create-file-data.dto';
@@ -20,6 +20,9 @@ import { RequestFileInfo } from '../dto/request-file-info.dto';
 import { OnChainService } from './onchain/on-chain.service';
 import { EncryptionService } from './onchain/encryption.service';
 import { SignatureVerificationModel } from '../models/signature-verification.model';
+import { RequestFileDataDto } from '../dto/request-file-data.dto';
+import fs, { ReadStream } from 'fs';
+import { RequestFileModel } from '../models/request-file.model';
 
 @Injectable()
 export class FilesService {
@@ -65,10 +68,24 @@ export class FilesService {
     };
   }
 
-  async updateFile(
-    file: UpdateFileDataDto,
-    signature: SignatureVerificationModel,
-  ): Promise<UpdateFileResponse> {
+  async requestFile(data: RequestFileDataDto, signature: SignatureVerificationModel): Promise<RequestFileModel> {
+    const fileVersion = await this.getLatestFileVersion(
+      data.externalId,
+    );
+
+    const fileStream = fs.readFileSync(fileVersion.path);
+
+    const encryptedForConsume = await this.encryptionService.decryptAndEncryptBack(fileStream, signature.publicKey);
+
+    const file = ReadStream.from(encryptedForConsume);
+
+    return {
+      file: new StreamableFile(file),
+      name: fileVersion.name
+    };
+  }
+
+  async updateFile(file: UpdateFileDataDto, signature: SignatureVerificationModel): Promise<UpdateFileResponse> {
     if (!file || !file.newFile) {
       throw new HttpException(
         {
