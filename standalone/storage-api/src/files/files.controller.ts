@@ -68,7 +68,7 @@ export class FilesController {
       );
     }
 
-    const response = await this.filesService.createFile(fileData);
+    const response = await this.filesService.createFile(fileData, signatureResult);
     return response;
   }
 

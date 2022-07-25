@@ -23,6 +23,8 @@ import { SignatureVerificationModel } from '../models/signature-verification.mod
 import { RequestFileDataDto } from '../dto/request-file-data.dto';
 import fs, { ReadStream } from 'fs';
 import { RequestFileModel } from '../models/request-file.model';
+import { FileParticipantEntity } from '../entities/file-participant.entity';
+import { FileParticipantRepository } from '../repositories/file-participant.repository';
 
 @Injectable()
 export class FilesService {
@@ -33,13 +35,27 @@ export class FilesService {
     @InjectRepository(FileVersionEntity)
     private fileVersionsRepository: FileVersionRepository,
 
+    @InjectRepository(FileParticipantEntity)
+    private fileParticipantRepository: FileParticipantRepository,
+
     private onChainService: OnChainService,
 
     private encryptionService: EncryptionService,
   ) {}
 
-  async getLatestFileVersion(externalId: number): Promise<RequestFileInfo> {
-    if (!externalId) {
+  async getLatestFileVersion(fileEntity: FileEntity): Promise<RequestFileInfo> {
+    const sortedFileVersions = this.sortFileVersionsByDate(fileEntity.versions);
+
+    const lastFileVersion = sortedFileVersions.slice(-1);
+
+    return {
+      name: fileEntity.original_name,
+      path: lastFileVersion[0].path,
+    };
+  }
+
+  async requestFile(data: RequestFileDataDto, signature: SignatureVerificationModel): Promise<RequestFileModel> {
+    if (!data.externalId) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -52,26 +68,26 @@ export class FilesService {
     }
 
     const fileEntity = await this.fileRepository.findOneOrFail({
-      relations: ['versions'],
-      where: { id: externalId },
+      relations: ['versions', 'participants'],
+      where: { id: data.externalId },
     });
 
     if (!fileEntity || !fileEntity.versions) return null;
 
-    const sortedFileVersions = this.sortFileVersionsByDate(fileEntity.versions);
-
-    const lastFileVersion = sortedFileVersions.slice(-1);
-
-    return {
-      name: fileEntity.original_name,
-      path: lastFileVersion[0].path,
-    };
-  }
-
-  async requestFile(data: RequestFileDataDto, signature: SignatureVerificationModel): Promise<RequestFileModel> {
     const fileVersion = await this.getLatestFileVersion(
-      data.externalId,
+      fileEntity,
     );
+
+    const now = new Date();
+
+    if (!fileEntity.participants.some(participant => participant.publicKey == signature.publicKey)) {
+      const fileParticipant = await this.createFileParticipant(
+        now, 
+        signature.publicKey
+      );
+
+      (fileEntity.participants || []).push(fileParticipant)
+    }
 
     const fileStream = fs.readFileSync(fileVersion.path);
 
@@ -151,12 +167,13 @@ export class FilesService {
       storageResponse.path,
       onDiskFilename,
       file.id,
+      signature.publicKey
     );
 
     return this.createFileResponse(fileName, fileHash, file.id);
   }
 
-  async createFile(file: CreateFileDataDto): Promise<CreateFileResponse> {
+  async createFile(file: CreateFileDataDto, signature: SignatureVerificationModel): Promise<CreateFileResponse> {
     if (!file || !file.file) {
       throw new HttpException(
         {
@@ -193,6 +210,7 @@ export class FilesService {
       storageResponse.path,
       fileName,
       onDiskFilename,
+      signature.publicKey
     );
 
     return this.createFileResponse(fileName, fileHash, savedFileId);
@@ -205,6 +223,7 @@ export class FilesService {
     path: string,
     onDiskName: string,
     externalFileId: number,
+    participantPublicKey: string
   ): Promise<void> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -213,7 +232,7 @@ export class FilesService {
     runOnTransactionComplete((cb) => console.log('Transaction Complete'));
 
     const fileEntity = await this.fileRepository.findOneOrFail({
-      relations: ['versions'],
+      relations: ['versions', 'participants'],
       where: { id: externalFileId },
     });
 
@@ -224,8 +243,16 @@ export class FilesService {
       onDiskName,
     );
 
-    (fileEntity.versions || []).push(fileVersionEntity);
+    if (!fileEntity.participants.some(participant => participant.publicKey == participantPublicKey)) {
+      const fileParticipant = await this.createFileParticipant(
+        now, 
+        participantPublicKey
+      );
 
+      (fileEntity.participants || []).push(fileParticipant)
+    }
+
+    (fileEntity.versions || []).push(fileVersionEntity);
     await this.fileRepository.save(fileEntity);
   }
 
@@ -236,6 +263,7 @@ export class FilesService {
     path: string,
     fileName: string,
     onDiskName: string,
+    participantPublicKey: string
   ): Promise<number> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -250,16 +278,34 @@ export class FilesService {
       onDiskName,
     );
 
+    const fileParticipant = await this.createFileParticipant(
+      now, 
+      participantPublicKey
+    );
+
+    
     const fileEntity = new FileEntity();
 
     fileEntity.original_name = fileName;
     fileEntity.created = now;
     fileEntity.last_updated = now;
     fileEntity.versions = [fileVersionEntity];
+    fileEntity.participants = [fileParticipant];
+
     fileVersionEntity.file = fileEntity;
 
     var result = await this.fileRepository.save(fileEntity);
     return result.id;
+  }
+
+  private async createFileParticipant(now: Date, publicKey: string): Promise<FileParticipantEntity> {
+    const fileParticipant = new FileParticipantEntity();
+    fileParticipant.created = now;
+    fileParticipant.publicKey = publicKey;
+
+    var result = await this.fileParticipantRepository.save(fileParticipant);
+
+    return result;
   }
 
   private async createFileVersion(

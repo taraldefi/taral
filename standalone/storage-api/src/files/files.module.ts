@@ -13,10 +13,11 @@ import { SignatureService } from './services/onchain/signature.service';
 import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
 import { AuthenticationService } from './services/onchain/authentication.service';
+import { FileParticipantEntity } from './entities/file-participant.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([FileEntity, FileVersionEntity]),
+    TypeOrmModule.forFeature([FileEntity, FileVersionEntity, FileParticipantEntity]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
