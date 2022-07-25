@@ -55,6 +55,7 @@
     "./libs/node/**/*.ts",
     "./libs/testing/**/*.ts",
     "./libs/web/**/*.ts",
+    "./libs/api/**/*.ts",
     "./apps/scripts/**/*.ts",
     "./apps/oracle/**/*.ts"
   ],
