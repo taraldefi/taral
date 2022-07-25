@@ -25,6 +25,8 @@
       "@libs/stacks": ["../../libs/stacks"],
       "taral-configuration": ["../../packages/configuration"],
       "lib-shared": ["../../libs/shared"],
+      "lib-stacks": ["../../libs/stacks"],
+      "lib-api": ["../../libs/api"],
       "taral-contracts": ["../../packages/contracts"]
     }
   }

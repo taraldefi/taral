@@ -8,7 +8,7 @@ import {
 } from '@libs/storage';
 import { ConfigService } from '@nestjs/config';
 import { nodeTaralContracts, TaralStorageContract } from 'taral-contracts';
-import { ApiProvider } from 'lib-testing';
+import { ApiProvider } from 'lib-api';
 import { StacksMainnet, StacksNetwork, StacksTestnet } from '@stacks/network';
 import { ClarinetAccount, NodeContractInstance } from 'lib-shared';
 

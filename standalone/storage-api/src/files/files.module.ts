@@ -10,6 +10,8 @@ import {
   NestjsFormDataModule,
 } from 'src/core/modules/multipart';
 import { SignatureService } from './services/signature.service';
+import { OnChainService } from './services/onchain/on-chain.service';
+import { EncryptionService } from './services/onchain/encryption.service';
 
 @Module({
   imports: [
@@ -17,6 +19,6 @@ import { SignatureService } from './services/signature.service';
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
-  providers: [ConfigModule, ConfigService, FilesService, SignatureService],
+  providers: [ConfigModule, ConfigService, FilesService, SignatureService, OnChainService, EncryptionService],
 })
 export class FilesModule {}
