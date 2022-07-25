@@ -32,7 +32,7 @@ export class FilesService {
 
     private onChainService: OnChainService,
 
-    private encryptionService: EncryptionService
+    private encryptionService: EncryptionService,
   ) {}
 
   async getLatestFileVersion(externalId: number): Promise<RequestFileInfo> {
@@ -65,7 +65,10 @@ export class FilesService {
     };
   }
 
-  async updateFile(file: UpdateFileDataDto, signature: SignatureVerificationModel): Promise<UpdateFileResponse> {
+  async updateFile(
+    file: UpdateFileDataDto,
+    signature: SignatureVerificationModel,
+  ): Promise<UpdateFileResponse> {
     if (!file || !file.newFile) {
       throw new HttpException(
         {
@@ -90,7 +93,10 @@ export class FilesService {
       );
     }
 
-    var canUpdate = await this.onChainService.canWrite(file.id, signature.address);
+    var canUpdate = await this.onChainService.canWrite(
+      file.id,
+      signature.address,
+    );
 
     if (!canUpdate) {
       throw new HttpException(
@@ -113,9 +119,14 @@ export class FilesService {
 
     const fileHash = this.createFileHash(fileBuffer);
 
-    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(fileBuffer);
+    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(
+      fileBuffer,
+    );
 
-    const storageResponse = await storage.put(onDiskFilename, encryptedFileBuffer);
+    const storageResponse = await storage.put(
+      onDiskFilename,
+      encryptedFileBuffer,
+    );
 
     await this.updateFileEntity(
       now,
@@ -150,9 +161,14 @@ export class FilesService {
 
     const fileHash = this.createFileHash(fileBuffer);
 
-    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(fileBuffer);
+    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(
+      fileBuffer,
+    );
 
-    const storageResponse = await storage.put(onDiskFilename, encryptedFileBuffer);
+    const storageResponse = await storage.put(
+      onDiskFilename,
+      encryptedFileBuffer,
+    );
 
     var savedFileId = await this.saveFileEntity(
       now,

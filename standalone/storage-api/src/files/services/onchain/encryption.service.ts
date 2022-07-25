@@ -16,8 +16,8 @@ export class EncryptionService {
     ) as string;
 
     this.publicKey = this.configService.get(
-        'onchain.deployerpublickey',
-      ) as string;
+      'onchain.deployerpublickey',
+    ) as string;
   }
 
   public async decrypt(content: Buffer): Promise<Buffer> {

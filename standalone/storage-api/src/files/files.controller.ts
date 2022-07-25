@@ -32,7 +32,7 @@ export class FilesController {
   constructor(
     private readonly filesService: FilesService,
     private readonly signatureService: SignatureService,
-    private readonly encryptionService: EncryptionService
+    private readonly encryptionService: EncryptionService,
   ) {}
 
   @ApiConsumes('multipart/form-data')
@@ -93,7 +93,6 @@ export class FilesController {
   async updateFile(
     @Body() fileData: UpdateFileDataDto,
   ): Promise<UpdateFileResponse> {
-
     const signatureResult = this.signatureService.verifySignature(
       fileData.signature,
       fileData.signedMessage,
@@ -111,7 +110,10 @@ export class FilesController {
       );
     }
 
-    const response = await this.filesService.updateFile(fileData, signatureResult);
+    const response = await this.filesService.updateFile(
+      fileData,
+      signatureResult,
+    );
     return response;
   }
 
@@ -131,7 +133,6 @@ export class FilesController {
     @Res({ passthrough: true }) res,
     @Body() data: RequestFileDataDto,
   ): Promise<StreamableFile> {
-
     const signatureResult = this.signatureService.verifySignature(
       data.signature,
       data.signedMessage,
@@ -155,7 +156,11 @@ export class FilesController {
 
     const fileStream = fs.readFileSync(fileVersion.path);
 
-    const encryptedForConsume = await this.encryptionService.decryptAndEncryptBack(fileStream, signatureResult.publicKey);
+    const encryptedForConsume =
+      await this.encryptionService.decryptAndEncryptBack(
+        fileStream,
+        signatureResult.publicKey,
+      );
 
     const file = ReadStream.from(encryptedForConsume);
 
