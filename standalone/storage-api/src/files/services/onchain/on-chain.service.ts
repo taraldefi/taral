@@ -3,24 +3,14 @@ import { Injectable, NotFoundException, Scope } from '@nestjs/common';
 import {
     canRead,
     canWrite,
-    getFileHash,
-    grantAccessToFile,
     IStorageFileReadInterrogation,
-    IStorageFileRegister,
-    IStorageFileUpdate,
     IStorageFileWriteInterrogation,
-    registerFile,
-    revokeAccessFromFile,
-    updateAccessToFile,
-    updateFile,
 } from '@libs/storage';
 import { ConfigService } from '@nestjs/config';
-import { nodeTaralContracts, TaralOracleV1Contract, TaralStorageContract } from "taral-contracts";
+import { nodeTaralContracts, TaralStorageContract } from "taral-contracts";
 import { ApiProvider } from "lib-testing";
 import { StacksMainnet, StacksNetwork, StacksTestnet } from '@stacks/network';
 import { ClarinetAccount, NodeContractInstance } from 'lib-shared';
-
-
 
 @Injectable({
     scope: Scope.DEFAULT
