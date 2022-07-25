@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable, StreamableFile } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  StreamableFile,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FileEntity } from '../entities/file.entity';
 import { CreateFileDataDto } from '../dto/create-file-data.dto';
@@ -54,7 +59,10 @@ export class FilesService {
     };
   }
 
-  async requestFile(data: RequestFileDataDto, signature: SignatureVerificationModel): Promise<RequestFileModel> {
+  async requestFile(
+    data: RequestFileDataDto,
+    signature: SignatureVerificationModel,
+  ): Promise<RequestFileModel> {
     if (!data.externalId) {
       throw new HttpException(
         {
@@ -74,34 +82,43 @@ export class FilesService {
 
     if (!fileEntity || !fileEntity.versions) return null;
 
-    const fileVersion = await this.getLatestFileVersion(
-      fileEntity,
-    );
+    const fileVersion = await this.getLatestFileVersion(fileEntity);
 
     const now = new Date();
 
-    if (!fileEntity.participants.some(participant => participant.publicKey == signature.publicKey)) {
+    if (
+      !fileEntity.participants.some(
+        (participant) => participant.publicKey == signature.publicKey,
+      )
+    ) {
       const fileParticipant = await this.createFileParticipant(
-        now, 
-        signature.publicKey
+        now,
+        signature.publicKey,
       );
 
-      (fileEntity.participants || []).push(fileParticipant)
+      (fileEntity.participants || []).push(fileParticipant);
     }
 
     const fileStream = fs.readFileSync(fileVersion.path);
 
-    const encryptedForConsume = await this.encryptionService.decryptAndEncryptBack(fileStream, signature.publicKey);
+    const encryptedForConsume =
+      await this.encryptionService.decryptAndEncryptBack(
+        fileStream,
+        signature.publicKey,
+      );
 
     const file = ReadStream.from(encryptedForConsume);
 
     return {
       file: new StreamableFile(file),
-      name: fileVersion.name
+      name: fileVersion.name,
     };
   }
 
-  async updateFile(file: UpdateFileDataDto, signature: SignatureVerificationModel): Promise<UpdateFileResponse> {
+  async updateFile(
+    file: UpdateFileDataDto,
+    signature: SignatureVerificationModel,
+  ): Promise<UpdateFileResponse> {
     if (!file || !file.newFile) {
       throw new HttpException(
         {
@@ -167,13 +184,16 @@ export class FilesService {
       storageResponse.path,
       onDiskFilename,
       file.id,
-      signature.publicKey
+      signature.publicKey,
     );
 
     return this.createFileResponse(fileName, fileHash, file.id);
   }
 
-  async createFile(file: CreateFileDataDto, signature: SignatureVerificationModel): Promise<CreateFileResponse> {
+  async createFile(
+    file: CreateFileDataDto,
+    signature: SignatureVerificationModel,
+  ): Promise<CreateFileResponse> {
     if (!file || !file.file) {
       throw new HttpException(
         {
@@ -210,7 +230,7 @@ export class FilesService {
       storageResponse.path,
       fileName,
       onDiskFilename,
-      signature.publicKey
+      signature.publicKey,
     );
 
     return this.createFileResponse(fileName, fileHash, savedFileId);
@@ -223,7 +243,7 @@ export class FilesService {
     path: string,
     onDiskName: string,
     externalFileId: number,
-    participantPublicKey: string
+    participantPublicKey: string,
   ): Promise<void> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -243,13 +263,17 @@ export class FilesService {
       onDiskName,
     );
 
-    if (!fileEntity.participants.some(participant => participant.publicKey == participantPublicKey)) {
+    if (
+      !fileEntity.participants.some(
+        (participant) => participant.publicKey == participantPublicKey,
+      )
+    ) {
       const fileParticipant = await this.createFileParticipant(
-        now, 
-        participantPublicKey
+        now,
+        participantPublicKey,
       );
 
-      (fileEntity.participants || []).push(fileParticipant)
+      (fileEntity.participants || []).push(fileParticipant);
     }
 
     (fileEntity.versions || []).push(fileVersionEntity);
@@ -263,7 +287,7 @@ export class FilesService {
     path: string,
     fileName: string,
     onDiskName: string,
-    participantPublicKey: string
+    participantPublicKey: string,
   ): Promise<number> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -279,11 +303,10 @@ export class FilesService {
     );
 
     const fileParticipant = await this.createFileParticipant(
-      now, 
-      participantPublicKey
+      now,
+      participantPublicKey,
     );
 
-    
     const fileEntity = new FileEntity();
 
     fileEntity.original_name = fileName;
@@ -298,7 +321,10 @@ export class FilesService {
     return result.id;
   }
 
-  private async createFileParticipant(now: Date, publicKey: string): Promise<FileParticipantEntity> {
+  private async createFileParticipant(
+    now: Date,
+    publicKey: string,
+  ): Promise<FileParticipantEntity> {
     const fileParticipant = new FileParticipantEntity();
     fileParticipant.created = now;
     fileParticipant.publicKey = publicKey;

@@ -17,7 +17,11 @@ import { FileParticipantEntity } from './entities/file-participant.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([FileEntity, FileVersionEntity, FileParticipantEntity]),
+    TypeOrmModule.forFeature([
+      FileEntity,
+      FileVersionEntity,
+      FileParticipantEntity,
+    ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [FilesController],
@@ -28,7 +32,7 @@ import { FileParticipantEntity } from './entities/file-participant.entity';
     SignatureService,
     OnChainService,
     EncryptionService,
-    AuthenticationService
+    AuthenticationService,
   ],
 })
 export class FilesModule {}

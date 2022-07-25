@@ -1,8 +1,6 @@
-import { StreamableFile } from "@nestjs/common";
+import { StreamableFile } from '@nestjs/common';
 
 export class RequestFileModel {
-
-    name: string;
-    file: StreamableFile;
-  }
-  
+  name: string;
+  file: StreamableFile;
+}
