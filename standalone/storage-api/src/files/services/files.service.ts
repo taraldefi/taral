@@ -149,7 +149,10 @@ export class FilesService {
     const fileName = file.file.originalName;
 
     const fileHash = this.createFileHash(fileBuffer);
-    const storageResponse = await storage.put(onDiskFilename, fileBuffer);
+
+    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(fileBuffer);
+
+    const storageResponse = await storage.put(onDiskFilename, encryptedFileBuffer);
 
     var savedFileId = await this.saveFileEntity(
       now,
