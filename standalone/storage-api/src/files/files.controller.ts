@@ -19,6 +19,9 @@ import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
 import { createReadStream } from 'graceful-fs';
 import { SignatureService } from './services/signature.service';
+import { EncryptionService } from './services/onchain/encryption.service';
+import { ReadStream } from 'fs';
+import fs from 'fs';
 
 @ApiTags('Files')
 @Controller({
@@ -29,6 +32,7 @@ export class FilesController {
   constructor(
     private readonly filesService: FilesService,
     private readonly signatureService: SignatureService,
+    private readonly encryptionService: EncryptionService
   ) {}
 
   @ApiConsumes('multipart/form-data')
@@ -64,7 +68,6 @@ export class FilesController {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
-
 
     const response = await this.filesService.createFile(fileData);
     return response;
@@ -128,11 +131,33 @@ export class FilesController {
     @Res({ passthrough: true }) res,
     @Body() data: RequestFileDataDto,
   ): Promise<StreamableFile> {
+
+    const signatureResult = this.signatureService.verifySignature(
+      data.signature,
+      data.signedMessage,
+    );
+
+    if (!signatureResult.isValid) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            signature: 'incorrect-signature',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
     const fileVersion = await this.filesService.getLatestFileVersion(
       data.externalId,
     );
 
-    const file = createReadStream(fileVersion.path);
+    const fileStream = fs.readFileSync(fileVersion.path);
+
+    const encryptedForConsume = await this.encryptionService.decryptAndEncryptBack(fileStream, signatureResult.publicKey);
+
+    const file = ReadStream.from(encryptedForConsume);
 
     res.set({
       'Content-Type': 'application/pdf',
