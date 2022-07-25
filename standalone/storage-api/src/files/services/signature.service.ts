@@ -1,17 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import {
-  canRead,
-  canWrite,
-  getFileHash,
-  grantAccessToFile,
-  IStorageFileRegister,
-  IStorageFileUpdate,
-  registerFile,
-  revokeAccessFromFile,
-  updateAccessToFile,
-  updateFile,
-} from '@libs/storage';
 import { SignatureVerificationModel } from '../models/signature-verification.model';
 import {
   getAddressFromPublicKey,
@@ -25,11 +13,13 @@ import {
   StacksMessageType,
   TransactionVersion,
 } from '@libs/stacks';
+
 import { Signature, verify } from '@noble/secp256k1';
 
 @Injectable()
 export class SignatureService {
-  verifySignature(
+
+  public verifySignature(
     signature: string,
     message: string,
   ): SignatureVerificationModel {
