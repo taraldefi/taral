@@ -12,6 +12,7 @@ import {
 import { SignatureService } from './services/onchain/signature.service';
 import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
+import { AuthenticationService } from './services/onchain/authentication.service';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { EncryptionService } from './services/onchain/encryption.service';
     SignatureService,
     OnChainService,
     EncryptionService,
+    AuthenticationService
   ],
 })
 export class FilesModule {}

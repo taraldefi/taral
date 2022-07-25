@@ -22,6 +22,7 @@ import { SignatureService } from './services/onchain/signature.service';
 import { EncryptionService } from './services/onchain/encryption.service';
 import { ReadStream } from 'fs';
 import fs from 'fs';
+import { AuthenticationService } from './services/onchain/authentication.service';
 
 @ApiTags('Files')
 @Controller({
@@ -33,6 +34,7 @@ export class FilesController {
     private readonly filesService: FilesService,
     private readonly signatureService: SignatureService,
     private readonly encryptionService: EncryptionService,
+    private readonly authenticationService: AuthenticationService
   ) {}
 
   @ApiConsumes('multipart/form-data')
@@ -52,10 +54,7 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-    const signatureResult = this.signatureService.verifySignature(
-      fileData.signature,
-      fileData.signedMessage,
-    );
+    const signatureResult = this.authenticationService.guard(fileData.signature, fileData.signedMessage);
 
     if (!signatureResult.isValid) {
       throw new HttpException(
@@ -93,22 +92,7 @@ export class FilesController {
   async updateFile(
     @Body() fileData: UpdateFileDataDto,
   ): Promise<UpdateFileResponse> {
-    const signatureResult = this.signatureService.verifySignature(
-      fileData.signature,
-      fileData.signedMessage,
-    );
-
-    if (!signatureResult.isValid) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            signature: 'incorrect-signature',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
+    const signatureResult = this.authenticationService.guard(fileData.signature, fileData.signedMessage);
 
     const response = await this.filesService.updateFile(
       fileData,
@@ -133,10 +117,7 @@ export class FilesController {
     @Res({ passthrough: true }) res,
     @Body() data: RequestFileDataDto,
   ): Promise<StreamableFile> {
-    const signatureResult = this.signatureService.verifySignature(
-      data.signature,
-      data.signedMessage,
-    );
+    const signatureResult = this.authenticationService.guard(data.signature, data.signedMessage);
 
     if (!signatureResult.isValid) {
       throw new HttpException(
