@@ -35,7 +35,7 @@ export const evalWithCode = async ({
       stdin: evalCode,
     }
   );
-  const response: EvalResult = JSON.parse(receipt.stdout);
+  const response = JSON.parse(receipt.stdout);
   if (receipt.stderr) {
     console.log(receipt.stderr);
   }
