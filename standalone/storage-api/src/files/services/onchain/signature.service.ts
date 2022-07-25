@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { SignatureVerificationModel } from '../models/signature-verification.model';
+import { SignatureVerificationModel } from '../../models/signature-verification.model';
 import {
   getAddressFromPublicKey,
   hashStacksMessage,

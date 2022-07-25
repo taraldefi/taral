@@ -9,7 +9,7 @@ import {
   MemoryStoredFile,
   NestjsFormDataModule,
 } from 'src/core/modules/multipart';
-import { SignatureService } from './services/signature.service';
+import { SignatureService } from './services/onchain/signature.service';
 import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
 

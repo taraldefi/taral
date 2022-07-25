@@ -18,7 +18,7 @@ import { UpdateFileDataDto } from './dto/update-file-data.dto';
 import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
 import { createReadStream } from 'graceful-fs';
-import { SignatureService } from './services/signature.service';
+import { SignatureService } from './services/onchain/signature.service';
 import { EncryptionService } from './services/onchain/encryption.service';
 import { ReadStream } from 'fs';
 import fs from 'fs';
