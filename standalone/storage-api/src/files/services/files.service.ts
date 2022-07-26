@@ -97,6 +97,7 @@ export class FilesService {
       const fileParticipant = await this.createFileParticipant(
         now,
         signature.publicKey,
+        signature.address
       );
 
       (fileEntity.participants || []).push(fileParticipant);
@@ -188,6 +189,7 @@ export class FilesService {
       onDiskFilename,
       file.id,
       signature.publicKey,
+      signature.address
     );
 
     const signedFileHash = this.signatureService.signMessage(fileHash);
@@ -236,6 +238,7 @@ export class FilesService {
       fileName,
       onDiskFilename,
       signature.publicKey,
+      signature.address
     );
 
     const signedFileHash = this.signatureService.signMessage(fileHash);
@@ -251,6 +254,7 @@ export class FilesService {
     onDiskName: string,
     externalFileId: number,
     participantPublicKey: string,
+    participantWallet: string
   ): Promise<void> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -278,6 +282,7 @@ export class FilesService {
       const fileParticipant = await this.createFileParticipant(
         now,
         participantPublicKey,
+        participantWallet
       );
 
       (fileEntity.participants || []).push(fileParticipant);
@@ -295,6 +300,7 @@ export class FilesService {
     fileName: string,
     onDiskName: string,
     participantPublicKey: string,
+    participantWallet: string
   ): Promise<number> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -312,6 +318,7 @@ export class FilesService {
     const fileParticipant = await this.createFileParticipant(
       now,
       participantPublicKey,
+      participantWallet
     );
 
     const fileEntity = new FileEntity();
@@ -331,10 +338,12 @@ export class FilesService {
   private async createFileParticipant(
     now: Date,
     publicKey: string,
+    wallet: string
   ): Promise<FileParticipantEntity> {
     const fileParticipant = new FileParticipantEntity();
     fileParticipant.created = now;
     fileParticipant.publicKey = publicKey;
+    fileParticipant.wallet = wallet;
 
     var result = await this.fileParticipantRepository.save(fileParticipant);
 
@@ -369,6 +378,7 @@ export class FilesService {
     result.hash = fileHash;
     result.name = fileName;
     result.id = id;
+    result.signedHash = signedHash;
 
     return result;
   }
