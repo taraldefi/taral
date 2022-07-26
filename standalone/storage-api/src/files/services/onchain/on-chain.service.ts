@@ -56,10 +56,7 @@ export class OnChainService {
     fileId: number,
     participantAddress: string,
   ): Promise<boolean> {
-    
-    const privateKey = this.configService.get(
-      'onchain.privateKey',
-    ) as string;
+    const privateKey = this.configService.get('onchain.privateKey') as string;
 
     const address = this.configService.get('onchain.address') as string;
 
@@ -84,10 +81,7 @@ export class OnChainService {
     fileId: number,
     participantAddress: string,
   ): Promise<boolean> {
-
-    const privateKey = this.configService.get(
-      'onchain.privateKey',
-    ) as string;
+    const privateKey = this.configService.get('onchain.privateKey') as string;
     const address = this.configService.get('onchain.address') as string;
 
     const storageContract = await this.getStorageContract();
@@ -142,9 +136,7 @@ export class OnChainService {
         throw new NotFoundException('Invalid on-chain network configuration');
     }
 
-    const privateKey = this.configService.get(
-      'onchain.privateKey',
-    ) as string;
+    const privateKey = this.configService.get('onchain.privateKey') as string;
     const address = this.configService.get('onchain.address') as string;
 
     const contracts = await ApiProvider.fromContracts(

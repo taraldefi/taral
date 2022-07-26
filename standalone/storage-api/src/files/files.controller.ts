@@ -75,7 +75,7 @@ export class FilesController {
       fileData,
       signatureResult,
     );
-    
+
     return response;
   }
 

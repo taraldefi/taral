@@ -24,23 +24,22 @@ import { sha256 } from '@noble/hashes/sha256';
 
 @Injectable()
 export class SignatureService {
-
   private readonly privateKey: string;
 
   constructor(private configService: ConfigService) {
-    this.privateKey = this.configService.get(
-      'onchain.privateKey',
-    ) as string;
+    this.privateKey = this.configService.get('onchain.privateKey') as string;
 
     utils.hmacSha256Sync = (key, ...msgs) => {
       const h = hmac.create(sha256, key);
-      msgs.forEach(msg => h.update(msg))
+      msgs.forEach((msg) => h.update(msg));
       return h.digest();
     };
   }
 
   public signMessage(content: string): string {
-    const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(this.privateKey);
+    const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(
+      this.privateKey,
+    );
 
     const signature = signMessageHashRsv({
       message: content,

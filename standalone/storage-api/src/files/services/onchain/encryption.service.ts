@@ -11,13 +11,9 @@ export class EncryptionService {
   private readonly publicKey: string;
 
   constructor(private configService: ConfigService) {
-    this.privateKey = this.configService.get(
-      'onchain.privateKey',
-    ) as string;
+    this.privateKey = this.configService.get('onchain.privateKey') as string;
 
-    this.publicKey = this.configService.get(
-      'onchain.publicKey',
-    ) as string;
+    this.publicKey = this.configService.get('onchain.publicKey') as string;
   }
 
   public async decrypt(content: Buffer): Promise<Buffer> {
@@ -55,10 +51,7 @@ export class EncryptionService {
 
     const privateKey = ecPrivateKey(this.privateKey);
 
-    const decryptedContent = await decryptString(
-      privateKey,
-      stringContent,
-    );
+    const decryptedContent = await decryptString(privateKey, stringContent);
 
     const encryptedContent = await encryptString(publicKey, decryptedContent);
 

@@ -11,7 +11,7 @@ export class UpdateFileResponse {
   hash: string;
 
   @ApiProperty({
-    example: 1
+    example: 1,
   })
   id: number;
 

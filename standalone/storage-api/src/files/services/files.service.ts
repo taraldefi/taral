@@ -48,7 +48,7 @@ export class FilesService {
 
     private encryptionService: EncryptionService,
 
-    private signatureService: SignatureService
+    private signatureService: SignatureService,
   ) {}
 
   async getLatestFileVersion(fileEntity: FileEntity): Promise<RequestFileInfo> {
@@ -97,7 +97,7 @@ export class FilesService {
       const fileParticipant = await this.createFileParticipant(
         now,
         signature.publicKey,
-        signature.address
+        signature.address,
       );
 
       (fileEntity.participants || []).push(fileParticipant);
@@ -189,7 +189,7 @@ export class FilesService {
       onDiskFilename,
       file.id,
       signature.publicKey,
-      signature.address
+      signature.address,
     );
 
     const signedFileHash = this.signatureService.signMessage(fileHash);
@@ -238,12 +238,17 @@ export class FilesService {
       fileName,
       onDiskFilename,
       signature.publicKey,
-      signature.address
+      signature.address,
     );
 
     const signedFileHash = this.signatureService.signMessage(fileHash);
 
-    return this.createFileResponse(fileName, fileHash, savedFileId, signedFileHash);
+    return this.createFileResponse(
+      fileName,
+      fileHash,
+      savedFileId,
+      signedFileHash,
+    );
   }
 
   @Transactional()
@@ -254,7 +259,7 @@ export class FilesService {
     onDiskName: string,
     externalFileId: number,
     participantPublicKey: string,
-    participantWallet: string
+    participantWallet: string,
   ): Promise<void> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -282,7 +287,7 @@ export class FilesService {
       const fileParticipant = await this.createFileParticipant(
         now,
         participantPublicKey,
-        participantWallet
+        participantWallet,
       );
 
       (fileEntity.participants || []).push(fileParticipant);
@@ -300,7 +305,7 @@ export class FilesService {
     fileName: string,
     onDiskName: string,
     participantPublicKey: string,
-    participantWallet: string
+    participantWallet: string,
   ): Promise<number> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
@@ -318,7 +323,7 @@ export class FilesService {
     const fileParticipant = await this.createFileParticipant(
       now,
       participantPublicKey,
-      participantWallet
+      participantWallet,
     );
 
     const fileEntity = new FileEntity();
@@ -338,7 +343,7 @@ export class FilesService {
   private async createFileParticipant(
     now: Date,
     publicKey: string,
-    wallet: string
+    wallet: string,
   ): Promise<FileParticipantEntity> {
     const fileParticipant = new FileParticipantEntity();
     fileParticipant.created = now;
@@ -371,7 +376,7 @@ export class FilesService {
     fileName: string,
     fileHash: string,
     id: number,
-    signedHash: string
+    signedHash: string,
   ): CreateFileResponse {
     const result = new CreateFileResponse();
 
