@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 
 import { SignatureVerificationModel } from '../../models/signature-verification.model';
 import {
+  createStacksPrivateKey,
   getAddressFromPublicKey,
   hashStacksMessage,
   hexToBigInt,
@@ -10,14 +11,42 @@ import {
   PubKeyEncoding,
   publicKeyFromSignatureVrs,
   signatureRsvToVrs,
+  signMessageHashRsv,
   StacksMessageType,
+  StacksPrivateKey,
   TransactionVersion,
 } from '@libs/stacks';
 
 import { Signature, verify } from '@noble/secp256k1';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SignatureService {
+
+  private readonly privateKey: string;
+  private readonly publicKey: string;
+
+  constructor(private configService: ConfigService) {
+    this.privateKey = this.configService.get(
+      'onchain.deployerprivatekey',
+    ) as string;
+
+    this.publicKey = this.configService.get(
+      'onchain.deployerpublickey',
+    ) as string;
+  }
+
+  public signMessage(content: string): string {
+    const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(this.privateKey);
+
+    const signature = signMessageHashRsv({
+      message: content,
+      privateKey: stacksPrivateKey,
+    });
+
+    return signature.data;
+  }
+
   public verifySignature(
     signature: string,
     message: string,
