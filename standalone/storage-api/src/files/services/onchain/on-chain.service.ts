@@ -56,13 +56,17 @@ export class OnChainService {
     fileId: number,
     participantAddress: string,
   ): Promise<boolean> {
+    
     const privateKey = this.configService.get(
-      'onchain.deployerprivatekey',
+      'onchain.privateKey',
     ) as string;
-    const address = this.configService.get('onchain.deployeraddress') as string;
+
+    const address = this.configService.get('onchain.address') as string;
+
+    const storageContract = await this.getStorageContract();
 
     const payload: IStorageFileReadInterrogation = {
-      contract: this.storageContract.contract({
+      contract: storageContract.contract({
         address: address,
         privateKey: privateKey,
         mnemonic: '',
@@ -80,13 +84,16 @@ export class OnChainService {
     fileId: number,
     participantAddress: string,
   ): Promise<boolean> {
+
     const privateKey = this.configService.get(
-      'onchain.deployerprivatekey',
+      'onchain.privateKey',
     ) as string;
-    const address = this.configService.get('onchain.deployeraddress') as string;
+    const address = this.configService.get('onchain.address') as string;
+
+    const storageContract = await this.getStorageContract();
 
     const payload: IStorageFileWriteInterrogation = {
-      contract: this.storageContract.contract({
+      contract: storageContract.contract({
         address: address,
         privateKey: privateKey,
         mnemonic: '',
@@ -136,9 +143,9 @@ export class OnChainService {
     }
 
     const privateKey = this.configService.get(
-      'onchain.deployerprivatekey',
+      'onchain.privateKey',
     ) as string;
-    const address = this.configService.get('onchain.deployeraddress') as string;
+    const address = this.configService.get('onchain.address') as string;
 
     const contracts = await ApiProvider.fromContracts(
       false,

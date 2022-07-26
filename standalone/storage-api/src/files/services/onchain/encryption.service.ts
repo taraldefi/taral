@@ -12,11 +12,11 @@ export class EncryptionService {
 
   constructor(private configService: ConfigService) {
     this.privateKey = this.configService.get(
-      'onchain.deployerprivatekey',
+      'onchain.privateKey',
     ) as string;
 
     this.publicKey = this.configService.get(
-      'onchain.deployerpublickey',
+      'onchain.publicKey',
     ) as string;
   }
 
