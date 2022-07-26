@@ -23,6 +23,7 @@ import { StorageModule } from './core/modules/storage';
 import { OpenTelemetryModule } from './core/modules/telemetry';
 import { LoggerModule } from 'nestjs-pino';
 import { FilesModule } from './files/files.module';
+import onchainConfig from './config/onchain.config';
 
 const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
   metrics: {
@@ -38,7 +39,7 @@ const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
+      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig, onchainConfig],
       envFilePath: ['.env'],
     }),
     TypeOrmModule.forRootAsync({
