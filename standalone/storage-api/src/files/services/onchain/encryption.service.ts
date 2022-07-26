@@ -1,7 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
-import { decryptString, encryptString } from 'lib-stacks';
+import { decryptString, ecPrivateKey, encryptString } from 'lib-stacks';
 
 @Injectable({
   scope: Scope.DEFAULT,
@@ -53,8 +53,10 @@ export class EncryptionService {
   ): Promise<Buffer> {
     const stringContent: string = content.toString('utf8');
 
+    const privateKey = ecPrivateKey(this.privateKey);
+
     const decryptedContent = await decryptString(
-      this.privateKey,
+      privateKey,
       stringContent,
     );
 
