@@ -30,6 +30,7 @@ import fs, { ReadStream } from 'fs';
 import { RequestFileModel } from '../models/request-file.model';
 import { FileParticipantEntity } from '../entities/file-participant.entity';
 import { FileParticipantRepository } from '../repositories/file-participant.repository';
+import { SignatureService } from './onchain/signature.service';
 
 @Injectable()
 export class FilesService {
@@ -46,6 +47,8 @@ export class FilesService {
     private onChainService: OnChainService,
 
     private encryptionService: EncryptionService,
+
+    private signatureService: SignatureService
   ) {}
 
   async getLatestFileVersion(fileEntity: FileEntity): Promise<RequestFileInfo> {
@@ -187,7 +190,9 @@ export class FilesService {
       signature.publicKey,
     );
 
-    return this.createFileResponse(fileName, fileHash, file.id);
+    const signedFileHash = this.signatureService.signMessage(fileHash);
+
+    return this.createFileResponse(fileName, fileHash, file.id, signedFileHash);
   }
 
   async createFile(
@@ -233,7 +238,9 @@ export class FilesService {
       signature.publicKey,
     );
 
-    return this.createFileResponse(fileName, fileHash, savedFileId);
+    const signedFileHash = this.signatureService.signMessage(fileHash);
+
+    return this.createFileResponse(fileName, fileHash, savedFileId, signedFileHash);
   }
 
   @Transactional()
@@ -355,6 +362,7 @@ export class FilesService {
     fileName: string,
     fileHash: string,
     id: number,
+    signedHash: string
   ): CreateFileResponse {
     const result = new CreateFileResponse();
 

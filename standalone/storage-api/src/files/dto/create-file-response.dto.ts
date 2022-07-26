@@ -12,4 +12,7 @@ export class CreateFileResponse {
 
   @ApiProperty({ example: 1 })
   id: number;
+
+  @ApiProperty({ example: 'signed-message' })
+  signedHash: string;
 }
