@@ -14,14 +14,14 @@ export async function storageManualTest() {
   const response = await createFile();
 
   if (response == null) {
-      console.log('Errored out');
+    console.log("Errored out");
   } else {
-      console.log('Success', JSON.stringify(response));
+    console.log("Success", JSON.stringify(response));
   }
 
   const fileResponse = await requestFile(response!.id);
 
-//   const fileResponse = await requestFile(35);
+  //   const fileResponse = await requestFile(35);
 
   if (fileResponse == null) {
     console.log("Errored out");
@@ -36,7 +36,7 @@ export async function storageManualTest() {
 
     var buffer = Buffer.from(decryptedContent, "binary");
 
-    syncWriteFileWithEncoding(fileResponse.fileName, buffer, 'binary');
+    syncWriteFileWithEncoding(fileResponse.fileName, buffer, "binary");
   }
 }
 
