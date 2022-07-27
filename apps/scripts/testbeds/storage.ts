@@ -2,6 +2,9 @@ import fetch from "node-fetch";
 import { CreateFileResponse, EncryptedFileResponse, RequestFileResponse } from "./storage/models";
 import { createFormPayload } from './storage/create-file-payload';
 import { sign } from "./storage/signature-payload";
+import { decryptString, ecPrivateKey } from "lib-stacks";
+import { PrivateKey } from "./storage/constants";
+import { syncWriteFile } from "./storage/write-pdf-file";
 
 export async function storageManualTest() {
     // const response = await createFile();
@@ -20,9 +23,15 @@ export async function storageManualTest() {
         console.log('Errored out');
     } else {
         console.log('Success');
+
+        const encryptedContent = JSON.stringify(fileResponse.encryptedFile);
+
+        const privateKey = ecPrivateKey(PrivateKey);
+
+        const decryptedContent = await decryptString(privateKey, encryptedContent);
+
+        syncWriteFile(fileResponse.fileName, decryptedContent);        
     }
-
-
 }
 
 export async function requestFile(id: number): Promise<RequestFileResponse | null> {
@@ -50,7 +59,7 @@ export async function requestFile(id: number): Promise<RequestFileResponse | nul
 
         const result: RequestFileResponse = {
             encryptedFile,
-            fileName
+            fileName: fileName.replace(/['"]+/g, '')
         };
 
         return result;
