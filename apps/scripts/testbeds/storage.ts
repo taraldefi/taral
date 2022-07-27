@@ -2,14 +2,17 @@ import path from "path";
 import fs from "fs";
 import FormData from "form-data";
 import fetch from "node-fetch";
+import { createStacksPrivateKey, signMessageHashRsv, StacksPrivateKey } from "lib-stacks";
 
 export async function storageManualTest() {
-  //     const deployerPrivateKey =
-  //     "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
-  //   const publicKey = publicKeyFromPrivKey(deployerPrivateKey);
-  //   const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(deployerPrivateKey);
-
-  console.log("lalala");
+  const message = "Hello";
+  const deployerPrivateKey = "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
+  const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(deployerPrivateKey);
+  
+  const signature = signMessageHashRsv({
+    message: message,
+    privateKey: stacksPrivateKey,
+  });
 
   const filePath = path.join(__dirname, "../testfiles/dummy.pdf");
   const stats = fs.statSync(filePath);
@@ -18,14 +21,16 @@ export async function storageManualTest() {
 
   const form = new FormData();
 
-  form.append("field-name", fileStream, {
+  form.append("file", fileStream, {
     filename: "dummy.pdf",
     knownLength: fileSizeInBytes,
   });
-  form.append("signedMessage", "Hello world");
+
+  form.append("signedMessage", message);
+  
   form.append(
     "signature",
-    "5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800"
+    signature.data
   );
 
   const requestOptions = {
