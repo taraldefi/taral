@@ -2,13 +2,19 @@ import path from "path";
 import fs from "fs";
 import FormData from "form-data";
 import fetch from "node-fetch";
-import { createStacksPrivateKey, signMessageHashRsv, StacksPrivateKey } from "lib-stacks";
+import {
+  createStacksPrivateKey,
+  signMessageHashRsv,
+  StacksPrivateKey,
+} from "lib-stacks";
 
 export async function storageManualTest() {
   const message = "Hello";
-  const deployerPrivateKey = "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
-  const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(deployerPrivateKey);
-  
+  const deployerPrivateKey =
+    "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
+  const stacksPrivateKey: StacksPrivateKey =
+    createStacksPrivateKey(deployerPrivateKey);
+
   const signature = signMessageHashRsv({
     message: message,
     privateKey: stacksPrivateKey,
@@ -27,11 +33,8 @@ export async function storageManualTest() {
   });
 
   form.append("signedMessage", message);
-  
-  form.append(
-    "signature",
-    signature.data
-  );
+
+  form.append("signature", signature.data);
 
   const requestOptions = {
     method: "POST",
