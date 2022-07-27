@@ -1,4 +1,4 @@
-import { signature } from "./testbeds/signature";
+import { storageManualTest } from "./testbeds/storage";
 
 async function main() {
   const cwd = `${process.cwd()}`;
@@ -7,7 +7,7 @@ async function main() {
   console.log(`Ran from ${cwd}`);
   // await getDeployerPublicKey();
 
-  await signature();
+  await storageManualTest();
 }
 
 main();
