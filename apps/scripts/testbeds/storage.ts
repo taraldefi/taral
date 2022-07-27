@@ -1,50 +1,29 @@
-import path from "path";
-import fs from "fs";
-import FormData from "form-data";
 import fetch from "node-fetch";
-import {
-  createStacksPrivateKey,
-  signMessageHashRsv,
-  StacksPrivateKey,
-} from "lib-stacks";
+import { CreateFileResponse } from "./storage/models";
+import { createFormPayload } from './storage/create-file-payload';
 
 export async function storageManualTest() {
-  const message = "Hello";
-  const deployerPrivateKey =
-    "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
-  const stacksPrivateKey: StacksPrivateKey =
-    createStacksPrivateKey(deployerPrivateKey);
 
-  const signature = signMessageHashRsv({
-    message: message,
-    privateKey: stacksPrivateKey,
-  });
+    const response = await createFile();
 
-  const filePath = path.join(__dirname, "../testfiles/dummy.pdf");
-  const stats = fs.statSync(filePath);
-  const fileSizeInBytes = stats.size;
-  const fileStream = fs.createReadStream(filePath);
+    if (response == null) {
+        console.log('Errored out');
+    } else {
+        console.log('Success', JSON.stringify(response));
+    }
+}
 
-  const form = new FormData();
+export async function createFile(): Promise<CreateFileResponse | null> {
+    const requestOptions = createFormPayload();
+    try {
+        const response = await fetch(`http://localhost:3000/api/v1/files/create-file`, requestOptions);
 
-  form.append("file", fileStream, {
-    filename: "dummy.pdf",
-    knownLength: fileSizeInBytes,
-  });
+        const result = await response.json() as CreateFileResponse;
 
-  form.append("signedMessage", message);
+        return result;
+    } catch (error) {
+        console.log("Error ", error);
 
-  form.append("signature", signature.data);
-
-  const requestOptions = {
-    method: "POST",
-    body: form,
-  };
-
-  await fetch(`http://localhost:3000/api/v1/files/create-file`, requestOptions)
-    .then((response) => response.json())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
-
-  console.log(path.join(__dirname, "../testfiles/dummy.pdf"));
+        return null;
+    }
 }
