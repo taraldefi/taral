@@ -17,7 +17,7 @@ export async function storageManualTest() {
 
     // const fileResponse = await requestFile(response!.id);
     
-    const fileResponse = await requestFile(34);
+    const fileResponse = await requestFile(35);
 
     if (fileResponse == null) {
         console.log('Errored out');
@@ -30,7 +30,9 @@ export async function storageManualTest() {
 
         const decryptedContent = await decryptString(privateKey, encryptedContent);
 
-        syncWriteFile(fileResponse.fileName, decryptedContent);        
+        var buffer = Buffer.from(decryptedContent, "binary");
+
+        syncWriteFile(fileResponse.fileName, buffer);        
     }
 }
 

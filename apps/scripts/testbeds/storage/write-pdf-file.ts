@@ -2,7 +2,7 @@ import { writeFileSync } from 'fs';
 import { join } from 'path';
 
 // ✅ write to file SYNCHRONOUSLY
-export function syncWriteFile(filename: string, data: any) {
+export function syncWriteFileWithEncoding(filename: string, data: any, encoding: BufferEncoding) {
   /**
    * flags:
    *  - w = Open file for reading and writing. File is created if not exists
@@ -13,6 +13,6 @@ export function syncWriteFile(filename: string, data: any) {
 
   const path = join(__dirname, `../../storage/${filename}`);
   writeFileSync(path, data, {
-    flag: 'w',
+    encoding
   });
 }

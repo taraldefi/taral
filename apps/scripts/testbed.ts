@@ -1,4 +1,5 @@
 import { storageManualTest } from "./testbeds/storage";
+import { storageMvp } from "./testbeds/storage-mvp";
 
 async function main() {
   const cwd = `${process.cwd()}`;
@@ -7,7 +8,8 @@ async function main() {
   console.log(`Ran from ${cwd}`);
   // await getDeployerPublicKey();
 
-  await storageManualTest();
+  // await storageManualTest();
+  await storageMvp();
 }
 
 main();
