@@ -1,24 +1,28 @@
 import fetch from "node-fetch";
-import { CreateFileResponse, RequestFileResponse } from "./storage/models";
+import { CreateFileResponse, EncryptedFileResponse, RequestFileResponse } from "./storage/models";
 import { createFormPayload } from './storage/create-file-payload';
 import { sign } from "./storage/signature-payload";
 
 export async function storageManualTest() {
-    const response = await createFile();
+    // const response = await createFile();
 
-    if (response == null) {
-        console.log('Errored out');
-    } else {
-        console.log('Success', JSON.stringify(response));
-    }
+    // if (response == null) {
+    //     console.log('Errored out');
+    // } else {
+    //     console.log('Success', JSON.stringify(response));
+    // }
 
-    const fileResponse = await requestFile(response!.id);
+    // const fileResponse = await requestFile(response!.id);
     
-    if (response == null) {
+    const fileResponse = await requestFile(34);
+
+    if (fileResponse == null) {
         console.log('Errored out');
     } else {
-        console.log('Success', JSON.stringify(fileResponse));
+        console.log('Success');
     }
+
+
 }
 
 export async function requestFile(id: number): Promise<RequestFileResponse | null> {
@@ -39,7 +43,15 @@ export async function requestFile(id: number): Promise<RequestFileResponse | nul
     try {
         const response = await fetch(`http://localhost:3000/api/v1/files/request-file`, requestOptions);
 
-        const result = await response.json() as RequestFileResponse;
+        const header = response.headers.get('Content-Disposition');
+        const parts = header!.split(';');
+        const fileName = parts[1].split('=')[1];
+        const encryptedFile = await response.json() as EncryptedFileResponse;
+
+        const result: RequestFileResponse = {
+            encryptedFile,
+            fileName
+        };
 
         return result;
     } catch (error) {

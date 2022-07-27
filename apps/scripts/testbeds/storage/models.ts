@@ -6,6 +6,11 @@ export interface CreateFileResponse {
 }
 
 export interface RequestFileResponse {
+    encryptedFile: EncryptedFileResponse;
+    fileName: string;
+}
+
+export interface EncryptedFileResponse {
     iv: string;
     ephemeralPK: string;
     cipherText: string;
