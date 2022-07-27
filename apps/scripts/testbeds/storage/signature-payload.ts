@@ -4,9 +4,7 @@ import {
   StacksPrivateKey,
 } from "lib-stacks";
 
-import {
-    PrivateKey
-} from "./constants";
+import { PrivateKey } from "./constants";
 
 export interface Signature {
   data: string;
@@ -15,8 +13,7 @@ export interface Signature {
 
 export function sign(): Signature {
   const message = "Hello";
-  const stacksPrivateKey: StacksPrivateKey =
-    createStacksPrivateKey(PrivateKey);
+  const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(PrivateKey);
 
   const signature = signMessageHashRsv({
     message: message,

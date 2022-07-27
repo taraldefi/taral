@@ -1,23 +1,29 @@
 import path from "path";
 import fs from "fs";
-import { Buffer } from 'buffer';
+import { Buffer } from "buffer";
 
-export function readUnencryptedFileWithEncoding(filename: string, encoding: BufferEncoding): string {
-    const filePath = path.join(__dirname, `../testfiles/${filename}`);
+export function readUnencryptedFileWithEncoding(
+  filename: string,
+  encoding: BufferEncoding
+): string {
+  const filePath = path.join(__dirname, `../testfiles/${filename}`);
 
-    const fileStream: Buffer = fs.readFileSync(filePath);
+  const fileStream: Buffer = fs.readFileSync(filePath);
 
-    var result = fileStream.toString('binary');
+  var result = fileStream.toString("binary");
 
-    return result;
+  return result;
 }
 
-export function readEncryptedFileWithEncoding(filename: string, encoding: BufferEncoding): string {
-    const filePath = path.join(__dirname, `../../storage/${filename}`);
+export function readEncryptedFileWithEncoding(
+  filename: string,
+  encoding: BufferEncoding
+): string {
+  const filePath = path.join(__dirname, `../../storage/${filename}`);
 
-    const fileStream: Buffer = fs.readFileSync(filePath);
+  const fileStream: Buffer = fs.readFileSync(filePath);
 
-    var result = fileStream.toString(encoding);
+  var result = fileStream.toString(encoding);
 
-    return result;
+  return result;
 }
