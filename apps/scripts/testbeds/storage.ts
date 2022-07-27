@@ -8,20 +8,20 @@ import { createFormPayload } from "./storage/create-file-payload";
 import { sign } from "./storage/signature-payload";
 import { decryptString, ecPrivateKey } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
-import { syncWriteFile } from "./storage/write-pdf-file";
+import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
 
 export async function storageManualTest() {
-  // const response = await createFile();
+  const response = await createFile();
 
-  // if (response == null) {
-  //     console.log('Errored out');
-  // } else {
-  //     console.log('Success', JSON.stringify(response));
-  // }
+  if (response == null) {
+      console.log('Errored out');
+  } else {
+      console.log('Success', JSON.stringify(response));
+  }
 
-  // const fileResponse = await requestFile(response!.id);
+  const fileResponse = await requestFile(response!.id);
 
-  const fileResponse = await requestFile(35);
+//   const fileResponse = await requestFile(35);
 
   if (fileResponse == null) {
     console.log("Errored out");
@@ -36,7 +36,7 @@ export async function storageManualTest() {
 
     var buffer = Buffer.from(decryptedContent, "binary");
 
-    syncWriteFile(fileResponse.fileName, buffer);
+    syncWriteFileWithEncoding(fileResponse.fileName, buffer, 'binary');
   }
 }
 

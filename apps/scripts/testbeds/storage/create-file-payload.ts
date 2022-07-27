@@ -15,10 +15,10 @@ export function createFormPayload() {
   form.append("file", fileStream, {
     filename: "dummy.pdf",
     knownLength: fileSizeInBytes,
+    contentType: 'application/octet-stream'
   });
 
   form.append("signedMessage", signature.message);
-
   form.append("signature", signature.data);
 
   const requestOptions = {

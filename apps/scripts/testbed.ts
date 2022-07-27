@@ -8,8 +8,8 @@ async function main() {
   console.log(`Ran from ${cwd}`);
   // await getDeployerPublicKey();
 
-  // await storageManualTest();
-  await storageMvp();
+  await storageManualTest();
+  // await storageMvp();
 }
 
 main();

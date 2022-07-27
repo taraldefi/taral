@@ -36,7 +36,7 @@ export class EncryptionService {
   }
 
   public async encryptForStorage(content: Buffer): Promise<Buffer> {
-    const stringContent = content.toString('utf8');
+    const stringContent = content.toString('binary');
 
     const encryptedContent = await encryptString(this.publicKey, stringContent);
 
