@@ -21,8 +21,6 @@ export async function storageManualTest() {
 
   const fileResponse = await requestFile(response!.id);
 
-  //   const fileResponse = await requestFile(35);
-
   if (fileResponse == null) {
     console.log("Errored out");
   } else {
