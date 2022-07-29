@@ -1,5 +1,4 @@
 import { storageManualTest } from "./testbeds/storage";
-import { storageMvp } from "./testbeds/storage-mvp";
 
 async function main() {
   const cwd = `${process.cwd()}`;

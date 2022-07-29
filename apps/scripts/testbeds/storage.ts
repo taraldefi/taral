@@ -1,13 +1,13 @@
+import { decryptString, ecPrivateKey } from "lib-stacks";
 import fetch from "node-fetch";
+import { PrivateKey } from "./storage/constants";
+import { createFormPayload } from "./storage/create-file-payload";
 import {
   CreateFileResponse,
   EncryptedFileResponse,
   RequestFileResponse,
 } from "./storage/models";
-import { createFormPayload } from "./storage/create-file-payload";
 import { sign } from "./storage/signature-payload";
-import { decryptString, ecPrivateKey } from "lib-stacks";
-import { PrivateKey } from "./storage/constants";
 import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
 
 export async function storageManualTest() {

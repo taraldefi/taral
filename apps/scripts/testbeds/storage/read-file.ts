@@ -1,11 +1,8 @@
-import path from "path";
-import fs from "fs";
 import { Buffer } from "buffer";
+import fs from "fs";
+import path from "path";
 
-export function readUnencryptedFileWithEncoding(
-  filename: string,
-  encoding: BufferEncoding
-): string {
+export function readUnencryptedFileWithEncoding(filename: string): string {
   const filePath = path.join(__dirname, `../testfiles/${filename}`);
 
   const fileStream: Buffer = fs.readFileSync(filePath);

@@ -1,5 +1,3 @@
-import { readEncryptedFileWithEncoding } from "./storage/read-file";
-import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
 import {
   decryptString,
   ecPrivateKey,
@@ -7,6 +5,8 @@ import {
   getPublicKeyFromPrivate,
 } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
+import { readEncryptedFileWithEncoding } from "./storage/read-file";
+import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
 
 export async function storageMvp() {
   const file = "dummy.pdf";

@@ -1,3 +1,4 @@
+import { ApiProvider } from "lib-api";
 import { getClarinetAccounts } from "lib-infra";
 import {
   ClarinetAccount,
@@ -7,7 +8,6 @@ import {
   NodeContract,
   NodeContractInstances,
 } from "lib-shared";
-import { ApiProvider } from "lib-api";
 import { NETWORK } from "taral-configuration";
 import {
   BtcFtSwapContract,

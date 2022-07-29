@@ -1,6 +1,6 @@
-import path from "path";
-import fs from "fs";
 import FormData from "form-data";
+import fs from "fs";
+import path from "path";
 import { sign } from "./signature-payload";
 
 export function createFormPayload() {

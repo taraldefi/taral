@@ -3,7 +3,6 @@ import {
   signMessageHashRsv,
   StacksPrivateKey,
 } from "lib-stacks";
-
 import { PrivateKey } from "./constants";
 
 export interface Signature {

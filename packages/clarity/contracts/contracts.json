@@ -5,10 +5,7 @@
       "name": "Arkadiko",
       "description": "External arkadiko contracts used for development purposes only",
       "subfolder": "external/arkadiko",
-      "contracts": [
-        "sip-010-trait-ft-standard",
-        "usda-token"
-      ]
+      "contracts": ["sip-010-trait-ft-standard", "usda-token"]
     },
     {
       "name": "Taral",

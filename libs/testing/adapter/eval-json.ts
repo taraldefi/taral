@@ -1,5 +1,4 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { EvalResult } from "lib-shared";
 
 export async function evalJson({
   contractAddress,
