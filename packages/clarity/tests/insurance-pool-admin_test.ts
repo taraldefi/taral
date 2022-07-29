@@ -43,7 +43,7 @@ Clarinet.test({
       ),
     ]);
 
-    assertEquals(block.height, 4);
+    assertEquals(block.height, 2);
     console.log("Block");
     console.log(JSON.stringify(block));
     block.receipts[0].result.expectOk();
@@ -77,7 +77,7 @@ Clarinet.test({
         walletOne.address
       ),
     ]);
-    assertEquals(block.height, 4);
+    assertEquals(block.height, 2);
     block.receipts[0].result.expectOk();
     block.receipts[1].result.expectOk();
     (block.receipts[2].result.expectOk().expectTuple() as any)[
@@ -121,7 +121,7 @@ Clarinet.test({
       ),
     ]);
 
-    assertEquals(block.height, 155);
+    assertEquals(block.height, 153);
     block.receipts[0].result.expectOk();
     assertEquals(block.receipts[1].result, "(err u0)"); // no rewards
   },

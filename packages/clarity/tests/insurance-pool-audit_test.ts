@@ -57,7 +57,7 @@ Clarinet.test({
         walletOne.address
       ),
     ]);
-    assertEquals(block.height, 5);
+    assertEquals(block.height, 3);
     assertEquals(block.receipts[0].result, "(err u1000)");
   },
 });
@@ -158,7 +158,7 @@ Clarinet.test({
         walletOne.address
       ),
     ]);
-    assertEquals(block.height, 4);
+    assertEquals(block.height, 2);
     assertEquals(block.receipts[0].result, "(err u1000)"); // because clarinet only produces 0 hash blocks
   },
 });
