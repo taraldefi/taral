@@ -177,7 +177,6 @@ export class FilesService {
     file: CreateFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<CreateFileResponse> {
-
     const onDiskFilename = `${uuidv4()}.pdf`;
     const storage = Storage.disk('files');
 

@@ -47,7 +47,6 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-
     if (!fileData || !fileData.file) {
       throw new HttpException(
         {
@@ -133,7 +132,6 @@ export class FilesController {
     @Res({ passthrough: true }) res,
     @Body() data: RequestFileDataDto,
   ): Promise<StreamableFile> {
-
     if (!data.id) {
       throw new HttpException(
         {
