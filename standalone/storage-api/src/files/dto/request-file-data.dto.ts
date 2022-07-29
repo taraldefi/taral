@@ -3,7 +3,7 @@ import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
 
 export class RequestFileDataDto {
   @IsNumberString()
-  externalId: number;
+  id: number;
 
   @ApiProperty({
     example:

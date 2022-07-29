@@ -66,7 +66,7 @@ export class FilesService {
     data: RequestFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<RequestFileModel> {
-    if (!data.externalId) {
+    if (!data.id) {
       throw new HttpException(
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -80,7 +80,7 @@ export class FilesService {
 
     const fileEntity = await this.fileRepository.findOneOrFail({
       relations: ['versions', 'participants'],
-      where: { id: data.externalId },
+      where: { id: data.id },
     });
 
     if (!fileEntity || !fileEntity.versions) return null;
