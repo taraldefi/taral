@@ -66,18 +66,6 @@ export class FilesService {
     data: RequestFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<RequestFileModel> {
-    if (!data.id) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            externalId: 'external-id-missing',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
-
     const fileEntity = await this.fileRepository.findOneOrFail({
       relations: ['versions', 'participants'],
       where: { id: data.id },
@@ -123,18 +111,6 @@ export class FilesService {
     file: UpdateFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<UpdateFileResponse> {
-    if (!file || !file.newFile) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            file: 'selectFile',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
-
     if (!file.id) {
       throw new HttpException(
         {
@@ -201,17 +177,6 @@ export class FilesService {
     file: CreateFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<CreateFileResponse> {
-    if (!file || !file.file) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            file: 'selectFile',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
 
     const onDiskFilename = `${uuidv4()}.pdf`;
     const storage = Storage.disk('files');
