@@ -17,11 +17,6 @@ import { CreateFileResponse } from './dto/create-file-response.dto';
 import { UpdateFileDataDto } from './dto/update-file-data.dto';
 import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
-import { createReadStream } from 'graceful-fs';
-import { SignatureService } from './services/onchain/signature.service';
-import { EncryptionService } from './services/onchain/encryption.service';
-import { ReadStream } from 'fs';
-import fs from 'fs';
 import { AuthenticationService } from './services/onchain/authentication.service';
 
 @ApiTags('Files')
@@ -32,8 +27,6 @@ import { AuthenticationService } from './services/onchain/authentication.service
 export class FilesController {
   constructor(
     private readonly filesService: FilesService,
-    private readonly signatureService: SignatureService,
-    private readonly encryptionService: EncryptionService,
     private readonly authenticationService: AuthenticationService,
   ) {}
 
@@ -71,18 +64,6 @@ export class FilesController {
       fileData.signature,
       fileData.signedMessage,
     );
-
-    if (!signatureResult.isValid) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            signature: 'incorrect-signature',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
 
     const response = await this.filesService.createFile(
       fileData,
@@ -169,18 +150,6 @@ export class FilesController {
       data.signature,
       data.signedMessage,
     );
-
-    if (!signatureResult.isValid) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            signature: 'incorrect-signature',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
-    }
 
     const requestFileResult = await this.filesService.requestFile(
       data,
