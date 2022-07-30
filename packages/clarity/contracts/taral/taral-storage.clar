@@ -42,7 +42,6 @@
 ;; data maps and vars
 
 (define-data-var owner principal tx-sender)
-(define-data-var files-count uint u0)
 
 ;; Track who deployed the token and whether it has been initialized
 (define-data-var deployer-principal principal tx-sender)
@@ -63,7 +62,7 @@
 
 (define-map files 
     {
-        id: uint
+        id: (string-utf8 36)
     }
     {
         name: (string-ascii 128),
@@ -78,7 +77,7 @@
 
 (define-map file-hash 
     {
-        id: uint
+        id: (string-utf8 36)
     } 
     {
         hash: (buff 256),
@@ -96,7 +95,7 @@
         hash: (buff 256)
     }
     {
-        id: uint
+        id: (string-utf8 36)
     }
 )
 
@@ -105,7 +104,7 @@
 
 (define-map file-versions 
     {
-        id: uint,
+        id: (string-utf8 36),
         hash: (buff 256)
     }
     {
@@ -117,7 +116,7 @@
 ;;
 (define-map file-authorizations
     {
-        id: uint,
+        id: (string-utf8 36),
         participant: principal
     }
     {
@@ -137,7 +136,7 @@
 ;; Readonly functions
 ;;
 
-(define-read-only (can-read-file (participant principal) (file-id uint))
+(define-read-only (can-read-file (participant principal) (file-id (string-utf8 36)))
     (
         let (
                 (file-authorization (default-to 
@@ -158,7 +157,7 @@
     )
 )
 
-(define-read-only (can-write-file (participant principal) (file-id uint))
+(define-read-only (can-write-file (participant principal) (file-id (string-utf8 36)))
     (
         let (
                 (file-authorization (default-to 
@@ -251,6 +250,7 @@
 ;; The idea is that this signature must only be generated from the owner address
 ;; This is to enforce that whoever registers a file, uploaded it first on the off-chain storage API 
 (define-public (register-file 
+    (file-id (string-utf8 36))
     (filename (string-ascii 128))
     (hash (buff 256))
     (signature (buff 65))
@@ -259,9 +259,6 @@
         let (
             ;; hash the hash for signature verification
             (message-hash-for-signature (hash-message hash))
-
-            ;; get the new file id
-            (new-file-id (+ u1 (var-get files-count)))
         )
 
         (try! (detect-restriction tx-sender)) ;; Ensure there is no restriction
@@ -293,11 +290,11 @@
         })
 
         ;; add the new file to files-by-name
-        (map-set files-by-name { name: filename, participant: tx-sender, hash: hash } { id: new-file-id })
+        (map-set files-by-name { name: filename, participant: tx-sender, hash: hash } { id: file-id })
 
         ;; add the new file to the files overall map
 
-        (map-set files { id: new-file-id } {
+        (map-set files { id: file-id } {
             name: filename,
             hash: hash,
             created: block-height,
@@ -307,7 +304,7 @@
         ;; set the file versioning
         
         (map-set file-versions {
-            id: new-file-id,
+            id: file-id,
             hash: hash
         } 
         {
@@ -316,7 +313,7 @@
 
         ;; set the live file auth map
         ;;
-        (map-set file-authorizations {id: new-file-id, participant: tx-sender } {
+        (map-set file-authorizations {id: file-id, participant: tx-sender } {
             owns: true,
             can-write: true,
             can-read: true
@@ -324,16 +321,13 @@
 
         ;; set the latest file hash
         ;;
-        (map-set file-hash { id: new-file-id } {
+        (map-set file-hash { id: file-id } {
             hash: hash,
             name: filename
         })
 
-        ;; increment file count
-        (var-set files-count (+ u1 (var-get files-count)))
-
         ;; success
-        (ok new-file-id)
+        (ok file-id)
     )
 )
 
@@ -352,7 +346,7 @@
 ;;
 (define-public (grant-access
     (participant principal)
-    (file-id uint)
+    (file-id (string-utf8 36))
     (can-read bool)
     (can-write bool)
 )
@@ -361,7 +355,7 @@
             (existing-file (unwrap! (map-get? files {id: file-id }) ERR_FILE_NOT_FOUND))
         )
 
-        (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
+        (asserts! (is-some (some file-id)) ERR_INVALID_FILE_ID)
 
         (asserts! (is-some (some participant)) ERR_INVALID_PRINCIPAL)
 
@@ -404,7 +398,7 @@
 ;;
 (define-public (update-access
     (participant principal)
-    (file-id uint)
+    (file-id (string-utf8 36))
     (can-read bool)
     (can-write bool)
 )
@@ -414,7 +408,7 @@
             (existing-file (unwrap! (map-get? files {id: file-id }) ERR_FILE_NOT_FOUND))
         )
 
-        (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
+        (asserts! (is-some (some file-id)) ERR_INVALID_FILE_ID)
 
         (asserts! (is-some (some participant)) ERR_INVALID_PRINCIPAL)
 
@@ -464,7 +458,7 @@
 ;; Allows revoking someone's access to the file. This does not delete data from the map
 ;;
 (define-public (revoke-access 
-    (file-id uint)
+    (file-id (string-utf8 36))
     (participant principal)
 )
     (
@@ -472,7 +466,7 @@
             (existing-file-authorizationsorization (unwrap! (map-get? file-authorizations {id: file-id, participant: participant }) ERR_UNKNOWN_FILE_ACCESS))
         )
 
-        (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
+        (asserts! (is-some (some file-id)) ERR_INVALID_FILE_ID)
 
         (map-set file-authorizations { id: file-id, participant: participant }
             (merge existing-file-authorizationsorization { owns: false, can-read: false, can-write: false })
@@ -504,7 +498,7 @@
 ;;
 ;; ALlows updating the file version / hash
 (define-public (update-file
-        (file-id uint)
+        (file-id (string-utf8 36))
         (hash (buff 256))
         (signature (buff 65))
 )
@@ -523,7 +517,7 @@
 
         (try! (detect-restriction tx-sender)) ;; Ensure there is no restriction
 
-        (asserts! (> file-id u0) ERR_INVALID_FILE_ID)
+        (asserts! (is-some (some file-id)) ERR_INVALID_FILE_ID)
 
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
