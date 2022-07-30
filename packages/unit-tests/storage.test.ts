@@ -12,8 +12,12 @@ import {
 } from "lib-storage";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { readTestFile } from "./test-utils";
+import { v4 as uuidv4 } from 'uuid';
 
 test("[File storage] - Happy flow", async () => {
+
+  const id: string = uuidv4()
+
   const firstFileHash =
     "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
 
@@ -33,6 +37,7 @@ test("[File storage] - Happy flow", async () => {
   const firstFileBuffer = readTestFile(firstVersionFileName);
 
   const registerFilePayload: IStorageFileRegister = {
+    fileId: id,
     fileBuffer: firstFileBuffer,
     fileName: firstVersionFileName,
     privateKey: deployerPrivateKey,
@@ -41,21 +46,21 @@ test("[File storage] - Happy flow", async () => {
 
   const registerFileResult = await registerFile(registerFilePayload);
 
-  expect(registerFileResult).toEqual(1n);
+  expect(registerFileResult).toEqual(id);
 
-  const onChainHash = await getFileHash(1n, onChainStorage);
+  const onChainHash = await getFileHash(id, onChainStorage);
 
   expect(onChainHash).toEqual(firstFileHash);
 
   const canWriteFile = await canWrite({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: deployer.address,
   });
 
   const canReadFile = await canRead({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: deployer.address,
   });
 
@@ -64,13 +69,13 @@ test("[File storage] - Happy flow", async () => {
 
   let canBobWriteFile = await canWrite({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
   let canBobReadFile = await canRead({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
@@ -81,7 +86,7 @@ test("[File storage] - Happy flow", async () => {
     canRead: true,
     canWrite: false,
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
@@ -89,13 +94,13 @@ test("[File storage] - Happy flow", async () => {
 
   canBobWriteFile = await canWrite({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
   canBobReadFile = await canRead({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
@@ -107,20 +112,20 @@ test("[File storage] - Happy flow", async () => {
     canWrite: true,
     contract: onChainStorage,
     participant: bob.address,
-    fileId: 1n,
+    fileId: id,
   });
 
   expect(updateAccessResult).toBeTruthy();
 
   const bobsNewWritePermissions = await canWrite({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
   const bobsNewReadPermissions = await canRead({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
@@ -131,7 +136,7 @@ test("[File storage] - Happy flow", async () => {
 
   const updateFilePayload: IStorageFileUpdate = {
     fileBuffer: secondFileBuffer,
-    fileId: 1n,
+    fileId: id,
     privateKey: deployerPrivateKey,
     contract: onChainStorage,
   };
@@ -140,12 +145,12 @@ test("[File storage] - Happy flow", async () => {
 
   expect(updateFileResult).toEqual(true);
 
-  const newOnChainHash = await getFileHash(1n, onChainStorage);
+  const newOnChainHash = await getFileHash(id, onChainStorage);
   expect(newOnChainHash).toEqual(secondFileHash);
 
   const revokeAccessResult = await revokeAccessFromFile({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
@@ -153,13 +158,13 @@ test("[File storage] - Happy flow", async () => {
 
   const bobsRevokeAccessWritePermissions = await canWrite({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
   const bobsRevokeAccessReadPermissions = await canRead({
     contract: onChainStorage,
-    fileId: 1n,
+    fileId: id,
     participant: bob.address,
   });
 
