@@ -58,7 +58,7 @@ async function deployContract<T extends NodeContracts<M>, M>(
     senderKey: senderKey,
     network: NETWORK,
     anchorMode: 3,
-    fee: 1000000
+    fee: 1000000,
   });
 
   Logger.debug(NAME, `Deploying contract ${contractName}`);
