@@ -15,12 +15,14 @@
     "ts-jest": "^27.1.4",
     "ts-node": "^10.7.0",
     "@types/jest": "^27.4.1",
+    "@types/uuid": "^8.3.4",
     "typescript": "^4.6.4",
     "@babel/preset-typescript": "^7.16.7",
     "@babel/preset-env": "^7.17.10",
     "babel-jest": "^28.0.2"
   },
   "dependencies": {
+    "uuid": "^8.3.2",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
     "lib-shared": "1.0.0",
