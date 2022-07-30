@@ -2,7 +2,7 @@ import { Logger } from "lib-shared";
 import { TaralStorageContract } from "taral-contracts";
 
 export async function getFileHash(
-  fileId: bigint,
+  fileId: string,
   contract: TaralStorageContract
 ): Promise<string | undefined> {
   const response = await contract.fileHash({ id: fileId });

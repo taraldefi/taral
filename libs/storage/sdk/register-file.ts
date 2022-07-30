@@ -10,7 +10,7 @@ import { IStorageFileRegister } from "./types";
 
 export async function registerFile(
   request: IStorageFileRegister
-): Promise<bigint> {
+): Promise<string> {
   const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(
     request.privateKey
   );
@@ -28,7 +28,12 @@ export async function registerFile(
   const buffer = Buffer.from(utf8ToBytes(fileHash));
 
   const response = await txOk(
-    request.contract.registerFile(request.fileName, buffer, signatureBuffer)
+    request.contract.registerFile(
+      request.fileId,
+      request.fileName,
+      buffer,
+      signatureBuffer
+    )
   );
 
   Logger.debug("register-file", "Received result ", response);

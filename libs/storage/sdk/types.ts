@@ -1,6 +1,8 @@
 import { TaralStorageContract } from "taral-contracts";
 
 export interface IStorageFileRegister {
+  fileId: string;
+
   fileBuffer: Buffer;
 
   fileName: string;
@@ -13,7 +15,7 @@ export interface IStorageFileRegister {
 export interface IStorageFileWriteInterrogation {
   participant: string;
 
-  fileId: bigint;
+  fileId: string;
 
   contract: TaralStorageContract;
 }
@@ -21,7 +23,7 @@ export interface IStorageFileWriteInterrogation {
 export interface IStorageFileReadInterrogation {
   participant: string;
 
-  fileId: bigint;
+  fileId: string;
 
   contract: TaralStorageContract;
 }
@@ -29,7 +31,7 @@ export interface IStorageFileReadInterrogation {
 export interface IStorageFileAccessGrant {
   contract: TaralStorageContract;
 
-  fileId: bigint;
+  fileId: string;
 
   canRead: boolean;
 
@@ -41,7 +43,7 @@ export interface IStorageFileAccessGrant {
 export interface IStorageFileAccessUpdate {
   contract: TaralStorageContract;
 
-  fileId: bigint;
+  fileId: string;
 
   canRead: boolean;
 
@@ -53,7 +55,7 @@ export interface IStorageFileAccessUpdate {
 export interface IStorageFileUpdate {
   contract: TaralStorageContract;
 
-  fileId: bigint;
+  fileId: string;
 
   privateKey: string;
 
@@ -63,7 +65,7 @@ export interface IStorageFileUpdate {
 export interface IStorageFileAccessRevoke {
   contract: TaralStorageContract;
 
-  fileId: bigint;
+  fileId: string;
 
   participant: string;
 }
