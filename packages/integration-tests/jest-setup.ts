@@ -17,9 +17,13 @@ import {
   nodeTaralContracts,
   Sip10FtStandardContract,
   TaralCoinContract,
+  TaralStorageContract,
 } from "taral-contracts";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
+
+export let taralStorage: (account: ClarinetAccount) => TaralStorageContract;
+
 export let clarityBitcoinContract: (
   account: ClarinetAccount
 ) => ClarityBitcoinContract;
@@ -34,6 +38,7 @@ export let deployed: NodeContractInstances<
     nodeClarityBitcoin: NodeContract<ClarityBitcoinContract>;
     nodeBtcFtSwap: NodeContract<BtcFtSwapContract>;
     nodeBtcNftSwap: NodeContract<BtcNftSwapContract>;
+    nodeTaralStorage: NodeContract<TaralStorageContract>;
   },
   unknown
 >;
@@ -62,6 +67,7 @@ beforeAll(async () => {
 
   Logger.debug("jest-setup", "Deployed contracts to priv. testnet");
   talToken = deployed.nodeTaralCoin.contract;
+  taralStorage = deployed.nodeTaralStorage.contract;
   clarityBitcoinContract = deployed.nodeClarityBitcoin.contract;
   btcFtSwapContract = deployed.nodeBtcFtSwap.contract;
 }, 3000000);
