@@ -46,7 +46,11 @@ export const TaralStorageInterface: ClarityAbi = {
         },
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
         {
           name: "can-read",
@@ -109,6 +113,14 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "public",
       args: [
         {
+          name: "file-id",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
+        },
+        {
           name: "filename",
           type: {
             "string-ascii": {
@@ -138,7 +150,11 @@ export const TaralStorageInterface: ClarityAbi = {
         type: {
           response: {
             error: "uint128",
-            ok: "uint128",
+            ok: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
         },
       },
@@ -170,7 +186,11 @@ export const TaralStorageInterface: ClarityAbi = {
       args: [
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
         {
           name: "participant",
@@ -196,7 +216,11 @@ export const TaralStorageInterface: ClarityAbi = {
         },
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
         {
           name: "can-read",
@@ -244,7 +268,11 @@ export const TaralStorageInterface: ClarityAbi = {
       args: [
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
         {
           name: "hash",
@@ -282,7 +310,11 @@ export const TaralStorageInterface: ClarityAbi = {
         },
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
       ],
       name: "can-read-file",
@@ -304,7 +336,11 @@ export const TaralStorageInterface: ClarityAbi = {
         },
         {
           name: "file-id",
-          type: "uint128",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
         },
       ],
       name: "can-write-file",
@@ -442,7 +478,11 @@ export const TaralStorageInterface: ClarityAbi = {
         tuple: [
           {
             name: "id",
-            type: "uint128",
+            type: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
           {
             name: "participant",
@@ -473,7 +513,11 @@ export const TaralStorageInterface: ClarityAbi = {
         tuple: [
           {
             name: "id",
-            type: "uint128",
+            type: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
         ],
       },
@@ -512,7 +556,11 @@ export const TaralStorageInterface: ClarityAbi = {
           },
           {
             name: "id",
-            type: "uint128",
+            type: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
         ],
       },
@@ -531,7 +579,11 @@ export const TaralStorageInterface: ClarityAbi = {
         tuple: [
           {
             name: "id",
-            type: "uint128",
+            type: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
         ],
       },
@@ -595,7 +647,11 @@ export const TaralStorageInterface: ClarityAbi = {
         tuple: [
           {
             name: "id",
-            type: "uint128",
+            type: {
+              "string-utf8": {
+                length: 36,
+              },
+            },
           },
         ],
       },
@@ -794,11 +850,6 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "variable",
       name: "deployer-principal",
       type: "principal",
-    },
-    {
-      access: "variable",
-      name: "files-count",
-      type: "uint128",
     },
     {
       access: "variable",

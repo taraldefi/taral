@@ -7,7 +7,7 @@ export interface TaralStorageContract {
   ) => Transaction<boolean, bigint>;
   grantAccess: (
     participant: string,
-    fileId: number | bigint,
+    fileId: string,
     canRead: boolean,
     canWrite: boolean
   ) => Transaction<boolean, bigint>;
@@ -18,21 +18,22 @@ export interface TaralStorageContract {
     initialOwner: string
   ) => Transaction<boolean, bigint>;
   registerFile: (
+    fileId: string,
     filename: string,
     hash: Buffer,
     signature: Buffer
-  ) => Transaction<bigint, bigint>;
+  ) => Transaction<string, bigint>;
   removePrincipalFromRole: (
     roleToRemove: number | bigint,
     principalToRemove: string
   ) => Transaction<boolean, bigint>;
   revokeAccess: (
-    fileId: number | bigint,
+    fileId: string,
     participant: string
   ) => Transaction<boolean, bigint>;
   updateAccess: (
     participant: string,
-    fileId: number | bigint,
+    fileId: string,
     canRead: boolean,
     canWrite: boolean
   ) => Transaction<boolean, bigint>;
@@ -41,17 +42,17 @@ export interface TaralStorageContract {
     setBlacklisted: boolean
   ) => Transaction<boolean, bigint>;
   updateFile: (
-    fileId: number | bigint,
+    fileId: string,
     hash: Buffer,
     signature: Buffer
   ) => Transaction<boolean, bigint>;
   canReadFile: (
     participant: string,
-    fileId: number | bigint
+    fileId: string
   ) => Promise<ClarityTypes.Response<boolean, null>>;
   canWriteFile: (
     participant: string,
-    fileId: number | bigint
+    fileId: string
   ) => Promise<ClarityTypes.Response<boolean, null>>;
   detectRestriction: (
     participant: string
@@ -89,25 +90,24 @@ export interface TaralStorageContract {
   RESTRICTION_NONE: () => Promise<bigint>;
   messagePrefix: () => Promise<Buffer>;
   deployerPrincipal: () => Promise<string>;
-  filesCount: () => Promise<bigint>;
   isInitialized: () => Promise<boolean>;
   owner: () => Promise<string>;
   blacklist: (key: { account: string }) => Promise<{
     blacklisted: boolean;
   } | null>;
-  fileAuthorizations: (key: { id: bigint; participant: string }) => Promise<{
+  fileAuthorizations: (key: { id: string; participant: string }) => Promise<{
     "can-read": boolean;
     "can-write": boolean;
     owns: boolean;
   } | null>;
-  fileHash: (key: { id: bigint }) => Promise<{
+  fileHash: (key: { id: string }) => Promise<{
     hash: Buffer;
     name: string;
   } | null>;
-  fileVersions: (key: { hash: Buffer; id: bigint }) => Promise<{
+  fileVersions: (key: { hash: Buffer; id: string }) => Promise<{
     "changed-by": string;
   } | null>;
-  files: (key: { id: bigint }) => Promise<{
+  files: (key: { id: string }) => Promise<{
     created: bigint;
     hash: Buffer;
     "last-updated": bigint;
@@ -118,7 +118,7 @@ export interface TaralStorageContract {
     name: string;
     participant: string;
   }) => Promise<{
-    id: bigint;
+    id: string;
   } | null>;
   roles: (key: { account: string; role: bigint }) => Promise<{
     allowed: boolean;
