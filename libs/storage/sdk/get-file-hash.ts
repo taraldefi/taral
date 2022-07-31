@@ -6,14 +6,13 @@ export async function getFileHash(
   contract: TaralStorageContract
 ): Promise<string | undefined> {
   const response = await contract.getFileHash(fileId);
+  Logger.debug("get-file-hash", "Received result ", response);
+
+  if (response.isErr()) {
+    Logger.error("get-file-hash", "Received error ", response);
+  }
 
   const result = response._unsafeUnwrap();
-
-  Logger.debug("get-file-hash", "Received result ", result);
-
-  if (result == null) {
-    return "";
-  }
 
   return Buffer.from(result).toString();
 }

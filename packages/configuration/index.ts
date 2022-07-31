@@ -6,6 +6,10 @@ export const NETWORK: StacksNetwork = new StacksTestnet({
   url: "http://localhost:3999",
 });
 
+// export const NETWORK: StacksNetwork = new StacksMocknet({
+//   url: "http://localhost:3999",
+// });
+
 export function getTransactionUrl(
   transaction: string,
   network: StacksNetwork

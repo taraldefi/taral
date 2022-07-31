@@ -9,9 +9,11 @@ export async function canRead(
     request.fileId
   );
 
+  Logger.debug("can-read-file", "Received response ", JSON.stringify(response));
+
   const result = response._unsafeUnwrap();
 
-  Logger.debug("can-write-file", "Received result ", result);
+  Logger.debug("can-read-file", "Received result ", result);
 
   return result;
 }
