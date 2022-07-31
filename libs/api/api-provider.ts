@@ -58,7 +58,7 @@ export class ApiProvider implements BaseProvider {
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
-    Logger.error(NAME, "Method not implemented");
+    Logger.error(NAME, `Method not implemented for ${_map.name}`);
     return this.asyncFunc();
   }
 
