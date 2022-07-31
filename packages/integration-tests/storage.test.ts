@@ -10,12 +10,12 @@ import {
   updateAccessToFile,
   updateFile,
 } from "lib-storage";
-import { v4 as uuidv4 } from "uuid";
+import { uuid } from "lib-shared";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { readTestFile } from "./test-utils";
 
 test("[File storage] - Happy flow", async () => {
-  const id: string = uuidv4();
+  const id: string = uuid();
 
   const firstFileHash =
     "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
