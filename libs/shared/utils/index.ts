@@ -10,3 +10,4 @@ export * from "./to-camel-case";
 export * from "./to-json";
 export * from "./to-pascal-case";
 export * from "./transaction";
+export * from "./uuid";
