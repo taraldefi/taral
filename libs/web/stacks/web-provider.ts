@@ -45,11 +45,13 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
   identifier: string;
   network: StacksNetwork;
   appDetails: AppDetails;
+  deployerAddress?: string;
 
   constructor({
     network,
     identifier,
     appDetails,
+    deployerAddress,
   }: WebConfig & { identifier: string }) {
 
     const _fetch = typeof window !== 'undefined' ? window.fetch.bind(window) : fetch;
@@ -64,6 +66,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     this.identifier = identifier;
     this.network = network;
     this.appDetails = appDetails;
+    this.deployerAddress = deployerAddress;
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
@@ -81,6 +84,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     const instances = {} as WebContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
+      contract.address = config.deployerAddress || contract.address;
       const identifier = getContractIdentifier(contract);
       const provider = new this({ ...config, identifier });
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
