@@ -58,8 +58,8 @@ export interface TaralStorageContract {
     participant: string
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getFileHash: (
-    id: string
-  ) => Promise<ClarityTypes.Response<Buffer | null, bigint>>;
+    fileId: string
+  ) => Promise<ClarityTypes.Response<Buffer, bigint>>;
   hasRole: (
     roleToCheck: number | bigint,
     principalToCheck: string

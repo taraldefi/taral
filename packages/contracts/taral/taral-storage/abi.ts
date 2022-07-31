@@ -375,7 +375,7 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "read_only",
       args: [
         {
-          name: "id",
+          name: "file-id",
           type: {
             "string-utf8": {
               length: 36,
@@ -389,10 +389,8 @@ export const TaralStorageInterface: ClarityAbi = {
           response: {
             error: "uint128",
             ok: {
-              optional: {
-                buffer: {
-                  length: 256,
-                },
+              buffer: {
+                length: 256,
               },
             },
           },
