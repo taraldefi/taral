@@ -26,9 +26,9 @@ export interface WebTransaction<Ok, Err> extends Transaction<Ok, Err> {
   payload: TxPayload;
 }
 
-export interface ContractCallPayload extends Omit<TxPayload, 'privateKey'> {
+export interface ContractCallPayload extends Omit<TxPayload, "privateKey"> {
   publicKey: string;
-  txType: 'contract_call';
+  txType: "contract_call";
   postConditions?: string[];
 }
 

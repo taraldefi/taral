@@ -1,4 +1,8 @@
-import { makeContractDeploy, AnchorMode, PostConditionMode } from "@stacks/transactions";
+import {
+  AnchorMode,
+  makeContractDeploy,
+  PostConditionMode,
+} from "@stacks/transactions";
 import * as fs from "fs";
 import { getClarinetAccounts } from "lib-infra";
 import {
@@ -11,7 +15,6 @@ import { getNonce, handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
 import { nodeTaralContracts } from "taral-contracts";
-import BN from "bn.js";
 
 const NAME = "Deploy tool";
 
@@ -26,7 +29,6 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
 
   let index = 0;
   for (const k in contracts) {
-
     index++;
 
     const contract: T[Extract<keyof T, string>] = contracts[k];
@@ -34,7 +36,12 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
     const contractName = getContractNameFromPath(contract.contractFile);
     Logger.debug(NAME, "Deploying contract", contractName);
 
-    const result = await deployContract(contract, deployer.privateKey, deployer.address, index);
+    const result = await deployContract(
+      contract,
+      deployer.privateKey,
+      deployer.address,
+      index
+    );
     Logger.debug(
       NAME,
       `Contract deployed: ${contractName} with result ${result}`
@@ -65,9 +72,7 @@ async function deployContract<T extends NodeContracts<M>, M>(
 
   const nextNonce = nonce.possible_next_nonce;
 
-  console.log('Next possible nonce ', nextNonce);
-
-  const callNonce = new BN(nextNonce + index, 10);
+  console.log("Next possible nonce ", nextNonce);
 
   const transaction = await makeContractDeploy({
     contractName,

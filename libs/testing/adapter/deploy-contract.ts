@@ -13,7 +13,7 @@ export async function deployContract(
     "--costs",
     "--assets",
   ]);
-  
+
   if (hasStdErr(receipt.stderr)) {
     throw new Error(`Error on ${tmpContractFilePath}: ${receipt.stderr}`);
   }

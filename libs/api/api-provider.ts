@@ -277,7 +277,7 @@ export class ApiProvider implements BaseProvider {
       postConditionMode: 0x01, // PostconditionMode.Allow
       anchorMode: 3,
       nonce: callNonce,
-      fee: 100000
+      fee: 100000,
     };
 
     const transaction = await makeContractCall(txOptions);

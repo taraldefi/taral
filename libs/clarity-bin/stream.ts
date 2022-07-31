@@ -50,16 +50,16 @@ export async function readStream(
 
     if (monitorCallback) {
       passThrough = new PassThrough();
-    
+
       const readStreamLine = readline.createInterface({
         input: passThrough,
         crlfDelay: Infinity,
       });
-    
+
       readStreamLine.on("line", (lineData) => {
         monitorCallback(lineData);
       });
-    
+
       streamArr.push(passThrough);
     }
 

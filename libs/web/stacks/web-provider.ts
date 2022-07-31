@@ -18,6 +18,7 @@ import {
   serializePostCondition,
   StacksTransaction,
 } from "@stacks/transactions";
+import { fetch } from "cross-fetch";
 import {
   BaseWebProvider,
   ClarityAbiMap,
@@ -38,7 +39,6 @@ import { getTransactionById } from "lib-stacks";
 import { err, ok } from "neverthrow";
 import { AppDetails, WebConfig } from "../shared";
 import { IContractCall, SimpleStacksWebTransaction, TxPayload } from "./types";
-import { fetch } from 'cross-fetch';
 
 export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
@@ -53,8 +53,8 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     appDetails,
     deployerAddress,
   }: WebConfig & { identifier: string }) {
-
-    const _fetch = typeof window !== 'undefined' ? window.fetch.bind(window) : fetch;
+    const _fetch =
+      typeof window !== "undefined" ? window.fetch.bind(window) : fetch;
 
     const apiConfig = new Configuration({
       fetchApi: _fetch,
@@ -171,10 +171,11 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
           anchorMode: AnchorMode.Any,
           appDetails: this.appDetails,
           network: payload.network,
-          postConditionMode: options.postConditionMode || PostConditionMode.Deny,
+          postConditionMode:
+            options.postConditionMode || PostConditionMode.Deny,
           postConditions,
           fee: options.fee,
-          sponsored: options.sponsored
+          sponsored: options.sponsored,
         };
 
         const result = await this.handlePopup(contractCallOptions);
