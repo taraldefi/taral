@@ -173,6 +173,12 @@ export class NodeProvider implements BaseProvider {
         payload.network
       );
 
+      if (broadcastResponse.error) {
+        throw new Error(
+          `Error broadcasting transaction: ${broadcastResponse.error} - ${broadcastResponse.reason}`
+        );
+      }
+
       const success = this.isBroadcastSuccessful(broadcastResponse);
 
       return {
@@ -207,10 +213,6 @@ export class NodeProvider implements BaseProvider {
           }
         },
       };
-
-      throw new Error(
-        `Error broadcasting transaction: ${broadcastResponse.error} - ${broadcastResponse.reason}`
-      );
     };
 
     return {
