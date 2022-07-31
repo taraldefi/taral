@@ -136,6 +136,18 @@
 ;; Readonly functions
 ;;
 
+(define-read-only (get-file-hash (id (string-utf8 36)))
+    (
+        let (
+            (filehash (map-get? file-hash { id: id }))
+        )
+
+        (asserts! (is-none filehash) ERR_FILE_NOT_FOUND)
+
+        (ok (get hash filehash))
+    )
+)
+
 (define-read-only (can-read-file (participant principal) (file-id (string-utf8 36)))
     (
         let (
