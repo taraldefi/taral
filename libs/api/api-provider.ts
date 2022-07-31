@@ -20,6 +20,7 @@ import { ApiCreateOptions, FromApiContractOptions } from "lib-infra";
 import {
   BaseProvider,
   ClarityAbiMap,
+  CoreNodeEvent,
   cvToValue,
   DeployerAccount,
   getContractIdentifier,
@@ -152,7 +153,7 @@ export class ApiProvider implements BaseProvider {
             isOk: true,
             response: responseOkCV(resultCV),
             value: result,
-            events: sct.events,
+            events: sct.events as any as CoreNodeEvent[],
           };
 
           return Promise.resolve(response);
