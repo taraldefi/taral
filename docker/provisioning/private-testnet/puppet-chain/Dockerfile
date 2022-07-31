@@ -1,11 +1,11 @@
 FROM blockstack/stacks-blockchain as builder
-FROM alpine
+FROM alpine:3.14
 ARG BTC_URL="https://github.com/blockstackpbc/bitcoin-docker/releases/download/0.21.1/musl-v0.21.1.tar.gz"
 
 WORKDIR /
 
 COPY --from=builder /bin/puppet-chain /bin/
-# RUN echo 'http://dl-cdn.alpinelinux.org/alpine/v3.1/main' >> /etc/apk/repositories
+RUN echo 'https://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories
 RUN apk add --no-cache \
     curl \
     dos2unix \
