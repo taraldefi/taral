@@ -38,6 +38,7 @@ import { getTransactionById } from "lib-stacks";
 import { err, ok } from "neverthrow";
 import { AppDetails, WebConfig } from "../shared";
 import { IContractCall, SimpleStacksWebTransaction, TxPayload } from "./types";
+import { fetch } from 'cross-fetch';
 
 export class SimpleStacksWebProvider implements BaseWebProvider {
   apiClient: SmartContractsApi;
@@ -50,8 +51,11 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     identifier,
     appDetails,
   }: WebConfig & { identifier: string }) {
+
+    const _fetch = typeof window !== 'undefined' ? window.fetch.bind(window) : fetch;
+
     const apiConfig = new Configuration({
-      fetchApi: window.fetch.bind(window),
+      fetchApi: _fetch,
       basePath: network.coreApiUrl,
     });
 
