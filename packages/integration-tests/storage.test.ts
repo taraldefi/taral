@@ -169,5 +169,5 @@ import {
   
     expect(bobsRevokeAccessWritePermissions).toBeFalsy();
     expect(bobsRevokeAccessReadPermissions).toBeFalsy();
-  });
+  }, 3000000);
   
