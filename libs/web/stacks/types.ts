@@ -22,6 +22,16 @@ export interface TxPayload {
   appDetails: AppDetails;
 }
 
+export interface WebTransaction<Ok, Err> extends Transaction<Ok, Err> {
+  payload: TxPayload;
+}
+
+export interface ContractCallPayload extends Omit<TxPayload, 'privateKey'> {
+  publicKey: string;
+  txType: 'contract_call';
+  postConditions?: string[];
+}
+
 export interface SimpleStacksContractCallPayload
   extends Omit<TxPayload, "privateKey"> {
   publicKey: string;

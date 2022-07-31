@@ -167,8 +167,10 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
           anchorMode: AnchorMode.Any,
           appDetails: this.appDetails,
           network: payload.network,
-          postConditionMode: PostConditionMode.Allow,
+          postConditionMode: options.postConditionMode || PostConditionMode.Deny,
           postConditions,
+          fee: options.fee,
+          sponsored: options.sponsored
         };
 
         const result = await this.handlePopup(contractCallOptions);

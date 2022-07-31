@@ -62,16 +62,26 @@ export type TransactionReceipt<Ok, Err> =
 export interface WebSignerOptions {
   postConditionMode?: PostConditionMode;
   postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export interface NodeSignerOptions {
   postConditionMode?: PostConditionMode;
   nonce?: number;
   postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export interface TestSignerOptions {
   sender: string;
+
+  postConditionMode?: PostConditionMode;
+  nonce?: number;
+  postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export type SubmitOptions =
