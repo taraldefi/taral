@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { hasStdErr, NativeClarityBinProvider } from "lib-clarity-bin";
 import { ClarityAbi, getContractNameFromPath } from "lib-shared";
 
 export async function generateInterface({
@@ -20,10 +20,9 @@ export async function generateInterface({
     "--costs",
     "--assets",
   ]);
-  if (receipt.stderr && !receipt.stderr.includes('Used unimplemented cost function')) {
-    throw new Error(`Error on ${contractFile}:
-    ${receipt.stderr}
-      `);
+
+  if (hasStdErr(receipt.stderr)) {
+    throw new Error(`Error on ${contractFile}: ${receipt.stderr}`);
   }
 
   const output = JSON.parse(receipt.stdout);

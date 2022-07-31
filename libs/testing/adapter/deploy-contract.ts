@@ -1,4 +1,4 @@
-import { NativeClarityBinProvider } from "lib-clarity-bin";
+import { hasStdErr, NativeClarityBinProvider } from "lib-clarity-bin";
 
 export async function deployContract(
   contractIdentifier: string,
@@ -13,10 +13,9 @@ export async function deployContract(
     "--costs",
     "--assets",
   ]);
-  if (receipt.stderr) {
-    throw new Error(`Error on ${tmpContractFilePath}:
-  ${receipt.stderr}
-    `);
+  
+  if (hasStdErr(receipt.stderr)) {
+    throw new Error(`Error on ${tmpContractFilePath}: ${receipt.stderr}`);
   }
 
   const output = JSON.parse(receipt.stdout);

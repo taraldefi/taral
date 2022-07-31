@@ -210,6 +210,8 @@ export class NativeClarityBinProvider {
       filePath,
       this.dbFilePath,
     ]);
+
+    
     if (result.exitCode !== 0) {
       throw new ExecutionError(
         `Launch contract failed with bad exit code ${result.exitCode}: ${result.stderr}`,
