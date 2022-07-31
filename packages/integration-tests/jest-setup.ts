@@ -49,12 +49,6 @@ beforeAll(async () => {
 
   const deployer = clarinetAccounts.deployer;
 
-  // Comment out for now the core and arkadiko contracts untill we'll need them
-  // await ApiProvider.fromContracts(true, arkadikoContracts, network, {
-  //   secretKey: deployer.privateKey,
-  //   stacksAddress: deployer.address,
-  // });
-
   deployed = await ApiProvider.fromContracts(
     false,
     nodeTaralContracts,
