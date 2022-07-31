@@ -57,6 +57,9 @@ export interface TaralStorageContract {
   detectRestriction: (
     participant: string
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
+  getFileHash: (
+    id: string
+  ) => Promise<ClarityTypes.Response<Buffer | null, bigint>>;
   hasRole: (
     roleToCheck: number | bigint,
     principalToCheck: string

@@ -375,6 +375,34 @@ export const TaralStorageInterface: ClarityAbi = {
       access: "read_only",
       args: [
         {
+          name: "id",
+          type: {
+            "string-utf8": {
+              length: 36,
+            },
+          },
+        },
+      ],
+      name: "get-file-hash",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: {
+              optional: {
+                buffer: {
+                  length: 256,
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    {
+      access: "read_only",
+      args: [
+        {
           name: "role-to-check",
           type: "uint128",
         },
