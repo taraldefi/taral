@@ -62,7 +62,7 @@ export async function requestFile(
 
     const header = response.headers.get("Content-Disposition");
 
-    console.log('HEADER ', header);
+    console.log("HEADER ", header);
 
     const parts = header!.split(";");
     const fileName = parts[1].split("=")[1];
