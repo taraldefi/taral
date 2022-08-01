@@ -1,100 +1,36 @@
 import { decryptString, ecPrivateKey } from "lib-stacks";
-import fetch from "node-fetch";
 import { PrivateKey } from "./storage/constants";
-import { createFormPayload } from "./storage/create-file-payload";
-import {
-  CreateFileResponse,
-  EncryptedFileResponse,
-  RequestFileResponse,
-} from "./storage/models";
-import { sign } from "./storage/signature-payload";
-import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
+import { StorageApiClient } from "./storage/storage-api-client";
+import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
 
 export async function storageManualTest() {
-  const response = await createFile();
+  const storage: StorageApiClient = new StorageApiClient("http://localhost:3000", PrivateKey);
 
-  if (response == null) {
-    console.log("Errored out when trying to create file ");
+  const fileInfo = readTestFile();
+
+  const result = await storage.createFile(fileInfo.file, fileInfo.fileSizeInBytes);
+
+  if (result.hasError) {
+    console.log("Failed to create file with error: ", result.error?.errors.message);
+
     return;
   }
 
-  const fileResponse = await requestFile(response.id);
+  const requestFileResult = await storage.requestFile(result.result?.id!);
 
-  if (fileResponse == null) {
-    console.log("Errored out");
-  } else {
-    console.log("Success");
-
-    const encryptedContent = JSON.stringify(fileResponse.encryptedFile);
-
-    const privateKey = ecPrivateKey(PrivateKey);
-
-    const decryptedContent = await decryptString(privateKey, encryptedContent);
-
-    var buffer = Buffer.from(decryptedContent, "binary");
-
-    syncWriteFileWithEncoding(fileResponse.fileName, buffer, "binary");
+  if (requestFileResult.hasError) {
+    console.log("Failed to request file with error: ", requestFileResult.error?.errors.message);
   }
-}
 
-export async function requestFile(
-  id: string
-): Promise<RequestFileResponse | null> {
-  const signature = sign();
+  const encryptedContent = JSON.stringify(requestFileResult.result?.encryptedFile);
 
-  const body = {
-    id: id,
-    signedMessage: signature.message,
-    signature: signature.data,
-  };
+  const privateKey = ecPrivateKey(PrivateKey);
 
-  const requestOptions = {
-    method: "POST",
-    body: JSON.stringify(body),
-    headers: { "Content-Type": "application/json" },
-  };
+  const decryptedContent = await decryptString(privateKey, encryptedContent);
 
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/v1/files/request-file`,
-      requestOptions
-    );
+  var buffer = Buffer.from(decryptedContent, "binary");
 
-    const header = response.headers.get("Content-Disposition");
+  syncWriteFileWithEncoding(requestFileResult.result?.fileName!, buffer, "binary");
 
-    console.log("HEADER ", header);
-
-    const parts = header!.split(";");
-    const fileName = parts[1].split("=")[1];
-    const encryptedFile = (await response.json()) as EncryptedFileResponse;
-
-    const result: RequestFileResponse = {
-      encryptedFile,
-      fileName: fileName.replace(/['"]+/g, ""),
-    };
-
-    return result;
-  } catch (error) {
-    console.log("Error ", error);
-
-    return null;
-  }
-}
-
-export async function createFile(): Promise<CreateFileResponse | null> {
-  const requestOptions = createFormPayload();
-  try {
-    const response = await fetch(
-      `http://localhost:3000/api/v1/files/create-file`,
-      requestOptions
-    );
-
-    const result = (await response.json()) as CreateFileResponse;
-
-    return result;
-  } catch (error) {
-    console.log("Error ", error);
-
-    return null;
-  }
+  console.log('Success');
 }

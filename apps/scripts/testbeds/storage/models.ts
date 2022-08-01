@@ -1,3 +1,5 @@
+import fs from "fs";
+
 export interface CreateFileResponse {
   hash: string;
   id: string;
@@ -17,4 +19,25 @@ export interface EncryptedFileResponse {
   mac: string;
   wasString: boolean;
   cipherTextEncoding: string;
+}
+
+export interface File {
+  file: fs.ReadStream;
+  fileSizeInBytes: number;
+}
+
+
+export interface StorageApiBaseResponse<T> {
+  result?: T;
+  error?: ErrorResponse;
+  hasError: boolean;
+}
+
+export interface ErrorObject {
+  message: string;
+}
+
+export interface ErrorResponse {
+  status: number;
+  errors: ErrorObject; 
 }
