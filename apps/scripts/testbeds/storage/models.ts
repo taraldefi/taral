@@ -1,6 +1,6 @@
 export interface CreateFileResponse {
   hash: string;
-  id: number;
+  id: string;
   name: string;
   signedHash: string;
 }

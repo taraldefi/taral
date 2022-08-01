@@ -39,7 +39,7 @@ export async function storageManualTest() {
 }
 
 export async function requestFile(
-  id: number
+  id: string
 ): Promise<RequestFileResponse | null> {
   const signature = sign();
 
