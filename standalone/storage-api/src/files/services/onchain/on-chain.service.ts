@@ -45,7 +45,6 @@ export class OnChainService {
     fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
-    
     if (this.mock()) {
       return true;
     }
