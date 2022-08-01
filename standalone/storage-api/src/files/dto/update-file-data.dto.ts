@@ -21,9 +21,9 @@ export class UpdateFileDataDto {
   })
   newFile: MemoryStoredFile;
 
-  @ApiProperty({ example: '1' })
+  @ApiProperty({ example: 'c074f1ae-3f34-4b95-a103-328e94ef733a' })
   @IsNumberString()
-  id: number;
+  id: string;
 
   @ApiProperty({
     example:

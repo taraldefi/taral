@@ -14,8 +14,8 @@ import { FileParticipantEntity } from './file-participant.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   @Allow()

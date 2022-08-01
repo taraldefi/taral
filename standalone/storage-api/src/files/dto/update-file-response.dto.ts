@@ -11,9 +11,9 @@ export class UpdateFileResponse {
   hash: string;
 
   @ApiProperty({
-    example: 1,
+    example: 'c074f1ae-3f34-4b95-a103-328e94ef733a',
   })
-  id: number;
+  id: string;
 
   @ApiProperty({ example: 'signed-message' })
   signedHash: string;

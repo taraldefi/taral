@@ -10,8 +10,8 @@ export class CreateFileResponse {
   })
   hash: string;
 
-  @ApiProperty({ example: 1 })
-  id: number;
+  @ApiProperty({ example: 'c074f1ae-3f34-4b95-a103-328e94ef733a' })
+  id: string;
 
   @ApiProperty({ example: 'signed-message' })
   signedHash: string;

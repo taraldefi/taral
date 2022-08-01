@@ -221,7 +221,7 @@ export class FilesService {
     fileHash: string,
     path: string,
     onDiskName: string,
-    externalFileId: number,
+    fileId: string,
     participantPublicKey: string,
     participantWallet: string,
   ): Promise<void> {
@@ -233,7 +233,7 @@ export class FilesService {
 
     const fileEntity = await this.fileRepository.findOneOrFail({
       relations: ['versions', 'participants'],
-      where: { id: externalFileId },
+      where: { id: fileId },
     });
 
     const fileVersionEntity = await this.createFileVersion(
@@ -270,7 +270,7 @@ export class FilesService {
     onDiskName: string,
     participantPublicKey: string,
     participantWallet: string,
-  ): Promise<number> {
+  ): Promise<string> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
     );
@@ -339,7 +339,7 @@ export class FilesService {
   private createFileResponse(
     fileName: string,
     fileHash: string,
-    id: number,
+    id: string,
     signedHash: string,
   ): CreateFileResponse {
     const result = new CreateFileResponse();

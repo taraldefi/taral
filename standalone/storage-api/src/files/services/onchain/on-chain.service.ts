@@ -31,7 +31,7 @@ export class OnChainService {
   constructor(private configService: ConfigService) {}
 
   public async canRead(
-    fileId: number,
+    fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
     if (this.mock()) {
@@ -42,9 +42,10 @@ export class OnChainService {
   }
 
   public async canWrite(
-    fileId: number,
+    fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
+    
     if (this.mock()) {
       return true;
     }
@@ -53,7 +54,7 @@ export class OnChainService {
   }
 
   private async checkCanRead(
-    fileId: number,
+    fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
     const privateKey = this.configService.get('onchain.privateKey') as string;
@@ -69,7 +70,7 @@ export class OnChainService {
         mnemonic: '',
         balance: 0n,
       }),
-      fileId: BigInt(fileId),
+      fileId: fileId,
       participant: participantAddress,
     };
 
@@ -78,7 +79,7 @@ export class OnChainService {
   }
 
   private async checkCanWrite(
-    fileId: number,
+    fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
     const privateKey = this.configService.get('onchain.privateKey') as string;
@@ -93,7 +94,7 @@ export class OnChainService {
         mnemonic: '',
         balance: 0n,
       }),
-      fileId: BigInt(fileId),
+      fileId,
       participant: participantAddress,
     };
 
