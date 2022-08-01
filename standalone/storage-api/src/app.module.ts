@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
 import databaseConfig from './config/database.config';
 import authConfig from './config/auth.config';
 import appConfig from './config/app.config';
@@ -15,8 +13,6 @@ import { I18nJsonParser } from 'nestjs-i18n/dist/parsers/i18n.json.parser';
 import { HeaderResolver } from 'nestjs-i18n';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { MailConfigService } from './mail/mail-config.service';
-import { ForgotModule } from './forgot/forgot.module';
-import { MailModule } from './mail/mail.module';
 import { HomeModule } from './home/home.module';
 import { EventModule } from './core/modules/events';
 import { StorageModule } from './core/modules/storage';
@@ -24,6 +20,11 @@ import { OpenTelemetryModule } from './core/modules/telemetry';
 import { LoggerModule } from 'nestjs-pino';
 import { FilesModule } from './files/files.module';
 import onchainConfig from './config/onchain.config';
+
+// import { ForgotModule } from './forgot/forgot.module';
+// import { MailModule } from './mail/mail.module';
+// import { UsersModule } from './users/users.module';
+// import { AuthModule } from './auth/auth.module';
 
 const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
   metrics: {
@@ -78,10 +79,10 @@ const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
       },
       inject: [ConfigService],
     }),
-    UsersModule,
-    AuthModule,
-    ForgotModule,
-    MailModule,
+    // UsersModule,
+    // AuthModule,
+    // ForgotModule,
+    // MailModule,
     HomeModule,
     EventModule,
     StorageModule,
