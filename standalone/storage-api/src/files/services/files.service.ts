@@ -67,11 +67,7 @@ export class FilesService {
     data: RequestFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<RequestFileModel> {
-
-    var canRead = await this.onChainService.canRead(
-      data.id,
-      signature.address,
-    );
+    var canRead = await this.onChainService.canRead(data.id, signature.address);
 
     if (!canRead) {
       throw triggerError('no-rights-on-chain');
