@@ -14,12 +14,11 @@ export async function storageManualTest() {
   const response = await createFile();
 
   if (response == null) {
-    console.log("Errored out");
-  } else {
-    console.log("Success", JSON.stringify(response));
+    console.log("Errored out when trying to create file ");
+    return;
   }
 
-  const fileResponse = await requestFile(response!.id);
+  const fileResponse = await requestFile(response.id);
 
   if (fileResponse == null) {
     console.log("Errored out");
@@ -44,7 +43,7 @@ export async function requestFile(
   const signature = sign();
 
   const body = {
-    externalId: String(id),
+    id: id,
     signedMessage: signature.message,
     signature: signature.data,
   };
@@ -62,6 +61,9 @@ export async function requestFile(
     );
 
     const header = response.headers.get("Content-Disposition");
+
+    console.log('HEADER ', header);
+
     const parts = header!.split(";");
     const fileName = parts[1].split("=")[1];
     const encryptedFile = (await response.json()) as EncryptedFileResponse;

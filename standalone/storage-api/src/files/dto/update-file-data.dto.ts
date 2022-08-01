@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumberString, IsString, IsUUID } from 'class-validator';
 import {
   HasMimeType,
   IsFile,
@@ -22,7 +22,7 @@ export class UpdateFileDataDto {
   newFile: MemoryStoredFile;
 
   @ApiProperty({ example: 'c074f1ae-3f34-4b95-a103-328e94ef733a' })
-  @IsNumberString()
+  @IsUUID()
   id: string;
 
   @ApiProperty({

@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsNumberString, IsString } from 'class-validator';
+import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class RequestFileDataDto {
-  @IsNumberString()
+  @IsUUID()
   id: number;
 
   @ApiProperty({
