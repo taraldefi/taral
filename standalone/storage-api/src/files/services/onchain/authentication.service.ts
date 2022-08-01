@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common';
+import { Injectable, Scope } from '@nestjs/common';
 import { SignatureVerificationModel } from 'src/files/models/signature-verification.model';
 import { triggerError } from 'src/files/utils/trigger.errror';
 import { SignatureService } from './signature.service';
