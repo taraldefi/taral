@@ -3,7 +3,7 @@ import { IsNotEmpty, IsString, IsUUID } from 'class-validator';
 
 export class RequestFileDataDto {
   @IsUUID()
-  id: number;
+  id: string;
 
   @ApiProperty({
     example:

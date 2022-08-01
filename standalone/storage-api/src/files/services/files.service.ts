@@ -66,6 +66,24 @@ export class FilesService {
     data: RequestFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<RequestFileModel> {
+
+    var canRead = await this.onChainService.canRead(
+      data.id,
+      signature.address,
+    );
+
+    if (!canRead) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNPROCESSABLE_ENTITY,
+          errors: {
+            externalId: 'no-rights-on-chain',
+          },
+        },
+        HttpStatus.UNPROCESSABLE_ENTITY,
+      );
+    }
+
     const fileEntity = await this.fileRepository.findOneOrFail({
       relations: ['versions', 'participants'],
       where: { id: data.id },
