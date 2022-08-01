@@ -46,7 +46,6 @@ export class FilesController {
   async createFile(
     @Body() fileData: CreateFileDataDto,
   ): Promise<CreateFileResponse> {
-
     if (!fileData || !fileData.file) {
       throw triggerError('no-file');
     }
@@ -84,7 +83,6 @@ export class FilesController {
   async updateFile(
     @Body() fileData: UpdateFileDataDto,
   ): Promise<UpdateFileResponse> {
-
     if (!fileData || !fileData.newFile) {
       throw triggerError('no-file');
     }
@@ -117,7 +115,6 @@ export class FilesController {
     @Res({ passthrough: true }) res,
     @Body() data: RequestFileDataDto,
   ): Promise<StreamableFile> {
-
     if (!data.id) {
       throw triggerError('missing-file-id');
     }

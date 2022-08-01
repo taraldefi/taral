@@ -118,7 +118,6 @@ export class FilesService {
     file: UpdateFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<UpdateFileResponse> {
-
     if (!file.id) {
       throw triggerError('missing-file-id');
     }
