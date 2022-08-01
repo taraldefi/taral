@@ -31,6 +31,7 @@ import { RequestFileModel } from '../models/request-file.model';
 import { FileParticipantEntity } from '../entities/file-participant.entity';
 import { FileParticipantRepository } from '../repositories/file-participant.repository';
 import { SignatureService } from './onchain/signature.service';
+import { triggerError } from '../utils/trigger.errror';
 
 @Injectable()
 export class FilesService {
@@ -73,15 +74,7 @@ export class FilesService {
     );
 
     if (!canRead) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            externalId: 'no-rights-on-chain',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
+      throw triggerError('no-rights-on-chain');
     }
 
     const fileEntity = await this.fileRepository.findOneOrFail({
@@ -129,16 +122,9 @@ export class FilesService {
     file: UpdateFileDataDto,
     signature: SignatureVerificationModel,
   ): Promise<UpdateFileResponse> {
+
     if (!file.id) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            externalId: 'external-id-missing',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
+      throw triggerError('missing-file-id');
     }
 
     var canUpdate = await this.onChainService.canWrite(
@@ -151,7 +137,7 @@ export class FilesService {
         {
           status: HttpStatus.UNPROCESSABLE_ENTITY,
           errors: {
-            externalId: 'no-rights-on-chain',
+            message: 'no-rights-on-chain',
           },
         },
         HttpStatus.UNPROCESSABLE_ENTITY,

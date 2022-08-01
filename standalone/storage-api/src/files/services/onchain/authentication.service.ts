@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Scope } from '@nestjs/common';
 import { SignatureVerificationModel } from 'src/files/models/signature-verification.model';
+import { triggerError } from 'src/files/utils/trigger.errror';
 import { SignatureService } from './signature.service';
 
 @Injectable({
@@ -18,15 +19,7 @@ export class AuthenticationService {
     );
 
     if (!signatureResult.isValid) {
-      throw new HttpException(
-        {
-          status: HttpStatus.UNPROCESSABLE_ENTITY,
-          errors: {
-            signature: 'incorrect-signature',
-          },
-        },
-        HttpStatus.UNPROCESSABLE_ENTITY,
-      );
+      throw triggerError('incorrect-signature');
     }
 
     return signatureResult;
