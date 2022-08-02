@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { File } from "./models";
+import { File } from "lib-storage";
 import { writeFileSync } from "fs";
 import { join } from "path";
 

@@ -7,7 +7,6 @@ import {
 } from "./models";
 
 import FormData from "form-data";
-import fetch from "node-fetch";
 import fs from "fs";
 
 import {
@@ -15,34 +14,46 @@ import {
   signMessageHashRsv,
   StacksPrivateKey,
 } from "lib-stacks";
+import axios from "axios";
 
 export class StorageApiClient {
-  constructor(private baseUrl: string, private privateKey: string) {}
+  constructor(private baseUrl: string, private privateKey: string) {
+    axios.defaults.validateStatus = function () {
+      return true;
+  };
+  }
 
   public async createFile(
+    fileName: string,
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ): Promise<StorageApiBaseResponse<CreateFileResponse>> {
-    const requestOptions = this.createFormPayload(fileStream, fileSizeInBytes);
+    const requestOptions = this.createFormPayload(fileName, fileStream, fileSizeInBytes);
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
 
     try {
-      const response = await fetch(this.getCreateFileUrl(), requestOptions);
+      const { data, status } = await axios.post(this.getCreateFileUrl(), requestOptions, config);
 
-      if (response.ok) {
-        const result = (await response.json()) as CreateFileResponse;
+      if (status == 200 || status == 201) {
+        const result = data as CreateFileResponse;
         return {
           result,
           hasError: false,
         };
       }
 
-      const errorResult = (await response.json()) as ErrorResponse;
+      const errorResult = data as ErrorResponse;
       return {
         hasError: true,
         error: errorResult,
       };
     } catch (error) {
-      console.log("Error ", error);
+
 
       const errorResponse: ErrorResponse = {
         errors: {
@@ -70,21 +81,23 @@ export class StorageApiClient {
       signature: signature[0],
     };
 
-    const requestOptions = {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json"
+      }
     };
 
     try {
-      const response = await fetch(this.getRequestFileUrl(), requestOptions);
+      const { data, status, headers } = await axios.post(this.getRequestFileUrl(), JSON.stringify(body), config);
 
-      if (response.ok) {
-        const header = response.headers.get("Content-Disposition");
+      if (status == 200 || status == 201) {
+        const header = headers["content-disposition"];
+
         const parts = header!.split(";");
         const fileName = parts[1].split("=")[1];
 
-        const encryptedFile = (await response.json()) as EncryptedFileResponse;
+        const encryptedFile = data as EncryptedFileResponse;
 
         const requestFileResponse: RequestFileResponse = {
           encryptedFile,
@@ -97,7 +110,7 @@ export class StorageApiClient {
         };
       }
 
-      const errorResult = (await response.json()) as ErrorResponse;
+      const errorResult = data as ErrorResponse;
       return {
         hasError: true,
         error: errorResult,
@@ -129,6 +142,7 @@ export class StorageApiClient {
   }
 
   private createFormPayload(
+    fileName: string,
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ) {
@@ -137,7 +151,7 @@ export class StorageApiClient {
     const form = new FormData();
 
     form.append("file", fileStream, {
-      filename: "dummy.pdf",
+      filename: fileName,
       knownLength: fileSizeInBytes,
       contentType: "application/octet-stream",
     });
@@ -145,12 +159,7 @@ export class StorageApiClient {
     form.append("signedMessage", signature[1]);
     form.append("signature", signature[0]);
 
-    const requestOptions = {
-      method: "POST",
-      body: form,
-    };
-
-    return requestOptions;
+    return form;
   }
 
   private sign(): [string, string] {

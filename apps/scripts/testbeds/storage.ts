@@ -1,6 +1,6 @@
 import { decryptString, ecPrivateKey } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
-import { StorageApiClient } from "./storage/storage-api-client";
+import { StorageApiClient } from "lib-storage";
 import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
 
 export async function storageManualTest() {
@@ -12,11 +12,13 @@ export async function storageManualTest() {
   const fileInfo = readTestFile();
 
   const result = await storage.createFile(
+    "dummy.pdf",
     fileInfo.file,
     fileInfo.fileSizeInBytes
   );
 
   if (result.hasError) {
+    console.log(JSON.stringify(result));
     console.log(
       "Failed to create file with error: ",
       result.error?.errors.message
