@@ -1,5 +1,5 @@
-import { publicKeyFromPrivKey } from "./public-key-from-private-key";
 import { getAddressFromPublicKey } from "./address-from-public-key";
+import { publicKeyFromPrivKey } from "./public-key-from-private-key";
 import { TransactionVersion } from "./types";
 
 export function getAddressFromPrivateKey(

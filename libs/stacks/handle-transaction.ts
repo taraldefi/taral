@@ -47,6 +47,7 @@ export async function handleTransaction(
 }
 
 function isBroadcastSuccessful(result: TxBroadcastResult): boolean {
+  console.log(`Transaction broadcast check: ${JSON.stringify(result)}`);
   if (result.error || !result.txid) {
     return false;
   } else {
@@ -81,11 +82,11 @@ async function processingWithSidecar(
     Logger.debug(NAME, "Transaction execution pending ", value);
   }
 
-  if (count > 20) {
-    Logger.debug(NAME, "failed after 20 tries", value);
+  if (count > 50) {
+    Logger.debug(NAME, "failed after 50 tries", value);
     return false;
   }
 
   await timeout(3000);
-  return processing(network, tx, count + 1);
+  return processing(network, tx, ~~count + 1);
 }

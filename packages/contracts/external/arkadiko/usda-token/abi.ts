@@ -6,50 +6,6 @@ export const UsdaTokenInterface: ClarityAbi = {
       access: "public",
       args: [
         {
-          name: "amount",
-          type: "uint128",
-        },
-        {
-          name: "sender",
-          type: "principal",
-        },
-      ],
-      name: "burn-for-dao",
-      outputs: {
-        type: {
-          response: {
-            error: "uint128",
-            ok: "bool",
-          },
-        },
-      },
-    },
-    {
-      access: "public",
-      args: [
-        {
-          name: "amount",
-          type: "uint128",
-        },
-        {
-          name: "recipient",
-          type: "principal",
-        },
-      ],
-      name: "mint-for-dao",
-      outputs: {
-        type: {
-          response: {
-            error: "uint128",
-            ok: "bool",
-          },
-        },
-      },
-    },
-    {
-      access: "public",
-      args: [
-        {
           name: "value",
           type: {
             "string-utf8": {
@@ -62,7 +18,7 @@ export const UsdaTokenInterface: ClarityAbi = {
       outputs: {
         type: {
           response: {
-            error: "uint128",
+            error: "none",
             ok: "bool",
           },
         },

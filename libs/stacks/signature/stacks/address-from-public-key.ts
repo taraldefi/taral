@@ -1,8 +1,6 @@
-import { AddressHashMode, TransactionVersion } from "./types";
-
-import { ec as EC } from "elliptic";
-import { addressHashModeToVersion } from "./address-hash-mode-to-version";
 import { addressFromVersionHash } from "./address-from-version-hash";
+import { addressHashModeToVersion } from "./address-hash-mode-to-version";
+import { AddressHashMode, TransactionVersion } from "./types";
 import { addressToString, hashP2PKH } from "./utils";
 
 export function getAddressFromPublicKey(

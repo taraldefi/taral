@@ -3,6 +3,7 @@ import {
   PostConditionMode,
   StacksTransaction,
 } from "@stacks/transactions";
+import { CoreNodeEvent } from "./events";
 
 export interface ResultAssets {
   stx: Record<string, string>;
@@ -15,7 +16,7 @@ export interface TransactionResultOk<Ok> {
   value: Ok;
   response?: ResponseOk<Ok>;
   isOk: true;
-  events: Record<string, any>[];
+  events: CoreNodeEvent[];
   costs?: {
     [key: string]: any;
     runtime: number;
@@ -61,16 +62,26 @@ export type TransactionReceipt<Ok, Err> =
 export interface WebSignerOptions {
   postConditionMode?: PostConditionMode;
   postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export interface NodeSignerOptions {
   postConditionMode?: PostConditionMode;
   nonce?: number;
   postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export interface TestSignerOptions {
   sender: string;
+
+  postConditionMode?: PostConditionMode;
+  nonce?: number;
+  postConditions?: PostCondition[];
+  sponsored?: boolean;
+  fee?: number;
 }
 
 export type SubmitOptions =
@@ -102,9 +113,7 @@ export async function tx<A, B>(tx: Transaction<A, B>) {
   return result;
 }
 
-export async function txOk<A, B>(
-  _tx: Transaction<A, B>
-): Promise<TransactionResultOk<A>> {
+export async function txOk<A, B>(_tx: Transaction<A, B>) {
   const result = await tx(_tx);
 
   if (!result.isOk) {
@@ -114,9 +123,7 @@ export async function txOk<A, B>(
   return result;
 }
 
-export async function txErr<A, B>(
-  _tx: Transaction<A, B>
-): Promise<TransactionResultErr<B>> {
+export async function txErr<A, B>(_tx: Transaction<A, B>) {
   const result = await tx(_tx);
 
   if (result.isOk) {

@@ -1,4 +1,8 @@
-import { makeContractDeploy } from "@stacks/transactions";
+import {
+  AnchorMode,
+  makeContractDeploy,
+  PostConditionMode,
+} from "@stacks/transactions";
 import * as fs from "fs";
 import { getClarinetAccounts } from "lib-infra";
 import {
@@ -7,7 +11,7 @@ import {
   Logger,
   NodeContracts,
 } from "lib-shared";
-import { handleTransaction } from "lib-stacks";
+import { getNonce, handleTransaction } from "lib-stacks";
 import { normalize, resolve } from "path";
 import { NETWORK } from "taral-configuration";
 import { nodeTaralContracts } from "taral-contracts";
@@ -23,13 +27,21 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
 
   const deployer = clarinetAccounts.deployer;
 
+  let index = 0;
   for (const k in contracts) {
+    index++;
+
     const contract: T[Extract<keyof T, string>] = contracts[k];
 
     const contractName = getContractNameFromPath(contract.contractFile);
     Logger.debug(NAME, "Deploying contract", contractName);
 
-    const result = await deployContract(contract, deployer.privateKey);
+    const result = await deployContract(
+      contract,
+      deployer.privateKey,
+      deployer.address,
+      index
+    );
     Logger.debug(
       NAME,
       `Contract deployed: ${contractName} with result ${result}`
@@ -39,7 +51,9 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
 
 async function deployContract<T extends NodeContracts<M>, M>(
   contract: T[Extract<keyof T, string>],
-  senderKey: string
+  senderKey: string,
+  senderAddress: string,
+  index: number
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
   const normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");
@@ -52,12 +66,23 @@ async function deployContract<T extends NodeContracts<M>, M>(
 
   const codeBody = fs.readFileSync(fullContractFilePath).toString();
 
+  const nonce = await getNonce({
+    principal: senderAddress,
+  });
+
+  const nextNonce = nonce.possible_next_nonce;
+
+  console.log("Next possible nonce ", nextNonce);
+
   const transaction = await makeContractDeploy({
     contractName,
     codeBody,
     senderKey: senderKey,
     network: NETWORK,
-    anchorMode: 3,
+    anchorMode: AnchorMode.Any,
+    postConditionMode: PostConditionMode.Allow,
+    fee: 10000000,
+    // nonce: callNonce
   });
 
   Logger.debug(NAME, `Deploying contract ${contractName}`);

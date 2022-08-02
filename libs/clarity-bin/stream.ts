@@ -45,19 +45,29 @@ export async function readStream(
     const streamArr: (NodeJS.ReadableStream | NodeJS.WritableStream)[] = [
       stream,
     ];
+
+    let passThrough: PassThrough;
+
     if (monitorCallback) {
-      const passThrough = new PassThrough();
+      passThrough = new PassThrough();
+
       const readStreamLine = readline.createInterface({
         input: passThrough,
         crlfDelay: Infinity,
       });
+
       readStreamLine.on("line", (lineData) => {
         monitorCallback(lineData);
       });
+
       streamArr.push(passThrough);
     }
+
     streamArr.push(memStream);
-    await pipelineAsync(streamArr);
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    await pipelineAsync(...streamArr);
   }
   if (ignoreErrors) {
     try {

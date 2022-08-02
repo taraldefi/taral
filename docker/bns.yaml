@@ -2,7 +2,7 @@ version: '3.7'
 services:
   bns-data:
     build:
-      context: ./provisioning/bns
+      context: ./provisioning/private-testnet/bns
     container_name: bns_data
     volumes:
       - ./provisioning/private-testnet/bns-data:/bns-data

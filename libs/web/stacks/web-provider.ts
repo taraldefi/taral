@@ -16,7 +16,9 @@ import {
   responseOkCV,
   serializeCV,
   serializePostCondition,
+  StacksTransaction,
 } from "@stacks/transactions";
+import { fetch } from "cross-fetch";
 import {
   BaseWebProvider,
   ClarityAbiMap,
@@ -43,14 +45,19 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
   identifier: string;
   network: StacksNetwork;
   appDetails: AppDetails;
+  deployerAddress?: string;
 
   constructor({
     network,
     identifier,
     appDetails,
+    deployerAddress,
   }: WebConfig & { identifier: string }) {
+    const _fetch =
+      typeof window !== "undefined" ? window.fetch.bind(window) : fetch;
+
     const apiConfig = new Configuration({
-      fetchApi: window.fetch.bind(window),
+      fetchApi: _fetch,
       basePath: network.coreApiUrl,
     });
 
@@ -59,6 +66,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     this.identifier = identifier;
     this.network = network;
     this.appDetails = appDetails;
+    this.deployerAddress = deployerAddress;
   }
 
   callMap(_map: ClarityAbiMap, _key: any): Promise<void> {
@@ -76,6 +84,7 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
     const instances = {} as WebContractInstances<T, M>;
     for (const k in contracts) {
       const contract = contracts[k];
+      contract.address = config.deployerAddress || contract.address;
       const identifier = getContractIdentifier(contract);
       const provider = new this({ ...config, identifier });
       // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
@@ -162,13 +171,26 @@ export class SimpleStacksWebProvider implements BaseWebProvider {
           anchorMode: AnchorMode.Any,
           appDetails: this.appDetails,
           network: payload.network,
-          postConditionMode: PostConditionMode.Allow,
+          postConditionMode:
+            options.postConditionMode || PostConditionMode.Deny,
           postConditions,
+          fee: options.fee,
+          sponsored: options.sponsored,
         };
 
         const result = await this.handlePopup(contractCallOptions);
         const success = result.success;
-        const stacksTransaction = result.payload!.stacksTransaction;
+
+        const connectTransaction = result.payload!.stacksTransaction;
+        const stacksTransaction = new StacksTransaction(
+          connectTransaction.version,
+          connectTransaction.auth,
+          connectTransaction.payload,
+          connectTransaction.postConditions,
+          connectTransaction.postConditionMode,
+          connectTransaction.anchorMode,
+          connectTransaction.chainId
+        );
 
         return {
           txId: success ? result.payload?.txId : undefined,

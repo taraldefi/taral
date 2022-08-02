@@ -8,4 +8,5 @@ export type AppDetails = {
 export interface WebConfig {
   network: StacksNetwork;
   appDetails: AppDetails;
+  deployerAddress?: string;
 }

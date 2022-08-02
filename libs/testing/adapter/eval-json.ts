@@ -1,5 +1,4 @@
 import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { EvalResult } from "lib-shared";
 
 export async function evalJson({
   contractAddress,
@@ -35,7 +34,7 @@ export const evalWithCode = async ({
       stdin: evalCode,
     }
   );
-  const response: EvalResult = JSON.parse(receipt.stdout);
+  const response = JSON.parse(receipt.stdout);
   if (receipt.stderr) {
     console.log(receipt.stderr);
   }

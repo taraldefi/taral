@@ -1,15 +1,7 @@
 import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface UsdaTokenContract {
-  burnForDao: (
-    amount: number | bigint,
-    sender: string
-  ) => Transaction<boolean, bigint>;
-  mintForDao: (
-    amount: number | bigint,
-    recipient: string
-  ) => Transaction<boolean, bigint>;
-  setTokenUri: (value: string) => Transaction<boolean, bigint>;
+  setTokenUri: (value: string) => Transaction<boolean, null>;
   transfer: (
     amount: number | bigint,
     sender: string,

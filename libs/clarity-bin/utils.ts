@@ -127,3 +127,10 @@ export function getThisWorkspaceDir(): string {
   );
   return packagePath;
 }
+
+export function hasStdErr(stderr: string) {
+  if (!stderr) return false;
+  if (stderr.includes("Used unimplemented cost function")) return false;
+  if (stderr.includes("INFO [")) return false;
+  return true;
+}

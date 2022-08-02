@@ -1,14 +1,10 @@
 import {
-  addPrices,
   IOraclePriceFeed,
   retrieveBinanceFeed,
   retrieveCoinbaseOracleFeed,
   retrieveOKCoinFeed,
   retrieveOKCoinOracleFeed,
 } from "lib-oracle";
-
-import { ORACLE_HELPER } from "../utils/contract-helper";
-
 import {
   COINBASE_KEY,
   COINBASE_PASSPHRASE,
@@ -39,11 +35,5 @@ export async function updatePricesCommand() {
     okcoin_oracle_feed.concat(binance_feed.concat(okcoin_feed))
   );
 
-  const contract = await ORACLE_HELPER.buildOracleContract();
-
   console.log("feed", feed.length);
-  const result = await addPrices({
-    contract,
-    priceFeed: feed,
-  });
 }

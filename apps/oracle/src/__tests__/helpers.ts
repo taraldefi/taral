@@ -1,6 +1,6 @@
-import path from "path";
-import execa from "execa";
 import chalk from "chalk";
+import execa from "execa";
+import path from "path";
 
 const TEST_CLI_PATH = path.resolve(__dirname, "./integration/bin.js");
 

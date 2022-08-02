@@ -1,3 +1,4 @@
+import { ApiProvider } from "lib-api";
 import { getClarinetAccounts } from "lib-infra";
 import {
   ClarinetAccount,
@@ -5,9 +6,8 @@ import {
   Logger,
   NodeContractInstance,
 } from "lib-shared";
-import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
 import { NETWORK } from "taral-configuration";
-import { ApiProvider } from "lib-testing";
+import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
 
 interface IOracleContractInfo {
   contract: NodeContractInstance<
