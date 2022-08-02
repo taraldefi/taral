@@ -13,7 +13,7 @@ updates:
       - dependency-name: "node-fetch"
       - dependency-name: "@types/node-fetch"
       - dependency-name: "@stacks/wallet-sdk"
-      - dependency-name: "chalk",
+      - dependency-name: "chalk"
       - dependency-name: "jest"
       - dependency-name: "ts-jest"
     commit-message:
