@@ -20,7 +20,7 @@ export class StorageApiClient {
   constructor(private baseUrl: string, private privateKey: string) {
     axios.defaults.validateStatus = function () {
       return true;
-  };
+    };
   }
 
   public async createFile(
@@ -28,16 +28,24 @@ export class StorageApiClient {
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ): Promise<StorageApiBaseResponse<CreateFileResponse>> {
-    const requestOptions = this.createFormPayload(fileName, fileStream, fileSizeInBytes);
+    const requestOptions = this.createFormPayload(
+      fileName,
+      fileStream,
+      fileSizeInBytes
+    );
 
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
-      }
+        "content-type": "multipart/form-data",
+      },
     };
 
     try {
-      const { data, status } = await axios.post(this.getCreateFileUrl(), requestOptions, config);
+      const { data, status } = await axios.post(
+        this.getCreateFileUrl(),
+        requestOptions,
+        config
+      );
 
       if (status == 200 || status == 201) {
         const result = data as CreateFileResponse;
@@ -53,8 +61,6 @@ export class StorageApiClient {
         error: errorResult,
       };
     } catch (error) {
-
-
       const errorResponse: ErrorResponse = {
         errors: {
           message: (error as any).message,
@@ -81,15 +87,18 @@ export class StorageApiClient {
       signature: signature[0],
     };
 
-
     const config = {
       headers: {
-        "Content-Type": "application/json"
-      }
+        "Content-Type": "application/json",
+      },
     };
 
     try {
-      const { data, status, headers } = await axios.post(this.getRequestFileUrl(), JSON.stringify(body), config);
+      const { data, status, headers } = await axios.post(
+        this.getRequestFileUrl(),
+        JSON.stringify(body),
+        config
+      );
 
       if (status == 200 || status == 201) {
         const header = headers["content-disposition"];
