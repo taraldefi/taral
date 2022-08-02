@@ -14,7 +14,6 @@ export interface UpdateFileResponse {
   signedHash: string;
 }
 
-
 export interface RequestFileResponse {
   encryptedFile: EncryptedFileResponse;
   fileName: string;

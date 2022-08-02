@@ -5,15 +5,15 @@ import { writeFileSync } from "fs";
 import { join } from "path";
 
 export function readTestFile(file: string): File {
-    const filePath = path.join(__dirname, `../testfiles/${file}`);
-    const stats = fs.statSync(filePath);
-    const fileSizeInBytes = stats.size;
-    const fileStream = fs.createReadStream(filePath);
+  const filePath = path.join(__dirname, `../testfiles/${file}`);
+  const stats = fs.statSync(filePath);
+  const fileSizeInBytes = stats.size;
+  const fileStream = fs.createReadStream(filePath);
 
-    return {
-        file: fileStream,
-        fileSizeInBytes
-    }
+  return {
+    file: fileStream,
+    fileSizeInBytes,
+  };
 }
 
 // ✅ write to file SYNCHRONOUSLY

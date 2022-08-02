@@ -29,16 +29,24 @@ export class StorageApiClient {
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ): Promise<StorageApiBaseResponse<UpdateFileResponse>> {
-    const requestOptions = this.createUpdateFilePayload(fileId, fileStream, fileSizeInBytes);
+    const requestOptions = this.createUpdateFilePayload(
+      fileId,
+      fileStream,
+      fileSizeInBytes
+    );
 
     const config = {
       headers: {
-        'content-type': 'multipart/form-data'
-      }
+        "content-type": "multipart/form-data",
+      },
     };
 
     try {
-      const { data, status } = await axios.post(this.getUpdateFileUrl(), requestOptions, config);
+      const { data, status } = await axios.post(
+        this.getUpdateFileUrl(),
+        requestOptions,
+        config
+      );
 
       if (status == 200 || status == 201) {
         const result = data as UpdateFileResponse;
@@ -74,7 +82,11 @@ export class StorageApiClient {
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ): Promise<StorageApiBaseResponse<CreateFileResponse>> {
-    const requestOptions = this.createRegisterFilePayload(fileName, fileStream, fileSizeInBytes);
+    const requestOptions = this.createRegisterFilePayload(
+      fileName,
+      fileStream,
+      fileSizeInBytes
+    );
 
     const config = {
       headers: {

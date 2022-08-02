@@ -25,12 +25,22 @@ test("[File storage] - Happy flow", async () => {
   const firstVersionFileName = "dummy.pdf";
   const secondVersionFileName = "dummy-edited.pdf";
 
-  const deployerConfiguredStorage: StorageApiClient = new StorageApiClient("http://localhost:3000", deployerPrivateKey);
-  const bobsStorage: StorageApiClient = new StorageApiClient("http://localhost:3000", bob.privateKey);
+  const deployerConfiguredStorage: StorageApiClient = new StorageApiClient(
+    "http://localhost:3000",
+    deployerPrivateKey
+  );
+  const bobsStorage: StorageApiClient = new StorageApiClient(
+    "http://localhost:3000",
+    bob.privateKey
+  );
 
   const firstFileBuffer = readTestFile(firstVersionFileName);
 
-  const result = await deployerConfiguredStorage.createFile(firstVersionFileName, firstFileBuffer.file, firstFileBuffer.fileSizeInBytes);
+  const result = await deployerConfiguredStorage.createFile(
+    firstVersionFileName,
+    firstFileBuffer.file,
+    firstFileBuffer.fileSizeInBytes
+  );
 
   expect(result.hasError).toBe(false);
 
@@ -186,8 +196,7 @@ test("[File storage] - Happy flow", async () => {
   // expect(bobsRevokeAccessReadPermissions).toBeFalsy();
 
   // const bobTriesToReadTheFileResultAgain = await bobsStorage.requestFile(id);
-  
+
   // expect(bobTriesToReadTheFileResultAgain.hasError).toBeTruthy();
   // expect(bobTriesToReadTheFileResultAgain.error?.errors.message).toEqual('no-rights-on-chain');
-  
 }, 6000000);

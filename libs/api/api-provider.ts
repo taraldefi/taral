@@ -257,7 +257,6 @@ export class ApiProvider implements BaseProvider {
     senderAddress: string,
     args: ClarityValue[]
   ) {
-    
     const nonce = await getNonce(senderAddress, NETWORK);
 
     //todo: properly estimate fee or require it from upstairs

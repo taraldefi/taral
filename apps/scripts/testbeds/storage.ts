@@ -12,7 +12,6 @@ export async function storageManualTest(updateFile: boolean = false) {
 
   const firstVersionFilename = "dummy.pdf";
   const secondVersionFilename = "dummy-edited.pdf";
-  
 
   const fileInfo = readTestFile(firstVersionFilename);
 
@@ -38,7 +37,11 @@ export async function storageManualTest(updateFile: boolean = false) {
 
   if (updateFile) {
     const secondVersionFileInfo = readTestFile(secondVersionFilename);
-    const updateResult = await storage.updateFile(result.result?.id!, secondVersionFileInfo.file, secondVersionFileInfo.fileSizeInBytes);
+    const updateResult = await storage.updateFile(
+      result.result?.id!,
+      secondVersionFileInfo.file,
+      secondVersionFileInfo.fileSizeInBytes
+    );
 
     if (updateResult.hasError) {
       console.log(JSON.stringify(updateResult));
@@ -46,7 +49,7 @@ export async function storageManualTest(updateFile: boolean = false) {
         "Failed to update file with error: ",
         updateResult.error?.errors.message
       );
-  
+
       return;
     }
 
@@ -56,7 +59,11 @@ export async function storageManualTest(updateFile: boolean = false) {
   console.log("Success");
 }
 
-async function requestFile(storage: StorageApiClient, id: string, fileName: string) {
+async function requestFile(
+  storage: StorageApiClient,
+  id: string,
+  fileName: string
+) {
   const requestFileResult = await storage.requestFile(id);
 
   if (requestFileResult.hasError) {
@@ -76,10 +83,5 @@ async function requestFile(storage: StorageApiClient, id: string, fileName: stri
 
   var buffer = Buffer.from(decryptedContent, "binary");
 
-  syncWriteFileWithEncoding(
-    fileName,
-    buffer,
-    "binary"
-  );
-
+  syncWriteFileWithEncoding(fileName, buffer, "binary");
 }
