@@ -1,7 +1,6 @@
 import {
   canRead,
   canWrite,
-  getFileHash,
   grantAccessToFile,
   IStorageFileRegister,
   IStorageFileUpdate,
@@ -12,19 +11,19 @@ import {
 } from "lib-storage";
 import { uuid } from "lib-shared";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
-import { readTestFile } from "./test-utils";
+import { PrivateKey, readTestFile, StorageApiClient } from "./storage";
 
 test("[File storage] - Happy flow", async () => {
-  const id: string = uuid();
 
-  const firstFileHash =
-    "0x65326430666531353835613633656336303039633830313666663864646138623137373139613633373430356134653233633066663831333339313438323439";
+  const storage: StorageApiClient = new StorageApiClient("http://localhost:3000", PrivateKey);
 
-  const secondFileHash =
-    "0x39373839393763306535616630353865633736393535333062643163313633393430656461333935393734633939356165373665386463313131343638363235";
+  const fileInfo = readTestFile();
 
-  const firstVersionFileName = "file-first-version.txt";
-  const secondVersionFileName = "file-second-version.txt";
+  const result = await storage.createFile(fileInfo.file, fileInfo.fileSizeInBytes);
+
+  expect(result.hasError).toBe(false);
+
+  const id = result.result?.id!;
 
   const deployer = clarinetAccounts.deployer;
 
@@ -46,10 +45,6 @@ test("[File storage] - Happy flow", async () => {
   const registerFileResult = await registerFile(registerFilePayload);
 
   expect(registerFileResult).toEqual(id);
-
-  const onChainHash = await getFileHash(id, onChainStorage);
-
-  expect(onChainHash).toEqual(firstFileHash);
 
   const canWriteFile = await canWrite({
     contract: onChainStorage,
@@ -143,9 +138,6 @@ test("[File storage] - Happy flow", async () => {
   const updateFileResult = await updateFile(updateFilePayload);
 
   expect(updateFileResult).toEqual(true);
-
-  const newOnChainHash = await getFileHash(id, onChainStorage);
-  expect(newOnChainHash).toEqual(secondFileHash);
 
   const revokeAccessResult = await revokeAccessFromFile({
     contract: onChainStorage,
