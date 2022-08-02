@@ -26,7 +26,6 @@ export interface File {
   fileSizeInBytes: number;
 }
 
-
 export interface StorageApiBaseResponse<T> {
   result?: T;
   error?: ErrorResponse;
@@ -39,5 +38,5 @@ export interface ErrorObject {
 
 export interface ErrorResponse {
   status: number;
-  errors: ErrorObject; 
+  errors: ErrorObject;
 }

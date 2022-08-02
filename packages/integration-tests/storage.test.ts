@@ -14,12 +14,17 @@ import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { PrivateKey, readTestFile, StorageApiClient } from "./storage";
 
 test("[File storage] - Happy flow", async () => {
-
-  const storage: StorageApiClient = new StorageApiClient("http://localhost:3000", PrivateKey);
+  const storage: StorageApiClient = new StorageApiClient(
+    "http://localhost:3000",
+    PrivateKey
+  );
 
   const fileInfo = readTestFile();
 
-  const result = await storage.createFile(fileInfo.file, fileInfo.fileSizeInBytes);
+  const result = await storage.createFile(
+    fileInfo.file,
+    fileInfo.fileSizeInBytes
+  );
 
   expect(result.hasError).toBe(false);
 
