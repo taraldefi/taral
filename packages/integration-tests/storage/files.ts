@@ -1,19 +1,19 @@
 import fs from "fs";
 import path from "path";
-import { File } from "./models";
+import { File } from "lib-storage";
 import { writeFileSync } from "fs";
 import { join } from "path";
 
-export function readTestFile(): File {
-  const filePath = path.join(__dirname, "../testfiles/dummy.pdf");
-  const stats = fs.statSync(filePath);
-  const fileSizeInBytes = stats.size;
-  const fileStream = fs.createReadStream(filePath);
+export function readTestFile(file: string): File {
+    const filePath = path.join(__dirname, `../testfiles/${file}`);
+    const stats = fs.statSync(filePath);
+    const fileSizeInBytes = stats.size;
+    const fileStream = fs.createReadStream(filePath);
 
-  return {
-    file: fileStream,
-    fileSizeInBytes,
-  };
+    return {
+        file: fileStream,
+        fileSizeInBytes
+    }
 }
 
 // ✅ write to file SYNCHRONOUSLY

@@ -22,6 +22,8 @@ export async function registerFile(
   const signatureBuffer = Buffer.from(signature.data, "hex");
   const buffer = Buffer.from(utf8ToBytes(request.fileHash));
 
+  Logger.debug("register-file", `Registering file ${request.fileId} - ${request.fileName}`);
+
   const response = await txOk(
     request.contract.registerFile(
       request.fileId,

@@ -37,9 +37,10 @@ import {
 import { handleFunctionTransaction } from "lib-stacks";
 import { err, ok } from "neverthrow";
 import { formatArguments } from "../stacks/format-arguments";
-import { getNonce } from "../stacks/get-nonce";
+import { getNonce } from "@stacks/transactions";
 import { getTransactionById } from "../stacks/utils";
 import { deployContractOnStacks } from "./stacks/deploy-contract";
+import { NETWORK } from "taral-configuration";
 
 const NAME = "api-provider";
 
@@ -256,13 +257,8 @@ export class ApiProvider implements BaseProvider {
     senderAddress: string,
     args: ClarityValue[]
   ) {
-    const nonce = await getNonce({
-      principal: senderAddress,
-    });
-
-    const nextNonce = nonce.possible_next_nonce;
-
-    const callNonce = new BN(nextNonce);
+    
+    const nonce = await getNonce(senderAddress, NETWORK);
 
     //todo: properly estimate fee or require it from upstairs
     const txOptions:
@@ -276,7 +272,7 @@ export class ApiProvider implements BaseProvider {
       network: this.network,
       postConditionMode: 0x01, // PostconditionMode.Allow
       anchorMode: 3,
-      nonce: callNonce,
+      nonce,
       fee: 100000,
     };
 
