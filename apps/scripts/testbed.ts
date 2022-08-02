@@ -7,7 +7,7 @@ async function main() {
   console.log(`Ran from ${cwd}`);
   // await getDeployerPublicKey();
 
-  await storageManualTest();
+  await storageManualTest(true);
   // await storageMvp();
 }
 

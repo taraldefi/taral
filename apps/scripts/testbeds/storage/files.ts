@@ -4,8 +4,8 @@ import { File } from "lib-storage";
 import { writeFileSync } from "fs";
 import { join } from "path";
 
-export function readTestFile(): File {
-  const filePath = path.join(__dirname, "../testfiles/dummy.pdf");
+export function readTestFile(fileName: string): File {
+  const filePath = path.join(__dirname, `../testfiles/${fileName}`);
   const stats = fs.statSync(filePath);
   const fileSizeInBytes = stats.size;
   const fileStream = fs.createReadStream(filePath);

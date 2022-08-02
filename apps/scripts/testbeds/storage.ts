@@ -2,14 +2,19 @@ import { decryptString, ecPrivateKey } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
 import { StorageApiClient } from "lib-storage";
 import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
+import { request } from "http";
 
-export async function storageManualTest() {
+export async function storageManualTest(updateFile: boolean = false) {
   const storage: StorageApiClient = new StorageApiClient(
     "http://localhost:3000",
     PrivateKey
   );
 
-  const fileInfo = readTestFile();
+  const firstVersionFilename = "dummy.pdf";
+  const secondVersionFilename = "dummy-edited.pdf";
+  
+
+  const fileInfo = readTestFile(firstVersionFilename);
 
   const result = await storage.createFile(
     "dummy.pdf",
@@ -27,7 +32,32 @@ export async function storageManualTest() {
     return;
   }
 
-  const requestFileResult = await storage.requestFile(result.result?.id!);
+  const fileId = result.result?.id!;
+
+  await requestFile(storage, fileId, "first-version.pdf");
+
+  if (updateFile) {
+    const secondVersionFileInfo = readTestFile(secondVersionFilename);
+    const updateResult = await storage.updateFile(result.result?.id!, secondVersionFileInfo.file, secondVersionFileInfo.fileSizeInBytes);
+
+    if (updateResult.hasError) {
+      console.log(JSON.stringify(updateResult));
+      console.log(
+        "Failed to update file with error: ",
+        updateResult.error?.errors.message
+      );
+  
+      return;
+    }
+
+    await requestFile(storage, fileId, "second-version.pdf");
+  }
+
+  console.log("Success");
+}
+
+async function requestFile(storage: StorageApiClient, id: string, fileName: string) {
+  const requestFileResult = await storage.requestFile(id);
 
   if (requestFileResult.hasError) {
     console.log(
@@ -47,10 +77,9 @@ export async function storageManualTest() {
   var buffer = Buffer.from(decryptedContent, "binary");
 
   syncWriteFileWithEncoding(
-    requestFileResult.result?.fileName!,
+    fileName,
     buffer,
     "binary"
   );
 
-  console.log("Success");
 }
