@@ -3,6 +3,7 @@ import {
   canRead,
   canWrite,
   getFileHash,
+  getHexFileHash,
   grantAccessToFile,
   IStorageFileRegister,
   IStorageFileUpdate,
@@ -37,9 +38,11 @@ test("[File storage] - Happy flow", async () => {
 
   const firstFileBuffer = readTestFile(firstVersionFileName);
 
+  const firstFileFileHash = getHexFileHash(firstFileBuffer);
+
   const registerFilePayload: IStorageFileRegister = {
     fileId: id,
-    fileBuffer: firstFileBuffer,
+    fileHash: firstFileFileHash,
     fileName: firstVersionFileName,
     privateKey: deployerPrivateKey,
     contract: onChainStorage,
@@ -135,8 +138,10 @@ test("[File storage] - Happy flow", async () => {
 
   const secondFileBuffer = readTestFile(secondVersionFileName);
 
+  const secondFileFileHash = getHexFileHash(secondFileBuffer);
+
   const updateFilePayload: IStorageFileUpdate = {
-    fileBuffer: secondFileBuffer,
+    fileHash: secondFileFileHash,
     fileId: id,
     privateKey: deployerPrivateKey,
     contract: onChainStorage,
