@@ -7,6 +7,14 @@ export interface CreateFileResponse {
   signedHash: string;
 }
 
+export interface UpdateFileResponse {
+  hash: string;
+  id: string;
+  name: string;
+  signedHash: string;
+}
+
+
 export interface RequestFileResponse {
   encryptedFile: EncryptedFileResponse;
   fileName: string;

@@ -4,6 +4,7 @@ import {
   ErrorResponse,
   RequestFileResponse,
   StorageApiBaseResponse,
+  UpdateFileResponse,
 } from "./models";
 
 import FormData from "form-data";
@@ -23,16 +24,57 @@ export class StorageApiClient {
     };
   }
 
+  public async updateFile(
+    fileId: string,
+    fileStream: fs.ReadStream,
+    fileSizeInBytes: number
+  ): Promise<StorageApiBaseResponse<UpdateFileResponse>> {
+    const requestOptions = this.createUpdateFilePayload(fileId, fileStream, fileSizeInBytes);
+
+    const config = {
+      headers: {
+        'content-type': 'multipart/form-data'
+      }
+    };
+
+    try {
+      const { data, status } = await axios.post(this.getUpdateFileUrl(), requestOptions, config);
+
+      if (status == 200 || status == 201) {
+        const result = data as UpdateFileResponse;
+        return {
+          result,
+          hasError: false,
+        };
+      }
+
+      const errorResult = data as ErrorResponse;
+      return {
+        hasError: true,
+        error: errorResult,
+      };
+    } catch (error) {
+      const errorResponse: ErrorResponse = {
+        errors: {
+          message: (error as any).message,
+        },
+
+        status: -1,
+      };
+
+      return {
+        hasError: true,
+        error: errorResponse,
+      };
+    }
+  }
+
   public async createFile(
     fileName: string,
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
   ): Promise<StorageApiBaseResponse<CreateFileResponse>> {
-    const requestOptions = this.createFormPayload(
-      fileName,
-      fileStream,
-      fileSizeInBytes
-    );
+    const requestOptions = this.createRegisterFilePayload(fileName, fileStream, fileSizeInBytes);
 
     const config = {
       headers: {
@@ -146,11 +188,15 @@ export class StorageApiClient {
     return `${this.baseUrl}/api/v1/files/create-file`;
   }
 
+  private getUpdateFileUrl(): string {
+    return `${this.baseUrl}/api/v1/files/update-file`;
+  }
+
   private getRequestFileUrl(): string {
     return `${this.baseUrl}/api/v1/files/request-file`;
   }
 
-  private createFormPayload(
+  private createRegisterFilePayload(
     fileName: string,
     fileStream: fs.ReadStream,
     fileSizeInBytes: number
@@ -161,6 +207,27 @@ export class StorageApiClient {
 
     form.append("file", fileStream, {
       filename: fileName,
+      knownLength: fileSizeInBytes,
+      contentType: "application/octet-stream",
+    });
+
+    form.append("signedMessage", signature[1]);
+    form.append("signature", signature[0]);
+
+    return form;
+  }
+
+  private createUpdateFilePayload(
+    fileId: string,
+    fileStream: fs.ReadStream,
+    fileSizeInBytes: number
+  ) {
+    const signature = this.sign();
+
+    const form = new FormData();
+
+    form.append("id", fileId);
+    form.append("newFile", fileStream, {
       knownLength: fileSizeInBytes,
       contentType: "application/octet-stream",
     });
