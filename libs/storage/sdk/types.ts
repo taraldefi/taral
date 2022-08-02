@@ -3,7 +3,7 @@ import { TaralStorageContract } from "taral-contracts";
 export interface IStorageFileRegister {
   fileId: string;
 
-  fileBuffer: Buffer;
+  fileHash: string;
 
   fileName: string;
 
@@ -59,7 +59,7 @@ export interface IStorageFileUpdate {
 
   privateKey: string;
 
-  fileBuffer: Buffer;
+  fileHash: string;
 }
 
 export interface IStorageFileAccessRevoke {
