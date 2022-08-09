@@ -80,7 +80,7 @@
     "@stacks/network": "^4.2.0",
     "@stacks/wallet-sdk": "^4.2.0",
     "@stacks/stacks-blockchain-api-types": "^4.0.0",
-    "@stacks/transactions": "4.2.0",
+    "@stacks/transactions": "4.3.4",
     "@stacks/connect": "6.8.2",
     "react-query": "^4.0.0",
     "react-router-dom": "^6.3.0",
