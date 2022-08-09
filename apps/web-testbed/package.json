@@ -81,7 +81,7 @@
     "@stacks/wallet-sdk": "^4.2.0",
     "@stacks/stacks-blockchain-api-types": "^4.0.0",
     "@stacks/transactions": "4.2.0",
-    "@stacks/connect": "6.8.2",
+    "@stacks/connect": "6.9.1",
     "react-query": "^4.0.0",
     "react-router-dom": "^6.3.0",
     "micro-memoize": "^4.0.10",
