@@ -89,7 +89,7 @@
     "jest": "^28.0.2",
     "lint-staged": "^12.4.1",
     "semantic-release": "^19.0.3",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.9.1"
   },
   "lint-staged": {
     "*.ts": "eslint --cache --cache-location .eslintcache ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix"
