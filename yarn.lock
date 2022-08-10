@@ -13193,17 +13193,17 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
-proxy-compare@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.1.0.tgz#5f99b3ed6a265135ce7ec145ce304e6f89b6511b"
-  integrity sha512-wapJ3h/w8fRSyPEG0y2WMV+tf9xwvj3nxM6aHVuPEOwKs/t5xLSKZb44ubNTiqq2T6lmEMHEWGMTaU2L6ddaFA==
+proxy-compare@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.2.0.tgz#2357330407241b091501644d08a446a4a28e0e15"
+  integrity sha512-hEtMJevUmOByZCTw1NRUVaWWHCGJLO0ogizpey8yX6zMPolDe8YVa+PHgMOTiZuyUkFj+hMKs/1UaM0+ZkuvgA==
 
-proxy-memoize@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/proxy-memoize/-/proxy-memoize-1.0.0.tgz#c5f03f2c7606c0816053f468ad4d505ae526a795"
-  integrity sha512-77q92YWZDBhDETswZiedurVRONR7A6TXb3VmEO9OFaYEpsObV8N9+jy9qX5M2m37998RgYE7YXekWF9M/Q8oSQ==
+proxy-memoize@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/proxy-memoize/-/proxy-memoize-1.1.0.tgz#bfe8a82f59a1bb606ad7b14f16a5ecb661f231d2"
+  integrity sha512-Qfo/Bkeb9zIIJ8w5e9tzc284hl84Jc4EwZLaAPU/GfzOiMYFz6Mf8R/IPEYuo+q6672IRPscNnjksnPyoSwlZA==
   dependencies:
-    proxy-compare "2.1.0"
+    proxy-compare "2.2.0"
 
 psl@^1.1.28:
   version "1.8.0"
