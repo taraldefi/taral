@@ -85,11 +85,11 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "execa": "^6.1.0",
-    "husky": "^7.0.4",
+    "husky": "^8.0.1",
     "jest": "^28.0.2",
     "lint-staged": "^12.4.1",
     "semantic-release": "^19.0.3",
-    "ts-node": "^10.2.1"
+    "ts-node": "^10.9.1"
   },
   "lint-staged": {
     "*.ts": "eslint --cache --cache-location .eslintcache ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix"
