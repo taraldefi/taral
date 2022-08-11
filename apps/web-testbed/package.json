@@ -8,7 +8,7 @@
     "taral-contracts": "1.0.0",
     "lib-web": "1.0.0",
     "@babel/core": "7.18.10",
-    "@pmmmwh/react-refresh-webpack-plugin": "0.5.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "0.5.7",
     "@svgr/webpack": "6.3.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.1.1",
@@ -102,7 +102,7 @@
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
     "babel-plugin-styled-components": "^2.0.7",
-    "@babel/runtime": "^7.17.9"
+    "@babel/runtime": "^7.18.9"
   },
   "scripts": {
     "start": "node scripts/start.js",
