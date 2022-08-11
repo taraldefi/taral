@@ -39,7 +39,7 @@
     "cross-fetch": "^3.1.5",
     "crypto": "^1.0.1",
     "crypto-js": "^4.1.1",
-    "dayjs": "^1.11.1",
+    "dayjs": "^1.11.4",
     "fs-extra": "^10.1.0",
     "lib-shared": "1.0.0",
     "merkletreejs": "^0.2.32",

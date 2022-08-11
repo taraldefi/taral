@@ -50,7 +50,7 @@
     "wif": "^2.0.6",
     "unzipper": "^0.10.11",
     "chalk": "^4.1.2",
-    "dayjs": "^1.11.1",
+    "dayjs": "^1.11.4",
     "@stacks/encryption": "^4.3.4"
   }
 }
