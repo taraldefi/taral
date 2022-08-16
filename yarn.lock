@@ -2096,10 +2096,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.3.tgz#0300943770e04231041a51bd39f0439b5c7ab4f0"
   integrity sha512-nkalE/f1RvRGChwBnEIoBfSEYOXnCRdleKuv6+lePbMDrMZXeDQnqak5XDOeBgrPPyPfAdcCu/B5z+v3VhplGg==
 
-"@ltd/j-toml@^1.32.0":
-  version "1.32.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.32.0.tgz#138a7293d27295e4aea9557bf0af5470113b7478"
-  integrity sha512-Lzv5wa0N1TzEaEvODs9yO5n/mitwF3PBzQeT8Os8cW5GIcGuwmxWU4pXq+EIXZlt1Vi56Fbs1O0wCrx3VGVUXw==
+"@ltd/j-toml@^1.33.0":
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.33.0.tgz#882fbb4a15158beb9d424e013613ac0b1576300d"
+  integrity sha512-ewovJ+VTqBJjivEigOw2iaJKxmO+6VspviNIA4EQT90hes0ajr9dbx/zPrAKBdATRItHO+0v4KstOvZa4stuHQ==
 
 "@noble/hashes@^1.0.0", "@noble/hashes@~1.1.1":
   version "1.1.2"
@@ -3226,7 +3226,12 @@
   dependencies:
     "@types/node" "*"
 
-"@types/html-minifier-terser@6.1.0", "@types/html-minifier-terser@^6.0.0":
+"@types/html-minifier-terser@7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-7.0.0.tgz#a316cad70201de31bcc1a97cf8b73b26ae46ad65"
+  integrity sha512-hw3bhStrg5e3FQT8qZKCJTrzt/UbEaunU1xRWJ+aNOTmeBMvE3S4Ml2HiiNnZgL8izu0LFVkHUoPFXL1s5QNpQ==
+
+"@types/html-minifier-terser@^6.0.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@types/html-minifier-terser/-/html-minifier-terser-6.1.0.tgz#4fc33a00c1d0c16987b1a20cf92d20614c55ac35"
   integrity sha512-oh/6byDPnL1zeNXFrDXFLyZjkr1MsBG667IM792caf1L2UPOOMf65NFzjUH/ltyfwjAGfs1rsX1eftK0jC/KIg==
