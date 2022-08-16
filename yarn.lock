@@ -2096,10 +2096,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.3.tgz#0300943770e04231041a51bd39f0439b5c7ab4f0"
   integrity sha512-nkalE/f1RvRGChwBnEIoBfSEYOXnCRdleKuv6+lePbMDrMZXeDQnqak5XDOeBgrPPyPfAdcCu/B5z+v3VhplGg==
 
-"@ltd/j-toml@^1.32.0":
-  version "1.32.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.32.0.tgz#138a7293d27295e4aea9557bf0af5470113b7478"
-  integrity sha512-Lzv5wa0N1TzEaEvODs9yO5n/mitwF3PBzQeT8Os8cW5GIcGuwmxWU4pXq+EIXZlt1Vi56Fbs1O0wCrx3VGVUXw==
+"@ltd/j-toml@^1.33.0":
+  version "1.33.0"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.33.0.tgz#882fbb4a15158beb9d424e013613ac0b1576300d"
+  integrity sha512-ewovJ+VTqBJjivEigOw2iaJKxmO+6VspviNIA4EQT90hes0ajr9dbx/zPrAKBdATRItHO+0v4KstOvZa4stuHQ==
 
 "@noble/hashes@^1.0.0", "@noble/hashes@~1.1.1":
   version "1.1.2"
@@ -13140,17 +13140,17 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
-proxy-compare@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.2.0.tgz#2357330407241b091501644d08a446a4a28e0e15"
-  integrity sha512-hEtMJevUmOByZCTw1NRUVaWWHCGJLO0ogizpey8yX6zMPolDe8YVa+PHgMOTiZuyUkFj+hMKs/1UaM0+ZkuvgA==
+proxy-compare@2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.3.0.tgz#ac9633ae52918ff9c9fcc54dfe6316c7a02d20ee"
+  integrity sha512-c3L2CcAi7f7pvlD0D7xsF+2CQIW8C3HaYx2Pfgq8eA4HAl3GAH6/dVYsyBbYF/0XJs2ziGLrzmz5fmzPm6A0pQ==
 
-proxy-memoize@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.yarnpkg.com/proxy-memoize/-/proxy-memoize-1.1.0.tgz#bfe8a82f59a1bb606ad7b14f16a5ecb661f231d2"
-  integrity sha512-Qfo/Bkeb9zIIJ8w5e9tzc284hl84Jc4EwZLaAPU/GfzOiMYFz6Mf8R/IPEYuo+q6672IRPscNnjksnPyoSwlZA==
+proxy-memoize@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/proxy-memoize/-/proxy-memoize-1.2.0.tgz#4805f6744461847cecf58f8c3a4b709703c5cb0d"
+  integrity sha512-0heYEZb4yMfhdduz8T+BPJOCKGukc81WRJaYF0k6ZsJz/NkPLhGFqe6OLdiZURr5kC1byps5wdqLN6DC2tYAFw==
   dependencies:
-    proxy-compare "2.2.0"
+    proxy-compare "2.3.0"
 
 psl@^1.1.28:
   version "1.8.0"
