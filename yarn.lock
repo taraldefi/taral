@@ -2110,10 +2110,10 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.3.tgz#0300943770e04231041a51bd39f0439b5c7ab4f0"
   integrity sha512-nkalE/f1RvRGChwBnEIoBfSEYOXnCRdleKuv6+lePbMDrMZXeDQnqak5XDOeBgrPPyPfAdcCu/B5z+v3VhplGg==
 
-"@ltd/j-toml@^1.33.0":
-  version "1.33.0"
-  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.33.0.tgz#882fbb4a15158beb9d424e013613ac0b1576300d"
-  integrity sha512-ewovJ+VTqBJjivEigOw2iaJKxmO+6VspviNIA4EQT90hes0ajr9dbx/zPrAKBdATRItHO+0v4KstOvZa4stuHQ==
+"@ltd/j-toml@^1.33.3":
+  version "1.33.3"
+  resolved "https://registry.yarnpkg.com/@ltd/j-toml/-/j-toml-1.33.3.tgz#90ae2fd1afaa00bad58e5407ef38f461d073378f"
+  integrity sha512-K7qpIJ9o5ZzYdyuKyh7MbMKklNgs7fDqZPILq2+3p+rcm98RMtuEzvCYA7R0/VR7MNQLxY8yxgpk5IOTfVDwOQ==
 
 "@noble/hashes@^1.0.0", "@noble/hashes@~1.1.1":
   version "1.1.2"
