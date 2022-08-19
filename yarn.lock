@@ -2741,10 +2741,10 @@
     schema-inspector "2.0.1"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-4.1.1.tgz#60ea35bf106a0d85f45a6da8f24b7edef769c648"
-  integrity sha512-KsKJdPLr6msWotSBkSWfTTODdi2V2v9GeTiY7ZbNhLBD3rcP+c3mhdnTtUcWa6SZL0Ol/fJcLF0LvRnGAcO4nw==
+"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-4.1.2.tgz#8ce6b51a82cad01082bd5cea0e390c7dfeb4d226"
+  integrity sha512-kguf4oe78PrhJ8oKpoSAQ2RcL5d2O8x1uQGQgvNMUOds74aYA6SmwXMJWsAlmXAryXu00UsxuoEPBINxa+muAg==
 
 "@stacks/storage@^4.2.0":
   version "4.2.0"
