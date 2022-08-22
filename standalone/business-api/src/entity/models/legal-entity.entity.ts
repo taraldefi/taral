@@ -45,6 +45,11 @@ export class LegalEntity extends EntityHelper {
     @Allow()
     legalForm: string;
 
+    
+    @Column()
+    @Allow()
+    logo: string;
+
     @OneToMany(() => LegalProductEntity, (legalProduct) => legalProduct.legalEntity)
     legalProducts: LegalProductEntity[];
 
