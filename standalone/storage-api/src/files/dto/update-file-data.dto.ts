@@ -5,7 +5,7 @@ import {
   IsFile,
   MaxFileSize,
   MemoryStoredFile,
-} from 'src/core/modules/multipart';
+} from '@modules/multipart';
 
 export class UpdateFileDataDto {
   @IsFile()

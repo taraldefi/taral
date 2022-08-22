@@ -27,7 +27,13 @@
       "lib-shared": ["../../libs/shared"],
       "lib-stacks": ["../../libs/stacks"],
       "lib-api": ["../../libs/api"],
-      "taral-contracts": ["../../packages/contracts"]
+      "taral-contracts": ["../../packages/contracts"],
+      "@modules/multipart": ["../modules/multipart"],
+      "@modules/transaction": ["../modules/transaction"],
+      "@modules/storage": ["../modules/storage"],
+      "@modules/events": ["../modules/events"],
+      "@modules/telemetry": ["../modules/telemetry"],
+      
     }
   }
 }
