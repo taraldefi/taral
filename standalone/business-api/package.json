@@ -65,7 +65,7 @@
     "swagger-ui-express": "4.3.0",
     "twitter": "1.7.1",
     "type-is": "^1.6.18",
-    "typeorm": "0.3.7",
+    "typeorm": "0.2.43",
     "typeorm-seeding": "1.6.1",
     "uid": "^2.0.0",
     "uuid": "^8.3.2",
