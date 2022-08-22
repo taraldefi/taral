@@ -4,8 +4,8 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { LegalEntity } from "./legal-entity.entity";
 
 
-@Entity({ name: 'products' })
-export class LegalProductEntity extends EntityHelper {
+@Entity({ name: 'applications' })
+export class LegalApplicationEntity extends EntityHelper {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
@@ -16,16 +16,6 @@ export class LegalProductEntity extends EntityHelper {
     @Column({ type: 'timestamptz' }) // Recommended
     @Allow()
     issuanceDate: Date;
-
-
-    @Column({ type: 'timestamptz' }) // Recommended
-    @Allow()
-    maturityDate: Date;
-
-    @Allow()
-    @Column({type: "decimal", precision: 10, scale: 2, default: 0})
-    amount: number;
-
         
     @ManyToOne(() => LegalEntity, {
         eager: true,
