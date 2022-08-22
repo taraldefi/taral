@@ -62,7 +62,11 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   findOne(@Param('id') id: string) {
-    return this.usersService.findOne({ id: +id });
+    return this.usersService.findOne({
+      where: {
+        id: +id
+      }
+    });
   }
 
   @Patch(':id')

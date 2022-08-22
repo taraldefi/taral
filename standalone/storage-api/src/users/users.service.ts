@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
 import { IPaginationOptions } from 'src/utils/types/pagination-options';
-import { Repository } from 'typeorm';
+import { FindOneOptions, Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -27,10 +27,8 @@ export class UsersService {
     });
   }
 
-  findOne(fields: EntityCondition<User>) {
-    return this.usersRepository.findOne({
-      where: fields,
-    });
+  findOne(fields: FindOneOptions<User>) {
+    return this.usersRepository.findOne(fields);
   }
 
   update(id: number, updateProfileDto: UpdateUserDto) {

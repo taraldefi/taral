@@ -8,7 +8,7 @@ import { FileVersionEntity } from './entities/file-version.entity';
 import {
   MemoryStoredFile,
   NestjsFormDataModule,
-} from 'src/core/modules/multipart';
+} from '@modules/multipart';
 import { SignatureService } from './services/onchain/signature.service';
 import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
