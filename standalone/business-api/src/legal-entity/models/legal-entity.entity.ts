@@ -1,6 +1,7 @@
 import { Allow } from "class-validator";
 import { EntityHelper } from "src/utils/entity-helper";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { LegalProduct } from "./legal-product.entity";
 
 @Entity({ name: 'legal-entity' })
 export class LegalEntity extends EntityHelper {
@@ -42,4 +43,7 @@ export class LegalEntity extends EntityHelper {
     @Column()
     @Allow()
     legalForm: string;
+
+    @OneToMany(() => LegalProduct, (legalProduct) => legalProduct.legalEntity)
+    legalProducts: LegalProduct[];
 }

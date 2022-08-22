@@ -1,6 +1,7 @@
 import { Allow } from "class-validator";
 import { EntityHelper } from "src/utils/entity-helper";
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { LegalEntity } from "./legal-entity.entity";
 
 
 @Entity({ name: 'products' })
@@ -24,4 +25,10 @@ export class LegalProduct extends EntityHelper {
     @Allow()
     @Column({type: "decimal", precision: 10, scale: 2, default: 0})
     amount: number;
+
+        
+    @ManyToOne(() => LegalEntity, {
+        eager: true,
+    })
+    legalEntity: LegalEntity;
 }
