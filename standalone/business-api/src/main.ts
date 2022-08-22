@@ -4,7 +4,6 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { initializeTransactionalContext } from '@modules/transaction';
-import { SerializerInterceptor } from './utils/serializer.interceptor';
 import validationOptions from './utils/validation-options';
 
 // import otelSDK from './tracing';
@@ -25,12 +24,12 @@ async function bootstrap() {
   app.enableVersioning({
     type: VersioningType.URI,
   });
-  app.useGlobalInterceptors(new SerializerInterceptor());
+
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   const options = new DocumentBuilder()
-    .setTitle('API')
-    .setDescription('API docs')
+    .setTitle('BusinessAPI')
+    .setDescription('BusinessAPI docs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
