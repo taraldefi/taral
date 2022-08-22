@@ -38,7 +38,7 @@ describe('Span', () => {
     spanProcessor = new tracing.SimpleSpanProcessor(traceExporter);
 
     provider = new NodeTracerProvider();
-    provider.addSpanProcessor(spanProcessor);
+    provider.addSpanProcessor(spanProcessor as any);
     provider.register();
   });
 

@@ -160,12 +160,13 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
       return [this.createAsyncOptionsProvider(options)];
     }
     const useClass = options.useClass as Type<OpenTelemetryOptionsFactory>;
+    const injectableOptions: never = [...(options.inject || [])] as never;
     return [
       this.createAsyncOptionsProvider(options),
       {
         provide: useClass,
         useClass,
-        inject: [...(options.inject || [])],
+        inject: injectableOptions,
       },
     ];
   }
