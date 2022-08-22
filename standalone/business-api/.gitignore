@@ -41,3 +41,4 @@ lerna-debug.log*
 
 /local_storage/*
 !/local_storage/.gitkeep
+!/local_storage/7da1a894-af99-415a-b309-2f4aa4235510.png
