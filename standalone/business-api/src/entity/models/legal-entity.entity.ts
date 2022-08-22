@@ -44,7 +44,6 @@ export class LegalEntity extends EntityHelper {
     @Column()
     @Allow()
     legalForm: string;
-
     
     @Column()
     @Allow()
