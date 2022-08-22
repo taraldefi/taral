@@ -19,7 +19,7 @@ export class CreateEntityDto {
         },
       },
     })
-    file: MemoryStoredFile;
+    logo: MemoryStoredFile;
   
     
     @ApiProperty({ example: 'Engelbrecht Ltd' })
