@@ -11,6 +11,7 @@ import { Storage } from '@modules/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { runOnTransactionComplete, runOnTransactionRollback, Transactional } from "@modules/transaction";
 import { GetEntityDetailsResponse } from "../dto/response/get-entity-details-response.dto";
+import { EntityMappingService } from "./mapping.service";
 
 @Injectable()
 export class EntityService {
@@ -24,6 +25,8 @@ export class EntityService {
 
         @InjectRepository(LegalApplicationEntity)
         private entityApplicationRepository: LegalApplicationRepository,
+
+        private mappingService: EntityMappingService
     ) {
 
     }
@@ -67,16 +70,7 @@ export class EntityService {
 
         var result = await this.entityRepository.save(entity);
 
-        // return {
-        //     abbreviation: result.abbreviation,
-        //     applications: result.legalApplications.(app => {
-        //         id: app.id,
-        //         title: app.title,
-        //         issuanceDate: app.issuanceDate
-        //     })
-        // };
-
-        return null;
+        return this.mappingService.mapEntityDetails(result);
     }
 
     private async createApplications(): Promise<LegalApplicationEntity[]> {

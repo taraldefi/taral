@@ -10,6 +10,7 @@ import { LegalEntity } from './models/legal-entity.entity';
 import { LegalProductEntity } from './models/legal-product.entity';
 import { LegalApplicationEntity } from './models/legal-application.entity';
 import { EntityService } from './services/entity.service';
+import { EntityMappingService } from './services/mapping.service';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { EntityService } from './services/entity.service';
     ConfigModule,
     ConfigService,
     EntityService,
+    EntityMappingService
   ],
 })
 export class EntitiesModule {}
