@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { FilesService } from './services/files.service';
-import { FormDataRequest, MemoryStoredFile } from 'src/core/modules/multipart';
+import { FormDataRequest, MemoryStoredFile } from '@modules/multipart';
 import { CreateFileDataDto } from './dto/create-file-data.dto';
 import { CreateFileResponse } from './dto/create-file-response.dto';
 import { UpdateFileDataDto } from './dto/update-file-data.dto';

@@ -5,12 +5,12 @@ import {
   IsFile,
   MaxFileSize,
   MemoryStoredFile,
-} from 'src/core/modules/multipart';
+} from '@modules/multipart';
 
 export class UpdateFileDataDto {
   @IsFile()
   @MaxFileSize(100e6)
-  @HasMimeType(['application/octet-stream'])
+  @HasMimeType(['application/pdf'])
   @ApiProperty({
     example: {
       file: {

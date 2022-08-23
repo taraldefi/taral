@@ -30,7 +30,9 @@ export class AuthService {
     onlyAdmin: boolean,
   ): Promise<{ token: string; user: User }> {
     const user = await this.usersService.findOne({
-      email: loginDto.email,
+      where: {
+        email: loginDto.email,
+      },
     });
 
     if (
@@ -104,7 +106,9 @@ export class AuthService {
 
   async confirmEmail(hash: string): Promise<void> {
     const user = await this.usersService.findOne({
-      hash,
+      where: {
+        hash: hash,
+      },
     });
 
     if (!user) {
@@ -126,7 +130,9 @@ export class AuthService {
 
   async forgotPassword(email: string): Promise<void> {
     const user = await this.usersService.findOne({
-      email,
+      where: {
+        email: email,
+      },
     });
 
     if (!user) {
@@ -160,9 +166,7 @@ export class AuthService {
 
   async resetPassword(hash: string, password: string): Promise<void> {
     const forgot = await this.forgotService.findOne({
-      where: {
-        hash,
-      },
+      hash,
     });
 
     if (!forgot) {
@@ -185,7 +189,9 @@ export class AuthService {
 
   async me(user: User): Promise<User> {
     return this.usersService.findOne({
-      id: user.id,
+      where: {
+        id: user.id,
+      },
     });
   }
 
@@ -193,7 +199,9 @@ export class AuthService {
     if (userDto.password) {
       if (userDto.oldPassword) {
         const currentUser = await this.usersService.findOne({
-          id: user.id,
+          where: {
+            id: user.id,
+          },
         });
 
         const isValidOldPassword = await bcrypt.compare(
@@ -228,7 +236,9 @@ export class AuthService {
     await this.usersService.update(user.id, userDto);
 
     return this.usersService.findOne({
-      id: user.id,
+      where: {
+        id: user.id,
+      },
     });
   }
 

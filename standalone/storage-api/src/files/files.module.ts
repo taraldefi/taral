@@ -5,10 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { FileEntity } from './entities/file.entity';
 import { FilesService } from './services/files.service';
 import { FileVersionEntity } from './entities/file-version.entity';
-import {
-  MemoryStoredFile,
-  NestjsFormDataModule,
-} from 'src/core/modules/multipart';
+import { MemoryStoredFile, NestjsFormDataModule } from '@modules/multipart';
 import { SignatureService } from './services/onchain/signature.service';
 import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
