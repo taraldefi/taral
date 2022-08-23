@@ -12,6 +12,7 @@ import { LegalApplicationEntity } from './models/legal-application.entity';
 import { EntityService } from './services/entity.service';
 import { EntityMappingService } from './services/mapping.service';
 import { EntityLogoController } from './entity-logo.controller';
+import { LogoService } from './services/logo.service';
 
 @Module({
   imports: [
@@ -27,7 +28,8 @@ import { EntityLogoController } from './entity-logo.controller';
     ConfigModule,
     ConfigService,
     EntityService,
-    EntityMappingService
+    EntityMappingService,
+    LogoService
   ],
 })
 export class EntitiesModule {}

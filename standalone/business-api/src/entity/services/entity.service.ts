@@ -125,8 +125,9 @@ export class EntityService {
 
         runOnTransactionComplete((cb) => console.log('Transaction Complete'));
 
+        const imageUUID = uuidv4();
         const storage = Storage.disk('files');
-        const onDiskFilename = `${uuidv4()}.png`;
+        const onDiskFilename = `${imageUUID}.png`;
 
         const storageResponse = await storage.put(
             onDiskFilename,
@@ -146,7 +147,7 @@ export class EntityService {
         entity.industryType = data.industryType;
         entity.legalForm = data.legalForm;
         entity.nationality = data.nationality;
-        entity.logo = storageResponse.path;
+        entity.logo = imageUUID;
 
         entityProducts.forEach(product => product.legalEntity = entity);
         entityApplications.forEach(application => application.legalEntity = entity);
