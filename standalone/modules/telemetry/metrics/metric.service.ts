@@ -1,5 +1,5 @@
-import { Injectable } from '@nestjs/common';
-import { MetricOptions, ObservableResult } from '@opentelemetry/api-metrics';
+import { Injectable } from "@nestjs/common";
+import { MetricOptions, ObservableResult } from "@opentelemetry/api-metrics";
 import {
   getOrCreateCounter,
   getOrCreateHistogram,
@@ -7,7 +7,7 @@ import {
   getOrCreateObservableGauge,
   getOrCreateObservableUpDownCounter,
   getOrCreateUpDownCounter,
-} from './metric-data';
+} from "./metric-data";
 
 @Injectable()
 export class MetricService {
@@ -26,7 +26,7 @@ export class MetricService {
   getObservableCounter(
     name: string,
     options?: MetricOptions,
-    callback?: (observableResult: ObservableResult) => void,
+    callback?: (observableResult: ObservableResult) => void
   ) {
     return getOrCreateObservableCounter(name, options, callback);
   }
@@ -34,7 +34,7 @@ export class MetricService {
   getObservableGauge(
     name: string,
     options?: MetricOptions,
-    callback?: (observableResult: ObservableResult) => void,
+    callback?: (observableResult: ObservableResult) => void
   ) {
     return getOrCreateObservableGauge(name, options, callback);
   }
@@ -42,7 +42,7 @@ export class MetricService {
   getObservableUpDownCounter(
     name: string,
     options?: MetricOptions,
-    callback?: (observableResult: ObservableResult) => void,
+    callback?: (observableResult: ObservableResult) => void
   ) {
     return getOrCreateObservableUpDownCounter(name, options, callback);
   }

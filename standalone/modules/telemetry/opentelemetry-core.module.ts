@@ -8,18 +8,18 @@ import {
   OnApplicationBootstrap,
   Provider,
   Type,
-} from '@nestjs/common';
-import { HostMetrics } from '@opentelemetry/host-metrics';
-import { metrics } from '@opentelemetry/api-metrics';
+} from "@nestjs/common";
+import { HostMetrics } from "@opentelemetry/host-metrics";
+import { metrics } from "@opentelemetry/api-metrics";
 import {
   OpenTelemetryModuleAsyncOptions,
   OpenTelemetryModuleOptions,
   OpenTelemetryOptionsFactory,
-} from './interfaces';
-import { MetricService } from './metrics/metric.service';
-import { ApiMetricsMiddleware } from './middleware';
-import { OPENTELEMETRY_MODULE_OPTIONS } from './opentelemetry.constants';
-import { TraceService } from './tracing/trace.service';
+} from "./interfaces";
+import { MetricService } from "./metrics/metric.service";
+import { ApiMetricsMiddleware } from "./middleware";
+import { OPENTELEMETRY_MODULE_OPTIONS } from "./opentelemetry.constants";
+import { TraceService } from "./tracing/trace.service";
 
 /**
  * The internal OpenTelemetry Module which handles the integration
@@ -30,11 +30,11 @@ import { TraceService } from './tracing/trace.service';
 @Global()
 @Module({})
 export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
-  private readonly logger = new Logger('OpenTelemetryModule');
+  private readonly logger = new Logger("OpenTelemetryModule");
 
   constructor(
     @Inject(OPENTELEMETRY_MODULE_OPTIONS)
-    private readonly options: OpenTelemetryModuleOptions = {},
+    private readonly options: OpenTelemetryModuleOptions = {}
   ) {}
 
   /**
@@ -78,9 +78,9 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
         consumer
           .apply(ApiMetricsMiddleware)
           .exclude(...apiMetrics.ignoreRoutes)
-          .forRoutes('*');
+          .forRoutes("*");
       } else {
-        consumer.apply(ApiMetricsMiddleware).forRoutes('*');
+        consumer.apply(ApiMetricsMiddleware).forRoutes("*");
       }
     }
   }
@@ -104,13 +104,13 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
 
     if (defaultMetrics) {
       // eslint-disable-next-line global-require
-      require('opentelemetry-node-metrics')(meterProvider);
+      require("opentelemetry-node-metrics")(meterProvider);
     }
 
     if (hostMetrics) {
       // For some reason meterProvider type does not match here.
       // @ts-ignore
-      const host = new HostMetrics({ meterProvider, name: 'host-metrics' });
+      const host = new HostMetrics({ meterProvider, name: "host-metrics" });
       host.start();
     }
   }
@@ -121,7 +121,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
    * @param options Options for the asynchrnous OpenTelemetry module
    */
   private static createAsyncOptionsProvider(
-    options: OpenTelemetryModuleAsyncOptions,
+    options: OpenTelemetryModuleAsyncOptions
   ): Provider {
     if (options.useFactory) {
       return {
@@ -154,7 +154,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
    * @param options Options for the asynchrnous OpenTelemetry module
    */
   private static createAsyncProviders(
-    options: OpenTelemetryModuleAsyncOptions,
+    options: OpenTelemetryModuleAsyncOptions
   ): Provider[] {
     if (options.useFactory || options.useExisting) {
       return [this.createAsyncOptionsProvider(options)];

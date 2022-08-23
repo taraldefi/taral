@@ -1,10 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import {
-  MemoryStoredFile,
-  NestjsFormDataModule,
-} from '@modules/multipart';
+import { MemoryStoredFile, NestjsFormDataModule } from '@modules/multipart';
 import { EntityController } from './legal-entities.controller';
 import { LegalEntity } from './models/legal-entity.entity';
 import { LegalProductEntity } from './models/legal-product.entity';
@@ -17,9 +14,9 @@ import { LogoService } from './services/logo.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        LegalEntity,
-        LegalProductEntity,
-        LegalApplicationEntity
+      LegalEntity,
+      LegalProductEntity,
+      LegalApplicationEntity,
     ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
@@ -29,7 +26,7 @@ import { LogoService } from './services/logo.service';
     ConfigService,
     EntityService,
     EntityMappingService,
-    LogoService
+    LogoService,
   ],
 })
 export class EntitiesModule {}

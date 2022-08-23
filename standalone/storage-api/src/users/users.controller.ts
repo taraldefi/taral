@@ -64,8 +64,8 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne({
       where: {
-        id: +id
-      }
+        id: +id,
+      },
     });
   }
 

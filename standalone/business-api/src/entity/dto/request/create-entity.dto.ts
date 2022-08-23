@@ -8,63 +8,61 @@ import {
 } from '@modules/multipart';
 
 export class CreateEntityDto {
-    @IsFile()
-    @MaxFileSize(100e6)
-    @HasMimeType(['image/png'])
-    @ApiProperty({
-      example: {
-        file: {
-          type: 'string',
-          format: 'binary',
-        },
+  @IsFile()
+  @MaxFileSize(100e6)
+  @HasMimeType(['image/png'])
+  @ApiProperty({
+    example: {
+      file: {
+        type: 'string',
+        format: 'binary',
       },
-    })
-    logo: MemoryStoredFile;
-  
-    
-    @ApiProperty({ example: 'Engelbrecht Ltd' })
-    @IsNotEmpty()
-    @IsString()
-    name: string;
+    },
+  })
+  logo: MemoryStoredFile;
 
-    @ApiProperty({ example: 'John Smith' })
-    @IsNotEmpty()
-    @IsString()
-    beneficialOwner: string;
+  @ApiProperty({ example: 'Engelbrecht Ltd' })
+  @IsNotEmpty()
+  @IsString()
+  name: string;
 
-    @ApiProperty({ example: '55-NB' })
-    @IsNotEmpty()
-    @IsString()
-    abbreviation: string;
+  @ApiProperty({ example: 'John Smith' })
+  @IsNotEmpty()
+  @IsString()
+  beneficialOwner: string;
 
-    @ApiProperty({ example: 'German' })
-    @IsNotEmpty()
-    @IsString()
-    nationality: string;
+  @ApiProperty({ example: '55-NB' })
+  @IsNotEmpty()
+  @IsString()
+  abbreviation: string;
 
-    @ApiProperty({ example: 'Berlin' })
-    @IsNotEmpty()
-    @IsString()
-    headquaters: string;
+  @ApiProperty({ example: 'German' })
+  @IsNotEmpty()
+  @IsString()
+  nationality: string;
 
-    @ApiProperty({ example: 'Information Technology' })
-    @IsNotEmpty()
-    @IsString()
-    industryType: string;
+  @ApiProperty({ example: 'Berlin' })
+  @IsNotEmpty()
+  @IsString()
+  headquaters: string;
 
-    @ApiProperty({ example: 'Software Development' })
-    @IsNotEmpty()
-    @IsString()
-    coreBusiness: string;
+  @ApiProperty({ example: 'Information Technology' })
+  @IsNotEmpty()
+  @IsString()
+  industryType: string;
 
-    @ApiProperty({ example: '12-12-2022' })
-    @IsNotEmpty()
-    @IsDateString()
-    incorporationDate: Date;
+  @ApiProperty({ example: 'Software Development' })
+  @IsNotEmpty()
+  @IsString()
+  coreBusiness: string;
 
-    @ApiProperty({ example: 'Limited' })
-    @IsNotEmpty()
-    @IsString()
-    legalForm: string;
-  }
-  
+  @ApiProperty({ example: '12-12-2022' })
+  @IsNotEmpty()
+  @IsDateString()
+  incorporationDate: Date;
+
+  @ApiProperty({ example: 'Limited' })
+  @IsNotEmpty()
+  @IsString()
+  legalForm: string;
+}

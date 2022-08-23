@@ -1,1 +1,1 @@
-export * from './opentelemetry-options.interface';
+export * from "./opentelemetry-options.interface";

@@ -1,8 +1,8 @@
-import 'reflect-metadata';
-import { SetMetadata } from '@nestjs/common';
-import { OtelInstanceCounter, OtelMethodCounter } from './common';
+import "reflect-metadata";
+import { SetMetadata } from "@nestjs/common";
+import { OtelInstanceCounter, OtelMethodCounter } from "./common";
 
-const TestDecoratorThatSetsMetadata = () => SetMetadata('some-metadata', true);
+const TestDecoratorThatSetsMetadata = () => SetMetadata("some-metadata", true);
 
 @OtelInstanceCounter()
 @TestDecoratorThatSetsMetadata()
@@ -12,28 +12,28 @@ class TestClass {
   method() {}
 }
 
-describe('OtelInstanceCounter', () => {
+describe("OtelInstanceCounter", () => {
   let instance: TestClass;
 
   beforeEach(() => {
     instance = new TestClass();
   });
 
-  it('should maintain reflect metadata', async () => {
-    expect(Reflect.getMetadata('some-metadata', instance.constructor)).toEqual(
-      true,
+  it("should maintain reflect metadata", async () => {
+    expect(Reflect.getMetadata("some-metadata", instance.constructor)).toEqual(
+      true
     );
   });
 });
 
-describe('OtelMethodCounter', () => {
+describe("OtelMethodCounter", () => {
   let instance: TestClass;
 
   beforeEach(() => {
     instance = new TestClass();
   });
 
-  it('should maintain reflect metadata', async () => {
-    expect(Reflect.getMetadata('some-metadata', instance.method)).toEqual(true);
+  it("should maintain reflect metadata", async () => {
+    expect(Reflect.getMetadata("some-metadata", instance.method)).toEqual(true);
   });
 });

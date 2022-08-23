@@ -1,1 +1,1 @@
-export * from './api-metrics.middleware';
+export * from "./api-metrics.middleware";

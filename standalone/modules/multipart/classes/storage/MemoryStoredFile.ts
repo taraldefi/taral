@@ -1,7 +1,7 @@
-import { plainToClass, Transform, TransformFnParams } from 'class-transformer';
-import { StoredFile } from './StoredFile';
-import { FormDataInterceptorConfig } from '../../interfaces/FormDataInterceptorConfig';
-const concat = require('concat-stream');
+import { plainToClass, Transform, TransformFnParams } from "class-transformer";
+import { StoredFile } from "./StoredFile";
+import { FormDataInterceptorConfig } from "../../interfaces/FormDataInterceptorConfig";
+const concat = require("concat-stream");
 
 export class MemoryStoredFile extends StoredFile {
   mimetype: string;
@@ -10,7 +10,7 @@ export class MemoryStoredFile extends StoredFile {
   size: number;
 
   @Transform((params: TransformFnParams) =>
-    params.value instanceof Buffer ? params.value : null,
+    params.value instanceof Buffer ? params.value : null
   )
   buffer: Buffer;
 
@@ -19,11 +19,11 @@ export class MemoryStoredFile extends StoredFile {
     encoding,
     mimetype,
     stream: NodeJS.ReadableStream,
-    config: FormDataInterceptorConfig,
+    config: FormDataInterceptorConfig
   ): Promise<MemoryStoredFile> {
     return new Promise<MemoryStoredFile>((res, rej) => {
       stream.pipe(
-        concat({ encoding: 'buffer' }, (buffer: Buffer) => {
+        concat({ encoding: "buffer" }, (buffer: Buffer) => {
           const file: MemoryStoredFile = plainToClass(MemoryStoredFile, {
             originalName,
             encoding,
@@ -33,7 +33,7 @@ export class MemoryStoredFile extends StoredFile {
           });
 
           res(file);
-        }),
+        })
       );
     });
   }

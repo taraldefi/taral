@@ -2,17 +2,17 @@ import {
   ValidateBy,
   ValidationArguments,
   ValidationOptions,
-} from 'class-validator';
-import { StoredFile } from '../../classes/storage/StoredFile';
-import { isFile } from './is-file.validator';
+} from "class-validator";
+import { StoredFile } from "../../classes/storage/StoredFile";
+import { isFile } from "./is-file.validator";
 
 export function MaxFileSize(
   maxSizeBytes: number,
-  validationOptions?: ValidationOptions,
+  validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return ValidateBy(
     {
-      name: 'MaxFileSize',
+      name: "MaxFileSize",
       constraints: [maxSizeBytes],
       validator: {
         validate(value: StoredFile, args: ValidationArguments) {
@@ -30,6 +30,6 @@ export function MaxFileSize(
         },
       },
     },
-    validationOptions,
+    validationOptions
   );
 }

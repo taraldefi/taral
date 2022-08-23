@@ -1,7 +1,7 @@
-import 'reflect-metadata';
-import { isEmpty } from './helpers';
-import { EVENT_EMITTER_NAME } from './constants';
-import { EventMetadata } from './metadata';
+import "reflect-metadata";
+import { isEmpty } from "./helpers";
+import { EVENT_EMITTER_NAME } from "./constants";
+import { EventMetadata } from "./metadata";
 
 export class EmitsEvent<T> {
   private data: any;

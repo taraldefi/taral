@@ -1,5 +1,5 @@
-import { StorageDriver } from './interfaces';
-import { Local, S3Storage } from './drivers';
+import { StorageDriver } from "./interfaces";
+import { Local, S3Storage } from "./drivers";
 
 export class DriverManager {
   private readonly driverMap: { [key: string]: any } = {

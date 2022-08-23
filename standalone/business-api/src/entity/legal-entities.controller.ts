@@ -1,10 +1,18 @@
-import { FormDataRequest, MemoryStoredFile } from "@modules/multipart";
-import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
-import { ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
-import { CreateEntityDto } from "./dto/request/create-entity.dto";
-import { UpdateEntityDto } from "./dto/request/update-entity.dto";
-import { GetEntityDetailsResponse } from "./dto/response/get-entity-details-response.dto";
-import { EntityService } from "./services/entity.service";
+import { FormDataRequest, MemoryStoredFile } from '@modules/multipart';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
+import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import { CreateEntityDto } from './dto/request/create-entity.dto';
+import { UpdateEntityDto } from './dto/request/update-entity.dto';
+import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
+import { EntityService } from './services/entity.service';
 
 @ApiTags('Entities')
 @Controller({
@@ -12,9 +20,7 @@ import { EntityService } from "./services/entity.service";
   version: '1',
 })
 export class EntityController {
-  constructor(
-    private readonly entityService: EntityService,
-  ) {}
+  constructor(private readonly entityService: EntityService) {}
 
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -28,54 +34,56 @@ export class EntityController {
 
         name: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         beneficialOwner: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         abbreviation: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         nationality: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         headquarters: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         industryType: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         coreBusiness: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         incorporationDate: {
           type: 'string',
-          format: 'date'
+          format: 'date',
         },
 
         legalForm: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
       },
     },
   })
   @FormDataRequest({ storage: MemoryStoredFile })
   @Post()
-  async createEntity( @Body() entity: CreateEntityDto ): Promise<GetEntityDetailsResponse> {
+  async createEntity(
+    @Body() entity: CreateEntityDto,
+  ): Promise<GetEntityDetailsResponse> {
     return await this.entityService.createEntity(entity);
   }
 
@@ -85,54 +93,56 @@ export class EntityController {
       properties: {
         name: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         beneficialOwner: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         abbreviation: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         nationality: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         headquarters: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         industryType: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         coreBusiness: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
 
         incorporationDate: {
           type: 'string',
-          format: 'date'
+          format: 'date',
         },
 
         legalForm: {
           type: 'string',
-          format: 'string'
+          format: 'string',
         },
       },
     },
   })
-
   @Patch('/:id')
-  async updateEntity(@Param('id') id,  @Body() entity: UpdateEntityDto): Promise<GetEntityDetailsResponse> {
+  async updateEntity(
+    @Param('id') id,
+    @Body() entity: UpdateEntityDto,
+  ): Promise<GetEntityDetailsResponse> {
     return await this.entityService.updateEntity(id, entity);
   }
 

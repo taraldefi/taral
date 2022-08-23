@@ -1,5 +1,5 @@
-import 'reflect-metadata';
-import { EVENT_EMITTER_NAME, EVENT_NAME } from './constants';
+import "reflect-metadata";
+import { EVENT_EMITTER_NAME, EVENT_NAME } from "./constants";
 
 export function Event(name: string) {
   return function (target: Function) {
@@ -11,7 +11,7 @@ export function ListensTo(event: string) {
   return function (
     target: Record<string, any>,
     propertyKey: string,
-    descriptor: PropertyDescriptor,
+    descriptor: PropertyDescriptor
   ) {
     Reflect.defineMetadata(EVENT_NAME, event, target, propertyKey);
   };

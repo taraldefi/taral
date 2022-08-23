@@ -1,8 +1,8 @@
-import { FormDataInterceptorConfig } from '../interfaces';
-import busboy from 'busboy';
-import appendField from 'append-field';
-import { BadRequestException } from '@nestjs/common';
-import { StoredFile } from './storage';
+import { FormDataInterceptorConfig } from "../interfaces";
+import busboy from "busboy";
+import appendField from "append-field";
+import { BadRequestException } from "@nestjs/common";
+import { StoredFile } from "./storage";
 
 export class FormReader {
   protected busboy: any;
@@ -21,33 +21,33 @@ export class FormReader {
       limits: config && config.limits ? config.limits : {},
     });
 
-    this.busboy.on('field', this.proceedField.bind(this));
+    this.busboy.on("field", this.proceedField.bind(this));
 
-    this.busboy.on('file', this.proceedFile.bind(this));
+    this.busboy.on("file", this.proceedFile.bind(this));
 
-    this.busboy.on('error', this.rejectWithError.bind(this));
+    this.busboy.on("error", this.rejectWithError.bind(this));
 
-    this.busboy.on('partsLimit', () =>
+    this.busboy.on("partsLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of parts is ${config.limits.parts}`,
-      ),
+        `Maximum number of parts is ${config.limits.parts}`
+      )
     );
-    this.busboy.on('filesLimit', () =>
+    this.busboy.on("filesLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of files is ${config.limits.files}`,
-      ),
+        `Maximum number of files is ${config.limits.files}`
+      )
     );
-    this.busboy.on('fieldsLimit', () =>
+    this.busboy.on("fieldsLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of fields is ${config.limits.fields}`,
-      ),
+        `Maximum number of fields is ${config.limits.fields}`
+      )
     );
-    this.busboy.on('fileSize', () =>
+    this.busboy.on("fileSize", () =>
       this.rejectWithBadRequest(
-        `Maximum file size is ${config.limits.fileSize}`,
-      ),
+        `Maximum file size is ${config.limits.fileSize}`
+      )
     );
-    this.busboy.on('finish', this.proceedFinish.bind(this));
+    this.busboy.on("finish", this.proceedFinish.bind(this));
   }
 
   handle(): Promise<any> {
@@ -66,7 +66,7 @@ export class FormReader {
     fieldName: string,
     value,
     fieldNameTruncated: boolean,
-    valueTruncated: boolean,
+    valueTruncated: boolean
   ): void {
     appendField(this.result, fieldName, value);
   }
@@ -74,7 +74,7 @@ export class FormReader {
   private proceedFile(
     fieldName: string,
     fileStream: NodeJS.ReadableStream,
-    info: any,
+    info: any
   ): void {
     const { filename, encoding, mimeType } = info;
 
@@ -87,11 +87,11 @@ export class FormReader {
       filename,
       encoding,
       mimeType,
-      fileStream,
+      fileStream
     )
       .then((f) => {
         if ((fileStream as any).truncated) {
-          this.busboy.emit('fileSize');
+          this.busboy.emit("fileSize");
         } else {
           this.files.push(f);
           appendField(this.result, fieldName, f);
@@ -122,7 +122,7 @@ export class FormReader {
   }
 
   private rejectWithError(err: any): void {
-    if (err?.message === 'Unexpected end of form') {
+    if (err?.message === "Unexpected end of form") {
       this.rejectWithBadRequest(err.message);
       return;
     }
@@ -135,14 +135,14 @@ export class FormReader {
     originalName: string,
     encoding: string,
     mimetype: string,
-    stream: NodeJS.ReadableStream,
+    stream: NodeJS.ReadableStream
   ): Promise<StoredFile> {
-    return await (this.config['storage'] as any).create(
+    return await (this.config["storage"] as any).create(
       originalName,
       encoding,
       mimetype,
       stream,
-      this.config,
+      this.config
     );
   }
 }

@@ -1,13 +1,13 @@
-import { DynamicModule, Module, Provider } from '@nestjs/common';
-import { FormDataInterceptor } from './interceptors/FormData.interceptor';
+import { DynamicModule, Module, Provider } from "@nestjs/common";
+import { FormDataInterceptor } from "./interceptors/FormData.interceptor";
 import {
   FormDataInterceptorConfig,
   NestjsFormDataAsyncOptions,
   NestjsFormDataConfigFactory,
-} from './interfaces';
-import { GLOBAL_CONFIG_INJECT_TOKEN } from './config/global-config-inject-token.config';
-import { DEFAULT_CONFIG } from './config/default.config';
-import { checkConfig } from './helpers/check-config';
+} from "./interfaces";
+import { GLOBAL_CONFIG_INJECT_TOKEN } from "./config/global-config-inject-token.config";
+import { DEFAULT_CONFIG } from "./config/default.config";
+import { checkConfig } from "./helpers/check-config";
 
 @Module({
   providers: [
@@ -41,7 +41,7 @@ export class NestjsFormDataModule {
   }
 
   private static createAsyncProviders(
-    options: NestjsFormDataAsyncOptions,
+    options: NestjsFormDataAsyncOptions
   ): Provider[] {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];

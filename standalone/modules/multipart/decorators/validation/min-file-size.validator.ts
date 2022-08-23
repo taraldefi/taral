@@ -2,17 +2,17 @@ import {
   ValidateBy,
   ValidationArguments,
   ValidationOptions,
-} from 'class-validator';
-import { StoredFile } from '../../classes/storage/StoredFile';
-import { isFile } from './is-file.validator';
+} from "class-validator";
+import { StoredFile } from "../../classes/storage/StoredFile";
+import { isFile } from "./is-file.validator";
 
 export function MinFileSize(
   minSizeBytes: number,
-  validationOptions?: ValidationOptions,
+  validationOptions?: ValidationOptions
 ) {
   return ValidateBy(
     {
-      name: 'MinFileSize',
+      name: "MinFileSize",
       constraints: [minSizeBytes],
       validator: {
         validate(value: StoredFile, args: ValidationArguments) {
@@ -30,6 +30,6 @@ export function MinFileSize(
         },
       },
     },
-    validationOptions,
+    validationOptions
   );
 }

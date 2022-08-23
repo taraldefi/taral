@@ -1,4 +1,4 @@
-import { Options, wrapInTransaction } from './wrapInTransaction';
+import { Options, wrapInTransaction } from "./wrapInTransaction";
 
 /**
  * Used to declare a Transaction operation. In order to use it, you must use {@link BaseRepository} custom repository in order to use the Transactional decorator
@@ -10,7 +10,7 @@ export function Transactional(options?: Options): MethodDecorator {
   return (
     target: any,
     methodName: string | symbol,
-    descriptor: TypedPropertyDescriptor<any>,
+    descriptor: TypedPropertyDescriptor<any>
   ) => {
     const originalMethod = descriptor.value;
     descriptor.value = wrapInTransaction(originalMethod, {
@@ -21,16 +21,16 @@ export function Transactional(options?: Options): MethodDecorator {
     Reflect.getMetadataKeys(originalMethod).forEach((previousMetadataKey) => {
       const previousMetadata = Reflect.getMetadata(
         previousMetadataKey,
-        originalMethod,
+        originalMethod
       );
       Reflect.defineMetadata(
         previousMetadataKey,
         previousMetadata,
-        descriptor.value,
+        descriptor.value
       );
     });
 
-    Object.defineProperty(descriptor.value, 'name', {
+    Object.defineProperty(descriptor.value, "name", {
       value: originalMethod.name,
       writable: false,
     });

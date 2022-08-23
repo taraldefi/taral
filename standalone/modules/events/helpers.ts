@@ -1,4 +1,4 @@
-import { EmitsEvent } from './event';
+import { EmitsEvent } from "./event";
 
 /**
  * Check if value is of type object.
@@ -6,7 +6,7 @@ import { EmitsEvent } from './event';
  * @param value
  */
 export function isObject(value: any): boolean {
-  if (typeof value === 'object' && value !== null) {
+  if (typeof value === "object" && value !== null) {
     return true;
   }
   return false;
@@ -35,7 +35,7 @@ export function isEmpty(value: any): boolean {
 
 export async function EmitEvent<T>(
   event: EmitsEvent<T>,
-  data: T,
+  data: T
 ): Promise<void> {
   await event.emit(data);
   return;

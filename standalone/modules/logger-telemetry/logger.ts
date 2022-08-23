@@ -1,9 +1,9 @@
-import Pino, { Logger } from 'pino';
-import { LoggerOptions, destination } from 'pino';
-import { trace, context } from '@opentelemetry/api';
+import Pino, { Logger } from "pino";
+import { LoggerOptions, destination } from "pino";
+import { trace, context } from "@opentelemetry/api";
 
 export const loggerOptions: LoggerOptions = {
-  level: 'info',
+  level: "info",
   formatters: {
     level(label) {
       return { level: label };
@@ -18,7 +18,7 @@ export const loggerOptions: LoggerOptions = {
     },
   },
   prettyPrint:
-    process.env.NODE_ENV === 'local'
+    process.env.NODE_ENV === "local"
       ? {
           colorize: true,
           levelFirst: true,
@@ -29,5 +29,5 @@ export const loggerOptions: LoggerOptions = {
 
 export const logger: Logger = Pino(
   loggerOptions,
-  destination(process.env.LOG_FILE_NAME),
+  destination(process.env.LOG_FILE_NAME)
 );

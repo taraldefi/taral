@@ -1,6 +1,6 @@
-import { ModuleMetadata, Type, Abstract } from '@nestjs/common';
-import { Attributes } from '@opentelemetry/api-metrics';
-import { RouteInfo } from '@nestjs/common/interfaces';
+import { ModuleMetadata, Type, Abstract } from "@nestjs/common";
+import { Attributes } from "@opentelemetry/api-metrics";
+import { RouteInfo } from "@nestjs/common/interfaces";
 
 export type OpenTelemetryModuleOptions = {
   /**
@@ -21,7 +21,7 @@ export interface OpenTelemetryOptionsFactory {
  * @publicApi
  */
 export interface OpenTelemetryModuleAsyncOptions
-  extends Pick<ModuleMetadata, 'imports'> {
+  extends Pick<ModuleMetadata, "imports"> {
   /**
    * The name of the module
    */

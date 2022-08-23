@@ -5,10 +5,10 @@ import {
   StorageDriver$FileMetadataResponse,
   StorageDriver$PutFileResponse,
   StorageDriver$RenameFileResponse,
-} from '../interfaces';
-import { S3, SharedIniFileCredentials } from 'aws-sdk';
-import { getMimeFromExtension } from '../helpers';
-import { HeadObjectRequest, PutObjectRequest } from 'aws-sdk/clients/s3';
+} from "../interfaces";
+import { S3, SharedIniFileCredentials } from "aws-sdk";
+import { getMimeFromExtension } from "../helpers";
+import { HeadObjectRequest, PutObjectRequest } from "aws-sdk/clients/s3";
 
 export class S3Storage implements StorageDriver {
   private readonly disk: string;
@@ -19,12 +19,12 @@ export class S3Storage implements StorageDriver {
     this.disk = disk;
     this.config = config;
     const options = {
-      signatureVersion: 'v4',
+      signatureVersion: "v4",
       region: this.config.region,
     } as Record<string, any>;
 
     if (config.profile) {
-      options['credentials'] = new SharedIniFileCredentials({
+      options["credentials"] = new SharedIniFileCredentials({
         profile: config.profile,
       });
     }
@@ -41,7 +41,7 @@ export class S3Storage implements StorageDriver {
   async put(
     path: string,
     fileContent: any,
-    options?: FileOptions,
+    options?: FileOptions
   ): Promise<StorageDriver$PutFileResponse> {
     const { mimeType } = options || {};
     let params = {
@@ -66,7 +66,7 @@ export class S3Storage implements StorageDriver {
       Expires: 60 * expireInMinutes,
     };
 
-    const signedUrl = this.client.getSignedUrl('getObject', params);
+    const signedUrl = this.client.getSignedUrl("getObject", params);
 
     return signedUrl;
   }
@@ -78,7 +78,7 @@ export class S3Storage implements StorageDriver {
    */
   async get(path: string): Promise<Buffer | null> {
     try {
-      const params = { Bucket: this.config.bucket || '', Key: path };
+      const params = { Bucket: this.config.bucket || "", Key: path };
       const res = await this.client.getObject(params).promise();
       return res.Body as Buffer;
     } catch (e) {
@@ -137,7 +137,7 @@ export class S3Storage implements StorageDriver {
    * @param path
    */
   url(path: string): string {
-    const url = this.signedUrl(path, 20).split('?')[0];
+    const url = this.signedUrl(path, 20).split("?")[0];
     return url;
   }
 
@@ -147,7 +147,7 @@ export class S3Storage implements StorageDriver {
    * @param path
    */
   async delete(path: string): Promise<boolean> {
-    const params = { Bucket: this.config.bucket || '', Key: path };
+    const params = { Bucket: this.config.bucket || "", Key: path };
     try {
       await this.client.deleteObject(params).promise();
       return true;
@@ -164,12 +164,12 @@ export class S3Storage implements StorageDriver {
    */
   async copy(
     path: string,
-    newPath: string,
+    newPath: string
   ): Promise<StorageDriver$RenameFileResponse> {
     this.client
       .copyObject({
-        Bucket: this.config.bucket || '',
-        CopySource: this.config.bucket + '/' + path,
+        Bucket: this.config.bucket || "",
+        CopySource: this.config.bucket + "/" + path,
         Key: newPath,
       })
       .promise();
@@ -184,7 +184,7 @@ export class S3Storage implements StorageDriver {
    */
   async move(
     path: string,
-    newPath: string,
+    newPath: string
   ): Promise<StorageDriver$RenameFileResponse> {
     await this.copy(path, newPath);
     await this.delete(path);

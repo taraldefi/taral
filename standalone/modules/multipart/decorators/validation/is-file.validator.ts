@@ -2,19 +2,19 @@ import {
   ValidateBy,
   ValidationArguments,
   ValidationOptions,
-} from 'class-validator';
-import { StoredFile } from '../../classes/storage/StoredFile';
+} from "class-validator";
+import { StoredFile } from "../../classes/storage/StoredFile";
 
 export function isFile(value: any): boolean {
   return value && value instanceof StoredFile;
 }
 
 export function IsFile(
-  validationOptions?: ValidationOptions,
+  validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return ValidateBy(
     {
-      name: 'IsFile',
+      name: "IsFile",
       constraints: [],
       validator: {
         validate(value: any, args: ValidationArguments) {
@@ -26,6 +26,6 @@ export function IsFile(
         },
       },
     },
-    validationOptions,
+    validationOptions
   );
 }

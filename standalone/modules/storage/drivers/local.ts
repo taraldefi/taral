@@ -4,9 +4,9 @@ import {
   StorageDriver$FileMetadataResponse,
   StorageDriver$PutFileResponse,
   StorageDriver$RenameFileResponse,
-} from '../interfaces';
-import { join } from 'path';
-import * as fs from 'fs-extra';
+} from "../interfaces";
+import { join } from "path";
+import * as fs from "fs-extra";
 
 export class Local implements StorageDriver {
   constructor(private disk: string, private config: DiskOptions) {}
@@ -19,13 +19,13 @@ export class Local implements StorageDriver {
    */
   async put(
     filePath: string,
-    fileContent: any,
+    fileContent: any
   ): Promise<StorageDriver$PutFileResponse> {
     const res = await fs.outputFile(
-      join(this.config.basePath || '', filePath),
-      fileContent,
+      join(this.config.basePath || "", filePath),
+      fileContent
     );
-    return { path: join(this.config.basePath || '', filePath), url: '' };
+    return { path: join(this.config.basePath || "", filePath), url: "" };
   }
 
   /**
@@ -34,7 +34,7 @@ export class Local implements StorageDriver {
    * @param path
    */
   async get(filePath: string): Promise<Buffer> {
-    const res = await fs.readFile(join(this.config.basePath || '', filePath));
+    const res = await fs.readFile(join(this.config.basePath || "", filePath));
     return res;
   }
 
@@ -43,7 +43,7 @@ export class Local implements StorageDriver {
    * @param path
    */
   async meta(filePath: string): Promise<StorageDriver$FileMetadataResponse> {
-    const path = join(this.config.basePath || '', filePath);
+    const path = join(this.config.basePath || "", filePath);
     const res = await fs.stat(path);
     return {
       path,
@@ -57,7 +57,7 @@ export class Local implements StorageDriver {
    * @param path
    */
   signedUrl(filePath: string, expire = 10): string {
-    return '';
+    return "";
   }
 
   /**
@@ -66,7 +66,7 @@ export class Local implements StorageDriver {
    * @param path
    */
   async exists(filePath: string): Promise<boolean> {
-    return fs.pathExists(join(this.config.basePath || '', filePath));
+    return fs.pathExists(join(this.config.basePath || "", filePath));
   }
 
   /**
@@ -84,11 +84,11 @@ export class Local implements StorageDriver {
    * @param path
    */
   url(fileName: string) {
-    if (this.config.hasOwnProperty('baseUrl')) {
-      const filePath = join('public', fileName);
+    if (this.config.hasOwnProperty("baseUrl")) {
+      const filePath = join("public", fileName);
       return `${this.config.basePath}/${filePath}`;
     } else {
-      return '';
+      return "";
     }
   }
 
@@ -99,7 +99,7 @@ export class Local implements StorageDriver {
    */
   async delete(filePath: string): Promise<boolean> {
     try {
-      await fs.remove(join(this.config.basePath || '', filePath));
+      await fs.remove(join(this.config.basePath || "", filePath));
     } catch (e) {}
     return true;
   }
@@ -112,15 +112,15 @@ export class Local implements StorageDriver {
    */
   async copy(
     path: string,
-    newPath: string,
+    newPath: string
   ): Promise<StorageDriver$RenameFileResponse> {
     const res = await fs.copy(
-      join(this.config.basePath || '', path),
-      join(this.config.basePath || '', newPath),
-      { overwrite: true },
+      join(this.config.basePath || "", path),
+      join(this.config.basePath || "", newPath),
+      { overwrite: true }
     );
     return {
-      path: join(this.config.basePath || '', newPath),
+      path: join(this.config.basePath || "", newPath),
       url: this.url(newPath),
     };
   }
@@ -133,12 +133,12 @@ export class Local implements StorageDriver {
    */
   async move(
     path: string,
-    newPath: string,
+    newPath: string
   ): Promise<StorageDriver$RenameFileResponse> {
     await this.copy(path, newPath);
     await this.delete(path);
     return {
-      path: join(this.config.basePath || '', newPath),
+      path: join(this.config.basePath || "", newPath),
       url: this.url(newPath),
     };
   }

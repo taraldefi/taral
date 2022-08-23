@@ -1,5 +1,5 @@
-import { StoredFile } from '../classes/storage';
-import { Type } from '@nestjs/common';
+import { StoredFile } from "../classes/storage";
+import { Type } from "@nestjs/common";
 
 export interface FormDataInterceptorConfig {
   storage?: Type<StoredFile>;

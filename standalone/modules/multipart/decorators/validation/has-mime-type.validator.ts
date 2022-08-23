@@ -2,17 +2,17 @@ import {
   ValidateBy,
   ValidationArguments,
   ValidationOptions,
-} from 'class-validator';
-import { StoredFile } from '../../classes/storage/StoredFile';
-import { isFile } from './is-file.validator';
+} from "class-validator";
+import { StoredFile } from "../../classes/storage/StoredFile";
+import { isFile } from "./is-file.validator";
 
 export function HasMimeType(
   allowedMimeTypes: string[],
-  validationOptions?: ValidationOptions,
+  validationOptions?: ValidationOptions
 ): PropertyDecorator {
   return ValidateBy(
     {
-      name: 'HasMimeType',
+      name: "HasMimeType",
       constraints: [allowedMimeTypes],
       validator: {
         validate(value: StoredFile, args: ValidationArguments) {
@@ -29,11 +29,11 @@ export function HasMimeType(
           const allowedMimeTypes: string[] =
             validationArguments.constraints[0] || [];
           return `File must be of one of the types ${allowedMimeTypes.join(
-            ', ',
+            ", "
           )}`;
         },
       },
     },
-    validationOptions,
+    validationOptions
   );
 }

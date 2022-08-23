@@ -1,6 +1,6 @@
-import { DynamicModule, Global, Module } from '@nestjs/common';
-import { DiscoveryModule } from '@nestjs/core';
-import { EventExplorer } from './explorer';
+import { DynamicModule, Global, Module } from "@nestjs/common";
+import { DiscoveryModule } from "@nestjs/core";
+import { EventExplorer } from "./explorer";
 
 @Global()
 @Module({

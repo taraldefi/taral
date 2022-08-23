@@ -1,6 +1,6 @@
-import { Counter, MetricOptions } from '@opentelemetry/api-metrics';
-import { copyMetadataFromFunctionToFunction } from '../../opentelemetry.utils';
-import { getOrCreateCounter } from '../metric-data';
+import { Counter, MetricOptions } from "@opentelemetry/api-metrics";
+import { copyMetadataFromFunctionToFunction } from "../../opentelemetry.utils";
+import { getOrCreateCounter } from "../metric-data";
 
 /**
  * Create and increment a counter when a new instance is created
@@ -38,7 +38,7 @@ export const OtelMethodCounter =
   (
     target: Object,
     propertyKey: string | symbol,
-    descriptor: TypedPropertyDescriptor<(...args: any[]) => any>,
+    descriptor: TypedPropertyDescriptor<(...args: any[]) => any>
   ) => {
     const className = target.constructor.name;
     const name = `app_${className}_${propertyKey.toString()}_calls_total`;

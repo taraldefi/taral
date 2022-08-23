@@ -18,12 +18,7 @@ import { EntitiesModule } from './entity/entity.module';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [
-        databaseConfig,
-        appConfig,
-        mailConfig,
-        fileConfig,
-      ],
+      load: [databaseConfig, appConfig, mailConfig, fileConfig],
       envFilePath: ['.env'],
     }),
     TypeOrmModule.forRootAsync({
@@ -43,7 +38,7 @@ import { EntitiesModule } from './entity/entity.module';
     EventModule,
     StorageModule,
     LoggerModule,
-    EntitiesModule
+    EntitiesModule,
   ],
 })
 export class AppModule {}
