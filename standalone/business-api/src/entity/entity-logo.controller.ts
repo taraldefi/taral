@@ -15,7 +15,7 @@ export class EntityLogoController {
 
 
     @ApiFileResponse('image/png')
-    @Get('details/:id')
+    @Get('/:id')
     public async getLogo(@Param('id') id, @Res({ passthrough: true }) response) {
         const file = await this.logoService.getLogoByName(id);
 

@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDateString, IsNotEmpty, IsString } from 'class-validator';
+import { IsDateString, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import {
   HasMimeType,
   IsFile,
@@ -11,46 +11,47 @@ export class UpdateEntityDto {
 
     @ApiProperty({ example: 'Engelbrecht Ltd' })
     @IsString()
+    @IsOptional()
     name?: string;
 
     @ApiProperty({ example: 'John Smith' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     beneficialOwner?: string;
 
     @ApiProperty({ example: '55-NB' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     abbreviation?: string;
 
     @ApiProperty({ example: 'German' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     nationality?: string;
 
     @ApiProperty({ example: 'Berlin' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     headquaters?: string;
 
     @ApiProperty({ example: 'Information Technology' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     industryType?: string;
 
     @ApiProperty({ example: 'Software Development' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     coreBusiness?: string;
 
     @ApiProperty({ example: '12-12-2022' })
-    @IsNotEmpty()
     @IsDateString()
+    @IsOptional()
     incorporationDate?: Date;
 
     @ApiProperty({ example: 'Limited' })
-    @IsNotEmpty()
     @IsString()
+    @IsOptional()
     legalForm?: string;
   }
   

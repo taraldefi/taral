@@ -1,5 +1,5 @@
 import { FormDataRequest, MemoryStoredFile } from "@modules/multipart";
-import { Body, Controller, Delete, Param, Post } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post } from "@nestjs/common";
 import { ApiBody, ApiConsumes, ApiTags } from "@nestjs/swagger";
 import { CreateEntityDto } from "./dto/request/create-entity.dto";
 import { UpdateEntityDto } from "./dto/request/update-entity.dto";
@@ -74,7 +74,7 @@ export class EntityController {
     },
   })
   @FormDataRequest({ storage: MemoryStoredFile })
-  @Post('create')
+  @Post()
   async createEntity( @Body() entity: CreateEntityDto ): Promise<GetEntityDetailsResponse> {
     return await this.entityService.createEntity(entity);
   }
@@ -131,13 +131,18 @@ export class EntityController {
     },
   })
 
-  @Post('update/:id')
+  @Patch('/:id')
   async updateEntity(@Param('id') id,  @Body() entity: UpdateEntityDto): Promise<GetEntityDetailsResponse> {
     return await this.entityService.updateEntity(id, entity);
   }
 
-  @Delete('delete/:id')
+  @Delete('/:id')
   async deleteEntity(@Param('id') id) {
     await this.entityService.deleteEntity(id);
+  }
+
+  @Get('/:id')
+  async getEntity(@Param('id') id) {
+    return await this.entityService.getEntity(id);
   }
 }

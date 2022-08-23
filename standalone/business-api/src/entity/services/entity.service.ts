@@ -49,7 +49,7 @@ export class EntityService {
     public async getEntity(id: string): Promise<GetEntityDetailsResponse> {
         if (!id) throw triggerError('missing-entity-id');
 
-        const entity = await this.entityRepository.findOneOrFail({
+        const entity = await this.entityRepository.findOne({
             relations: ['legalProducts', 'legalApplications'],
             where: { id: id },
         });
