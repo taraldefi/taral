@@ -43,7 +43,7 @@ export class EntityService {
 
         if (!entity) throw triggerError('entity-not-found');
 
-        
+        await this.entityRepository.delete({ id: id });
     }
 
     public async getEntity(id: string): Promise<GetEntityDetailsResponse> {
