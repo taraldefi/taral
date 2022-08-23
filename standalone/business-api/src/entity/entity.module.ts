@@ -11,6 +11,7 @@ import { LegalProductEntity } from './models/legal-product.entity';
 import { LegalApplicationEntity } from './models/legal-application.entity';
 import { EntityService } from './services/entity.service';
 import { EntityMappingService } from './services/mapping.service';
+import { EntityLogoController } from './entity-logo.controller';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { EntityMappingService } from './services/mapping.service';
     ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
-  controllers: [EntityController],
+  controllers: [EntityController, EntityLogoController],
   providers: [
     ConfigModule,
     ConfigService,
