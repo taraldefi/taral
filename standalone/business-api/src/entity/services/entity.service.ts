@@ -33,6 +33,19 @@ export class EntityService {
 
     }
 
+    public async getEntity(id: string): Promise<GetEntityDetailsResponse> {
+        if (!id) throw triggerError('missing-entity-id');
+
+        const entity = await this.entityRepository.findOneOrFail({
+            relations: ['legalProducts', 'legalApplications'],
+            where: { id: id },
+        });
+
+        if (!entity) throw triggerError('entity-not-found');
+
+        return this.mappingService.mapEntityDetails(entity);
+    }
+
     @Transactional()
     public async updateEntity(id: string, data: UpdateEntityDto): Promise<GetEntityDetailsResponse> {
         runOnTransactionRollback((cb) =>
