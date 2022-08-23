@@ -17,8 +17,6 @@ export class LegalApplicationEntity extends EntityHelper {
     @Allow()
     issuanceDate: Date;
         
-    @ManyToOne(() => LegalEntity, {
-        eager: true,
-    })
+    @ManyToOne(() => LegalEntity, { eager: true, cascade: true, onDelete: "CASCADE" })
     legalEntity: LegalEntity;
 }

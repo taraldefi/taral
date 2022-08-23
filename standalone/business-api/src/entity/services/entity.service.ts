@@ -33,6 +33,19 @@ export class EntityService {
 
     }
 
+    public async deleteEntity(id: string): Promise<void> {
+        if (!id) throw triggerError('missing-entity-id');
+
+        const entity = await this.entityRepository.findOneOrFail({
+            relations: ['legalProducts', 'legalApplications'],
+            where: { id: id },
+        });
+
+        if (!entity) throw triggerError('entity-not-found');
+
+        
+    }
+
     public async getEntity(id: string): Promise<GetEntityDetailsResponse> {
         if (!id) throw triggerError('missing-entity-id');
 

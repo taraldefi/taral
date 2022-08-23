@@ -27,8 +27,6 @@ export class LegalProductEntity extends EntityHelper {
     amount: number;
 
         
-    @ManyToOne(() => LegalEntity, {
-        eager: true,
-    })
+    @ManyToOne(() => LegalEntity, { eager: true, cascade: true, onDelete: "CASCADE" })
     legalEntity: LegalEntity;
 }
