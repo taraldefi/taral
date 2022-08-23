@@ -27,4 +27,4 @@ import { EntityService } from './services/entity.service';
     EntityService,
   ],
 })
-export class FilesModule {}
+export class EntitiesModule {}

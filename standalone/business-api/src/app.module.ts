@@ -12,6 +12,7 @@ import { HomeModule } from './home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
 import { LoggerModule } from 'nestjs-pino';
+import { EntitiesModule } from './entity/entity.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { LoggerModule } from 'nestjs-pino';
     EventModule,
     StorageModule,
     LoggerModule,
+    EntitiesModule
   ],
 })
 export class AppModule {}
