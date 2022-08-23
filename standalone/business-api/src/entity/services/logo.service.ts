@@ -11,8 +11,6 @@ export class LogoService {
 
     let fileName = id.endsWith('.png') ? id : `${id}.png`;
 
-    console.log('Filename ', fileName);
-
     const storage = Storage.disk('files');
 
     var buffer = await storage.get(fileName);

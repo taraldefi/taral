@@ -6,14 +6,10 @@ import { AppModule } from './app.module';
 import { initializeTransactionalContext } from '@modules/transaction';
 import validationOptions from './utils/validation-options';
 
-// import otelSDK from './tracing';
-
 async function bootstrap() {
   require('tsconfig-paths/register');
 
   initializeTransactionalContext(); // Initialize cls-hooked
-  //TODO: when we want telemetry enabled - enable this line:
-  // await otelSDK.start();
   const app = await NestFactory.create(AppModule, { cors: true });
   const configService = app.get(ConfigService);
 
