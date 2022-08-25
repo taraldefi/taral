@@ -11,7 +11,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "@stacks/network": "^4.2.0",
+    "@stacks/network": "^4.3.5",
     "@stacks/transactions": "^4.2.0"
   }
 }

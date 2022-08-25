@@ -2627,10 +2627,10 @@
     socket.io-client "4.4.0"
     ws "7.5.6"
 
-"@stacks/common@^4.2.0", "@stacks/common@^4.3.2", "@stacks/common@^4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-4.3.4.tgz#8cde469bad561a67d7a6efa5de34a8b08cfbe81b"
-  integrity sha512-YJi5x0qOH1N5mwFGFVsXnfimMxc0+wozlbGzUFtY/FbvoZGq9LWGCXK1pnBiLYbIAn9983O7Pq9v4xfSEDvUFA==
+"@stacks/common@^4.2.0", "@stacks/common@^4.3.2", "@stacks/common@^4.3.4", "@stacks/common@^4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-4.3.5.tgz#8115100f6d0bd29b66ddb2ce0e7e034ddee92115"
+  integrity sha512-UuViiQ7fn3vdtTe3739aRzbl+wbukekeQuXgqt8d7nB2HC2HodD7GcHhpUga165cO35CD6lQUtj3vXxJb5Ga+A==
   dependencies:
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
@@ -2681,12 +2681,12 @@
     "@stacks/common" "^4.3.2"
     cross-fetch "^3.1.5"
 
-"@stacks/network@^4.2.0", "@stacks/network@^4.3.2", "@stacks/network@^4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.3.4.tgz#d3519915a2163db67b639b4eb976fb13f1d0cf0e"
-  integrity sha512-XWIYSBEzmBVCEh12cxpiRXVx4JTuejvBRLCA3qnb4Sf0WMCaQ9HxpjcoIjawMv0U3sd1O5H+9LmoozSOL3t4Wg==
+"@stacks/network@^4.2.0", "@stacks/network@^4.3.2", "@stacks/network@^4.3.4", "@stacks/network@^4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-4.3.5.tgz#9e902fa9fab24abce0c09dd91d6c165d617e63d8"
+  integrity sha512-TC4+AkuT6qi3MoEGxTftA+4BNp99QvGnI+qtKQkoA1m0KDr8b9hSBUhugJHRhQbWuo7D6q0+JagYEGxLID29Kw==
   dependencies:
-    "@stacks/common" "^4.3.4"
+    "@stacks/common" "^4.3.5"
     cross-fetch "^3.1.5"
 
 "@stacks/prettier-config@0.0.8":
