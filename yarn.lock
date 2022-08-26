@@ -2777,15 +2777,15 @@
     readable-stream "^3.6.0"
     url "^0.11.0"
 
-"@stacks/encryption@^4.2.0", "@stacks/encryption@^4.3.2", "@stacks/encryption@^4.3.4":
-  version "4.3.4"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-4.3.4.tgz#6adc9bd5e0e2716aadbe6832f07ccaf5dcd8c3be"
-  integrity sha512-c7LG82CPxEGBYDeyws+aOkP+HZm3rG+w1CLXZHWjO5i76wsqyRDsgrLeoUqs55ClMsPzi8g6CmI065WlyJxuYA==
+"@stacks/encryption@^4.2.0", "@stacks/encryption@^4.3.2", "@stacks/encryption@^4.3.5":
+  version "4.3.5"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-4.3.5.tgz#f754c07673f36cb3b72b106497b1e894c5ae2e9e"
+  integrity sha512-s7fPwGLHQc/4SMFq7W75wt5xNqUJcciDkyxSEA30I+ukFSjLlZnmxI91ElWD15MRq/oKNHBlS0URF0N37dEe1A==
   dependencies:
     "@noble/hashes" "^1.0.0"
     "@noble/secp256k1" "^1.5.5"
     "@scure/bip39" "^1.1.0"
-    "@stacks/common" "^4.3.4"
+    "@stacks/common" "^4.3.5"
     "@types/node" "^18.0.4"
     bs58 "^5.0.0"
     ripemd160-min "^0.0.6"
