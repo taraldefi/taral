@@ -24,7 +24,7 @@
     "@types/sha.js": "^2.4.0",
     "ripemd160": "^2.0.1",
     "sha.js": "^2.4.0",
-    "c32check": "^1.1.2",
+    "c32check": "^2.0.0",
     "elliptic": "6.5.4",
     "@stacks/encryption": "^4.3.4",
     "taral-configuration": "1.0.0",
