@@ -8,7 +8,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "@ltd/j-toml": "^1.33.3",
+    "@ltd/j-toml": "^1.34.0",
     "@types/bluebird": "^3.5.36",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "18.7.13",
