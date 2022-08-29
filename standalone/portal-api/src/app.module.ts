@@ -25,6 +25,7 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
+import { RatingsModule } from './modules/rating/ratings.module';
 
 @Module({
   imports: [
@@ -73,7 +74,8 @@ import { FilesModule } from './modules/files/files.module';
     EntitiesModule,
     CompaniesModule,
     FinancialsModule,
-    FilesModule
+    FilesModule,
+    RatingsModule
   ],
 })
 export class AppModule {}
