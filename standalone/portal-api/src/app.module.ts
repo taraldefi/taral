@@ -14,6 +14,7 @@ import { StorageModule } from '@modules/storage';
 import { LoggerModule } from 'nestjs-pino';
 import { EntitiesModule } from './modules/entity/entity.module';
 import { CompaniesModule } from './modules/company/company.module';
+import { FinancialsModule } from './modules/financial/financials.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { CompaniesModule } from './modules/company/company.module';
     StorageModule,
     LoggerModule,
     EntitiesModule,
-    CompaniesModule
+    CompaniesModule,
+    FinancialsModule
   ],
 })
 export class AppModule {}
