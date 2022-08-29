@@ -12,7 +12,7 @@ import { HomeModule } from './home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
 import { LoggerModule } from 'nestjs-pino';
-import { EntitiesModule } from './entity/entity.module';
+import { EntitiesModule } from './modules/entity/entity.module';
 
 @Module({
   imports: [
