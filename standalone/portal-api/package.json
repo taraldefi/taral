@@ -1,5 +1,5 @@
 {
-  "name": "taral-business-api",
+  "name": "taral-portal-api",
   "version": "0.0.1",
   "description": "",
   "author": "Cioclea Doru <cioclea.doru@gmail.com>",
@@ -20,9 +20,9 @@
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
-    "start:dev": "nest start --watch --entryFile ./business-api/src/main",
-    "start:debug": "nest start --debug --watch --entryFile ./business-api/src/main",
-    "start:prod": "node business-api/src/main",
+    "start:dev": "nest start --watch --entryFile ./portal-api/src/main",
+    "start:debug": "nest start --debug --watch --entryFile ./portal-api/src/main",
+    "start:prod": "node portal-api/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "dependencies": {
