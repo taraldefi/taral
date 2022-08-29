@@ -1,6 +1,7 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { CompanyAddressEntity } from './company.address';
 
 @Entity({ name: 'Companies' })
 export class CompanyEntity extends EntityHelper {
@@ -26,4 +27,8 @@ export class CompanyEntity extends EntityHelper {
   @Column()
   @Allow()
   registrationNumbers: string;
+
+  @OneToOne(() => CompanyAddressEntity, (address) => address.company)
+  @JoinColumn()
+  address: CompanyAddressEntity;
 }
