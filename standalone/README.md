@@ -6,9 +6,9 @@ These applications are meant to be ran/opened in vscode in their respective dire
 
 Please find the documentation [here](docs/StorageApi.md)
 
-## Business API
+## Portal API
 
-Please find the documentation [here](docs/BusinessApi.md)
+Please find the documentation [here](docs/PortalApi.md)
 
 ## Insomnia collections
 

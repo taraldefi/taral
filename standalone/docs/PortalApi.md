@@ -1,13 +1,13 @@
-## Business API
+## Portal API
 
-The business API backend contains functionality for the Taral frontend. 
+The portal API backend contains functionality for the Taral frontend. 
 
-As development progresses, one can find an insomnia collection in `/insomnia/taral-business-api.json`. This collection can be imported and used to interact with the business api. 
+As development progresses, one can find an insomnia collection in `/insomnia/taral-portal-api.json`. This collection can be imported and used to interact with the business api. 
 
 ## Comfortable development
 
 ```bash
-cd standalone/business-api/
+cd standalone/portal-api/
 cp env-example .env
 ```
 
