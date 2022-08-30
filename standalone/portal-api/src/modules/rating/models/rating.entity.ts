@@ -19,5 +19,4 @@ export class RatingEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   issuanceDate: Date;
-
 }
