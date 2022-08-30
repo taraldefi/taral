@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { CompanyEntity } from 'src/modules/company/models/company.entity';
 import { FinancialInformationEntity } from 'src/modules/financial/models/financial.info.entity';
-import { RatingEntity } from 'src/modules/rating/models/rating.entity';
+import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -20,8 +20,8 @@ export class SupplierEntity extends EntityHelper {
   @Allow()
   financials: FinancialInformationEntity;
 
-  @OneToOne(() => RatingEntity, (rating) => rating.supplier)
+  @OneToOne(() => SupplierRatingEntity, (rating) => rating.supplier)
   @JoinColumn()
   @Allow()
-  rating: RatingEntity;
+  rating: SupplierRatingEntity;
 }

@@ -1,9 +1,9 @@
 import { Allow } from 'class-validator';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from 'typeorm';
 
 @Entity({ name: 'ExternalRatings' })
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class RatingEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -20,10 +20,4 @@ export class RatingEntity extends EntityHelper {
   @Allow()
   issuanceDate: Date;
 
-  @OneToOne(() => SupplierEntity, (supplier) => supplier.rating, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
-  supplier: SupplierEntity; 
 }
