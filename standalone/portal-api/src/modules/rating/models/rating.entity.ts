@@ -1,6 +1,7 @@
 import { Allow } from 'class-validator';
+import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'ExternalRatings' })
 export class RatingEntity extends EntityHelper {
@@ -18,4 +19,11 @@ export class RatingEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   issuanceDate: Date;
+
+  @OneToOne(() => SupplierEntity, (supplier) => supplier.rating, {
+    eager: true,
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
+  supplier: SupplierEntity; 
 }
