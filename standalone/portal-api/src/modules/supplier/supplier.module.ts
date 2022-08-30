@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { SectorEntity } from './models/sector.entity';
+import { SupplierEntity } from './models/supplier.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        SectorEntity
+        SupplierEntity
     ]),
   ],
   controllers: [ ],
@@ -15,4 +15,4 @@ import { SectorEntity } from './models/sector.entity';
     ConfigService,
   ],
 })
-export class SectorsModule {}
+export class SuppliersModule {}

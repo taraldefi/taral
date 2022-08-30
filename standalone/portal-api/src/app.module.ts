@@ -26,6 +26,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
+import { SectorsModule } from './modules/sectors/sectors.module';
+import { SuppliersModule } from './modules/supplier/supplier.module';
 
 @Module({
   imports: [
@@ -76,6 +78,8 @@ import { RatingsModule } from './modules/rating/ratings.module';
     FinancialsModule,
     FilesModule,
     RatingsModule
+    SectorsModule,
+    SuppliersModule
   ],
 })
 export class AppModule {}
