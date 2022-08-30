@@ -38,6 +38,6 @@ export class CompanyEntity extends EntityHelper {
     cascade: true,
     onDelete: 'CASCADE'
   })
+  @Allow()
   supplier: SupplierEntity; 
-  
 }
