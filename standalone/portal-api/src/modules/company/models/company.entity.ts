@@ -1,10 +1,11 @@
 import { Allow } from 'class-validator';
 import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, TableInheritance } from 'typeorm';
 import { CompanyAddressEntity } from './company.address.entity';
 
 @Entity({ name: 'Companies' })
+@TableInheritance({ column: { type: "varchar", name: "type" } })
 export class CompanyEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -32,12 +33,4 @@ export class CompanyEntity extends EntityHelper {
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()
   address: CompanyAddressEntity;
-
-  @OneToOne(() => SupplierEntity, (supplier) => supplier.company, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
-  @Allow()
-  supplier: SupplierEntity; 
 }
