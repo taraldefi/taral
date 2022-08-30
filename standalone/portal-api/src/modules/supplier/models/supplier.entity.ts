@@ -7,7 +7,7 @@ export class SupplierEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-//   @OneToOne(() => CompanyEntity, (company) => company.supplier)
-//   @JoinColumn()
-//   company: CompanyEntity;
+  @OneToOne(() => CompanyEntity, (company) => company.supplier)
+  @JoinColumn()
+  company: CompanyEntity;
 }
