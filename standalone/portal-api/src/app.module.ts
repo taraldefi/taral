@@ -31,6 +31,7 @@ import { SuppliersModule } from './modules/supplier/supplier.module';
 import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
+import { ContractsModule } from './modules/contract/contracts.module';
 
 @Module({
   imports: [
@@ -85,7 +86,8 @@ import { GoodsAndServicesModule } from './modules/service/service.module';
     SuppliersModule,
     BuyersModule,
     TransactionsModule,
-    GoodsAndServicesModule
+    GoodsAndServicesModule,
+    ContractsModule
   ],
 })
 export class AppModule {}
