@@ -1,13 +1,14 @@
 import { Allow } from 'class-validator';
+import { TransactionEntity } from 'src/modules/transaction/models/transaction.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'Services' })
 export class ServiceEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({type: 'bool'})
+  @Column({ type: 'bool' })
   @Allow()
   capitalGoods: string;
 
@@ -18,4 +19,11 @@ export class ServiceEntity extends EntityHelper {
   @Column()
   @Allow()
   serviceDescription: string;
+
+  @OneToOne(() => TransactionEntity, (transaction) => transaction.goodsAndServices, {
+    eager: true,
+    cascade: true,
+    onDelete: 'CASCADE'
+  })
+  transaction: TransactionEntity;
 }
