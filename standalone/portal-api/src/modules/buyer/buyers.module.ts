@@ -1,27 +1,18 @@
-import { Allow } from 'class-validator';
-import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
-import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
-import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
-import { EntityHelper } from 'src/utils/entity-helper';
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { BuyerEntity } from './models/buyer.entity';
 
-@Entity({ name: 'Buyers' })
-export class SupplierEntity extends EntityHelper {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  @OneToOne(() => SupplierCompanyEntity, (company) => company.supplier)
-  @JoinColumn()
-  @Allow()
-  company: SupplierCompanyEntity;
-
-  @OneToOne(() => SupplierFinancialInformationEntity, (financialInformation) => financialInformation.supplier)
-  @JoinColumn()
-  @Allow()
-  financials: SupplierFinancialInformationEntity;
-
-  @OneToOne(() => SupplierRatingEntity, (rating) => rating.supplier)
-  @JoinColumn()
-  @Allow()
-  rating: SupplierRatingEntity;
-}
+@Module({
+  imports: [
+    TypeOrmModule.forFeature([
+        BuyerEntity
+    ]),
+  ],
+  controllers: [ ],
+  providers: [
+    ConfigModule,
+    ConfigService,
+  ],
+})
+export class BuyersModule {}

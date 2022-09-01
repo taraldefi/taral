@@ -28,6 +28,7 @@ import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
 import { SuppliersModule } from './modules/supplier/supplier.module';
+import { BuyersModule } from './modules/buyer/buyers.module';
 
 @Module({
   imports: [
@@ -79,7 +80,8 @@ import { SuppliersModule } from './modules/supplier/supplier.module';
     FilesModule,
     RatingsModule
     SectorsModule,
-    SuppliersModule
+    SuppliersModule,
+    BuyersModule
   ],
 })
 export class AppModule {}
