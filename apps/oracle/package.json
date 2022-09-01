@@ -34,7 +34,7 @@
     "bitcoinjs-lib": "^6.0.2",
     "ts-morph": "^15.1.0",
     "typescript-memoize": "1.1.0",
-    "dotenv": "16.0.1"
+    "dotenv": "16.0.2"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
