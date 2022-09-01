@@ -1,5 +1,4 @@
 import { Allow } from 'class-validator';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, TableInheritance } from 'typeorm';
 import { CompanyAddressEntity } from './company.address.entity';
