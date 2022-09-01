@@ -29,6 +29,8 @@ import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
 import { SuppliersModule } from './modules/supplier/supplier.module';
 import { BuyersModule } from './modules/buyer/buyers.module';
+import { TransactionsModule } from './modules/transaction/transaction.module';
+import { GoodsAndServicesModule } from './modules/service/service.module';
 
 @Module({
   imports: [
@@ -81,7 +83,9 @@ import { BuyersModule } from './modules/buyer/buyers.module';
     RatingsModule
     SectorsModule,
     SuppliersModule,
-    BuyersModule
+    BuyersModule,
+    TransactionsModule,
+    GoodsAndServicesModule
   ],
 })
 export class AppModule {}
