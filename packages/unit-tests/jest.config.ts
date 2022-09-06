@@ -13,6 +13,9 @@ module.exports = {
   clearMocks: true,
   resetMocks: true,
   testEnvironment: "node",
+  transformIgnorePatterns: [
+    "node_modules/(?!@ngrx|(?!deck.gl)|ng-dynamic)"
+  ],
   transform: {
     // Use babel-jest to transpile tests with the @babel/preset-typescript preset
     // https://jestjs.io/docs/configuration#transform-objectstring-pathtotransformer--pathtotransformer-object
