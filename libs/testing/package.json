@@ -31,7 +31,7 @@
     "@stacks/common": "^4.2.0",
     "@stacks/network": "^4.3.5",
     "@stacks/wallet-sdk": "^4.2.0",
-    "@stacks/stacks-blockchain-api-types": "^4.1.2",
+    "@stacks/stacks-blockchain-api-types": "^5.0.0",
     "@stacks/transactions": "^4.3.5",
     "@types/json-schema": "^7.0.11",
     "ajv": "^8.11.0",

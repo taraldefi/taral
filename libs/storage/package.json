@@ -19,7 +19,7 @@
     "@stacks/blockchain-api-client": "^4.1.2",
     "@stacks/common": "^4.2.0",
     "@stacks/network": "^4.3.5",
-    "@stacks/stacks-blockchain-api-types": "^4.1.2",
+    "@stacks/stacks-blockchain-api-types": "^5.0.0",
     "@stacks/transactions": "^4.3.5",
     "@types/coinbase": "^2.0.8",
     "@types/node-fetch": "^2.6.1",
