@@ -72,7 +72,7 @@
   },
   "homepage": "https://github.com/taraldefi/taral#readme",
   "devDependencies": {
-    "typescript": "^4.8.2",
+    "typescript": "^4.8.3",
     "prettier": "^2.7.1",
     "@types/node": "^18.7.16",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
