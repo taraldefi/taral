@@ -7,7 +7,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
-import { MailConfigService } from './mail/mail-config.service';
 import { HomeModule } from './home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
@@ -15,6 +14,7 @@ import { LoggerModule } from 'nestjs-pino';
 import { EntitiesModule } from './modules/entity/entity.module';
 import { CompaniesModule } from './modules/company/company.module';
 import { FinancialsModule } from './modules/financial/financials.module';
+import { MailConfigService } from './modules/mail/mail-config.service';
 
 @Module({
   imports: [
