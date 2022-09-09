@@ -5,16 +5,16 @@ import * as bcrypt from 'bcryptjs';
 import { AuthEmailLoginDto } from './dto/auth-email-login.dto';
 import { AuthUpdateDto } from './dto/auth-update.dto';
 import { randomStringGenerator } from '@nestjs/common/utils/random-string-generator.util';
-import { RoleEnum } from 'src/roles/roles.enum';
-import { StatusEnum } from 'src/statuses/statuses.enum';
+import { RoleEnum } from '../roles/roles.enum';
+import { StatusEnum } from '../statuses/statuses.enum';
 import * as crypto from 'crypto';
 import { plainToClass } from 'class-transformer';
-import { Status } from 'src/statuses/entities/status.entity';
-import { Role } from 'src/roles/entities/role.entity';
+import { Status } from '../statuses/entities/status.entity';
+import { Role } from '../roles/entities/role.entity';
 import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
-import { UsersService } from 'src/users/users.service';
-import { ForgotService } from 'src/forgot/forgot.service';
-import { MailService } from 'src/mail/mail.service';
+import { UsersService } from '../users/users.service';
+import { ForgotService } from '../forgot/forgot.service';
+import { MailService } from '../mail/mail.service';
 
 @Injectable()
 export class AuthService {

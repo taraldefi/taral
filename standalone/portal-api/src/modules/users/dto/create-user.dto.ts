@@ -9,9 +9,8 @@ import {
   Validate,
 } from 'class-validator';
 import { Status } from '../../statuses/entities/status.entity';
-import { IsNotExist } from '../../utils/validators/is-not-exists.validator';
-import { FileEntity } from '../../files/entities/file.entity';
-import { IsExist } from '../../utils/validators/is-exists.validator';
+import { IsNotExist } from '../../../utils/validators/is-not-exists.validator';
+import { IsExist } from '../../../utils/validators/is-exists.validator';
 
 export class CreateUserDto {
   @ApiProperty({ example: 'test1@example.com' })
