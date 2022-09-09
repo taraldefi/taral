@@ -112,7 +112,7 @@
     "javascript-stringify": "2.1.0",
     "jest": "28.1.0",
     "node-binance-api": "^0.13.1",
-    "node-fetch": "^3.2.3",
+    "node-fetch": "^3.2.10",
     "prettier": "2.6.2",
     "supertest": "6.2.4",
     "ts-jest": "28.0.1",
