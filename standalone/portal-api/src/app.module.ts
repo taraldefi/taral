@@ -81,7 +81,7 @@ import { ContractsModule } from './modules/contract/contracts.module';
     CompaniesModule,
     FinancialsModule,
     FilesModule,
-    RatingsModule
+    RatingsModule,
     SectorsModule,
     SuppliersModule,
     BuyersModule,
