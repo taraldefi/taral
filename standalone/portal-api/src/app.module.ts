@@ -25,6 +25,13 @@ import { UsersModule } from './modules/users/users.module';
 import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
+import { RatingsModule } from './modules/rating/ratings.module';
+import { SectorsModule } from './modules/sectors/sectors.module';
+import { SuppliersModule } from './modules/supplier/supplier.module';
+import { BuyersModule } from './modules/buyer/buyers.module';
+import { TransactionsModule } from './modules/transaction/transaction.module';
+import { GoodsAndServicesModule } from './modules/service/service.module';
+import { ContractsModule } from './modules/contract/contracts.module';
 
 @Module({
   imports: [
@@ -73,7 +80,14 @@ import { FilesModule } from './modules/files/files.module';
     EntitiesModule,
     CompaniesModule,
     FinancialsModule,
-    FilesModule
+    FilesModule,
+    RatingsModule,
+    SectorsModule,
+    SuppliersModule,
+    BuyersModule,
+    TransactionsModule,
+    GoodsAndServicesModule,
+    ContractsModule
   ],
 })
 export class AppModule {}
