@@ -47,7 +47,7 @@
     "jest": "28.0.2",
     "jest-circus": "29.0.3",
     "jest-resolve": "29.0.3",
-    "jest-watch-typeahead": "2.1.1",
+    "jest-watch-typeahead": "2.2.0",
     "mini-css-extract-plugin": "2.6.1",
     "optimize-css-assets-webpack-plugin": "6.0.1",
     "pnp-webpack-plugin": "1.7.0",
