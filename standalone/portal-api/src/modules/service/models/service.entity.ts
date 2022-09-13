@@ -20,10 +20,14 @@ export class ServiceEntity extends EntityHelper {
   @Allow()
   serviceDescription: string;
 
-  @OneToOne(() => TransactionEntity, (transaction) => transaction.goodsAndServices, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE'
-  })
+  @OneToOne(
+    () => TransactionEntity,
+    (transaction) => transaction.goodsAndServices,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
   transaction: TransactionEntity;
 }

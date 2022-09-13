@@ -17,23 +17,23 @@ export class SectorEntity extends EntityHelper {
   @Column({
     type: 'enum',
     enum: CompanyType,
-    default: CompanyType.UNKNOWN
+    default: CompanyType.UNKNOWN,
   })
   @Allow()
-  type: CompanyType
+  type: CompanyType;
 
   @Column({
     type: 'enum',
     enum: CompanyStatus,
-    default: CompanyStatus.UNKNOWN
+    default: CompanyStatus.UNKNOWN,
   })
   @Allow()
-  status: CompanyStatus
+  status: CompanyStatus;
 
   @OneToOne(() => BuyerEntity, (buyer) => buyer.sector, {
     eager: true,
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   @Allow()
   buyer: BuyerEntity;

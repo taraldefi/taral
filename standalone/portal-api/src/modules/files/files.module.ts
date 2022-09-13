@@ -6,15 +6,10 @@ import { MemoryStoredFile, NestjsFormDataModule } from '@modules/multipart';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      FileEntity,
-    ]),
+    TypeOrmModule.forFeature([FileEntity]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [],
-  providers: [
-    ConfigModule,
-    ConfigService,
-  ],
+  providers: [ConfigModule, ConfigService],
 })
 export class FilesModule {}

@@ -12,13 +12,10 @@ import { SupplierCompanyEntity } from './models/supplier.company.entity';
       CompanyEntity,
       CompanyAddressEntity,
       SupplierCompanyEntity,
-      BuyerCompanyEntity
+      BuyerCompanyEntity,
     ]),
   ],
-  controllers: [ ],
-  providers: [
-    ConfigModule,
-    ConfigService,
-  ],
+  controllers: [],
+  providers: [ConfigModule, ConfigService],
 })
 export class CompaniesModule {}

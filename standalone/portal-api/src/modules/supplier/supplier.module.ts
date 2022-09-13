@@ -4,15 +4,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { SupplierEntity } from './models/supplier.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-        SupplierEntity
-    ]),
-  ],
-  controllers: [ ],
-  providers: [
-    ConfigModule,
-    ConfigService,
-  ],
+  imports: [TypeOrmModule.forFeature([SupplierEntity])],
+  controllers: [],
+  providers: [ConfigModule, ConfigService],
 })
 export class SuppliersModule {}

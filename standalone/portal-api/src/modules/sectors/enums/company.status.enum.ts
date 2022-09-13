@@ -1,5 +1,5 @@
 export enum CompanyStatus {
-    UNKNOWN = 'unknown',
-    SUBSIDIARY = 'subsidiary',
-    INDEPENDENT = 'independent'
+  UNKNOWN = 'unknown',
+  SUBSIDIARY = 'subsidiary',
+  INDEPENDENT = 'independent',
 }

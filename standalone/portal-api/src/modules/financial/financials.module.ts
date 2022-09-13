@@ -7,14 +7,11 @@ import { SupplierFinancialInformationEntity } from './models/supplier.financial.
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-        FinancialInformationEntity,
-        SupplierFinancialInformationEntity
+      FinancialInformationEntity,
+      SupplierFinancialInformationEntity,
     ]),
   ],
-  controllers: [ ],
-  providers: [
-    ConfigModule,
-    ConfigService,
-  ],
+  controllers: [],
+  providers: [ConfigModule, ConfigService],
 })
 export class FinancialsModule {}

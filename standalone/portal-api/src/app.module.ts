@@ -87,7 +87,7 @@ import { ContractsModule } from './modules/contract/contracts.module';
     BuyersModule,
     TransactionsModule,
     GoodsAndServicesModule,
-    ContractsModule
+    ContractsModule,
   ],
 })
 export class AppModule {}

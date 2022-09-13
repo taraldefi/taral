@@ -1,9 +1,14 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn, TableInheritance } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
 @Entity({ name: 'ExternalRatings' })
-@TableInheritance({ column: { type: "varchar", name: "type" } })
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class RatingEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -27,7 +27,7 @@ export class CompanyAddressEntity extends EntityHelper {
   @OneToOne(() => CompanyEntity, (company) => company.address, {
     eager: true,
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   company: CompanyEntity;
 }

@@ -4,7 +4,13 @@ import { SupplierFinancialInformationEntity } from 'src/modules/financial/models
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
 import { TransactionEntity } from 'src/modules/transaction/models/transaction.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'Contracts' })
 export class ContractEntity extends EntityHelper {
@@ -15,14 +21,14 @@ export class ContractEntity extends EntityHelper {
   @Allow()
   conoclusion: Date;
 
-  @Column({type: 'bool'})
+  @Column({ type: 'bool' })
   @Allow()
   isSigned: boolean;
 
   @OneToOne(() => TransactionEntity, (transaction) => transaction.contract, {
     eager: true,
     cascade: true,
-    onDelete: 'CASCADE'
+    onDelete: 'CASCADE',
   })
   transaction: TransactionEntity;
 }

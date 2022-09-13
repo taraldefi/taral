@@ -15,7 +15,10 @@ export class SupplierEntity extends EntityHelper {
   @Allow()
   company: SupplierCompanyEntity;
 
-  @OneToOne(() => SupplierFinancialInformationEntity, (financialInformation) => financialInformation.supplier)
+  @OneToOne(
+    () => SupplierFinancialInformationEntity,
+    (financialInformation) => financialInformation.supplier,
+  )
   @JoinColumn()
   @Allow()
   financials: SupplierFinancialInformationEntity;

@@ -5,16 +5,8 @@ import { RatingEntity } from './models/rating.entity';
 import { SupplierRatingEntity } from './models/supplier.rating.entity';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-        RatingEntity,
-        SupplierRatingEntity
-    ]),
-  ],
-  controllers: [ ],
-  providers: [
-    ConfigModule,
-    ConfigService,
-  ],
+  imports: [TypeOrmModule.forFeature([RatingEntity, SupplierRatingEntity])],
+  controllers: [],
+  providers: [ConfigModule, ConfigService],
 })
 export class RatingsModule {}
