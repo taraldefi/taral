@@ -77,3 +77,4 @@ jobs:
       with:
         commit_message: "style(formatting): apply formatting changes"
         branch: ${{ github.head_ref }}
+        token: ${{ secrets.PAT }}
