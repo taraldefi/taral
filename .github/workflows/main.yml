@@ -19,7 +19,11 @@ jobs:
       uses: styfle/cancel-workflow-action@0.10.0
       with:
         access_token: ${{ github.token }}
+        
     - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.PAT }}
+      
     
     # - name: Get yarn cache directory path
     #   id: yarn-cache-dir-path
@@ -77,4 +81,3 @@ jobs:
       with:
         commit_message: "style(formatting): apply formatting changes"
         branch: ${{ github.head_ref }}
-        token: ${{ secrets.PAT }}
