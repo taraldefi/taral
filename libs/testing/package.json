@@ -9,7 +9,7 @@
   },
   "devDependencies": {
     "@ltd/j-toml": "^1.35.2",
-    "@types/bluebird": "^3.5.36",
+    "@types/bluebird": "^3.5.37",
     "@types/crypto-js": "^4.1.1",
     "@types/fs-extra": "^9.0.13",
     "@types/node": "18.7.18",
