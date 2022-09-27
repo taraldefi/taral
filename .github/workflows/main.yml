@@ -77,7 +77,7 @@ jobs:
       run: yarn format
     
     - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4.14.1
+      uses: stefanzweifel/git-auto-commit-action@v4.15.0
       with:
         commit_message: "style(formatting): apply formatting changes"
         branch: ${{ github.head_ref }}
