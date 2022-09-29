@@ -2677,20 +2677,20 @@
     "@types/node" "^18.0.4"
     buffer "^6.0.3"
 
-"@stacks/connect-ui@5.5.3":
-  version "5.5.3"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.5.3.tgz#330dbb410fdd2855a1eeeb88a32e78e440349435"
-  integrity sha512-6NGJ0h0g0kq/a16ejH664169AOfIHD/sDJoMbjcFx0370TMpcfLoltf+Dn8BzE1bSOOf1WekbjSasMmE7iS1vw==
+"@stacks/connect-ui@5.5.4":
+  version "5.5.4"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-5.5.4.tgz#f9612e2b05cbc0f013656ce16d07cdcb389bd0ca"
+  integrity sha512-xstC05PoxpPeA2HWytkJp/NJBtDEPDUoHuUyyvpuqS7f95rsHyx/tLFWv9ElxWiIbeMPPDEQipoy6S1qnZb8jw==
   dependencies:
     "@stencil/core" "^2.17.1"
 
-"@stacks/connect@6.10.1":
-  version "6.10.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.10.1.tgz#47837cf3b94bc17e660d3c99c631b456aafd569d"
-  integrity sha512-TJchFX6Zs1774nglSGBrzSaplLZ2gjmNk0JiWZkrnxA4FRQx9n6v1abrM7id0Y0e1LEQj1Z2XMawiU8ajRq2Jw==
+"@stacks/connect@6.10.2":
+  version "6.10.2"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-6.10.2.tgz#ddb83116361363a8819f05c0b342052e76e287f4"
+  integrity sha512-rixsMWhSIMGS8ClUgfNKA7PLV4ikr7SpjFUcVuKCmEsrRMnDdcvuhiY87hLPiatD0W6qMWZVR+BaIbHIgvp9aQ==
   dependencies:
     "@stacks/auth" "4.3.2"
-    "@stacks/connect-ui" "5.5.3"
+    "@stacks/connect-ui" "5.5.4"
     "@stacks/network" "4.3.2"
     "@stacks/prettier-config" "0.0.8"
     "@stacks/transactions" "4.3.2"
