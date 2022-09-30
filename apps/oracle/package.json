@@ -64,7 +64,7 @@
     "@stacks/network": "^4.3.5",
     "@stacks/wallet-sdk": "^4.2.0",
     "@stacks/stacks-blockchain-api-types": "^5.0.1",
-    "@stacks/transactions": "^4.3.7",
+    "@stacks/transactions": "^4.3.8",
     "@types/json-schema": "^7.0.11",
     "ajv": "^8.11.0",
     "bip32": "^3.1.0",
