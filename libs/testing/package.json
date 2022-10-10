@@ -48,7 +48,7 @@
     "dayjs": "^1.11.5",
     "fs-extra": "^10.1.0",
     "merkletreejs": "^0.2.32",
-    "neverthrow": "5.0.0",
+    "neverthrow": "5.0.1",
     "node-fetch": "2.6.1",
     "prettier": "^2.7.1",
     "rpc-bitcoin": "^2.0.0",
