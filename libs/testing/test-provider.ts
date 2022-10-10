@@ -14,6 +14,8 @@ import { NativeClarityBinProvider } from "lib-clarity-bin";
 import { CreateOptions, FromContractOptions } from "lib-infra";
 import {
   BaseProvider,
+  bytesToAscii,
+  bytesToHex,
   ClarinetAccounts,
   ClarityAbiMap,
   cvToValue,
@@ -22,6 +24,7 @@ import {
   getContractNameFromPath,
   getRootDirectory,
   INodeProviderRequest,
+  Logger,
   NodeContractInstances,
   NodeContracts,
   parseToCV,
@@ -235,6 +238,7 @@ export class TestProvider implements BaseProvider {
     if (type === "trait_reference") {
       return `'${arg}`;
     }
+
     const argCV = parseToCV(arg, type);
     const cvString = this.cvToString(argCV);
     // if (type === "principal") {
@@ -259,6 +263,7 @@ export class TestProvider implements BaseProvider {
   }
 
   cvToString(val: ClarityValue, encoding: "tryAscii" | "hex" = "hex"): string {
+  
     switch (val.type) {
       case ClarityType.BoolTrue:
         return "true";
@@ -270,12 +275,15 @@ export class TestProvider implements BaseProvider {
         return `u${val.value.toString()}`;
       case ClarityType.Buffer:
         if (encoding === "tryAscii") {
-          const str = val.buffer.toString("ascii");
+          const str = bytesToAscii(val.buffer);
+
           if (/[ -~]/.test(str)) {
             return JSON.stringify(str);
           }
         }
-        return `0x${val.buffer.toString("hex")}`;
+
+        Logger.debug('[Buffer hex CV TO String]', `0x${bytesToHex(val.buffer)}`);
+        return `0x${bytesToHex(val.buffer)}`;
       case ClarityType.OptionalNone:
         return "none";
       case ClarityType.OptionalSome:

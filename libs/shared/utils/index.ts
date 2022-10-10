@@ -11,3 +11,4 @@ export * from "./to-json";
 export * from "./to-pascal-case";
 export * from "./transaction";
 export * from "./uuid";
+export * from "./bytes";

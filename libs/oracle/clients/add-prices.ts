@@ -15,14 +15,19 @@ export async function addPrices({
   contract: TaralOracleV1Contract;
   priceFeed: IOraclePriceFeed[];
 }): Promise<boolean> {
+
   const map = priceFeed.map(
     (feed) =>
-      <InternalOraclePrice>{
-        msg: feed.payload,
-        sig: feed.signature,
-        src: feed.source,
+      {
+        return <InternalOraclePrice>{
+          msg: feed.payload,
+          sig: feed.signature,
+          src: feed.source,
+        }
       }
   );
+
+  console.log(JSON.stringify(map));
 
   const response = await txOk(contract.addPrices(map));
 

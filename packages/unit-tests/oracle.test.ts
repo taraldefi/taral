@@ -21,12 +21,12 @@ test("Oracle tests", async () => {
   const oracleBob = taralOracle(bob);
 
   const bobsPrivateKey = Buffer.from(
-    publicKeyFromPrivKey(bob.privateKey).data.toString("hex"),
+    `0x${publicKeyFromPrivKey(bob.privateKey).data.toString("hex")}`,
     "hex"
   );
 
   const zoesPrivateKey = Buffer.from(
-    publicKeyFromPrivKey(zoe.privateKey).data.toString("hex"),
+    `0x${publicKeyFromPrivKey(zoe.privateKey).data.toString("hex")}`,
     "hex"
   );
 
@@ -36,6 +36,8 @@ test("Oracle tests", async () => {
 
   // (define-constant err-not-owner (err u63))
   expect(error.value).toEqual(63n);
+
+  console.log('Added sources');
 
   error = await txErr(oracleBob.revokeSource("source2"));
 

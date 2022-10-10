@@ -1,22 +1,34 @@
+import { hexToBytes } from "lib-shared";
 import { StacksPrivateKey } from "./types";
 
-export function createStacksPrivateKey(key: string | Buffer): StacksPrivateKey {
-  const data = typeof key === "string" ? Buffer.from(key, "hex") : key;
-  let compressed: boolean;
-  if (data.length === 33) {
-    if (data[data.length - 1] !== 1) {
-      throw new Error(
-        "Improperly formatted private-key. 33 byte length usually " +
-          "indicates compressed key, but last byte must be == 0x01"
-      );
-    }
-    compressed = true;
-  } else if (data.length === 32) {
-    compressed = false;
-  } else {
+export const PRIVATE_KEY_COMPRESSED_LENGTH = 33;
+
+export function createStacksPrivateKey(key: string | Uint8Array): StacksPrivateKey {
+  const data = privateKeyToBytes(key);
+  const compressed = data.length == PRIVATE_KEY_COMPRESSED_LENGTH;
+  return { data, compressed };
+}
+
+
+
+/**
+ * @private
+ * @ignore
+ */
+ export function privateKeyToBytes(privateKey: string | Uint8Array): Uint8Array {
+  const privateKeyBuffer = typeof privateKey === 'string' ? hexToBytes(privateKey) : privateKey;
+
+  if (privateKeyBuffer.length != 32 && privateKeyBuffer.length != 33) {
     throw new Error(
-      `Improperly formatted private-key hex string: length should be 32 or 33 bytes, provided with length ${data.length}`
+      `Improperly formatted private-key. Private-key byte length should be 32 or 33. Length provided: ${privateKeyBuffer.length}`
     );
   }
-  return { data, compressed };
+
+  if (privateKeyBuffer.length == 33 && privateKeyBuffer[32] !== 1) {
+    throw new Error(
+      'Improperly formatted private-key. 33 bytes indicate compressed key, but the last byte must be == 01'
+    );
+  }
+
+  return privateKeyBuffer;
 }

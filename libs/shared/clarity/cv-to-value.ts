@@ -1,7 +1,10 @@
 import { ClarityType, ClarityValue } from "@stacks/transactions";
+import { Logger } from "../logger";
+import { bytesToHex } from "../utils";
 import { principalToString } from "./principal-to-string";
 
 export function cvToValue(val: ClarityValue): any {
+
   switch (val.type) {
     case ClarityType.BoolTrue:
       return true;
@@ -12,7 +15,9 @@ export function cvToValue(val: ClarityValue): any {
     case ClarityType.UInt:
       return val.value;
     case ClarityType.Buffer:
-      return `0x${val.buffer.toString("hex")}`;
+
+      Logger.debug('[CV TO VALUE]', `0x${bytesToHex(val.buffer)}`);
+      return  `0x${bytesToHex(val.buffer)}`;
     case ClarityType.OptionalNone:
       return null;
     case ClarityType.OptionalSome:
