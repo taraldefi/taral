@@ -47,7 +47,7 @@
     "lib-shared": "1.0.0",
     "lib-stacks": "1.0.0",
     "merkletreejs": "^0.2.32",
-    "neverthrow": "5.0.0",
+    "neverthrow": "5.0.1",
     "noble-secp256k1": "1.2.14",
     "node-fetch": "2.6.1",
     "prettier": "^2.7.1",
