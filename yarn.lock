@@ -2365,16 +2365,16 @@
     jsontokens "^4.0.1"
     query-string "^6.13.1"
 
-"@stacks/blockchain-api-client@5.0.1", "@stacks/blockchain-api-client@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.npmjs.org/@stacks/blockchain-api-client/-/blockchain-api-client-5.0.1.tgz"
+"@stacks/blockchain-api-client@6.0.1", "@stacks/blockchain-api-client@^6.0.1":
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-6.0.1.tgz#9d696ee00cd9e6c09a0950e51784aed42021f6c3"
   dependencies:
     "@stacks/stacks-blockchain-api-types" "*"
     "@types/ws" "7.4.7"
-    cross-fetch "3.1.4"
+    cross-fetch "3.1.5"
     eventemitter3 "4.0.7"
     jsonrpc-lite "2.2.0"
-    socket.io-client "4.4.0"
+    socket.io-client "4.4.1"
     ws "7.5.6"
 
 "@stacks/common@^4.2.0", "@stacks/common@^4.3.2", "@stacks/common@^4.3.4", "@stacks/common@^4.3.5":
@@ -5243,13 +5243,7 @@ create-require@^1.1.0:
   version "1.1.1"
   resolved "https://registry.npmjs.org/create-require/-/create-require-1.1.1.tgz"
 
-cross-fetch@3.1.4:
-  version "3.1.4"
-  resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.4.tgz"
-  dependencies:
-    node-fetch "2.6.1"
-
-cross-fetch@^3.1.4, cross-fetch@^3.1.5:
+cross-fetch@3.1.5, cross-fetch@^3.1.4, cross-fetch@^3.1.5:
   version "3.1.5"
   resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-3.1.5.tgz"
   dependencies:
@@ -12619,9 +12613,9 @@ sntp@2.x.x:
   dependencies:
     hoek "4.x.x"
 
-socket.io-client@4.4.0:
-  version "4.4.0"
-  resolved "https://registry.npmjs.org/socket.io-client/-/socket.io-client-4.4.0.tgz"
+socket.io-client@4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.4.1.tgz#b6aa9448149d09b8d0b2bbf3d2fac310631fdec9"
   dependencies:
     "@socket.io/component-emitter" "~3.0.0"
     backo2 "~1.0.2"
