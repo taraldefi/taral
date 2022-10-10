@@ -1,4 +1,3 @@
-import { Console } from "console";
 import {
   addPrices,
   getPrice,
@@ -7,7 +6,7 @@ import {
   retrieveOKCoinFeed,
   retrieveOKCoinOracleFeed,
 } from "lib-oracle";
-import { bytesToHex, Logger, txErr, txOk } from "lib-shared";
+import { Logger, txErr, txOk } from "lib-shared";
 import { publicKeyFromPrivKey } from "lib-stacks";
 import { clarinetAccounts, taralOracle } from "./jest-setup";
 
