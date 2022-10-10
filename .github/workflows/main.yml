@@ -73,11 +73,11 @@ jobs:
     - name: Run unit tests
       run: yarn unit-tests
     
-    - name: Format
-      run: yarn format
+    # - name: Format
+    #   run: yarn format
     
-    - name: Commit changes
-      uses: stefanzweifel/git-auto-commit-action@v4.15.0
-      with:
-        commit_message: "style(formatting): apply formatting changes"
-        branch: ${{ github.head_ref }}
+    # - name: Commit changes
+    #   uses: stefanzweifel/git-auto-commit-action@v4.15.0
+    #   with:
+    #     commit_message: "style(formatting): apply formatting changes"
+    #     branch: ${{ github.head_ref }}
