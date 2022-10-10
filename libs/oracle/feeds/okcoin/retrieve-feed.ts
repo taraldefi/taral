@@ -22,22 +22,17 @@ export async function retrieveOKCoinFeed(
       console.log("key not found", key);
     }
 
-    // console.log(`====> ${filter[key].symbol} ${midPrice(pair)} ${midPrice(pair) * filter[key].decimals}`)
     const msg = buildPayload(
       timestamp,
       OKCOIN_FILTER[key].symbol,
       Math.floor(midPrice(pair!) * OKCOIN_FILTER[key].decimals)
     );
-    // console.log("msg", msg.toString('hex'))
+    
     const sig = signPayload({
       infuraApiUrl: request.infuraApiKey,
       payload: msg,
       secretKey: request.oracleSecretKey,
     });
-
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    console.log(msg.toString('hex'));
-    console.log(sig.toString('hex'));
 
     feed.push({
       source: src,
