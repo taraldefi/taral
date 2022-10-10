@@ -13887,9 +13887,9 @@ web-streams-polyfill@^3.0.3:
   version "3.2.0"
   resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.2.0.tgz"
 
-web-vitals@^3.0.2:
-  version "3.0.2"
-  resolved "https://registry.npmjs.org/web-vitals/-/web-vitals-3.0.2.tgz"
+web-vitals@^3.0.3:
+  version "3.0.3"
+  resolved "https://registry.yarnpkg.com/web-vitals/-/web-vitals-3.0.3.tgz#e08cf4d30398baf91984f230a87872d6049e173f"
 
 web3-bzz@1.8.0:
   version "1.8.0"
