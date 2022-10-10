@@ -1,3 +1,4 @@
+import { Console } from "console";
 import {
   addPrices,
   getPrice,
@@ -6,7 +7,7 @@ import {
   retrieveOKCoinFeed,
   retrieveOKCoinOracleFeed,
 } from "lib-oracle";
-import { Logger, txErr, txOk } from "lib-shared";
+import { bytesToHex, Logger, txErr, txOk } from "lib-shared";
 import { publicKeyFromPrivKey } from "lib-stacks";
 import { clarinetAccounts, taralOracle } from "./jest-setup";
 
@@ -21,12 +22,12 @@ test("Oracle tests", async () => {
   const oracleBob = taralOracle(bob);
 
   const bobsPrivateKey = Buffer.from(
-    publicKeyFromPrivKey(bob.privateKey).data.toString("hex"),
+    `0x${publicKeyFromPrivKey(bob.privateKey).data.toString("hex")}`,
     "hex"
   );
 
   const zoesPrivateKey = Buffer.from(
-    publicKeyFromPrivKey(zoe.privateKey).data.toString("hex"),
+    `0x${publicKeyFromPrivKey(zoe.privateKey).data.toString("hex")}`,
     "hex"
   );
 
@@ -37,6 +38,8 @@ test("Oracle tests", async () => {
   // (define-constant err-not-owner (err u63))
   expect(error.value).toEqual(63n);
 
+  console.log('Added sources');
+
   error = await txErr(oracleBob.revokeSource("source2"));
 
   // (define-constant err-not-owner (err u63))
@@ -44,19 +47,24 @@ test("Oracle tests", async () => {
 
   const okcoin_oracle_feed = await retrieveOKCoinOracleFeed();
 
-  const binance_feed = await retrieveBinanceFeed({
+  // const binance_feed = await retrieveBinanceFeed({
+  //   infuraApiKey: INFURA_API_URL,
+  //   oracleSecretKey: zoe.privateKey,
+  // });
+
+  const feed = await retrieveOKCoinFeed({
     infuraApiKey: INFURA_API_URL,
     oracleSecretKey: zoe.privateKey,
   });
 
-  const okcoin_feed = await retrieveOKCoinFeed({
-    infuraApiKey: INFURA_API_URL,
-    oracleSecretKey: zoe.privateKey,
-  });
+  // const okcoin_feed = await retrieveOKCoinFeed({
+  //   infuraApiKey: INFURA_API_URL,
+  //   oracleSecretKey: zoe.privateKey,
+  // });
 
-  const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
-    binance_feed.concat(okcoin_feed)
-  );
+  // const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
+  //   binance_feed.concat(okcoin_feed)
+  // );
 
   const priceAddResult = await addPrices({
     contract: oracleZoe,

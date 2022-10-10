@@ -34,10 +34,14 @@ export async function retrieveOKCoinFeed(
       payload: msg,
       secretKey: request.oracleSecretKey,
     });
-    // console.log("sig_okcoin", sig.toString('hex'))
+
+    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    console.log(msg.toString('hex'));
+    console.log(sig.toString('hex'));
+
     feed.push({
       source: src,
-      payload: msg,
+      payload: Buffer.from(`0x${msg.toString('hex')}`, 'hex'),
       signature: sig,
     });
   }

@@ -1,5 +1,5 @@
 export interface StacksPrivateKey {
-  data: Buffer;
+  data: Uint8Array;
   compressed: boolean;
 }
 

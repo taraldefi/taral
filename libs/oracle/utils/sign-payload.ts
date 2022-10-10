@@ -42,7 +42,5 @@ export function signPayload(request: ISignPayloadRequest) {
     buffer.writeInt8(0x01, v_offset_dest);
   }
 
-  // console.log(signed)
-  // console.log("signature", buffer.toString('hex'))
   return buffer;
 }

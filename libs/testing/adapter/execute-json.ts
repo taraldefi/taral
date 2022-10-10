@@ -24,6 +24,11 @@ export const executeJson = async ({
     senderAddress,
     ...args,
   ]);
+
+  Logger.debug(
+    '[ExecuteJson]', JSON.stringify(result)
+  );
+
   const response: ExecuteResult = JSON.parse(result.stdout);
 
   if (result.stderr) {
