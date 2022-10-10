@@ -41,7 +41,7 @@ export async function retrieveOKCoinFeed(
 
     feed.push({
       source: src,
-      payload: Buffer.from(`0x${msg.toString('hex')}`, 'hex'),
+      payload: msg,
       signature: sig,
     });
   }

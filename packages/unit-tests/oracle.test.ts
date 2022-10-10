@@ -47,24 +47,19 @@ test("Oracle tests", async () => {
 
   const okcoin_oracle_feed = await retrieveOKCoinOracleFeed();
 
-  // const binance_feed = await retrieveBinanceFeed({
-  //   infuraApiKey: INFURA_API_URL,
-  //   oracleSecretKey: zoe.privateKey,
-  // });
-
-  const feed = await retrieveOKCoinFeed({
+  const binance_feed = await retrieveBinanceFeed({
     infuraApiKey: INFURA_API_URL,
     oracleSecretKey: zoe.privateKey,
   });
 
-  // const okcoin_feed = await retrieveOKCoinFeed({
-  //   infuraApiKey: INFURA_API_URL,
-  //   oracleSecretKey: zoe.privateKey,
-  // });
+  const okcoin_feed = await retrieveOKCoinFeed({
+    infuraApiKey: INFURA_API_URL,
+    oracleSecretKey: zoe.privateKey,
+  });
 
-  // const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
-  //   binance_feed.concat(okcoin_feed)
-  // );
+  const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
+    binance_feed.concat(okcoin_feed)
+  );
 
   const priceAddResult = await addPrices({
     contract: oracleZoe,
