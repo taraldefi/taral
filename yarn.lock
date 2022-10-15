@@ -2571,96 +2571,97 @@
     magic-string "^0.25.0"
     string.prototype.matchall "^4.0.6"
 
-"@svgr/babel-plugin-add-jsx-attribute@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-6.3.1.tgz"
+"@svgr/babel-plugin-add-jsx-attribute@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-add-jsx-attribute/-/babel-plugin-add-jsx-attribute-6.5.0.tgz#21788f7e982aacafc805ed30a14048a1406fbabc"
 
-"@svgr/babel-plugin-remove-jsx-attribute@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-attribute/-/babel-plugin-remove-jsx-attribute-6.3.1.tgz"
+"@svgr/babel-plugin-remove-jsx-attribute@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-remove-jsx-attribute/-/babel-plugin-remove-jsx-attribute-6.5.0.tgz#652bfd4ed0a0699843585cda96faeb09d6e1306e"
 
-"@svgr/babel-plugin-remove-jsx-empty-expression@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-remove-jsx-empty-expression/-/babel-plugin-remove-jsx-empty-expression-6.3.1.tgz"
+"@svgr/babel-plugin-remove-jsx-empty-expression@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-remove-jsx-empty-expression/-/babel-plugin-remove-jsx-empty-expression-6.5.0.tgz#4b78994ab7d39032c729903fc2dd5c0fa4565cb8"
 
-"@svgr/babel-plugin-replace-jsx-attribute-value@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-replace-jsx-attribute-value/-/babel-plugin-replace-jsx-attribute-value-6.3.1.tgz"
+"@svgr/babel-plugin-replace-jsx-attribute-value@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-replace-jsx-attribute-value/-/babel-plugin-replace-jsx-attribute-value-6.5.0.tgz#ca57c0a62a9c22ff11cdb475dc9a2b35586335d1"
 
-"@svgr/babel-plugin-svg-dynamic-title@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-svg-dynamic-title/-/babel-plugin-svg-dynamic-title-6.3.1.tgz"
+"@svgr/babel-plugin-svg-dynamic-title@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-svg-dynamic-title/-/babel-plugin-svg-dynamic-title-6.5.0.tgz#57c0e0409757373d641f115d33cf2559b47bff77"
 
-"@svgr/babel-plugin-svg-em-dimensions@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-svg-em-dimensions/-/babel-plugin-svg-em-dimensions-6.3.1.tgz"
+"@svgr/babel-plugin-svg-em-dimensions@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-svg-em-dimensions/-/babel-plugin-svg-em-dimensions-6.5.0.tgz#dbca40a18c308f135b4b672ea8e410855e8e3352"
 
-"@svgr/babel-plugin-transform-react-native-svg@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-transform-react-native-svg/-/babel-plugin-transform-react-native-svg-6.3.1.tgz"
+"@svgr/babel-plugin-transform-react-native-svg@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-transform-react-native-svg/-/babel-plugin-transform-react-native-svg-6.5.0.tgz#a5453127365b925a7f766615ef6f5cfd01018f98"
 
-"@svgr/babel-plugin-transform-svg-component@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/babel-plugin-transform-svg-component/-/babel-plugin-transform-svg-component-6.3.1.tgz"
+"@svgr/babel-plugin-transform-svg-component@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-plugin-transform-svg-component/-/babel-plugin-transform-svg-component-6.5.0.tgz#ec116e9223a02c6dcd9f8cb2bdbf174a3c2ef2f5"
 
-"@svgr/babel-preset@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@svgr/babel-preset/-/babel-preset-6.4.0.tgz"
+"@svgr/babel-preset@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/babel-preset/-/babel-preset-6.5.0.tgz#dc14bbe1c74e0c8c4ab77221064645b3399836db"
   dependencies:
-    "@svgr/babel-plugin-add-jsx-attribute" "^6.3.1"
-    "@svgr/babel-plugin-remove-jsx-attribute" "^6.3.1"
-    "@svgr/babel-plugin-remove-jsx-empty-expression" "^6.3.1"
-    "@svgr/babel-plugin-replace-jsx-attribute-value" "^6.3.1"
-    "@svgr/babel-plugin-svg-dynamic-title" "^6.3.1"
-    "@svgr/babel-plugin-svg-em-dimensions" "^6.3.1"
-    "@svgr/babel-plugin-transform-react-native-svg" "^6.3.1"
-    "@svgr/babel-plugin-transform-svg-component" "^6.3.1"
+    "@svgr/babel-plugin-add-jsx-attribute" "^6.5.0"
+    "@svgr/babel-plugin-remove-jsx-attribute" "^6.5.0"
+    "@svgr/babel-plugin-remove-jsx-empty-expression" "^6.5.0"
+    "@svgr/babel-plugin-replace-jsx-attribute-value" "^6.5.0"
+    "@svgr/babel-plugin-svg-dynamic-title" "^6.5.0"
+    "@svgr/babel-plugin-svg-em-dimensions" "^6.5.0"
+    "@svgr/babel-plugin-transform-react-native-svg" "^6.5.0"
+    "@svgr/babel-plugin-transform-svg-component" "^6.5.0"
 
-"@svgr/core@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@svgr/core/-/core-6.4.0.tgz"
+"@svgr/core@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/core/-/core-6.5.0.tgz#13af3337b7b66a2b6ebe197b67b62badbe490bf1"
   dependencies:
-    "@svgr/babel-preset" "^6.4.0"
-    "@svgr/plugin-jsx" "^6.4.0"
+    "@babel/core" "^7.18.5"
+    "@svgr/babel-preset" "^6.5.0"
+    "@svgr/plugin-jsx" "^6.5.0"
     camelcase "^6.2.0"
     cosmiconfig "^7.0.1"
 
-"@svgr/hast-util-to-babel-ast@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@svgr/hast-util-to-babel-ast/-/hast-util-to-babel-ast-6.4.0.tgz"
+"@svgr/hast-util-to-babel-ast@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/hast-util-to-babel-ast/-/hast-util-to-babel-ast-6.5.0.tgz#0e4aebea26328e22a6fff940711472a47ec24e5c"
   dependencies:
     "@babel/types" "^7.18.4"
     entities "^4.3.0"
 
-"@svgr/plugin-jsx@^6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@svgr/plugin-jsx/-/plugin-jsx-6.4.0.tgz"
+"@svgr/plugin-jsx@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/plugin-jsx/-/plugin-jsx-6.5.0.tgz#c23ba0048007f1591fe7a9b060be373e4771487b"
   dependencies:
     "@babel/core" "^7.18.5"
-    "@svgr/babel-preset" "^6.4.0"
-    "@svgr/hast-util-to-babel-ast" "^6.4.0"
+    "@svgr/babel-preset" "^6.5.0"
+    "@svgr/hast-util-to-babel-ast" "^6.5.0"
     svg-parser "^2.0.4"
 
-"@svgr/plugin-svgo@^6.3.1":
-  version "6.3.1"
-  resolved "https://registry.npmjs.org/@svgr/plugin-svgo/-/plugin-svgo-6.3.1.tgz"
+"@svgr/plugin-svgo@^6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/plugin-svgo/-/plugin-svgo-6.5.0.tgz#1d9b7d0909bde9fe7d724569c7f7833f3a7bacd7"
   dependencies:
     cosmiconfig "^7.0.1"
     deepmerge "^4.2.2"
     svgo "^2.8.0"
 
-"@svgr/webpack@6.4.0":
-  version "6.4.0"
-  resolved "https://registry.npmjs.org/@svgr/webpack/-/webpack-6.4.0.tgz"
+"@svgr/webpack@6.5.0":
+  version "6.5.0"
+  resolved "https://registry.yarnpkg.com/@svgr/webpack/-/webpack-6.5.0.tgz#663407b826cb96a3c3394cfe1f9bd107e693770a"
   dependencies:
     "@babel/core" "^7.18.5"
     "@babel/plugin-transform-react-constant-elements" "^7.17.12"
     "@babel/preset-env" "^7.18.2"
     "@babel/preset-react" "^7.17.12"
     "@babel/preset-typescript" "^7.17.12"
-    "@svgr/core" "^6.4.0"
-    "@svgr/plugin-jsx" "^6.4.0"
-    "@svgr/plugin-svgo" "^6.3.1"
+    "@svgr/core" "^6.5.0"
+    "@svgr/plugin-jsx" "^6.5.0"
+    "@svgr/plugin-svgo" "^6.5.0"
 
 "@szmarczak/http-timer@^1.1.2":
   version "1.1.2"
