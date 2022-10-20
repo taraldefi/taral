@@ -6205,9 +6205,9 @@ eslint-plugin-react@^7.27.1, eslint-plugin-react@^7.31.10:
     semver "^6.3.0"
     string.prototype.matchall "^4.0.7"
 
-eslint-plugin-testing-library@^5.0.1, eslint-plugin-testing-library@^5.7.2:
-  version "5.7.2"
-  resolved "https://registry.npmjs.org/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.7.2.tgz"
+eslint-plugin-testing-library@^5.0.1, eslint-plugin-testing-library@^5.8.0:
+  version "5.8.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-testing-library/-/eslint-plugin-testing-library-5.8.0.tgz#0faed7695ba76c0021fde3aeda9b90748995d2f2"
   dependencies:
     "@typescript-eslint/utils" "^5.13.0"
 
