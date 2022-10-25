@@ -74,7 +74,7 @@
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
     "@types/node": "^18.11.4",
-    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/eslint-plugin": "^5.41.0",
     "@typescript-eslint/parser": "^5.40.1",
     "codecov": "^3.8.1",
     "commitizen": "^4.2.5",
