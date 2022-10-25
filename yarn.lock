@@ -10212,9 +10212,9 @@ nerf-dart@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/nerf-dart/-/nerf-dart-1.0.0.tgz"
 
-neverthrow@5.0.1:
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/neverthrow/-/neverthrow-5.0.1.tgz#b3afa0b3b3401db432a82b1352adf8eb8e213633"
+neverthrow@5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/neverthrow/-/neverthrow-5.1.0.tgz#709bcb477fa6bcf0c1f6a3f875d8a1a2eee0e46d"
 
 next-tick@^1.1.0:
   version "1.1.0"
