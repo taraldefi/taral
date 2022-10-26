@@ -2521,9 +2521,9 @@
     "@stacks/network" "^4.2.0"
     jsontokens "^3.0.0"
 
-"@stacks/transactions@5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@stacks/transactions/-/transactions-5.0.0.tgz"
+"@stacks/transactions@5.0.2", "@stacks/transactions@^5.0.0", "@stacks/transactions@^5.0.1", "@stacks/transactions@^5.0.2":
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-5.0.2.tgz#d67a3487f4015f47fe17a09cf047342d37c5077e"
   dependencies:
     "@noble/hashes" "^1.0.0"
     "@noble/secp256k1" "^1.5.5"
@@ -2547,17 +2547,6 @@
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
     smart-buffer "^4.1.0"
-
-"@stacks/transactions@^5.0.0", "@stacks/transactions@^5.0.1":
-  version "5.0.1"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-5.0.1.tgz#34fd909260e5faab1dd2799f89d12ccdba7a5d1b"
-  dependencies:
-    "@noble/hashes" "^1.0.0"
-    "@noble/secp256k1" "^1.5.5"
-    "@stacks/common" "^5.0.0"
-    "@stacks/network" "^5.0.0"
-    c32check "^2.0.0"
-    lodash.clonedeep "^4.5.0"
 
 "@stacks/wallet-sdk@^4.2.0":
   version "4.2.0"
