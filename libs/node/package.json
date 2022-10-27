@@ -42,7 +42,7 @@
     "dayjs": "^1.11.6",
     "fs-extra": "^10.1.0",
     "lib-shared": "1.0.0",
-    "merkletreejs": "^0.2.32",
+    "merkletreejs": "^0.3.0",
     "neverthrow": "5.1.0",
     "node-fetch": "2.6.1",
     "prettier": "^2.7.1",
