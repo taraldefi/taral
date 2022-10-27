@@ -27,7 +27,7 @@
     "@stacks/common": "^5.0.0",
     "@stacks/network": "^5.0.0",
     "@stacks/wallet-sdk": "^4.2.0",
-    "@stacks/stacks-blockchain-api-types": "^6.1.0",
+    "@stacks/stacks-blockchain-api-types": "^6.1.1",
     "@stacks/transactions": "^5.0.2",
     "@types/crypto-js": "^4.1.1",
     "@types/wif": "^2.0.2",
