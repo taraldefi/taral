@@ -46,7 +46,7 @@
     "javascript-stringify": "2.1.0",
     "lib-shared": "1.0.0",
     "lib-stacks": "1.0.0",
-    "merkletreejs": "^0.2.32",
+    "merkletreejs": "^0.3.0",
     "neverthrow": "5.1.0",
     "noble-secp256k1": "1.2.14",
     "node-fetch": "2.6.1",
