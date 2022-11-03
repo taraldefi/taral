@@ -263,7 +263,6 @@ export class TestProvider implements BaseProvider {
   }
 
   cvToString(val: ClarityValue, encoding: "tryAscii" | "hex" = "hex"): string {
-  
     switch (val.type) {
       case ClarityType.BoolTrue:
         return "true";
@@ -282,7 +281,10 @@ export class TestProvider implements BaseProvider {
           }
         }
 
-        Logger.debug('[Buffer hex CV TO String]', `0x${bytesToHex(val.buffer)}`);
+        Logger.debug(
+          "[Buffer hex CV TO String]",
+          `0x${bytesToHex(val.buffer)}`
+        );
         return `0x${bytesToHex(val.buffer)}`;
       case ClarityType.OptionalNone:
         return "none";

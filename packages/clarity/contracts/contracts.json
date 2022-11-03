@@ -23,7 +23,10 @@
         "insurance-pool-audit-compact",
         "insurance-pool-audit",
         "insurance-pool-admin",
-        "taral-storage"
+        "taral-storage",
+        "taral-importer",
+        "taral-exporter",
+        "taral-purchase-order"
       ]
     }
   ]

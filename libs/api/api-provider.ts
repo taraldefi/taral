@@ -6,6 +6,7 @@ import {
   ClarityType,
   ClarityValue,
   deserializeCV,
+  getNonce,
   makeContractCall,
   noneCV,
   ReadOnlyFunctionOptions,
@@ -15,7 +16,6 @@ import {
   SignedMultiSigContractCallOptions,
   TxBroadcastResult,
 } from "@stacks/transactions";
-import BN from "bn.js";
 import { ApiCreateOptions, FromApiContractOptions } from "lib-infra";
 import {
   BaseProvider,
@@ -36,11 +36,10 @@ import {
 } from "lib-shared";
 import { handleFunctionTransaction } from "lib-stacks";
 import { err, ok } from "neverthrow";
+import { NETWORK } from "taral-configuration";
 import { formatArguments } from "../stacks/format-arguments";
-import { getNonce } from "@stacks/transactions";
 import { getTransactionById } from "../stacks/utils";
 import { deployContractOnStacks } from "./stacks/deploy-contract";
-import { NETWORK } from "taral-configuration";
 
 const NAME = "api-provider";
 

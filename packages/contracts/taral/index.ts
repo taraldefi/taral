@@ -26,7 +26,13 @@ import {
   webSip10FtStandardInfo,
 } from "./sip-10-ft-standard";
 import { nodeTaralCoinInfo, webTaralCoinInfo } from "./taral-coin";
+import { nodeTaralExporterInfo, webTaralExporterInfo } from "./taral-exporter";
+import { nodeTaralImporterInfo, webTaralImporterInfo } from "./taral-importer";
 import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
+import {
+  nodeTaralPurchaseOrderInfo,
+  webTaralPurchaseOrderInfo,
+} from "./taral-purchase-order";
 import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
 export type { BtcFtSwapContract } from "./btc-ft-swap";
 export type { BtcNftSwapContract } from "./btc-nft-swap";
@@ -38,7 +44,10 @@ export type { InsurancePoolOracleContract } from "./insurance-pool-oracle";
 export type { NftTraitContract } from "./nft-trait";
 export type { Sip10FtStandardContract } from "./sip-10-ft-standard";
 export type { TaralCoinContract } from "./taral-coin";
+export type { TaralExporterContract } from "./taral-exporter";
+export type { TaralImporterContract } from "./taral-importer";
 export type { TaralOracleV1Contract } from "./taral-oracle-v1";
+export type { TaralPurchaseOrderContract } from "./taral-purchase-order";
 export type { TaralStorageContract } from "./taral-storage";
 
 export const nodeTaralContracts = {
@@ -54,6 +63,9 @@ export const nodeTaralContracts = {
   nodeInsurancePoolAudit: nodeInsurancePoolAuditInfo,
   nodeInsurancePoolAdmin: nodeInsurancePoolAdminInfo,
   nodeTaralStorage: nodeTaralStorageInfo,
+  nodeTaralImporter: nodeTaralImporterInfo,
+  nodeTaralExporter: nodeTaralExporterInfo,
+  nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
 };
 
 export const webTaralContracts = {
@@ -69,4 +81,7 @@ export const webTaralContracts = {
   webInsurancePoolAudit: webInsurancePoolAuditInfo,
   webInsurancePoolAdmin: webInsurancePoolAdminInfo,
   webTaralStorage: webTaralStorageInfo,
+  webTaralImporter: webTaralImporterInfo,
+  webTaralExporter: webTaralExporterInfo,
+  webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
 };

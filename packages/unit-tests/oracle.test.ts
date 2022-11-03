@@ -37,7 +37,7 @@ test("Oracle tests", async () => {
   // (define-constant err-not-owner (err u63))
   expect(error.value).toEqual(63n);
 
-  console.log('Added sources');
+  console.log("Added sources");
 
   error = await txErr(oracleBob.revokeSource("source2"));
 

@@ -10,12 +10,12 @@ import {
 import FormData from "form-data";
 import fs from "fs";
 
+import axios from "axios";
 import {
   createStacksPrivateKey,
   signMessageHashRsv,
   StacksPrivateKey,
 } from "lib-stacks";
-import axios from "axios";
 
 export class StorageApiClient {
   constructor(private baseUrl: string, private privateKey: string) {
