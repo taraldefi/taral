@@ -62,3 +62,6 @@ path = "contracts/taral/importer.clar"
 
 [contracts.exporter]
 path = "contracts/taral/exporter.clar"
+
+[contracts.purchase-order]
+path = "contracts/taral/purchase-order.clar"
