@@ -27,7 +27,7 @@ export async function retrieveOKCoinFeed(
       OKCOIN_FILTER[key].symbol,
       Math.floor(midPrice(pair!) * OKCOIN_FILTER[key].decimals)
     );
-    
+
     const sig = signPayload({
       infuraApiUrl: request.infuraApiKey,
       payload: msg,

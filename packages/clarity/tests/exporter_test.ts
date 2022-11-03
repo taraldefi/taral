@@ -15,29 +15,28 @@ import { assertEquals } from "../src/dependencies.ts";
 Clarinet.test({
   name: "Ensure that inputs are valid",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
     let exporter_category = "";
-    
+
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )                      
-    ]);    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
+    ]);
     let [receipt] = block.receipts;
-    
-    // Assert 
+
+    // Assert
     receipt.result.expectErr().expectUint(100); // ERR-GENERIC
   },
 });
@@ -45,42 +44,41 @@ Clarinet.test({
 Clarinet.test({
   name: "Ensure that exporter can register only once with unique wallet id",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
     let exporter_category = "Merchant";
-    
+
     // act
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
     ]);
-        
+
     let block = chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
     ]);
-    
+
     let [receipt] = block.receipts;
-    // Assert 
+    // Assert
     receipt.result.expectErr().expectUint(121); // ERR-EXPORTER-ALREADY-REGISTERED
   },
 });
@@ -88,31 +86,29 @@ Clarinet.test({
 Clarinet.test({
   name: "Ensure that exporter registration is a success",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
     let exporter_category = "Merchant";
-    
+
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )                      
-
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
     ]);
-    
+
     let [receipt] = block.receipts;
-    
-    // Assert 
+
+    // Assert
     receipt.result.expectOk().expectBool(true);
   },
 });
@@ -120,140 +116,142 @@ Clarinet.test({
 Clarinet.test({
   name: "Ensure that exporter exists after registration",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
+    let deployer = accounts.get("deployer")!;
 
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
     let exporter_category = "Merchant";
-        
+
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
     ]);
-    
+
     //act
-    let receipt  = chain.callReadOnlyFn('taral-exporter',
-                                        'get-exporter-profile', 
-                                         [types.principal(exporter_wallet)], 
-                                         deployer.address);
-        
-    // Assert 
-    receipt.result.expectSome();     
-    
+    let receipt = chain.callReadOnlyFn(
+      "taral-exporter",
+      "get-exporter-profile",
+      [types.principal(exporter_wallet)],
+      deployer.address
+    );
+
+    // Assert
+    receipt.result.expectSome();
   },
 });
 
 Clarinet.test({
   name: "Ensure that next exporter id available",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
+    let deployer = accounts.get("deployer")!;
 
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
     let exporter_category = "Merchant";
-        
+
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      )    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
     ]);
-    
+
     //act
-    let receipt  = chain.callReadOnlyFn('taral-exporter',
-                                        'get-next-exporter-id', 
-                                         [], 
-                                         deployer.address);
-        
-    // Assert 
-    receipt.result.expectUint(10002);     
+    let receipt = chain.callReadOnlyFn(
+      "taral-exporter",
+      "get-next-exporter-id",
+      [],
+      deployer.address
+    );
+
+    // Assert
+    receipt.result.expectUint(10002);
   },
 });
 
 Clarinet.test({
   name: "Ensure that to get exporters profile",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
+    let deployer = accounts.get("deployer")!;
 
-    let exporter1_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter1_name = "ALPS Logistics";
     let exporter1_category = "Merchant";
-        
+
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter1_wallet), 
-            types.utf8(exporter1_name),
-            types.utf8(exporter1_category)      
-          ],                         
-          deployer.address                                                    
-      )    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter1_wallet),
+          types.utf8(exporter1_name),
+          types.utf8(exporter1_category),
+        ],
+        deployer.address
+      ),
     ]);
 
-    let exporter2_wallet = 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG'
+    let exporter2_wallet = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
     let exporter2_name = "MX Roadways";
     let exporter2_category = "PROJECT";
-        
+
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter2_wallet), 
-            types.utf8(exporter2_name),
-            types.utf8(exporter2_category)      
-          ],                         
-          deployer.address                                                    
-      )    
-    ]);    
-    let exporter3_wallet = 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC'
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter2_wallet),
+          types.utf8(exporter2_name),
+          types.utf8(exporter2_category),
+        ],
+        deployer.address
+      ),
+    ]);
+    let exporter3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
 
-    //act 
+    //act
     const exporterList = types.list([
       types.principal(exporter1_wallet),
       types.principal(exporter2_wallet),
       types.principal(exporter3_wallet),
     ]);
 
-    let receipt  = chain.callReadOnlyFn('taral-exporter',
-                                        'get-exporters', 
-                                         [exporterList], 
-                                         deployer.address);
-        
-    // Assert     
-    let arrSome = receipt.result.matchAll(/some/gi);    // RegExpMatchArray        
-    let arrSomeCount = 0
-    for (let arr of arrSome){ 
-      arrSomeCount += 1
+    let receipt = chain.callReadOnlyFn(
+      "taral-exporter",
+      "get-exporters",
+      [exporterList],
+      deployer.address
+    );
+
+    // Assert
+    let arrSome = receipt.result.matchAll(/some/gi); // RegExpMatchArray
+    let arrSomeCount = 0;
+    for (let arr of arrSome) {
+      arrSomeCount += 1;
     }
     assertEquals(arrSomeCount, 2);
 
-    let arrNone = receipt.result.matchAll(/none/gi);    
-    let arrNoneCount = 0
-    for (let arr of arrNone){ 
-      arrNoneCount += 1
+    let arrNone = receipt.result.matchAll(/none/gi);
+    let arrNoneCount = 0;
+    for (let arr of arrNone) {
+      arrNoneCount += 1;
     }
     assertEquals(arrNoneCount, 1);
   },
@@ -262,29 +260,24 @@ Clarinet.test({
 Clarinet.test({
   name: "Ensure that order inputs are valid",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let new_order_id = 2001;
 
     //act
-    let block = chain.mineBlock([     
+    let block = chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'append-order', 
-          [
-            types.uint(new_order_id),
-            types.principal(exporter_wallet),            
-          ],                         
-          deployer.address                                                    
-      )                      
-
+        "taral-exporter",
+        "append-order",
+        [types.uint(new_order_id), types.principal(exporter_wallet)],
+        deployer.address
+      ),
     ]);
     // console.log(block.receipts)
     let receipt = block.receipts[0];
-    
-    // Assert 
+
+    // Assert
     receipt.result.expectErr().expectUint(120); // ERR-EXPORTER-NOT-REGISTERED
   },
 });
@@ -299,57 +292,57 @@ Clarinet.test({
 //     let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
 //     let exporter_name = "ALPS Logistics";
 //     let exporter_category = "Merchant";
-    
+
 //     let new_order_id = 2001;
-//     let importer_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'    
+//     let importer_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
 //     let payment_term_code = "60 Days";
-    
+
 //     // act
 //     chain.mineBlock([
 
 //       Tx.contractCall(
-//           'taral-exporter', 
-//           'register', 
+//           'taral-exporter',
+//           'register',
 //           [
-//             types.principal(exporter_wallet), 
+//             types.principal(exporter_wallet),
 //             types.utf8(exporter_name),
-//             types.utf8(exporter_category)      
-//           ],                         
-//           deployer.address                                                    
+//             types.utf8(exporter_category)
+//           ],
+//           deployer.address
 //       )
 //     ]);
-        
+
 //     let block = chain.mineBlock([
 
 //       Tx.contractCall(
-//         'taral-exporter', 
-//         'append-order', 
+//         'taral-exporter',
+//         'append-order',
 //         [
 //           types.uint(new_order_id),
-//           types.principal(exporter_wallet),            
-//           types.principal(importer_wallet),            
-//           types.utf8(payment_term_code)      
-//         ],                         
-//         deployer.address                                                    
-//       ),                      
+//           types.principal(exporter_wallet),
+//           types.principal(importer_wallet),
+//           types.utf8(payment_term_code)
+//         ],
+//         deployer.address
+//       ),
 
 //       Tx.contractCall(
-//         'taral-exporter', 
-//         'append-order', 
+//         'taral-exporter',
+//         'append-order',
 //         [
 //           types.uint(new_order_id),
-//           types.principal(exporter_wallet),            
-//           types.principal(importer_wallet),            
-//           types.utf8(payment_term_code)      
-//         ],                         
-//         deployer.address                                                    
-//       )                      
+//           types.principal(exporter_wallet),
+//           types.principal(importer_wallet),
+//           types.utf8(payment_term_code)
+//         ],
+//         deployer.address
+//       )
 
 //     ]);
-    
+
 //     console.log(block.receipts)
 //     let receipt = block.receipts[1];
-//     // Assert 
+//     // Assert
 //     receipt.result.expectErr().expectUint(3); // ERR-EXPORTER-ORDER-ALREADY-EXISTS
 //   },
 // });
@@ -358,38 +351,34 @@ Clarinet.test({
   name: "Ensure that adding order is a success",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
-    let exporter_category = "Merchant";    
+    let exporter_category = "Merchant";
     let new_order_id = 2001;
-    
+
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
-      ),      
-      Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
+        "taral-exporter",
+        "register",
         [
-          types.uint(new_order_id),
-          types.principal(exporter_wallet)            
-        ],                         
-        deployer.address                                                    
-      )
-
-    ]);    
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
+      ),
+      Tx.contractCall(
+        "taral-exporter",
+        "append-order",
+        [types.uint(new_order_id), types.principal(exporter_wallet)],
+        deployer.address
+      ),
+    ]);
     let receipt = block.receipts[1];
-    
-    // Assert 
+
+    // Assert
     receipt.result.expectOk().expectBool(true);
   },
 });
@@ -397,139 +386,123 @@ Clarinet.test({
 Clarinet.test({
   name: "Ensure that order exists after registration",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter_name = "ALPS Logistics";
-    let exporter_category = "Merchant";    
+    let exporter_category = "Merchant";
     let new_order_id = 2001;
-            
+
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter_wallet), 
-            types.utf8(exporter_name),
-            types.utf8(exporter_category)      
-          ],                         
-          deployer.address                                                    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter_wallet),
+          types.utf8(exporter_name),
+          types.utf8(exporter_category),
+        ],
+        deployer.address
       ),
       Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
-        [
-          types.uint(new_order_id),
-          types.principal(exporter_wallet)           
-        ],                         
-        deployer.address                                                    
-      )
+        "taral-exporter",
+        "append-order",
+        [types.uint(new_order_id), types.principal(exporter_wallet)],
+        deployer.address
+      ),
     ]);
 
     //act
-    let receipt  = chain.callReadOnlyFn('taral-exporter',
-                                        'get-exporter-order', 
-                                         [types.uint(0), types.principal(exporter_wallet)], 
-                                         deployer.address);        
-    // Assert 
-    receipt.result.expectSome();     
-
+    let receipt = chain.callReadOnlyFn(
+      "taral-exporter",
+      "get-exporter-order",
+      [types.uint(0), types.principal(exporter_wallet)],
+      deployer.address
+    );
+    // Assert
+    receipt.result.expectSome();
   },
 });
 
 Clarinet.test({
   name: "Ensure that to get orders list of exporters",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-
     //arrange
-    let deployer = accounts.get('deployer')!;   
-    let exporter1_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5'
+    let deployer = accounts.get("deployer")!;
+    let exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
     let exporter1_name = "ALPS Logistics";
     let exporter1_category = "Merchant";
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter1_wallet), 
-            types.utf8(exporter1_name),
-            types.utf8(exporter1_category)      
-          ],                         
-          deployer.address                                                    
-      )    
+        "taral-exporter",
+        "register",
+        [
+          types.principal(exporter1_wallet),
+          types.utf8(exporter1_name),
+          types.utf8(exporter1_category),
+        ],
+        deployer.address
+      ),
     ]);
 
-    let exporter2_wallet = 'ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG'
+    let exporter2_wallet = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
     let exporter2_name = "MX Roadways";
-    let exporter2_category = "PROJECT";        
+    let exporter2_category = "PROJECT";
     chain.mineBlock([
       Tx.contractCall(
-          'taral-exporter', 
-          'register', 
-          [
-            types.principal(exporter2_wallet), 
-            types.utf8(exporter2_name),
-            types.utf8(exporter2_category)      
-          ],                         
-          deployer.address                                                    
-      )    
-    ]);
-    
-    let exporter3_wallet = 'ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC'    
-    let new1_order_id = 2001;
-    chain.mineBlock([      
-      Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
+        "taral-exporter",
+        "register",
         [
-          types.uint(new1_order_id),
-          types.principal(exporter1_wallet),            
-        ],                         
-        deployer.address                                                    
-      )
+          types.principal(exporter2_wallet),
+          types.utf8(exporter2_name),
+          types.utf8(exporter2_category),
+        ],
+        deployer.address
+      ),
+    ]);
+
+    let exporter3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
+    let new1_order_id = 2001;
+    chain.mineBlock([
+      Tx.contractCall(
+        "taral-exporter",
+        "append-order",
+        [types.uint(new1_order_id), types.principal(exporter1_wallet)],
+        deployer.address
+      ),
     ]);
 
     let new2_order_id = 2002;
-    chain.mineBlock([      
+    chain.mineBlock([
       Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
-        [
-          types.uint(new2_order_id),
-          types.principal(exporter1_wallet),            
-        ],                         
-        deployer.address                                                    
-      )
+        "taral-exporter",
+        "append-order",
+        [types.uint(new2_order_id), types.principal(exporter1_wallet)],
+        deployer.address
+      ),
     ]);
 
     let new3_order_id = 2003;
-    chain.mineBlock([      
+    chain.mineBlock([
       Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
-        [
-          types.uint(new3_order_id),
-          types.principal(exporter2_wallet),            
-        ],                         
-        deployer.address                                                    
-      )
+        "taral-exporter",
+        "append-order",
+        [types.uint(new3_order_id), types.principal(exporter2_wallet)],
+        deployer.address
+      ),
     ]);
 
     let new4_order_id = 2004;
-    chain.mineBlock([      
+    chain.mineBlock([
       Tx.contractCall(
-        'taral-exporter', 
-        'append-order', 
-        [
-          types.uint(new4_order_id),
-          types.principal(exporter2_wallet),            
-        ],                         
-        deployer.address                                                    
-      )
+        "taral-exporter",
+        "append-order",
+        [types.uint(new4_order_id), types.principal(exporter2_wallet)],
+        deployer.address
+      ),
     ]);
 
-    //act 
+    //act
     const exporterList = types.list([
       types.principal(exporter1_wallet),
       types.principal(exporter1_wallet),
@@ -543,19 +516,21 @@ Clarinet.test({
       types.uint(0),
       types.uint(0),
     ]);
-    
-    let receipt  = chain.callReadOnlyFn('taral-exporter',
-                                        'get-exporter-orders', 
-                                         [orderList, exporterList], 
-                                         deployer.address);
-        
-    // Assert     
+
+    let receipt = chain.callReadOnlyFn(
+      "taral-exporter",
+      "get-exporter-orders",
+      [orderList, exporterList],
+      deployer.address
+    );
+
+    // Assert
     // console.log(receipt);
-    let arrSome = receipt.result.matchAll(/some/gi);    // RegExpMatchArray        
-    let arrSomeCount = 0
-    for (let arr of arrSome){ 
-      arrSomeCount += 1
+    let arrSome = receipt.result.matchAll(/some/gi); // RegExpMatchArray
+    let arrSomeCount = 0;
+    for (let arr of arrSome) {
+      arrSomeCount += 1;
     }
-    assertEquals(arrSomeCount, 3);    
+    assertEquals(arrSomeCount, 3);
   },
 });

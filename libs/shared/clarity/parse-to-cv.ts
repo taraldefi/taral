@@ -57,12 +57,11 @@ interface BufferCV {
  */
 const bufferCV = (buffer: Buffer): BufferCV => {
   if (buffer.length > 1000000) {
-    throw new Error('Cannot construct clarity buffer that is greater than 1MB');
+    throw new Error("Cannot construct clarity buffer that is greater than 1MB");
   }
 
   return { type: ClarityType.Buffer, buffer };
 };
-
 
 const bufferCVFromString = (string: string) => bufferCV(Buffer.from(string));
 
@@ -78,47 +77,64 @@ export function utf8ToBytes(content: string) {
  *
  * @returns {ClarityValue} returns a Clarity value
  */
- export function parseToCVInternal(input: string, type: ClarityAbiType): ClarityValue {
+export function parseToCVInternal(
+  input: string,
+  type: ClarityAbiType
+): ClarityValue {
   const typeString = getTypeString(type);
   if (isClarityAbiPrimitive(type)) {
-    if (type === 'uint128') {
+    if (type === "uint128") {
       return uintCV(input);
-    } else if (type === 'int128') {
+    } else if (type === "int128") {
       return intCV(input);
-    } else if (type === 'bool') {
-      if (input.toLowerCase() === 'true') {
+    } else if (type === "bool") {
+      if (input.toLowerCase() === "true") {
         return trueCV();
-      } else if (input.toLowerCase() === 'false') {
+      } else if (input.toLowerCase() === "false") {
         return falseCV();
       } else {
         throw new Error(`Invalid bool value: ${input}`);
       }
-    } else if (type === 'principal') {
-      if (input.includes('.')) {
-        const [address, contractName] = input.split('.');
+    } else if (type === "principal") {
+      if (input.includes(".")) {
+        const [address, contractName] = input.split(".");
         return contractPrincipalCV(address, contractName);
       } else {
         return standardPrincipalCV(input);
       }
     } else {
-      throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+      throw new Error(
+        `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      );
     }
   } else if (isClarityAbiBuffer(type)) {
     const inputLength = Buffer.from(input).byteLength;
     if (inputLength > type.buffer.length) {
-      throw new Error(`Input exceeds specified buffer length limit of ${type.buffer.length}`);
+      throw new Error(
+        `Input exceeds specified buffer length limit of ${type.buffer.length}`
+      );
     }
     return bufferCVFromString(input);
   } else if (isClarityAbiResponse(type)) {
-    throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+    throw new Error(
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+    );
   } else if (isClarityAbiOptional(type)) {
-    throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+    throw new Error(
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+    );
   } else if (isClarityAbiTuple(type)) {
-    throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+    throw new Error(
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+    );
   } else if (isClarityAbiList(type)) {
-    throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+    throw new Error(
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+    );
   } else {
-    throw new Error(`Contract function contains unsupported Clarity ABI type: ${typeString}`);
+    throw new Error(
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+    );
   }
 }
 
@@ -181,4 +197,3 @@ function inputToBigInt(input: CVInput) {
   }
   return BigInt(input);
 }
-

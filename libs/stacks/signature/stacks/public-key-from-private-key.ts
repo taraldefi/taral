@@ -3,15 +3,16 @@ import { bytesToHex } from "lib-shared";
 import { createStacksPrivateKey } from "./create-private-key";
 import { StacksPublicKey } from "./types";
 import { createStacksPublicKey } from "./utils";
-import {
-  getPublicKey as nobleGetPublicKey,
-} from '@noble/secp256k1';
+import { getPublicKey as nobleGetPublicKey } from "@noble/secp256k1";
 
 export function publicKeyFromPrivKey(
   privateKey: string | Uint8Array
 ): StacksPublicKey {
   const privKey = createStacksPrivateKey(privateKey);
-  const publicKey = nobleGetPublicKey(privKey.data.slice(0, 32), privKey.compressed);
+  const publicKey = nobleGetPublicKey(
+    privKey.data.slice(0, 32),
+    privKey.compressed
+  );
   return createStacksPublicKey(bytesToHex(publicKey));
 }
 

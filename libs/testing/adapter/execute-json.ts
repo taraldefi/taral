@@ -25,9 +25,7 @@ export const executeJson = async ({
     ...args,
   ]);
 
-  Logger.debug(
-    '[ExecuteJson]', JSON.stringify(result)
-  );
+  Logger.debug("[ExecuteJson]", JSON.stringify(result));
 
   const response: ExecuteResult = JSON.parse(result.stdout);
 
