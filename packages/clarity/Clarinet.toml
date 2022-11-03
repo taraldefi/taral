@@ -57,11 +57,11 @@ depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 [contracts.taral-storage]
 path = "contracts/taral/taral-storage.clar"
 
-[contracts.importer]
-path = "contracts/taral/importer.clar"
+[contracts.taral-importer]
+path = "contracts/taral/taral-importer.clar"
 
-[contracts.exporter]
-path = "contracts/taral/exporter.clar"
+[contracts.taral-exporter]
+path = "contracts/taral/taral-exporter.clar"
 
-[contracts.purchase-order]
-path = "contracts/taral/purchase-order.clar"
+[contracts.taral-purchase-order]
+path = "contracts/taral/taral-purchase-order.clar"

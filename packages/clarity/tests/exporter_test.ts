@@ -25,7 +25,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -55,7 +55,7 @@ Clarinet.test({
     // act
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -68,7 +68,7 @@ Clarinet.test({
         
     let block = chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -98,7 +98,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -130,7 +130,7 @@ Clarinet.test({
         
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -142,7 +142,7 @@ Clarinet.test({
     ]);
     
     //act
-    let receipt  = chain.callReadOnlyFn('exporter',
+    let receipt  = chain.callReadOnlyFn('taral-exporter',
                                         'get-exporter-profile', 
                                          [types.principal(exporter_wallet)], 
                                          deployer.address);
@@ -166,7 +166,7 @@ Clarinet.test({
         
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -178,7 +178,7 @@ Clarinet.test({
     ]);
     
     //act
-    let receipt  = chain.callReadOnlyFn('exporter',
+    let receipt  = chain.callReadOnlyFn('taral-exporter',
                                         'get-next-exporter-id', 
                                          [], 
                                          deployer.address);
@@ -201,7 +201,7 @@ Clarinet.test({
         
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter1_wallet), 
@@ -218,7 +218,7 @@ Clarinet.test({
         
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter2_wallet), 
@@ -237,7 +237,7 @@ Clarinet.test({
       types.principal(exporter3_wallet),
     ]);
 
-    let receipt  = chain.callReadOnlyFn('exporter',
+    let receipt  = chain.callReadOnlyFn('taral-exporter',
                                         'get-exporters', 
                                          [exporterList], 
                                          deployer.address);
@@ -271,7 +271,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([     
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'append-order', 
           [
             types.uint(new_order_id),
@@ -308,7 +308,7 @@ Clarinet.test({
 //     chain.mineBlock([
 
 //       Tx.contractCall(
-//           'exporter', 
+//           'taral-exporter', 
 //           'register', 
 //           [
 //             types.principal(exporter_wallet), 
@@ -322,7 +322,7 @@ Clarinet.test({
 //     let block = chain.mineBlock([
 
 //       Tx.contractCall(
-//         'exporter', 
+//         'taral-exporter', 
 //         'append-order', 
 //         [
 //           types.uint(new_order_id),
@@ -334,7 +334,7 @@ Clarinet.test({
 //       ),                      
 
 //       Tx.contractCall(
-//         'exporter', 
+//         'taral-exporter', 
 //         'append-order', 
 //         [
 //           types.uint(new_order_id),
@@ -367,7 +367,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -377,7 +377,7 @@ Clarinet.test({
           deployer.address                                                    
       ),      
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new_order_id),
@@ -407,7 +407,7 @@ Clarinet.test({
             
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter_wallet), 
@@ -417,7 +417,7 @@ Clarinet.test({
           deployer.address                                                    
       ),
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new_order_id),
@@ -428,7 +428,7 @@ Clarinet.test({
     ]);
 
     //act
-    let receipt  = chain.callReadOnlyFn('exporter',
+    let receipt  = chain.callReadOnlyFn('taral-exporter',
                                         'get-exporter-order', 
                                          [types.uint(0), types.principal(exporter_wallet)], 
                                          deployer.address);        
@@ -449,7 +449,7 @@ Clarinet.test({
     let exporter1_category = "Merchant";
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter1_wallet), 
@@ -465,7 +465,7 @@ Clarinet.test({
     let exporter2_category = "PROJECT";        
     chain.mineBlock([
       Tx.contractCall(
-          'exporter', 
+          'taral-exporter', 
           'register', 
           [
             types.principal(exporter2_wallet), 
@@ -480,7 +480,7 @@ Clarinet.test({
     let new1_order_id = 2001;
     chain.mineBlock([      
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new1_order_id),
@@ -493,7 +493,7 @@ Clarinet.test({
     let new2_order_id = 2002;
     chain.mineBlock([      
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new2_order_id),
@@ -506,7 +506,7 @@ Clarinet.test({
     let new3_order_id = 2003;
     chain.mineBlock([      
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new3_order_id),
@@ -519,7 +519,7 @@ Clarinet.test({
     let new4_order_id = 2004;
     chain.mineBlock([      
       Tx.contractCall(
-        'exporter', 
+        'taral-exporter', 
         'append-order', 
         [
           types.uint(new4_order_id),
@@ -544,7 +544,7 @@ Clarinet.test({
       types.uint(0),
     ]);
     
-    let receipt  = chain.callReadOnlyFn('exporter',
+    let receipt  = chain.callReadOnlyFn('taral-exporter',
                                         'get-exporter-orders', 
                                          [orderList, exporterList], 
                                          deployer.address);
