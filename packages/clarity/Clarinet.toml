@@ -59,3 +59,6 @@ path = "contracts/taral/taral-storage.clar"
 
 [contracts.importer]
 path = "contracts/taral/importer.clar"
+
+[contracts.exporter]
+path = "contracts/taral/exporter.clar"
