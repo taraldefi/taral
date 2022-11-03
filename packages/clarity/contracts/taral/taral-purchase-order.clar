@@ -118,11 +118,11 @@
     ;; )
     
     ;; Verify Exporter      
-    (let ((optExporterId (contract-call? .exporter get-exporter-id exporter) ))
+    (let ((optExporterId (contract-call? .taral-exporter get-exporter-id exporter) ))
       (asserts! (not (is-none optExporterId)) ERR-EXPORTER-NOT-REGISTERED )
 
       ;; Verify Importer 
-      (let ((optImporterId (contract-call? .importer get-importer-id importer) ))
+      (let ((optImporterId (contract-call? .taral-importer get-importer-id importer) ))
         (asserts! (not (is-none optImporterId)) ERR-IMPORTER-NOT-REGISTERED )
         
         ;; Validate paymentTerm uint
@@ -155,8 +155,8 @@
                                           })
 
                   ;; append the order in exporter and importer
-                  (try! (contract-call? .exporter append-order orderId exporter)) 
-                  (try! (contract-call? .importer append-order orderId importer)) 
+                  (try! (contract-call? .taral-exporter append-order orderId exporter)) 
+                  (try! (contract-call? .taral-importer append-order orderId importer)) 
                 )
             )
  
