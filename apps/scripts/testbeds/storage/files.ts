@@ -1,8 +1,6 @@
-import fs from "fs";
-import path from "path";
+import fs, { writeFileSync } from "fs";
 import { File } from "lib-storage";
-import { writeFileSync } from "fs";
-import { join } from "path";
+import path, { join } from "path";
 
 export function readTestFile(fileName: string): File {
   const filePath = path.join(__dirname, `../testfiles/${fileName}`);

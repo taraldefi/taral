@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { BnsContract } from "./types";
 import { BnsInterface } from "./abi";
+import type { BnsContract } from "./types";
 export type { BnsContract } from "./types";
 
 export const nodeBnsContract = (provider: BaseNodeProvider) => {

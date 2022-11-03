@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { NftTraitContract } from "./types";
 import { NftTraitInterface } from "./abi";
+import type { NftTraitContract } from "./types";
 export type { NftTraitContract } from "./types";
 
 export const nodeNftTraitContract = (provider: BaseNodeProvider) => {

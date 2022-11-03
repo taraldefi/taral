@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { ClarityBitcoinContract } from "./types";
 import { ClarityBitcoinInterface } from "./abi";
+import type { ClarityBitcoinContract } from "./types";
 export type { ClarityBitcoinContract } from "./types";
 
 export const nodeClarityBitcoinContract = (provider: BaseNodeProvider) => {

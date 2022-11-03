@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { TestUtilsContract } from "./types";
 import { TestUtilsInterface } from "./abi";
+import type { TestUtilsContract } from "./types";
 export type { TestUtilsContract } from "./types";
 
 export const nodeTestUtilsContract = (provider: BaseNodeProvider) => {

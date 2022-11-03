@@ -1,8 +1,7 @@
 import { decryptString, ecPrivateKey } from "lib-stacks";
-import { PrivateKey } from "./storage/constants";
 import { StorageApiClient } from "lib-storage";
+import { PrivateKey } from "./storage/constants";
 import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
-import { request } from "http";
 
 export async function storageManualTest(updateFile: boolean = false) {
   const storage: StorageApiClient = new StorageApiClient(

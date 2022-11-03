@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { UsdaTokenContract } from "./types";
 import { UsdaTokenInterface } from "./abi";
+import type { UsdaTokenContract } from "./types";
 export type { UsdaTokenContract } from "./types";
 
 export const nodeUsdaTokenContract = (provider: BaseNodeProvider) => {

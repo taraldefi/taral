@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { PoxContract } from "./types";
 import { PoxInterface } from "./abi";
+import type { PoxContract } from "./types";
 export type { PoxContract } from "./types";
 
 export const nodePoxContract = (provider: BaseNodeProvider) => {

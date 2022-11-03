@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { Sip010TraitFtStandardContract } from "./types";
 import { Sip010TraitFtStandardInterface } from "./abi";
+import type { Sip010TraitFtStandardContract } from "./types";
 export type { Sip010TraitFtStandardContract } from "./types";
 
 export const nodeSip010TraitFtStandardContract = (

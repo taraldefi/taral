@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { CostVotingContract } from "./types";
 import { CostVotingInterface } from "./abi";
+import type { CostVotingContract } from "./types";
 export type { CostVotingContract } from "./types";
 
 export const nodeCostVotingContract = (provider: BaseNodeProvider) => {

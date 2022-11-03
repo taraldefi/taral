@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { TaralCoinContract } from "./types";
 import { TaralCoinInterface } from "./abi";
+import type { TaralCoinContract } from "./types";
 export type { TaralCoinContract } from "./types";
 
 export const nodeTaralCoinContract = (provider: BaseNodeProvider) => {

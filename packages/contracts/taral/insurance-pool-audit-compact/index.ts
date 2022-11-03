@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { InsurancePoolAuditCompactContract } from "./types";
 import { InsurancePoolAuditCompactInterface } from "./abi";
+import type { InsurancePoolAuditCompactContract } from "./types";
 export type { InsurancePoolAuditCompactContract } from "./types";
 
 export const nodeInsurancePoolAuditCompactContract = (

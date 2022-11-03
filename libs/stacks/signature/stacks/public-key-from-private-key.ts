@@ -1,9 +1,9 @@
+import { getPublicKey as nobleGetPublicKey } from "@noble/secp256k1";
 import { ec as EC } from "elliptic";
 import { bytesToHex } from "lib-shared";
 import { createStacksPrivateKey } from "./create-private-key";
 import { StacksPublicKey } from "./types";
 import { createStacksPublicKey } from "./utils";
-import { getPublicKey as nobleGetPublicKey } from "@noble/secp256k1";
 
 export function publicKeyFromPrivKey(
   privateKey: string | Uint8Array

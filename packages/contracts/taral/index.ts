@@ -1,54 +1,54 @@
-import {
-  nodeSip10FtStandardInfo,
-  webSip10FtStandardInfo,
-} from "./sip-10-ft-standard";
-import { nodeNftTraitInfo, webNftTraitInfo } from "./nft-trait";
-import { nodeTaralCoinInfo, webTaralCoinInfo } from "./taral-coin";
+import { nodeBtcFtSwapInfo, webBtcFtSwapInfo } from "./btc-ft-swap";
+import { nodeBtcNftSwapInfo, webBtcNftSwapInfo } from "./btc-nft-swap";
 import {
   nodeClarityBitcoinInfo,
   webClarityBitcoinInfo,
 } from "./clarity-bitcoin";
-import { nodeBtcFtSwapInfo, webBtcFtSwapInfo } from "./btc-ft-swap";
-import { nodeBtcNftSwapInfo, webBtcNftSwapInfo } from "./btc-nft-swap";
-import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
 import {
-  nodeInsurancePoolOracleInfo,
-  webInsurancePoolOracleInfo,
-} from "./insurance-pool-oracle";
-import {
-  nodeInsurancePoolAuditCompactInfo,
-  webInsurancePoolAuditCompactInfo,
-} from "./insurance-pool-audit-compact";
+  nodeInsurancePoolAdminInfo,
+  webInsurancePoolAdminInfo,
+} from "./insurance-pool-admin";
 import {
   nodeInsurancePoolAuditInfo,
   webInsurancePoolAuditInfo,
 } from "./insurance-pool-audit";
 import {
-  nodeInsurancePoolAdminInfo,
-  webInsurancePoolAdminInfo,
-} from "./insurance-pool-admin";
-import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
-import { nodeTaralImporterInfo, webTaralImporterInfo } from "./taral-importer";
+  nodeInsurancePoolAuditCompactInfo,
+  webInsurancePoolAuditCompactInfo,
+} from "./insurance-pool-audit-compact";
+import {
+  nodeInsurancePoolOracleInfo,
+  webInsurancePoolOracleInfo,
+} from "./insurance-pool-oracle";
+import { nodeNftTraitInfo, webNftTraitInfo } from "./nft-trait";
+import {
+  nodeSip10FtStandardInfo,
+  webSip10FtStandardInfo,
+} from "./sip-10-ft-standard";
+import { nodeTaralCoinInfo, webTaralCoinInfo } from "./taral-coin";
 import { nodeTaralExporterInfo, webTaralExporterInfo } from "./taral-exporter";
+import { nodeTaralImporterInfo, webTaralImporterInfo } from "./taral-importer";
+import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
 import {
   nodeTaralPurchaseOrderInfo,
   webTaralPurchaseOrderInfo,
 } from "./taral-purchase-order";
-export type { Sip10FtStandardContract } from "./sip-10-ft-standard";
-export type { NftTraitContract } from "./nft-trait";
-export type { TaralCoinContract } from "./taral-coin";
-export type { ClarityBitcoinContract } from "./clarity-bitcoin";
+import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
 export type { BtcFtSwapContract } from "./btc-ft-swap";
 export type { BtcNftSwapContract } from "./btc-nft-swap";
-export type { TaralOracleV1Contract } from "./taral-oracle-v1";
-export type { InsurancePoolOracleContract } from "./insurance-pool-oracle";
-export type { InsurancePoolAuditCompactContract } from "./insurance-pool-audit-compact";
-export type { InsurancePoolAuditContract } from "./insurance-pool-audit";
+export type { ClarityBitcoinContract } from "./clarity-bitcoin";
 export type { InsurancePoolAdminContract } from "./insurance-pool-admin";
-export type { TaralStorageContract } from "./taral-storage";
-export type { TaralImporterContract } from "./taral-importer";
+export type { InsurancePoolAuditContract } from "./insurance-pool-audit";
+export type { InsurancePoolAuditCompactContract } from "./insurance-pool-audit-compact";
+export type { InsurancePoolOracleContract } from "./insurance-pool-oracle";
+export type { NftTraitContract } from "./nft-trait";
+export type { Sip10FtStandardContract } from "./sip-10-ft-standard";
+export type { TaralCoinContract } from "./taral-coin";
 export type { TaralExporterContract } from "./taral-exporter";
+export type { TaralImporterContract } from "./taral-importer";
+export type { TaralOracleV1Contract } from "./taral-oracle-v1";
 export type { TaralPurchaseOrderContract } from "./taral-purchase-order";
+export type { TaralStorageContract } from "./taral-storage";
 
 export const nodeTaralContracts = {
   nodeSip10FtStandard: nodeSip10FtStandardInfo,

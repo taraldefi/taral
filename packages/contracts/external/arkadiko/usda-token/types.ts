@@ -1,5 +1,4 @@
-import { Transaction } from "lib-shared";
-import { ClarityTypes } from "lib-shared";
+import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface UsdaTokenContract {
   setTokenUri: (value: string) => Transaction<boolean, null>;

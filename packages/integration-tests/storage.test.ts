@@ -1,18 +1,11 @@
+import { Logger } from "lib-shared";
 import {
-  canRead,
-  canWrite,
-  grantAccessToFile,
   IStorageFileRegister,
-  IStorageFileUpdate,
   registerFile,
-  revokeAccessFromFile,
-  updateAccessToFile,
-  updateFile,
+  StorageApiClient,
 } from "lib-storage";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { readTestFile } from "./storage";
-import { StorageApiClient } from "lib-storage";
-import { Logger } from "lib-shared";
 
 test("[File storage] - Happy flow", async () => {
   const deployer = clarinetAccounts.deployer;
@@ -23,15 +16,10 @@ test("[File storage] - Happy flow", async () => {
   const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
 
   const firstVersionFileName = "dummy.pdf";
-  const secondVersionFileName = "dummy-edited.pdf";
 
   const deployerConfiguredStorage: StorageApiClient = new StorageApiClient(
     "http://localhost:3000",
     deployerPrivateKey
-  );
-  const bobsStorage: StorageApiClient = new StorageApiClient(
-    "http://localhost:3000",
-    bob.privateKey
   );
 
   const firstFileBuffer = readTestFile(firstVersionFileName);

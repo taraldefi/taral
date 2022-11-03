@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { BtcFtSwapContract } from "./types";
 import { BtcFtSwapInterface } from "./abi";
+import type { BtcFtSwapContract } from "./types";
 export type { BtcFtSwapContract } from "./types";
 
 export const nodeBtcFtSwapContract = (provider: BaseNodeProvider) => {

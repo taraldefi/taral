@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { TaralOracleV1Contract } from "./types";
 import { TaralOracleV1Interface } from "./abi";
+import type { TaralOracleV1Contract } from "./types";
 export type { TaralOracleV1Contract } from "./types";
 
 export const nodeTaralOracleV1Contract = (provider: BaseNodeProvider) => {

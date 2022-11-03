@@ -1,5 +1,4 @@
-import { Transaction } from "lib-shared";
-import { ClarityTypes } from "lib-shared";
+import { ClarityTypes, Transaction } from "lib-shared";
 
 export interface BtcNftSwapContract {
   cancel: (id: number | bigint, nft: string) => Transaction<boolean, bigint>;

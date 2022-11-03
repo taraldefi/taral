@@ -1,5 +1,3 @@
-export * from "./sdk";
-
-export * from "./utils";
-
 export * from "./client";
+export * from "./sdk";
+export * from "./utils";

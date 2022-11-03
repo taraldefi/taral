@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { TaralStorageContract } from "./types";
 import { TaralStorageInterface } from "./abi";
+import type { TaralStorageContract } from "./types";
 export type { TaralStorageContract } from "./types";
 
 export const nodeTaralStorageContract = (provider: BaseNodeProvider) => {

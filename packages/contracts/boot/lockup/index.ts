@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { LockupContract } from "./types";
 import { LockupInterface } from "./abi";
+import type { LockupContract } from "./types";
 export type { LockupContract } from "./types";
 
 export const nodeLockupContract = (provider: BaseNodeProvider) => {

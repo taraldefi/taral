@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { InsurancePoolOracleContract } from "./types";
 import { InsurancePoolOracleInterface } from "./abi";
+import type { InsurancePoolOracleContract } from "./types";
 export type { InsurancePoolOracleContract } from "./types";
 
 export const nodeInsurancePoolOracleContract = (provider: BaseNodeProvider) => {

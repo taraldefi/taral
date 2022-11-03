@@ -1,13 +1,13 @@
 import {
-  NodeContract,
-  WebContract,
-  nodeProxy,
-  webProxy,
   BaseNodeProvider,
   BaseWebProvider,
+  NodeContract,
+  nodeProxy,
+  WebContract,
+  webProxy,
 } from "lib-shared";
-import type { CostsContract } from "./types";
 import { CostsInterface } from "./abi";
+import type { CostsContract } from "./types";
 export type { CostsContract } from "./types";
 
 export const nodeCostsContract = (provider: BaseNodeProvider) => {
