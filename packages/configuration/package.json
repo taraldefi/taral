@@ -8,7 +8,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "typescript": "^4.8.4"
+    "typescript": "^4.9.3"
   },
   "dependencies": {
     "@stacks/network": "^5.0.0",
