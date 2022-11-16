@@ -3627,6 +3627,12 @@ ansi-escapes@^5.0.0:
   dependencies:
     type-fest "^1.0.2"
 
+ansi-escapes@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/ansi-escapes/-/ansi-escapes-6.0.0.tgz#68c580e87a489f6df3d761028bb93093fde6bd8a"
+  dependencies:
+    type-fest "^3.0.0"
+
 ansi-html-community@^0.0.8:
   version "0.0.8"
   resolved "https://registry.npmjs.org/ansi-html-community/-/ansi-html-community-0.0.8.tgz"
@@ -8608,11 +8614,7 @@ jest-regex-util@^28.0.2:
   version "28.0.2"
   resolved "https://registry.npmjs.org/jest-regex-util/-/jest-regex-util-28.0.2.tgz"
 
-jest-regex-util@^29.0.0:
-  version "29.0.0"
-  resolved "https://registry.npmjs.org/jest-regex-util/-/jest-regex-util-29.0.0.tgz"
-
-jest-regex-util@^29.2.0:
+jest-regex-util@^29.0.0, jest-regex-util@^29.2.0:
   version "29.2.0"
   resolved "https://registry.yarnpkg.com/jest-regex-util/-/jest-regex-util-29.2.0.tgz#82ef3b587e8c303357728d0322d48bbfd2971f7b"
 
@@ -8964,15 +8966,15 @@ jest-validate@^29.3.1:
     leven "^3.1.0"
     pretty-format "^29.3.1"
 
-jest-watch-typeahead@2.2.0:
-  version "2.2.0"
-  resolved "https://registry.npmjs.org/jest-watch-typeahead/-/jest-watch-typeahead-2.2.0.tgz"
+jest-watch-typeahead@2.2.1:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/jest-watch-typeahead/-/jest-watch-typeahead-2.2.1.tgz#36601520a2a30fd561788552dbda9c76bb44814a"
   dependencies:
-    ansi-escapes "^5.0.0"
+    ansi-escapes "^6.0.0"
     chalk "^4.0.0"
     jest-regex-util "^29.0.0"
     jest-watcher "^29.0.0"
-    slash "^4.0.0"
+    slash "^5.0.0"
     string-length "^5.0.1"
     strip-ansi "^7.0.1"
 
@@ -12533,9 +12535,9 @@ slash@^3.0.0:
   version "3.0.0"
   resolved "https://registry.npmjs.org/slash/-/slash-3.0.0.tgz"
 
-slash@^4.0.0:
-  version "4.0.0"
-  resolved "https://registry.npmjs.org/slash/-/slash-4.0.0.tgz"
+slash@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/slash/-/slash-5.0.0.tgz#8c18a871096b71ee0e002976a4fe3374991c3074"
 
 slice-ansi@^3.0.0:
   version "3.0.0"
@@ -13456,6 +13458,10 @@ type-fest@^0.8.1:
 type-fest@^1.0.2:
   version "1.4.0"
   resolved "https://registry.npmjs.org/type-fest/-/type-fest-1.4.0.tgz"
+
+type-fest@^3.0.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/type-fest/-/type-fest-3.2.0.tgz#2c8b49e775d9e314a73ea6fcee0b2e8549d5f886"
 
 type-is@~1.6.18:
   version "1.6.18"
