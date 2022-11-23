@@ -36,7 +36,7 @@
     "lib-generate": "1.0.0",
     "lib-clarity-bin": "1.0.0",
     "bitcoinjs-lib": "^6.0.2",
-    "ts-morph": "^17.0.0",
+    "ts-morph": "^17.0.1",
     "form-data": "4.0.0"
   }
 }
