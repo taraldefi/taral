@@ -2401,9 +2401,9 @@
     "@types/node" "^18.0.4"
     buffer "^6.0.3"
 
-"@stacks/common@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@stacks/common/-/common-5.0.0.tgz"
+"@stacks/common@^5.0.0", "@stacks/common@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-5.0.3.tgz#2a24d1198ce2db4d75ec92f37491de922960f69b"
   dependencies:
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
@@ -2440,14 +2440,14 @@
     ripemd160-min "^0.0.6"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/encryption@^5.0.0":
-  version "5.0.0"
-  resolved "https://registry.npmjs.org/@stacks/encryption/-/encryption-5.0.0.tgz"
+"@stacks/encryption@^5.0.0", "@stacks/encryption@^5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-5.0.3.tgz#49faf9002eb801fb73e9900e6e69ed813aacecf4"
   dependencies:
     "@noble/hashes" "^1.0.0"
     "@noble/secp256k1" "^1.5.5"
     "@scure/bip39" "^1.1.0"
-    "@stacks/common" "^5.0.0"
+    "@stacks/common" "^5.0.3"
     "@types/node" "^18.0.4"
     base64-js "^1.5.1"
     bs58 "^5.0.0"
