@@ -45,7 +45,7 @@
     "merkletreejs": "^0.3.5",
     "neverthrow": "5.1.0",
     "node-fetch": "2.6.1",
-    "prettier": "^2.7.1",
+    "prettier": "^2.8.0",
     "rpc-bitcoin": "^2.0.0",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
