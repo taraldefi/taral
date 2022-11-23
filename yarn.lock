@@ -9816,9 +9816,9 @@ merkle-lib@^2.0.10:
   version "2.0.10"
   resolved "https://registry.npmjs.org/merkle-lib/-/merkle-lib-2.0.10.tgz"
 
-merkletreejs@^0.3.5:
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.3.5.tgz#720639dfb425ca3fb88697d6836961c65d3a3235"
+merkletreejs@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/merkletreejs/-/merkletreejs-0.3.8.tgz#2897b45484095db78635149bcdc95bab5f36a5a8"
   dependencies:
     bignumber.js "^9.0.1"
     buffer-reverse "^1.0.1"
