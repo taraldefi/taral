@@ -18,7 +18,7 @@
     "@stacks/common": "^5.0.0",
     "@stacks/network": "^5.0.0",
     "@stacks/stacks-blockchain-api-types": "^6.2.1",
-    "@stacks/transactions": "^5.0.3",
+    "@stacks/transactions": "^6.0.0",
     "@types/coinbase": "^2.0.8",
     "@types/node-fetch": "^2.6.1",
     "@types/web3": "^1.2.2",
