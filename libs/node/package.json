@@ -20,7 +20,7 @@
   "dependencies": {
     "javascript-stringify": "2.1.0",
     "@stacks/blockchain-api-client": "^6.2.1",
-    "@stacks/common": "^5.0.0",
+    "@stacks/common": "^6.0.0",
     "@stacks/stacks-blockchain-api-types": "^6.2.1",
     "@stacks/network": "^6.0.0",
     "@stacks/transactions": "^6.0.0",
