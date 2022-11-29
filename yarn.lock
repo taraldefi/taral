@@ -8567,9 +8567,9 @@ jest-jasmine2@^27.5.1:
     pretty-format "^27.5.1"
     throat "^6.0.1"
 
-jest-junit@14.0.1:
-  version "14.0.1"
-  resolved "https://registry.npmjs.org/jest-junit/-/jest-junit-14.0.1.tgz"
+jest-junit@15.0.0:
+  version "15.0.0"
+  resolved "https://registry.yarnpkg.com/jest-junit/-/jest-junit-15.0.0.tgz#a47544ab42e9f8fe7ada56306c218e09e52bd690"
   dependencies:
     mkdirp "^1.0.4"
     strip-ansi "^6.0.1"
