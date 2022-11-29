@@ -2848,9 +2848,9 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/bluebird@^3.5.37":
-  version "3.5.37"
-  resolved "https://registry.npmjs.org/@types/bluebird/-/bluebird-3.5.37.tgz"
+"@types/bluebird@^3.5.38":
+  version "3.5.38"
+  resolved "https://registry.yarnpkg.com/@types/bluebird/-/bluebird-3.5.38.tgz#7a671e66750ccd21c9fc9d264d0e1e5330bc9908"
 
 "@types/bn.js@*", "@types/bn.js@^5.1.0":
   version "5.1.0"
