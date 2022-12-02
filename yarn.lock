@@ -11209,13 +11209,13 @@ postcss-lab-function@^4.2.1:
     "@csstools/postcss-progressive-custom-properties" "^1.1.0"
     postcss-value-parser "^4.2.0"
 
-postcss-loader@7.0.1:
-  version "7.0.1"
-  resolved "https://registry.npmjs.org/postcss-loader/-/postcss-loader-7.0.1.tgz"
+postcss-loader@7.0.2:
+  version "7.0.2"
+  resolved "https://registry.yarnpkg.com/postcss-loader/-/postcss-loader-7.0.2.tgz#b53ff44a26fba3688eee92a048c7f2d4802e23bb"
   dependencies:
     cosmiconfig "^7.0.0"
     klona "^2.0.5"
-    semver "^7.3.7"
+    semver "^7.3.8"
 
 postcss-logical@^5.0.4:
   version "5.0.4"
