@@ -84,7 +84,7 @@
     "@stacks/connect": "7.0.0",
     "react-query": "^4.0.0",
     "react-router-dom": "^6.4.3",
-    "micro-memoize": "^4.0.11",
+    "micro-memoize": "^4.0.12",
     "buffer": "^6.0.3",
     "crypto-browserify": "^3.12.0",
     "stream-browserify": "^3.0.0",
