@@ -11799,13 +11799,9 @@ qs@6.9.7:
   version "6.9.7"
   resolved "https://registry.npmjs.org/qs/-/qs-6.9.7.tgz"
 
-qs@~6.5.1:
+qs@~6.5.1, qs@~6.5.2:
   version "6.5.3"
   resolved "https://registry.npmjs.org/qs/-/qs-6.5.3.tgz"
-
-qs@~6.5.2:
-  version "6.5.2"
-  resolved "https://registry.npmjs.org/qs/-/qs-6.5.2.tgz"
 
 query-string@^5.0.1:
   version "5.1.1"
