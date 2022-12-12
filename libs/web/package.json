@@ -50,7 +50,7 @@
     "neverthrow": "5.1.0",
     "noble-secp256k1": "1.2.14",
     "node-fetch": "2.6.1",
-    "prettier": "^2.8.0",
+    "prettier": "^2.8.1",
     "rpc-bitcoin": "^2.0.0",
     "stacks-crypto": "1.0.0-beta.4",
     "taral-configuration": "1.0.0",
