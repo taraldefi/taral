@@ -18,7 +18,7 @@
     "type-is": "^1.6.18",
     "uid": "^2.0.0",
     "class-transformer": "0.5.1",
-    "class-validator": "0.13.2",
+    "class-validator": "0.14.0",
     "@types/cls-hooked": "^4.3.3",
     "@nestjs/typeorm": "8.0.3",
     "typeorm": "0.3.7"
