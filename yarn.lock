@@ -2467,9 +2467,9 @@
     "@stacks/common" "^4.3.5"
     cross-fetch "^3.1.5"
 
-"@stacks/network@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.0.0.tgz#c6bc59e7861c51e1e580782132a380ca550ba0f3"
+"@stacks/network@^6.0.0", "@stacks/network@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.1.0.tgz#19f00f54edd7c52ca948c83bdec22d694de29b9d"
   dependencies:
     "@stacks/common" "^6.0.0"
     cross-fetch "^3.1.5"
@@ -2516,14 +2516,14 @@
     "@stacks/network" "^4.2.0"
     jsontokens "^3.0.0"
 
-"@stacks/transactions@6.0.0", "@stacks/transactions@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.0.0.tgz#bbc817e61bd2fc116fc276f85d1387644f8a8f56"
+"@stacks/transactions@6.1.0", "@stacks/transactions@^6.0.0", "@stacks/transactions@^6.1.0":
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.1.0.tgz#e175b76daf6e7fa3113082805ba35c8624f32335"
   dependencies:
     "@noble/hashes" "^1.1.3"
     "@noble/secp256k1" "^1.6.3"
     "@stacks/common" "^6.0.0"
-    "@stacks/network" "^6.0.0"
+    "@stacks/network" "^6.1.0"
     c32check "^2.0.0"
     lodash.clonedeep "^4.5.0"
 
