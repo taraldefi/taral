@@ -71,7 +71,7 @@ jobs:
         args: -c "cd packages/clarity && clarinet test"
 
     - name: Run unit tests
-      run: yarn unit-tests
+      run: yarn ci-unit-tests
     
     # - name: Format
     #   run: yarn format
