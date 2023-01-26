@@ -31,7 +31,7 @@
     "lib-generate": "1.0.0",
     "lib-oracle": "1.0.0",
     "lib-api": "1.0.0",
-    "bitcoinjs-lib": "^6.0.2",
+    "bitcoinjs-lib": "^6.1.0",
     "ts-morph": "^17.0.1",
     "typescript-memoize": "1.1.1",
     "dotenv": "16.0.3"
@@ -69,7 +69,7 @@
     "ajv": "^8.11.2",
     "bip32": "^3.1.0",
     "bip39": "^3.0.4",
-    "bitcoinjs-lib": "^6.0.2",
+    "bitcoinjs-lib": "^6.1.0",
     "bluebird": "^3.7.2",
     "bn.js": "^5.2.1",
     "c32check": "^2.0.0",
