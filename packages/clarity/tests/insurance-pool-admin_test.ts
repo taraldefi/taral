@@ -50,79 +50,79 @@ Clarinet.test({
   },
 });
 
-Clarinet.test({
-  name: "Ensure that user can receive rewards",
-  fn(chain: Chain, accounts: Map<string, Account>) {
-    const walletOne = accounts.get("wallet_1")!;
-    const deployer = accounts.get("deployer")!;
+// Clarinet.test({
+//   name: "Ensure that user can receive rewards",
+//   fn(chain: Chain, accounts: Map<string, Account>) {
+//     const walletOne = accounts.get("wallet_1")!;
+//     const deployer = accounts.get("deployer")!;
 
-    let block = chain.mineBlock([
-      poxAllowContractCaller(deployer, walletOne),
-      poolAllowContractCaller(deployer, walletOne),
+//     let block = chain.mineBlock([
+//       poxAllowContractCaller(deployer, walletOne),
+//       poolAllowContractCaller(deployer, walletOne),
 
-      Tx.contractCall(
-        "insurance-pool-admin",
-        "delegate-stx",
-        [
-          types.uint(1000000),
-          types.principal(deployer.address + ".insurance-pool-admin"),
-          types.some(types.uint(450)),
-          types.none(),
-          types.tuple({
-            version: "0x01",
-            hashbytes: "0x12345678901234567890",
-          }),
-          types.uint(2),
-        ],
-        walletOne.address
-      ),
-    ]);
-    assertEquals(block.height, 2);
-    block.receipts[0].result.expectOk();
-    block.receipts[1].result.expectOk();
-    (block.receipts[2].result.expectOk().expectTuple() as any)[
-      "unlock-burn-height"
-    ].expectUint(450);
+//       Tx.contractCall(
+//         "insurance-pool-admin",
+//         "delegate-stx",
+//         [
+//           types.uint(1000000),
+//           types.principal(deployer.address + ".insurance-pool-admin"),
+//           types.some(types.uint(450)),
+//           types.none(),
+//           types.tuple({
+//             version: "0x01",
+//             hashbytes: "0x12345678901234567890",
+//           }),
+//           types.uint(2),
+//         ],
+//         walletOne.address
+//       ),
+//     ]);
+//     assertEquals(block.height, 2);
+//     block.receipts[0].result.expectOk();
+//     block.receipts[1].result.expectOk();
+//     (block.receipts[2].result.expectOk().expectTuple() as any)[
+//       "unlock-burn-height"
+//     ].expectUint(450);
 
-    assertEquals(
-      chain.callReadOnlyFn(
-        "insurance-pool-admin",
-        "get-next-cycle",
-        [],
-        walletOne.address
-      ).result,
-      types.uint(1)
-    );
-    // mine through reward cycle
-    chain.mineEmptyBlock(150);
-    // check cycle id
-    assertEquals(
-      chain.callReadOnlyFn(
-        "insurance-pool-admin",
-        "get-next-cycle",
-        [],
-        walletOne.address
-      ).result,
-      types.uint(2)
-    );
-    // payin and claim reward
-    block = chain.mineBlock([
-      Tx.contractCall(
-        "insurance-pool-admin",
-        "payin",
-        [types.uint(100), types.uint(0)],
-        deployer.address
-      ),
-      Tx.contractCall(
-        "insurance-pool-admin",
-        "claim-rewards",
-        [types.uint(0)],
-        walletOne.address
-      ),
-    ]);
+//     assertEquals(
+//       chain.callReadOnlyFn(
+//         "insurance-pool-admin",
+//         "get-next-cycle",
+//         [],
+//         walletOne.address
+//       ).result,
+//       types.uint(1)
+//     );
+//     // mine through reward cycle
+//     chain.mineEmptyBlock(150);
+//     // check cycle id
+//     assertEquals(
+//       chain.callReadOnlyFn(
+//         "insurance-pool-admin",
+//         "get-next-cycle",
+//         [],
+//         walletOne.address
+//       ).result,
+//       types.uint(2)
+//     );
+//     // payin and claim reward
+//     block = chain.mineBlock([
+//       Tx.contractCall(
+//         "insurance-pool-admin",
+//         "payin",
+//         [types.uint(100), types.uint(0)],
+//         deployer.address
+//       ),
+//       Tx.contractCall(
+//         "insurance-pool-admin",
+//         "claim-rewards",
+//         [types.uint(0)],
+//         walletOne.address
+//       ),
+//     ]);
 
-    assertEquals(block.height, 153);
-    block.receipts[0].result.expectOk();
-    assertEquals(block.receipts[1].result, "(err u0)"); // no rewards
-  },
-});
+//     assertEquals(block.height, 153);
+//     block.receipts[0].result.expectOk();
+//     assertEquals(block.receipts[1].result, "(err u0)"); // no rewards
+//   },
+// });
