@@ -8,7 +8,8 @@
     "node": ">=14"
   },
   "scripts": {
-    "unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts"
+    "unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts",
+    "ci-unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts"
   },
   "devDependencies": {
     "jest": "^28.0.2",

@@ -51,13 +51,13 @@ test("Oracle tests", async () => {
     oracleSecretKey: zoe.privateKey,
   });
 
-  // const okcoin_feed = await retrieveOKCoinFeed({
-  //   infuraApiKey: INFURA_API_URL,
-  //   oracleSecretKey: zoe.privateKey,
-  // });
+  const okcoin_feed = await retrieveOKCoinFeed({
+    infuraApiKey: INFURA_API_URL,
+    oracleSecretKey: zoe.privateKey,
+  });
 
   const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
-    binance_feed /*.concat(okcoin_feed)*/
+    binance_feed.concat(okcoin_feed)
   );
 
   const priceAddResult = await addPrices({
