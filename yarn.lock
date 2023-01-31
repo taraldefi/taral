@@ -11716,19 +11716,19 @@ proxy-addr@~2.0.7:
     forwarded "0.2.0"
     ipaddr.js "1.9.1"
 
-proxy-compare@2.3.0:
-  version "2.3.0"
-  resolved "https://registry.npmjs.org/proxy-compare/-/proxy-compare-2.3.0.tgz"
+proxy-compare@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/proxy-compare/-/proxy-compare-2.4.0.tgz#90f6abffe734ef86d8e37428c5026268606a9c1b"
 
 proxy-from-env@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/proxy-from-env/-/proxy-from-env-1.1.0.tgz#e102f16ca355424865755d2c9e8ea4f24d58c3e2"
 
-proxy-memoize@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.npmjs.org/proxy-memoize/-/proxy-memoize-1.2.0.tgz"
+proxy-memoize@^2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/proxy-memoize/-/proxy-memoize-2.0.2.tgz#60d95542785527808a6604aa18b27a4dc1d84146"
   dependencies:
-    proxy-compare "2.3.0"
+    proxy-compare "2.4.0"
 
 psl@^1.1.28:
   version "1.8.0"
