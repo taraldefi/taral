@@ -41,7 +41,7 @@
     "@types/node": "^18.11.12",
     "chalk": "^4.1.1",
     "codecov": "^3.8.1",
-    "commitizen": "^4.2.5",
+    "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
     "execa": "^6.1.0",
     "husky": "^8.0.2",
