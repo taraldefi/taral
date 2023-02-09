@@ -13,7 +13,7 @@
     "clarinet:check": "clarinet check"
   },
   "devDependencies": {
-    "typescript": "^4.9.4"
+    "typescript": "^4.9.5"
   },
   "dependencies": {
     "eol-converter-cli": "^1.0.8"
