@@ -11,7 +11,7 @@
     "@ltd/j-toml": "^1.35.3",
     "@types/bluebird": "^3.5.38",
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "18.11.12",
+    "@types/node": "18.13.0",
     "@types/node-fetch": "2.5.10",
     "@types/unzipper": "^0.10.5",
     "ts-node": "^10.9.1",
