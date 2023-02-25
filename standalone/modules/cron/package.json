@@ -16,11 +16,14 @@
     "@types/node": "^18.0.5",
     "reflect-metadata": "^0.1.13",
     "typescript": "^4.7.4",
-    "rxjs": "^7.5.2"
+    "rxjs": "^7.5.2",
+    "agenda": "^5.0.0",
+    "mongodb-memory-server": "^8.11.5"
   },
   "peerDependencies": {
     "@nestjs/common": "^7.0.0 || ^8.0.0 || ^9.0.0",
     "@nestjs/core": "^7.0.0 || ^8.0.0 || ^9.0.0",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "agenda": "5.x"
   }
 }
