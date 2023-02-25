@@ -17,7 +17,7 @@ import { getQueueConfigToken, getQueueToken } from './utils';
   imports: [DiscoveryModule],
   providers: [],
 })
-export class AgendaModule {
+export class CronModule {
   static forRoot(config: CronModuleConfig): DynamicModule {
     const configProviders: Provider[] = [
       {
@@ -32,7 +32,7 @@ export class AgendaModule {
 
     return {
       global: true,
-      module: AgendaModule,
+      module: CronModule,
       providers: configProviders,
       exports: configProviders,
     };
@@ -45,7 +45,7 @@ export class AgendaModule {
 
     return {
       global: true,
-      module: AgendaModule,
+      module: CronModule,
       imports: config.imports || [],
       providers: [
         ...providers,
@@ -84,7 +84,7 @@ export class AgendaModule {
     ];
 
     return {
-      module: AgendaModule,
+      module: CronModule,
       providers,
       exports: providers,
     };
