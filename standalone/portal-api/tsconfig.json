@@ -25,7 +25,8 @@
       "@modules/transaction": ["../modules/transaction"],
       "@modules/storage": ["../modules/storage"],
       "@modules/events": ["../modules/events"],
-      "@modules/telemetry": ["../modules/telemetry"]
+      "@modules/telemetry": ["../modules/telemetry"],
+      "@modules/cron": ["../modules/cron"]
     }
   }
 }
