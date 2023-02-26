@@ -1,5 +1,5 @@
 export const getQueueToken = (name?: string) =>
-  name ? `${name}-queue` : `agenda-queue`;
+  name ? `${name}-queue` : `cron-queue`;
 
 export const getQueueConfigToken = (name: string): string =>
-  `AgendaQueueOptions_${name}`;
+  `CronQueueOptions_${name}`;
