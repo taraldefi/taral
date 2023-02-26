@@ -25,3 +25,37 @@ services:
     restart: always
     ports:
       - 8080:8080
+  # mongodb:
+  #   image : mongo:5.0.15
+  #   container_name: mongodb
+  #   hostname: mongodb
+  #   restart: on-failure
+  #   environment:
+  #     - PUID=1000
+  #     - PGID=1000
+  #     - MONGO_INITDB_ROOT_USERNAME=mongo
+  #     - MONGO_INITDB_ROOT_PASSWORD=mongo
+  #     - MONGO_INITDB_DATABASE=my-service
+  #     - MONGO_REPLICA_SET_NAME=rs0
+  #   volumes:
+  #     - mongodb5_data:/data/db
+  #     - ./:/opt/keyfile/
+  #   ports:
+  #     - 27017:27017
+  #   healthcheck:
+  #     test: test $$(echo "rs.initiate().ok || rs.status().ok" | mongo -u $${MONGO_INITDB_ROOT_USERNAME} -p $${MONGO_INITDB_ROOT_PASSWORD} --quiet) -eq 1
+  #     interval: 10s
+  #     start_period: 30s
+  #   # command: "--bind_ip_all --keyFile /opt/keyfile/keyfile --replSet rs0"
+  #   # command: "--bind_ip_all --replSet rs0"
+  mongodb:
+    image: mongo:latest
+    env_file:
+      - .env
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
