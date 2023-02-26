@@ -15,10 +15,6 @@ import { EntitiesModule } from './modules/entity/entity.module';
 import { CompaniesModule } from './modules/company/company.module';
 import { FinancialsModule } from './modules/financial/financials.module';
 import { MailConfigService } from './modules/mail/mail-config.service';
-import { I18nModule } from 'nestjs-i18n/dist/i18n.module';
-import { I18nJsonParser } from 'nestjs-i18n/dist/parsers/i18n.json.parser';
-import { HeaderResolver } from 'nestjs-i18n';
-import * as path from 'path';
 import { ForgotModule } from './modules/forgot/forgot.module';
 import { MailModule } from './modules/mail/mail.module';
 import { UsersModule } from './modules/users/users.module';
@@ -32,6 +28,9 @@ import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
+import { JobsModule } from './jobs/jobs.module';
+import { I18nJsonParser, I18nModule } from 'nestjs-i18n';
+import path from 'path';
 
 @Module({
   imports: [
@@ -46,22 +45,21 @@ import { ContractsModule } from './modules/contract/contracts.module';
     MailerModule.forRootAsync({
       useClass: MailConfigService,
     }),
-    I18nModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        fallbackLanguage: configService.get('app.fallbackLanguage'),
-        parserOptions: {
-          path: path.join(
-            configService.get('app.workingDirectory'),
-            'src',
-            'i18n',
-            'translations',
-          ),
-        },
-      }),
-      parser: I18nJsonParser,
-      inject: [ConfigService],
-      resolvers: [new HeaderResolver(['x-custom-lang'])],
-    }),
+    // I18nModule.forRootAsync({
+    //   useFactory: (configService: ConfigService) => ({
+    //     fallbackLanguage: configService.get('app.fallbackLanguage'),
+    //     parserOptions: {
+    //       path: path.join(
+    //         configService.get('app.workingDirectory'),
+    //         'src',
+    //         'i18n',
+    //         'translations',
+    //       ),
+    //     },
+    //   }),
+    //   parser: I18nJsonParser,
+    //   inject: [ConfigService],
+    // }),
     StorageModule.registerAsync({
       imports: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -69,10 +67,10 @@ import { ContractsModule } from './modules/contract/contracts.module';
       },
       inject: [ConfigService],
     }),
-    UsersModule,
-    AuthModule,
-    ForgotModule,
-    MailModule,
+    // UsersModule,
+    // AuthModule,
+    // ForgotModule,
+    // MailModule,
     HomeModule,
     EventModule,
     StorageModule,
@@ -88,6 +86,7 @@ import { ContractsModule } from './modules/contract/contracts.module';
     TransactionsModule,
     GoodsAndServicesModule,
     ContractsModule,
+    JobsModule
   ],
 })
 export class AppModule {}
