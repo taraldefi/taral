@@ -2503,9 +2503,9 @@
     ripemd160-min "^0.0.6"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/encryption@^6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.1.1.tgz#0f6c3c5110250e74746d687b3b7c03b2badd4a97"
+"@stacks/encryption@^6.1.1", "@stacks/encryption@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.2.0.tgz#86855aacc6e1f023994140cc4d54137f776f2dd6"
   dependencies:
     "@noble/hashes" "1.1.5"
     "@noble/secp256k1" "1.7.1"
