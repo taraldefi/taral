@@ -46,7 +46,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "28.0.2",
     "jest-circus": "29.3.1",
-    "jest-resolve": "29.3.1",
+    "jest-resolve": "29.4.3",
     "jest-watch-typeahead": "2.2.2",
     "mini-css-extract-plugin": "2.7.2",
     "optimize-css-assets-webpack-plugin": "6.0.1",
