@@ -22,7 +22,7 @@
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
     "javascript-stringify": "2.1.0",
-    "@stacks/blockchain-api-client": "^7.0.1",
+    "@stacks/blockchain-api-client": "^7.1.1",
     "@stacks/common": "^6.0.0",
     "@stacks/network": "^6.0.0",
     "@stacks/wallet-sdk": "^4.2.0",
