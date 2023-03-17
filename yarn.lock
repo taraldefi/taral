@@ -10270,9 +10270,9 @@ min-indent@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/min-indent/-/min-indent-1.0.1.tgz"
 
-mini-css-extract-plugin@2.7.4:
-  version "2.7.4"
-  resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-2.7.4.tgz#1e92eaafb0dd598d36b68b699ac553ae4d52ae60"
+mini-css-extract-plugin@2.7.5:
+  version "2.7.5"
+  resolved "https://registry.yarnpkg.com/mini-css-extract-plugin/-/mini-css-extract-plugin-2.7.5.tgz#afbb344977659ec0f1f6e050c7aea456b121cfc5"
   dependencies:
     schema-utils "^4.0.0"
 
