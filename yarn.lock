@@ -2554,9 +2554,9 @@
   dependencies:
     "@stencil/core" "^2.17.1"
 
-"@stacks/connect@7.1.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.1.1.tgz#61a687de9e65fc2e64902a269ab1e954e4bc818b"
+"@stacks/connect@7.2.1":
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.2.1.tgz#72450c221389dad8e248ac9def7335845df09629"
   dependencies:
     "@stacks/auth" "^6.1.1"
     "@stacks/connect-ui" "6.0.1"
