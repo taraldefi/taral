@@ -65,3 +65,6 @@ path = "contracts/taral/taral-exporter.clar"
 
 [contracts.taral-purchase-order]
 path = "contracts/taral/taral-purchase-order.clar"
+
+[contracts.taral-purchase-order-nft]
+path = "contracts/taral/taral-purchase-order-nft.clar"
