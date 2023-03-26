@@ -22,7 +22,7 @@
 
 (define-public (set-token-uri (token-id uint) (value (string-ascii 256)))
   (begin
-    (asserts! (is-eq tx-sender contract-owner) err-owner-only)
+    (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
     (ok (map-set token-uris token-id value))))
 
 (define-read-only (get-token-uri (token-id uint))
@@ -39,7 +39,7 @@
 ;; @returns (response bool uint)
 (define-public (transfer (token-id uint) (sender principal) (receiver principal))
     (begin 
-        (asserts! (is-eq tx-sender sender) err-not-token-owner)
+        (asserts! (is-eq tx-sender sender) ERR-NOT-TOKEN-OWNER)
         (try! (nft-transfer? purchase-order-nft token-id sender receiver))
         (ok true)
     )
@@ -53,7 +53,7 @@
         (
             (token-id (+ (var-get last-token-id) u1))
         )
-        (asserts! (is-eq tx-sender contract-owner) err-owner-only)
+        (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
         (try! (nft-mint? purchase-order-nft token-id receiver))
         (var-set last-token-id token-id)
         (ok token-id)
@@ -64,10 +64,12 @@
 ;; @Params token-id: NFT id
 ;; @Params sender: principal of sender
 ;; @returns (response bool uint)
+
+;; note: Clarity restricts burning of an asset only by it's owner.
 (define-public (burn (token-id uint) (sender principal)) 
     (begin
-        (asserts! (is-eq tx-sender contract-owner) err-owner-only)
-        (asserts! (is-eq sender (unwrap-panic (nft-get-owner? purchase-order-nft token-id))) err-not-token-owner)
+        (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
+        (asserts! (is-eq sender (unwrap-panic (nft-get-owner? purchase-order-nft token-id))) ERR-NOT-TOKEN-OWNER)
         (try! (nft-burn? purchase-order-nft token-id sender))
         (ok true)
     )
@@ -75,5 +77,5 @@
 
 
 ;; ERROR start 100
-(define-constant err-owner-only (err u100))
-(define-constant err-not-token-owner (err u101))
+(define-constant ERR-OWNER-ONLY (err u100))
+(define-constant ERR-NOT-TOKEN-OWNER (err u101))
