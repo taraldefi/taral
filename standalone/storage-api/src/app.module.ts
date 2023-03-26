@@ -46,7 +46,7 @@ const OpenTelemetryModuleConfig = OpenTelemetryModule.forRoot({
         appConfig,
         mailConfig,
         fileConfig,
-        onchainConfig
+        onchainConfig,
       ],
       envFilePath: ['.env'],
     }),

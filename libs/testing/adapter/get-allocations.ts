@@ -1,16 +1,16 @@
 import { Allocation, AllocationOrAccounts } from "lib-infra";
 
 export default function getAllocations(
-  allocations?: AllocationOrAccounts
+    allocations?: AllocationOrAccounts
 ): Allocation[] {
-  if (!allocations) return [];
-  if ("deployer" in allocations) {
-    return Object.values(allocations).map((a) => ({
-      amount: Number(a.balance),
-      principal: a.address,
-    }));
-  } else if (Array.isArray(allocations)) {
-    return allocations;
-  }
-  return [];
+    if (!allocations) return [];
+    if ("deployer" in allocations) {
+        return Object.values(allocations).map((a) => ({
+            amount: Number(a.balance),
+            principal: a.address,
+        }));
+    } else if (Array.isArray(allocations)) {
+        return allocations;
+    }
+    return [];
 }

@@ -1,1 +1,2 @@
-export interface Sip010TraitFtStandardContract {}
+
+export interface Sip010TraitFtStandardContract { }

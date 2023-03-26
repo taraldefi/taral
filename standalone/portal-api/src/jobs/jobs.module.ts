@@ -1,8 +1,7 @@
-import { CronModule } from "@modules/cron";
-import { Module } from "@nestjs/common";
-import { DummyModule } from "./dummy";
+import { CronModule } from '@modules/cron';
+import { Module } from '@nestjs/common';
+import { DummyModule } from './dummy';
 import { MongoClient, Db } from 'mongodb';
-
 
 const databaseProvider = {
   provide: 'DATABASE_CONNECTION',
@@ -14,18 +13,18 @@ const databaseProvider = {
 
     return client.db();
   },
-}
+};
 
 @Module({
-    imports: [
-      CronModule.forRootAsync({
-        useFactory: (mongo: Db) => ({
-          mongo,
-        }),
-        inject: ['DATABASE_CONNECTION'],
-        extraProviders: [databaseProvider],
+  imports: [
+    CronModule.forRootAsync({
+      useFactory: (mongo: Db) => ({
+        mongo,
       }),
-      DummyModule,
-    ]
-  })
-  export class JobsModule {}
+      inject: ['DATABASE_CONNECTION'],
+      extraProviders: [databaseProvider],
+    }),
+    DummyModule,
+  ],
+})
+export class JobsModule {}

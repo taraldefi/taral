@@ -1,1 +1,2 @@
-export interface Sip10FtStandardContract {}
+
+export interface Sip10FtStandardContract { }

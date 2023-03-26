@@ -1,32 +1,32 @@
 import {
-  decryptString,
-  ecPrivateKey,
-  encryptString,
-  getPublicKeyFromPrivate,
+    decryptString,
+    ecPrivateKey,
+    encryptString,
+    getPublicKeyFromPrivate
 } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
 import { readEncryptedFileWithEncoding } from "./storage/read-file";
 import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
 
 export async function storageMvp() {
-  const file = "dummy.pdf";
-  const encrypted = "encrypted-dummy.pdf";
-  const privateKey = ecPrivateKey(PrivateKey);
-  const publicKey = getPublicKeyFromPrivate(privateKey);
+    const file = "dummy.pdf";
+    const encrypted = "encrypted-dummy.pdf";
+    const privateKey = ecPrivateKey(PrivateKey);
+    const publicKey = getPublicKeyFromPrivate(privateKey);
 
-  const fileContent = readEncryptedFileWithEncoding(file, "binary");
+    const fileContent = readEncryptedFileWithEncoding(file, "binary");
 
-  // encrypt
+    // encrypt
 
-  const encryptedContent = await encryptString(publicKey, fileContent);
-  syncWriteFileWithEncoding(encrypted, encryptedContent, "utf8");
+    const encryptedContent = await encryptString(publicKey, fileContent);
+    syncWriteFileWithEncoding(encrypted, encryptedContent, "utf8");
 
-  // decrypt
-  const readEncryptedContent = readEncryptedFileWithEncoding(encrypted, "utf8");
-  const decryptedContent = await decryptString(
-    privateKey,
-    readEncryptedContent
-  );
+    // decrypt
+    const readEncryptedContent = readEncryptedFileWithEncoding(encrypted, "utf8");
+    const decryptedContent = await decryptString(
+        privateKey,
+        readEncryptedContent
+    );
 
-  syncWriteFileWithEncoding(file, decryptedContent, "binary");
+    syncWriteFileWithEncoding(file, decryptedContent, "binary");
 }

@@ -86,7 +86,7 @@ import path from 'path';
     TransactionsModule,
     GoodsAndServicesModule,
     ContractsModule,
-    JobsModule
+    JobsModule,
   ],
 })
 export class AppModule {}

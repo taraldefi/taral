@@ -3,21 +3,21 @@ import { TaralOracleV1Contract } from "taral-contracts";
 import { IOracleSource } from "./types";
 
 export async function checkSource({
-  source,
-  contract,
+    source,
+    contract,
 }: {
-  source: string;
-  contract: TaralOracleV1Contract;
+    source: string;
+    contract: TaralOracleV1Contract;
 }): Promise<IOracleSource | null> {
-  const response = await contract.checkSource(source);
+    const response = await contract.checkSource(source);
 
-  Logger.debug("check-source", "Received result ", response);
+    Logger.debug("check-source", "Received result ", response);
 
-  if (response == null) {
-    return null;
-  }
+    if (response == null) {
+        return null;
+    }
 
-  return {
-    publicKey: response["public-key"],
-  };
+    return {
+        publicKey: response["public-key"],
+    };
 }

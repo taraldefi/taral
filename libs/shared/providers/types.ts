@@ -2,65 +2,65 @@ import { ClarityAbiFunction } from "@stacks/transactions";
 import { Noop } from "../proxy/types";
 
 export function unchanged(codeBody: string) {
-  return codeBody;
+    return codeBody;
 }
 
 export interface ClarinetConfigAccount {
-  mnemonic: string;
-  balance: bigint;
+    mnemonic: string;
+    balance: bigint;
 }
 
 export interface ClarinetDevConfig {
-  network: {
-    name: string;
-  };
-  accounts: {
-    deployer: ClarinetConfigAccount;
-    [key: string]: ClarinetConfigAccount;
-  };
+    network: {
+        name: string;
+    };
+    accounts: {
+        deployer: ClarinetConfigAccount;
+        [key: string]: ClarinetConfigAccount;
+    };
 }
 
 export interface ClarinetConfig {
-  contracts: {
-    [name: string]: {
-      path: string;
-      dependsOn: string[];
+    contracts: {
+        [name: string]: {
+            path: string;
+            dependsOn: string[];
+        };
     };
-  };
 }
 
 export interface ClarinetAccount extends ClarinetConfigAccount {
-  address: string;
-  privateKey: string;
+    address: string;
+    privateKey: string;
 }
 
 export interface ClarinetAccounts {
-  deployer: ClarinetAccount;
-  [name: string]: ClarinetAccount;
+    deployer: ClarinetAccount;
+    [name: string]: ClarinetAccount;
 }
 
 export interface DeployerAccount {
-  secretKey: string;
-  stacksAddress: string;
+    secretKey: string;
+    stacksAddress: string;
 }
 
 export interface INodeProviderRequest {
-  function: ClarityAbiFunction;
-  caller: ClarinetAccount;
-  arguments: any[];
+    function: ClarityAbiFunction;
+    caller: ClarinetAccount;
+    arguments: any[];
 }
 
 export interface IWebProviderReadonlyRequest {
-  function: ClarityAbiFunction;
-  caller: string;
-  arguments: any[];
-  onFinish: Noop;
-  onCancel: Noop;
+    function: ClarityAbiFunction;
+    caller: string;
+    arguments: any[];
+    onFinish: Noop;
+    onCancel: Noop;
 }
 
 export interface IWebProviderPublicRequest {
-  function: ClarityAbiFunction;
-  arguments: any[];
-  onFinish: Noop;
-  onCancel: Noop;
+    function: ClarityAbiFunction;
+    arguments: any[];
+    onFinish: Noop;
+    onCancel: Noop;
 }
