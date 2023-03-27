@@ -51,6 +51,6 @@
     "unzipper": "^0.10.11",
     "chalk": "^4.1.2",
     "dayjs": "^1.11.7",
-    "@stacks/encryption": "^6.2.0"
+    "@stacks/encryption": "^6.5.0"
   }
 }
