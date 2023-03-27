@@ -2629,9 +2629,9 @@
     schema-inspector "^2.0.2"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^6.3.2":
-  version "6.3.2"
-  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-6.3.2.tgz#3bc9ca131f117b5dda037d1f2d869f5ffcad4044"
+"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^7.1.2":
+  version "7.1.2"
+  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-7.1.2.tgz#da07e7f5a56174822a8a83874e0f7c82498eb0db"
 
 "@stacks/storage@^4.2.0":
   version "4.2.0"
