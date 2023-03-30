@@ -39,7 +39,6 @@
 ;; @returns (response bool uint)
 (define-public (transfer (token-id uint) (sender principal) (receiver principal))
     (begin 
-        (asserts! (is-eq tx-sender sender) ERR-NOT-TOKEN-OWNER)
         (try! (nft-transfer? purchase-order-nft token-id sender receiver))
         (ok true)
     )
@@ -69,7 +68,6 @@
 (define-public (burn (token-id uint) (sender principal)) 
     (begin
         (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
-        (asserts! (is-eq sender (unwrap-panic (nft-get-owner? purchase-order-nft token-id))) ERR-NOT-TOKEN-OWNER)
         (try! (nft-burn? purchase-order-nft token-id sender))
         (ok true)
     )
