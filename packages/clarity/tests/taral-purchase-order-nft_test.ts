@@ -134,7 +134,7 @@ Clarinet.test({
     let deployer = accounts.get('deployer')!;
     let wallet_1 = accounts.get('wallet_1')!;
     // Mint a token for wallet_1
-    let mintTx = await chain.mineBlock([
+    await chain.mineBlock([
       Tx.contractCall(
         'taral-purchase-order-nft',
         'mint',
