@@ -10,7 +10,7 @@
 ;;     Should record Ttems
 ;;     Should record Amount in stable coin
 ;;     Should record Invoice Terms
-    
+
 ;; constants
 (define-constant ERR-GENERIC (err u100))
 (define-constant ERR-PERMISSION-DENIED (err u101))
@@ -163,6 +163,19 @@
           )
         )
       )          
+    )
+  )
+)
+
+(define-public (check-if-user-holds-tal-token (user principal))
+  (let (
+    ;; Get TAL balance of the user
+    (balance (unwrap-panic (contract-call? .taral-coin get-balance user)))
+  )
+    ;; Check if the balance is greater than 0
+    (if (> balance u0)
+      (ok true)
+      (ok false)
     )
   )
 )
