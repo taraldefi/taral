@@ -2541,9 +2541,9 @@
     "@types/node" "^18.0.4"
     buffer "^6.0.3"
 
-"@stacks/common@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.0.0.tgz#ce80a11ca5d16db8276891db3ecc8e4f2eb1b43a"
+"@stacks/common@^6.0.0", "@stacks/common@^6.5.2":
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.5.2.tgz#8e2e865856ebcdb082d5c98383f6df7351147935"
   dependencies:
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
@@ -2579,14 +2579,14 @@
     ripemd160-min "^0.0.6"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/encryption@^6.1.1", "@stacks/encryption@^6.2.0":
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.2.0.tgz#86855aacc6e1f023994140cc4d54137f776f2dd6"
+"@stacks/encryption@^6.1.1", "@stacks/encryption@^6.5.2":
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.5.2.tgz#19d23d815ab32c66a276c888598a642fa1de324f"
   dependencies:
     "@noble/hashes" "1.1.5"
     "@noble/secp256k1" "1.7.1"
     "@scure/bip39" "1.1.0"
-    "@stacks/common" "^6.0.0"
+    "@stacks/common" "^6.5.2"
     "@types/node" "^18.0.4"
     base64-js "^1.5.1"
     bs58 "^5.0.0"
