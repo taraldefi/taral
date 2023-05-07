@@ -111,7 +111,7 @@ export class AuthService {
   }
 
   generateSecret() {
-    const secret = generateSecret({ name: 'Invent App' });
+    const secret = generateSecret({ name: 'Taral' });
 
     const { hex, base32, otpauth_url } = secret;
 
