@@ -2,17 +2,6 @@ import * as crypto from 'crypto';
 import * as url from 'url';
 import { encode } from './encode';
 
-// // types
-// interface HotpOptions {
-//   key: string;
-//   counter: number;
-//   length?: number;
-//   // encoding?: BufferEncoding;
-//   encoding?: 'ascii' | 'utf8' | 'base64' | 'hex';
-//   //   algorithm?: crypto.BinaryToTextEncoding;
-//   algorithm?: 'sha1' | 'sha256' | 'sha512';
-// }
-
 interface HotpOptions {
     key: string;
     counter: number;
@@ -36,11 +25,6 @@ interface GenerateSecretOptions {
   issuer?: string;
   type?: string;
 }
-
-// interface VerifyOptions extends TotpOptions {
-//   token: string;
-//   delta?: number;
-// }
 
 interface VerifyOptions extends Omit<HotpOptions, 'window'> {
     token: string;
