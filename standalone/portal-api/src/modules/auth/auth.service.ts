@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from '../users/entities/user.entity';
 import * as bcrypt from 'bcryptjs';
@@ -8,6 +8,9 @@ import { randomStringGenerator } from '@nestjs/common/utils/random-string-genera
 import { RoleEnum } from '../roles/roles.enum';
 import { StatusEnum } from '../statuses/statuses.enum';
 import * as crypto from 'crypto';
+
+import * as qrcode from 'qrcode';
+
 import { plainToClass } from 'class-transformer';
 import { Status } from '../statuses/entities/status.entity';
 import { Role } from '../roles/entities/role.entity';
@@ -15,6 +18,7 @@ import { AuthRegisterLoginDto } from './dto/auth-register-login.dto';
 import { UsersService } from '../users/users.service';
 import { ForgotService } from '../forgot/forgot.service';
 import { MailService } from '../mail/mail.service';
+import { generateSecret, totpVerify } from 'src/utils/otp/otp';
 
 @Injectable()
 export class AuthService {
@@ -76,6 +80,86 @@ export class AuthService {
         HttpStatus.UNPROCESSABLE_ENTITY,
       );
     }
+  }
+
+  async enable2faForUser(email: string) {
+
+    const user = await this.usersService.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('User does not exists');
+    }
+
+    if (user.twoFA_enabled) {
+      throw new BadRequestException('2FA already enabled on account');
+    }
+
+    const secret = this.generateSecret();
+
+    user.twoFA_secret = secret.base32;
+
+    await this.usersService.update(user.id, user);
+
+    // Generate QRcode
+    const url = await qrcode.toDataURL(secret.otpauth_url);
+
+    return { key: secret.base32, qrcode_url: url };
+  }
+
+  generateSecret() {
+    const secret = generateSecret({ name: 'Invent App' });
+
+    const { hex, base32, otpauth_url } = secret;
+
+    return { hex, base32, otpauth_url };
+  }
+
+  async complete2FASetup(email: string, token: string) {
+    const user = await this.usersService.findOne({
+      where: {
+        email: email,
+      },
+    });
+
+    if (!user) {
+      throw new ForbiddenException('User does not exists');
+    }
+
+    if (!user.twoFA_secret) {
+      throw new BadRequestException('2FA enabling request not made');
+    }
+
+    if (user.twoFA_enabled) {
+      throw new BadRequestException('2FA already enabled on account');
+    }
+
+    const verify2FAToken = this.verify2FAOtp(user.twoFA_secret, token);
+
+    if (!verify2FAToken) {
+      throw new BadRequestException('Invalid token provided');
+    }
+
+
+    user.twoFA_enabled = true;
+    await this.usersService.update(user.id, user);
+
+    return {
+      status: true,
+      message: '2FA successfully enabled on account account',
+    };
+  }
+
+  verify2FAOtp(secret: string, token: string): boolean {
+    return totpVerify({
+      encoding: 'base64',
+      token,
+      key: secret,
+      counter: Date.now(),
+    });
   }
 
   async register(dto: AuthRegisterLoginDto): Promise<void> {
