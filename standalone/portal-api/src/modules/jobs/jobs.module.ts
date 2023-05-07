@@ -2,6 +2,7 @@ import { CronModule } from "@modules/cron";
 import { Module } from "@nestjs/common";
 import { DummyModule } from "./dummy";
 import { MongoClient, Db } from 'mongodb';
+import { AgendaConfig } from "agenda";
 
 
 const databaseProvider = {
@@ -16,12 +17,27 @@ const databaseProvider = {
   },
 }
 
+// {
+//   useFactory: (mongo: Db) => ({
+//     mongo,
+//   }),
+//   inject: ['DATABASE_CONNECTION'],
+//   extraProviders: [databaseProvider],
+// }
+
+function getAgendaConfigFactory(mongoClient: Db): any {
+  const result = {
+    mongo: mongoClient
+  };
+
+  return result;
+}
+
+
 @Module({
     imports: [
       CronModule.forRootAsync({
-        useFactory: (mongo: Db) => ({
-          mongo,
-        }),
+        useFactory: (mongo: Db) => (getAgendaConfigFactory(mongo)),
         inject: ['DATABASE_CONNECTION'],
         extraProviders: [databaseProvider],
       }),
