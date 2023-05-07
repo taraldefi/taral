@@ -1,4 +1,5 @@
 import { charTable } from "./constants";
+import { quintetCount } from "./utils";
 
 export function encode(plain: Buffer | string): Buffer {
     if (!Buffer.isBuffer(plain) && typeof plain !== "string") {

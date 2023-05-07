@@ -19,6 +19,7 @@ import { UsersService } from '../users/users.service';
 import { ForgotService } from '../forgot/forgot.service';
 import { MailService } from '../mail/mail.service';
 import { generateSecret, totpVerify } from 'src/utils/otp/otp';
+import { generateTaralOtpSecret } from 'src/utils/otp/utils';
 
 @Injectable()
 export class AuthService {
@@ -98,7 +99,7 @@ export class AuthService {
       throw new BadRequestException('2FA already enabled on account');
     }
 
-    const secret = this.generateSecret();
+    const secret = generateTaralOtpSecret();
 
     user.twoFA_secret = secret.base32;
 
@@ -108,14 +109,6 @@ export class AuthService {
     const url = await qrcode.toDataURL(secret.otpauth_url);
 
     return { key: secret.base32, qrcode_url: url };
-  }
-
-  generateSecret() {
-    const secret = generateSecret({ name: 'Taral' });
-
-    const { hex, base32, otpauth_url } = secret;
-
-    return { hex, base32, otpauth_url };
   }
 
   async complete2FASetup(email: string, token: string) {
