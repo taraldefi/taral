@@ -27,6 +27,12 @@ export class User extends EntityHelper {
   @Column({ nullable: true })
   password: string;
 
+  @Column({ nullable: true })
+  twoFA_secret: string;
+
+  @Column("bool")
+  twoFA_enabled: boolean;
+
   public previousPassword: string;
 
   @AfterLoad()
