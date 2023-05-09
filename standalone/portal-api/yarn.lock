@@ -10500,10 +10500,10 @@ windows-release@^4.0.0:
   dependencies:
     execa "^4.0.2"
 
-winston-cloudwatch@^6.1.1:
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/winston-cloudwatch/-/winston-cloudwatch-6.1.1.tgz#58efab901481512d3105e8d3510ccb060f2ac851"
-  integrity sha512-5wOJhAYRU3s6I1t/XO1/3tHJLhzvUUNNxcdbAjhDbyaKnghgKHrRtoQPXO2qTlWOTdhoXS0nJqV/L3RaBBuv3A==
+winston-cloudwatch@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/winston-cloudwatch/-/winston-cloudwatch-3.2.0.tgz#03448b8c0c8118393dc8b53a3cea193dc31e0933"
+  integrity sha512-optG+/ZjZuZowcms1b4J6K+DsG9qsdZ3tWoLB8laVW33vHuI+aadSW0Lfk3DQBVT5SvAPgd/5TlLbiTMp0vOBg==
   dependencies:
     async "^3.1.0"
     chalk "^4.0.0"
