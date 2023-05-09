@@ -2,12 +2,12 @@ import { DeepPartial, EntityRepository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { classToPlain, plainToClass } from 'class-transformer';
 
-import { UserEntity } from 'src/auth/entity/user.entity';
-import { UserLoginDto } from 'src/auth/dto/user-login.dto';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
+import { UserLoginDto } from 'src/modules/auth/dto/user-login.dto';
 import { BaseRepository } from 'src/common/repository/base.repository';
-import { UserSerializer } from 'src/auth/serializer/user.serializer';
-import { ResetPasswordDto } from 'src/auth/dto/reset-password.dto';
-import { UserStatusEnum } from 'src/auth/user-status.enum';
+import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
+import { ResetPasswordDto } from 'src/modules/auth/dto/reset-password.dto';
+import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { ExceptionTitleList } from 'src/common/constants/exception-title-list.constants';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 

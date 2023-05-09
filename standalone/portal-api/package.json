@@ -50,7 +50,7 @@
     "@types/qrcode": "^1.5.0",
     "append-field": "^1.0.0",
     "apple-signin-auth": "1.5.1",
-    "bcrypt": "^5.1.0",
+    "bcrypt": "^5.0.0",
     "bcryptjs": "2.4.3",
     "busboy": "^1.6.0",
     "class-transformer": "0.5.1",

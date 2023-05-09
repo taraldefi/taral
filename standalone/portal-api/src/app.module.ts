@@ -39,9 +39,9 @@ import path from 'path';
     TypeOrmModule.forRootAsync({
       useClass: TypeOrmConfigService,
     }),
-    MailerModule.forRootAsync({
-      useClass: MailConfigService,
-    }),
+    // MailerModule.forRootAsync({
+    //   useClass: MailConfigService,
+    // }),
     // I18nModule.forRootAsync({
     //   useFactory: (configService: ConfigService) => ({
     //     fallbackLanguage: configService.get('app.fallbackLanguage'),

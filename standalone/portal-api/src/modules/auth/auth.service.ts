@@ -37,12 +37,12 @@ import {
   defaultUserGroupsForSerializing,
   ownerUserGroupsForSerializing,
   UserSerializer
-} from 'src/auth/serializer/user.serializer';
-import { UserStatusEnum } from 'src/auth/user-status.enum';
-import { UserRepository } from 'src/auth/user.repository';
+} from 'src/modules/auth/serializer/user.serializer';
+import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
+import { UserRepository } from 'src/modules/auth/user.repository';
 import { ValidationPayloadInterface } from 'src/common/interfaces/validation-error.interface';
-import { RefreshPaginateFilterDto } from 'src/refresh-token/dto/refresh-paginate-filter.dto';
-import { RefreshTokenSerializer } from 'src/refresh-token/serializer/refresh-token.serializer';
+import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
+import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 
 const throttleConfig = config.get('throttle.login');
 const jwtConfig = config.get('jwt');
