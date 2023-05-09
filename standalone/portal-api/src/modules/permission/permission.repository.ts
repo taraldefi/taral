@@ -1,9 +1,9 @@
 import { EntityRepository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 
-import { PermissionEntity } from 'src/permission/entities/permission.entity';
+import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 import { BaseRepository } from 'src/common/repository/base.repository';
-import { Permission } from 'src/permission/serializer/permission.serializer';
+import { Permission } from 'src/modules/permission/serializer/permission.serializer';
 import { RoutePayloadInterface } from 'src/config/permission.config';
 
 @EntityRepository(PermissionEntity)

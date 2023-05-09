@@ -13,11 +13,11 @@ import {
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 
-import { PermissionsService } from 'src/permission/permissions.service';
-import { CreatePermissionDto } from 'src/permission/dto/create-permission.dto';
-import { UpdatePermissionDto } from 'src/permission/dto/update-permission.dto';
-import { PermissionFilterDto } from 'src/permission/dto/permission-filter.dto';
-import { Permission } from 'src/permission/serializer/permission.serializer';
+import { PermissionsService } from 'src/modules/permission/permissions.service';
+import { CreatePermissionDto } from 'src/modules/permission/dto/create-permission.dto';
+import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permission.dto';
+import { PermissionFilterDto } from 'src/modules/permission/dto/permission-filter.dto';
+import { Permission } from 'src/modules/permission/serializer/permission.serializer';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
 import { Pagination } from 'src/paginate';
 import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
