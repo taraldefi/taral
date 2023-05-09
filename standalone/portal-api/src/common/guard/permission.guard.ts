@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import {
   PermissionConfiguration,
   RoutePayloadInterface
-} from 'src/config/permission-config';
+} from 'src/config/permission.config';
 import { UserEntity } from 'src/auth/entity/user.entity';
 
 @Injectable()

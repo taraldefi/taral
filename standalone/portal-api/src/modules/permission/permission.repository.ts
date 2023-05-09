@@ -4,7 +4,7 @@ import { classToPlain, plainToClass } from 'class-transformer';
 import { PermissionEntity } from 'src/permission/entities/permission.entity';
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { Permission } from 'src/permission/serializer/permission.serializer';
-import { RoutePayloadInterface } from 'src/config/permission-config';
+import { RoutePayloadInterface } from 'src/config/permission.config';
 
 @EntityRepository(PermissionEntity)
 export class PermissionRepository extends BaseRepository<

@@ -24,14 +24,14 @@ import { CustomHttpException } from 'src/exception/custom-http.exception';
 import { MailJobInterface } from 'src/mail/interface/mail-job.interface';
 import { MailService } from 'src/mail/mail.service';
 import { Pagination } from 'src/paginate';
-import { RefreshToken } from 'src/refresh-token/entities/refresh-token.entity';
-import { RefreshTokenService } from 'src/refresh-token/refresh-token.service';
-import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
-import { ForgetPasswordDto } from 'src/auth/dto/forget-password.dto';
-import { ResetPasswordDto } from 'src/auth/dto/reset-password.dto';
-import { UserLoginDto } from 'src/auth/dto/user-login.dto';
-import { UserSearchFilterDto } from 'src/auth/dto/user-search-filter.dto';
-import { UserEntity } from 'src/auth/entity/user.entity';
+import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.service';
+import { ChangePasswordDto } from 'src/modules/auth/dto/change-password.dto';
+import { ForgetPasswordDto } from 'src/modules/auth/dto/forget-password.dto';
+import { ResetPasswordDto } from 'src/modules/auth/dto/reset-password.dto';
+import { UserLoginDto } from 'src/modules/auth/dto/user-login.dto';
+import { UserSearchFilterDto } from 'src/modules/auth/dto/user-search-filter.dto';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import {
   adminUserGroupsForSerializing,
   defaultUserGroupsForSerializing,

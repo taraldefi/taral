@@ -14,7 +14,7 @@ import { Pagination } from 'src/paginate';
 import {
   PermissionConfiguration,
   RoutePayloadInterface
-} from 'src/config/permission-config';
+} from 'src/config/permission.config';
 import { LoadPermissionMisc } from 'src/permission/misc/load-permission.misc';
 
 @Injectable()

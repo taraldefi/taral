@@ -3,7 +3,7 @@ import {
   PermissionPayload,
   RoutePayloadInterface,
   SubModulePayloadInterface
-} from 'src/config/permission-config';
+} from 'src/config/permission.config';
 
 export class LoadPermissionMisc {
   assignResourceAndConcatPermission(
