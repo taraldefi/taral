@@ -8,8 +8,8 @@ import { MailService } from 'src/mail/mail.service';
 import { MailProcessor } from 'src/mail/mail.processor';
 import { EmailTemplateModule } from 'src/email-template/email-template.module';
 
-const mailConfig = config.get('mail') as any;
-const queueConfig = config.get('queue') as any;
+const mailConfig = config.get('mail');
+const queueConfig = config.get('queue');
 
 @Module({
   imports: [
