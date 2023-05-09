@@ -69,6 +69,7 @@
     "passport-jwt": "4.0.0",
     "pg": "8.7.3",
     "qrcode": "^1.5.3",
+    "rate-limiter-flexible": "^2.4.1",
     "reflect-metadata": "0.1.13",
     "response-time": "^2.3.2",
     "rimraf": "3.0.2",
