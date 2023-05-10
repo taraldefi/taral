@@ -47,8 +47,7 @@ import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/ref
 const throttleConfig = config.get('throttle.login');
 const jwtConfig = config.get('jwt');
 const appConfig = config.get('app');
-// const isSameSite = process.env.IS_SAME_SITE || appConfig.sameSite;
-// for heroku
+
 const isSameSite =
   appConfig.sameSite !== null
     ? appConfig.sameSite

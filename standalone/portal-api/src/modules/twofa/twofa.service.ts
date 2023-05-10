@@ -5,8 +5,8 @@ import { authenticator } from 'otplib';
 import { toFileStream, toDataURL } from 'qrcode';
 
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
-import { AuthService } from 'src/auth/auth.service';
-import { UserEntity } from 'src/auth/entity/user.entity';
+import { AuthService } from 'src/modules/auth/auth.service';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { CustomHttpException } from 'src/exception/custom-http.exception';
 
 const TwofaConfig = config.get('twofa');
