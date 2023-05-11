@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
-import * as Redis from 'ioredis';
+import Redis from 'ioredis';
 import * as config from 'config';
 
-import { AuthController } from 'src/auth/auth.controller';
-import { AuthService } from 'src/auth/auth.service';
-import { UserRepository } from 'src/auth/user.repository';
+import { AuthController } from 'src/modules/auth/auth.controller';
+import { AuthService } from 'src/modules/auth/auth.service';
+import { UserRepository } from 'src/modules/auth/user.repository';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { MailModule } from 'src/mail/mail.module';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
-import { RefreshTokenModule } from 'src/refresh-token/refresh-token.module';
+import { RefreshTokenModule } from 'src/modules/refresh-token/refresh-token.module';
 import { JwtTwoFactorStrategy } from 'src/common/strategy/jwt-two-factor.strategy';
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 

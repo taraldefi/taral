@@ -2,7 +2,7 @@ import {
   ValidationArguments,
   ValidatorConstraintInterface
 } from 'class-validator';
-import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm';
+import { Connection, EntitySchema,  FindConditions, ObjectType } from 'typeorm';
 
 /**
  * unique validation arguments
@@ -10,7 +10,7 @@ import { Connection, EntitySchema, FindConditions, ObjectType } from 'typeorm';
 export interface UniqueValidationArguments<E> extends ValidationArguments {
   constraints: [
     ObjectType<E> | EntitySchema<E> | string,
-    ((validationArguments: ValidationArguments) => FindConditions<E>) | keyof E
+    ((validationArguments: ValidationArguments) =>  FindConditions<E>) | keyof E
   ];
 }
 

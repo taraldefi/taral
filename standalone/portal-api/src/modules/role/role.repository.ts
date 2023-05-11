@@ -1,12 +1,12 @@
 import { EntityRepository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 
-import { RoleEntity } from 'src/role/entities/role.entity';
-import { RoleSerializer } from 'src/role/serializer/role.serializer';
+import { RoleEntity } from 'src/modules/role/entities/role.entity';
+import { RoleSerializer } from 'src/modules/role/serializer/role.serializer';
 import { BaseRepository } from 'src/common/repository/base.repository';
-import { CreateRoleDto } from 'src/role/dto/create-role.dto';
-import { PermissionEntity } from 'src/permission/entities/permission.entity';
-import { UpdateRoleDto } from 'src/role/dto/update-role.dto';
+import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
+import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
+import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 
 @EntityRepository(RoleEntity)
 export class RoleRepository extends BaseRepository<RoleEntity, RoleSerializer> {

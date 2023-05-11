@@ -56,6 +56,7 @@ export class BaseRepository<
    * @param relations
    * @param transformOptions
    */
+
   async findBy(
     fieldName: string,
     value: any,
@@ -64,7 +65,7 @@ export class BaseRepository<
   ): Promise<K | null> {
     return await this.findOne({
       where: {
-        [fieldName]: value
+          [fieldName]: value
       },
       relations
     })
@@ -86,6 +87,7 @@ export class BaseRepository<
   async countEntityByCondition(
     conditions: ObjectLiteral = {}
   ): Promise<number> {
+
     return this.count({
       where: conditions
     })

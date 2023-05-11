@@ -1,12 +1,12 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { RolesService } from 'src/role/roles.service';
-import { RolesController } from 'src/role/roles.controller';
-import { RoleRepository } from 'src/role/role.repository';
+import { RolesService } from 'src/modules/role/roles.service';
+import { RolesController } from 'src/modules/role/roles.controller';
+import { RoleRepository } from 'src/modules/role/role.repository';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
-import { AuthModule } from 'src/auth/auth.module';
-import { PermissionsModule } from 'src/permission/permissions.module';
+import { AuthModule } from 'src/modules/auth/auth.module';
+import { PermissionsModule } from 'src/modules/permission/permissions.module';
 
 @Module({
   imports: [

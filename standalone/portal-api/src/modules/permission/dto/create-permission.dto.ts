@@ -8,7 +8,7 @@ import {
 
 import { MethodList } from 'src/config/permission.config';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
-import { PermissionEntity } from 'src/permission/entities/permission.entity';
+import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 
 const methodListArray = [
   MethodList.GET,

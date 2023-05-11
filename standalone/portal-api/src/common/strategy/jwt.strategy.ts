@@ -4,9 +4,9 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as config from 'config';
 
-import { UserRepository } from 'src/auth/user.repository';
-import { UserEntity } from 'src/auth/entity/user.entity';
-import { JwtPayloadDto } from 'src/auth/dto/jwt-payload.dto';
+import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
+import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UnauthorizedException } from 'src/exception/unauthorized.exception';
 
 const cookieExtractor = (req) => {

@@ -3,17 +3,17 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
 import { NotFoundException } from 'src/exception/not-found.exception';
-import { CreateRoleDto } from 'src/role/dto/create-role.dto';
-import { UpdateRoleDto } from 'src/role/dto/update-role.dto';
-import { RoleRepository } from 'src/role/role.repository';
-import { RoleFilterDto } from 'src/role/dto/role-filter.dto';
+import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
+import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
+import { RoleRepository } from 'src/modules/role/role.repository';
+import { RoleFilterDto } from 'src/modules/role/dto/role-filter.dto';
 import {
   adminUserGroupsForSerializing,
   basicFieldGroupsForSerializing,
   RoleSerializer
-} from 'src/role/serializer/role.serializer';
+} from 'src/modules/role/serializer/role.serializer';
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
-import { PermissionsService } from 'src/permission/permissions.service';
+import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { Pagination } from 'src/paginate';
 
 @Injectable()
@@ -40,7 +40,7 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
    * @param name
    */
   async findByName(name) {
-    return await this.repository.findOne({ name });
+    return await this.repository.findOne({ where: { name } });
   }
 
   /**
@@ -95,7 +95,9 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
     id: number,
     updateRoleDto: UpdateRoleDto
   ): Promise<RoleSerializer> {
-    const role = await this.repository.findOne(id);
+    const role = await this.repository.findOne({ 
+      where: { id },
+     });
     if (!role) {
       throw new NotFoundException();
     }
