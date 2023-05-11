@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import * as config from 'config';
+import config from 'config';
 import { existsSync, unlinkSync } from 'fs';
 import { SignOptions } from 'jsonwebtoken';
 import { DeepPartial, Not, ObjectLiteral } from 'typeorm';

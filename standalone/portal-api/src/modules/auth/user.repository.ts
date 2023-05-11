@@ -1,5 +1,5 @@
 import { DeepPartial, EntityRepository } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 import { classToPlain, plainToClass } from 'class-transformer';
 
 import { UserEntity } from 'src/modules/auth/entity/user.entity';

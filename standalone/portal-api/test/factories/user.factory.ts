@@ -1,6 +1,6 @@
 import { getRepository } from 'typeorm';
 import { faker } from '@faker-js/faker';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';

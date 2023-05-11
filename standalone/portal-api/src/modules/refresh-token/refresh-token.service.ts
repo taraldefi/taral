@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FindManyOptions, MoreThanOrEqual } from 'typeorm';
 import { SignOptions, TokenExpiredError } from 'jsonwebtoken';
-import * as config from 'config';
+import config from 'config';
 
 import { CustomHttpException } from 'src/exception/custom-http.exception';
 import { AuthService } from 'src/modules/auth/auth.service';

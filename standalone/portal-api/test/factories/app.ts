@@ -5,7 +5,7 @@ import { createConnection, getConnection } from 'typeorm';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import * as Redis from 'ioredis';
-import * as config from 'config';
+import config from 'config';
 
 import { AppModule } from 'src/app.module';
 

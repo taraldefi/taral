@@ -1,5 +1,5 @@
 import { EntityRepository } from 'typeorm';
-import * as config from 'config';
+import config from 'config';
 
 import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
