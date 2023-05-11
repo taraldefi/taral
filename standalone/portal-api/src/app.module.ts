@@ -14,7 +14,6 @@ import { LoggerModule } from 'nestjs-pino';
 import { EntitiesModule } from './modules/entity/entity.module';
 import { CompaniesModule } from './modules/company/company.module';
 import { FinancialsModule } from './modules/financial/financials.module';
-import { ForgotModule } from './modules/forgot/forgot.module';
 import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
