@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 
 import { AppFactory } from 'test/factories/app';
 
