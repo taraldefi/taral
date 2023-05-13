@@ -24,8 +24,8 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   const options = new DocumentBuilder()
-    .setTitle('BusinessAPI')
-    .setDescription('BusinessAPI docs')
+    .setTitle('Taral API')
+    .setDescription('Taral API docs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
@@ -35,4 +35,5 @@ async function bootstrap() {
 
   await app.listen(configService.get('app.port'));
 }
+
 void bootstrap();
