@@ -6,14 +6,14 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "typeorm": "env-cmd ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "migration:generate": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:generate",
-    "migration:create": "npm run typeorm -- migration:create",
-    "migration:run": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:run",
-    "migration:revert": "npm run typeorm -- --dataSource=src/database/data-source.ts migration:revert",
-    "schema:drop": "npm run typeorm -- --dataSource=src/database/data-source.ts schema:drop",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/config/orm.config.ts",
+    "orm-create": "npm run typeorm migration:create -- -n",
+    "migrate": "npm run typeorm migration:run",
+    "migration:generate": "npm run typeorm migration:generate -- -n",
+    "migration:rollback": "npm run typeorm migration:revert",
+    "seed": "ts-node -r tsconfig-paths/register ./node_modules/typeorm-seeding/dist/cli.js seed -n src/config/orm.config.ts",
+    "schema:drop": "npm run typeorm schema:drop",
     "seed:create": "hygen seeds create",
-    "seed:run": "ts-node -r tsconfig-paths/register ./src/database/seeds/run-seed.ts",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -22,7 +22,8 @@
     "start:debug": "nest start --debug --watch --entryFile ./portal-api/src/main",
     "start:prod": "node portal-api/src/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-    "test:unit": "SET NODE_ENV=test&& jest --config ./test/unit/jest-unit.json --runInBand"
+    "test:unit": "SET NODE_ENV=test&& jest --config ./test/unit/jest-unit.json --runInBand",
+    "test:e2e": "SET NODE_ENV=test&& jest --config ./test/e2e/jest-e2e.json --runInBand --detectOpenHandles"
   },
   "dependencies": {
     "@faker-js/faker": "^7.6.0",
