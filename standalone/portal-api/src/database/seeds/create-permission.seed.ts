@@ -55,12 +55,18 @@ export default class CreatePermissionSeed {
     resource: string,
     isDefault: boolean
   ) {
+    let newPermissions: RoutePayloadInterface[] = [];
     const description = permission.name;
     for (const data of permission.route) {
-      data.resource = data.resource || resource;
-      data.description = data.description || description;
-      data.isDefault = isDefault;
+      newPermissions.push({
+        method: data.method,
+        path: data.path,
+        resource: data.resource || resource,
+        description: data.description || description,
+        isDefault: isDefault || false
+      });
     }
-    this.permissions = this.permissions.concat(permission.route);
+
+    this.permissions = this.permissions.concat(newPermissions);
   }
 }
