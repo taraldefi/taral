@@ -17,7 +17,7 @@ import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 import { TwofaCodeDto } from 'src/modules/twofa/dto/twofa-code.dto';
-import { TwoFaStatusUpdateDto } from 'src/modules/twofa/dto/twofa-status-update.dto';
+import { TwoFaStatusUpdateDto, TwoFaStatusUpdateResult } from 'src/modules/twofa/dto/twofa-status-update.dto';
 import { TwofaService } from 'src/modules/twofa/twofa.service';
 
 @Controller('twofa')
@@ -64,16 +64,21 @@ export class TwofaController {
     twofaStatusUpdateDto: TwoFaStatusUpdateDto,
     @GetUser()
     user: UserEntity
-  ) {
+  ): Promise<TwoFaStatusUpdateResult> {
     let qrDataUri = null;
     if (twofaStatusUpdateDto.isTwoFAEnabled) {
       const { otpauthUrl } = await this.twofaService.generateTwoFASecret(user);
       qrDataUri = await this.twofaService.qrDataToUrl(otpauthUrl);
     }
-    return this.usersService.turnOnTwoFactorAuthentication(
+    const updateResult = await this.usersService.turnOnTwoFactorAuthentication(
       user,
       twofaStatusUpdateDto.isTwoFAEnabled,
       qrDataUri
     );
+
+    return {
+      success: updateResult !== null,
+      qrcodeUri: qrDataUri
+    };
   }
 }
