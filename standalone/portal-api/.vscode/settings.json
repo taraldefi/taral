@@ -1,5 +1,6 @@
 {
   "conventionalCommits.scopes": ["files", "deploy", "auth"],
+  "typescript.preferences.importModuleSpecifier": "relative",
   "cSpell.words": [
     "bbaeb",
     "bytea",
