@@ -40,6 +40,9 @@ export class TwofaController {
     @Body()
     twofaCodeDto: TwofaCodeDto
   ) {
+
+    //TODO(doru): if environment is development, skip 2fa
+
     const isCodeValid = this.twofaService.isTwoFACodeValid(
       twofaCodeDto.code,
       user
