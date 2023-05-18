@@ -6,6 +6,7 @@ import { AppModule } from './app.module';
 import { initializeTransactionalContext } from '@modules/transaction';
 import validationOptions from './utils/validation-options';
 import config from 'config';
+import fs from 'fs';
 
 const apiConfig = config.get('app');
 
@@ -38,6 +39,11 @@ async function bootstrap() {
   const port = process.env.PORT || serverConfig.port;
 
   const document = SwaggerModule.createDocument(app, options);
+  if (process.env.NODE_ENV === 'development')
+  {
+    fs.writeFileSync("./swagger-spec.json", JSON.stringify(document));
+  }
+
   SwaggerModule.setup('docs', app, document);
 
   await app.listen(port);
