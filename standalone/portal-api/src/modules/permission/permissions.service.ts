@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 
 import { CreatePermissionDto } from 'src/modules/permission/dto/create-permission.dto';
 import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permission.dto';
-import { PermissionRepository } from 'src/modules/permission/permission.repository';
+import { PermissionEntityRepository } from 'src/modules/permission/permission.repository';
 import { PermissionFilterDto } from 'src/modules/permission/dto/permission-filter.dto';
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
 import { Permission } from 'src/modules/permission/serializer/permission.serializer';
@@ -23,8 +23,8 @@ export class PermissionsService
   implements CommonServiceInterface<Permission>
 {
   constructor(
-    @InjectRepository(PermissionRepository)
-    private repository: PermissionRepository
+    @InjectRepository(PermissionEntity)
+    private repository: PermissionEntityRepository
   ) {
     super();
   }

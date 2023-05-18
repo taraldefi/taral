@@ -7,7 +7,7 @@ import { Permission } from 'src/modules/permission/serializer/permission.seriali
 import { RoutePayloadInterface } from 'src/config/permission.config';
 
 @EntityRepository(PermissionEntity)
-export class PermissionRepository extends BaseRepository<
+export class PermissionEntityRepository extends BaseRepository<
   PermissionEntity,
   Permission
 > {
