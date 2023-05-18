@@ -8,8 +8,6 @@ import validationOptions from './utils/validation-options';
 import config from 'config';
 import fs from 'fs';
 
-const apiConfig = config.get('app');
-
 async function bootstrap() {
   require('tsconfig-paths/register');
 
