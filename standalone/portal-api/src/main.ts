@@ -5,6 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { initializeTransactionalContext } from '@modules/transaction';
 import validationOptions from './utils/validation-options';
+import config from 'config';
+
+const apiConfig = config.get('app');
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -30,10 +33,15 @@ async function bootstrap() {
     .addBearerAuth()
     .build();
 
+  
+  const serverConfig = config.get('server');
+  const port = process.env.PORT || serverConfig.port;
+
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('docs', app, document);
 
-  await app.listen(configService.get('app.port'));
+  await app.listen(port);
+  console.log(`Application listening in port: ${port}`);
 }
 
 void bootstrap();
