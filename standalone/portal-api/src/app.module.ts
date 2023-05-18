@@ -116,7 +116,7 @@ const appConfig = config.get('app');
     TransactionsModule,
     GoodsAndServicesModule,
     ContractsModule,
-    JobsModule,
+    // JobsModule,
     AuthModule,
     RolesModule,
     PermissionsModule,
