@@ -10,7 +10,7 @@ import { CommonServiceInterface } from 'src/common/interfaces/common-service.int
 import { Permission } from 'src/modules/permission/serializer/permission.serializer';
 import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 import { basicFieldGroupsForSerializing } from 'src/modules/role/serializer/role.serializer';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 import {
   PermissionConfiguration,
   RoutePayloadInterface

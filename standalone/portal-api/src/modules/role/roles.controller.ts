@@ -18,7 +18,7 @@ import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 import { RoleFilterDto } from 'src/modules/role/dto/role-filter.dto';
 import { RoleSerializer } from 'src/modules/role/serializer/role.serializer';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
 import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
 

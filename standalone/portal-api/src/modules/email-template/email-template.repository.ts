@@ -2,8 +2,8 @@ import { EntityRepository } from 'typeorm';
 import { classToPlain, plainToClass } from 'class-transformer';
 
 import { BaseRepository } from 'src/common/repository/base.repository';
-import { EmailTemplateEntity } from 'src/email-template/entities/email-template.entity';
-import { EmailTemplate } from 'src/email-template/serializer/email-template.serializer';
+import { EmailTemplateEntity } from 'src/modules/email-template/entities/email-template.entity';
+import { EmailTemplate } from 'src/modules/email-template/serializer/email-template.serializer';
 
 @EntityRepository(EmailTemplateEntity)
 export class EmailTemplateRepository extends BaseRepository<

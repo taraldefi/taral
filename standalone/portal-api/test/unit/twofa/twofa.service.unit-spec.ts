@@ -4,7 +4,7 @@ import { authenticator } from 'otplib';
 import { TwofaService } from 'src/modules/twofa/twofa.service';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
-import { CustomHttpException } from 'src/exception/custom-http.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 
 const authServiceMock = () => ({
   setTwoFactorAuthenticationSecret: jest.fn()

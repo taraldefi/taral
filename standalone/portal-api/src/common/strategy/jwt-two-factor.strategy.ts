@@ -6,7 +6,7 @@ import { Request } from 'express';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
-import { CustomHttpException } from 'src/exception/custom-http.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserRepository } from 'src/modules/auth/user.repository';

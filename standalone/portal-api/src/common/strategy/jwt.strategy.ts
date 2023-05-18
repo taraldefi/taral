@@ -7,7 +7,7 @@ import config from 'config';
 import { UserRepository } from 'src/modules/auth/user.repository';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
-import { UnauthorizedException } from 'src/exception/unauthorized.exception';
+import { UnauthorizedException } from 'src/modules/exception/unauthorized.exception';
 
 const cookieExtractor = (req) => {
   return req?.cookies?.Authentication;

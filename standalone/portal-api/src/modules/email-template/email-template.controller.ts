@@ -13,13 +13,13 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
-import { EmailTemplateService } from 'src/email-template/email-template.service';
-import { CreateEmailTemplateDto } from 'src/email-template/dto/create-email-template.dto';
-import { UpdateEmailTemplateDto } from 'src/email-template/dto/update-email-template.dto';
+import { EmailTemplateService } from 'src/modules/email-template/email-template.service';
+import { CreateEmailTemplateDto } from 'src/modules/email-template/dto/create-email-template.dto';
+import { UpdateEmailTemplateDto } from 'src/modules/email-template/dto/update-email-template.dto';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
-import { Pagination } from 'src/paginate';
-import { EmailTemplate } from 'src/email-template/serializer/email-template.serializer';
-import { EmailTemplatesSearchFilterDto } from 'src/email-template/dto/email-templates-search-filter.dto';
+import { Pagination } from 'src/modules/paginate';
+import { EmailTemplate } from 'src/modules/email-template/serializer/email-template.serializer';
+import { EmailTemplatesSearchFilterDto } from 'src/modules/email-template/dto/email-templates-search-filter.dto';
 import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
 
 @ApiTags('email-templates')

@@ -9,7 +9,7 @@ import {
   Validate
 } from 'class-validator';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
-import { EmailTemplateEntity } from 'src/email-template/entities/email-template.entity';
+import { EmailTemplateEntity } from 'src/modules/email-template/entities/email-template.entity';
 
 export class CreateEmailTemplateDto {
   @IsNotEmpty()

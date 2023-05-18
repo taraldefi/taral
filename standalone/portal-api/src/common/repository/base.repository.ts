@@ -8,9 +8,9 @@ import {
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
-import { NotFoundException } from 'src/exception/not-found.exception';
-import { Pagination } from 'src/paginate';
-import { PaginationInfoInterface } from 'src/paginate/pagination-info.interface';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
+import { Pagination } from 'src/modules/paginate';
+import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.interface';
 import { SearchFilterInterface } from 'src/common/interfaces/search-filter.interface';
 import { ModelSerializer } from 'src/common/serializer/model.serializer';
 

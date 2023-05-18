@@ -1,2 +1,2 @@
-export * from 'src/paginate/pagination.results.interface';
-export * from 'src/paginate/pagination';
+export * from 'src/modules/paginate/pagination.results.interface';
+export * from 'src/modules/paginate/pagination';

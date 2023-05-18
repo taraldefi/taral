@@ -4,7 +4,7 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { v4 as uuid } from 'uuid';
 
-import { CustomHttpException } from 'src/exception/custom-http.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 
 export const multerOptionsHelper = (

@@ -2,7 +2,7 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
-import { NotFoundException } from 'src/exception/not-found.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 import { RoleRepository } from 'src/modules/role/role.repository';
@@ -14,7 +14,7 @@ import {
 } from 'src/modules/role/serializer/role.serializer';
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
 import { PermissionsService } from 'src/modules/permission/permissions.service';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 
 @Injectable()
 export class RolesService implements CommonServiceInterface<RoleSerializer> {

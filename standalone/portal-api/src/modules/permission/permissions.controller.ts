@@ -19,7 +19,7 @@ import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permissio
 import { PermissionFilterDto } from 'src/modules/permission/dto/permission-filter.dto';
 import { Permission } from 'src/modules/permission/serializer/permission.serializer';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
 
 @ApiTags('permissions')

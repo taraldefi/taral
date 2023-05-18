@@ -24,7 +24,7 @@ import { GetUser } from 'src/common/decorators/get-user.decorator';
 import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
 import { multerOptionsHelper } from 'src/common/helper/multer-options.helper';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { ChangePasswordDto } from 'src/modules/auth/dto/change-password.dto';

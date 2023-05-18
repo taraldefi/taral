@@ -4,9 +4,9 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
 import config from 'config';
 
-import { MailService } from 'src/mail/mail.service';
-import { MailProcessor } from 'src/mail/mail.processor';
-import { EmailTemplateModule } from 'src/email-template/email-template.module';
+import { MailService } from 'src/modules/mail/mail.service';
+import { MailProcessor } from 'src/modules/mail/mail.processor';
+import { EmailTemplateModule } from 'src/modules/email-template/email-template.module';
 
 const mailConfig = config.get('mail');
 const queueConfig = config.get('queue');

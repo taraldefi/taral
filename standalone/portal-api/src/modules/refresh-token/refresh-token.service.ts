@@ -5,20 +5,20 @@ import { FindManyOptions, MoreThanOrEqual } from 'typeorm';
 import { SignOptions, TokenExpiredError } from 'jsonwebtoken';
 import config from 'config';
 
-import { CustomHttpException } from 'src/exception/custom-http.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { ExceptionTitleList } from 'src/common/constants/exception-title-list.constants';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
-import { ForbiddenException } from 'src/exception/forbidden.exception';
-import { NotFoundException } from 'src/exception/not-found.exception';
+import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { RefreshTokenInterface } from 'src/modules/refresh-token/interface/refresh-token.interface';
 import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
-import { PaginationInfoInterface } from 'src/paginate/pagination-info.interface';
+import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.interface';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
-import { Pagination } from 'src/paginate';
+import { Pagination } from 'src/modules/paginate';
 
 const appConfig = config.get('app');
 const tokenConfig = config.get('jwt');

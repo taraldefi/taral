@@ -2,16 +2,16 @@ import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
-import { CreateEmailTemplateDto } from 'src/email-template/dto/create-email-template.dto';
-import { UpdateEmailTemplateDto } from 'src/email-template/dto/update-email-template.dto';
-import { EmailTemplateRepository } from 'src/email-template/email-template.repository';
+import { CreateEmailTemplateDto } from 'src/modules/email-template/dto/create-email-template.dto';
+import { UpdateEmailTemplateDto } from 'src/modules/email-template/dto/update-email-template.dto';
+import { EmailTemplateRepository } from 'src/modules/email-template/email-template.repository';
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
-import { EmailTemplate } from 'src/email-template/serializer/email-template.serializer';
-import { EmailTemplatesSearchFilterDto } from 'src/email-template/dto/email-templates-search-filter.dto';
+import { EmailTemplate } from 'src/modules/email-template/serializer/email-template.serializer';
+import { EmailTemplatesSearchFilterDto } from 'src/modules/email-template/dto/email-templates-search-filter.dto';
 import { ExceptionTitleList } from 'src/common/constants/exception-title-list.constants';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
-import { ForbiddenException } from 'src/exception/forbidden.exception';
-import { Pagination } from 'src/paginate';
+import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
+import { Pagination } from 'src/modules/paginate';
 
 @Injectable()
 export class EmailTemplateService
