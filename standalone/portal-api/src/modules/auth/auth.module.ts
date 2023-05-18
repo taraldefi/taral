@@ -7,13 +7,14 @@ import config from 'config';
 
 import { AuthController } from 'src/modules/auth/auth.controller';
 import { AuthService } from 'src/modules/auth/auth.service';
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import { RefreshTokenModule } from 'src/modules/refresh-token/refresh-token.module';
 import { JwtTwoFactorStrategy } from 'src/common/strategy/jwt-two-factor.strategy';
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
+import { UserEntity } from './entity/user.entity';
 
 const throttleConfig = config.get('throttle.login');
 const redisConfig = config.get('queue');
@@ -51,7 +52,7 @@ const LoginThrottleFactory = {
     PassportModule.register({
       defaultStrategy: 'jwt'
     }),
-    TypeOrmModule.forFeature([UserRepository]),
+    TypeOrmModule.forFeature([UserEntity]),
     MailModule,
     RefreshTokenModule
   ],

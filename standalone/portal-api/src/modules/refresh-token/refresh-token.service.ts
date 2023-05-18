@@ -12,7 +12,7 @@ import { ExceptionTitleList } from 'src/common/constants/exception-title-list.co
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
-import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { RefreshTokenInterface } from 'src/modules/refresh-token/interface/refresh-token.interface';
 import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
@@ -30,7 +30,7 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class RefreshTokenService {
   constructor(
-    @InjectRepository(RefreshTokenRepository)
+    @InjectRepository(RefreshTokenEntity)
     private readonly repository: RefreshTokenRepository,
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
@@ -44,7 +44,7 @@ export class RefreshTokenService {
    */
   public async generateRefreshToken(
     user: UserSerializer,
-    refreshToken: Partial<RefreshToken>
+    refreshToken: Partial<RefreshTokenEntity>
   ): Promise<string> {
     const token = await this.repository.createRefreshToken(user, refreshToken);
     const opts: SignOptions = {
@@ -67,7 +67,7 @@ export class RefreshTokenService {
    */
   public async resolveRefreshToken(encoded: string): Promise<{
     user: UserSerializer;
-    token: RefreshToken;
+    token: RefreshTokenEntity;
   }> {
     const payload = await this.decodeRefreshToken(encoded);
     const token = await this.getStoredTokenFromRefreshTokenPayload(payload);
@@ -169,7 +169,7 @@ export class RefreshTokenService {
    */
   async getStoredTokenFromRefreshTokenPayload(
     payload: RefreshTokenInterface
-  ): Promise<RefreshToken | null> {
+  ): Promise<RefreshTokenEntity | null> {
     const tokenId = payload.jwtid;
 
     if (!tokenId) {
@@ -226,7 +226,7 @@ export class RefreshTokenService {
   async revokeRefreshTokenById(
     id: number,
     userId: number
-  ): Promise<RefreshToken> {
+  ): Promise<RefreshTokenEntity> {
     const token = await this.repository.findTokenById(id);
     if (!token) {
       throw new NotFoundException();

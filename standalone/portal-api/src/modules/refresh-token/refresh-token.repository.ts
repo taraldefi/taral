@@ -1,15 +1,15 @@
 import { EntityRepository } from 'typeorm';
 import config from 'config';
 
-import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 
 const tokenConfig = config.get('jwt');
-@EntityRepository(RefreshToken)
+@EntityRepository(RefreshTokenEntity)
 export class RefreshTokenRepository extends BaseRepository<
-  RefreshToken,
+  RefreshTokenEntity,
   RefreshTokenSerializer
 > {
   /**
@@ -19,8 +19,8 @@ export class RefreshTokenRepository extends BaseRepository<
    */
   public async createRefreshToken(
     user: UserSerializer,
-    tokenPayload: Partial<RefreshToken>
-  ): Promise<RefreshToken> {
+    tokenPayload: Partial<RefreshTokenEntity>
+  ): Promise<RefreshTokenEntity> {
     const token = this.create();
     token.userId = user.id;
     token.isRevoked = false;
@@ -40,7 +40,7 @@ export class RefreshTokenRepository extends BaseRepository<
    * find token by id
    * @param id
    */
-  public async findTokenById(id: number): Promise<RefreshToken | null> {
+  public async findTokenById(id: number): Promise<RefreshTokenEntity | null> {
     return this.findOne({
       where: {
         id

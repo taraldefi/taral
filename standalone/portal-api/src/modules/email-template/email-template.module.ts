@@ -5,11 +5,11 @@ import { EmailTemplateService } from 'src/modules/email-template/email-template.
 import { EmailTemplateController } from 'src/modules/email-template/email-template.controller';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
-import { EmailTemplateRepository } from 'src/modules/email-template/email-template.repository';
+import { EmailTemplateEntity } from './entities/email-template.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([EmailTemplateRepository]),
+    TypeOrmModule.forFeature([EmailTemplateEntity]),
     forwardRef(() => AuthModule)
   ],
   exports: [EmailTemplateService],

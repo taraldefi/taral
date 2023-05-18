@@ -24,7 +24,7 @@ import { CustomHttpException } from 'src/modules/exception/custom-http.exception
 import { MailJobInterface } from 'src/modules/mail/interface/mail-job.interface';
 import { MailService } from 'src/modules/mail/mail.service';
 import { Pagination } from 'src/modules/paginate';
-import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.service';
 import { ChangePasswordDto } from 'src/modules/auth/dto/change-password.dto';
 import { ForgetPasswordDto } from 'src/modules/auth/dto/forget-password.dto';
@@ -39,7 +39,7 @@ import {
   UserSerializer
 } from 'src/modules/auth/serializer/user.serializer';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { ValidationPayloadInterface } from 'src/common/interfaces/validation-error.interface';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
@@ -60,8 +60,8 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserRepository)
-    private readonly userRepository: UserRepository,
+    @InjectRepository(UserEntity)
+    private readonly userRepository: UserEntityRepository,
     private readonly jwt: JwtService,
     private readonly mailService: MailService,
     private readonly refreshTokenService: RefreshTokenService,
@@ -139,7 +139,7 @@ export class AuthService {
    */
   async login(
     userLoginDto: UserLoginDto,
-    refreshTokenPayload: Partial<RefreshToken>
+    refreshTokenPayload: Partial<RefreshTokenEntity>
   ): Promise<string[]> {
     const usernameIPkey = `${userLoginDto.username}_${refreshTokenPayload.ip}`;
     const resUsernameAndIP = await this.rateLimiter.get(usernameIPkey);
@@ -554,7 +554,7 @@ export class AuthService {
    * @param id
    * @param userId
    **/
-  revokeTokenById(id: number, userId: number): Promise<RefreshToken> {
+  revokeTokenById(id: number, userId: number): Promise<RefreshTokenEntity> {
     return this.refreshTokenService.revokeRefreshTokenById(id, userId);
   }
 

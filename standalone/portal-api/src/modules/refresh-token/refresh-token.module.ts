@@ -3,12 +3,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.service';
 import { AuthModule } from 'src/modules/auth/auth.module';
-import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
+import { RefreshTokenEntity } from './entities/refresh-token.entity';
 
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([RefreshTokenRepository])
+    TypeOrmModule.forFeature([RefreshTokenEntity])
   ],
   providers: [RefreshTokenService],
   exports: [RefreshTokenService],

@@ -5,7 +5,7 @@ import { Not, ObjectLiteral } from 'typeorm';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
-import { RoleRepository } from 'src/modules/role/role.repository';
+import { RoleEntityRepository } from 'src/modules/role/role.repository';
 import { RoleFilterDto } from 'src/modules/role/dto/role-filter.dto';
 import {
   adminUserGroupsForSerializing,
@@ -15,12 +15,13 @@ import {
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
 import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { Pagination } from 'src/modules/paginate';
+import { RoleEntity } from './entities/role.entity';
 
 @Injectable()
 export class RolesService implements CommonServiceInterface<RoleSerializer> {
   constructor(
-    @InjectRepository(RoleRepository)
-    private repository: RoleRepository,
+    @InjectRepository(RoleEntity)
+    private repository: RoleEntityRepository,
     private readonly permissionsService: PermissionsService
   ) {}
 

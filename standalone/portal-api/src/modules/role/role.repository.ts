@@ -9,7 +9,7 @@ import { PermissionEntity } from 'src/modules/permission/entities/permission.ent
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 
 @EntityRepository(RoleEntity)
-export class RoleRepository extends BaseRepository<RoleEntity, RoleSerializer> {
+export class RoleEntityRepository extends BaseRepository<RoleEntity, RoleSerializer> {
   async store(
     createRoleDto: CreateRoleDto,
     permissions: PermissionEntity[]

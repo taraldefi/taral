@@ -9,7 +9,7 @@ import {
 @Entity({
   name: 'refresh_token'
 })
-export class RefreshToken extends BaseEntity {
+export class RefreshTokenEntity extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 

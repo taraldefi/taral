@@ -6,7 +6,7 @@ import { EmailTemplateEntity } from 'src/modules/email-template/entities/email-t
 import { EmailTemplate } from 'src/modules/email-template/serializer/email-template.serializer';
 
 @EntityRepository(EmailTemplateEntity)
-export class EmailTemplateRepository extends BaseRepository<
+export class EmailTemplateEntityRepository extends BaseRepository<
   EmailTemplateEntity,
   EmailTemplate
 > {

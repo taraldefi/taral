@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import config from 'config';
 
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UnauthorizedException } from 'src/modules/exception/unauthorized.exception';
@@ -16,8 +16,8 @@ const cookieExtractor = (req) => {
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-strategy') {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository
+    @InjectRepository(UserEntity)
+    private userRepository: UserEntityRepository
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),

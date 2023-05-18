@@ -9,7 +9,7 @@ import { StatusCodesList } from 'src/common/constants/status-codes-list.constant
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 
 @Injectable()
 export class JwtTwoFactorStrategy extends PassportStrategy(
@@ -17,8 +17,8 @@ export class JwtTwoFactorStrategy extends PassportStrategy(
   'jwt-two-factor'
 ) {
   constructor(
-    @InjectRepository(UserRepository)
-    private userRepository: UserRepository
+    @InjectRepository(UserEntity)
+    private userRepository: UserEntityRepository
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([

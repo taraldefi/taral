@@ -12,7 +12,7 @@ import { ExceptionTitleList } from 'src/common/constants/exception-title-list.co
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 
 @EntityRepository(UserEntity)
-export class UserRepository extends BaseRepository<UserEntity, UserSerializer> {
+export class UserEntityRepository extends BaseRepository<UserEntity, UserSerializer> {
   /**
    * store new user
    * @param createUserDto

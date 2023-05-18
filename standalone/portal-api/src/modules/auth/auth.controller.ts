@@ -25,7 +25,7 @@ import JwtTwoFactorGuard from 'src/common/guard/jwt-two-factor.guard';
 import { PermissionGuard } from 'src/common/guard/permission.guard';
 import { multerOptionsHelper } from 'src/common/helper/multer-options.helper';
 import { Pagination } from 'src/modules/paginate';
-import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { ChangePasswordDto } from 'src/modules/auth/dto/change-password.dto';
 import { CreateUserDto } from 'src/modules/auth/dto/create-user.dto';
@@ -64,7 +64,7 @@ export class AuthController {
     userLoginDto: UserLoginDto
   ) {
     const ua = UAParser(req.headers['user-agent']);
-    const refreshTokenPayload: Partial<RefreshToken> = {
+    const refreshTokenPayload: Partial<RefreshTokenEntity> = {
       ip: req.ip,
       userAgent: JSON.stringify(ua),
       browser: ua.browser.name,
