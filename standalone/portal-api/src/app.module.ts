@@ -90,10 +90,10 @@ const appConfig = config.get('app');
         new CookieResolver(['lang', 'locale', 'l'])
       ]
     }),
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-      exclude: ['/api*']
-    }),
+    // ServeStaticModule.forRoot({
+    //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
+    //   exclude: ['/api*']
+    // }),
     StorageModule.registerAsync({
       imports: [ConfigService],
       useFactory: (config: ConfigService) => {
