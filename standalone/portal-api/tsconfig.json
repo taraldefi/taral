@@ -35,5 +35,6 @@
       "@modules/telemetry": ["../modules/telemetry"],
       "@modules/cron": ["../modules/cron"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

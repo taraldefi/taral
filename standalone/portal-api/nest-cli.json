@@ -4,7 +4,7 @@
   "compilerOptions": {
     "plugins": ["@nestjs/swagger"],
     "assets": [
-      { "include": "i18n/**/*", "watchAssets": true, "outDir": "dist/src" },
+      { "include": "i18n/**/*", "watchAssets": true, "outDir": "dist/standalone/portal-api/src" },
       { "include": "mail/templates/**/*", "watchAssets": true },
       { "include": "**/*.css", "watchAssets": true }
     ]
