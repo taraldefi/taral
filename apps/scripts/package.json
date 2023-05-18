@@ -26,7 +26,7 @@
     "sha.js": "^2.4.0",
     "c32check": "^2.0.0",
     "elliptic": "6.5.4",
-    "@stacks/encryption": "^6.2.0",
+    "@stacks/encryption": "^6.5.4",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
     "lib-shared": "1.0.0",
