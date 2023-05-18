@@ -57,5 +57,11 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  redis:
+    image: redis:7-alpine
+    ports:
+      - 6379:6379
+    depends_on:
+      - postgres
 volumes:
   mongodb_data:
