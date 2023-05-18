@@ -2,10 +2,6 @@
 
 These applications are meant to be ran/opened in vscode in their respective directories
 
-## Storage API
-
-Please find the documentation [here](docs/StorageApi.md)
-
 ## Portal API
 
 Please find the documentation [here](docs/PortalApi.md)
