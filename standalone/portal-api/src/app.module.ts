@@ -1,5 +1,4 @@
 import { Module } from '@nestjs/common';
-import databaseConfig from './config/database.config';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { MailerModule } from '@nestjs-modules/mailer';
@@ -60,7 +59,7 @@ const appConfig = config.get('app');
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig, mailConfig, fileConfig],
+      load: [authConfig, mailConfig, fileConfig],
       envFilePath: ['.env'],
     }),
     // TypeOrmModule.forRootAsync({
