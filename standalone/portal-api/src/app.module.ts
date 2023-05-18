@@ -1,10 +1,8 @@
 import { Module } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
-import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeOrmConfigService } from './database/typeorm-config.service';
 import { HomeModule } from './modules/home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
@@ -22,7 +20,9 @@ import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
-import { JobsModule } from './modules/jobs/jobs.module';
+
+// import { JobsModule } from './modules/jobs/jobs.module';
+
 import {
   CookieResolver,
   HeaderResolver,
