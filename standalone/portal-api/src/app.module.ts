@@ -1,19 +1,19 @@
 import { Module } from '@nestjs/common';
 import databaseConfig from './config/database.config';
-import mailConfig from 'src/config/mail.config';
-import fileConfig from 'src/config/file.config';
+import mailConfig from './config/mail.config';
+import fileConfig from './config/file.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
-import { HomeModule } from './home/home.module';
+import { HomeModule } from './modules/home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
 import { LoggerModule } from 'nestjs-pino';
 import { EntitiesModule } from './modules/entity/entity.module';
 import { CompaniesModule } from './modules/company/company.module';
 import { FinancialsModule } from './modules/financial/financials.module';
-import { AuthModule } from 'src/modules/auth/auth.module';
+import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
@@ -31,22 +31,22 @@ import {
   I18nModule,
   QueryResolver
 } from 'nestjs-i18n';
-import ormConfig from 'src/config/orm.config';
-import throttleConfig from 'src/config/throttle.config'
-import winstonConfig from 'src/config/winston.config';
+import ormConfig from './config/orm.config';
+import throttleConfig from './config/throttle.config'
+import winstonConfig from './config/winston.config';
 import { WinstonModule } from 'nest-winston';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 
-import { RolesModule } from 'src/modules/role/roles.module';
-import { PermissionsModule } from 'src/modules/permission/permissions.module';
-import { MailModule } from 'src/mail/mail.module';
-import { EmailTemplateModule } from 'src/email-template/email-template.module';
-import { RefreshTokenModule } from 'src/modules/refresh-token/refresh-token.module';
-import { I18nExceptionFilterPipe } from 'src/common/pipes/i18n-exception-filter.pipe';
-import { CustomValidationPipe } from 'src/common/pipes/custom-validation.pipe';
-import { TwofaModule } from 'src/modules/twofa/twofa.module';
-import { CustomThrottlerGuard } from 'src/common/guard/custom-throttle.guard';
+import { RolesModule } from './modules/role/roles.module';
+import { PermissionsModule } from './modules/permission/permissions.module';
+import { MailModule } from './modules/mail/mail.module';
+import { EmailTemplateModule } from './modules/email-template/email-template.module';
+import { RefreshTokenModule } from './modules/refresh-token/refresh-token.module';
+import { I18nExceptionFilterPipe } from './common/pipes/i18n-exception-filter.pipe';
+import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
+import { TwofaModule } from './modules/twofa/twofa.module';
+import { CustomThrottlerGuard } from './common/guard/custom-throttle.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
 import config from 'config';
 import { join } from 'path';
@@ -60,12 +60,12 @@ const appConfig = config.get('app');
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [databaseConfig, authConfig, appConfig, mailConfig, fileConfig],
+      load: [databaseConfig, authConfig, mailConfig, fileConfig],
       envFilePath: ['.env'],
     }),
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService,
-    }),
+    // TypeOrmModule.forRootAsync({
+    //   useClass: TypeOrmConfigService,
+    // }),
     WinstonModule.forRoot(winstonConfig),
     ThrottlerModule.forRootAsync({
       useFactory: () => throttleConfig
