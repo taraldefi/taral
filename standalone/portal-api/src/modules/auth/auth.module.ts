@@ -7,7 +7,6 @@ import config from 'config';
 
 import { AuthController } from 'src/modules/auth/auth.controller';
 import { AuthService } from 'src/modules/auth/auth.service';
-import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { MailModule } from 'src/modules/mail/mail.module';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
@@ -19,6 +18,7 @@ import { UserEntity } from './entity/user.entity';
 const throttleConfig = config.get('throttle.login');
 const redisConfig = config.get('queue');
 const jwtConfig = config.get('jwt');
+
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
   useFactory: () => {

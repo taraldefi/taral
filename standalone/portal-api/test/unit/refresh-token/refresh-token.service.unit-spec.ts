@@ -7,9 +7,9 @@ import { AuthService } from 'src/modules/auth/auth.service';
 import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
-import { CustomHttpException } from 'src/exception/custom-http.exception';
-import { NotFoundException } from 'src/exception/not-found.exception';
-import { ForbiddenException } from 'src/exception/forbidden.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
+import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 
 const jwtServiceMock = () => ({

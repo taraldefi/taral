@@ -3,11 +3,11 @@ import { UnprocessableEntityException } from '@nestjs/common';
 
 import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { MethodList } from 'src/config/permission.config';
-import { PermissionRepository } from 'src/modules/permission/permission.repository';
+import { PermissionEntityRepository } from 'src/modules/permission/permission.repository';
 import { PermissionFilterDto } from 'src/modules/permission/dto/permission-filter.dto';
 import { CreatePermissionDto } from 'src/modules/permission/dto/create-permission.dto';
 import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permission.dto';
-import { NotFoundException } from 'src/exception/not-found.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
 
 const permissionRepositoryMock = () => ({
   getAll: jest.fn(),
@@ -38,14 +38,14 @@ describe('PermissionsService', () => {
       providers: [
         PermissionsService,
         {
-          provide: PermissionRepository,
+          provide: PermissionEntityRepository,
           useFactory: permissionRepositoryMock
         }
       ]
     }).compile();
 
     service = module.get<PermissionsService>(PermissionsService);
-    repository = module.get<PermissionRepository>(PermissionRepository);
+    repository = module.get<PermissionEntityRepository>(PermissionEntityRepository);
   });
 
   it('findAll', async () => {

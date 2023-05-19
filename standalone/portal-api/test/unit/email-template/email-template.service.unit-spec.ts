@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnprocessableEntityException } from '@nestjs/common';
 
-import { EmailTemplateService } from 'src/email-template/email-template.service';
-import { EmailTemplateRepository } from 'src/email-template/email-template.repository';
-import { EmailTemplatesSearchFilterDto } from 'src/email-template/dto/email-templates-search-filter.dto';
-import { CreateEmailTemplateDto } from 'src/email-template/dto/create-email-template.dto';
-import { UpdateEmailTemplateDto } from 'src/email-template/dto/update-email-template.dto';
-import { NotFoundException } from 'src/exception/not-found.exception';
-import { ForbiddenException } from 'src/exception/forbidden.exception';
+import { EmailTemplateService } from 'src/modules/email-template/email-template.service';
+import { EmailTemplateEntityRepository } from 'src/modules/email-template/email-template.repository';
+import { EmailTemplatesSearchFilterDto } from 'src/modules/email-template/dto/email-templates-search-filter.dto';
+import { CreateEmailTemplateDto } from 'src/modules/email-template/dto/create-email-template.dto';
+import { UpdateEmailTemplateDto } from 'src/modules/email-template/dto/update-email-template.dto';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
+import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 
 const emailTemplateRepositoryMock = () => ({
   getAll: jest.fn(),
@@ -36,14 +36,14 @@ describe('EmailTemplateService', () => {
       providers: [
         EmailTemplateService,
         {
-          provide: EmailTemplateRepository,
+          provide: EmailTemplateEntityRepository,
           useFactory: emailTemplateRepositoryMock
         }
       ]
     }).compile();
 
     service = module.get<EmailTemplateService>(EmailTemplateService);
-    repository = module.get<EmailTemplateRepository>(EmailTemplateRepository);
+    repository = module.get<EmailTemplateEntityRepository>(EmailTemplateEntityRepository);
   });
 
   afterEach(() => {

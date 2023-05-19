@@ -1,6 +1,6 @@
 import { Test } from '@nestjs/testing';
 
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { CreateUserDto } from 'src/modules/auth/dto/create-user.dto';
 import { UserLoginDto } from 'src/modules/auth/dto/user-login.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
@@ -20,9 +20,9 @@ describe('User Repository', () => {
   let userRepository;
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [UserRepository]
+      providers: [UserEntityRepository]
     }).compile();
-    userRepository = await module.get<UserRepository>(UserRepository);
+    userRepository = await module.get<UserEntityRepository>(UserEntityRepository);
   });
 
   describe('store', () => {

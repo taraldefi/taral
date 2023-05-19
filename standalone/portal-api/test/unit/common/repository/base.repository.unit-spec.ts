@@ -3,7 +3,7 @@ import { Expose } from 'class-transformer';
 
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { ModelSerializer } from 'src/common/serializer/model.serializer';
-import { NotFoundException } from 'src/exception/not-found.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
 
 class MockEntity {
   id: number;
