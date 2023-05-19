@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { UnprocessableEntityException } from '@nestjs/common';
 
 import { AuthService } from 'src/modules/auth/auth.service';
-import { UserRepository } from 'src/modules/auth/user.repository';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { CreateUserDto } from 'src/modules/auth/dto/create-user.dto';
 import { UserLoginDto } from 'src/modules/auth/dto/user-login.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
@@ -13,11 +13,11 @@ import { ResetPasswordDto } from 'src/modules/auth/dto/reset-password.dto';
 import { ForgetPasswordDto } from 'src/modules/auth/dto/forget-password.dto';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { ChangePasswordDto } from 'src/modules/auth/dto/change-password.dto';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from 'src/modules/mail/mail.service';
 import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.service';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
-import { NotFoundException } from 'src/exception/not-found.exception';
-import { CustomHttpException } from 'src/exception/custom-http.exception';
+import { NotFoundException } from 'src/modules/exception/not-found.exception';
+import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 
 const mockUserRepository = () => ({
@@ -81,7 +81,7 @@ describe('AuthService', () => {
           useFactory: jwtServiceMock
         },
         {
-          provide: UserRepository,
+          provide: UserEntityRepository,
           useFactory: mockUserRepository
         },
         {
@@ -100,7 +100,7 @@ describe('AuthService', () => {
     }).compile();
 
     service = await module.get<AuthService>(AuthService);
-    userRepository = await module.get<UserRepository>(UserRepository);
+    userRepository = await module.get<UserEntityRepository>(UserEntityRepository);
     refreshTokenService = await module.get<RefreshTokenService>(
       RefreshTokenService
     );

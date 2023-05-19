@@ -6,7 +6,7 @@ import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.ser
 import { AuthService } from 'src/modules/auth/auth.service';
 import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
-import { RefreshToken } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { CustomHttpException } from 'src/exception/custom-http.exception';
 import { NotFoundException } from 'src/exception/not-found.exception';
 import { ForbiddenException } from 'src/exception/forbidden.exception';
@@ -37,7 +37,7 @@ describe('RefreshTokenService', () => {
     authService,
     repository,
     user: UserSerializer,
-    refreshToken: RefreshToken;
+    refreshToken: RefreshTokenEntity;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -67,7 +67,7 @@ describe('RefreshTokenService', () => {
     user = new UserSerializer();
     user.id = 1;
     user.email = 'test@mail.com';
-    refreshToken = new RefreshToken();
+    refreshToken = new RefreshTokenEntity();
     refreshToken.id = 1;
     refreshToken.userId = 1;
     refreshToken.isRevoked = false;
