@@ -139,7 +139,7 @@ export class EntityService {
     {
       const _ = await storage.put(onDiskFilename, data.logo.buffer);
     } else {
-      console.log('No buffer');
+      console.log('No logo provided for entity');
     }
 
     const entityProducts = await this.createProducts();

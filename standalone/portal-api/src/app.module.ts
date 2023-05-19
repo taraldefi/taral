@@ -30,11 +30,9 @@ import {
   I18nModule,
   QueryResolver
 } from 'nestjs-i18n';
-import ormConfig from './config/orm.config';
 import throttleConfig from './config/throttle.config'
 import winstonConfig from './config/winston.config';
 import { WinstonModule } from 'nest-winston';
-import { ServeStaticModule } from '@nestjs/serve-static';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 
 import { RolesModule } from './modules/role/roles.module';
@@ -47,34 +45,32 @@ import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
 import { TwofaModule } from './modules/twofa/twofa.module';
 import { CustomThrottlerGuard } from './common/guard/custom-throttle.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
-import config from 'config';
-import { join } from 'path';
-
 import path from 'path';
 import { AppController } from './app.controller';
+import databaseConfig from './config/database.config';
+import { TypeOrmConfigService } from './database/typeorm-config.service';
+import onchainConfig from './config/onchain.config';
+import appConfig from './config/app.config';
 
-const appConfig = config.get('app');
+// const appConfig = config.get('app');
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [authConfig, mailConfig, fileConfig],
+      load: [authConfig, mailConfig, fileConfig, databaseConfig, onchainConfig, appConfig],
       envFilePath: ['.env'],
     }),
-    // TypeOrmModule.forRootAsync({
-    //   useClass: TypeOrmConfigService,
-    // }),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmConfigService,
+    }),
     WinstonModule.forRoot(winstonConfig),
     ThrottlerModule.forRootAsync({
       useFactory: () => throttleConfig
     }),
-    TypeOrmModule.forRootAsync({
-      useFactory: () => ormConfig
-    }),
     I18nModule.forRootAsync({
-      useFactory: () => ({
-        fallbackLanguage: appConfig.fallbackLanguage,
+      useFactory: (configService: ConfigService) => ({
+        fallbackLanguage: configService.get('app.fallbackLanguage'),
         parserOptions: {
           path: path.join(__dirname, '/i18n/'),
           watch: true
@@ -88,10 +84,12 @@ const appConfig = config.get('app');
         },
         new HeaderResolver(['x-custom-lang']),
         new CookieResolver(['lang', 'locale', 'l'])
-      ]
+      ],
+      inject: [ConfigService]
     }),
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
+
     //   exclude: ['/api*']
     // }),
     StorageModule.registerAsync({
