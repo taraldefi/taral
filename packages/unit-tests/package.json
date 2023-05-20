@@ -9,7 +9,8 @@
   },
   "scripts": {
     "unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts",
-    "ci-unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts"
+    "ci-unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts",
+    "eol": "npx eolConverter \"**/*.ts\""
   },
   "devDependencies": {
     "jest": "^28.0.2",
