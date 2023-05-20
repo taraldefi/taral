@@ -8,7 +8,7 @@ import { UnauthorizedException } from 'src/modules/exception/unauthorized.except
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockUserRepository = () => ({
-  findOne: jest.fn()
+  findOne: jest.fn(),
 });
 
 describe('Test JWT strategy', () => {
@@ -16,17 +16,17 @@ describe('Test JWT strategy', () => {
   beforeEach(async () => {
     jest.mock('config', () => ({
       default: {
-        get: () => jest.fn().mockImplementation(() => 'hello')
-      }
+        get: () => jest.fn().mockImplementation(() => 'hello'),
+      },
     }));
     const module = await Test.createTestingModule({
       providers: [
         JwtStrategy,
         {
           provide: getRepositoryToken(UserEntity),
-          useFactory: mockUserRepository
-        }
-      ]
+          useFactory: mockUserRepository,
+        },
+      ],
     }).compile();
     jwtStrategy = await module.get<JwtStrategy>(JwtStrategy);
     userRepository = await module.get(getRepositoryToken(UserEntity));
@@ -38,26 +38,26 @@ describe('Test JWT strategy', () => {
       user.name = 'test';
       user.username = 'tester';
       const payload: JwtPayloadDto = {
-        subject: '1'
+        subject: '1',
       };
       userRepository.findOne.mockResolvedValue(user);
       const result = await jwtStrategy.validate(payload);
       expect(userRepository.findOne).toHaveBeenCalledWith(
         Number(payload.subject),
         {
-          relations: ['role', 'role.permission']
-        }
+          relations: ['role', 'role.permission'],
+        },
       );
       expect(result).toEqual(user);
     });
 
     it('should throw error if subject is not found on database', async () => {
       const payload: JwtPayloadDto = {
-        subject: '1'
+        subject: '1',
       };
       userRepository.findOne.mockResolvedValue(null);
       await expect(jwtStrategy.validate(payload)).rejects.toThrow(
-        UnauthorizedException
+        UnauthorizedException,
       );
     });
   });

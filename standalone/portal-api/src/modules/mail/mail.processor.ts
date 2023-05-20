@@ -6,7 +6,7 @@ import {
   OnQueueCompleted,
   OnQueueFailed,
   Process,
-  Processor
+  Processor,
 } from '@nestjs/bull';
 import { Job } from 'bull';
 
@@ -22,8 +22,8 @@ export class MailProcessor {
   onActive(job: Job) {
     this.logger.debug(
       `Processing job ${job.id} of type ${job.name}. Data: ${JSON.stringify(
-        job.data
-      )}`
+        job.data,
+      )}`,
     );
   }
 
@@ -31,8 +31,8 @@ export class MailProcessor {
   onComplete(job: Job, result: any) {
     this.logger.debug(
       `Completed job ${job.id} of type ${job.name}. Result: ${JSON.stringify(
-        result
-      )}`
+        result,
+      )}`,
     );
   }
 
@@ -40,7 +40,7 @@ export class MailProcessor {
   onError(job: Job<any>, error: any) {
     this.logger.error(
       `Failed job ${job.id} of type ${job.name}: ${error.message}`,
-      error.stack
+      error.stack,
     );
   }
 
@@ -49,7 +49,7 @@ export class MailProcessor {
     job: Job<{
       payload: MailJobInterface;
       type: string;
-    }>
+    }>,
   ): Promise<any> {
     this.logger.log(`Sending email to '${job.data.payload.to}'`);
     const mailConfig = config.get('mail');
@@ -60,13 +60,13 @@ export class MailProcessor {
         subject: job.data.payload.subject,
         template: 'email-layout',
         context: job.data.payload.context,
-        attachments: job.data.payload.attachments
+        attachments: job.data.payload.attachments,
       };
       return await this.mailerService.sendMail({ ...options });
     } catch (error) {
       this.logger.error(
         `Failed to send email to '${job.data.payload.to}'`,
-        error.stack
+        error.stack,
       );
       throw error;
     }

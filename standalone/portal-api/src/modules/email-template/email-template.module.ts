@@ -10,10 +10,10 @@ import { EmailTemplateEntity } from './entities/email-template.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([EmailTemplateEntity]),
-    forwardRef(() => AuthModule)
+    forwardRef(() => AuthModule),
   ],
   exports: [EmailTemplateService],
   controllers: [EmailTemplateController],
-  providers: [EmailTemplateService, UniqueValidatorPipe]
+  providers: [EmailTemplateService, UniqueValidatorPipe],
 })
 export class EmailTemplateModule {}

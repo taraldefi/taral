@@ -6,7 +6,7 @@ import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 const statusEnumArray = [
   UserStatusEnum.ACTIVE,
   UserStatusEnum.INACTIVE,
-  UserStatusEnum.BLOCKED
+  UserStatusEnum.BLOCKED,
 ];
 /**
  * update user data transfer object
@@ -40,7 +40,7 @@ export class UpdateUserDto {
   @ApiPropertyOptional()
   @ValidateIf((object, value) => value)
   @IsIn(statusEnumArray, {
-    message: `isIn-{"items":"${statusEnumArray.join(',')}"}`
+    message: `isIn-{"items":"${statusEnumArray.join(',')}"}`,
   })
   status: UserStatusEnum;
 

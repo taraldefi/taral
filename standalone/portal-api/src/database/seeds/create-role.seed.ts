@@ -21,7 +21,7 @@ export default class CreateRoleSeed {
       .getRepository(RoleEntity)
       .createQueryBuilder('role')
       .where('role.name = :name', {
-        name: 'superuser'
+        name: 'superuser',
       })
       .getOne();
 

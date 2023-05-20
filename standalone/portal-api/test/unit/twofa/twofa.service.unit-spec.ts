@@ -7,7 +7,7 @@ import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 
 const authServiceMock = () => ({
-  setTwoFactorAuthenticationSecret: jest.fn()
+  setTwoFactorAuthenticationSecret: jest.fn(),
 });
 
 describe('TwofaService', () => {
@@ -19,9 +19,9 @@ describe('TwofaService', () => {
         TwofaService,
         {
           provide: AuthService,
-          useFactory: authServiceMock
-        }
-      ]
+          useFactory: authServiceMock,
+        },
+      ],
     }).compile();
 
     service = module.get<TwofaService>(TwofaService);
@@ -43,7 +43,7 @@ describe('TwofaService', () => {
       twoFAThrottleTime.setSeconds(twoFAThrottleTime.getSeconds() + 60);
       user.twoFAThrottleTime = twoFAThrottleTime;
       await expect(service.generateTwoFASecret(user)).rejects.toThrowError(
-        CustomHttpException
+        CustomHttpException,
       );
     });
     it('should generate 2fa secret', async () => {
@@ -53,7 +53,7 @@ describe('TwofaService', () => {
       expect(authenticator.generateSecret).toHaveBeenCalledTimes(1);
       expect(authenticator.keyuri).toHaveBeenCalledTimes(1);
       expect(
-        authService.setTwoFactorAuthenticationSecret
+        authService.setTwoFactorAuthenticationSecret,
       ).toHaveBeenCalledTimes(1);
     });
   });

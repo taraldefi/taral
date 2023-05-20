@@ -11,7 +11,7 @@ export class MailService {
   constructor(
     @InjectQueue(config.get('mail.queueName'))
     private mailQueue: Queue,
-    private readonly emailTemplateService: EmailTemplateService
+    private readonly emailTemplateService: EmailTemplateService,
   ) {}
 
   /**
@@ -36,7 +36,7 @@ export class MailService {
     if (mailBody) {
       try {
         await this.mailQueue.add(type, {
-          payload
+          payload,
         });
         return true;
       } catch (error) {

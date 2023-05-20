@@ -12,7 +12,10 @@ import { ExceptionTitleList } from 'src/common/constants/exception-title-list.co
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 
 @EntityRepository(UserEntity)
-export class UserEntityRepository extends BaseRepository<UserEntity, UserSerializer> {
+export class UserEntityRepository extends BaseRepository<
+  UserEntity,
+  UserSerializer
+> {
   /**
    * store new user
    * @param createUserDto
@@ -20,7 +23,7 @@ export class UserEntityRepository extends BaseRepository<UserEntity, UserSeriali
    */
   async store(
     createUserDto: DeepPartial<UserEntity>,
-    token: string
+    token: string,
   ): Promise<UserSerializer> {
     if (!createUserDto.status) {
       createUserDto.status = UserStatusEnum.INACTIVE;
@@ -37,25 +40,25 @@ export class UserEntityRepository extends BaseRepository<UserEntity, UserSeriali
    * @param userLoginDto
    */
   async login(
-    userLoginDto: UserLoginDto
+    userLoginDto: UserLoginDto,
   ): Promise<[user: UserEntity, error: string, code: number]> {
     const { username, password } = userLoginDto;
     const user = await this.findOne({
       where: [
         {
-          username: username
+          username: username,
         },
         {
-          email: username
-        }
-      ]
+          email: username,
+        },
+      ],
     });
     if (user && (await user.validatePassword(password))) {
       if (user.status !== UserStatusEnum.ACTIVE) {
         return [
           null,
           ExceptionTitleList.UserInactive,
-          StatusCodesList.UserInactive
+          StatusCodesList.UserInactive,
         ];
       }
       return [user, null, null];
@@ -63,7 +66,7 @@ export class UserEntityRepository extends BaseRepository<UserEntity, UserSeriali
     return [
       null,
       ExceptionTitleList.InvalidCredentials,
-      StatusCodesList.InvalidCredentials
+      StatusCodesList.InvalidCredentials,
     ];
   }
 
@@ -72,13 +75,13 @@ export class UserEntityRepository extends BaseRepository<UserEntity, UserSeriali
    * @param resetPasswordDto
    */
   async getUserForResetPassword(
-    resetPasswordDto: ResetPasswordDto
+    resetPasswordDto: ResetPasswordDto,
   ): Promise<UserEntity> {
     const { token } = resetPasswordDto;
     const query = this.createQueryBuilder('user');
     query.where('user.token = :token', { token });
     query.andWhere('user.tokenValidityDate > :date', {
-      date: new Date()
+      date: new Date(),
     });
     return query.getOne();
   }
@@ -92,7 +95,7 @@ export class UserEntityRepository extends BaseRepository<UserEntity, UserSeriali
     return plainToClass(
       UserSerializer,
       classToPlain(model, transformOption),
-      transformOption
+      transformOption,
     );
   }
 

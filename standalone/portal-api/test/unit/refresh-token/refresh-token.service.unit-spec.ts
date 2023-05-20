@@ -14,12 +14,12 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 
 const jwtServiceMock = () => ({
   signAsync: jest.fn(),
-  verifyAsync: jest.fn()
+  verifyAsync: jest.fn(),
 });
 
 const authServiceMock = () => ({
   findById: jest.fn(),
-  generateAccessToken: jest.fn()
+  generateAccessToken: jest.fn(),
 });
 
 const repositoryMock = () => ({
@@ -28,7 +28,7 @@ const repositoryMock = () => ({
   getPaginationInfo: jest.fn(),
   findAndCount: jest.fn(),
   transformMany: jest.fn(),
-  find: jest.fn()
+  find: jest.fn(),
 });
 
 describe('RefreshTokenService', () => {
@@ -45,25 +45,23 @@ describe('RefreshTokenService', () => {
         RefreshTokenService,
         {
           provide: JwtService,
-          useFactory: jwtServiceMock
+          useFactory: jwtServiceMock,
         },
         {
           provide: AuthService,
-          useFactory: authServiceMock
+          useFactory: authServiceMock,
         },
         {
           provide: getRepositoryToken(RefreshTokenEntity),
-          useFactory: repositoryMock
-        }
-      ]
+          useFactory: repositoryMock,
+        },
+      ],
     }).compile();
 
     service = module.get<RefreshTokenService>(RefreshTokenService);
     jwtService = await module.get<JwtService>(JwtService);
     authService = await module.get<AuthService>(AuthService);
-    repository = await module.get(
-      getRepositoryToken(RefreshTokenEntity)
-    );
+    repository = await module.get(getRepositoryToken(RefreshTokenEntity));
     user = new UserSerializer();
     user.id = 1;
     user.email = 'test@mail.com';
@@ -82,7 +80,7 @@ describe('RefreshTokenService', () => {
     repository.createRefreshToken.mockResolvedValue(refreshToken);
     const tokenPayload = {
       ip: '::1',
-      userAgent: 'mozilla'
+      userAgent: 'mozilla',
     };
     await service.generateRefreshToken(user, tokenPayload);
     expect(repository.createRefreshToken).toHaveBeenCalledTimes(1);
@@ -94,7 +92,7 @@ describe('RefreshTokenService', () => {
       const testToken = 'test_token_hash';
       jest.spyOn(service, 'decodeRefreshToken').mockResolvedValue({
         jwtid: 1,
-        subject: 1
+        subject: 1,
       });
       jest
         .spyOn(service, 'getStoredTokenFromRefreshTokenPayload')
@@ -103,14 +101,14 @@ describe('RefreshTokenService', () => {
         .spyOn(service, 'getUserFromRefreshTokenPayload')
         .mockResolvedValue(null);
       await expect(service.resolveRefreshToken(testToken)).rejects.toThrowError(
-        CustomHttpException
+        CustomHttpException,
       );
       expect(service.decodeRefreshToken).toHaveBeenCalledTimes(1);
       expect(
-        service.getStoredTokenFromRefreshTokenPayload
+        service.getStoredTokenFromRefreshTokenPayload,
       ).toHaveBeenCalledTimes(1);
       expect(
-        service.getStoredTokenFromRefreshTokenPayload
+        service.getStoredTokenFromRefreshTokenPayload,
       ).toHaveBeenCalledTimes(1);
     });
 
@@ -118,7 +116,7 @@ describe('RefreshTokenService', () => {
       const testToken = 'test_token_hash';
       jest.spyOn(service, 'decodeRefreshToken').mockResolvedValue({
         jwtid: 1,
-        subject: 1
+        subject: 1,
       });
       jest
         .spyOn(service, 'getStoredTokenFromRefreshTokenPayload')
@@ -130,13 +128,13 @@ describe('RefreshTokenService', () => {
       expect(service.decodeRefreshToken).toHaveBeenCalledTimes(1);
       expect(service.decodeRefreshToken).toHaveBeenCalledWith(testToken);
       expect(
-        service.getStoredTokenFromRefreshTokenPayload
+        service.getStoredTokenFromRefreshTokenPayload,
       ).toHaveBeenCalledTimes(1);
       expect(
-        service.getStoredTokenFromRefreshTokenPayload
+        service.getStoredTokenFromRefreshTokenPayload,
       ).toHaveBeenCalledWith({
         jwtid: 1,
-        subject: 1
+        subject: 1,
       });
     });
   });
@@ -144,7 +142,7 @@ describe('RefreshTokenService', () => {
   it('createAccessTokenFromRefreshToken', async () => {
     jest.spyOn(service, 'resolveRefreshToken').mockResolvedValue({
       user,
-      token: refreshToken
+      token: refreshToken,
     });
     // jest
     //   .spyOn(service, 'generateAccessToken')
@@ -163,14 +161,14 @@ describe('RefreshTokenService', () => {
       });
 
       await expect(
-        service.decodeRefreshToken('refresh_token_hash')
+        service.decodeRefreshToken('refresh_token_hash'),
       ).rejects.toThrowError(CustomHttpException);
     });
 
     it('decode valid refresh token', async () => {
       jwtService.verifyAsync.mockResolvedValue({
         jwtid: 1,
-        subject: 1
+        subject: 1,
       });
       await service.decodeRefreshToken('refresh_token_hash');
       expect(jwtService.verifyAsync).toHaveBeenCalledTimes(1);
@@ -183,8 +181,8 @@ describe('RefreshTokenService', () => {
       await expect(
         service.getUserFromRefreshTokenPayload({
           jwtid: null,
-          subject: null
-        })
+          subject: null,
+        }),
       ).rejects.toThrowError(CustomHttpException);
       expect(authService.findById).toHaveBeenCalledTimes(0);
     });
@@ -194,8 +192,8 @@ describe('RefreshTokenService', () => {
       await expect(
         service.getUserFromRefreshTokenPayload({
           jwtid: 1,
-          subject: 1
-        })
+          subject: 1,
+        }),
       ).resolves.not.toThrow();
       expect(authService.findById).toHaveBeenCalledTimes(1);
       expect(authService.findById).toHaveBeenCalledWith(1);
@@ -207,8 +205,8 @@ describe('RefreshTokenService', () => {
       await expect(
         service.getStoredTokenFromRefreshTokenPayload({
           jwtid: null,
-          subject: null
-        })
+          subject: null,
+        }),
       ).rejects.toThrowError(CustomHttpException);
     });
 
@@ -217,8 +215,8 @@ describe('RefreshTokenService', () => {
       await expect(
         service.getStoredTokenFromRefreshTokenPayload({
           jwtid: 1,
-          subject: 1
-        })
+          subject: 1,
+        }),
       ).resolves.not.toThrow();
       expect(repository.findTokenById).toHaveBeenCalledTimes(1);
     });
@@ -228,12 +226,12 @@ describe('RefreshTokenService', () => {
     const userId = 1;
     const filter: RefreshPaginateFilterDto = {
       limit: 10,
-      page: 1
+      page: 1,
     };
     repository.getPaginationInfo.mockReturnValue({
       page: 1,
       limit: 10,
-      skip: 1
+      skip: 1,
     });
     repository.findAndCount.mockResolvedValue(['results', 'total']);
     await service.getRefreshTokenByUserId(userId, filter);
@@ -245,7 +243,7 @@ describe('RefreshTokenService', () => {
     it('revoke refresh token error for invalid id', async () => {
       repository.findTokenById.mockResolvedValue(null);
       await expect(service.revokeRefreshTokenById(1, 1)).rejects.toThrowError(
-        NotFoundException
+        NotFoundException,
       );
       expect(repository.findTokenById).toHaveBeenCalledTimes(1);
     });
@@ -253,10 +251,10 @@ describe('RefreshTokenService', () => {
     it('revoke refresh token of another user', async () => {
       jest.spyOn(repository, 'findTokenById').mockResolvedValue({
         userId: 2,
-        save: jest.fn()
+        save: jest.fn(),
       });
       await expect(service.revokeRefreshTokenById(1, 1)).rejects.toThrowError(
-        ForbiddenException
+        ForbiddenException,
       );
       expect(repository.findTokenById).toHaveBeenCalledTimes(1);
     });
@@ -264,7 +262,7 @@ describe('RefreshTokenService', () => {
     it('revoke refresh token for valid id', async () => {
       jest.spyOn(repository, 'findTokenById').mockResolvedValue({
         userId: 1,
-        save: jest.fn()
+        save: jest.fn(),
       });
       const result = await service.revokeRefreshTokenById(1, 1);
       expect(repository.findTokenById).toHaveBeenCalledTimes(1);

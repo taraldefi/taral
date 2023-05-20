@@ -10,9 +10,9 @@ export class NotFoundException extends HttpException {
         message: message || ExceptionTitleList.NotFound,
         code: code || StatusCodesList.NotFound,
         statusCode: HttpStatus.NOT_FOUND,
-        error: true
+        error: true,
       },
-      HttpStatus.NOT_FOUND
+      HttpStatus.NOT_FOUND,
     );
   }
 }

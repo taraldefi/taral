@@ -9,7 +9,7 @@ import {
   Post,
   Put,
   Query,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -31,7 +31,7 @@ export class EmailTemplateController {
   @Post()
   create(
     @Body()
-    createEmailTemplateDto: CreateEmailTemplateDto
+    createEmailTemplateDto: CreateEmailTemplateDto,
   ): Promise<EmailTemplate> {
     return this.emailTemplateService.create(createEmailTemplateDto);
   }
@@ -39,7 +39,7 @@ export class EmailTemplateController {
   @Get()
   findAll(
     @Query()
-    filter: EmailTemplatesSearchFilterDto
+    filter: EmailTemplatesSearchFilterDto,
   ): Promise<Pagination<EmailTemplate>> {
     return this.emailTemplateService.findAll(filter);
   }
@@ -47,7 +47,7 @@ export class EmailTemplateController {
   @Get(':id')
   findOne(
     @Param('id')
-    id: string
+    id: string,
   ): Promise<EmailTemplate> {
     return this.emailTemplateService.findOne(+id);
   }
@@ -57,7 +57,7 @@ export class EmailTemplateController {
     @Param('id')
     id: string,
     @Body()
-    updateEmailTemplateDto: UpdateEmailTemplateDto
+    updateEmailTemplateDto: UpdateEmailTemplateDto,
   ): Promise<EmailTemplate> {
     return this.emailTemplateService.update(+id, updateEmailTemplateDto);
   }
@@ -66,7 +66,7 @@ export class EmailTemplateController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(
     @Param('id')
-    id: string
+    id: string,
   ): Promise<void> {
     return this.emailTemplateService.remove(+id);
   }

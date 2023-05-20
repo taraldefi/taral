@@ -28,9 +28,9 @@ import {
   HeaderResolver,
   I18nJsonParser,
   I18nModule,
-  QueryResolver
+  QueryResolver,
 } from 'nestjs-i18n';
-import throttleConfig from './config/throttle.config'
+import throttleConfig from './config/throttle.config';
 import winstonConfig from './config/winston.config';
 import { WinstonModule } from 'nest-winston';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
@@ -58,7 +58,14 @@ import appConfig from './config/app.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [authConfig, mailConfig, fileConfig, databaseConfig, onchainConfig, appConfig],
+      load: [
+        authConfig,
+        mailConfig,
+        fileConfig,
+        databaseConfig,
+        onchainConfig,
+        appConfig,
+      ],
       envFilePath: ['.env'],
     }),
     TypeOrmModule.forRootAsync({
@@ -66,26 +73,26 @@ import appConfig from './config/app.config';
     }),
     WinstonModule.forRoot(winstonConfig),
     ThrottlerModule.forRootAsync({
-      useFactory: () => throttleConfig
+      useFactory: () => throttleConfig,
     }),
     I18nModule.forRootAsync({
       useFactory: (configService: ConfigService) => ({
         fallbackLanguage: configService.get('app.fallbackLanguage'),
         parserOptions: {
           path: path.join(__dirname, '/i18n/'),
-          watch: true
-        }
+          watch: true,
+        },
       }),
       parser: I18nJsonParser,
       resolvers: [
         {
           use: QueryResolver,
-          options: ['lang', 'locale', 'l']
+          options: ['lang', 'locale', 'l'],
         },
         new HeaderResolver(['x-custom-lang']),
-        new CookieResolver(['lang', 'locale', 'l'])
+        new CookieResolver(['lang', 'locale', 'l']),
       ],
-      inject: [ConfigService]
+      inject: [ConfigService],
     }),
     // ServeStaticModule.forRoot({
     //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
@@ -126,16 +133,16 @@ import appConfig from './config/app.config';
   providers: [
     {
       provide: APP_PIPE,
-      useClass: CustomValidationPipe
+      useClass: CustomValidationPipe,
     },
     {
       provide: APP_GUARD,
-      useClass: CustomThrottlerGuard
+      useClass: CustomThrottlerGuard,
     },
     {
       provide: APP_FILTER,
-      useClass: I18nExceptionFilterPipe
-    }
+      useClass: I18nExceptionFilterPipe,
+    },
   ],
   controllers: [AppController],
 })

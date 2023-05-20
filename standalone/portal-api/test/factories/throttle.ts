@@ -9,9 +9,9 @@ import { ThrottlerModule } from '@nestjs/throttler';
       useValue: {
         limit: 10,
         ttl: 1000,
-        storage: jest.fn()
-      } // mock
-    }
-  ]
+        storage: jest.fn(),
+      }, // mock
+    },
+  ],
 })
 export default class Throttle {}

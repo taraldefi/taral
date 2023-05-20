@@ -9,9 +9,9 @@ export class UnauthorizedException extends HttpException {
         message: message || ExceptionTitleList.Unauthorized,
         code: code || StatusCodesList.UnauthorizedAccess,
         statusCode: HttpStatus.UNAUTHORIZED,
-        error: true
+        error: true,
       },
-      HttpStatus.UNAUTHORIZED
+      HttpStatus.UNAUTHORIZED,
     );
   }
 }

@@ -9,6 +9,5 @@ export class TwoFaStatusUpdateResult {
   @IsBoolean()
   success: boolean;
 
-  qrcodeUri: string; 
+  qrcodeUri: string;
 }
-

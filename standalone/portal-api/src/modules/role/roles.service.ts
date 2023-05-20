@@ -10,7 +10,7 @@ import { RoleFilterDto } from 'src/modules/role/dto/role-filter.dto';
 import {
   adminUserGroupsForSerializing,
   basicFieldGroupsForSerializing,
-  RoleSerializer
+  RoleSerializer,
 } from 'src/modules/role/serializer/role.serializer';
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
 import { PermissionsService } from 'src/modules/permission/permissions.service';
@@ -22,7 +22,7 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
   constructor(
     @InjectRepository(RoleEntity)
     private repository: RoleEntityRepository,
-    private readonly permissionsService: PermissionsService
+    private readonly permissionsService: PermissionsService,
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
    * @param roleFilterDto
    */
   async findAll(
-    roleFilterDto: RoleFilterDto
+    roleFilterDto: RoleFilterDto,
   ): Promise<Pagination<RoleSerializer>> {
     return this.repository.paginate(
       roleFilterDto,
@@ -68,9 +68,9 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
       {
         groups: [
           ...adminUserGroupsForSerializing,
-          ...basicFieldGroupsForSerializing
-        ]
-      }
+          ...basicFieldGroupsForSerializing,
+        ],
+      },
     );
   }
 
@@ -82,8 +82,8 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
     return this.repository.get(id, ['permission'], {
       groups: [
         ...adminUserGroupsForSerializing,
-        ...basicFieldGroupsForSerializing
-      ]
+        ...basicFieldGroupsForSerializing,
+      ],
     });
   }
 
@@ -94,27 +94,27 @@ export class RolesService implements CommonServiceInterface<RoleSerializer> {
    */
   async update(
     id: number,
-    updateRoleDto: UpdateRoleDto
+    updateRoleDto: UpdateRoleDto,
   ): Promise<RoleSerializer> {
-    const role = await this.repository.findOne({ 
+    const role = await this.repository.findOne({
       where: { id },
-     });
+    });
     if (!role) {
       throw new NotFoundException();
     }
     const condition: ObjectLiteral = {
-      name: updateRoleDto.name
+      name: updateRoleDto.name,
     };
     condition.id = Not(id);
     const checkUniqueTitle = await this.repository.countEntityByCondition(
-      condition
+      condition,
     );
     if (checkUniqueTitle > 0) {
       throw new UnprocessableEntityException({
         property: 'name',
         constraints: {
-          unique: 'already taken'
-        }
+          unique: 'already taken',
+        },
       });
     }
     const { permissions } = updateRoleDto;

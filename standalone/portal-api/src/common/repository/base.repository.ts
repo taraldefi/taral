@@ -4,7 +4,7 @@ import {
   FindManyOptions,
   ILike,
   ObjectLiteral,
-  Repository
+  Repository,
 } from 'typeorm';
 import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
@@ -19,7 +19,7 @@ import { ModelSerializer } from 'src/common/serializer/model.serializer';
  */
 export class BaseRepository<
   T,
-  K extends ModelSerializer
+  K extends ModelSerializer,
 > extends Repository<T> {
   /***
    * get entity by id
@@ -30,20 +30,20 @@ export class BaseRepository<
   async get(
     id: number,
     relations: string[] = [],
-    transformOptions = {}
+    transformOptions = {},
   ): Promise<K | null> {
     return await this.findOne({
       where: {
-        id
+        id,
       },
-      relations
+      relations,
     })
       .then((entity) => {
         if (!entity) {
           return Promise.reject(new NotFoundException());
         }
         return Promise.resolve(
-          entity ? this.transform(entity, transformOptions) : null
+          entity ? this.transform(entity, transformOptions) : null,
         );
       })
       .catch((error) => Promise.reject(error));
@@ -61,20 +61,20 @@ export class BaseRepository<
     fieldName: string,
     value: any,
     relations: string[] = [],
-    transformOptions = {}
+    transformOptions = {},
   ): Promise<K | null> {
     return await this.findOne({
       where: {
-          [fieldName]: value
+        [fieldName]: value,
       },
-      relations
+      relations,
     })
       .then((entity) => {
         if (!entity) {
           return Promise.reject(new NotFoundException());
         }
         return Promise.resolve(
-          entity ? this.transform(entity, transformOptions) : null
+          entity ? this.transform(entity, transformOptions) : null,
         );
       })
       .catch((error) => Promise.reject(error));
@@ -85,11 +85,10 @@ export class BaseRepository<
    * @param conditions
    */
   async countEntityByCondition(
-    conditions: ObjectLiteral = {}
+    conditions: ObjectLiteral = {},
   ): Promise<number> {
-
     return this.count({
-      where: conditions
+      where: conditions,
     })
       .then((count) => {
         return Promise.resolve(count);
@@ -108,19 +107,19 @@ export class BaseRepository<
     searchFilter: DeepPartial<SearchFilterInterface>,
     relations: string[] = [],
     searchCriteria: string[],
-    transformOptions = {}
+    transformOptions = {},
   ): Promise<K[]> {
     const whereCondition = [];
     if (searchFilter.hasOwnProperty('keywords') && searchFilter.keywords) {
       for (const key of searchCriteria) {
         whereCondition.push({
-          [key]: ILike(`%${searchFilter.keywords}%`)
+          [key]: ILike(`%${searchFilter.keywords}%`),
         });
       }
     }
     const results = await this.find({
       where: whereCondition,
-      relations
+      relations,
     });
     return this.transformMany(results, transformOptions);
   }
@@ -141,7 +140,7 @@ export class BaseRepository<
     return {
       skip: (page - 1) * limit,
       limit,
-      page
+      page,
     };
   }
 
@@ -156,14 +155,14 @@ export class BaseRepository<
     searchFilter: DeepPartial<SearchFilterInterface>,
     relations: string[] = [],
     searchCriteria: string[] = [],
-    transformOptions = {}
+    transformOptions = {},
   ): Promise<Pagination<K>> {
     const whereCondition = [];
     const findOptions: FindManyOptions = {};
     if (searchFilter.hasOwnProperty('keywords') && searchFilter.keywords) {
       for (const key of searchCriteria) {
         whereCondition.push({
-          [key]: ILike(`%${searchFilter.keywords}%`)
+          [key]: ILike(`%${searchFilter.keywords}%`),
         });
       }
     }
@@ -174,7 +173,7 @@ export class BaseRepository<
     findOptions.skip = paginationInfo.skip;
     findOptions.where = whereCondition;
     findOptions.order = {
-      createdAt: 'DESC'
+      createdAt: 'DESC',
     };
     const { page, skip, limit } = paginationInfo;
     const [results, total] = await this.findAndCount(findOptions);
@@ -185,7 +184,7 @@ export class BaseRepository<
       pageSize: limit,
       currentPage: page,
       previous: page > 1 ? page - 1 : 0,
-      next: total > skip + limit ? page + 1 : 0
+      next: total > skip + limit ? page + 1 : 0,
     });
   }
 
@@ -196,7 +195,7 @@ export class BaseRepository<
    */
   async createEntity(
     inputs: DeepPartial<T>,
-    relations: string[] = []
+    relations: string[] = [],
   ): Promise<K> {
     return this.save(inputs)
       .then(async (entity) => await this.get((entity as any).id, relations))
@@ -212,7 +211,7 @@ export class BaseRepository<
   async updateEntity(
     entity: K,
     inputs: QueryDeepPartialEntity<T>,
-    relations: string[] = []
+    relations: string[] = [],
   ): Promise<K> {
     return this.update(entity.id, inputs)
       .then(async () => await this.get(entity.id, relations))

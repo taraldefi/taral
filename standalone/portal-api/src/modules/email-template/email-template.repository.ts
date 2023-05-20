@@ -14,13 +14,13 @@ export class EmailTemplateEntityRepository extends BaseRepository<
     return plainToClass(
       EmailTemplate,
       classToPlain(model, transformOption),
-      transformOption
+      transformOption,
     );
   }
 
   transformMany(
     models: EmailTemplateEntity[],
-    transformOption = {}
+    transformOption = {},
   ): EmailTemplate[] {
     return models.map((model) => this.transform(model, transformOption));
   }

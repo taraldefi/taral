@@ -16,7 +16,7 @@ export default class JwtTwoFactorGuard extends AuthGuard('jwt-two-factor') {
     if (info instanceof TokenExpiredError) {
       throw new ForbiddenException(
         'tokenExpired',
-        StatusCodesList.TokenExpired
+        StatusCodesList.TokenExpired,
       );
     }
     if (err || !user) {

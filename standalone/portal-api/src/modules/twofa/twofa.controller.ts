@@ -8,7 +8,7 @@ import {
   Req,
   Res,
   UnauthorizedException,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
@@ -17,14 +17,17 @@ import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 import { TwofaCodeDto } from 'src/modules/twofa/dto/twofa-code.dto';
-import { TwoFaStatusUpdateDto, TwoFaStatusUpdateResult } from 'src/modules/twofa/dto/twofa-status-update.dto';
+import {
+  TwoFaStatusUpdateDto,
+  TwoFaStatusUpdateResult,
+} from 'src/modules/twofa/dto/twofa-status-update.dto';
 import { TwofaService } from 'src/modules/twofa/twofa.service';
 
 @Controller('twofa')
 export class TwofaController {
   constructor(
     private readonly twofaService: TwofaService,
-    private readonly usersService: AuthService
+    private readonly usersService: AuthService,
   ) {}
 
   @Post('authenticate')
@@ -38,14 +41,13 @@ export class TwofaController {
     @GetUser()
     user: UserEntity,
     @Body()
-    twofaCodeDto: TwofaCodeDto
+    twofaCodeDto: TwofaCodeDto,
   ) {
-
     //TODO(doru): if environment is development, skip 2fa
 
     const isCodeValid = this.twofaService.isTwoFACodeValid(
       twofaCodeDto.code,
-      user
+      user,
     );
     if (!isCodeValid) {
       throw new UnauthorizedException('invalidOTP');
@@ -63,7 +65,7 @@ export class TwofaController {
     @Body()
     twofaStatusUpdateDto: TwoFaStatusUpdateDto,
     @GetUser()
-    user: UserEntity
+    user: UserEntity,
   ): Promise<TwoFaStatusUpdateResult> {
     let qrDataUri = null;
     if (twofaStatusUpdateDto.isTwoFAEnabled) {
@@ -73,12 +75,12 @@ export class TwofaController {
     const updateResult = await this.usersService.turnOnTwoFactorAuthentication(
       user,
       twofaStatusUpdateDto.isTwoFAEnabled,
-      qrDataUri
+      qrDataUri,
     );
 
     return {
       success: updateResult !== null,
-      qrcodeUri: qrDataUri
+      qrcodeUri: qrDataUri,
     };
   }
 }

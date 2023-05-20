@@ -11,20 +11,20 @@ export class CommonSearchFieldDto {
   @ApiPropertyOptional()
   @ValidateIf((object, value) => value)
   @Transform(({ value }) => Number.parseInt(value), {
-    toClassOnly: true
+    toClassOnly: true,
   })
   @Min(1, {
-    message: 'min-{"ln":1,"count":1}'
+    message: 'min-{"ln":1,"count":1}',
   })
   limit: number;
 
   @ApiPropertyOptional()
   @ValidateIf((object, value) => value)
   @Transform(({ value }) => Number.parseInt(value), {
-    toClassOnly: true
+    toClassOnly: true,
   })
   @Min(1, {
-    message: 'min-{"ln":1,"count":1}'
+    message: 'min-{"ln":1,"count":1}',
   })
   page: number;
 }

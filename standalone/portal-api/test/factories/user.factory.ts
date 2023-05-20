@@ -23,7 +23,7 @@ export class UserFactory {
     const salt = await bcrypt.genSalt();
     const password = await this.hashPassword(
       user.password || faker.internet.password(),
-      salt
+      salt,
     );
     const payload = {
       username: faker.internet.userName().toLowerCase(),
@@ -37,7 +37,7 @@ export class UserFactory {
       status: UserStatusEnum.ACTIVE,
       isTwoFAEnabled: false,
       ...user,
-      password
+      password,
     };
 
     if (this.role) payload.role = this.role;

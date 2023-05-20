@@ -26,7 +26,9 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       username: this.configService.get('database.username', { infer: true }),
       password: this.configService.get('database.password', { infer: true }),
       database: this.configService.get('database.name', { infer: true }),
-      synchronize: this.configService.get('database.synchronize', { infer: true }),
+      synchronize: this.configService.get('database.synchronize', {
+        infer: true,
+      }),
       dropSchema: false,
       keepConnectionAlive: true,
       logging: this.configService.get('app.nodeEnv') !== 'production',
@@ -46,7 +48,8 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
         ssl: this.configService.get('database.sslEnabled', { infer: true })
           ? {
               rejectUnauthorized: this.configService.get(
-                'database.rejectUnauthorized', { infer: true }
+                'database.rejectUnauthorized',
+                { infer: true },
               ),
               ca: this.configService.get('database.ca', { infer: true })
                 ? this.configService.get('database.ca', { infer: true })

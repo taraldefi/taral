@@ -19,7 +19,7 @@ export class RefreshTokenEntityRepository extends BaseRepository<
    */
   public async createRefreshToken(
     user: UserSerializer,
-    tokenPayload: Partial<RefreshTokenEntity>
+    tokenPayload: Partial<RefreshTokenEntity>,
   ): Promise<RefreshTokenEntity> {
     const token = this.create();
     token.userId = user.id;
@@ -30,7 +30,7 @@ export class RefreshTokenEntityRepository extends BaseRepository<
     token.os = tokenPayload.os;
     const expiration = new Date();
     expiration.setSeconds(
-      expiration.getSeconds() + tokenConfig.refreshExpiresIn
+      expiration.getSeconds() + tokenConfig.refreshExpiresIn,
     );
     token.expires = expiration;
     return token.save();
@@ -43,8 +43,8 @@ export class RefreshTokenEntityRepository extends BaseRepository<
   public async findTokenById(id: number): Promise<RefreshTokenEntity | null> {
     return this.findOne({
       where: {
-        id
-      }
+        id,
+      },
     });
   }
 }

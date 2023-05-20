@@ -14,15 +14,17 @@ const mockUser = {
   username: 'tester',
   name: 'test',
   status: UserStatusEnum.ACTIVE,
-  password: 'pwd'
+  password: 'pwd',
 };
 describe('User Repository', () => {
   let userRepository;
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [UserEntityRepository]
+      providers: [UserEntityRepository],
     }).compile();
-    userRepository = await module.get<UserEntityRepository>(UserEntityRepository);
+    userRepository = await module.get<UserEntityRepository>(
+      UserEntityRepository,
+    );
   });
 
   describe('store', () => {
@@ -33,7 +35,7 @@ describe('User Repository', () => {
     });
     it('store new user', async () => {
       const createUserDto: CreateUserDto = {
-        ...mockUser
+        ...mockUser,
       };
       await expect(userRepository.store(createUserDto)).resolves.not.toThrow();
     });
@@ -50,7 +52,7 @@ describe('User Repository', () => {
       user.validatePassword = jest.fn();
       userLoginDto = {
         ...mockUser,
-        remember: true
+        remember: true,
       };
     });
     it('check if username and password matches and return user', async () => {
@@ -60,12 +62,12 @@ describe('User Repository', () => {
       expect(userRepository.findOne).toHaveBeenCalledWith({
         where: [
           {
-            username: userLoginDto.username
+            username: userLoginDto.username,
           },
           {
-            email: userLoginDto.username
-          }
-        ]
+            email: userLoginDto.username,
+          },
+        ],
       });
       expect(result).toEqual([user, null, null]);
     });
@@ -77,7 +79,7 @@ describe('User Repository', () => {
       expect(result).toEqual([
         null,
         ExceptionTitleList.InvalidCredentials,
-        StatusCodesList.InvalidCredentials
+        StatusCodesList.InvalidCredentials,
       ]);
     });
 
@@ -87,7 +89,7 @@ describe('User Repository', () => {
       expect(result).toEqual([
         null,
         ExceptionTitleList.InvalidCredentials,
-        StatusCodesList.InvalidCredentials
+        StatusCodesList.InvalidCredentials,
       ]);
     });
   });

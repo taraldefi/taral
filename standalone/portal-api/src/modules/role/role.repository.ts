@@ -9,10 +9,13 @@ import { PermissionEntity } from 'src/modules/permission/entities/permission.ent
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 
 @EntityRepository(RoleEntity)
-export class RoleEntityRepository extends BaseRepository<RoleEntity, RoleSerializer> {
+export class RoleEntityRepository extends BaseRepository<
+  RoleEntity,
+  RoleSerializer
+> {
   async store(
     createRoleDto: CreateRoleDto,
-    permissions: PermissionEntity[]
+    permissions: PermissionEntity[],
   ): Promise<RoleSerializer> {
     const { name, description } = createRoleDto;
     const role = this.create();
@@ -26,7 +29,7 @@ export class RoleEntityRepository extends BaseRepository<RoleEntity, RoleSeriali
   async updateItem(
     role: RoleEntity,
     updateRoleDto: UpdateRoleDto,
-    permission: PermissionEntity[]
+    permission: PermissionEntity[],
   ): Promise<RoleSerializer> {
     const fields = ['name', 'description'];
     for (const field of fields) {
@@ -50,7 +53,7 @@ export class RoleEntityRepository extends BaseRepository<RoleEntity, RoleSeriali
     return plainToClass(
       RoleSerializer,
       classToPlain(model, transformOption),
-      transformOption
+      transformOption,
     );
   }
 

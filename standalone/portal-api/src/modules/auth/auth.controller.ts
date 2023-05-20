@@ -13,7 +13,7 @@ import {
   UploadedFile,
   UseGuards,
   UseInterceptors,
-  ValidationPipe
+  ValidationPipe,
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiTags } from '@nestjs/swagger';
@@ -49,7 +49,7 @@ export class AuthController {
   @Post('/auth/register')
   register(
     @Body(ValidationPipe)
-    registerUserDto: RegisterUserDto
+    registerUserDto: RegisterUserDto,
   ): Promise<UserSerializer> {
     return this.authService.create(registerUserDto);
   }
@@ -61,18 +61,18 @@ export class AuthController {
     @Res()
     response: Response,
     @Body()
-    userLoginDto: UserLoginDto
+    userLoginDto: UserLoginDto,
   ) {
     const ua = UAParser(req.headers['user-agent']);
     const refreshTokenPayload: Partial<RefreshTokenEntity> = {
       ip: req.ip,
       userAgent: JSON.stringify(ua),
       browser: ua.browser.name,
-      os: ua.os.name
+      os: ua.os.name,
     };
     const cookiePayload = await this.authService.login(
       userLoginDto,
-      refreshTokenPayload
+      refreshTokenPayload,
     );
     response.setHeader('Set-Cookie', cookiePayload);
     return response.status(HttpStatus.NO_CONTENT).json({});
@@ -83,12 +83,12 @@ export class AuthController {
     @Req()
     req: Request,
     @Res()
-    response: Response
+    response: Response,
   ) {
     try {
       const cookiePayload =
         await this.authService.createAccessTokenFromRefreshToken(
-          req.cookies['Refresh']
+          req.cookies['Refresh'],
         );
       response.setHeader('Set-Cookie', cookiePayload);
       return response.status(HttpStatus.NO_CONTENT).json({});
@@ -102,7 +102,7 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   activateAccount(
     @Query('token')
-    token: string
+    token: string,
   ): Promise<void> {
     return this.authService.activateAccount(token);
   }
@@ -111,7 +111,7 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   forgotPassword(
     @Body()
-    forgetPasswordDto: ForgetPasswordDto
+    forgetPasswordDto: ForgetPasswordDto,
   ): Promise<void> {
     return this.authService.forgotPassword(forgetPasswordDto);
   }
@@ -120,7 +120,7 @@ export class AuthController {
   @HttpCode(HttpStatus.NO_CONTENT)
   resetPassword(
     @Body()
-    resetPasswordDto: ResetPasswordDto
+    resetPasswordDto: ResetPasswordDto,
   ): Promise<void> {
     return this.authService.resetPassword(resetPasswordDto);
   }
@@ -129,7 +129,7 @@ export class AuthController {
   @Get('/auth/profile')
   profile(
     @GetUser()
-    user: UserEntity
+    user: UserEntity,
   ): Promise<UserSerializer> {
     return this.authService.get(user);
   }
@@ -139,8 +139,8 @@ export class AuthController {
   @UseInterceptors(
     FileInterceptor(
       'avatar',
-      multerOptionsHelper('public/images/profile', 1000000)
-    )
+      multerOptionsHelper('public/images/profile', 1000000),
+    ),
   )
   updateProfile(
     @GetUser()
@@ -148,7 +148,7 @@ export class AuthController {
     @UploadedFile()
     file: Express.Multer.File,
     @Body()
-    updateUserDto: UpdateUserProfileDto
+    updateUserDto: UpdateUserProfileDto,
   ): Promise<UserSerializer> {
     if (file) {
       updateUserDto.avatar = file.filename;
@@ -162,7 +162,7 @@ export class AuthController {
     @GetUser()
     user: UserEntity,
     @Body()
-    changePasswordDto: ChangePasswordDto
+    changePasswordDto: ChangePasswordDto,
   ): Promise<void> {
     return this.authService.changePassword(user, changePasswordDto);
   }
@@ -171,7 +171,7 @@ export class AuthController {
   @Get('/users')
   findAll(
     @Query()
-    userSearchFilterDto: UserSearchFilterDto
+    userSearchFilterDto: UserSearchFilterDto,
   ): Promise<Pagination<UserSerializer>> {
     return this.authService.findAll(userSearchFilterDto);
   }
@@ -180,7 +180,7 @@ export class AuthController {
   @Post('/users')
   create(
     @Body(ValidationPipe)
-    createUserDto: CreateUserDto
+    createUserDto: CreateUserDto,
   ): Promise<UserSerializer> {
     return this.authService.create(createUserDto);
   }
@@ -191,7 +191,7 @@ export class AuthController {
     @Param('id')
     id: string,
     @Body()
-    updateUserDto: UpdateUserDto
+    updateUserDto: UpdateUserDto,
   ): Promise<UserSerializer> {
     return this.authService.update(+id, updateUserDto);
   }
@@ -200,7 +200,7 @@ export class AuthController {
   @Get('/users/:id')
   findOne(
     @Param('id')
-    id: string
+    id: string,
   ): Promise<UserSerializer> {
     return this.authService.findById(+id);
   }
@@ -210,7 +210,7 @@ export class AuthController {
     @Req()
     req: Request,
     @Res()
-    response: Response
+    response: Response,
   ) {
     try {
       const cookie = req.cookies['Refresh'];
@@ -231,7 +231,7 @@ export class AuthController {
     @Query()
     filter: RefreshPaginateFilterDto,
     @GetUser()
-    user: UserEntity
+    user: UserEntity,
   ): Promise<Pagination<RefreshTokenSerializer>> {
     return this.authService.activeRefreshTokenList(+user.id, filter);
   }
@@ -242,7 +242,7 @@ export class AuthController {
     @Param('id')
     id: string,
     @GetUser()
-    user: UserEntity
+    user: UserEntity,
   ) {
     return this.authService.revokeTokenById(+id, user.id);
   }

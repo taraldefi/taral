@@ -13,7 +13,7 @@ export class RoleFactory {
     return roleRepository.save({
       name: faker.name.jobTitle(),
       description: faker.lorem.sentence(),
-      ...role
+      ...role,
     });
   }
 

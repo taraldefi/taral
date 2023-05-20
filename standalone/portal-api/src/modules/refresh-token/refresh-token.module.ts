@@ -8,10 +8,10 @@ import { RefreshTokenEntity } from './entities/refresh-token.entity';
 @Module({
   imports: [
     forwardRef(() => AuthModule),
-    TypeOrmModule.forFeature([RefreshTokenEntity])
+    TypeOrmModule.forFeature([RefreshTokenEntity]),
   ],
   providers: [RefreshTokenService],
   exports: [RefreshTokenService],
-  controllers: []
+  controllers: [],
 })
 export class RefreshTokenModule {}

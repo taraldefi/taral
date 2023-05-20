@@ -8,6 +8,6 @@ import { TwofaController } from 'src/modules/twofa/twofa.controller';
   providers: [TwofaService],
   imports: [AuthModule],
   exports: [TwofaService],
-  controllers: [TwofaController]
+  controllers: [TwofaController],
 })
 export class TwofaModule {}

@@ -3,18 +3,18 @@ import {
   Injectable,
   Logger,
   OnApplicationBootstrap,
-} from '@nestjs/common';
-import { ModuleRef } from '@nestjs/core';
-import Agenda, { AgendaConfig, Job, Processor } from 'agenda';
-import { NO_QUEUE_FOUND } from '../cron.messages';
+} from "@nestjs/common";
+import { ModuleRef } from "@nestjs/core";
+import Agenda, { AgendaConfig, Job, Processor } from "agenda";
+import { NO_QUEUE_FOUND } from "../cron.messages";
 import {
   AgendaModuleJobOptions,
   NonRepeatableJobOptions,
   RepeatableJobOptions,
-} from '../decorators';
-import { JobProcessorType } from '../enums';
-import { CronQueueConfig } from '../interfaces';
-import { DatabaseService } from './database.service';
+} from "../decorators";
+import { JobProcessorType } from "../enums";
+import { CronQueueConfig } from "../interfaces";
+import { DatabaseService } from "./database.service";
 
 type JobProcessorConfig = {
   handler: Processor<any>;
@@ -36,13 +36,13 @@ type QueueRegistry = {
 export class AgendaOrchestrator
   implements OnApplicationBootstrap, BeforeApplicationShutdown
 {
-  private readonly logger = new Logger('Agenda');
+  private readonly logger = new Logger("Agenda");
 
   private readonly queues: Map<string, QueueRegistry> = new Map();
 
   constructor(
     private readonly moduleRef: ModuleRef,
-    private readonly database: DatabaseService,
+    private readonly database: DatabaseService
   ) {}
 
   async onApplicationBootstrap() {
@@ -91,10 +91,10 @@ export class AgendaOrchestrator
 
   addJobProcessor(
     queueToken: string,
-    processor: Processor<any> & Record<'_name', string>,
+    processor: Processor<any> & Record<"_name", string>,
     options: AgendaModuleJobOptions,
     type: JobProcessorType,
-    useCallback: boolean,
+    useCallback: boolean
   ) {
     const jobName = options.name || processor._name;
 
@@ -110,7 +110,7 @@ export class AgendaOrchestrator
     queueToken: string,
     listener: EventListener,
     eventName: string,
-    jobName?: string,
+    jobName?: string
   ) {
     const key = jobName ? `${eventName}:${jobName}` : eventName;
 
@@ -130,12 +130,12 @@ export class AgendaOrchestrator
 
         if (useCallback) {
           agenda.define(jobName, options, (job: Job, done: () => void) =>
-            handler(job, done),
+            handler(job, done)
           );
         } else {
           agenda.define(jobName, options, handler);
         }
-      },
+      }
     );
   }
 
@@ -150,13 +150,13 @@ export class AgendaOrchestrator
           (options as RepeatableJobOptions).interval,
           jobName,
           {},
-          options,
+          options
         );
       } else if (type === JobProcessorType.SCHEDULE) {
         await agenda.schedule(
           (options as NonRepeatableJobOptions).when,
           jobName,
-          {},
+          {}
         );
       } else if (type === JobProcessorType.NOW) {
         await agenda.now(jobName, {});

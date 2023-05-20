@@ -14,7 +14,7 @@ const dbConfig = config.get('database');
 export class AppFactory {
   private constructor(
     private readonly appInstance: INestApplication,
-    private readonly redis: Redis.Redis
+    private readonly redis: Redis.Redis,
   ) {}
 
   get instance() {
@@ -31,11 +31,11 @@ export class AppFactory {
             return {
               ttl: 60,
               limit: 60,
-              storage: new ThrottlerStorageRedisService(redis)
+              storage: new ThrottlerStorageRedisService(redis),
             };
-          }
-        })
-      ]
+          },
+        }),
+      ],
     })
       .overrideProvider('LOGIN_THROTTLE')
       .useFactory({
@@ -45,15 +45,15 @@ export class AppFactory {
             keyPrefix: 'login',
             points: 5,
             duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
-            blockDuration: 3000
+            blockDuration: 3000,
           });
-        }
+        },
       });
 
     const module = await moduleBuilder.compile();
 
     const app = module.createNestApplication(undefined, {
-      logger: false
+      logger: false,
     });
 
     await app.init();
@@ -70,7 +70,7 @@ export class AppFactory {
   static async cleanupDB() {
     const connection = getConnection();
     const tables = connection.entityMetadatas.map(
-      (entity) => `"${entity.tableName}"`
+      (entity) => `"${entity.tableName}"`,
     );
 
     for (const table of tables) {
@@ -85,12 +85,12 @@ export class AppFactory {
       port: parseInt(process.env.DB_PORT) || dbConfig.port,
       database: process.env.DB_DATABASE_NAME || dbConfig.database,
       username: process.env.DB_USERNAME || dbConfig.username,
-      password: process.env.DB_PASSWORD || dbConfig.password
+      password: process.env.DB_PASSWORD || dbConfig.password,
     });
 
     await connection.query(`SET session_replication_role = 'replica';`);
     const tables = connection.entityMetadatas.map(
-      (entity) => `"${entity.tableName}"`
+      (entity) => `"${entity.tableName}"`,
     );
     for (const tableName of tables) {
       await connection.query(`DROP TABLE IF EXISTS ${tableName};`);
@@ -112,7 +112,7 @@ export class AppFactory {
 const setupRedis = async () => {
   const redis = new Redis({
     host: process.env.REDIS_HOST || 'localhost',
-    port: parseInt(process.env.REDIS_PORT) || 6379
+    port: parseInt(process.env.REDIS_PORT) || 6379,
   });
   await redis.flushall();
   return redis;

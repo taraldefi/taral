@@ -23,19 +23,19 @@ const roleRepositoryMock = () => ({
   findOne: jest.fn(),
   store: jest.fn(),
   updateItem: jest.fn(),
-  updateEntity: jest.fn()
+  updateEntity: jest.fn(),
 });
 
 const permissionServiceMock = () => ({
   findAll: jest.fn(),
-  whereInIds: jest.fn()
+  whereInIds: jest.fn(),
 });
 
 const mockPermission = {
   description: 'example test description',
   path: '/tests',
   method: MethodList.POST,
-  resource: 'test'
+  resource: 'test',
 };
 
 const mockRole = {
@@ -43,7 +43,7 @@ const mockRole = {
   description: 'test description',
   permissions: [1],
   name: 'test',
-  save: jest.fn()
+  save: jest.fn(),
 };
 
 describe('RolesService', () => {
@@ -54,13 +54,13 @@ describe('RolesService', () => {
         RolesService,
         {
           provide: getRepositoryToken(RoleEntity),
-          useFactory: roleRepositoryMock
+          useFactory: roleRepositoryMock,
         },
         {
           provide: PermissionsService,
-          useFactory: permissionServiceMock
-        }
-      ]
+          useFactory: permissionServiceMock,
+        },
+      ],
     }).compile();
 
     service = module.get<RolesService>(RolesService);
@@ -77,7 +77,7 @@ describe('RolesService', () => {
     const roleFilterDto: RoleFilterDto = {
       keywords: 'example',
       limit: 10,
-      page: 1
+      page: 1,
     };
     roleRepository.paginate.mockResolvedValue('result');
     const result = await service.findAll(roleFilterDto);
@@ -92,7 +92,7 @@ describe('RolesService', () => {
     const result = await service.create(createRoleDto);
     expect(service.getPermissionByIds).toHaveBeenCalledWith([1]);
     expect(roleRepository.store).toHaveBeenCalledWith(createRoleDto, [
-      mockPermission
+      mockPermission,
     ]);
     expect(roleRepository.createEntity).not.toThrow();
     expect(result).toBe(undefined);
@@ -120,7 +120,7 @@ describe('RolesService', () => {
       roleRepository.countEntityByCondition.mockResolvedValue(1);
       const updateRoleDto: UpdateRoleDto = mockRole;
       await expect(service.update(1, updateRoleDto)).rejects.toThrowError(
-        UnprocessableEntityException
+        UnprocessableEntityException,
       );
       expect(roleRepository.countEntityByCondition).toHaveBeenCalledTimes(1);
     });
@@ -139,7 +139,7 @@ describe('RolesService', () => {
       expect(roleRepository.updateItem).toHaveBeenCalledWith(
         mockRole,
         updateRoleDto,
-        [mockPermission]
+        [mockPermission],
       );
     });
 
@@ -151,7 +151,7 @@ describe('RolesService', () => {
       roleRepository.findOne.mockResolvedValue(null);
       const updateRoleDto: UpdateRoleDto = mockRole;
       await expect(service.update(1, updateRoleDto)).rejects.toThrowError(
-        NotFoundException
+        NotFoundException,
       );
     });
   });

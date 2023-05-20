@@ -9,10 +9,10 @@ import { StatusCodesList } from 'src/common/constants/status-codes-list.constant
 
 export const multerOptionsHelper = (
   destinationPath: string,
-  maxFileSize: number
+  maxFileSize: number,
 ) => ({
   limits: {
-    fileSize: +maxFileSize
+    fileSize: +maxFileSize,
   },
   fileFilter: (req: any, file: any, cb: any) => {
     if (file.mimetype.match(/\/(jpg|jpeg|png|gif)$/)) {
@@ -22,9 +22,9 @@ export const multerOptionsHelper = (
         new CustomHttpException(
           'unsupportedFileType',
           HttpStatus.BAD_REQUEST,
-          StatusCodesList.UnsupportedFileType
+          StatusCodesList.UnsupportedFileType,
         ),
-        false
+        false,
       );
     }
   },
@@ -38,6 +38,6 @@ export const multerOptionsHelper = (
     },
     filename: (req: any, file: any, cb: any) => {
       cb(null, `${uuid()}${extname(file.originalname)}`);
-    }
-  })
+    },
+  }),
 });

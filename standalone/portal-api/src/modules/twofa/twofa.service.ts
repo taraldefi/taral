@@ -20,29 +20,29 @@ export class TwofaService {
       throw new CustomHttpException(
         `tooManyRequest-{"second":"${this.differentBetweenDatesInSec(
           user.twoFAThrottleTime,
-          new Date()
+          new Date(),
         )}"}`,
         HttpStatus.TOO_MANY_REQUESTS,
-        StatusCodesList.TooManyTries
+        StatusCodesList.TooManyTries,
       );
     }
     const secret = authenticator.generateSecret();
     const otpauthUrl = authenticator.keyuri(
       user.email,
       TwofaConfig.authenticationAppNAme,
-      secret
+      secret,
     );
     await this.usersService.setTwoFactorAuthenticationSecret(secret, user.id);
     return {
       secret,
-      otpauthUrl
+      otpauthUrl,
     };
   }
 
   isTwoFACodeValid(twoFASecret: string, user: UserEntity) {
     return authenticator.verify({
       token: twoFASecret,
-      secret: user.twoFASecret
+      secret: user.twoFASecret,
     });
   }
 

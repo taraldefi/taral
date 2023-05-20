@@ -15,14 +15,14 @@ class MockSerializer extends ModelSerializer {
   id: number;
   test: string;
   @Expose({
-    groups: ['tester']
+    groups: ['tester'],
   })
   description: string;
 }
 
 const createQueryBuilder: any = {
   getMany: () => [],
-  where: () => createQueryBuilder
+  where: () => createQueryBuilder,
 };
 
 describe('test base repository', () => {
@@ -49,9 +49,9 @@ describe('test base repository', () => {
       expect(findOneSpy).toHaveBeenCalledTimes(1);
       expect(findOneSpy).toHaveBeenCalledWith({
         where: {
-          id: 1
+          id: 1,
         },
-        relations: []
+        relations: [],
       });
       expect(result).toEqual(entity);
     });
@@ -61,13 +61,13 @@ describe('test base repository', () => {
         .spyOn(Repository.prototype, 'findOne')
         .mockResolvedValue(undefined);
       await expect(baseRepository.get(1)).rejects.toThrowError(
-        NotFoundException
+        NotFoundException,
       );
       expect(findOneSpy).toHaveBeenCalledWith({
         where: {
-          id: 1
+          id: 1,
         },
-        relations: []
+        relations: [],
       });
     });
   });
@@ -93,7 +93,7 @@ describe('test base repository', () => {
       baseRepository.transformMany = jest.fn().mockResolvedValue([]);
       await baseRepository.paginate(entity, [], {
         page: 1,
-        limit: 10
+        limit: 10,
       });
       expect(findAndCountSpy).toHaveBeenCalledTimes(1);
       expect(baseRepository.transformMany).toHaveBeenCalledTimes(1);
@@ -121,12 +121,12 @@ describe('test base repository', () => {
     let updateData, updateResult: UpdateResult;
     beforeEach(() => {
       updateData = {
-        test: 'changed'
+        test: 'changed',
       };
       updateResult = {
         generatedMaps: [],
         raw: {},
-        affected: 1
+        affected: 1,
       };
     });
     it('update existing entity', async () => {
@@ -136,7 +136,7 @@ describe('test base repository', () => {
         .spyOn(Repository.prototype, 'update')
         .mockResolvedValue(updateResult);
       const updateData = {
-        test: 'changed'
+        test: 'changed',
       };
       await baseRepository.updateEntity(entity, updateData);
       expect(updateSpy).toHaveBeenCalledWith(1, updateData);
@@ -151,7 +151,7 @@ describe('test base repository', () => {
         .spyOn(Repository.prototype, 'update')
         .mockResolvedValue(updateResult);
       await expect(
-        baseRepository.updateEntity(entity, updateData)
+        baseRepository.updateEntity(entity, updateData),
       ).rejects.toThrowError(NotFoundException);
       expect(updateSpy).toHaveBeenCalledTimes(1);
     });

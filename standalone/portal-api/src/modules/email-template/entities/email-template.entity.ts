@@ -3,11 +3,11 @@ import { Column, Entity, Index } from 'typeorm';
 import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 
 @Entity({
-  name: 'email_templates'
+  name: 'email_templates',
 })
 export class EmailTemplateEntity extends CustomBaseEntity {
   @Column({
-    unique: true
+    unique: true,
   })
   title: string;
 

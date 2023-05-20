@@ -6,7 +6,7 @@ import {
   PermissionConfiguration,
   PermissionPayload,
   RoutePayloadInterface,
-  SubModulePayloadInterface
+  SubModulePayloadInterface,
 } from 'src/config/permission.config';
 import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 
@@ -41,7 +41,7 @@ export default class CreatePermissionSeed {
   assignResourceAndConcatPermission(
     modules: ModulesPayloadInterface | SubModulePayloadInterface,
     resource: string,
-    isDefault?: false
+    isDefault?: false,
   ) {
     if (modules.permissions) {
       for (const permission of modules.permissions) {
@@ -53,7 +53,7 @@ export default class CreatePermissionSeed {
   concatPermissions(
     permission: PermissionPayload,
     resource: string,
-    isDefault: boolean
+    isDefault: boolean,
   ) {
     let newPermissions: RoutePayloadInterface[] = [];
     const description = permission.name;
@@ -63,7 +63,7 @@ export default class CreatePermissionSeed {
         path: data.path,
         resource: data.resource || resource,
         description: data.description || description,
-        isDefault: isDefault || false
+        isDefault: isDefault || false,
       });
     }
 

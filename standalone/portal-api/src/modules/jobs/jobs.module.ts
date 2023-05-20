@@ -1,9 +1,8 @@
-import { CronModule } from "@modules/cron";
-import { Module } from "@nestjs/common";
-import { DummyModule } from "./dummy";
+import { CronModule } from '@modules/cron';
+import { Module } from '@nestjs/common';
+import { DummyModule } from './dummy';
 import { MongoClient, Db } from 'mongodb';
-import { AgendaConfig } from "agenda";
-
+import { AgendaConfig } from 'agenda';
 
 const databaseProvider = {
   provide: 'DATABASE_CONNECTION',
@@ -15,7 +14,7 @@ const databaseProvider = {
 
     return client.db();
   },
-}
+};
 
 // {
 //   useFactory: (mongo: Db) => ({
@@ -27,21 +26,20 @@ const databaseProvider = {
 
 function getAgendaConfigFactory(mongoClient: Db): any {
   const result = {
-    mongo: mongoClient
+    mongo: mongoClient,
   };
 
   return result;
 }
 
-
 @Module({
-    imports: [
-      CronModule.forRootAsync({
-        useFactory: (mongo: Db) => (getAgendaConfigFactory(mongo)),
-        inject: ['DATABASE_CONNECTION'],
-        extraProviders: [databaseProvider],
-      }),
-      DummyModule,
-    ]
-  })
-  export class JobsModule {}
+  imports: [
+    CronModule.forRootAsync({
+      useFactory: (mongo: Db) => getAgendaConfigFactory(mongo),
+      inject: ['DATABASE_CONNECTION'],
+      extraProviders: [databaseProvider],
+    }),
+    DummyModule,
+  ],
+})
+export class JobsModule {}

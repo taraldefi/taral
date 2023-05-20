@@ -5,14 +5,14 @@ export class AppController {
   @Get('/health')
   health() {
     return {
-      status: 200
+      status: 200,
     };
   }
 
   @Get('')
   index() {
     return {
-      message: 'hello world'
+      message: 'hello world',
     };
   }
 }

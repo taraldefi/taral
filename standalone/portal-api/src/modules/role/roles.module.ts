@@ -12,10 +12,10 @@ import { RoleEntity } from './entities/role.entity';
   imports: [
     TypeOrmModule.forFeature([RoleEntity]),
     AuthModule,
-    PermissionsModule
+    PermissionsModule,
   ],
   exports: [],
   controllers: [RolesController],
-  providers: [RolesService, UniqueValidatorPipe]
+  providers: [RolesService, UniqueValidatorPipe],
 })
 export class RolesModule {}

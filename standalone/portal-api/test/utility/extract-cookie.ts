@@ -13,7 +13,7 @@ export const extractCookies = (headers) => {
     const [cookieName, value] = rawCookie.split('=');
     return {
       ...shapedCookies,
-      [cookieName]: { value, flags: shapeFlags(flags) }
+      [cookieName]: { value, flags: shapeFlags(flags) },
     };
   }, {});
 };

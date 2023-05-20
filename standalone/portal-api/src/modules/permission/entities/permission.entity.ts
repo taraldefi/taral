@@ -4,13 +4,13 @@ import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { RoleEntity } from 'src/modules/role/entities/role.entity';
 
 @Entity({
-  name: 'permission'
+  name: 'permission',
 })
 export class PermissionEntity extends CustomBaseEntity {
   @Column('varchar', { length: 100 })
   resource: string;
 
-  @Column({unique: true})
+  @Column({ unique: true })
   description: string;
 
   @Column()
@@ -18,7 +18,7 @@ export class PermissionEntity extends CustomBaseEntity {
 
   @Column('varchar', {
     default: 'get',
-    length: 20
+    length: 20,
   })
   method: string;
 

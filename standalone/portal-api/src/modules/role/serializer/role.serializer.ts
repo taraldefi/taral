@@ -15,7 +15,7 @@ export class RoleSerializer extends ModelSerializer {
 
   @ApiPropertyOptional()
   @Expose({
-    groups: basicFieldGroupsForSerializing
+    groups: basicFieldGroupsForSerializing,
   })
   description: string;
 
@@ -24,13 +24,13 @@ export class RoleSerializer extends ModelSerializer {
 
   @ApiPropertyOptional()
   @Expose({
-    groups: basicFieldGroupsForSerializing
+    groups: basicFieldGroupsForSerializing,
   })
   createdAt: Date;
 
   @ApiPropertyOptional()
   @Expose({
-    groups: basicFieldGroupsForSerializing
+    groups: basicFieldGroupsForSerializing,
   })
   updatedAt: Date;
 }

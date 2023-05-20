@@ -9,7 +9,7 @@ import {
   Post,
   Put,
   Query,
-  UseGuards
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 
@@ -32,18 +32,18 @@ export class RolesController {
   @Post()
   create(
     @Body()
-    createRoleDto: CreateRoleDto
+    createRoleDto: CreateRoleDto,
   ): Promise<RoleSerializer> {
     return this.rolesService.create(createRoleDto);
   }
 
   @Get()
   @ApiQuery({
-    type: RoleFilterDto
+    type: RoleFilterDto,
   })
   findAll(
     @Query()
-    roleFilterDto: RoleFilterDto
+    roleFilterDto: RoleFilterDto,
   ): Promise<Pagination<RoleSerializer>> {
     return this.rolesService.findAll(roleFilterDto);
   }
@@ -51,7 +51,7 @@ export class RolesController {
   @Get(':id')
   findOne(
     @Param('id')
-    id: string
+    id: string,
   ): Promise<RoleSerializer> {
     return this.rolesService.findOne(+id);
   }
@@ -61,7 +61,7 @@ export class RolesController {
     @Param('id')
     id: string,
     @Body()
-    updateRoleDto: UpdateRoleDto
+    updateRoleDto: UpdateRoleDto,
   ): Promise<RoleSerializer> {
     return this.rolesService.update(+id, updateRoleDto);
   }
@@ -70,7 +70,7 @@ export class RolesController {
   @HttpCode(HttpStatus.NO_CONTENT)
   remove(
     @Param('id')
-    id: string
+    id: string,
   ): Promise<void> {
     return this.rolesService.remove(+id);
   }

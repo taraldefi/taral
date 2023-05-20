@@ -7,17 +7,17 @@ import { RegisterUserDto } from 'src/modules/auth/dto/register-user.dto';
 const statusEnumArray = [
   UserStatusEnum.ACTIVE,
   UserStatusEnum.INACTIVE,
-  UserStatusEnum.BLOCKED
+  UserStatusEnum.BLOCKED,
 ];
 
 /**
  * create user data transform object
  */
 export class CreateUserDto extends OmitType(RegisterUserDto, [
-  'password'
+  'password',
 ] as const) {
   @IsIn(statusEnumArray, {
-    message: `isIn-{"items":"${statusEnumArray.join(',')}"}`
+    message: `isIn-{"items":"${statusEnumArray.join(',')}"}`,
   })
   status: UserStatusEnum;
 

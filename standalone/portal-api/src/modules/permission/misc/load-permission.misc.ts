@@ -2,7 +2,7 @@ import {
   ModulesPayloadInterface,
   PermissionPayload,
   RoutePayloadInterface,
-  SubModulePayloadInterface
+  SubModulePayloadInterface,
 } from 'src/config/permission.config';
 
 export class LoadPermissionMisc {
@@ -10,7 +10,7 @@ export class LoadPermissionMisc {
     modules: ModulesPayloadInterface | SubModulePayloadInterface,
     permissionsList: RoutePayloadInterface[],
     resource: string,
-    isDefault?: false
+    isDefault?: false,
   ) {
     if (modules.permissions) {
       for (const permission of modules.permissions) {
@@ -18,7 +18,7 @@ export class LoadPermissionMisc {
           permission,
           permissionsList,
           resource,
-          isDefault
+          isDefault,
         );
       }
     }
@@ -29,7 +29,7 @@ export class LoadPermissionMisc {
     permission: PermissionPayload,
     permissionsList: RoutePayloadInterface[],
     resource: string,
-    isDefault: boolean
+    isDefault: boolean,
   ) {
     const description = permission.name;
     for (const data of permission.route) {

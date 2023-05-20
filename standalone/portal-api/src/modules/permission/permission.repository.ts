@@ -12,7 +12,7 @@ export class PermissionEntityRepository extends BaseRepository<
   Permission
 > {
   async syncPermission(
-    permissionsList: RoutePayloadInterface[]
+    permissionsList: RoutePayloadInterface[],
   ): Promise<void> {
     await this.createQueryBuilder('permission')
       .insert()
@@ -26,13 +26,13 @@ export class PermissionEntityRepository extends BaseRepository<
     return plainToClass(
       Permission,
       classToPlain(model, transformOption),
-      transformOption
+      transformOption,
     );
   }
 
   transformMany(
     models: PermissionEntity[],
-    transformOption = {}
+    transformOption = {},
   ): Permission[] {
     return models.map((model) => this.transform(model, transformOption));
   }

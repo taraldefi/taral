@@ -18,8 +18,8 @@ export default {
             accessKeyId:
               process.env.AWS_ACCESS_KEY || winstonConfig.awsAccessKeyId,
             secretAccessKey:
-              process.env.AWS_KEY_SECRET || winstonConfig.awsSecretAccessKey
-          }
+              process.env.AWS_KEY_SECRET || winstonConfig.awsSecretAccessKey,
+          },
         },
         logGroupName:
           process.env.CLOUDWATCH_GROUP_NAME || winstonConfig.groupName,
@@ -30,15 +30,15 @@ export default {
           return (
             item.level + ': ' + item.message + ' ' + JSON.stringify(item.meta)
           );
-        }
+        },
       })
     : new winston.transports.Console({
         format: winston.format.combine(
           winston.format.timestamp(),
           winston.format.ms(),
           nestWinstonModuleUtilities.format.nestLike('Taral Logger', {
-            prettyPrint: true
-          })
-        )
-      })
+            prettyPrint: true,
+          }),
+        ),
+      }),
 } as WinstonModuleOptions;

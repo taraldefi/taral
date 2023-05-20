@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
   Validate,
-  ValidateIf
+  ValidateIf,
 } from 'class-validator';
 
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
@@ -15,13 +15,13 @@ export class CreateRoleDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(2, {
-    message: 'minLength-{"ln":2,"count":2}'
+    message: 'minLength-{"ln":2,"count":2}',
   })
   @MaxLength(100, {
-    message: 'maxLength-{"ln":100,"count":100}'
+    message: 'maxLength-{"ln":100,"count":100}',
   })
   @Validate(UniqueValidatorPipe, [RoleEntity], {
-    message: 'already taken'
+    message: 'already taken',
   })
   name: string;
 
@@ -34,8 +34,8 @@ export class CreateRoleDto {
     {},
     {
       each: true,
-      message: 'should be array of numbers'
-    }
+      message: 'should be array of numbers',
+    },
   )
   permissions: number[];
 }

@@ -22,7 +22,7 @@ describe('AuthController (e2e)', () => {
     await request(app.instance.getHttpServer())
       .post(`/auth/login`)
       .send({
-        username: 'email'
+        username: 'email',
       })
       .expect(HttpStatus.UNPROCESSABLE_ENTITY);
   });
@@ -33,7 +33,7 @@ describe('AuthController (e2e)', () => {
       .send({
         username: 'john@example.com',
         password: 'wrongPassword',
-        remember: true
+        remember: true,
       })
       .expect(HttpStatus.UNAUTHORIZED);
   });
@@ -50,7 +50,7 @@ describe('AuthController (e2e)', () => {
       .send({
         username: user.email,
         password: 'password',
-        remember: true
+        remember: true,
       })
       .expect(HttpStatus.NO_CONTENT)
       .then((res) => {

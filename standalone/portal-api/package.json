@@ -16,8 +16,6 @@
     "schema:drop": "npm run typeorm -- schema:drop",
     "seed:config": "npm run seeds -- config",
     "seed:run": "npm run seeds -- seed",
-    
-
     "seed:create": "hygen seeds create",
     "prebuild": "rimraf dist",
     "build": "nest build",
@@ -102,7 +100,7 @@
     "swagger-ui-express": "4.3.0",
     "twitter": "1.7.1",
     "type-is": "^1.6.18",
-    "typeorm":"0.2.43",
+    "typeorm": "0.2.43",
     "typeorm-seeding": "^1.6.1",
     "ua-parser-js": "^1.0.35",
     "uid": "^2.0.0",

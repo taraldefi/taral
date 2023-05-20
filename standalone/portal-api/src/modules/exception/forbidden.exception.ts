@@ -9,9 +9,9 @@ export class ForbiddenException extends HttpException {
         message: message || ExceptionTitleList.Forbidden,
         code: code || StatusCodesList.Forbidden,
         statusCode: HttpStatus.FORBIDDEN,
-        error: true
+        error: true,
       },
-      HttpStatus.FORBIDDEN
+      HttpStatus.FORBIDDEN,
     );
   }
 }

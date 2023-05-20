@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
 import {
   PermissionConfiguration,
-  RoutePayloadInterface
+  RoutePayloadInterface,
 } from 'src/config/permission.config';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 
@@ -13,14 +13,14 @@ export class PermissionGuard implements CanActivate {
    * @param context
    */
   canActivate(
-    context: ExecutionContext
+    context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
     const path = request.route.path;
     const method = request.method.toLowerCase();
     const permissionPayload: RoutePayloadInterface = {
       path,
-      method
+      method,
     };
     const permitted = this.checkIfDefaultRoute(permissionPayload);
     if (permitted) {
@@ -37,7 +37,7 @@ export class PermissionGuard implements CanActivate {
     const { path, method } = permissionAgainst;
     const defaultRoutes = PermissionConfiguration.defaultRoutes;
     return defaultRoutes.some(
-      (route) => route.path === path && route.method === method
+      (route) => route.path === path && route.method === method,
     );
   }
 
@@ -48,12 +48,12 @@ export class PermissionGuard implements CanActivate {
    */
   checkIfUserHavePermission(
     user: UserEntity,
-    permissionAgainst: RoutePayloadInterface
+    permissionAgainst: RoutePayloadInterface,
   ) {
     const { path, method } = permissionAgainst;
     if (user && user.role && user.role.permission) {
       return user.role.permission.some(
-        (route) => route.path === path && route.method === method
+        (route) => route.path === path && route.method === method,
       );
     }
     return false;

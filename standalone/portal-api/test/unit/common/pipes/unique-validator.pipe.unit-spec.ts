@@ -8,8 +8,8 @@ import { UniqueValidationArguments } from 'src/common/pipes/abstract-unique-vali
 
 const mockConnection = () => ({
   getRepository: jest.fn(() => ({
-    count: jest.fn().mockResolvedValue(0)
-  }))
+    count: jest.fn().mockResolvedValue(0),
+  })),
 });
 
 describe('UniqueValidatorPipe', () => {
@@ -20,9 +20,9 @@ describe('UniqueValidatorPipe', () => {
         UniqueValidatorPipe,
         {
           provide: getConnectionToken(),
-          useFactory: mockConnection
-        }
-      ]
+          useFactory: mockConnection,
+        },
+      ],
     }).compile();
     isUnique = await module.get<UniqueValidatorPipe>(UniqueValidatorPipe);
     connection = await module.get<Connection>(Connection);
@@ -36,9 +36,9 @@ describe('UniqueValidatorPipe', () => {
         value: username,
         targetName: '',
         object: {
-          username
+          username,
         },
-        property: 'username'
+        property: 'username',
       };
       const result = await isUnique.validate<UserEntity>('username', args);
       expect(connection.getRepository).toHaveBeenCalledWith(UserEntity);

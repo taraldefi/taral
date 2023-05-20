@@ -10,7 +10,7 @@ export class GenerateCodeHelper {
     length: number,
     uppercase = true,
     lowercase = true,
-    numerical = true
+    numerical = true,
   ): string {
     let result = '';
     const lowerCaseAlphabets = 'abcdefghijklmnopqrstuvwxyz';

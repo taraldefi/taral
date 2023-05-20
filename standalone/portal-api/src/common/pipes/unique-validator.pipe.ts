@@ -10,13 +10,13 @@ import { AbstractUniqueValidator } from 'src/common/pipes/abstract-unique-valida
  */
 @ValidatorConstraint({
   name: 'unique',
-  async: true
+  async: true,
 })
 @Injectable()
 export class UniqueValidatorPipe extends AbstractUniqueValidator {
   constructor(
     @InjectConnection()
-    protected readonly connection: Connection
+    protected readonly connection: Connection,
   ) {
     super(connection);
   }

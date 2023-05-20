@@ -135,8 +135,7 @@ export class EntityService {
     const storage = Storage.disk('files');
     const onDiskFilename = `${imageUUID}.png`;
 
-    if (data.logo)
-    {
+    if (data.logo) {
       const _ = await storage.put(onDiskFilename, data.logo.buffer);
     } else {
       console.log('No logo provided for entity');
@@ -156,11 +155,10 @@ export class EntityService {
     entity.legalForm = data.legalForm;
     entity.nationality = data.nationality;
 
-    if (data.logo)
-    {
+    if (data.logo) {
       entity.logo = imageUUID;
     }
-    
+
     entityProducts.forEach((product) => (product.legalEntity = entity));
     entityApplications.forEach(
       (application) => (application.legalEntity = entity),

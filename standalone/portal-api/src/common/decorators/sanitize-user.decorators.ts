@@ -10,7 +10,7 @@ export const SanitizeUser = (userField?: string, strong = true) => {
   return (
     target: any,
     propertyKey: string,
-    descriptor: TypedPropertyDescriptor<any>
+    descriptor: TypedPropertyDescriptor<any>,
   ): TypedPropertyDescriptor<any> => {
     const decoratedFn = descriptor.value;
     async function newFunction(...args) {
@@ -29,7 +29,7 @@ export const SanitizeUser = (userField?: string, strong = true) => {
       return data;
     }
     return {
-      value: newFunction
+      value: newFunction,
     };
   };
 };
@@ -43,7 +43,7 @@ export const SanitizeUsers = (userField?: string) => {
   return (
     target: any,
     propertyKey: string,
-    descriptor: TypedPropertyDescriptor<any>
+    descriptor: TypedPropertyDescriptor<any>,
   ): TypedPropertyDescriptor<any> => {
     const decoratedFn = descriptor.value;
 
@@ -63,7 +63,7 @@ export const SanitizeUsers = (userField?: string) => {
       });
     }
     return {
-      value: newFunction
+      value: newFunction,
     };
   };
 };

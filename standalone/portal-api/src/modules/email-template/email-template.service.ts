@@ -20,7 +20,7 @@ export class EmailTemplateService
 {
   constructor(
     @InjectRepository(EmailTemplateEntity)
-    private readonly repository: EmailTemplateEntityRepository
+    private readonly repository: EmailTemplateEntityRepository,
   ) {}
 
   /**
@@ -45,8 +45,8 @@ export class EmailTemplateService
     return await this.repository.findOne({
       select: ['body'],
       where: {
-        slug
-      }
+        slug,
+      },
     });
   }
 
@@ -55,11 +55,11 @@ export class EmailTemplateService
    * @param createEmailTemplateDto
    */
   create(
-    createEmailTemplateDto: CreateEmailTemplateDto
+    createEmailTemplateDto: CreateEmailTemplateDto,
   ): Promise<EmailTemplate> {
     return this.repository.createEntity({
       ...createEmailTemplateDto,
-      slug: this.slugify(createEmailTemplateDto.title)
+      slug: this.slugify(createEmailTemplateDto.title),
     });
   }
 
@@ -68,12 +68,12 @@ export class EmailTemplateService
    * @param filter
    */
   findAll(
-    filter: EmailTemplatesSearchFilterDto
+    filter: EmailTemplatesSearchFilterDto,
   ): Promise<Pagination<EmailTemplate>> {
     return this.repository.paginate(
       filter,
       [],
-      ['title', 'subject', 'body', 'sender']
+      ['title', 'subject', 'body', 'sender'],
     );
   }
 
@@ -92,27 +92,27 @@ export class EmailTemplateService
    */
   async update(
     id: number,
-    updateEmailTemplateDto: UpdateEmailTemplateDto
+    updateEmailTemplateDto: UpdateEmailTemplateDto,
   ): Promise<EmailTemplate> {
     const template = await this.repository.get(id);
     const condition: ObjectLiteral = {
-      title: updateEmailTemplateDto.title
+      title: updateEmailTemplateDto.title,
     };
     condition.id = Not(id);
     const countSameDescription = await this.repository.countEntityByCondition(
-      condition
+      condition,
     );
     if (countSameDescription > 0) {
       throw new UnprocessableEntityException({
         property: 'title',
         constraints: {
-          unique: 'already taken'
-        }
+          unique: 'already taken',
+        },
       });
     }
     return this.repository.updateEntity(template, {
       ...updateEmailTemplateDto,
-      slug: this.slugify(updateEmailTemplateDto.title)
+      slug: this.slugify(updateEmailTemplateDto.title),
     });
   }
 
@@ -125,7 +125,7 @@ export class EmailTemplateService
     if (template.isDefault) {
       throw new ForbiddenException(
         ExceptionTitleList.DeleteDefaultError,
-        StatusCodesList.DeleteDefaultError
+        StatusCodesList.DeleteDefaultError,
       );
     }
     await this.repository.delete({ id });
