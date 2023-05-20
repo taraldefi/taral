@@ -2,35 +2,35 @@ import { Logger } from "lib-shared";
 import { ClarityBitcoinContract } from "taral-contracts";
 
 export async function getTxId({
-  txBuffCV,
-  contract,
+    txBuffCV,
+    contract,
 }: {
-  txBuffCV: Buffer;
-  contract: ClarityBitcoinContract;
+    txBuffCV: Buffer;
+    contract: ClarityBitcoinContract;
 }): Promise<string> {
-  // Call readonly function
-  //
-  const response = await contract.getTxid(txBuffCV);
+    // Call readonly function
+    //
+    const response = await contract.getTxid(txBuffCV);
 
-  const result = response.toString();
+    const result = response.toString();
 
-  Logger.debug("get-tx-id", "Received result ", response);
-  return result;
+    Logger.debug("get-tx-id", "Received result ", response);
+    return result;
 }
 
 export async function getReversedTxId({
-  txCv,
-  contract,
+    txCv,
+    contract,
 }: {
-  txCv: Buffer;
-  contract: ClarityBitcoinContract;
+    txCv: Buffer;
+    contract: ClarityBitcoinContract;
 }): Promise<string> {
-  // Call readonly function
-  //
-  const response = await contract.getReversedTxid(txCv);
+    // Call readonly function
+    //
+    const response = await contract.getReversedTxid(txCv);
 
-  const result = response.toString();
+    const result = response.toString();
 
-  Logger.debug("get-reversed-tx-id", "Received result ", response);
-  return result;
+    Logger.debug("get-reversed-tx-id", "Received result ", response);
+    return result;
 }

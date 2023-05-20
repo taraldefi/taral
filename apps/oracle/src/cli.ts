@@ -12,27 +12,27 @@ const version: string = packageJson.version;
 const program = new Command().version(version).name("oracle");
 
 program.command("add-source").action(async () => {
-  await addSourceCommand();
+    await addSourceCommand();
 });
 
 program.command("check-prices").action(async () => {
-  await checkPricesCommand();
+    await checkPricesCommand();
 });
 
 program.command("check-sources").action(async () => {
-  await checkSourcesCommand();
+    await checkSourcesCommand();
 });
 
 program.command("feed-oracle-prices").action(async () => {
-  await feedOraclePricesCommand();
+    await feedOraclePricesCommand();
 });
 
 program.command("revoke-source").action(async () => {
-  await revokeSourceCommand();
+    await revokeSourceCommand();
 });
 
 program.command("update-prices").action(async () => {
-  await updatePricesCommand();
+    await updatePricesCommand();
 });
 
 program.parse(process.argv);
