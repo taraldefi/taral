@@ -136,6 +136,9 @@ export class NativeClarityBinProvider {
         });
 
         if (result.exitCode !== 0) {
+
+            console.log(JSON.stringify(result, null, 2))
+
             throw new ExecutionError(
                 `Initialize failed with bad exit code ${result.exitCode}: ${result.stderr}`,
                 result.exitCode,
