@@ -14,7 +14,7 @@ import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { RefreshTokenInterface } from 'src/modules/refresh-token/interface/refresh-token.interface';
-import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
+import { RefreshTokenEntityRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.interface';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
@@ -31,7 +31,7 @@ const BASE_OPTIONS: SignOptions = {
 export class RefreshTokenService {
   constructor(
     @InjectRepository(RefreshTokenEntity)
-    private readonly repository: RefreshTokenRepository,
+    private readonly repository: RefreshTokenEntityRepository,
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
     private readonly jwt: JwtService

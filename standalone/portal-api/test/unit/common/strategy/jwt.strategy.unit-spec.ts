@@ -5,6 +5,7 @@ import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UnauthorizedException } from 'src/modules/exception/unauthorized.exception';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockUserRepository = () => ({
   findOne: jest.fn()
@@ -22,13 +23,13 @@ describe('Test JWT strategy', () => {
       providers: [
         JwtStrategy,
         {
-          provide: UserEntityRepository,
+          provide: getRepositoryToken(UserEntity),
           useFactory: mockUserRepository
         }
       ]
     }).compile();
     jwtStrategy = await module.get<JwtStrategy>(JwtStrategy);
-    userRepository = await module.get<UserEntityRepository>(UserEntityRepository);
+    userRepository = await module.get(getRepositoryToken(UserEntity));
   });
 
   describe('validate user', () => {

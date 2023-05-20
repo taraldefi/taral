@@ -19,6 +19,7 @@ import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockUserRepository = () => ({
   findOne: jest.fn(),
@@ -81,7 +82,7 @@ describe('AuthService', () => {
           useFactory: jwtServiceMock
         },
         {
-          provide: UserEntityRepository,
+          provide: getRepositoryToken(UserEntity),
           useFactory: mockUserRepository
         },
         {
@@ -100,7 +101,7 @@ describe('AuthService', () => {
     }).compile();
 
     service = await module.get<AuthService>(AuthService);
-    userRepository = await module.get<UserEntityRepository>(UserEntityRepository);
+    userRepository = await module.get(getRepositoryToken(UserEntity));
     refreshTokenService = await module.get<RefreshTokenService>(
       RefreshTokenService
     );

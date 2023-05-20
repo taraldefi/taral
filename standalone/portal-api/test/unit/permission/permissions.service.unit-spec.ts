@@ -8,6 +8,8 @@ import { PermissionFilterDto } from 'src/modules/permission/dto/permission-filte
 import { CreatePermissionDto } from 'src/modules/permission/dto/create-permission.dto';
 import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permission.dto';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 
 const permissionRepositoryMock = () => ({
   getAll: jest.fn(),
@@ -38,14 +40,14 @@ describe('PermissionsService', () => {
       providers: [
         PermissionsService,
         {
-          provide: PermissionEntityRepository,
+          provide: getRepositoryToken(PermissionEntity),
           useFactory: permissionRepositoryMock
         }
       ]
     }).compile();
 
     service = module.get<PermissionsService>(PermissionsService);
-    repository = module.get<PermissionEntityRepository>(PermissionEntityRepository);
+    repository = module.get(getRepositoryToken(PermissionEntity));
   });
 
   it('findAll', async () => {

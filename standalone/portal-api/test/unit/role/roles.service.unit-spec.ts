@@ -9,6 +9,8 @@ import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
 import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { MethodList } from 'src/config/permission.config';
+import { RoleEntity } from 'src/modules/role/entities/role.entity';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const roleRepositoryMock = () => ({
   findAll: jest.fn(),
@@ -51,7 +53,7 @@ describe('RolesService', () => {
       providers: [
         RolesService,
         {
-          provide: RoleEntityRepository,
+          provide: getRepositoryToken(RoleEntity),
           useFactory: roleRepositoryMock
         },
         {
@@ -63,7 +65,7 @@ describe('RolesService', () => {
 
     service = module.get<RolesService>(RolesService);
     permissionService = module.get<PermissionsService>(PermissionsService);
-    roleRepository = module.get<RoleEntityRepository>(RoleEntityRepository);
+    roleRepository = module.get(getRepositoryToken(RoleEntity));
     jest.clearAllMocks();
   });
 

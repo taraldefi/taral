@@ -4,13 +4,13 @@ import { TokenExpiredError } from 'jsonwebtoken';
 
 import { RefreshTokenService } from 'src/modules/refresh-token/refresh-token.service';
 import { AuthService } from 'src/modules/auth/auth.service';
-import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
+import { getRepositoryToken } from '@nestjs/typeorm';
 
 const jwtServiceMock = () => ({
   signAsync: jest.fn(),
@@ -52,7 +52,7 @@ describe('RefreshTokenService', () => {
           useFactory: authServiceMock
         },
         {
-          provide: RefreshTokenRepository,
+          provide: getRepositoryToken(RefreshTokenEntity),
           useFactory: repositoryMock
         }
       ]
@@ -61,8 +61,8 @@ describe('RefreshTokenService', () => {
     service = module.get<RefreshTokenService>(RefreshTokenService);
     jwtService = await module.get<JwtService>(JwtService);
     authService = await module.get<AuthService>(AuthService);
-    repository = await module.get<RefreshTokenRepository>(
-      RefreshTokenRepository
+    repository = await module.get(
+      getRepositoryToken(RefreshTokenEntity)
     );
     user = new UserSerializer();
     user.id = 1;

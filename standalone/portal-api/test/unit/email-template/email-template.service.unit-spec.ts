@@ -8,6 +8,8 @@ import { CreateEmailTemplateDto } from 'src/modules/email-template/dto/create-em
 import { UpdateEmailTemplateDto } from 'src/modules/email-template/dto/update-email-template.dto';
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
+import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
+import { EmailTemplateEntity } from '../../../src/modules/email-template/entities/email-template.entity';
 
 const emailTemplateRepositoryMock = () => ({
   getAll: jest.fn(),
@@ -36,14 +38,14 @@ describe('EmailTemplateService', () => {
       providers: [
         EmailTemplateService,
         {
-          provide: EmailTemplateEntityRepository,
+          provide: getRepositoryToken(EmailTemplateEntity),
           useFactory: emailTemplateRepositoryMock
         }
       ]
     }).compile();
 
     service = module.get<EmailTemplateService>(EmailTemplateService);
-    repository = module.get<EmailTemplateEntityRepository>(EmailTemplateEntityRepository);
+    repository = module.get(getRepositoryToken(EmailTemplateEntity));
   });
 
   afterEach(() => {

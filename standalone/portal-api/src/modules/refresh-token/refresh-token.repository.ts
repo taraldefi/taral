@@ -8,7 +8,7 @@ import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/ref
 
 const tokenConfig = config.get('jwt');
 @EntityRepository(RefreshTokenEntity)
-export class RefreshTokenRepository extends BaseRepository<
+export class RefreshTokenEntityRepository extends BaseRepository<
   RefreshTokenEntity,
   RefreshTokenSerializer
 > {
