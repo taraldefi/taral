@@ -1,7 +1,9 @@
 import { Test } from '@nestjs/testing';
 
-import { RefreshTokenRepository } from 'src/modules/refresh-token/refresh-token.repository';
+import { RefreshTokenEntityRepository } from 'src/modules/refresh-token/refresh-token.repository';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { RefreshTokenEntity } from '../../../src/modules/refresh-token/entities/refresh-token.entity';
 
 const mockRefreshToken = {
   id: 1,
@@ -15,10 +17,13 @@ describe('Refresh token repository', () => {
   let repository, user;
   beforeEach(async () => {
     const module = await Test.createTestingModule({
-      providers: [RefreshTokenRepository]
+      providers: [{
+        provide: getRepositoryToken(RefreshTokenEntity),
+        useClass: RefreshTokenEntityRepository
+      }]
     }).compile();
-    repository = await module.get<RefreshTokenRepository>(
-      RefreshTokenRepository
+    repository = await module.get(
+      getRepositoryToken(RefreshTokenEntity)
     );
     user = new UserSerializer();
     user.id = 1;
