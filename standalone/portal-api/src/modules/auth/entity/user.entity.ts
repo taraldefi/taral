@@ -18,20 +18,12 @@ import { RoleEntity } from 'src/modules/role/entities/role.entity';
 /**
  * User Entity
  */
-@Entity({
-  name: 'user'
-})
+@Entity('users')
 export class UserEntity extends CustomBaseEntity {
-  @Index({
-    unique: true
-  })
-  @Column()
+  @Column({unique: true})
   username: string;
 
-  @Index({
-    unique: true
-  })
-  @Column()
+  @Column({unique: true})
   email: string;
 
   @Column()
@@ -40,23 +32,22 @@ export class UserEntity extends CustomBaseEntity {
   })
   password: string;
 
-  @Index()
   @Column()
   name: string;
 
-  @Column()
+  @Column({nullable: true})
   address: string;
 
-  @Column()
+  @Column({ nullable: true})
   contact: string;
 
-  @Column()
+  @Column({ nullable: true})
   avatar: string;
 
   @Column()
   status: UserStatusEnum;
 
-  @Column()
+  @Column({ nullable: true})
   @Exclude({
     toPlainOnly: true
   })

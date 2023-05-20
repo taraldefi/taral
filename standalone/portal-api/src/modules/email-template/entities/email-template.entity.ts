@@ -6,8 +6,7 @@ import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
   name: 'email_templates'
 })
 export class EmailTemplateEntity extends CustomBaseEntity {
-  @Column()
-  @Index({
+  @Column({
     unique: true
   })
   title: string;

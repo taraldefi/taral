@@ -6,15 +6,11 @@ import { RoleEntity } from 'src/modules/role/entities/role.entity';
 @Entity({
   name: 'permission'
 })
-@Unique(['description'])
 export class PermissionEntity extends CustomBaseEntity {
   @Column('varchar', { length: 100 })
   resource: string;
 
-  @Column()
-  @Index({
-    unique: true
-  })
+  @Column({unique: true})
   description: string;
 
   @Column()

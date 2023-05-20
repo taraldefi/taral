@@ -4,12 +4,12 @@ import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 
 @Entity({
-  name: 'role'
+  name: 'rolea'
 })
-@Unique(['name'])
 export class RoleEntity extends CustomBaseEntity {
-  @Column('varchar', { length: 100 })
-  @Index({
+  
+  @Column({
+    type: 'text',
     unique: true
   })
   name: string;
@@ -17,7 +17,7 @@ export class RoleEntity extends CustomBaseEntity {
   @Column('text')
   description: string;
 
-  @ManyToMany(() => PermissionEntity, (permission) => permission.role)
+  @ManyToMany(() => PermissionEntity, (permission) => permission.role, {cascade: true})
   @JoinTable({
     name: 'role_permission',
     joinColumn: {
