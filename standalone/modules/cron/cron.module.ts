@@ -1,17 +1,17 @@
-import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
-import { DiscoveryModule } from '@nestjs/core';
-import { CRON_MODULE_CONFIG } from './constants';
-import { cronFactory } from './factories';
+import { DynamicModule, Module, Provider, Type } from "@nestjs/common";
+import { DiscoveryModule } from "@nestjs/core";
+import { CRON_MODULE_CONFIG } from "./constants";
+import { cronFactory } from "./factories";
 import {
   CronConfigFactory,
   CronModuleAsyncConfig,
   CronModuleConfig,
   CronQueueConfig,
-} from './interfaces';
-import { CronExplorer, CronMetadataAccessor } from './providers';
-import { AgendaOrchestrator } from './providers/cron.orchestrator';
-import { DatabaseService } from './providers/database.service';
-import { getQueueConfigToken, getQueueToken } from './utils';
+} from "./interfaces";
+import { CronExplorer, CronMetadataAccessor } from "./providers";
+import { AgendaOrchestrator } from "./providers/cron.orchestrator";
+import { DatabaseService } from "./providers/database.service";
+import { getQueueConfigToken, getQueueToken } from "./utils";
 
 @Module({
   imports: [DiscoveryModule],
@@ -39,7 +39,7 @@ export class CronModule {
   }
 
   static forRootAsync(
-    config: CronModuleAsyncConfig<CronModuleConfig>,
+    config: CronModuleAsyncConfig<CronModuleConfig>
   ): DynamicModule {
     const providers = this.createAsyncProviders<CronModuleConfig>(config);
 
@@ -61,7 +61,7 @@ export class CronModule {
 
   static registerQueue(
     name: string,
-    config: CronQueueConfig = {},
+    config: CronQueueConfig = {}
   ): DynamicModule {
     const queueToken = getQueueToken(name);
 
@@ -91,7 +91,7 @@ export class CronModule {
   }
 
   private static createAsyncProviders<T>(
-    config: CronModuleAsyncConfig<T>,
+    config: CronModuleAsyncConfig<T>
   ): Provider[] {
     if (config.useExisting || config.useFactory) {
       return [this.createAsyncOptionsProvider(config)];
@@ -109,7 +109,7 @@ export class CronModule {
   }
 
   private static createAsyncOptionsProvider<T>(
-    config: CronModuleAsyncConfig<T>,
+    config: CronModuleAsyncConfig<T>
   ): Provider {
     if (config.useFactory) {
       return {

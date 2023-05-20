@@ -1,190 +1,189 @@
 import { Logger } from "lib-shared";
 import {
-  IStorageFileRegister,
-  registerFile,
-  StorageApiClient,
+    IStorageFileRegister,
+    registerFile,
+    StorageApiClient
 } from "lib-storage";
 import { clarinetAccounts, taralStorage } from "./jest-setup";
 import { readTestFile } from "./storage";
 
 test("[File storage] - Happy flow", async () => {
-  const deployer = clarinetAccounts.deployer;
-  const bob = clarinetAccounts["wallet_1"];
+    const deployer = clarinetAccounts.deployer;
 
-  const onChainStorage = taralStorage(deployer);
+    const onChainStorage = taralStorage(deployer);
 
-  const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
+    const deployerPrivateKey = clarinetAccounts.deployer.privateKey;
 
-  const firstVersionFileName = "dummy.pdf";
+    const firstVersionFileName = "dummy.pdf";
 
-  const deployerConfiguredStorage: StorageApiClient = new StorageApiClient(
-    "http://localhost:3000",
-    deployerPrivateKey
-  );
+    const deployerConfiguredStorage: StorageApiClient = new StorageApiClient(
+        "http://localhost:3000",
+        deployerPrivateKey
+    );
 
-  const firstFileBuffer = readTestFile(firstVersionFileName);
+    const firstFileBuffer = readTestFile(firstVersionFileName);
 
-  const result = await deployerConfiguredStorage.createFile(
-    firstVersionFileName,
-    firstFileBuffer.file,
-    firstFileBuffer.fileSizeInBytes
-  );
+    const result = await deployerConfiguredStorage.createFile(
+        firstVersionFileName,
+        firstFileBuffer.file,
+        firstFileBuffer.fileSizeInBytes
+    );
 
-  expect(result.hasError).toBe(false);
+    expect(result.hasError).toBe(false);
 
-  Logger.debug("create-file", `Created file with id ${result.result?.id}`);
+    Logger.debug("create-file", `Created file with id ${result.result?.id}`);
 
-  const id = result.result?.id!;
+    const id = result.result?.id!;
 
-  const registerFilePayload: IStorageFileRegister = {
-    fileId: id,
-    fileHash: result.result?.hash!,
-    fileName: result.result?.name!,
-    privateKey: deployerPrivateKey,
-    contract: onChainStorage,
-  };
+    const registerFilePayload: IStorageFileRegister = {
+        fileId: id,
+        fileHash: result.result?.hash!,
+        fileName: result.result?.name!,
+        privateKey: deployerPrivateKey,
+        contract: onChainStorage,
+    };
 
-  const registerFileResult = await registerFile(registerFilePayload);
+    const registerFileResult = await registerFile(registerFilePayload);
 
-  Logger.debug("register-file", "registered the file");
+    Logger.debug("register-file", "registered the file");
 
-  expect(registerFileResult).toEqual(id);
+    expect(registerFileResult).toEqual(id);
 
-  // const canWriteFile = await canWrite({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: deployer.address,
-  // });
+    // const canWriteFile = await canWrite({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: deployer.address,
+    // });
 
-  // const canReadFile = await canRead({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: deployer.address,
-  // });
+    // const canReadFile = await canRead({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: deployer.address,
+    // });
 
-  // expect(canWriteFile).toBeTruthy();
-  // expect(canReadFile).toBeTruthy();
+    // expect(canWriteFile).toBeTruthy();
+    // expect(canReadFile).toBeTruthy();
 
-  // let canBobWriteFile = await canWrite({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // let canBobWriteFile = await canWrite({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // let canBobReadFile = await canRead({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // let canBobReadFile = await canRead({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(canBobWriteFile).toBeFalsy();
-  // expect(canBobReadFile).toBeFalsy();
+    // expect(canBobWriteFile).toBeFalsy();
+    // expect(canBobReadFile).toBeFalsy();
 
-  // // a request from bob to read the file will fail
+    // // a request from bob to read the file will fail
 
-  // const bobTriesToReadTheFileResult = await bobsStorage.requestFile(id);
+    // const bobTriesToReadTheFileResult = await bobsStorage.requestFile(id);
 
-  // console.log("bob tries to read ", JSON.stringify(bobTriesToReadTheFileResult));
+    // console.log("bob tries to read ", JSON.stringify(bobTriesToReadTheFileResult));
 
-  // expect(bobTriesToReadTheFileResult.hasError).toBeTruthy();
-  // expect(bobTriesToReadTheFileResult.error?.errors.message).toEqual('no-rights-on-chain');
+    // expect(bobTriesToReadTheFileResult.hasError).toBeTruthy();
+    // expect(bobTriesToReadTheFileResult.error?.errors.message).toEqual('no-rights-on-chain');
 
-  // const grantAccessToBobResult = await grantAccessToFile({
-  //   canRead: true,
-  //   canWrite: false,
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const grantAccessToBobResult = await grantAccessToFile({
+    //   canRead: true,
+    //   canWrite: false,
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(grantAccessToBobResult).toBeTruthy();
+    // expect(grantAccessToBobResult).toBeTruthy();
 
-  // canBobWriteFile = await canWrite({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // canBobWriteFile = await canWrite({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // canBobReadFile = await canRead({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // canBobReadFile = await canRead({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(canBobWriteFile).toBeFalsy();
-  // expect(canBobReadFile).toBeTruthy();
+    // expect(canBobWriteFile).toBeFalsy();
+    // expect(canBobReadFile).toBeTruthy();
 
-  // const updateAccessResult = await updateAccessToFile({
-  //   canRead: true,
-  //   canWrite: true,
-  //   contract: onChainStorage,
-  //   participant: bob.address,
-  //   fileId: id,
-  // });
+    // const updateAccessResult = await updateAccessToFile({
+    //   canRead: true,
+    //   canWrite: true,
+    //   contract: onChainStorage,
+    //   participant: bob.address,
+    //   fileId: id,
+    // });
 
-  // expect(updateAccessResult).toBeTruthy();
+    // expect(updateAccessResult).toBeTruthy();
 
-  // const bobsNewWritePermissions = await canWrite({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const bobsNewWritePermissions = await canWrite({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // const bobsNewReadPermissions = await canRead({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const bobsNewReadPermissions = await canRead({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(bobsNewWritePermissions).toBeTruthy();
-  // expect(bobsNewReadPermissions).toBeTruthy();
+    // expect(bobsNewWritePermissions).toBeTruthy();
+    // expect(bobsNewReadPermissions).toBeTruthy();
 
-  // Logger.debug("testest" ,"ARRIVED HERE !!!!!");
+    // Logger.debug("testest" ,"ARRIVED HERE !!!!!");
 
-  // const secondFileBuffer = readTestFile(secondVersionFileName);
+    // const secondFileBuffer = readTestFile(secondVersionFileName);
 
-  // const apiUpdateResult = await deployerConfiguredStorage.updateFile(id, secondFileBuffer.file, secondFileBuffer.fileSizeInBytes);
+    // const apiUpdateResult = await deployerConfiguredStorage.updateFile(id, secondFileBuffer.file, secondFileBuffer.fileSizeInBytes);
 
-  // expect(apiUpdateResult.hasError).toBeFalsy();
+    // expect(apiUpdateResult.hasError).toBeFalsy();
 
-  // const newHash = apiUpdateResult.result?.hash!;
+    // const newHash = apiUpdateResult.result?.hash!;
 
-  // const updateFilePayload: IStorageFileUpdate = {
-  //   fileHash: newHash,
-  //   fileId: id,
-  //   privateKey: deployerPrivateKey,
-  //   contract: onChainStorage,
-  // };
+    // const updateFilePayload: IStorageFileUpdate = {
+    //   fileHash: newHash,
+    //   fileId: id,
+    //   privateKey: deployerPrivateKey,
+    //   contract: onChainStorage,
+    // };
 
-  // const updateFileResult = await updateFile(updateFilePayload);
+    // const updateFileResult = await updateFile(updateFilePayload);
 
-  // expect(updateFileResult).toEqual(true);
+    // expect(updateFileResult).toEqual(true);
 
-  // const revokeAccessResult = await revokeAccessFromFile({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const revokeAccessResult = await revokeAccessFromFile({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(revokeAccessResult).toEqual(true);
+    // expect(revokeAccessResult).toEqual(true);
 
-  // const bobsRevokeAccessWritePermissions = await canWrite({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const bobsRevokeAccessWritePermissions = await canWrite({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // const bobsRevokeAccessReadPermissions = await canRead({
-  //   contract: onChainStorage,
-  //   fileId: id,
-  //   participant: bob.address,
-  // });
+    // const bobsRevokeAccessReadPermissions = await canRead({
+    //   contract: onChainStorage,
+    //   fileId: id,
+    //   participant: bob.address,
+    // });
 
-  // expect(bobsRevokeAccessWritePermissions).toBeFalsy();
-  // expect(bobsRevokeAccessReadPermissions).toBeFalsy();
+    // expect(bobsRevokeAccessWritePermissions).toBeFalsy();
+    // expect(bobsRevokeAccessReadPermissions).toBeFalsy();
 
-  // const bobTriesToReadTheFileResultAgain = await bobsStorage.requestFile(id);
+    // const bobTriesToReadTheFileResultAgain = await bobsStorage.requestFile(id);
 
-  // expect(bobTriesToReadTheFileResultAgain.hasError).toBeTruthy();
-  // expect(bobTriesToReadTheFileResultAgain.error?.errors.message).toEqual('no-rights-on-chain');
+    // expect(bobTriesToReadTheFileResultAgain.hasError).toBeTruthy();
+    // expect(bobTriesToReadTheFileResultAgain.error?.errors.message).toEqual('no-rights-on-chain');
 }, 6000000);

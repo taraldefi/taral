@@ -1,0 +1,27 @@
+db:
+  host: 'localhost'
+  type: 'postgres'
+  port: 5432
+  username: 'root'
+  password: 'secret'
+  synchronize: false
+
+
+  
+# DATABASE_TYPE=postgres
+# DATABASE_HOST=localhost
+# DATABASE_PORT=5432
+# DATABASE_USERNAME=root
+# DATABASE_PASSWORD=secret
+# DATABASE_NAME=api
+# DATABASE_SYNCHRONIZE=false
+# DATABASE_MAX_CONNECTIONS=100
+# DATABASE_SSL_ENABLED=false
+# DATABASE_REJECT_UNAUTHORIZED=false
+# DATABASE_CA=
+# DATABASE_KEY=
+# DATABASE_CERT=
+
+
+jwt:
+  secret: 'example@123'

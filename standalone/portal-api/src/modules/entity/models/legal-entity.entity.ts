@@ -45,7 +45,7 @@ export class LegalEntity extends EntityHelper {
   @Allow()
   legalForm: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   logo: string;
 

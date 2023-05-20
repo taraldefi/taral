@@ -1,4 +1,31 @@
 {
   "collection": "@nestjs/schematics",
-  "sourceRoot": "src"
+  "sourceRoot": "src",
+  "compilerOptions": {
+    "plugins": ["@nestjs/swagger"],
+    "assets": [
+      {
+        "include": "../public/**/*",
+        "watchAssets": true,
+        "outDir": "dist/standalone/portal-api"
+      },
+      {
+        "include": "i18n/**/*",
+        "watchAssets": true,
+        "outDir": "dist/standalone/portal-api/src"
+      },
+      { "include": "mail/templates/**/*", "watchAssets": true },
+      { "include": "**/*.css", "watchAssets": true }
+    ]
+  },
+  "plugins": [
+    {
+      "name": "@nestjs/swagger",
+      "options": {
+        "dtoFileNameSuffix": [".dto.ts", ".entity.ts"],
+        "classValidatorShim": true,
+        "introspectComments": true
+      }
+    }
+  ]
 }

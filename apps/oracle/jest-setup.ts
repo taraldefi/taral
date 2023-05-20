@@ -1,3 +1,3 @@
 beforeAll(() => {
-  console.log("Running oracle unit test");
+    console.log("Running oracle unit test");
 });

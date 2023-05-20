@@ -1,14 +1,14 @@
-import { Injectable, Inject, Type } from '@nestjs/common';
-import { Reflector } from '@nestjs/core';
+import { Injectable, Inject, Type } from "@nestjs/common";
+import { Reflector } from "@nestjs/core";
 import {
   JOB_PROCESSOR_TYPE,
   JOB_NAME,
   CRON_JOB_OPTIONS,
   CRON_MODULE_QUEUE,
   ON_QUEUE_EVENT,
-} from '../constants';
-import { AgendaModuleJobOptions } from '../decorators';
-import { JobProcessorType } from '../enums';
+} from "../constants";
+import { AgendaModuleJobOptions } from "../decorators";
+import { JobProcessorType } from "../enums";
 
 @Injectable()
 export class CronMetadataAccessor {
@@ -43,7 +43,7 @@ export class CronMetadataAccessor {
   }
 
   getJobProcessorMetadata(
-    target: Type<any> | Function,
+    target: Type<any> | Function
   ): AgendaModuleJobOptions {
     return this.reflector.get(CRON_JOB_OPTIONS, target);
   }

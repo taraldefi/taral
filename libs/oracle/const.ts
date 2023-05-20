@@ -5,4 +5,4 @@ export const COINBASE_ENDPOINT = "https://api.pro.coinbase.com/oracle";
 export const OKCOIN_ENDPOINT = "https://www.okcoin.com/api/market/v3/oracle";
 
 export const OKCOIN_TICKER_ENDPOINT =
-  "https://www.okcoin.com/api/spot/v3/instruments/ticker";
+    "https://www.okcoin.com/api/spot/v3/instruments/ticker";
