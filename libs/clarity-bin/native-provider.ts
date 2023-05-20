@@ -131,13 +131,19 @@ export class NativeClarityBinProvider {
     }
 
     async initialize(): Promise<void> {
+
+        const allocations = JSON.stringify(this.allocations);
+
+        console.log(`Initializing database at ${this.dbFilePath}`);
+        console.log(`Allocations: ${allocations}`);
+
         const result = await this.runCommand(["initialize", "-", this.dbFilePath], {
-            stdin: JSON.stringify(this.allocations),
+            stdin: allocations,
         });
 
         if (result.exitCode !== 0) {
 
-            console.log(JSON.stringify(result, null, 2))
+            console.log(JSON.stringify(result, null, 2));
 
             throw new ExecutionError(
                 `Initialize failed with bad exit code ${result.exitCode}: ${result.stderr}`,
