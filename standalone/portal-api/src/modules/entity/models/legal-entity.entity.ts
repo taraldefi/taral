@@ -37,6 +37,11 @@ export class LegalEntity extends EntityHelper {
   @Allow()
   coreBusiness: string;
 
+  
+  @Column()
+  @Allow()
+  coreBusiness1: string;
+
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   incorporationDate: Date;
@@ -44,6 +49,11 @@ export class LegalEntity extends EntityHelper {
   @Column()
   @Allow()
   legalForm: string;
+
+  
+  @Column()
+  @Allow()
+  legalForm11: string;
 
   @Column({ nullable: true })
   @Allow()

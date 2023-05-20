@@ -19,6 +19,10 @@ export class RefreshTokenEntity extends BaseEntity {
   @Column()
   ip: string;
 
+  
+  @Column()
+  ip1: string;
+
   @Column()
   userAgent: string;
 
@@ -33,6 +37,13 @@ export class RefreshTokenEntity extends BaseEntity {
     nullable: true
   })
   os: string;
+
+  
+  @Index()
+  @Column({
+    nullable: true
+  })
+  os1: string;
 
   @Column()
   isRevoked: boolean;

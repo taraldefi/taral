@@ -1,15 +1,15 @@
-server:
-  port: 3000
-  origin: 'http://localhost:3000'
+# server:
+#   port: 3000
+#   origin: 'http://localhost:3000'
 
-db:
-  host: 'localhost'
-  type: 'postgres'
-  name: 'api'
-  port: 5432
-  username: 'postgres'
-  password: 'root'
-  synchronize: false
+# db:
+#   host: 'localhost'
+#   type: 'postgres'
+#   name: 'api'
+#   port: 5432
+#   username: 'postgres'
+#   password: 'root'
+#   synchronize: false
 
 jwt:
   # expiresIn: 10

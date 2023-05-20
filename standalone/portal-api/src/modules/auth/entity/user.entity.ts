@@ -1,4 +1,6 @@
 import {
+  AfterInsert,
+  AfterLoad,
   BeforeInsert,
   BeforeUpdate,
   Column,
@@ -6,7 +8,9 @@ import {
   Entity,
   Index,
   JoinColumn,
-  OneToOne
+  OneToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn
 } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { Exclude } from 'class-transformer';
@@ -14,6 +18,7 @@ import { Exclude } from 'class-transformer';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { RoleEntity } from 'src/modules/role/entities/role.entity';
+import { Allow } from 'class-validator';
 
 /**
  * User Entity
@@ -22,6 +27,28 @@ import { RoleEntity } from 'src/modules/role/entities/role.entity';
   name: 'user'
 })
 export class UserEntity extends CustomBaseEntity {
+
+
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  // @CreateDateColumn({
+  //   type: 'timestamp',
+  //   default: () => 'CURRENT_TIMESTAMP'
+  // })
+  @Column({ type: 'timestamptz' }) // Recommended
+  @Allow()
+  createdAt: Date;
+
+  // @UpdateDateColumn({
+  //   type: 'timestamp',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  //   onUpdate: 'CURRENT_TIMESTAMP'
+  // })
+  @Column({ type: 'timestamptz' }) // Recommended
+  @Allow()
+  updatedAt: Date;
+
   @Index({
     unique: true
   })
@@ -62,10 +89,13 @@ export class UserEntity extends CustomBaseEntity {
   })
   token: string;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP'
-  })
+  // @CreateDateColumn({
+  //   type: 'timestamp with time zone',
+  //   default: () => 'CURRENT_TIMESTAMP',
+  // })
+
+  @Column({ type: 'timestamptz' }) // Recommended
+  @Allow()
   tokenValidityDate: Date;
 
   @Column()
@@ -85,10 +115,12 @@ export class UserEntity extends CustomBaseEntity {
   @Exclude({
     toPlainOnly: true
   })
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP'
-  })
+  // @CreateDateColumn({
+  //   type: 'timestamp',
+  //   default: () => 'CURRENT_TIMESTAMP'
+  // })
+  @Column({ type: 'timestamptz' }) // Recommended
+  @Allow()
   twoFAThrottleTime?: Date;
 
   @Column({
@@ -101,12 +133,12 @@ export class UserEntity extends CustomBaseEntity {
   })
   skipHashPassword = false;
 
-  @OneToOne(() => RoleEntity)
-  @JoinColumn()
-  role: RoleEntity;
+  // @OneToOne(() => RoleEntity)
+  // @JoinColumn()
+  // role: RoleEntity;
 
-  @Column()
-  roleId: number;
+  // @Column()
+  // roleId: number;
 
   @BeforeInsert()
   async hashPasswordBeforeInsert() {
@@ -119,6 +151,26 @@ export class UserEntity extends CustomBaseEntity {
   async hashPasswordBeforeUpdate() {
     if (this.password && !this.skipHashPassword) {
       await this.hashPassword();
+    }
+  }
+
+  @AfterLoad()
+  @AfterInsert()
+  updateData() {
+    if (this.createdAt == undefined) {
+      this.createdAt = new Date();
+    }
+
+    if (this.twoFAThrottleTime == undefined) {
+      this.twoFAThrottleTime = new Date();
+    }
+
+    if (this.tokenValidityDate == undefined) {
+      this.tokenValidityDate = new Date();
+    }
+
+    if (this.updatedAt == undefined) {
+      this.updatedAt = new Date();
     }
   }
 
