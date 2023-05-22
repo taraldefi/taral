@@ -43,6 +43,7 @@ import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { ValidationPayloadInterface } from 'src/common/interfaces/validation-error.interface';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
+import { UserEntityRepositoryToken } from './user.repository.provider';
 
 const throttleConfig = config.get('throttle.login');
 const jwtConfig = config.get('jwt');
@@ -60,7 +61,7 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
+    @Inject(UserEntityRepositoryToken)
     private readonly userRepository: UserEntityRepository,
     private readonly jwt: JwtService,
     private readonly mailService: MailService,

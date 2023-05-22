@@ -1,4 +1,4 @@
-import { DeepPartial, EntityRepository } from 'typeorm';
+import { Connection, DeepPartial, EntityRepository } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { classToPlain, plainToClass } from 'class-transformer';
 
@@ -10,7 +10,9 @@ import { ResetPasswordDto } from 'src/modules/auth/dto/reset-password.dto';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { ExceptionTitleList } from 'src/common/constants/exception-title-list.constants';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 @EntityRepository(UserEntity)
 export class UserEntityRepository extends BaseRepository<
   UserEntity,
