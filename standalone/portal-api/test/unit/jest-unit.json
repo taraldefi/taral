@@ -6,5 +6,10 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "modulePaths": ["."]
+  "modulePaths": ["."],
+  "moduleDirectories": [
+    "node_modules", 
+    "src",
+    "../../../modules"
+  ]
 }
