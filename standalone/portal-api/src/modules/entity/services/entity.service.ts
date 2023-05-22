@@ -13,7 +13,7 @@ import {
   runOnTransactionComplete,
   runOnTransactionRollback,
   Transactional,
-} from '@modules/transaction';
+} from 'src/common/transaction';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
 import { EntityMappingService } from './mapping.service';
 import { UpdateEntityDto } from '../dto/request/update-entity.dto';

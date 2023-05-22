@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { initializeTransactionalContext } from '@modules/transaction';
+import { initializeTransactionalContext } from 'src/common/transaction/common';
 import validationOptions from './utils/validation-options';
 import fs from 'fs';
 

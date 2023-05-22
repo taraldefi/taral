@@ -13,7 +13,7 @@ import { Pagination } from 'src/modules/paginate';
 import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.interface';
 import { SearchFilterInterface } from 'src/common/interfaces/search-filter.interface';
 import { ModelSerializer } from 'src/common/serializer/model.serializer';
-import { patchRepositoryManager } from '@modules/transaction';
+import { patchRepositoryManager } from 'src/common/transaction/patch-typeorm-repository';
 
 /**
  * Base Repository for code reuse

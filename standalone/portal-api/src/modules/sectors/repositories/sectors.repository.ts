@@ -1,4 +1,4 @@
-import { BaseRepository } from '@modules/transaction';
+import { BaseRepository } from 'src/common/transaction/BaseRepository';
 import { EntityRepository } from 'typeorm';
 import { SectorEntity } from '../models/sector.entity';
 

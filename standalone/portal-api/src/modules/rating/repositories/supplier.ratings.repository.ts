@@ -1,6 +1,5 @@
-import { BaseRepository } from '@modules/transaction';
+import { BaseRepository } from 'src/common/transaction/BaseRepository';
 import { EntityRepository } from 'typeorm';
-import { RatingEntity } from '../models/rating.entity';
 import { SupplierRatingEntity } from '../models/supplier.rating.entity';
 
 @EntityRepository(SupplierRatingEntity)
