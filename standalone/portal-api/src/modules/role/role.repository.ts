@@ -7,7 +7,9 @@ import { BaseRepository } from 'src/common/repository/base.repository';
 import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
 import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
 import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 @EntityRepository(RoleEntity)
 export class RoleEntityRepository extends BaseRepository<
   RoleEntity,

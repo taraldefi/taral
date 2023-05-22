@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
@@ -15,12 +15,12 @@ import {
 import { CommonServiceInterface } from 'src/common/interfaces/common-service.interface';
 import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { Pagination } from 'src/modules/paginate';
-import { RoleEntity } from './entities/role.entity';
+import { RoleEntityRepositoryToken } from './role.repository.provider';
 
 @Injectable()
 export class RolesService implements CommonServiceInterface<RoleSerializer> {
   constructor(
-    @InjectRepository(RoleEntity)
+    @Inject(RoleEntityRepositoryToken)
     private repository: RoleEntityRepository,
     private readonly permissionsService: PermissionsService,
   ) {}
