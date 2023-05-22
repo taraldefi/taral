@@ -5,7 +5,9 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { initializeTransactionalContext } from 'src/common/transaction/common';
 import validationOptions from './utils/validation-options';
+import cookieParser from 'cookie-parser';
 import fs from 'fs';
+import { useContainer } from 'class-validator';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -22,7 +24,13 @@ async function bootstrap() {
     type: VersioningType.URI,
   });
 
+  useContainer(app.select(AppModule), {
+    fallbackOnErrors: true
+  });
+
   app.useGlobalPipes(new ValidationPipe(validationOptions));
+
+  app.use(cookieParser());
 
   const options = new DocumentBuilder()
     .setTitle('Taral API')
