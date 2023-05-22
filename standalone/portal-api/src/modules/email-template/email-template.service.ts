@@ -12,7 +12,6 @@ import { ExceptionTitleList } from 'src/common/constants/exception-title-list.co
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { Pagination } from 'src/modules/paginate';
-import { EmailTemplateEntity } from './entities/email-template.entity';
 import { EmailTemplateEntityRepositoryToken } from './email-template.repository.provider';
 
 @Injectable()
