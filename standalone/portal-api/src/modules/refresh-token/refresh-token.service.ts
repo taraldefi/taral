@@ -19,6 +19,7 @@ import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-
 import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.interface';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { Pagination } from 'src/modules/paginate';
+import { RefreshTokenEntityRepositoryToken } from './refresh-token.repository.provider';
 
 const appConfig = config.get('app');
 const tokenConfig = config.get('jwt');
@@ -30,7 +31,7 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class RefreshTokenService {
   constructor(
-    @InjectRepository(RefreshTokenEntity)
+    @Inject(RefreshTokenEntityRepositoryToken)
     private readonly repository: RefreshTokenEntityRepository,
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
