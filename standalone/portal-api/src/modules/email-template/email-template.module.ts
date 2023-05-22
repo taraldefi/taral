@@ -6,6 +6,7 @@ import { EmailTemplateController } from 'src/modules/email-template/email-templa
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { EmailTemplateEntity } from './entities/email-template.entity';
+import { RefreshTokenEntityRepositoryProvider } from './email-template.repository.provider';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { EmailTemplateEntity } from './entities/email-template.entity';
   ],
   exports: [EmailTemplateService],
   controllers: [EmailTemplateController],
-  providers: [EmailTemplateService, UniqueValidatorPipe],
+  providers: [EmailTemplateService, UniqueValidatorPipe, RefreshTokenEntityRepositoryProvider],
 })
 export class EmailTemplateModule {}

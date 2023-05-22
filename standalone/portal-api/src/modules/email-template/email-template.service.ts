@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
@@ -13,13 +13,14 @@ import { StatusCodesList } from 'src/common/constants/status-codes-list.constant
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { Pagination } from 'src/modules/paginate';
 import { EmailTemplateEntity } from './entities/email-template.entity';
+import { EmailTemplateEntityRepositoryToken } from './email-template.repository.provider';
 
 @Injectable()
 export class EmailTemplateService
   implements CommonServiceInterface<EmailTemplate>
 {
   constructor(
-    @InjectRepository(EmailTemplateEntity)
+    @Inject(EmailTemplateEntityRepositoryToken)
     private readonly repository: EmailTemplateEntityRepository,
   ) {}
 

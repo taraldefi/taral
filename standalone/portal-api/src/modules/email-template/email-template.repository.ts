@@ -4,7 +4,9 @@ import { classToPlain, plainToClass } from 'class-transformer';
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { EmailTemplateEntity } from 'src/modules/email-template/entities/email-template.entity';
 import { EmailTemplate } from 'src/modules/email-template/serializer/email-template.serializer';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 @EntityRepository(EmailTemplateEntity)
 export class EmailTemplateEntityRepository extends BaseRepository<
   EmailTemplateEntity,
