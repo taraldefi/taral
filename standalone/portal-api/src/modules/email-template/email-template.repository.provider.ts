@@ -5,7 +5,7 @@ import { EmailTemplateEntityRepository } from "./email-template.repository";
 
 export const EmailTemplateEntityRepositoryToken = getRepositoryToken(EmailTemplateEntity);
 
-export const RefreshTokenEntityRepositoryProvider = {
+export const EmailTemplateEntityRepositoryProvider = {
     provide: EmailTemplateEntityRepositoryToken,
     useFactory: (connection: Connection) => connection.getCustomRepository(EmailTemplateEntityRepository),
     inject: [Connection]
