@@ -16,7 +16,7 @@ import {
   runOnTransactionComplete,
   runOnTransactionRollback,
   Transactional,
-} from '@modules/transaction';
+} from 'src/common/transaction';
 import { FileVersionRepository } from '../repositories/file-version.repository';
 import { FileRepository } from '../repositories/file.repository';
 import { UpdateFileDataDto } from '../dto/update-file-data.dto';

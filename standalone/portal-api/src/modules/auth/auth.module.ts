@@ -14,6 +14,8 @@ import { RefreshTokenModule } from 'src/modules/refresh-token/refresh-token.modu
 import { JwtTwoFactorStrategy } from 'src/common/strategy/jwt-two-factor.strategy';
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 import { UserEntity } from './entity/user.entity';
+import { UserEntityRepositoryProvider } from './user.repository.provider';
+import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
 
 const throttleConfig = config.get('throttle.login');
 const redisConfig = config.get('queue');
@@ -63,6 +65,8 @@ const LoginThrottleFactory = {
     JwtStrategy,
     UniqueValidatorPipe,
     LoginThrottleFactory,
+    UserEntityRepositoryProvider,
+    RoleEntityRepositoryProvider
   ],
   exports: [
     AuthService,

@@ -1,4 +1,4 @@
-import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { Inject, Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { Not, ObjectLiteral } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
@@ -16,6 +16,7 @@ import {
   RoutePayloadInterface,
 } from 'src/config/permission.config';
 import { LoadPermissionMisc } from 'src/modules/permission/misc/load-permission.misc';
+import { PermissionEntityRepositoryToken } from './permission.repository.provider';
 
 @Injectable()
 export class PermissionsService
@@ -23,7 +24,7 @@ export class PermissionsService
   implements CommonServiceInterface<Permission>
 {
   constructor(
-    @InjectRepository(PermissionEntity)
+    @Inject(PermissionEntityRepositoryToken)
     private repository: PermissionEntityRepository,
   ) {
     super();

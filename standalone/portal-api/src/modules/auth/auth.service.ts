@@ -43,6 +43,11 @@ import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { ValidationPayloadInterface } from 'src/common/interfaces/validation-error.interface';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
+import { UserEntityRepositoryToken } from './user.repository.provider';
+import { RoleEntity } from '../role/entities/role.entity';
+import { RoleEntityRepository } from '../role/role.repository';
+import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
+import { NORMAL_ROLE_ID } from '../../config/permission.config';
 
 const throttleConfig = config.get('throttle.login');
 const jwtConfig = config.get('jwt');
@@ -60,8 +65,11 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectRepository(UserEntity)
+    @Inject(UserEntityRepositoryToken)
     private readonly userRepository: UserEntityRepository,
+
+    @Inject(RoleEntityRepositoryToken)
+    private readonly roleRepository: RoleEntityRepository,
     private readonly jwt: JwtService,
     private readonly mailService: MailService,
     private readonly refreshTokenService: RefreshTokenService,
@@ -108,7 +116,10 @@ export class AuthService {
   ): Promise<UserSerializer> {
     const token = await this.generateUniqueToken(12);
     if (!createUserDto.status) {
-      createUserDto.roleId = 2;
+
+      var userRole  = await this.roleRepository.get(NORMAL_ROLE_ID)
+
+      createUserDto.role = userRole;
       const currentDateTime = new Date();
       currentDateTime.setHours(currentDateTime.getHours() + 1);
       createUserDto.tokenValidityDate = currentDateTime;

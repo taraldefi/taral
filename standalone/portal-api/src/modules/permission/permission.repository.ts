@@ -5,7 +5,9 @@ import { PermissionEntity } from 'src/modules/permission/entities/permission.ent
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { Permission } from 'src/modules/permission/serializer/permission.serializer';
 import { RoutePayloadInterface } from 'src/config/permission.config';
+import { Injectable } from '@nestjs/common';
 
+@Injectable()
 @EntityRepository(PermissionEntity)
 export class PermissionEntityRepository extends BaseRepository<
   PermissionEntity,

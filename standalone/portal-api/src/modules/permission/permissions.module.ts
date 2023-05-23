@@ -6,11 +6,12 @@ import { PermissionsController } from 'src/modules/permission/permissions.contro
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { PermissionEntity } from './entities/permission.entity';
+import { PermissionEntityRepositoryProvider } from './permission.repository.provider';
 
 @Module({
   imports: [TypeOrmModule.forFeature([PermissionEntity]), AuthModule],
   exports: [PermissionsService],
   controllers: [PermissionsController],
-  providers: [PermissionsService, UniqueValidatorPipe],
+  providers: [PermissionsService, UniqueValidatorPipe, PermissionEntityRepositoryProvider],
 })
 export class PermissionsModule {}

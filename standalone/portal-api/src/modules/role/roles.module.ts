@@ -7,6 +7,7 @@ import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { AuthModule } from 'src/modules/auth/auth.module';
 import { PermissionsModule } from 'src/modules/permission/permissions.module';
 import { RoleEntity } from './entities/role.entity';
+import { RoleEntityRepositoryProvider } from './role.repository.provider';
 
 @Module({
   imports: [
@@ -16,6 +17,6 @@ import { RoleEntity } from './entities/role.entity';
   ],
   exports: [],
   controllers: [RolesController],
-  providers: [RolesService, UniqueValidatorPipe],
+  providers: [RolesService, UniqueValidatorPipe, RoleEntityRepositoryProvider],
 })
 export class RolesModule {}
