@@ -15,6 +15,7 @@ import { JwtTwoFactorStrategy } from 'src/common/strategy/jwt-two-factor.strateg
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 import { UserEntity } from './entity/user.entity';
 import { UserEntityRepositoryProvider } from './user.repository.provider';
+import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
 
 const throttleConfig = config.get('throttle.login');
 const redisConfig = config.get('queue');
@@ -64,7 +65,8 @@ const LoginThrottleFactory = {
     JwtStrategy,
     UniqueValidatorPipe,
     LoginThrottleFactory,
-    UserEntityRepositoryProvider
+    UserEntityRepositoryProvider,
+    RoleEntityRepositoryProvider
   ],
   exports: [
     AuthService,

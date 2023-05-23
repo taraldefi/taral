@@ -49,15 +49,18 @@ export interface PermissionPayload {
   route: Array<RoutePayloadInterface>;
 }
 
+export const SUPERUSER_ROLE_ID = 1;
+export const NORMAL_ROLE_ID = 2;
+
 export const PermissionConfiguration: PermissionConfigInterface = {
   roles: [
     {
-      id: 1,
+      id: SUPERUSER_ROLE_ID,
       name: 'superuser',
       description: 'superuser of the system',
     },
     {
-      id: 2,
+      id: NORMAL_ROLE_ID,
       name: 'normal',
       description: 'normal user of the system',
     },
