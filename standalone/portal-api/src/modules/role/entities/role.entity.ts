@@ -1,7 +1,8 @@
-import { Column, Entity, Index, JoinTable, ManyToMany, Unique } from 'typeorm';
+import { Column, Entity, Index, JoinTable, ManyToMany, OneToMany, Unique } from 'typeorm';
 
 import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { PermissionEntity } from 'src/modules/permission/entities/permission.entity';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
 
 @Entity({
   name: 'rolea',
@@ -15,6 +16,10 @@ export class RoleEntity extends CustomBaseEntity {
 
   @Column('text')
   description: string;
+
+  
+  @OneToMany(() => UserEntity, (user) => user.role)
+  users: UserEntity[];
 
   @ManyToMany(() => PermissionEntity, (permission) => permission.role, {
     cascade: true,

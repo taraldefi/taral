@@ -6,6 +6,7 @@ import {
   Entity,
   Index,
   JoinColumn,
+  ManyToOne,
   OneToOne,
 } from 'typeorm';
 import bcrypt from 'bcrypt';
@@ -92,8 +93,9 @@ export class UserEntity extends CustomBaseEntity {
   })
   skipHashPassword = false;
 
-  @OneToOne(() => RoleEntity)
-  @JoinColumn()
+  @ManyToOne(() => RoleEntity, {
+    eager: true,
+  })
   role: RoleEntity;
 
   @Column()
