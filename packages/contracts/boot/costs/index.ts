@@ -1,6 +1,10 @@
 import {
     BaseNodeProvider,
-    BaseWebProvider, NodeContract, nodeProxy, WebContract, webProxy
+    BaseWebProvider,
+    NodeContract,
+    nodeProxy,
+    WebContract,
+    webProxy
 } from "lib-shared";
 import { CostsInterface } from "./abi";
 import type { CostsContract } from "./types";

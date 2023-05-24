@@ -1,6 +1,10 @@
 import {
     BaseNodeProvider,
-    BaseWebProvider, NodeContract, nodeProxy, WebContract, webProxy
+    BaseWebProvider,
+    NodeContract,
+    nodeProxy,
+    WebContract,
+    webProxy
 } from "lib-shared";
 import { Sip10FtStandardInterface } from "./abi";
 import type { Sip10FtStandardContract } from "./types";

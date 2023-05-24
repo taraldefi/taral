@@ -1,6 +1,10 @@
 import {
     BaseNodeProvider,
-    BaseWebProvider, NodeContract, nodeProxy, WebContract, webProxy
+    BaseWebProvider,
+    NodeContract,
+    nodeProxy,
+    WebContract,
+    webProxy
 } from "lib-shared";
 import { TaralOracleV1Interface } from "./abi";
 import type { TaralOracleV1Contract } from "./types";

@@ -1,4 +1,3 @@
-
 export interface CostsContract {
     cost_add: (n: number | bigint) => Promise<{
         read_count: bigint;
