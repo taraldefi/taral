@@ -33,6 +33,10 @@ import {
     nodeTaralPurchaseOrderInfo,
     webTaralPurchaseOrderInfo
 } from "./taral-purchase-order";
+import {
+    nodeTaralPurchaseOrderNftInfo,
+    webTaralPurchaseOrderNftInfo
+} from "./taral-purchase-order-nft";
 import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
 export type { BtcFtSwapContract } from "./btc-ft-swap";
 export type { BtcNftSwapContract } from "./btc-nft-swap";
@@ -48,6 +52,7 @@ export type { TaralExporterContract } from "./taral-exporter";
 export type { TaralImporterContract } from "./taral-importer";
 export type { TaralOracleV1Contract } from "./taral-oracle-v1";
 export type { TaralPurchaseOrderContract } from "./taral-purchase-order";
+export type { TaralPurchaseOrderNftContract } from "./taral-purchase-order-nft";
 export type { TaralStorageContract } from "./taral-storage";
 
 export const nodeTaralContracts = {
@@ -66,6 +71,7 @@ export const nodeTaralContracts = {
     nodeTaralImporter: nodeTaralImporterInfo,
     nodeTaralExporter: nodeTaralExporterInfo,
     nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
+    nodeTaralPurchaseOrderNft: nodeTaralPurchaseOrderNftInfo,
 };
 
 export const webTaralContracts = {
@@ -84,4 +90,5 @@ export const webTaralContracts = {
     webTaralImporter: webTaralImporterInfo,
     webTaralExporter: webTaralExporterInfo,
     webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
+    webTaralPurchaseOrderNft: webTaralPurchaseOrderNftInfo,
 };

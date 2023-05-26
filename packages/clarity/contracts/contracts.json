@@ -26,7 +26,8 @@
         "taral-storage",
         "taral-importer",
         "taral-exporter",
-        "taral-purchase-order"
+        "taral-purchase-order",
+        "taral-purchase-order-nft"
       ]
     }
   ]
