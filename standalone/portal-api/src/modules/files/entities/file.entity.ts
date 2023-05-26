@@ -4,9 +4,13 @@ import {
   PrimaryGeneratedColumn,
   AfterLoad,
   AfterInsert,
+  OneToMany,
+  ManyToMany,
 } from 'typeorm';
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
+import { FileVersionEntity } from './file-version.entity';
+import { FileParticipantEntity } from './file-participant.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
@@ -24,6 +28,15 @@ export class FileEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   last_updated: Date;
+
+  @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
+  versions: FileVersionEntity[];
+
+  @ManyToMany(
+    () => FileParticipantEntity,
+    (fileParticipant) => fileParticipant.files,
+  )
+  participants: FileParticipantEntity[];
 
   @AfterLoad()
   @AfterInsert()

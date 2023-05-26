@@ -13,7 +13,7 @@ import {
   runOnTransactionComplete,
   runOnTransactionRollback,
   Transactional,
-} from '@modules/transaction';
+} from 'src/common/transaction';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
 import { EntityMappingService } from './mapping.service';
 import { UpdateEntityDto } from '../dto/request/update-entity.dto';
@@ -135,7 +135,11 @@ export class EntityService {
     const storage = Storage.disk('files');
     const onDiskFilename = `${imageUUID}.png`;
 
-    const storageResponse = await storage.put(onDiskFilename, data.logo.buffer);
+    if (data.logo) {
+      const _ = await storage.put(onDiskFilename, data.logo.buffer);
+    } else {
+      console.log('No logo provided for entity');
+    }
 
     const entityProducts = await this.createProducts();
     const entityApplications = await this.createApplications();
@@ -150,7 +154,10 @@ export class EntityService {
     entity.industryType = data.industryType;
     entity.legalForm = data.legalForm;
     entity.nationality = data.nationality;
-    entity.logo = imageUUID;
+
+    if (data.logo) {
+      entity.logo = imageUUID;
+    }
 
     entityProducts.forEach((product) => (product.legalEntity = entity));
     entityApplications.forEach(

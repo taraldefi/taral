@@ -21,12 +21,19 @@
     "noFallthroughCasesInSwitch": false,
     "esModuleInterop": true,
     "paths": {
+      "@libs/storage": ["../../libs/storage"],
+      "@libs/stacks": ["../../libs/stacks"],
+      "taral-configuration": ["../../packages/configuration"],
+      "lib-shared": ["../../libs/shared"],
+      "lib-stacks": ["../../libs/stacks"],
+      "lib-api": ["../../libs/api"],
+      "taral-contracts": ["../../packages/contracts"],
       "@modules/multipart": ["../modules/multipart"],
-      "@modules/transaction": ["../modules/transaction"],
       "@modules/storage": ["../modules/storage"],
       "@modules/events": ["../modules/events"],
       "@modules/telemetry": ["../modules/telemetry"],
       "@modules/cron": ["../modules/cron"]
     }
-  }
+  },
+  "exclude": ["node_modules", "dist"]
 }

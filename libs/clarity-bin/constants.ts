@@ -2,7 +2,7 @@
  * Should correspond to both a git tag on the blockstack-core repo and a
  * set of clarity-binary distributables uploaded to the cloud storage endpoint.
  */
-export const CORE_SDK_TAG = "2.0.11.3.0";
+export const CORE_SDK_TAG = "2.3.0.0.2";
 
 export const BLOCKSTACK_CORE_SOURCE_PATH_ENV_VAR =
     "BLOCKSTACK_CORE_SOURCE_PATH";

@@ -16,6 +16,8 @@ updates:
       - dependency-name: "chalk"
       - dependency-name: "jest"
       - dependency-name: "ts-jest"
+      - dependency-name: "typeorm"
+      - dependency-name: "@nestjs/typeorm"
     commit-message:
       # Prefix all commit messages with "npm"
       prefix: "npm"
