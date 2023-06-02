@@ -1,4 +1,4 @@
-(impl-trait .sip-10-ft-standard.sip-010-trait)
+(impl-trait .ft-trait.ft-trait)
 
 ;; define the fungible token TAL with a max supply of one billion
 (define-fungible-token taral-token u1000000000000000)

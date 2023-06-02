@@ -1,4 +1,4 @@
-(use-trait fungible-token .sip-10-ft-standard.sip-010-trait)
+(use-trait fungible-token .ft-trait.ft-trait)
 (define-constant expiry u100)
 (define-map swaps uint {sats: uint, btc-receiver: (buff 40), amount: uint, ft-receiver: (optional principal), ft-sender: principal, when: uint, done: uint, ft: principal})
 (define-data-var next-id uint u0)

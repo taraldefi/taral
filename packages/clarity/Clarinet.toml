@@ -2,35 +2,31 @@
 name = "clarinet"
 
 [contracts.usda-token]
-depends_on = ["sip-010-trait-ft-standard"]
+depends_on = ["ft-trait"]
 path = "contracts/external/arkadiko/usda-token.clar"
 
-[contracts.sip-010-trait-ft-standard]
+[contracts.ft-trait]
 depends_on = []
-path = "contracts/external/arkadiko/sip-010-trait-ft-standard.clar"
-
-[contracts.sip-10-ft-standard]
-depends_on = []
-path = "contracts/taral/sip-10-ft-standard.clar"
+path = "contracts/traits/ft-trait.clar"
 
 [contracts.nft-trait]
 depends_on = []
-path = "contracts/taral/nft-trait.clar"
+path = "contracts/traits/nft-trait.clar"
 
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
 path = "contracts/taral/taral-coin.clar"
 
 [contracts.clarity-bitcoin]
-path = "contracts/taral/clarity-bitcoin.clar"
+path = "contracts/bitcoin/clarity-bitcoin.clar"
 depends_on = []
 
 [contracts.btc-ft-swap]
-path = "contracts/taral/btc-ft-swap.clar"
-depends_on = ["sip-10-ft-standard", "clarity-bitcoin"]
+path = "contracts/bitcoin/btc-ft-swap.clar"
+depends_on = ["ft-trait", "clarity-bitcoin"]
 
 [contracts.btc-nft-swap]
-path = "contracts/taral/btc-nft-swap.clar"
+path = "contracts/bitcoin/btc-nft-swap.clar"
 depends_on = ["nft-trait", "clarity-bitcoin"]
 
 [contracts.taral-oracle-v1]
@@ -38,20 +34,20 @@ depends_on = []
 path = "contracts/taral/taral-oracle-v1.clar"
 
 [contracts.insurance-pool-oracle]
-path = "contracts/taral/insurance-pool-oracle.clar"
+path = "contracts/pool/insurance-pool-oracle.clar"
 depends_on = []
 
 [contracts.insurance-pool-audit-compact]
-path = "contracts/taral/insurance-pool-audit-compact.clar"
+path = "contracts/pool/insurance-pool-audit-compact.clar"
 depends_on = ["clarity-bitcoin"]
 
 [contracts.insurance-pool-audit]
-path = "contracts/taral/insurance-pool-audit.clar"
+path = "contracts/pool/insurance-pool-audit.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
 
 
 [contracts.insurance-pool-admin]
-path = "contracts/taral/insurance-pool-admin.clar"
+path = "contracts/pool/insurance-pool-admin.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 
 [contracts.taral-storage]
