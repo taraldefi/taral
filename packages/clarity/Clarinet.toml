@@ -61,7 +61,7 @@ path = "contracts/storage/importer-storage.clar"
 
 [contracts.taral-importer-v1]
 path = "contracts/taral/taral-importer-v1.clar"
-depends_on=["importer-storage"]
+depends_on=["importer-storage", "importer-trait"]
 
 [contracts.taral-importer]
 path = "contracts/taral/taral-importer.clar"

@@ -24,7 +24,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -53,7 +53,7 @@ Clarinet.test({
     // act
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -65,7 +65,7 @@ Clarinet.test({
     ]);
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -74,11 +74,37 @@ Clarinet.test({
         ],
         deployer.address
       ),
-    ]);
+    ]); 
     let [receipt] = block.receipts;
 
     // Assert
-    receipt.result.expectErr().expectUint(102); // ERR-IMPORTER-ALREADY-REGISTERED
+    receipt.result.expectErr().expectUint(101); // ERR-IMPORTER-ALREADY-REGISTERED
+  },
+});
+
+Clarinet.test({
+  name: "Ensure that importer storage function works",
+  async fn(chain: Chain, accounts: Map<string, Account>) {
+    //arrange
+    let deployer = accounts.get("deployer")!;
+    let importer_wallet = accounts.get("wallet_1")!;
+
+    //act
+    let block = chain.mineBlock([
+      Tx.contractCall(
+        "importer-storage",
+        "get-importer-by-principal",
+        [
+          types.principal(importer_wallet.address),
+        ],
+        deployer.address
+      ),
+    ]);
+    let [receipt] = block.receipts;
+    console.log("-------------NEW IMPORTER TEST----------",receipt)
+
+    // Assert
+    assertEquals(receipt.result, "none");
   },
 });
 
@@ -87,17 +113,17 @@ Clarinet.test({
   async fn(chain: Chain, accounts: Map<string, Account>) {
     //arrange
     let deployer = accounts.get("deployer")!;
-    let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+    let importer_wallet = accounts.get("wallet_1")!;
     let importer_name = "ALPS Logistics";
     let importer_category = "Merchant";
 
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
-          types.principal(importer_wallet),
+          types.principal(importer_wallet.address),
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
@@ -105,7 +131,7 @@ Clarinet.test({
       ),
     ]);
     let [receipt] = block.receipts;
-
+    console.log("-------------NEW IMPORTER TEST----------",receipt)
     // Assert
     receipt.result.expectOk().expectBool(true);
   },
@@ -122,7 +148,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -135,7 +161,7 @@ Clarinet.test({
 
     //act
     let receipt = chain.callReadOnlyFn(
-      "taral-importer",
+      "importer-storage",
       "get-importer-profile",
       [types.principal(importer_wallet)],
       deployer.address
@@ -157,7 +183,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -170,8 +196,8 @@ Clarinet.test({
 
     //act
     let receipt = chain.callReadOnlyFn(
-      "taral-importer",
-      "get-next-importer-id",
+      "importer-storage",
+      "get-importer-id-nonce",
       [],
       deployer.address
     );
@@ -192,7 +218,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer1_wallet),
@@ -209,7 +235,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer2_wallet),
@@ -229,7 +255,7 @@ Clarinet.test({
     ]);
 
     let receipt = chain.callReadOnlyFn(
-      "taral-importer",
+      "importer-storage",
       "get-importers",
       [importerList],
       deployer.address
@@ -263,7 +289,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
         deployer.address
@@ -273,7 +299,7 @@ Clarinet.test({
     let receipt = block.receipts[0];
 
     // Assert
-    receipt.result.expectErr().expectUint(121); // ERR-IMPORTER-NOT-REGISTERED
+    receipt.result.expectErr().expectUint(102); // ERR-IMPORTER-NOT-REGISTERED
   },
 });
 
@@ -355,7 +381,7 @@ Clarinet.test({
     //act
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -365,7 +391,7 @@ Clarinet.test({
         deployer.address
       ),
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
         deployer.address
@@ -390,7 +416,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer_wallet),
@@ -400,7 +426,7 @@ Clarinet.test({
         deployer.address
       ),
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
         deployer.address
@@ -409,7 +435,7 @@ Clarinet.test({
 
     //act
     let receipt = chain.callReadOnlyFn(
-      "taral-importer",
+      "importer-storage",
       "get-importer-order",
       [types.uint(0), types.principal(importer_wallet)],
       deployer.address
@@ -431,7 +457,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer1_wallet),
@@ -447,7 +473,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "register",
         [
           types.principal(importer2_wallet),
@@ -462,7 +488,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new1_order_id), types.principal(importer1_wallet)],
         deployer.address
@@ -472,7 +498,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new2_order_id), types.principal(importer1_wallet)],
         deployer.address
@@ -482,7 +508,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new3_order_id), types.principal(importer2_wallet)],
         deployer.address
@@ -492,7 +518,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-importer",
+        "taral-importer-v1",
         "append-order",
         [types.uint(new4_order_id), types.principal(importer2_wallet)],
         deployer.address
@@ -515,17 +541,11 @@ Clarinet.test({
     ]);
 
     let receipt = chain.callReadOnlyFn(
-      "taral-importer",
+      "importer-storage",
       "get-importer-orders",
       [orderList, importerList],
       deployer.address
     );
-
-    // Assert
-     console.log("----------OLD CONTRACT------------",receipt);
-    
-
-
     let arrSome = receipt.result.matchAll(/some/gi); // RegExpMatchArray
     let arrSomeCount = 0;
     for (let arr of arrSome) {
