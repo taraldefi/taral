@@ -56,12 +56,22 @@ path = "contracts/taral/taral-storage.clar"
 [contracts.importer-trait]
 path="contracts/traits/importer-trait.clar"
 
+[contracts.exporter-trait]
+path="contracts/traits/exporter-trait.clar"
+
 [contracts.importer-storage]
 path = "contracts/storage/importer-storage.clar"
+
+[contracts.exporter-storage]
+path = "contracts/storage/exporter-storage.clar"
 
 [contracts.taral-importer-v1]
 path = "contracts/taral/taral-importer-v1.clar"
 depends_on=["importer-storage", "importer-trait"]
+
+[contracts.taral-exporter-v1]
+path = "contracts/taral/taral-exporter-v1.clar"
+depends_on=["exporter-storage", "exporter-trait"]
 
 [contracts.taral-importer]
 path = "contracts/taral/taral-importer.clar"
