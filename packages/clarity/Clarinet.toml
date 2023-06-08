@@ -5,6 +5,7 @@ name = "clarinet"
 depends_on = ["ft-trait"]
 path = "contracts/external/arkadiko/usda-token.clar"
 
+# Traits
 [contracts.ft-trait]
 depends_on = []
 path = "contracts/traits/ft-trait.clar"
@@ -12,6 +13,29 @@ path = "contracts/traits/ft-trait.clar"
 [contracts.nft-trait]
 depends_on = []
 path = "contracts/traits/nft-trait.clar"
+
+[contracts.importer-trait]
+path="contracts/traits/importer-trait.clar"
+
+[contracts.exporter-trait]
+path="contracts/traits/exporter-trait.clar"
+
+[contracts.storage-service-trait]
+depends_on = []
+path="contracts/traits/storage-service-trait.clar"
+
+# Storage
+[contracts.taral-storage]
+path = "contracts/taral/taral-storage.clar"
+
+[contracts.importer-storage]
+path = "contracts/storage/importer-storage.clar"
+
+[contracts.exporter-storage]
+path = "contracts/storage/exporter-storage.clar"
+
+[contracts.taral-file-storage]
+path = "contracts/storage/taral-file-storage.clar"
 
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
@@ -50,20 +74,9 @@ depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
 path = "contracts/pool/insurance-pool-admin.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 
-[contracts.taral-storage]
-path = "contracts/taral/taral-storage.clar"
-
-[contracts.importer-trait]
-path="contracts/traits/importer-trait.clar"
-
-[contracts.exporter-trait]
-path="contracts/traits/exporter-trait.clar"
-
-[contracts.importer-storage]
-path = "contracts/storage/importer-storage.clar"
-
-[contracts.exporter-storage]
-path = "contracts/storage/exporter-storage.clar"
+[contracts.storage-service]
+path = "contracts/taral/storage-service.clar"
+depends_on=["storage-service-trait", "taral-file-storage"]
 
 [contracts.taral-importer-v1]
 path = "contracts/taral/taral-importer-v1.clar"
