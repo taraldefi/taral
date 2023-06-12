@@ -125,7 +125,7 @@
 )
 
 (define-read-only (validate-signature (hash (buff 32)) (signature (buff 65)) (signer principal))
-	(is-eq (principal-of? (unwrap! (secp256k1-recover? hash signature) false) ) (ok signer))
+    (is-eq (principal-of? (unwrap! (secp256k1-recover? hash signature) false) ) (ok signer))    
 )
 
 ;; Checks to see if a transfer should be restricted.  If so returns an error code that specifies restriction type.
@@ -428,7 +428,10 @@
 
         ;; check that the signature is not empty
         (asserts! (> (len signature) u0) ERR_EMPTY_SIGNATURE)
-    
+        
+        ;; validate that this register file payload has been signed
+        (asserts! (validate-signature message-hash-for-signature signature tx-sender) ERR_INVALID_SIGNATURE)
+        
         ;; Add a new file version
         ;;
         (unwrap! (contract-call? .taral-file-storage set-file-versions (get id original-file) hash tx-sender ) ERR-CONTRACT-CALL)
@@ -459,7 +462,7 @@
 
 ;; Check to ensure that the same account that deployed the contract is initializing it
 ;; Only allow this funtion to be called once by checking "is-initialized"
-(define-public (initialize (name-to-set (string-ascii 32)) (symbol-to-set (string-ascii 32) ) (decimals-to-set uint) (initial-owner principal))
+(define-public (initialize (initial-owner principal))
   (begin
     (asserts! (is-some (some initial-owner)) ERR_INVALID_PRINCIPAL)
     (asserts! (is-eq tx-sender (var-get deployer-principal)) (err PERMISSION_DENIED_ERROR))
