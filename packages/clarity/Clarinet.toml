@@ -2,20 +2,40 @@
 name = "clarinet"
 
 [contracts.usda-token]
-depends_on = ["sip-010-trait-ft-standard"]
-path = "contracts/external/arkadiko/usda-token.clar"
+depends_on = ["ft-trait"]
+path = "contracts/taral/usda-token.clar"
 
-[contracts.sip-010-trait-ft-standard]
+# Traits
+[contracts.ft-trait]
 depends_on = []
-path = "contracts/external/arkadiko/sip-010-trait-ft-standard.clar"
-
-[contracts.sip-10-ft-standard]
-depends_on = []
-path = "contracts/taral/sip-10-ft-standard.clar"
+path = "contracts/taral/ft-trait.clar"
 
 [contracts.nft-trait]
 depends_on = []
 path = "contracts/taral/nft-trait.clar"
+
+[contracts.importer-trait]
+path="contracts/taral/importer-trait.clar"
+
+[contracts.exporter-trait]
+path="contracts/taral/exporter-trait.clar"
+
+[contracts.storage-service-trait]
+depends_on = []
+path="contracts/taral/storage-service-trait.clar"
+
+# Storage
+[contracts.taral-storage]
+path = "contracts/taral/taral-storage.clar"
+
+[contracts.importer-storage]
+path = "contracts/taral/importer-storage.clar"
+
+[contracts.exporter-storage]
+path = "contracts/taral/exporter-storage.clar"
+
+[contracts.taral-file-storage]
+path = "contracts/taral/taral-file-storage.clar"
 
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
@@ -27,7 +47,7 @@ depends_on = []
 
 [contracts.btc-ft-swap]
 path = "contracts/taral/btc-ft-swap.clar"
-depends_on = ["sip-10-ft-standard", "clarity-bitcoin"]
+depends_on = ["ft-trait", "clarity-bitcoin"]
 
 [contracts.btc-nft-swap]
 path = "contracts/taral/btc-nft-swap.clar"
@@ -54,8 +74,17 @@ depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
 path = "contracts/taral/insurance-pool-admin.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 
-[contracts.taral-storage]
-path = "contracts/taral/taral-storage.clar"
+[contracts.storage-service]
+path = "contracts/taral/storage-service.clar"
+depends_on=["storage-service-trait", "taral-file-storage"]
+
+[contracts.taral-importer-v1]
+path = "contracts/taral/taral-importer-v1.clar"
+depends_on=["importer-storage", "importer-trait"]
+
+[contracts.taral-exporter-v1]
+path = "contracts/taral/taral-exporter-v1.clar"
+depends_on=["exporter-storage", "exporter-trait"]
 
 [contracts.taral-importer]
 path = "contracts/taral/taral-importer.clar"
