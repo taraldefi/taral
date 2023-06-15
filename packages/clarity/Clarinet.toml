@@ -3,54 +3,54 @@ name = "clarinet"
 
 [contracts.usda-token]
 depends_on = ["ft-trait"]
-path = "contracts/external/arkadiko/usda-token.clar"
+path = "contracts/taral/usda-token.clar"
 
 # Traits
 [contracts.ft-trait]
 depends_on = []
-path = "contracts/traits/ft-trait.clar"
+path = "contracts/taral/ft-trait.clar"
 
 [contracts.nft-trait]
 depends_on = []
-path = "contracts/traits/nft-trait.clar"
+path = "contracts/taral/nft-trait.clar"
 
 [contracts.importer-trait]
-path="contracts/traits/importer-trait.clar"
+path="contracts/taral/importer-trait.clar"
 
 [contracts.exporter-trait]
-path="contracts/traits/exporter-trait.clar"
+path="contracts/taral/exporter-trait.clar"
 
 [contracts.storage-service-trait]
 depends_on = []
-path="contracts/traits/storage-service-trait.clar"
+path="contracts/taral/storage-service-trait.clar"
 
 # Storage
 [contracts.taral-storage]
 path = "contracts/taral/taral-storage.clar"
 
 [contracts.importer-storage]
-path = "contracts/storage/importer-storage.clar"
+path = "contracts/taral/importer-storage.clar"
 
 [contracts.exporter-storage]
-path = "contracts/storage/exporter-storage.clar"
+path = "contracts/taral/exporter-storage.clar"
 
 [contracts.taral-file-storage]
-path = "contracts/storage/taral-file-storage.clar"
+path = "contracts/taral/taral-file-storage.clar"
 
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
 path = "contracts/taral/taral-coin.clar"
 
 [contracts.clarity-bitcoin]
-path = "contracts/bitcoin/clarity-bitcoin.clar"
+path = "contracts/taral/clarity-bitcoin.clar"
 depends_on = []
 
 [contracts.btc-ft-swap]
-path = "contracts/bitcoin/btc-ft-swap.clar"
+path = "contracts/taral/btc-ft-swap.clar"
 depends_on = ["ft-trait", "clarity-bitcoin"]
 
 [contracts.btc-nft-swap]
-path = "contracts/bitcoin/btc-nft-swap.clar"
+path = "contracts/taral/btc-nft-swap.clar"
 depends_on = ["nft-trait", "clarity-bitcoin"]
 
 [contracts.taral-oracle-v1]
@@ -58,20 +58,20 @@ depends_on = []
 path = "contracts/taral/taral-oracle-v1.clar"
 
 [contracts.insurance-pool-oracle]
-path = "contracts/pool/insurance-pool-oracle.clar"
+path = "contracts/taral/insurance-pool-oracle.clar"
 depends_on = []
 
 [contracts.insurance-pool-audit-compact]
-path = "contracts/pool/insurance-pool-audit-compact.clar"
+path = "contracts/taral/insurance-pool-audit-compact.clar"
 depends_on = ["clarity-bitcoin"]
 
 [contracts.insurance-pool-audit]
-path = "contracts/pool/insurance-pool-audit.clar"
+path = "contracts/taral/insurance-pool-audit.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-oracle"]
 
 
 [contracts.insurance-pool-admin]
-path = "contracts/pool/insurance-pool-admin.clar"
+path = "contracts/taral/insurance-pool-admin.clar"
 depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 
 [contracts.storage-service]
