@@ -74,7 +74,7 @@
   "homepage": "https://github.com/taraldefi/taral#readme",
   "devDependencies": {
     "@types/elliptic": "^6.4.14",
-    "@types/node": "^18.13.0",
+    "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
     "@typescript-eslint/parser": "^5.59.11",
     "codecov": "^3.8.1",
