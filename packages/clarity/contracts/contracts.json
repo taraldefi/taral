@@ -2,32 +2,36 @@
   "outputDirectory": "packages/contracts",
   "configuration": [
     {
-      "name": "Arkadiko",
-      "description": "External arkadiko contracts used for development purposes only",
-      "subfolder": "external/arkadiko",
-      "contracts": ["sip-010-trait-ft-standard", "usda-token"]
-    },
-    {
       "name": "Taral",
       "description": "Taral smart contracts",
       "subfolder": "taral",
       "contracts": [
-        "sip-10-ft-standard",
-        "nft-trait",
-        "taral-coin",
         "clarity-bitcoin",
-        "btc-ft-swap",
-        "btc-nft-swap",
-        "taral-oracle-v1",
+        "exporter-trait",
+        "ft-trait",
+        "importer-trait",
+        "nft-trait",
+        "storage-service-trait",
         "insurance-pool-oracle",
         "insurance-pool-audit-compact",
         "insurance-pool-audit",
         "insurance-pool-admin",
-        "taral-storage",
-        "taral-importer",
+        "exporter-storage",
+        "importer-storage",
+        "taral-file-storage",
+        "btc-ft-swap",
+        "btc-nft-swap",
+        "storage-service",
+        "taral-coin",
+        "taral-exporter-v1",
         "taral-exporter",
+        "taral-importer",
+        "taral-importer-v1",
+        "taral-oracle-v1",
         "taral-purchase-order",
-        "taral-purchase-order-nft"
+        "taral-purchase-order-nft",
+        "taral-storage",
+        "usda-token"
       ]
     }
   ]
