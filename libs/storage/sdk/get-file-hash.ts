@@ -1,11 +1,11 @@
 import { Logger } from "lib-shared";
-import { TaralStorageContract } from "taral-contracts";
+import { StorageServiceContract } from "taral-contracts";
 
 export async function getFileHash(
     fileId: string,
-    contract: TaralStorageContract
+    contract: StorageServiceContract
 ): Promise<string | undefined> {
-    const response = await contract.getFileHash(fileId);
+    const response = await contract.getHash(fileId);
     Logger.debug("get-file-hash", "Received result ", response);
 
     if (response.isErr()) {
