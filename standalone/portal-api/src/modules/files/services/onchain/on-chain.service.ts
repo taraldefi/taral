@@ -7,7 +7,7 @@ import {
   IStorageFileWriteInterrogation,
 } from '@libs/storage';
 import { ConfigService } from '@nestjs/config';
-import { nodeTaralContracts, TaralStorageContract } from 'taral-contracts';
+import { nodeTaralContracts, StorageServiceContract } from 'taral-contracts';
 import { ApiProvider } from 'lib-api';
 import { StacksMainnet, StacksNetwork, StacksTestnet } from '@stacks/network';
 import { ClarinetAccount, NodeContractInstance } from 'lib-shared';
@@ -23,7 +23,7 @@ export class OnChainService {
   private readonly Mainnet: StacksNetwork = new StacksMainnet();
 
   private storageContract: NodeContractInstance<
-    (account: ClarinetAccount) => TaralStorageContract
+    (account: ClarinetAccount) => StorageServiceContract
   >;
 
   private storageContractCreated: boolean;
@@ -106,7 +106,7 @@ export class OnChainService {
   }
 
   private async getStorageContract(): Promise<
-    NodeContractInstance<(account: ClarinetAccount) => TaralStorageContract>
+    NodeContractInstance<(account: ClarinetAccount) => StorageServiceContract>
   > {
     if (this.storageContractCreated) {
       return this.storageContract;
@@ -119,7 +119,7 @@ export class OnChainService {
   }
 
   private async produceContract(): Promise<
-    NodeContractInstance<(account: ClarinetAccount) => TaralStorageContract>
+    NodeContractInstance<(account: ClarinetAccount) => StorageServiceContract>
   > {
     const network = this.configService.get('onchain.network');
 

@@ -15,14 +15,14 @@ import {
     ClarityBitcoinContract,
     NftTraitContract,
     nodeTaralContracts,
-    Sip10FtStandardContract,
+    FtTraitContract,
     TaralCoinContract,
-    TaralStorageContract
+    StorageServiceContract
 } from "taral-contracts";
 
 export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 
-export let taralStorage: (account: ClarinetAccount) => TaralStorageContract;
+export let taralStorage: (account: ClarinetAccount) => StorageServiceContract;
 
 export let clarityBitcoinContract: (
     account: ClarinetAccount
@@ -32,13 +32,13 @@ export let clarinetAccounts: ClarinetAccounts;
 
 export let deployed: NodeContractInstances<
     {
-        nodeSip10FtStandard: NodeContract<Sip10FtStandardContract>;
+        nodeFtTrait: NodeContract<FtTraitContract>;
         nodeNftTrait: NodeContract<NftTraitContract>;
         nodeTaralCoin: NodeContract<TaralCoinContract>;
         nodeClarityBitcoin: NodeContract<ClarityBitcoinContract>;
         nodeBtcFtSwap: NodeContract<BtcFtSwapContract>;
         nodeBtcNftSwap: NodeContract<BtcNftSwapContract>;
-        nodeTaralStorage: NodeContract<TaralStorageContract>;
+        nodeTaralStorage: NodeContract<StorageServiceContract>;
     },
     unknown
 >;
