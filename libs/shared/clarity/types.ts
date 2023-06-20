@@ -12,6 +12,7 @@ export interface ClarityAbiMap {
 }
 export interface ClarityAbi extends Omit<_ClarityAbi, "maps"> {
     maps: ClarityAbiMap[];
+    epoch: string;
     clarity_version?: string;
 }
 
