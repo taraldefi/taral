@@ -38,7 +38,7 @@ export let deployed: NodeContractInstances<
         nodeClarityBitcoin: NodeContract<ClarityBitcoinContract>;
         nodeBtcFtSwap: NodeContract<BtcFtSwapContract>;
         nodeBtcNftSwap: NodeContract<BtcNftSwapContract>;
-        nodeTaralStorage: NodeContract<StorageServiceContract>;
+        nodeStorageService: NodeContract<StorageServiceContract>;
     },
     unknown
 >;
@@ -61,7 +61,7 @@ beforeAll(async () => {
 
     Logger.debug("jest-setup", "Deployed contracts to priv. testnet");
     talToken = deployed.nodeTaralCoin.contract;
-    taralStorage = deployed.nodeTaralStorage.contract;
+    taralStorage = deployed.nodeStorageService.contract;
     clarityBitcoinContract = deployed.nodeClarityBitcoin.contract;
     btcFtSwapContract = deployed.nodeBtcFtSwap.contract;
 }, 3000000);
