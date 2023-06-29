@@ -8,7 +8,7 @@
     "node": ">=14"
   },
   "devDependencies": {
-    "typescript": "^5.0.4"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
     "taral-configuration": "1.0.0",
