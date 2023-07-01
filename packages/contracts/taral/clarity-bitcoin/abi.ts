@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const ClarityBitcoinInterface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "read_only",

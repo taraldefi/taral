@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const ImporterStorageInterface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "private",
@@ -57,6 +55,14 @@
           "type": "uint128"
         },
         {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        },
+        {
           "name": "importer-name",
           "type": {
             "string-utf8": {
@@ -95,6 +101,14 @@
           "type": "uint128"
         },
         {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        },
+        {
           "name": "order-id",
           "type": "uint128"
         }
@@ -130,6 +144,14 @@
           "type": {
             "tuple": [
               {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
+              },
+              {
                 "name": "importer-id",
                 "type": "uint128"
               }
@@ -147,6 +169,10 @@
                     "length": 100
                   }
                 }
+              },
+              {
+                "name": "created",
+                "type": "uint128"
               },
               {
                 "name": "name",
@@ -207,6 +233,14 @@
         {
           "name": "importer",
           "type": "principal"
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
         }
       ],
       "name": "get-importer-order",
@@ -243,6 +277,19 @@
               "type": "principal"
             }
           }
+        },
+        {
+          "name": "hashes",
+          "type": {
+            "list": {
+              "length": 10,
+              "type": {
+                "buffer": {
+                  "length": 256
+                }
+              }
+            }
+          }
         }
       ],
       "name": "get-importer-orders",
@@ -270,6 +317,14 @@
         {
           "name": "importer",
           "type": "principal"
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
         }
       ],
       "name": "get-importer-profile",
@@ -284,6 +339,10 @@
                     "length": 100
                   }
                 }
+              },
+              {
+                "name": "created",
+                "type": "uint128"
               },
               {
                 "name": "name",
@@ -313,6 +372,19 @@
               "type": "principal"
             }
           }
+        },
+        {
+          "name": "hashes",
+          "type": {
+            "list": {
+              "length": 10,
+              "type": {
+                "buffer": {
+                  "length": 256
+                }
+              }
+            }
+          }
         }
       ],
       "name": "get-importers",
@@ -330,6 +402,10 @@
                         "length": 100
                       }
                     }
+                  },
+                  {
+                    "name": "created",
+                    "type": "uint128"
                   },
                   {
                     "name": "name",
@@ -366,6 +442,10 @@
                 }
               },
               {
+                "name": "created",
+                "type": "uint128"
+              },
+              {
                 "name": "name",
                 "type": {
                   "string-utf8": {
@@ -398,6 +478,14 @@
       "key": {
         "tuple": [
           {
+            "name": "hash",
+            "type": {
+              "buffer": {
+                "length": 256
+              }
+            }
+          },
+          {
             "name": "importer-id",
             "type": "uint128"
           }
@@ -413,6 +501,10 @@
                 "length": 100
               }
             }
+          },
+          {
+            "name": "created",
+            "type": "uint128"
           },
           {
             "name": "name",
@@ -432,6 +524,14 @@
     {
       "key": {
         "tuple": [
+          {
+            "name": "hash",
+            "type": {
+              "buffer": {
+                "length": 256
+              }
+            }
+          },
           {
             "name": "id",
             "type": "uint128"

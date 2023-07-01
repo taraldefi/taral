@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const TaralExporterV1Interface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "private",
@@ -33,6 +31,22 @@
         {
           "name": "exporter",
           "type": "principal"
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        },
+        {
+          "name": "signature",
+          "type": {
+            "buffer": {
+              "length": 65
+            }
+          }
         }
       ],
       "name": "append-order",
@@ -51,6 +65,22 @@
         {
           "name": "exporter",
           "type": "principal"
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        },
+        {
+          "name": "signature",
+          "type": {
+            "buffer": {
+              "length": 65
+            }
+          }
         },
         {
           "name": "exporter-name",
@@ -114,6 +144,56 @@
           }
         }
       }
+    },
+    {
+      "access": "read_only",
+      "args": [
+        {
+          "name": "message",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        }
+      ],
+      "name": "hash-message",
+      "outputs": {
+        "type": {
+          "buffer": {
+            "length": 32
+          }
+        }
+      }
+    },
+    {
+      "access": "read_only",
+      "args": [
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 32
+            }
+          }
+        },
+        {
+          "name": "signature",
+          "type": {
+            "buffer": {
+              "length": 65
+            }
+          }
+        },
+        {
+          "name": "signer",
+          "type": "principal"
+        }
+      ],
+      "name": "validate-signature",
+      "outputs": {
+        "type": "bool"
+      }
     }
   ],
   "fungible_tokens": [],
@@ -152,6 +232,36 @@
     },
     {
       "access": "constant",
+      "name": "ERR_EMPTY_HASH",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_EMPTY_SIGNATURE",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_SIGNATURE",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
       "name": "VERSION",
       "type": {
         "string-ascii": {
@@ -166,6 +276,15 @@
         "response": {
           "error": "uint128",
           "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "message-prefix",
+      "type": {
+        "buffer": {
+          "length": 23
         }
       }
     }

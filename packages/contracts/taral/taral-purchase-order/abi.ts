@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const TaralPurchaseOrderInterface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "private",
