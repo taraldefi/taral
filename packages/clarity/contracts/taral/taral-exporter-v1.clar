@@ -54,23 +54,15 @@
 (define-public (register 
     (exporter principal) 
     (hash (buff 256)) 
-    (signature (buff 65))
     (exporter-name (string-utf8 100)) 
     (exporter-category (string-utf8 100))
 )
-    (let (
-        ;; hash the hash for signature verification
-        (message-hash-for-signature (hash-message hash))
-        )
+    (begin
         (asserts! (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter)) ERR-EXPORTER-ALREADY-REGISTERED)
         (asserts! (> (len exporter-name) u0) ERR-GENERIC)
         (asserts! (> (len exporter-category) u0) ERR-GENERIC) 
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        ;; check that the signature is not empty
-        (asserts! (> (len signature) u0) ERR_EMPTY_SIGNATURE)
-        ;; validate that this register file payload has been signed
-        (asserts! (validate-signature message-hash-for-signature signature tx-sender) ERR_INVALID_SIGNATURE)
             
         (let ((exporter-id (unwrap! (get-or-create-exporter-id exporter) ERR-GENERIC)))
         (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id hash exporter-name exporter-category) exporter-storage-error)
@@ -87,23 +79,15 @@
     (new-order-id uint) 
     (exporter principal) 
     (hash (buff 256)) 
-    (signature (buff 65))
 )
     (let (
-        ;; hash the hash for signature verification
-        (message-hash-for-signature (hash-message hash))
-        (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter ) ERR-GENERIC))
+        (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter ) ERR-EXPORTER-NOT-REGISTERED))
         (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter hash) exporter-storage-error))
         (new-id (contract-call? .exporter-storage get-orders-next-avail-id current-exporter))
         )
         (asserts! (not (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter))) ERR-EXPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        ;; check that the signature is not empty
-        (asserts! (> (len signature) u0) ERR_EMPTY_SIGNATURE)
-        ;; validate that this register file payload has been signed
-        (asserts! (validate-signature message-hash-for-signature signature tx-sender) ERR_INVALID_SIGNATURE)
-          
         (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id, hash: hash} (merge current-exporter { orders-next-avail-id: (+ u1 new-id), created: block-height})) exporter-storage-error)
         (unwrap! (contract-call? .exporter-storage add-order new-id exporter-id hash new-order-id) exporter-storage-error)
         (print {action: "append-order", exporter: exporter, new-order-id: new-order-id  })

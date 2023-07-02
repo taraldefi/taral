@@ -4,8 +4,8 @@
   import { ClarityTypes } from 'lib-shared'
 
   export interface TaralExporterV1Contract {
-      appendOrder: (newOrderId: number | bigint, exporter: string, hash: Buffer, signature: Buffer) => Transaction<boolean, bigint>;
-  register: (exporter: string, hash: Buffer, signature: Buffer, exporterName: string, exporterCategory: string) => Transaction<boolean, bigint>;
+      appendOrder: (newOrderId: number | bigint, exporter: string, hash: Buffer) => Transaction<boolean, bigint>;
+  register: (exporter: string, hash: Buffer, exporterName: string, exporterCategory: string) => Transaction<boolean, bigint>;
   getInfo: () => Promise<ClarityTypes.Response<{
   "version": string
     }, null>>;

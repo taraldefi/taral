@@ -3,10 +3,10 @@
 ;; Constants and Errors
 (define-constant ERR-GENERIC (err u100))
 (define-constant ERR_INVALID_SIGNATURE (err u101))
-(define-constant ERR-importer-NOT-REGISTERED (err u102))
+(define-constant ERR-IMPORTER-NOT-REGISTERED (err u102))
 (define-constant ERR_EMPTY_HASH (err u103))
 (define-constant ERR_EMPTY_SIGNATURE (err u104))
-(define-constant ERR-importer-ALREADY-REGISTERED (err u105))
+(define-constant ERR-IMPORTER-ALREADY-REGISTERED (err u105))
 
 (define-constant importer-storage-error (err u106))
 
@@ -54,23 +54,15 @@
 (define-public (register 
     (importer principal) 
     (hash (buff 256)) 
-    (signature (buff 65))
     (importer-name (string-utf8 100)) 
     (importer-category (string-utf8 100))
 )
-    (let (
-        ;; hash the hash for signature verification
-        (message-hash-for-signature (hash-message hash))
-        )
-        (asserts! (is-none (contract-call? .importer-storage get-importer-by-principal importer)) ERR-importer-ALREADY-REGISTERED)
+    (begin
+        (asserts! (is-none (contract-call? .importer-storage get-importer-by-principal importer)) ERR-IMPORTER-ALREADY-REGISTERED)
         (asserts! (> (len importer-name) u0) ERR-GENERIC)
         (asserts! (> (len importer-category) u0) ERR-GENERIC) 
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        ;; check that the signature is not empty
-        (asserts! (> (len signature) u0) ERR_EMPTY_SIGNATURE)
-        ;; validate that this register file payload has been signed
-        (asserts! (validate-signature message-hash-for-signature signature tx-sender) ERR_INVALID_SIGNATURE)
             
         (let ((importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
         (unwrap! (contract-call? .importer-storage add-importer-profile importer-id hash importer-name importer-category) importer-storage-error)
@@ -87,23 +79,15 @@
     (new-order-id uint) 
     (importer principal) 
     (hash (buff 256)) 
-    (signature (buff 65))
 )
     (let (
-        ;; hash the hash for signature verification
-        (message-hash-for-signature (hash-message hash))
-        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-GENERIC))
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
         (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer hash) importer-storage-error))
         (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
         )
-        (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-importer-NOT-REGISTERED)
+        (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        ;; check that the signature is not empty
-        (asserts! (> (len signature) u0) ERR_EMPTY_SIGNATURE)
-        ;; validate that this register file payload has been signed
-        (asserts! (validate-signature message-hash-for-signature signature tx-sender) ERR_INVALID_SIGNATURE)
-          
         (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id, hash: hash} (merge current-importer { orders-next-avail-id: (+ u1 new-id), created: block-height})) importer-storage-error)
         (unwrap! (contract-call? .importer-storage add-order new-id importer-id hash new-order-id) importer-storage-error)
         (print {action: "append-order", importer: importer, new-order-id: new-order-id  })

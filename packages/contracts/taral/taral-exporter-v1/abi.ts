@@ -39,14 +39,6 @@
               "length": 256
             }
           }
-        },
-        {
-          "name": "signature",
-          "type": {
-            "buffer": {
-              "length": 65
-            }
-          }
         }
       ],
       "name": "append-order",
@@ -71,14 +63,6 @@
           "type": {
             "buffer": {
               "length": 256
-            }
-          }
-        },
-        {
-          "name": "signature",
-          "type": {
-            "buffer": {
-              "length": 65
             }
           }
         },

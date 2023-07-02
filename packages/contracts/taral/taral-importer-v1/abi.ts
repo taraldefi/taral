@@ -39,14 +39,6 @@
               "length": 256
             }
           }
-        },
-        {
-          "name": "signature",
-          "type": {
-            "buffer": {
-              "length": 65
-            }
-          }
         }
       ],
       "name": "append-order",
@@ -71,14 +63,6 @@
           "type": {
             "buffer": {
               "length": 256
-            }
-          }
-        },
-        {
-          "name": "signature",
-          "type": {
-            "buffer": {
-              "length": 65
             }
           }
         },
@@ -212,7 +196,7 @@
     },
     {
       "access": "constant",
-      "name": "ERR-importer-ALREADY-REGISTERED",
+      "name": "ERR-IMPORTER-ALREADY-REGISTERED",
       "type": {
         "response": {
           "error": "uint128",
@@ -222,7 +206,7 @@
     },
     {
       "access": "constant",
-      "name": "ERR-importer-NOT-REGISTERED",
+      "name": "ERR-IMPORTER-NOT-REGISTERED",
       "type": {
         "response": {
           "error": "uint128",
