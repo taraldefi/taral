@@ -46,7 +46,7 @@
     "execa": "^7.1.1",
     "husky": "^8.0.3",
     "jest": "^28.0.2",
-    "lint-staged": "^13.2.2",
+    "lint-staged": "^13.2.3",
     "prettier": "^2.8.4",
     "semantic-release": "^19.0.5",
     "ts-jest": "^27.0.5",
