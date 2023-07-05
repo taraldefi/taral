@@ -76,7 +76,7 @@
     "@types/elliptic": "^6.4.14",
     "@types/node": "^20.3.1",
     "@typescript-eslint/eslint-plugin": "^5.59.9",
-    "@typescript-eslint/parser": "^5.59.11",
+    "@typescript-eslint/parser": "^5.60.1",
     "codecov": "^3.8.1",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "^3.3.0",
