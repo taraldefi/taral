@@ -82,6 +82,16 @@ describe('Taral Exporter', () => {
     expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
   }, 3000000);
 
+  test('Ensure that exporter hash getter function works', async () => {
+    const message = 'This is a test message';
+    const messageHex = hashStacksMessage({ message });
+    const exporter_wallet = clarinetAccounts.wallet_1.address;
+    const buffer = Buffer.from(utf8ToBytes(messageHex));
+
+    const block_1 = await taral_exporter.getExporterHash(exporter_wallet);
+    expect(block_1.value).toEqual(`0x${buffer.toString('hex')}`);
+  }, 3000000);
+
   test('Ensure that exporter can register only once with unique wallet id', async () => {
     const message = 'This is also a test message';
     const messageHex = hashStacksMessage({ message });

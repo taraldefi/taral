@@ -95,6 +95,28 @@
     },
     {
       "access": "read_only",
+      "args": [
+        {
+          "name": "importer",
+          "type": "principal"
+        }
+      ],
+      "name": "get-importer-hash",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "uint128",
+            "ok": {
+              "buffer": {
+                "length": 256
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "access": "read_only",
       "args": [],
       "name": "get-info",
       "outputs": {
@@ -148,35 +170,6 @@
             "length": 32
           }
         }
-      }
-    },
-    {
-      "access": "read_only",
-      "args": [
-        {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 32
-            }
-          }
-        },
-        {
-          "name": "signature",
-          "type": {
-            "buffer": {
-              "length": 65
-            }
-          }
-        },
-        {
-          "name": "signer",
-          "type": "principal"
-        }
-      ],
-      "name": "validate-signature",
-      "outputs": {
-        "type": "bool"
       }
     }
   ],

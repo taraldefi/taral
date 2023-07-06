@@ -12,14 +12,17 @@
 
 ;; A buffer containing the ascii string "Stacks Signed Message: "
 (define-constant message-prefix 0x537461636b73205369676e6564204d6573736167653a20)
-(define-constant VERSION "0.2.5.beta")
+(define-constant VERSION "0.2.6.beta")
 
 (define-read-only (hash-message (message (buff 256)))
 	(sha256 (concat message-prefix message))
 )
 
-(define-read-only (validate-signature (hash (buff 32)) (signature (buff 65)) (signer principal))
-    (is-eq (principal-of? (unwrap! (secp256k1-recover? hash signature) false) ) (ok signer))    
+(define-read-only (get-exporter-hash (exporter principal))
+    (let 
+    ((current-exporter-profile (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter) exporter-storage-error)))           
+    (ok (get hash current-exporter-profile))
+    )
 )
 
 ;; @Desc function to fetch or create an exporter ID, makes use of match function to check if exporter id exists
@@ -88,7 +91,7 @@
         (asserts! (not (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter))) ERR-EXPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { hash: hash, orders-next-avail-id: (+ u1 new-id), created: block-height})) exporter-storage-error)
+        (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { orders-next-avail-id: (+ u1 new-id)})) exporter-storage-error)
         (unwrap! (contract-call? .exporter-storage add-order new-id exporter-id hash new-order-id) exporter-storage-error)
         (print {action: "append-order", exporter: exporter, new-order-id: new-order-id  })
         (ok true)

@@ -6,12 +6,12 @@
   export interface TaralExporterV1Contract {
       appendOrder: (newOrderId: number | bigint, exporter: string, hash: Buffer) => Transaction<boolean, bigint>;
   register: (exporter: string, exporterName: string, hash: Buffer, exporterCategory: string) => Transaction<boolean, bigint>;
+  getExporterHash: (exporter: string) => Promise<ClarityTypes.Response<Buffer, bigint>>;
   getInfo: () => Promise<ClarityTypes.Response<{
   "version": string
     }, null>>;
   getVersion: () => Promise<string>;
   hashMessage: (message: Buffer) => Promise<Buffer>;
-  validateSignature: (hash: Buffer, signature: Buffer, signer: string) => Promise<boolean>;
   ERREXPORTERALREADYREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERREXPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;

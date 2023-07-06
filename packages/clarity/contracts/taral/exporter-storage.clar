@@ -36,6 +36,7 @@
 (define-read-only (get-exporter-id-nonce)
     (var-get exporter-id-nonce)
 )
+
 (define-read-only (get-exporter-profile (exporter principal))
     (let ((exporter-id (try! (get-exporter-by-principal exporter))))          
         (map-get? exporter-profile {exporter-id: exporter-id})

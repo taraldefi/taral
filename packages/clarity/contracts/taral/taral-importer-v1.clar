@@ -12,14 +12,17 @@
 
 ;; A buffer containing the ascii string "Stacks Signed Message: "
 (define-constant message-prefix 0x537461636b73205369676e6564204d6573736167653a20)
-(define-constant VERSION "0.2.5.beta")
+(define-constant VERSION "0.2.6.beta")
 
 (define-read-only (hash-message (message (buff 256)))
 	(sha256 (concat message-prefix message))
 )
 
-(define-read-only (validate-signature (hash (buff 32)) (signature (buff 65)) (signer principal))
-    (is-eq (principal-of? (unwrap! (secp256k1-recover? hash signature) false) ) (ok signer))    
+(define-read-only (get-importer-hash (importer principal))
+    (let 
+    ((current-importer-profile (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error)))           
+    (ok (get hash current-importer-profile))
+    )
 )
 
 ;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
@@ -88,7 +91,7 @@
         (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { hash: hash, orders-next-avail-id: (+ u1 new-id), created: block-height})) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
         (unwrap! (contract-call? .importer-storage add-order new-id importer-id hash new-order-id) importer-storage-error)
         (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
         (ok true)

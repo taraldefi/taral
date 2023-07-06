@@ -36,6 +36,7 @@
 (define-read-only (get-importer-id-nonce)
     (var-get importer-id-nonce)
 )
+
 (define-read-only (get-importer-profile (importer principal))
     (let ((importer-id (try! (get-importer-by-principal importer))))          
         (map-get? importer-profile {importer-id: importer-id})
