@@ -59,18 +59,18 @@
           "type": "principal"
         },
         {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
-        },
-        {
           "name": "importer-name",
           "type": {
             "string-utf8": {
               "length": 100
+            }
+          }
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
             }
           }
         },

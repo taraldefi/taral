@@ -12,7 +12,7 @@
 
 ;; A buffer containing the ascii string "Stacks Signed Message: "
 (define-constant message-prefix 0x537461636b73205369676e6564204d6573736167653a20)
-(define-constant VERSION "0.1.5.beta")
+(define-constant VERSION "0.2.5.beta")
 
 (define-read-only (hash-message (message (buff 256)))
 	(sha256 (concat message-prefix message))
@@ -53,8 +53,8 @@
 ;; @params importer-category : category of importer
 (define-public (register 
     (importer principal) 
-    (hash (buff 256)) 
     (importer-name (string-utf8 100)) 
+    (hash (buff 256)) 
     (importer-category (string-utf8 100))
 )
     (begin
@@ -65,7 +65,7 @@
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
             
         (let ((importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
-        (unwrap! (contract-call? .importer-storage add-importer-profile importer-id hash importer-name importer-category) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name hash importer-category) importer-storage-error)
         (print {action: "register", importer: importer, importer-name: importer-name, importer-category: importer-category })
         (ok true)
         )
@@ -82,13 +82,13 @@
 )
     (let (
         (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
-        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer hash) importer-storage-error))
+        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
         (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
         )
         (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id, hash: hash} (merge current-importer { orders-next-avail-id: (+ u1 new-id), created: block-height})) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { hash: hash, orders-next-avail-id: (+ u1 new-id), created: block-height})) importer-storage-error)
         (unwrap! (contract-call? .importer-storage add-order new-id importer-id hash new-order-id) importer-storage-error)
         (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
         (ok true)

@@ -8,6 +8,7 @@ import { clarinetAccounts, clarityBin } from './jest-setup';
 
 import { hashStacksMessage, utf8ToBytes } from 'lib-stacks';
 import { tx } from 'lib-shared';
+import exp from 'constants';
 
 describe('Taral Exporter', () => {
   let taral_exporter: TaralExporterV1Contract;
@@ -53,8 +54,8 @@ describe('Taral Exporter', () => {
     const result = await tx(
       taral_exporter.register(
         exporter_wallet,
-        buffer,
         exporter_name,
+        buffer,
         exporter_category
       )
     );
@@ -72,8 +73,8 @@ describe('Taral Exporter', () => {
     const block_1 = await tx(
       taral_exporter.register(
         exporter_wallet,
-        buffer,
         exporter_name,
+        buffer,
         exporter_category
       )
     );
@@ -92,8 +93,8 @@ describe('Taral Exporter', () => {
     const block_1 = await tx(
       taral_exporter.register(
         exporter_wallet,
-        buffer,
         exporter_name,
+        buffer,
         exporter_category
       )
     );
@@ -103,8 +104,8 @@ describe('Taral Exporter', () => {
     const block_2 = await tx(
       taral_exporter.register(
         exporter_wallet,
-        buffer,
         exporter_name,
+        buffer,
         exporter_category
       )
     );
@@ -130,8 +131,7 @@ describe('Taral Exporter', () => {
     );
 
     const response = await taral_exporter_storage.getExporterProfile(
-      exporter_wallet,
-      buffer
+      exporter_wallet
     );
     expect(response?.category).toEqual('Project');
   }, 3000000);
@@ -156,12 +156,12 @@ describe('Taral Exporter', () => {
       )
     );
 
-    const response = await taral_exporter_storage.getExporters(
-      [exporter1_wallet, exporter2_wallet, exporter3_wallet],
-      [buffer1, buffer2]
-    );
-
-    expect(response.length).toEqual(2);
+    const response = await taral_exporter_storage.getExporters([
+      exporter1_wallet,
+      exporter2_wallet,
+      exporter3_wallet,
+    ]);
+    expect(response.length).toEqual(3);
   }, 3000000);
 
   test('Ensure that order inputs are valid', async () => {
@@ -203,8 +203,7 @@ describe('Taral Exporter', () => {
     ); // Hash of first exporter
     const response = await taral_exporter_storage.getExporterOrder(
       0,
-      exporter_wallet,
-      buffer
+      exporter_wallet
     );
 
     expect(response?.['order-id']).toEqual(2001n);
@@ -249,8 +248,7 @@ describe('Taral Exporter', () => {
     const orderList = [0n, 1n, 0n, 0n];
     const response = await taral_exporter_storage.getExporterOrders(
       orderList,
-      exporterList,
-      [buffer1, buffer1, buffer2, buffer2]
+      exporterList
     );
     expect(response.length).toEqual(4);
   }, 3000000);

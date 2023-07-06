@@ -5,7 +5,7 @@
 
   export interface TaralImporterV1Contract {
       appendOrder: (newOrderId: number | bigint, importer: string, hash: Buffer) => Transaction<boolean, bigint>;
-  register: (importer: string, hash: Buffer, importerName: string, importerCategory: string) => Transaction<boolean, bigint>;
+  register: (importer: string, importerName: string, hash: Buffer, importerCategory: string) => Transaction<boolean, bigint>;
   getInfo: () => Promise<ClarityTypes.Response<{
   "version": string
     }, null>>;

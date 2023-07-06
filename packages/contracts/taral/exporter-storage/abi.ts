@@ -12,6 +12,14 @@
             "optional": {
               "tuple": [
                 {
+                  "name": "hash",
+                  "type": {
+                    "buffer": {
+                      "length": 256
+                    }
+                  }
+                },
+                {
                   "name": "order-id",
                   "type": "uint128"
                 }
@@ -55,18 +63,18 @@
           "type": "uint128"
         },
         {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
-        },
-        {
           "name": "exporter-name",
           "type": {
             "string-utf8": {
               "length": 100
+            }
+          }
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
             }
           }
         },
@@ -146,14 +154,6 @@
               {
                 "name": "exporter-id",
                 "type": "uint128"
-              },
-              {
-                "name": "hash",
-                "type": {
-                  "buffer": {
-                    "length": 256
-                  }
-                }
               }
             ]
           }
@@ -173,6 +173,14 @@
               {
                 "name": "created",
                 "type": "uint128"
+              },
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
               },
               {
                 "name": "name",
@@ -233,14 +241,6 @@
         {
           "name": "exporter",
           "type": "principal"
-        },
-        {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
         }
       ],
       "name": "get-exporter-order",
@@ -248,6 +248,14 @@
         "type": {
           "optional": {
             "tuple": [
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
+              },
               {
                 "name": "order-id",
                 "type": "uint128"
@@ -277,19 +285,6 @@
               "type": "principal"
             }
           }
-        },
-        {
-          "name": "hashes",
-          "type": {
-            "list": {
-              "length": 10,
-              "type": {
-                "buffer": {
-                  "length": 256
-                }
-              }
-            }
-          }
         }
       ],
       "name": "get-exporter-orders",
@@ -300,6 +295,14 @@
             "type": {
               "optional": {
                 "tuple": [
+                  {
+                    "name": "hash",
+                    "type": {
+                      "buffer": {
+                        "length": 256
+                      }
+                    }
+                  },
                   {
                     "name": "order-id",
                     "type": "uint128"
@@ -317,14 +320,6 @@
         {
           "name": "exporter",
           "type": "principal"
-        },
-        {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
         }
       ],
       "name": "get-exporter-profile",
@@ -343,6 +338,14 @@
               {
                 "name": "created",
                 "type": "uint128"
+              },
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
               },
               {
                 "name": "name",
@@ -372,19 +375,6 @@
               "type": "principal"
             }
           }
-        },
-        {
-          "name": "hashes",
-          "type": {
-            "list": {
-              "length": 10,
-              "type": {
-                "buffer": {
-                  "length": 256
-                }
-              }
-            }
-          }
         }
       ],
       "name": "get-exporters",
@@ -406,6 +396,14 @@
                   {
                     "name": "created",
                     "type": "uint128"
+                  },
+                  {
+                    "name": "hash",
+                    "type": {
+                      "buffer": {
+                        "length": 256
+                      }
+                    }
                   },
                   {
                     "name": "name",
@@ -446,6 +444,14 @@
                 "type": "uint128"
               },
               {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
+              },
+              {
                 "name": "name",
                 "type": {
                   "string-utf8": {
@@ -480,14 +486,6 @@
           {
             "name": "exporter-id",
             "type": "uint128"
-          },
-          {
-            "name": "hash",
-            "type": {
-              "buffer": {
-                "length": 256
-              }
-            }
           }
         ]
       },
@@ -505,6 +503,14 @@
           {
             "name": "created",
             "type": "uint128"
+          },
+          {
+            "name": "hash",
+            "type": {
+              "buffer": {
+                "length": 256
+              }
+            }
           },
           {
             "name": "name",
@@ -529,14 +535,6 @@
             "type": "uint128"
           },
           {
-            "name": "hash",
-            "type": {
-              "buffer": {
-                "length": 256
-              }
-            }
-          },
-          {
             "name": "id",
             "type": "uint128"
           }
@@ -545,6 +543,14 @@
       "name": "orders",
       "value": {
         "tuple": [
+          {
+            "name": "hash",
+            "type": {
+              "buffer": {
+                "length": 256
+              }
+            }
+          },
           {
             "name": "order-id",
             "type": "uint128"

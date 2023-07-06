@@ -53,8 +53,8 @@ describe('Taral Importer', () => {
     const result = await tx(
       taral_importer.register(
         importer_wallet,
-        buffer,
         importer_name,
+        buffer,
         importer_category
       )
     );
@@ -72,8 +72,8 @@ describe('Taral Importer', () => {
     const block_1 = await tx(
       taral_importer.register(
         importer_wallet,
-        buffer,
         importer_name,
+        buffer,
         importer_category
       )
     );
@@ -92,8 +92,8 @@ describe('Taral Importer', () => {
     const block_1 = await tx(
       taral_importer.register(
         importer_wallet,
-        buffer,
         importer_name,
+        buffer,
         importer_category
       )
     );
@@ -103,8 +103,8 @@ describe('Taral Importer', () => {
     const block_2 = await tx(
       taral_importer.register(
         importer_wallet,
-        buffer,
         importer_name,
+        buffer,
         importer_category
       )
     );
@@ -130,8 +130,7 @@ describe('Taral Importer', () => {
     );
 
     const response = await taral_importer_storage.getImporterProfile(
-      importer_wallet,
-      buffer
+      importer_wallet
     );
     expect(response?.category).toEqual('Project');
   }, 3000000);
@@ -156,12 +155,13 @@ describe('Taral Importer', () => {
       )
     );
 
-    const response = await taral_importer_storage.getImporters(
-      [importer1_wallet, importer2_wallet, importer3_wallet],
-      [buffer1, buffer2]
-    );
+    const response = await taral_importer_storage.getImporters([
+      importer1_wallet,
+      importer2_wallet,
+      importer3_wallet,
+    ]);
 
-    expect(response.length).toEqual(2);
+    expect(response.length).toEqual(3);
   }, 3000000);
 
   test('Ensure that order inputs are valid', async () => {
@@ -203,8 +203,7 @@ describe('Taral Importer', () => {
     ); // Hash of first importer
     const response = await taral_importer_storage.getImporterOrder(
       0,
-      importer_wallet,
-      buffer
+      importer_wallet
     );
 
     expect(response?.['order-id']).toEqual(2001n);
@@ -249,8 +248,7 @@ describe('Taral Importer', () => {
     const orderList = [0n, 1n, 0n, 0n];
     const response = await taral_importer_storage.getImporterOrders(
       orderList,
-      importerList,
-      [buffer1, buffer1, buffer2, buffer2]
+      importerList
     );
     expect(response.length).toEqual(4);
   }, 3000000);

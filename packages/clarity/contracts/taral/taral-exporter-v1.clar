@@ -12,7 +12,7 @@
 
 ;; A buffer containing the ascii string "Stacks Signed Message: "
 (define-constant message-prefix 0x537461636b73205369676e6564204d6573736167653a20)
-(define-constant VERSION "0.1.5.beta")
+(define-constant VERSION "0.2.5.beta")
 
 (define-read-only (hash-message (message (buff 256)))
 	(sha256 (concat message-prefix message))
@@ -53,8 +53,8 @@
 ;; @params exporter-category : category of exporter
 (define-public (register 
     (exporter principal) 
-    (hash (buff 256)) 
     (exporter-name (string-utf8 100)) 
+    (hash (buff 256)) 
     (exporter-category (string-utf8 100))
 )
     (begin
@@ -65,7 +65,7 @@
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
             
         (let ((exporter-id (unwrap! (get-or-create-exporter-id exporter) ERR-GENERIC)))
-        (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id hash exporter-name exporter-category) exporter-storage-error)
+        (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id exporter-name hash exporter-category) exporter-storage-error)
         (print {action: "register", exporter: exporter, exporter-name: exporter-name, exporter-category: exporter-category })
         (ok true)
         )
@@ -82,13 +82,13 @@
 )
     (let (
         (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter ) ERR-EXPORTER-NOT-REGISTERED))
-        (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter hash) exporter-storage-error))
+        (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter) exporter-storage-error))
         (new-id (contract-call? .exporter-storage get-orders-next-avail-id current-exporter))
         )
         (asserts! (not (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter))) ERR-EXPORTER-NOT-REGISTERED)
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
-        (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id, hash: hash} (merge current-exporter { orders-next-avail-id: (+ u1 new-id), created: block-height})) exporter-storage-error)
+        (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { hash: hash, orders-next-avail-id: (+ u1 new-id), created: block-height})) exporter-storage-error)
         (unwrap! (contract-call? .exporter-storage add-order new-id exporter-id hash new-order-id) exporter-storage-error)
         (print {action: "append-order", exporter: exporter, new-order-id: new-order-id  })
         (ok true)

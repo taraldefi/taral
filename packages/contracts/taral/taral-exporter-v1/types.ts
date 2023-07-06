@@ -5,7 +5,7 @@
 
   export interface TaralExporterV1Contract {
       appendOrder: (newOrderId: number | bigint, exporter: string, hash: Buffer) => Transaction<boolean, bigint>;
-  register: (exporter: string, hash: Buffer, exporterName: string, exporterCategory: string) => Transaction<boolean, bigint>;
+  register: (exporter: string, exporterName: string, hash: Buffer, exporterCategory: string) => Transaction<boolean, bigint>;
   getInfo: () => Promise<ClarityTypes.Response<{
   "version": string
     }, null>>;
