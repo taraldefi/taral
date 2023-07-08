@@ -12,14 +12,6 @@
             "optional": {
               "tuple": [
                 {
-                  "name": "hash",
-                  "type": {
-                    "buffer": {
-                      "length": 256
-                    }
-                  }
-                },
-                {
                   "name": "order-id",
                   "type": "uint128"
                 }
@@ -107,14 +99,6 @@
         {
           "name": "importer-id",
           "type": "uint128"
-        },
-        {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
         },
         {
           "name": "order-id",
@@ -249,14 +233,6 @@
           "optional": {
             "tuple": [
               {
-                "name": "hash",
-                "type": {
-                  "buffer": {
-                    "length": 256
-                  }
-                }
-              },
-              {
                 "name": "order-id",
                 "type": "uint128"
               }
@@ -295,14 +271,6 @@
             "type": {
               "optional": {
                 "tuple": [
-                  {
-                    "name": "hash",
-                    "type": {
-                      "buffer": {
-                        "length": 256
-                      }
-                    }
-                  },
                   {
                     "name": "order-id",
                     "type": "uint128"
@@ -543,14 +511,6 @@
       "name": "orders",
       "value": {
         "tuple": [
-          {
-            "name": "hash",
-            "type": {
-              "buffer": {
-                "length": 256
-              }
-            }
-          },
           {
             "name": "order-id",
             "type": "uint128"

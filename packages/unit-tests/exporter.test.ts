@@ -183,7 +183,7 @@ describe('Taral Exporter', () => {
       )
     );
     const response = await tx(
-      taral_exporter.appendOrder(new_order_id, exporter3_wallet, buffer)
+      taral_exporter.appendOrder(new_order_id, exporter3_wallet)
     );
 
     expect(response.value).toEqual(102n); // ERR-EXPORTER-NOT-REGISTERED
@@ -198,7 +198,7 @@ describe('Taral Exporter', () => {
       )
     ); // Hash of first exporter
     const response = await tx(
-      taral_exporter.appendOrder(new_order_id, exporter_wallet, buffer)
+      taral_exporter.appendOrder(new_order_id, exporter_wallet)
     );
 
     expect(response.value).toEqual(true); // Succesfully added order
@@ -234,17 +234,17 @@ describe('Taral Exporter', () => {
       )
     ); // Hash of second exporter
     const response_order2 = await tx(
-      taral_exporter.appendOrder(2002, exporter1_wallet, buffer1)
+      taral_exporter.appendOrder(2002, exporter1_wallet)
     );
     expect(response_order2.value).toEqual(true); // Succesfully added order
 
     const response_order3 = await tx(
-      taral_exporter.appendOrder(2003, exporter2_wallet, buffer2)
+      taral_exporter.appendOrder(2003, exporter2_wallet)
     );
     expect(response_order3.value).toEqual(true); // Succesfully added order
 
     const response_order4 = await tx(
-      taral_exporter.appendOrder(2004, exporter2_wallet, buffer2)
+      taral_exporter.appendOrder(2004, exporter2_wallet)
     );
     expect(response_order4.value).toEqual(true); // Succesfully added order
 

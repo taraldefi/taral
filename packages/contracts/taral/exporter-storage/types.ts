@@ -6,7 +6,7 @@
   export interface ExporterStorageContract {
       addExporter: (exporter: string, exporterId: number | bigint) => Transaction<boolean, null>;
   addExporterProfile: (exporterId: number | bigint, exporterName: string, hash: Buffer, exporterCategory: string) => Transaction<boolean, null>;
-  addOrder: (id: number | bigint, exporterId: number | bigint, hash: Buffer, orderId: number | bigint) => Transaction<boolean, null>;
+  addOrder: (id: number | bigint, exporterId: number | bigint, orderId: number | bigint) => Transaction<boolean, null>;
   incrementExporterIdNonce: () => Transaction<boolean, null>;
   updateExporterProfile: (keyTuple: {
   "exporter-id": bigint
@@ -20,11 +20,9 @@
   getExporterByPrincipal: (exporter: string) => Promise<bigint | null>;
   getExporterIdNonce: () => Promise<bigint>;
   getExporterOrder: (id: number | bigint, exporter: string) => Promise<{
-  "hash": Buffer;
   "order-id": bigint
     } | null>;
   getExporterOrders: (ids: bigint[], principals: string[]) => Promise<{
-  "hash": Buffer;
   "order-id": bigint
     } | null[]>;
   getExporterProfile: (exporter: string) => Promise<{
@@ -63,7 +61,6 @@
   "exporter-id": bigint;
   "id": bigint
     }) => Promise<{
-  "hash": Buffer;
   "order-id": bigint
     } | null>;
   }

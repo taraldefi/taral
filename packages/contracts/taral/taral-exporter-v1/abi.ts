@@ -31,14 +31,6 @@
         {
           "name": "exporter",
           "type": "principal"
-        },
-        {
-          "name": "hash",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
         }
       ],
       "name": "append-order",

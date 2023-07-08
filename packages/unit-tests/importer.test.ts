@@ -182,7 +182,7 @@ describe('Taral Importer', () => {
       )
     );
     const response = await tx(
-      taral_importer.appendOrder(new_order_id, importer3_wallet, buffer)
+      taral_importer.appendOrder(new_order_id, importer3_wallet)
     );
 
     expect(response.value).toEqual(102n); // ERR-IMPORTER-NOT-REGISTERED
@@ -197,7 +197,7 @@ describe('Taral Importer', () => {
       )
     ); // Hash of first importer
     const response = await tx(
-      taral_importer.appendOrder(new_order_id, importer_wallet, buffer)
+      taral_importer.appendOrder(new_order_id, importer_wallet)
     );
 
     expect(response.value).toEqual(true); // Succesfully added order
@@ -233,17 +233,17 @@ describe('Taral Importer', () => {
       )
     ); // Hash of second importer
     const response_order2 = await tx(
-      taral_importer.appendOrder(2002, importer1_wallet, buffer1)
+      taral_importer.appendOrder(2002, importer1_wallet)
     );
     expect(response_order2.value).toEqual(true); // Succesfully added order
 
     const response_order3 = await tx(
-      taral_importer.appendOrder(2003, importer2_wallet, buffer2)
+      taral_importer.appendOrder(2003, importer2_wallet)
     );
     expect(response_order3.value).toEqual(true); // Succesfully added order
 
     const response_order4 = await tx(
-      taral_importer.appendOrder(2004, importer2_wallet, buffer2)
+      taral_importer.appendOrder(2004, importer2_wallet)
     );
     expect(response_order4.value).toEqual(true); // Succesfully added order
 

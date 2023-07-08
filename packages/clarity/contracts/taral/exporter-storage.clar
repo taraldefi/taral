@@ -20,11 +20,10 @@
 (define-map orders 
     {
         id: uint,
-        exporter-id: uint,
+        exporter-id: uint
     } 
     {
-        order-id: uint, 
-        hash: (buff 256)
+        order-id: uint
     }
 )
 
@@ -77,10 +76,10 @@
     (ok (map-set exporter-by-principal exporter exporter-id))
 )
 
-(define-public (add-order (id uint) (exporter-id uint) (hash (buff 256)) (order-id uint)) 
+(define-public (add-order (id uint) (exporter-id uint) (order-id uint)) 
     (ok 
         (map-insert orders {id: id,exporter-id: exporter-id}   
-            {order-id: order-id, hash: hash }     
+            {order-id: order-id }     
         )                  
     )   
 )
@@ -113,6 +112,6 @@
 
 ;; @Desc function to to filter out none from list [none none (some XXX) none]
 ;; @Param value : tuple containing the order ID
-(define-private (is-valid-value (value (optional {order-id: uint, hash: (buff 256)})))
+(define-private (is-valid-value (value (optional {order-id: uint})))
     (is-some value)
 )

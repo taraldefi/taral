@@ -6,7 +6,7 @@
 
     ;;Core functions
     (register (principal (string-utf8 100) (buff 256) (string-utf8 100)) (response bool uint))
-    (append-order (uint principal (buff 256)) (response bool uint))
+    (append-order (uint principal) (response bool uint))
   )
 )
 

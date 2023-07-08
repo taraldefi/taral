@@ -81,7 +81,6 @@
 (define-public (append-order 
     (new-order-id uint) 
     (importer principal) 
-    (hash (buff 256)) 
 )
     (let (
         (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
@@ -89,10 +88,8 @@
         (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
         )
         (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
-        ;; check that the hash is not empty
-        (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
         (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
-        (unwrap! (contract-call? .importer-storage add-order new-id importer-id hash new-order-id) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage add-order new-id importer-id new-order-id) importer-storage-error)
         (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
         (ok true)
             
