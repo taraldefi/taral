@@ -11,7 +11,6 @@
   "version": string
     }, null>>;
   getVersion: () => Promise<string>;
-  hashMessage: (message: Buffer) => Promise<Buffer>;
   ERREXPORTERALREADYREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERREXPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;
@@ -20,5 +19,4 @@
   ERR_INVALID_SIGNATURE: () => Promise<ClarityTypes.Response<null, bigint>>;
   VERSION: () => Promise<string>;
   exporterStorageError: () => Promise<ClarityTypes.Response<null, bigint>>;
-  messagePrefix: () => Promise<Buffer>;
   }

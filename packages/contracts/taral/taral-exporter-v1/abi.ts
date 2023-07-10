@@ -142,27 +142,6 @@
           }
         }
       }
-    },
-    {
-      "access": "read_only",
-      "args": [
-        {
-          "name": "message",
-          "type": {
-            "buffer": {
-              "length": 256
-            }
-          }
-        }
-      ],
-      "name": "hash-message",
-      "outputs": {
-        "type": {
-          "buffer": {
-            "length": 32
-          }
-        }
-      }
     }
   ],
   "fungible_tokens": [],
@@ -245,15 +224,6 @@
         "response": {
           "error": "uint128",
           "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
-      "name": "message-prefix",
-      "type": {
-        "buffer": {
-          "length": 23
         }
       }
     }

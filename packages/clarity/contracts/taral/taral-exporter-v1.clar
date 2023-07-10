@@ -7,16 +7,8 @@
 (define-constant ERR_EMPTY_HASH (err u103))
 (define-constant ERR_EMPTY_SIGNATURE (err u104))
 (define-constant ERR-EXPORTER-ALREADY-REGISTERED (err u105))
-
 (define-constant exporter-storage-error (err u106))
-
-;; A buffer containing the ascii string "Stacks Signed Message: "
-(define-constant message-prefix 0x537461636b73205369676e6564204d6573736167653a20)
 (define-constant VERSION "0.2.6.beta")
-
-(define-read-only (hash-message (message (buff 256)))
-	(sha256 (concat message-prefix message))
-)
 
 (define-read-only (get-exporter-hash (exporter principal))
     (let 
