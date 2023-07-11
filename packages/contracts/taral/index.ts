@@ -21,6 +21,9 @@ import { nodeTaralImporterInfo, webTaralImporterInfo } from './taral-importer';
 import { nodeTaralImporterV1Info, webTaralImporterV1Info } from './taral-importer-v1';
 import { nodeTaralOracleV1Info, webTaralOracleV1Info } from './taral-oracle-v1';
 import { nodeTaralPurchaseOrderInfo, webTaralPurchaseOrderInfo } from './taral-purchase-order';
+import { nodeTaralPurchaseOrderTraitInfo, webTaralPurchaseOrderTraitInfo } from './taral-purchase-order-trait';
+import { nodePurchaseOrderStorageInfo, webPurchaseOrderStorageInfo } from './purchase-order-storage';
+import { nodeTaralPurchaseOrderV1Info, webTaralPurchaseOrderV1Info } from './taral-purchase-order-v1';
 import { nodeTaralPurchaseOrderNftInfo, webTaralPurchaseOrderNftInfo } from './taral-purchase-order-nft';
 import { nodeTaralStorageInfo, webTaralStorageInfo } from './taral-storage';
 import { nodeUsdaTokenInfo, webUsdaTokenInfo } from './usda-token';
@@ -47,6 +50,9 @@ export type { TaralImporterContract } from './taral-importer';
 export type { TaralImporterV1Contract } from './taral-importer-v1';
 export type { TaralOracleV1Contract } from './taral-oracle-v1';
 export type { TaralPurchaseOrderContract } from './taral-purchase-order';
+export type { TaralPurchaseOrderTraitContract } from './taral-purchase-order-trait';
+export type { PurchaseOrderStorageContract } from './purchase-order-storage';
+export type { TaralPurchaseOrderV1Contract } from './taral-purchase-order-v1';
 export type { TaralPurchaseOrderNftContract } from './taral-purchase-order-nft';
 export type { TaralStorageContract } from './taral-storage';
 export type { UsdaTokenContract } from './usda-token';
@@ -75,6 +81,9 @@ export type { UsdaTokenContract } from './usda-token';
   nodeTaralImporterV1: nodeTaralImporterV1Info,
   nodeTaralOracleV1: nodeTaralOracleV1Info,
   nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
+  nodeTaralPurchaseOrderTrait: nodeTaralPurchaseOrderTraitInfo,
+  nodePurchaseOrderStorage: nodePurchaseOrderStorageInfo,
+  nodeTaralPurchaseOrderV1: nodeTaralPurchaseOrderV1Info,
   nodeTaralPurchaseOrderNft: nodeTaralPurchaseOrderNftInfo,
   nodeTaralStorage: nodeTaralStorageInfo,
   nodeUsdaToken: nodeUsdaTokenInfo,
@@ -104,6 +113,9 @@ export type { UsdaTokenContract } from './usda-token';
   webTaralImporterV1: webTaralImporterV1Info,
   webTaralOracleV1: webTaralOracleV1Info,
   webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
+  webTaralPurchaseOrderTrait: webTaralPurchaseOrderTraitInfo,
+  webPurchaseOrderStorage: webPurchaseOrderStorageInfo,
+  webTaralPurchaseOrderV1: webTaralPurchaseOrderV1Info,
   webTaralPurchaseOrderNft: webTaralPurchaseOrderNftInfo,
   webTaralStorage: webTaralStorageInfo,
   webUsdaToken: webUsdaTokenInfo,

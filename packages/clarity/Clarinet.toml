@@ -104,6 +104,7 @@ path = "contracts/taral/taral-purchase-order.clar"
 
 [contracts.taral-purchase-order-v1]
 path = "contracts/taral/taral-purchase-order-v1.clar"
+depends_on=["purchase-order-storage", "taral-purchase-order-trait"]
 
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"

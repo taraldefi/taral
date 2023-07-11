@@ -5,6 +5,7 @@
 (define-constant ERR_EMPTY_HASH (err u103))
 (define-constant ERR-PERMISSION-DENIED (err u101))
 (define-constant ERR_CONTRACT_CALL (err u106))
+(define-constant ERR_PURCHASE_ORDER_STORAGE (err u107))
 (define-constant ERR-EXPORTER-NOT-REGISTERED (err u120))
 (define-constant ERR-IMPORTER-NOT-REGISTERED (err u121))
 (define-constant VERSION "0.0.5.beta")
@@ -56,8 +57,8 @@
     (invoice-term (string-utf8 10)))
     (let (
         ;; Gets the IDs from respoective contracts
-        (exporter-id (unwrap! (contract-call? .taral-exporter get-exporter-id exporter) ERR_CONTRACT_CALL))
-        (importer-id (unwrap! (contract-call? .taral-importer get-importer-id importer) ERR_CONTRACT_CALL))
+        (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter) ERR_CONTRACT_CALL))
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer) ERR_CONTRACT_CALL))
         ;; Fetches the current orderId -> initially u10001
         (order-id (contract-call? .purchase-order-storage get-order-id-nonce)))
         ;; assertion checklist
@@ -70,17 +71,16 @@
         (asserts! (> amount u0) ERR-GENERIC)
 
         ;; Adds the order with the current order id nonce
-        (unwrap! (contract-call? .purchase-order-storage add-order exporter-id importer-id order-hash payment-term amount invoice-term) ERR_CONTRACT_CALL)
-        (unwrap! (contract-call? .purchase-order-storage add-order-details order-detail-hash) ERR_CONTRACT_CALL)
+        (unwrap! (contract-call? .purchase-order-storage add-order exporter-id importer-id order-hash payment-term amount invoice-term) ERR_PURCHASE_ORDER_STORAGE)
+        (unwrap! (contract-call? .purchase-order-storage add-order-details order-detail-hash) ERR_PURCHASE_ORDER_STORAGE)
         
         ;; Appends the order to importer and exporter data
-        (unwrap! (contract-call? .taral-exporter append-order order-id exporter) ERR_CONTRACT_CALL)
-        (unwrap! (contract-call? .taral-importer append-order order-id importer) ERR_CONTRACT_CALL) 
-        
+        (unwrap! (contract-call? .taral-exporter-v1 append-order order-id exporter) ERR_CONTRACT_CALL)
+        (unwrap! (contract-call? .taral-importer-v1 append-order order-id importer) ERR_CONTRACT_CALL) 
         ;; Logs the action
         (print {action: "initialize purchase order", exporter: exporter, order-id: order-id })
         ;; Increments the order id nonce value by 1
-        (unwrap! (contract-call? .purchase-order-storage increment-order-id-nonce) ERR_CONTRACT_CALL)
+        (unwrap! (contract-call? .purchase-order-storage increment-order-id-nonce) ERR_PURCHASE_ORDER_STORAGE)
         (ok true)
     )
 )
