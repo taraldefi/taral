@@ -5,7 +5,7 @@
 
   export interface TaralPurchaseOrderV1Contract {
       checkIfUserHoldsTalToken: (user: string) => Transaction<boolean, null>;
-  initialize: (exporter: string, importer: string, orderHash: Buffer, orderDetailHash: Buffer, paymentTerm: string, amount: number | bigint, invoiceTerm: string) => Transaction<boolean, bigint>;
+  initialize: (exporter: string, importer: string, orderHash: Buffer, orderDetailHash: Buffer, paymentTerm: string, amount: number | bigint, deliveryTerm: string) => Transaction<boolean, bigint>;
   getInfo: () => Promise<ClarityTypes.Response<{
   "version": string
     }, null>>;

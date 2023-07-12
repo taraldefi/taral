@@ -16,6 +16,14 @@
                   "type": "uint128"
                 },
                 {
+                  "name": "delivery-term",
+                  "type": {
+                    "string-utf8": {
+                      "length": 10
+                    }
+                  }
+                },
+                {
                   "name": "exporter-id",
                   "type": "uint128"
                 },
@@ -30,14 +38,6 @@
                 {
                   "name": "importer-id",
                   "type": "uint128"
-                },
-                {
-                  "name": "invoice-term",
-                  "type": {
-                    "string-utf8": {
-                      "length": 10
-                    }
-                  }
                 },
                 {
                   "name": "payment-term",
@@ -89,7 +89,7 @@
           "type": "uint128"
         },
         {
-          "name": "invoice-term",
+          "name": "delivery-term",
           "type": {
             "string-utf8": {
               "length": 10
@@ -168,6 +168,14 @@
                 "type": "uint128"
               },
               {
+                "name": "delivery-term",
+                "type": {
+                  "string-utf8": {
+                    "length": 10
+                  }
+                }
+              },
+              {
                 "name": "exporter-id",
                 "type": "uint128"
               },
@@ -182,14 +190,6 @@
               {
                 "name": "importer-id",
                 "type": "uint128"
-              },
-              {
-                "name": "invoice-term",
-                "type": {
-                  "string-utf8": {
-                    "length": 10
-                  }
-                }
               },
               {
                 "name": "payment-term",
@@ -256,6 +256,14 @@
                     "type": "uint128"
                   },
                   {
+                    "name": "delivery-term",
+                    "type": {
+                      "string-utf8": {
+                        "length": 10
+                      }
+                    }
+                  },
+                  {
                     "name": "exporter-id",
                     "type": "uint128"
                   },
@@ -270,14 +278,6 @@
                   {
                     "name": "importer-id",
                     "type": "uint128"
-                  },
-                  {
-                    "name": "invoice-term",
-                    "type": {
-                      "string-utf8": {
-                        "length": 10
-                      }
-                    }
                   },
                   {
                     "name": "payment-term",
@@ -314,6 +314,14 @@
             "type": "uint128"
           },
           {
+            "name": "delivery-term",
+            "type": {
+              "string-utf8": {
+                "length": 10
+              }
+            }
+          },
+          {
             "name": "exporter-id",
             "type": "uint128"
           },
@@ -328,14 +336,6 @@
           {
             "name": "importer-id",
             "type": "uint128"
-          },
-          {
-            "name": "invoice-term",
-            "type": {
-              "string-utf8": {
-                "length": 10
-              }
-            }
           },
           {
             "name": "payment-term",

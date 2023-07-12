@@ -61,7 +61,7 @@
           "type": "uint128"
         },
         {
-          "name": "invoice-term",
+          "name": "delivery-term",
           "type": {
             "string-utf8": {
               "length": 10

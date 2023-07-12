@@ -45,7 +45,7 @@
 ;; @Param order-detail-hash: Hashed data of order details
 ;; @Param payment-term: 30/60/90/120 Days, 50% Deposit, balance upon bill of lading of type string UTF8
 ;; @Param amount: amount in uint
-;; @param invoice-term: Terms of invoice of type string UTF8 eg: FOB CIF, CFR
+;; @param delivery-term: Terms of delivery of type string UTF8 eg: FOB CIF, CFR
 
 (define-public (initialize 
     (exporter principal)
@@ -54,7 +54,7 @@
     (order-detail-hash (buff 256))
     (payment-term (string-utf8 200))                                
     (amount uint)
-    (invoice-term (string-utf8 10)))
+    (delivery-term (string-utf8 10)))
     (let (
         ;; Gets the IDs from respoective contracts
         (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter) ERR_CONTRACT_CALL))
@@ -67,11 +67,11 @@
         ;; Validate Hashes and other inputs
         (asserts! (and (> (len order-hash) u0) (> (len order-detail-hash) u0)) ERR_EMPTY_HASH)
         (asserts! (> (len payment-term) u0) ERR-GENERIC)
-        (asserts! (> (len invoice-term) u0) ERR-GENERIC)
+        (asserts! (> (len delivery-term) u0) ERR-GENERIC)
         (asserts! (> amount u0) ERR-GENERIC)
 
         ;; Adds the order with the current order id nonce
-        (unwrap! (contract-call? .purchase-order-storage add-order exporter-id importer-id order-hash payment-term amount invoice-term) ERR_PURCHASE_ORDER_STORAGE)
+        (unwrap! (contract-call? .purchase-order-storage add-order exporter-id importer-id order-hash payment-term amount delivery-term) ERR_PURCHASE_ORDER_STORAGE)
         (unwrap! (contract-call? .purchase-order-storage add-order-details order-detail-hash) ERR_PURCHASE_ORDER_STORAGE)
         
         ;; Appends the order to importer and exporter data

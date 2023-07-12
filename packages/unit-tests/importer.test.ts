@@ -5,7 +5,6 @@ import {
   ImporterStorageContract,
 } from 'taral-contracts';
 import { clarinetAccounts, clarityBin } from './jest-setup';
-
 import { hashStacksMessage, utf8ToBytes } from 'lib-stacks';
 import { tx } from 'lib-shared';
 
@@ -132,11 +131,6 @@ describe('Taral Importer', () => {
 
   test('Ensure that importer exists after registration', async () => {
     const importer_wallet = clarinetAccounts.wallet_2.address;
-    const buffer = Buffer.from(
-      utf8ToBytes(
-        'b0b81619c8a9ef3fb89c4f89ad96d65d4cc534ffe94edeba4ab02a09ad5d8727'
-      )
-    );
 
     const response = await taral_importer_storage.getImporterProfile(
       importer_wallet
@@ -153,16 +147,6 @@ describe('Taral Importer', () => {
     const importer1_wallet = clarinetAccounts.wallet_1.address;
     const importer2_wallet = clarinetAccounts.wallet_2.address;
     const importer3_wallet = clarinetAccounts.wallet_3.address;
-    const buffer1 = Buffer.from(
-      utf8ToBytes(
-        '67ceee27ff49933dcdf54c7f5b394250797a6f20ea340017793adb1e9de78bec'
-      )
-    );
-    const buffer2 = Buffer.from(
-      utf8ToBytes(
-        'b0b81619c8a9ef3fb89c4f89ad96d65d4cc534ffe94edeba4ab02a09ad5d8727'
-      )
-    );
 
     const response = await taral_importer_storage.getImporters([
       importer1_wallet,
@@ -176,11 +160,7 @@ describe('Taral Importer', () => {
   test('Ensure that order inputs are valid', async () => {
     const importer3_wallet = clarinetAccounts.wallet_3.address;
     const new_order_id = 2001;
-    const buffer = Buffer.from(
-      utf8ToBytes(
-        '67ceee27ff49933dcdf54c7f5b394250797a6f20ea340017793adb1e9de78bec'
-      )
-    );
+
     const response = await tx(
       taral_importer.appendOrder(new_order_id, importer3_wallet)
     );
@@ -191,11 +171,6 @@ describe('Taral Importer', () => {
   test('Ensure that adding order is a success', async () => {
     const importer_wallet = clarinetAccounts.wallet_1.address;
     const new_order_id = 2001;
-    const buffer = Buffer.from(
-      utf8ToBytes(
-        '67ceee27ff49933dcdf54c7f5b394250797a6f20ea340017793adb1e9de78bec'
-      )
-    ); // Hash of first importer
     const response = await tx(
       taral_importer.appendOrder(new_order_id, importer_wallet)
     );
@@ -205,11 +180,6 @@ describe('Taral Importer', () => {
 
   test('Ensure that order exists after registration', async () => {
     const importer_wallet = clarinetAccounts.wallet_1.address;
-    const buffer = Buffer.from(
-      utf8ToBytes(
-        '67ceee27ff49933dcdf54c7f5b394250797a6f20ea340017793adb1e9de78bec'
-      )
-    ); // Hash of first importer
     const response = await taral_importer_storage.getImporterOrder(
       0,
       importer_wallet
@@ -221,17 +191,6 @@ describe('Taral Importer', () => {
   test('Ensure that to get orders list of importers', async () => {
     const importer1_wallet = clarinetAccounts.wallet_1.address;
     const importer2_wallet = clarinetAccounts.wallet_2.address;
-    const importer3_wallet = clarinetAccounts.wallet_3.address;
-    const buffer1 = Buffer.from(
-      utf8ToBytes(
-        '67ceee27ff49933dcdf54c7f5b394250797a6f20ea340017793adb1e9de78bec'
-      )
-    ); // Hash of first importer
-    const buffer2 = Buffer.from(
-      utf8ToBytes(
-        'b0b81619c8a9ef3fb89c4f89ad96d65d4cc534ffe94edeba4ab02a09ad5d8727'
-      )
-    ); // Hash of second importer
     const response_order2 = await tx(
       taral_importer.appendOrder(2002, importer1_wallet)
     );

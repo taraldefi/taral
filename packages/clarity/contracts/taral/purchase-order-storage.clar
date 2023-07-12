@@ -10,7 +10,7 @@
     hash: (buff 256),
     payment-term: (string-utf8 200), ;; 30/60/90/120 Days, 50% Deposit, balance upon bill of lading
     amount: uint,        
-    invoice-term: (string-utf8 10) ;; FOB CIF, CFR, 
+    delivery-term: (string-utf8 10) ;; FOB CIF, CFR, 
   }  
 )
 
@@ -58,7 +58,7 @@
 ;; @Param order-hash: Hashed data of order data
 ;; @Param payment-term: 30/60/90/120 Days, 50% Deposit, balance upon bill of lading of type string UTF8
 ;; @Param amount: amount in uint
-;; @param invoice-term: Terms of invoice of type string UTF8 eg: FOB CIF, CFR
+;; @param delivery-term: Terms of delivery of type string UTF8 eg: FOB CIF, CFR
 
 (define-public (add-order 
     (exporter-id uint)
@@ -66,7 +66,7 @@
     (order-hash (buff 256))
     (payment-term (string-utf8 200))                                
     (amount uint)
-    (invoice-term (string-utf8 10)))
+    (delivery-term (string-utf8 10)))
     (ok (map-insert order 
         {id: (get-order-id-nonce)} 
         {
@@ -75,7 +75,7 @@
             hash: order-hash,
             payment-term: payment-term,    
             amount: amount,
-            invoice-term: invoice-term
+            delivery-term: delivery-term
         })
     )
 )
@@ -100,7 +100,7 @@
             hash: (buff 256),
             payment-term: (string-utf8 200), ;; 30/60/90/120 Days, 50% Deposit, balance upon bill of lading
             amount: uint,        
-            invoice-term: (string-utf8 10) ;; FOB CIF, CFR, 
+            delivery-term: (string-utf8 10) ;; FOB CIF, CFR, 
         })
     ))
    

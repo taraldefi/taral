@@ -151,7 +151,7 @@ describe('Taral Purchase Order', () => {
 
     const paymentTerm = ''; // this should throw error
     const amount = 10000;
-    const invoiceTerm = 'CFR';
+    const deliveryTerm = 'CFR';
     const orderBuffer = Buffer.from(utf8ToBytes(orderHex));
     const orderDetailsBuffer = Buffer.from(utf8ToBytes(orderDetailsHex));
     const result = await tx(
@@ -162,7 +162,7 @@ describe('Taral Purchase Order', () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        invoiceTerm
+        deliveryTerm
       )
     );
     expect(result.value).toEqual(100n);
@@ -180,7 +180,7 @@ describe('Taral Purchase Order', () => {
 
     const paymentTerm = '60 Days';
     const amount = 10000;
-    const invoiceTerm = 'CFR';
+    const deliveryTerm = 'CFR';
     const orderBuffer = Buffer.from(utf8ToBytes(orderHex));
     const orderDetailsBuffer = Buffer.from(utf8ToBytes(orderDetailsHex));
     const result = await tx(
@@ -191,7 +191,7 @@ describe('Taral Purchase Order', () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        invoiceTerm
+        deliveryTerm
       )
     );
     expect(result.value).toEqual(true); // INITIALIZED SUCCESSFULLY
