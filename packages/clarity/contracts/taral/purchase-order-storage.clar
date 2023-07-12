@@ -1,7 +1,7 @@
 ;; Storage contract for purchase order contract
-
 ;; data maps and vars
 (define-data-var order-id-nonce uint u10001)
+(define-data-var last-vault-id uint u0)
 
 (define-map order {id: uint} 
   {    
@@ -20,6 +20,18 @@
   }  
 )
 
+(define-map vaults
+  {vault-id: uint}
+  {
+    borrower: principal,
+    collateral-stx: uint,
+    collateral-btc: uint,
+    debt: uint,
+    nft-id: uint,
+    last-repayment-date: uint
+  }
+)
+
 ;; Read only functions
 
 ;; @Desc get purchase order from ID
@@ -27,6 +39,19 @@
 (define-read-only (get-purchase-order (order-id uint))
   (map-get? order {id: order-id})
 )
+
+(define-read-only (get-vault-by-id (vault-id uint))
+  (map-get? vaults {vault-id: vault-id})
+)
+
+(define-read-only (get-next-vault-id)
+  (let (
+    (next-id (+ (var-get last-vault-id) u1))
+  )
+    next-id
+  )
+)
+
 
 ;; @Desc get list of purchase orders from ID list
 ;; @param order-ids: 100 unique order IDs of type uint
@@ -44,13 +69,33 @@
 (define-read-only (get-order-id-nonce)
     (var-get order-id-nonce)
 )
+;; public functions
 
 ;; @Desc increments the order ID by 1, used after adding an order
 (define-public (increment-order-id-nonce)
     (ok (var-set order-id-nonce (+ u1 (var-get order-id-nonce))))
 )
 
-;; public functions
+;; @Desc public function to update values in vault mapping
+(define-public (update-vault (key-tuple {vault-id: uint}) (value-tuple {
+    borrower: principal,
+    collateral-stx: uint,
+    collateral-btc: uint,
+    debt: uint,
+    nft-id: uint,
+    last-repayment-date: uint
+    }))
+    (ok   
+      (map-set vaults key-tuple value-tuple)
+    )
+)
+
+;; @Desc public function to delete vault mapping
+;; @param vault-id: the ID of the target vault to be deleted
+
+(define-public (delete-vault (vault-id uint))
+    (ok (map-delete vaults {vault-id: vault-id}))
+)
 
 ;; @Desc function to insert order object
 ;; @Param exporter-id: ID of exporter of type unit

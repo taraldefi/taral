@@ -60,6 +60,10 @@ depends_on = ["ft-trait", "clarity-bitcoin"]
 path = "contracts/taral/btc-nft-swap.clar"
 depends_on = ["nft-trait", "clarity-bitcoin"]
 
+[contracts.dummy-oracle]
+path = "contracts/taral/dummy-oracle.clar"
+depends_on = []
+
 [contracts.taral-oracle-v1]
 depends_on = []
 path = "contracts/taral/taral-oracle-v1.clar"
@@ -104,7 +108,7 @@ path = "contracts/taral/taral-purchase-order.clar"
 
 [contracts.taral-purchase-order-v1]
 path = "contracts/taral/taral-purchase-order-v1.clar"
-depends_on=["purchase-order-storage", "taral-purchase-order-trait"]
+depends_on=["purchase-order-storage", "taral-purchase-order-trait", "dummy-oracle"]
 
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"

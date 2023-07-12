@@ -8,8 +8,24 @@
 (define-constant ERR_PURCHASE_ORDER_STORAGE (err u107))
 (define-constant ERR-EXPORTER-NOT-REGISTERED (err u120))
 (define-constant ERR-IMPORTER-NOT-REGISTERED (err u121))
+(define-constant ERR_INVALID_VAULT (err u203))
+(define-constant ERR_INSUFFICIENT_REPAYMENT (err u203))
+(define-constant ERR_NFT_TRANSFER_FAILED (err u203))
+(define-constant ERR_VAULT_NOT_FOUND (err u203))
+(define-constant ERR_VAULT_NOT_UNDERCOLLATERALIZED (err u406))
+(define-constant ERR_INSUFFICIENT_COLLATERAL ( err u1001))
+(define-constant ERR_INVALID_AMOUNT (err u1002))
+(define-constant ERR_INVALID_LOAN_AMOUNT (err u404))
+(define-constant ERR_INVALID_LOAN_DURATION (err u405))
+
+(define-constant DEBT_RATIO (/ u11 u10))
+(define-constant MIN_COLLATERAL_AMOUNT u1000)
+(define-constant MIN_BTC_COLLATERAL_AMOUNT u100000)
+(define-constant MIN_LOAN_AMOUNT u100)
+
 (define-constant VERSION "0.0.5.beta")
 
+(define-non-fungible-token loan-nft uint)
 ;; Read-only functions
 (define-read-only (get-info)
     (ok {
@@ -23,22 +39,53 @@
     VERSION
 )
 
-(define-public (check-if-user-holds-tal-token (user principal))
-  (let (
-    ;; Get TAL balance of the user
-    (balance (unwrap-panic (contract-call? .taral-coin get-balance user)))
-  )
-    ;; Check if the balance is greater than 0
-    (if (> balance u0)
-      (ok true)
-      (ok false)
+;; private functions
+
+(define-private (get-collateral-value (collateral-stx uint) (collateral-btc uint))
+    (let (
+    (btc-price (unwrap! (contract-call? .dummy-oracle get-btc-price) u0))
+    (stx-price (unwrap! (contract-call? .dummy-oracle get-stx-price) u0))
+    )
+        (+ (* collateral-stx stx-price) (* collateral-btc btc-price))
+    )
+)
+
+(define-private (get-repayment-due (vault {borrower: principal, collateral-stx: uint, collateral-btc: uint, debt: uint, nft-id: uint, last-repayment-date: uint}))
+    (let (
+    (remaining-debt (get debt vault))
+    (days-since-last-payment (- block-height (get last-repayment-date vault)))
+    )
+    (if (>= days-since-last-payment u80)
+      remaining-debt
+      (if (>= days-since-last-payment u30)
+        (/ (* remaining-debt u2) u3)
+        (if (>= days-since-last-payment u20)
+          (/ remaining-debt u2)
+          u0
+        )
+      )
     )
   )
 )
 
 ;; public functions
 
-;; @Desc public function initialize a purchase order
+;; @Desc public function to check if a user holds TAL token
+;; @Param user: principal value of a user
+(define-public (check-if-user-holds-tal-token (user principal))
+    (let (
+    ;; Get TAL balance of the user
+    (balance (unwrap-panic (contract-call? .taral-coin get-balance user)))
+    )
+    ;; Check if the balance is greater than 0
+    (if (> balance u0)
+        (ok true)
+        (ok false)
+    )
+  )
+)
+
+;; @Desc public function to initialize a purchase order
 ;; @Param exporter: principal value of exporter
 ;; @Param importer: principal value of importer
 ;; @Param order-hash: Hashed data of order
@@ -84,6 +131,76 @@
         (ok true)
     )
 )
+
+(define-public (create-vault (collateral-stx uint) (collateral-btc uint) (loan-amount uint) (duration uint))
+  (let (
+    (MIN_COLLATERAL_VALUE (/ (* loan-amount u11) u10)) ;; require 110% collateral
+    (vault-id (contract-call? .purchase-order-storage get-next-vault-id))
+    (collateral-value (get-collateral-value collateral-stx collateral-btc))
+    (required-collateral-value (* loan-amount MIN_COLLATERAL_VALUE))
+  )
+    (asserts! (>= collateral-value required-collateral-value) ERR_INSUFFICIENT_COLLATERAL)
+    (unwrap! (nft-mint? loan-nft vault-id tx-sender) ERR_INVALID_AMOUNT)
+
+    ;; (asserts! (>= collateral-stx MIN_COLLATERAL_AMOUNT) (err ERR_INVALID_COLLATERAL_AMOUNT))
+    ;; (asserts! (>= collateral-btc MIN_BTC_COLLATERAL_AMOUNT) (err ERR_INVALID_COLLATERAL_AMOUNT))
+    (asserts! (>= loan-amount MIN_LOAN_AMOUNT) ERR_INVALID_LOAN_AMOUNT)
+    (asserts! (<= duration u80) ERR_INVALID_LOAN_DURATION)
+    (asserts! (>= (get-collateral-value collateral-stx collateral-btc) required-collateral-value) ERR_INSUFFICIENT_COLLATERAL)
+    (unwrap! (contract-call? .purchase-order-storage update-vault 
+        {vault-id: vault-id}
+        {
+            borrower: tx-sender,
+            collateral-stx: collateral-stx,
+            collateral-btc: collateral-btc,
+            debt: loan-amount,
+            nft-id: vault-id,
+            last-repayment-date: block-height
+        }) ERR_PURCHASE_ORDER_STORAGE)
+    (ok vault-id)
+  )
+)
+
+(define-public (repay-loan (vault-id uint) (repayment-amount uint))
+    (let (
+        (vault (unwrap! (contract-call? .purchase-order-storage get-vault-by-id vault-id) ERR_VAULT_NOT_FOUND))
+        (updated-debt (- (get debt vault) repayment-amount))
+        (repayment-due (get-repayment-due vault))
+    )
+        (asserts! (> vault-id u0) ERR_INVALID_VAULT)
+        (asserts! (>= repayment-amount repayment-due) ERR_INSUFFICIENT_REPAYMENT)
+        (if (>= updated-debt u0)
+        (begin
+            (unwrap! (nft-transfer? loan-nft (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
+            (unwrap! (contract-call? .purchase-order-storage delete-vault vault-id) ERR_PURCHASE_ORDER_STORAGE)
+            (ok u0)
+        )
+        (begin
+            (unwrap! (contract-call? .purchase-order-storage update-vault {vault-id: vault-id} (merge vault {debt: updated-debt, last-repayment-date: block-height})) ERR_PURCHASE_ORDER_STORAGE)
+            (ok updated-debt)
+        ))
+    )
+)
+
+(define-public (liquidate (vault-id uint))
+  (let (
+    (vault (unwrap! (contract-call? .purchase-order-storage get-vault-by-id vault-id) ERR_VAULT_NOT_FOUND))
+    (collateral-value (get-collateral-value (get collateral-stx vault) (get collateral-btc vault)))
+    (debt-value (* (get debt vault) DEBT_RATIO))
+  )
+    (asserts! (> vault-id u0) ERR_INVALID_VAULT)
+    (asserts! (< collateral-value debt-value) ERR_VAULT_NOT_UNDERCOLLATERALIZED)
+
+    (print {collateral-value: collateral-value, debt-value: debt-value})
+    
+    (unwrap! (nft-transfer? loan-nft (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
+    ;; (unwrap! (contract-call? .wstx transfer (get collateral-stx vault) (get borrower vault) tx-sender) (err ERR_TRANSFER_FAILED))
+    ;; (unwrap! (contract-call? .wbtc transfer (get collateral-btc vault) (get borrower vault) tx-sender) (err ERR_TRANSFER_FAILED))
+    (unwrap! (contract-call? .purchase-order-storage delete-vault vault-id) ERR_PURCHASE_ORDER_STORAGE)
+    (ok u0)
+  )
+)
+
 
 
 
