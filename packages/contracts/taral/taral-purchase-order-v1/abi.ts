@@ -245,12 +245,7 @@
   ],
   "fungible_tokens": [],
   "maps": [],
-  "non_fungible_tokens": [
-    {
-      "name": "loan-nft",
-      "type": "uint128"
-    }
-  ],
+  "non_fungible_tokens": [],
   "variables": [
     {
       "access": "constant",
@@ -259,37 +254,7 @@
     },
     {
       "access": "constant",
-      "name": "ERR-EXPORTER-NOT-REGISTERED",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
       "name": "ERR-GENERIC",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
-      "name": "ERR-IMPORTER-NOT-REGISTERED",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
-      "name": "ERR-PERMISSION-DENIED",
       "type": {
         "response": {
           "error": "uint128",
@@ -339,16 +304,6 @@
     },
     {
       "access": "constant",
-      "name": "ERR_INVALID_AMOUNT",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
       "name": "ERR_INVALID_LOAN_AMOUNT",
       "type": {
         "response": {
@@ -370,16 +325,6 @@
     {
       "access": "constant",
       "name": "ERR_INVALID_VAULT",
-      "type": {
-        "response": {
-          "error": "uint128",
-          "ok": "none"
-        }
-      }
-    },
-    {
-      "access": "constant",
-      "name": "ERR_NFT_TRANSFER_FAILED",
       "type": {
         "response": {
           "error": "uint128",

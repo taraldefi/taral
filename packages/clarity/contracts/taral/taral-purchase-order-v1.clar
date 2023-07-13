@@ -1,23 +1,7 @@
 ;; Purchase Order Contract 0.1.5-beta
 (impl-trait .taral-purchase-order-trait.purchase-order-trait)
+(use-trait nft-trait .nft-trait.nft-trait)
 ;; constants
-(define-constant ERR-GENERIC (err u100))
-(define-constant ERR_EMPTY_HASH (err u103))
-(define-constant ERR-PERMISSION-DENIED (err u101))
-(define-constant ERR_CONTRACT_CALL (err u106))
-(define-constant ERR_PURCHASE_ORDER_STORAGE (err u107))
-(define-constant ERR-EXPORTER-NOT-REGISTERED (err u120))
-(define-constant ERR-IMPORTER-NOT-REGISTERED (err u121))
-(define-constant ERR_INVALID_VAULT (err u203))
-(define-constant ERR_INSUFFICIENT_REPAYMENT (err u203))
-(define-constant ERR_NFT_TRANSFER_FAILED (err u203))
-(define-constant ERR_VAULT_NOT_FOUND (err u203))
-(define-constant ERR_VAULT_NOT_UNDERCOLLATERALIZED (err u406))
-(define-constant ERR_INSUFFICIENT_COLLATERAL ( err u1001))
-(define-constant ERR_INVALID_AMOUNT (err u1002))
-(define-constant ERR_INVALID_LOAN_AMOUNT (err u404))
-(define-constant ERR_INVALID_LOAN_DURATION (err u405))
-
 (define-constant DEBT_RATIO (/ u11 u10))
 (define-constant MIN_COLLATERAL_AMOUNT u1000)
 (define-constant MIN_BTC_COLLATERAL_AMOUNT u100000)
@@ -25,7 +9,19 @@
 
 (define-constant VERSION "0.1.5.beta")
 
-(define-non-fungible-token loan-nft uint)
+;; Error codes
+(define-constant ERR-GENERIC (err u100))
+(define-constant ERR_EMPTY_HASH (err u103))
+(define-constant ERR_CONTRACT_CALL (err u106))
+(define-constant ERR_PURCHASE_ORDER_STORAGE (err u107))
+(define-constant ERR_INVALID_VAULT (err u203))
+(define-constant ERR_INSUFFICIENT_REPAYMENT (err u203))
+(define-constant ERR_VAULT_NOT_FOUND (err u203))
+(define-constant ERR_VAULT_NOT_UNDERCOLLATERALIZED (err u406))
+(define-constant ERR_INSUFFICIENT_COLLATERAL ( err u1001))
+(define-constant ERR_INVALID_LOAN_AMOUNT (err u404))
+(define-constant ERR_INVALID_LOAN_DURATION (err u405))
+
 ;; Read-only functions
 (define-read-only (get-info)
     (ok {
@@ -140,7 +136,7 @@
     (required-collateral-value (* loan-amount MIN_COLLATERAL_VALUE))
   )
     (asserts! (>= collateral-value required-collateral-value) ERR_INSUFFICIENT_COLLATERAL)
-    (unwrap! (nft-mint? loan-nft vault-id tx-sender) ERR_INVALID_AMOUNT)
+    (try! (contract-call? .taral-purchase-order-nft mint vault-id tx-sender))
 
     ;; (asserts! (>= collateral-stx MIN_COLLATERAL_AMOUNT) (err ERR_INVALID_COLLATERAL_AMOUNT))
     ;; (asserts! (>= collateral-btc MIN_BTC_COLLATERAL_AMOUNT) (err ERR_INVALID_COLLATERAL_AMOUNT))
@@ -171,7 +167,7 @@
         (asserts! (>= repayment-amount repayment-due) ERR_INSUFFICIENT_REPAYMENT)
         (if (>= updated-debt u0)
         (begin
-            (unwrap! (contract-call? .taral-purchase-order-nft transfer (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
+            (try! (contract-call? .taral-purchase-order-nft transfer (get nft-id vault) (get borrower vault) tx-sender))
             (unwrap! (contract-call? .purchase-order-storage delete-vault vault-id) ERR_PURCHASE_ORDER_STORAGE)
             (ok u0)
         )
@@ -193,7 +189,7 @@
 
     (print {collateral-value: collateral-value, debt-value: debt-value})
     
-    (unwrap! (nft-transfer? loan-nft (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
+    (try! (contract-call? .taral-purchase-order-nft transfer (get nft-id vault) (get borrower vault) tx-sender))
     ;; (unwrap! (contract-call? .wstx transfer (get collateral-stx vault) (get borrower vault) tx-sender) (err ERR_TRANSFER_FAILED))
     ;; (unwrap! (contract-call? .wbtc transfer (get collateral-btc vault) (get borrower vault) tx-sender) (err ERR_TRANSFER_FAILED))
     (unwrap! (contract-call? .purchase-order-storage delete-vault vault-id) ERR_PURCHASE_ORDER_STORAGE)

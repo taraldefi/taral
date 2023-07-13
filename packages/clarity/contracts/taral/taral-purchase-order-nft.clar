@@ -47,15 +47,12 @@
 ;; @Desc mint function to transfer NFT 
 ;; @Params receiver: principal of receiver to mint NFT
 ;; @returns (response uint uint)
-(define-public (mint (receiver principal)) 
-    (let 
-        (
-            (token-id (+ (var-get last-token-id) u1))
-        )
-        (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
+(define-public (mint (token-id uint) (receiver principal)) 
+    (begin
+        ;;(asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
         (try! (nft-mint? purchase-order-nft token-id receiver))
         (var-set last-token-id token-id)
-        (ok token-id)
+        (ok true)
     )
 )
 
@@ -67,7 +64,7 @@
 ;; note: Clarity restricts burning of an asset only by it's owner.
 (define-public (burn (token-id uint) (sender principal)) 
     (begin
-        (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
+        ;;(asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
         (try! (nft-burn? purchase-order-nft token-id sender))
         (ok true)
     )

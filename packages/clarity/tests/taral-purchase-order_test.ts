@@ -71,11 +71,16 @@ Clarinet.test({
 });
 
 // Clarinet.test({
-//   name: "purchase-order-contract: create-vault with insufficient collateral",
+//   name: 'purchase-order-contract: create-vault with insufficient collateral',
 //   async fn(chain: Chain, accounts: Map<string, Account>) {
-//     const wallet_1 = accounts.get("wallet_1")!;
+//     const wallet_1 = accounts.get('wallet_1')!;
 //     const block = chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "create-vault", [types.uint(10), types.uint(10000), types.uint(400), types.uint(30)], wallet_1.address),
+//       Tx.contractCall(
+//         'taral-purchase-order-v1',
+//         'create-vault',
+//         [types.uint(10), types.uint(10000), types.uint(400), types.uint(30)],
+//         wallet_1.address
+//       ),
 //     ]);
 
 //     block.receipts[0].result.expectErr().expectUint(1001);
@@ -94,7 +99,6 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-
     block.receipts[0].result.expectErr().expectUint(404);
   },
 });
@@ -122,19 +126,29 @@ Clarinet.test({
 });
 
 // Clarinet.test({
-//   name: "purchase-order-contract: repay-loan with sufficient repayment",
+//   name: 'purchase-order-contract: repay-loan with sufficient repayment',
 //   async fn(chain: Chain, accounts: Map<string, Account>) {
-//     const wallet_1 = accounts.get("wallet_1")!;
+//     const wallet_1 = accounts.get('wallet_1')!;
 
 //     let block = chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "create-vault", [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)], wallet_1.address),
+//       Tx.contractCall(
+//         'taral-purchase-order-v1',
+//         'create-vault',
+//         [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)],
+//         wallet_1.address
+//       ),
 //     ]);
 
-//     console.log("RESULT:::")
+//     console.log('RESULT:::');
 //     console.log(block.receipts[0].result);
 
 //     block = chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "repay-loan", [types.uint(1), types.uint(450)], wallet_1.address),
+//       Tx.contractCall(
+//         'taral-purchase-order-v1',
+//         'repay-loan',
+//         [types.uint(1), types.uint(450)],
+//         wallet_1.address
+//       ),
 //     ]);
 
 //     block.receipts[0].result.expectOk().expectUint(200);

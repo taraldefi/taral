@@ -29,6 +29,10 @@
       "access": "public",
       "args": [
         {
+          "name": "token-id",
+          "type": "uint128"
+        },
+        {
           "name": "receiver",
           "type": "principal"
         }
@@ -38,7 +42,7 @@
         "type": {
           "response": {
             "error": "uint128",
-            "ok": "uint128"
+            "ok": "bool"
           }
         }
       }

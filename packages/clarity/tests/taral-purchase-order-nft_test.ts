@@ -23,12 +23,12 @@ Clarinet.test({
       Tx.contractCall(
         'taral-purchase-order-nft',
         'mint',
-        [types.principal(wallet_1.address)],
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
 
-    assertEquals(mintTx.receipts[0].result, '(ok u1)');
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Check the last token ID
     let lastTokenId = await chain.callReadOnlyFn(
@@ -53,11 +53,11 @@ Clarinet.test({
       Tx.contractCall(
         'taral-purchase-order-nft',
         'mint',
-        [types.principal(wallet_1.address)],
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
-    assertEquals(mintTx.receipts[0].result, '(ok u1)');
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Set token URI for token ID 1
     let uri =
@@ -95,11 +95,11 @@ Clarinet.test({
       Tx.contractCall(
         'taral-purchase-order-nft',
         'mint',
-        [types.principal(wallet_1.address)],
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
-    assertEquals(mintTx.receipts[0].result, '(ok u1)');
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Transfer token ID 1 from wallet_1 to wallet_2
     let transferTx = await chain.mineBlock([
@@ -138,7 +138,7 @@ Clarinet.test({
       Tx.contractCall(
         'taral-purchase-order-nft',
         'mint',
-        [types.principal(wallet_1.address)],
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);

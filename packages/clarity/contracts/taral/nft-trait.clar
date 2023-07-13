@@ -11,5 +11,8 @@
 
 		;; Transfer from the sender to a new principal
 		(transfer (uint principal principal) (response bool uint))
+
+		;;Mint a NFT 
+		(mint (uint principal) (response bool uint))
 	)
 )
