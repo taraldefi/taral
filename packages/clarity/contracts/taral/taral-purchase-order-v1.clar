@@ -1,4 +1,4 @@
-;; Purchase Order Contract 0.0.5-beta
+;; Purchase Order Contract 0.1.5-beta
 (impl-trait .taral-purchase-order-trait.purchase-order-trait)
 ;; constants
 (define-constant ERR-GENERIC (err u100))
@@ -23,7 +23,7 @@
 (define-constant MIN_BTC_COLLATERAL_AMOUNT u100000)
 (define-constant MIN_LOAN_AMOUNT u100)
 
-(define-constant VERSION "0.0.5.beta")
+(define-constant VERSION "0.1.5.beta")
 
 (define-non-fungible-token loan-nft uint)
 ;; Read-only functions
@@ -59,7 +59,7 @@
       remaining-debt
       (if (>= days-since-last-payment u30)
         (/ (* remaining-debt u2) u3)
-        (if (>= days-since-last-payment u20)
+        (if (>= days-since-last-payment u20)      
           (/ remaining-debt u2)
           u0
         )
@@ -171,7 +171,7 @@
         (asserts! (>= repayment-amount repayment-due) ERR_INSUFFICIENT_REPAYMENT)
         (if (>= updated-debt u0)
         (begin
-            (unwrap! (nft-transfer? loan-nft (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
+            (unwrap! (contract-call? .taral-purchase-order-nft transfer (get nft-id vault) (get borrower vault) tx-sender) ERR_NFT_TRANSFER_FAILED)
             (unwrap! (contract-call? .purchase-order-storage delete-vault vault-id) ERR_PURCHASE_ORDER_STORAGE)
             (ok u0)
         )

@@ -4,6 +4,63 @@
   export const TaralPurchaseOrderV1Interface: ClarityAbi = {
   "functions": [
     {
+      "access": "private",
+      "args": [
+        {
+          "name": "collateral-stx",
+          "type": "uint128"
+        },
+        {
+          "name": "collateral-btc",
+          "type": "uint128"
+        }
+      ],
+      "name": "get-collateral-value",
+      "outputs": {
+        "type": "uint128"
+      }
+    },
+    {
+      "access": "private",
+      "args": [
+        {
+          "name": "vault",
+          "type": {
+            "tuple": [
+              {
+                "name": "borrower",
+                "type": "principal"
+              },
+              {
+                "name": "collateral-btc",
+                "type": "uint128"
+              },
+              {
+                "name": "collateral-stx",
+                "type": "uint128"
+              },
+              {
+                "name": "debt",
+                "type": "uint128"
+              },
+              {
+                "name": "last-repayment-date",
+                "type": "uint128"
+              },
+              {
+                "name": "nft-id",
+                "type": "uint128"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "get-repayment-due",
+      "outputs": {
+        "type": "uint128"
+      }
+    },
+    {
       "access": "public",
       "args": [
         {
@@ -17,6 +74,36 @@
           "response": {
             "error": "none",
             "ok": "bool"
+          }
+        }
+      }
+    },
+    {
+      "access": "public",
+      "args": [
+        {
+          "name": "collateral-stx",
+          "type": "uint128"
+        },
+        {
+          "name": "collateral-btc",
+          "type": "uint128"
+        },
+        {
+          "name": "loan-amount",
+          "type": "uint128"
+        },
+        {
+          "name": "duration",
+          "type": "uint128"
+        }
+      ],
+      "name": "create-vault",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "uint128",
+            "ok": "uint128"
           }
         }
       }
@@ -80,6 +167,46 @@
       }
     },
     {
+      "access": "public",
+      "args": [
+        {
+          "name": "vault-id",
+          "type": "uint128"
+        }
+      ],
+      "name": "liquidate",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "uint128",
+            "ok": "uint128"
+          }
+        }
+      }
+    },
+    {
+      "access": "public",
+      "args": [
+        {
+          "name": "vault-id",
+          "type": "uint128"
+        },
+        {
+          "name": "repayment-amount",
+          "type": "uint128"
+        }
+      ],
+      "name": "repay-loan",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "uint128",
+            "ok": "uint128"
+          }
+        }
+      }
+    },
+    {
       "access": "read_only",
       "args": [],
       "name": "get-info",
@@ -118,8 +245,18 @@
   ],
   "fungible_tokens": [],
   "maps": [],
-  "non_fungible_tokens": [],
+  "non_fungible_tokens": [
+    {
+      "name": "loan-nft",
+      "type": "uint128"
+    }
+  ],
   "variables": [
+    {
+      "access": "constant",
+      "name": "DEBT_RATIO",
+      "type": "uint128"
+    },
     {
       "access": "constant",
       "name": "ERR-EXPORTER-NOT-REGISTERED",
@@ -182,6 +319,76 @@
     },
     {
       "access": "constant",
+      "name": "ERR_INSUFFICIENT_COLLATERAL",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INSUFFICIENT_REPAYMENT",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_AMOUNT",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_LOAN_AMOUNT",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_LOAN_DURATION",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_VAULT",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_NFT_TRANSFER_FAILED",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
       "name": "ERR_PURCHASE_ORDER_STORAGE",
       "type": {
         "response": {
@@ -189,6 +396,41 @@
           "ok": "none"
         }
       }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_VAULT_NOT_FOUND",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_VAULT_NOT_UNDERCOLLATERALIZED",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "MIN_BTC_COLLATERAL_AMOUNT",
+      "type": "uint128"
+    },
+    {
+      "access": "constant",
+      "name": "MIN_COLLATERAL_AMOUNT",
+      "type": "uint128"
+    },
+    {
+      "access": "constant",
+      "name": "MIN_LOAN_AMOUNT",
+      "type": "uint128"
     },
     {
       "access": "constant",

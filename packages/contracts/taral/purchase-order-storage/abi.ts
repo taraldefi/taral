@@ -131,6 +131,24 @@
     },
     {
       "access": "public",
+      "args": [
+        {
+          "name": "vault-id",
+          "type": "uint128"
+        }
+      ],
+      "name": "delete-vault",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "none",
+            "ok": "bool"
+          }
+        }
+      }
+    },
+    {
+      "access": "public",
       "args": [],
       "name": "increment-order-id-nonce",
       "outputs": {
@@ -140,6 +158,70 @@
             "ok": "bool"
           }
         }
+      }
+    },
+    {
+      "access": "public",
+      "args": [
+        {
+          "name": "key-tuple",
+          "type": {
+            "tuple": [
+              {
+                "name": "vault-id",
+                "type": "uint128"
+              }
+            ]
+          }
+        },
+        {
+          "name": "value-tuple",
+          "type": {
+            "tuple": [
+              {
+                "name": "borrower",
+                "type": "principal"
+              },
+              {
+                "name": "collateral-btc",
+                "type": "uint128"
+              },
+              {
+                "name": "collateral-stx",
+                "type": "uint128"
+              },
+              {
+                "name": "debt",
+                "type": "uint128"
+              },
+              {
+                "name": "last-repayment-date",
+                "type": "uint128"
+              },
+              {
+                "name": "nft-id",
+                "type": "uint128"
+              }
+            ]
+          }
+        }
+      ],
+      "name": "update-vault",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "none",
+            "ok": "bool"
+          }
+        }
+      }
+    },
+    {
+      "access": "read_only",
+      "args": [],
+      "name": "get-next-vault-id",
+      "outputs": {
+        "type": "uint128"
       }
     },
     {
@@ -293,6 +375,48 @@
           }
         }
       }
+    },
+    {
+      "access": "read_only",
+      "args": [
+        {
+          "name": "vault-id",
+          "type": "uint128"
+        }
+      ],
+      "name": "get-vault-by-id",
+      "outputs": {
+        "type": {
+          "optional": {
+            "tuple": [
+              {
+                "name": "borrower",
+                "type": "principal"
+              },
+              {
+                "name": "collateral-btc",
+                "type": "uint128"
+              },
+              {
+                "name": "collateral-stx",
+                "type": "uint128"
+              },
+              {
+                "name": "debt",
+                "type": "uint128"
+              },
+              {
+                "name": "last-repayment-date",
+                "type": "uint128"
+              },
+              {
+                "name": "nft-id",
+                "type": "uint128"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "fungible_tokens": [],
@@ -370,10 +494,54 @@
           }
         ]
       }
+    },
+    {
+      "key": {
+        "tuple": [
+          {
+            "name": "vault-id",
+            "type": "uint128"
+          }
+        ]
+      },
+      "name": "vaults",
+      "value": {
+        "tuple": [
+          {
+            "name": "borrower",
+            "type": "principal"
+          },
+          {
+            "name": "collateral-btc",
+            "type": "uint128"
+          },
+          {
+            "name": "collateral-stx",
+            "type": "uint128"
+          },
+          {
+            "name": "debt",
+            "type": "uint128"
+          },
+          {
+            "name": "last-repayment-date",
+            "type": "uint128"
+          },
+          {
+            "name": "nft-id",
+            "type": "uint128"
+          }
+        ]
+      }
     }
   ],
   "non_fungible_tokens": [],
   "variables": [
+    {
+      "access": "variable",
+      "name": "last-vault-id",
+      "type": "uint128"
+    },
     {
       "access": "variable",
       "name": "order-id-nonce",

@@ -12,6 +12,7 @@
         "importer-trait",
         "nft-trait",
         "storage-service-trait",
+        "dummy-oracle",
         "insurance-pool-oracle",
         "insurance-pool-audit-compact",
         "insurance-pool-audit",
@@ -31,8 +32,8 @@
         "taral-purchase-order",
         "taral-purchase-order-trait",
         "purchase-order-storage",
+         "taral-purchase-order-nft",
         "taral-purchase-order-v1",
-        "taral-purchase-order-nft",
         "taral-storage",
         "usda-token"
       ]
