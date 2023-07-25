@@ -1,26 +1,28 @@
-import { NativeClarityBinProvider } from "lib-clarity-bin";
-import { getClarinetAccounts } from "lib-infra";
+import { NativeClarityBinProvider } from 'lib-clarity-bin';
+import { getClarinetAccounts } from 'lib-infra';
 import {
   ClarinetAccount,
   ClarinetAccounts,
   getRootDirectory,
-} from "lib-shared";
+} from 'lib-shared';
 import {
   getDefaultClarityBin,
   TestProvider,
   TestUtilsProvider,
-} from "lib-testing";
+} from 'lib-testing';
 import {
   nodeArkadikoContracts,
   nodeTaralContracts,
   TaralCoinContract,
   TaralOracleV1Contract,
   StorageServiceContract,
-} from "taral-contracts";
+  TaralExporterV1Contract,
+} from 'taral-contracts';
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
 export let taralOracle: (caller: ClarinetAccount) => TaralOracleV1Contract;
 export let storageService: (caller: ClarinetAccount) => StorageServiceContract;
+export let taralExporter: (caller: ClarinetAccount) => TaralExporterV1Contract;
 
 export let clarinetAccounts: ClarinetAccounts;
 export let deployer: ClarinetAccount;
@@ -46,4 +48,5 @@ beforeAll(async () => {
   talToken = deployed.nodeTaralCoin.contract;
   taralOracle = deployed.nodeTaralOracleV1.contract;
   storageService = deployed.nodeStorageService.contract;
+  taralExporter = deployed.nodeTaralExporterV1.contract;
 }, 3000000);

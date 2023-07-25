@@ -5,13 +5,15 @@
 
   export interface ExporterStorageContract {
       addExporter: (exporter: string, exporterId: number | bigint) => Transaction<boolean, null>;
-  addExporterProfile: (exporterId: number | bigint, exporterName: string, exporterCategory: string) => Transaction<boolean, null>;
+  addExporterProfile: (exporterId: number | bigint, exporterName: string, hash: Buffer, exporterCategory: string) => Transaction<boolean, null>;
   addOrder: (id: number | bigint, exporterId: number | bigint, orderId: number | bigint) => Transaction<boolean, null>;
   incrementExporterIdNonce: () => Transaction<boolean, null>;
   updateExporterProfile: (keyTuple: {
   "exporter-id": bigint
     }, valueTuple: {
   "category": string;
+  "created": bigint;
+  "hash": Buffer;
   "name": string;
   "orders-next-avail-id": bigint
     }) => Transaction<boolean, null>;
@@ -25,16 +27,22 @@
     } | null[]>;
   getExporterProfile: (exporter: string) => Promise<{
   "category": string;
+  "created": bigint;
+  "hash": Buffer;
   "name": string;
   "orders-next-avail-id": bigint
     } | null>;
   getExporters: (principals: string[]) => Promise<{
   "category": string;
+  "created": bigint;
+  "hash": Buffer;
   "name": string;
   "orders-next-avail-id": bigint
     } | null[]>;
   getOrdersNextAvailId: (exporter: {
   "category": string;
+  "created": bigint;
+  "hash": Buffer;
   "name": string;
   "orders-next-avail-id": bigint
     }) => Promise<bigint>;
@@ -44,6 +52,8 @@
   "exporter-id": bigint
     }) => Promise<{
   "category": string;
+  "created": bigint;
+  "hash": Buffer;
   "name": string;
   "orders-next-avail-id": bigint
     } | null>;

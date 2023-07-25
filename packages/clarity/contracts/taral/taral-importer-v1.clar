@@ -2,12 +2,20 @@
 (impl-trait .importer-trait.importer-trait)
 ;; Constants and Errors
 (define-constant ERR-GENERIC (err u100))
-(define-constant ERR-IMPORTER-ALREADY-REGISTERED (err u101))
+(define-constant ERR_INVALID_SIGNATURE (err u101))
 (define-constant ERR-IMPORTER-NOT-REGISTERED (err u102))
-(define-constant importer-storage-error (err u103))
+(define-constant ERR_EMPTY_HASH (err u103))
+(define-constant ERR_EMPTY_SIGNATURE (err u104))
+(define-constant ERR-IMPORTER-ALREADY-REGISTERED (err u105))
+(define-constant importer-storage-error (err u106))
+(define-constant VERSION "0.2.6.beta")
 
-(define-constant VERSION "0.0.5.beta")
-
+(define-read-only (get-importer-hash (importer principal))
+    (let 
+    ((current-importer-profile (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error)))           
+    (ok (get hash current-importer-profile))
+    )
+)
 
 ;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
 ;; @Param importer : principal of importer
@@ -38,15 +46,23 @@
 ;; @Params importer : importer principal
 ;; @params importer-name : name of the importer
 ;; @params importer-category : category of importer
-(define-public (register (importer principal) (importer-name (string-utf8 100)) (importer-category (string-utf8 100)))
-    (begin 
+(define-public (register 
+    (importer principal) 
+    (importer-name (string-utf8 100)) 
+    (hash (buff 256)) 
+    (importer-category (string-utf8 100))
+)
+    (begin
         (asserts! (is-none (contract-call? .importer-storage get-importer-by-principal importer)) ERR-IMPORTER-ALREADY-REGISTERED)
         (asserts! (> (len importer-name) u0) ERR-GENERIC)
         (asserts! (> (len importer-category) u0) ERR-GENERIC) 
-            (let ((importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
-            (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name importer-category) importer-storage-error)
-            (print {action: "register", importer: importer, importer-name: importer-name, importer-category: importer-category })
-            (ok true)
+        ;; check that the hash is not empty
+        (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
+            
+        (let ((importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
+        (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name hash importer-category) importer-storage-error)
+        (print {action: "register", importer: importer, importer-name: importer-name, importer-category: importer-category })
+        (ok true)
         )
     ) 
 )
@@ -54,19 +70,21 @@
 ;; @Desc appends order to importer and updates importer profile
 ;; @params new-order-id : ID of new order
 ;; @Params importer : Principal of importer
-(define-public (append-order (new-order-id uint) (importer principal))
-    (begin
+(define-public (append-order 
+    (new-order-id uint) 
+    (importer principal) 
+)
+    (let (
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
+        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
+        (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
+        )
         (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
-            (let (
-                (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-GENERIC))
-                (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
-                (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
-                )
-            (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
-            (unwrap! (contract-call? .importer-storage add-order new-id importer-id new-order-id) importer-storage-error)
-            (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
-            (ok true)
-            )
+        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage add-order new-id importer-id new-order-id) importer-storage-error)
+        (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
+        (ok true)
+            
     )
     
 )

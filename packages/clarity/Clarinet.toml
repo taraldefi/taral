@@ -24,6 +24,10 @@ path="contracts/taral/exporter-trait.clar"
 depends_on = []
 path="contracts/taral/storage-service-trait.clar"
 
+[contracts.taral-purchase-order-trait]
+depends_on = []
+path="contracts/taral/taral-purchase-order-trait.clar"
+
 # Storage
 [contracts.taral-storage]
 path = "contracts/taral/taral-storage.clar"
@@ -36,6 +40,9 @@ path = "contracts/taral/exporter-storage.clar"
 
 [contracts.taral-file-storage]
 path = "contracts/taral/taral-file-storage.clar"
+
+[contracts.purchase-order-storage]
+path = "contracts/taral/purchase-order-storage.clar"
 
 [contracts.taral-coin]
 depends_on = ["sip-10-ft-standard"]
@@ -52,6 +59,10 @@ depends_on = ["ft-trait", "clarity-bitcoin"]
 [contracts.btc-nft-swap]
 path = "contracts/taral/btc-nft-swap.clar"
 depends_on = ["nft-trait", "clarity-bitcoin"]
+
+[contracts.dummy-oracle]
+path = "contracts/taral/dummy-oracle.clar"
+depends_on = []
 
 [contracts.taral-oracle-v1]
 depends_on = []
@@ -94,6 +105,10 @@ path = "contracts/taral/taral-exporter.clar"
 
 [contracts.taral-purchase-order]
 path = "contracts/taral/taral-purchase-order.clar"
+
+[contracts.taral-purchase-order-v1]
+path = "contracts/taral/taral-purchase-order-v1.clar"
+depends_on=["purchase-order-storage", "taral-purchase-order-trait", "dummy-oracle"]
 
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"

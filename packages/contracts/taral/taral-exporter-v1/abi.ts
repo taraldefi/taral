@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const TaralExporterV1Interface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "private",
@@ -61,6 +59,14 @@
           }
         },
         {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
+            }
+          }
+        },
+        {
           "name": "exporter-category",
           "type": {
             "string-utf8": {
@@ -75,6 +81,28 @@
           "response": {
             "error": "uint128",
             "ok": "bool"
+          }
+        }
+      }
+    },
+    {
+      "access": "read_only",
+      "args": [
+        {
+          "name": "exporter",
+          "type": "principal"
+        }
+      ],
+      "name": "get-exporter-hash",
+      "outputs": {
+        "type": {
+          "response": {
+            "error": "uint128",
+            "ok": {
+              "buffer": {
+                "length": 256
+              }
+            }
           }
         }
       }
@@ -143,6 +171,36 @@
     {
       "access": "constant",
       "name": "ERR-GENERIC",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_EMPTY_HASH",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_EMPTY_SIGNATURE",
+      "type": {
+        "response": {
+          "error": "uint128",
+          "ok": "none"
+        }
+      }
+    },
+    {
+      "access": "constant",
+      "name": "ERR_INVALID_SIGNATURE",
       "type": {
         "response": {
           "error": "uint128",

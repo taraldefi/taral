@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const TaralPurchaseOrderNftInterface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "public",
@@ -31,6 +29,10 @@
       "access": "public",
       "args": [
         {
+          "name": "token-id",
+          "type": "uint128"
+        },
+        {
           "name": "receiver",
           "type": "principal"
         }
@@ -40,7 +42,7 @@
         "type": {
           "response": {
             "error": "uint128",
-            "ok": "uint128"
+            "ok": "bool"
           }
         }
       }

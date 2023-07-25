@@ -4,6 +4,7 @@ import { nodeFtTraitInfo, webFtTraitInfo } from './ft-trait';
 import { nodeImporterTraitInfo, webImporterTraitInfo } from './importer-trait';
 import { nodeNftTraitInfo, webNftTraitInfo } from './nft-trait';
 import { nodeStorageServiceTraitInfo, webStorageServiceTraitInfo } from './storage-service-trait';
+import { nodeDummyOracleInfo, webDummyOracleInfo } from './dummy-oracle';
 import { nodeInsurancePoolOracleInfo, webInsurancePoolOracleInfo } from './insurance-pool-oracle';
 import { nodeInsurancePoolAuditCompactInfo, webInsurancePoolAuditCompactInfo } from './insurance-pool-audit-compact';
 import { nodeInsurancePoolAuditInfo, webInsurancePoolAuditInfo } from './insurance-pool-audit';
@@ -21,7 +22,10 @@ import { nodeTaralImporterInfo, webTaralImporterInfo } from './taral-importer';
 import { nodeTaralImporterV1Info, webTaralImporterV1Info } from './taral-importer-v1';
 import { nodeTaralOracleV1Info, webTaralOracleV1Info } from './taral-oracle-v1';
 import { nodeTaralPurchaseOrderInfo, webTaralPurchaseOrderInfo } from './taral-purchase-order';
+import { nodeTaralPurchaseOrderTraitInfo, webTaralPurchaseOrderTraitInfo } from './taral-purchase-order-trait';
+import { nodePurchaseOrderStorageInfo, webPurchaseOrderStorageInfo } from './purchase-order-storage';
 import { nodeTaralPurchaseOrderNftInfo, webTaralPurchaseOrderNftInfo } from './taral-purchase-order-nft';
+import { nodeTaralPurchaseOrderV1Info, webTaralPurchaseOrderV1Info } from './taral-purchase-order-v1';
 import { nodeTaralStorageInfo, webTaralStorageInfo } from './taral-storage';
 import { nodeUsdaTokenInfo, webUsdaTokenInfo } from './usda-token';
     export type { ClarityBitcoinContract } from './clarity-bitcoin';
@@ -30,6 +34,7 @@ export type { FtTraitContract } from './ft-trait';
 export type { ImporterTraitContract } from './importer-trait';
 export type { NftTraitContract } from './nft-trait';
 export type { StorageServiceTraitContract } from './storage-service-trait';
+export type { DummyOracleContract } from './dummy-oracle';
 export type { InsurancePoolOracleContract } from './insurance-pool-oracle';
 export type { InsurancePoolAuditCompactContract } from './insurance-pool-audit-compact';
 export type { InsurancePoolAuditContract } from './insurance-pool-audit';
@@ -47,7 +52,10 @@ export type { TaralImporterContract } from './taral-importer';
 export type { TaralImporterV1Contract } from './taral-importer-v1';
 export type { TaralOracleV1Contract } from './taral-oracle-v1';
 export type { TaralPurchaseOrderContract } from './taral-purchase-order';
+export type { TaralPurchaseOrderTraitContract } from './taral-purchase-order-trait';
+export type { PurchaseOrderStorageContract } from './purchase-order-storage';
 export type { TaralPurchaseOrderNftContract } from './taral-purchase-order-nft';
+export type { TaralPurchaseOrderV1Contract } from './taral-purchase-order-v1';
 export type { TaralStorageContract } from './taral-storage';
 export type { UsdaTokenContract } from './usda-token';
     
@@ -58,6 +66,7 @@ export type { UsdaTokenContract } from './usda-token';
   nodeImporterTrait: nodeImporterTraitInfo,
   nodeNftTrait: nodeNftTraitInfo,
   nodeStorageServiceTrait: nodeStorageServiceTraitInfo,
+  nodeDummyOracle: nodeDummyOracleInfo,
   nodeInsurancePoolOracle: nodeInsurancePoolOracleInfo,
   nodeInsurancePoolAuditCompact: nodeInsurancePoolAuditCompactInfo,
   nodeInsurancePoolAudit: nodeInsurancePoolAuditInfo,
@@ -75,7 +84,10 @@ export type { UsdaTokenContract } from './usda-token';
   nodeTaralImporterV1: nodeTaralImporterV1Info,
   nodeTaralOracleV1: nodeTaralOracleV1Info,
   nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
+  nodeTaralPurchaseOrderTrait: nodeTaralPurchaseOrderTraitInfo,
+  nodePurchaseOrderStorage: nodePurchaseOrderStorageInfo,
   nodeTaralPurchaseOrderNft: nodeTaralPurchaseOrderNftInfo,
+  nodeTaralPurchaseOrderV1: nodeTaralPurchaseOrderV1Info,
   nodeTaralStorage: nodeTaralStorageInfo,
   nodeUsdaToken: nodeUsdaTokenInfo,
     };
@@ -87,6 +99,7 @@ export type { UsdaTokenContract } from './usda-token';
   webImporterTrait: webImporterTraitInfo,
   webNftTrait: webNftTraitInfo,
   webStorageServiceTrait: webStorageServiceTraitInfo,
+  webDummyOracle: webDummyOracleInfo,
   webInsurancePoolOracle: webInsurancePoolOracleInfo,
   webInsurancePoolAuditCompact: webInsurancePoolAuditCompactInfo,
   webInsurancePoolAudit: webInsurancePoolAuditInfo,
@@ -104,7 +117,10 @@ export type { UsdaTokenContract } from './usda-token';
   webTaralImporterV1: webTaralImporterV1Info,
   webTaralOracleV1: webTaralOracleV1Info,
   webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
+  webTaralPurchaseOrderTrait: webTaralPurchaseOrderTraitInfo,
+  webPurchaseOrderStorage: webPurchaseOrderStorageInfo,
   webTaralPurchaseOrderNft: webTaralPurchaseOrderNftInfo,
+  webTaralPurchaseOrderV1: webTaralPurchaseOrderV1Info,
   webTaralStorage: webTaralStorageInfo,
   webUsdaToken: webUsdaTokenInfo,
     };

@@ -2,8 +2,6 @@
   import { ClarityAbi } from 'lib-shared';
 
   export const ImporterStorageInterface: ClarityAbi = {
-  "clarity_version": "Clarity2",
-  "epoch": "Epoch21",
   "functions": [
     {
       "access": "private",
@@ -61,6 +59,14 @@
           "type": {
             "string-utf8": {
               "length": 100
+            }
+          }
+        },
+        {
+          "name": "hash",
+          "type": {
+            "buffer": {
+              "length": 256
             }
           }
         },
@@ -145,6 +151,18 @@
                 "type": {
                   "string-utf8": {
                     "length": 100
+                  }
+                }
+              },
+              {
+                "name": "created",
+                "type": "uint128"
+              },
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
                   }
                 }
               },
@@ -286,6 +304,18 @@
                 }
               },
               {
+                "name": "created",
+                "type": "uint128"
+              },
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
+                  }
+                }
+              },
+              {
                 "name": "name",
                 "type": {
                   "string-utf8": {
@@ -332,6 +362,18 @@
                     }
                   },
                   {
+                    "name": "created",
+                    "type": "uint128"
+                  },
+                  {
+                    "name": "hash",
+                    "type": {
+                      "buffer": {
+                        "length": 256
+                      }
+                    }
+                  },
+                  {
                     "name": "name",
                     "type": {
                       "string-utf8": {
@@ -362,6 +404,18 @@
                 "type": {
                   "string-utf8": {
                     "length": 100
+                  }
+                }
+              },
+              {
+                "name": "created",
+                "type": "uint128"
+              },
+              {
+                "name": "hash",
+                "type": {
+                  "buffer": {
+                    "length": 256
                   }
                 }
               },
@@ -411,6 +465,18 @@
             "type": {
               "string-utf8": {
                 "length": 100
+              }
+            }
+          },
+          {
+            "name": "created",
+            "type": "uint128"
+          },
+          {
+            "name": "hash",
+            "type": {
+              "buffer": {
+                "length": 256
               }
             }
           },

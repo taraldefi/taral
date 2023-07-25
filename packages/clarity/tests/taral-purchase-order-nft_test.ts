@@ -1,81 +1,81 @@
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Clarinet } from "../src/dependencies.ts";
+import { Clarinet } from '../src/dependencies.ts';
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Tx } from "../src/dependencies.ts";
+import { Tx } from '../src/dependencies.ts';
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Chain } from "../src/dependencies.ts";
+import { Chain } from '../src/dependencies.ts';
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Account } from "../src/dependencies.ts";
+import { Account } from '../src/dependencies.ts';
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { types } from "../src/dependencies.ts";
+import { types } from '../src/dependencies.ts';
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { assertEquals } from "../src/dependencies.ts";
+import { assertEquals } from '../src/dependencies.ts';
 
 Clarinet.test({
-  name: "Purchase Order NFT: should be able to MINT and get last token ID",
+  name: 'Purchase Order NFT: should be able to MINT and get last token ID',
 
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    let deployer = accounts.get("deployer")!;
-    let wallet_1 = accounts.get("wallet_1")!;
+    let deployer = accounts.get('deployer')!;
+    let wallet_1 = accounts.get('wallet_1')!;
 
     // Mint a token for wallet_1
     let mintTx = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "mint",
-        [types.principal(wallet_1.address)],
+        'taral-purchase-order-nft',
+        'mint',
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
 
-    assertEquals(mintTx.receipts[0].result, "(ok u1)");
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Check the last token ID
     let lastTokenId = await chain.callReadOnlyFn(
-      "taral-purchase-order-nft",
-      "get-last-token-id",
+      'taral-purchase-order-nft',
+      'get-last-token-id',
       [],
       deployer.address
     );
-    assertEquals(lastTokenId.result, "(ok u1)");
+    assertEquals(lastTokenId.result, '(ok u1)');
   },
 });
 
 Clarinet.test({
-  name: "Purchase Order NFT: should be able to SET and GET token URIs",
+  name: 'Purchase Order NFT: should be able to SET and GET token URIs',
 
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    let deployer = accounts.get("deployer")!;
-    let wallet_1 = accounts.get("wallet_1")!;
+    let deployer = accounts.get('deployer')!;
+    let wallet_1 = accounts.get('wallet_1')!;
 
     // Mint a token for wallet_1
     let mintTx = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "mint",
-        [types.principal(wallet_1.address)],
+        'taral-purchase-order-nft',
+        'mint',
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
-    assertEquals(mintTx.receipts[0].result, "(ok u1)");
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Set token URI for token ID 1
     let uri =
-      "ipfs://bafybeidntmydwppanpzvvz4clnp5ngbsyd6vd2aheppbnsuogh442s3kyu/";
+      'ipfs://bafybeidntmydwppanpzvvz4clnp5ngbsyd6vd2aheppbnsuogh442s3kyu/';
     let setUriTx = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "set-token-uri",
+        'taral-purchase-order-nft',
+        'set-token-uri',
         [types.uint(1), types.ascii(uri)],
         deployer.address
       ),
     ]);
-    assertEquals(setUriTx.receipts[0].result, "(ok true)");
+    assertEquals(setUriTx.receipts[0].result, '(ok true)');
 
     // Get token URI for token ID 1
     let tokenUri = await chain.callReadOnlyFn(
-      "taral-purchase-order-nft",
-      "get-token-uri",
+      'taral-purchase-order-nft',
+      'get-token-uri',
       [types.uint(1)],
       deployer.address
     );
@@ -84,28 +84,28 @@ Clarinet.test({
 });
 
 Clarinet.test({
-  name: "Purchase Order NFT: should be able to transfer NFT from one account to another",
+  name: 'Purchase Order NFT: should be able to transfer NFT from one account to another',
 
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    let deployer = accounts.get("deployer")!;
-    let wallet_1 = accounts.get("wallet_1")!;
-    let wallet_2 = accounts.get("wallet_2")!;
+    let deployer = accounts.get('deployer')!;
+    let wallet_1 = accounts.get('wallet_1')!;
+    let wallet_2 = accounts.get('wallet_2')!;
     // Mint a token for wallet_1
     let mintTx = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "mint",
-        [types.principal(wallet_1.address)],
+        'taral-purchase-order-nft',
+        'mint',
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
-    assertEquals(mintTx.receipts[0].result, "(ok u1)");
+    assertEquals(mintTx.receipts[0].result, '(ok true)');
 
     // Transfer token ID 1 from wallet_1 to wallet_2
     let transferTx = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "transfer",
+        'taral-purchase-order-nft',
+        'transfer',
         [
           types.uint(1),
           types.principal(wallet_1.address),
@@ -114,12 +114,12 @@ Clarinet.test({
         wallet_1.address
       ),
     ]);
-    assertEquals(transferTx.receipts[0].result, "(ok true)");
+    assertEquals(transferTx.receipts[0].result, '(ok true)');
 
     // Check the new owner of token ID 1
     let newOwner = await chain.callReadOnlyFn(
-      "taral-purchase-order-nft",
-      "get-owner",
+      'taral-purchase-order-nft',
+      'get-owner',
       [types.uint(1)],
       deployer.address
     );
@@ -128,17 +128,17 @@ Clarinet.test({
 });
 
 Clarinet.test({
-  name: "Purchase Order NFT: should be able to burn NFT by providing the token ID",
+  name: 'Purchase Order NFT: should be able to burn NFT by providing the token ID',
 
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    let deployer = accounts.get("deployer")!;
-    let wallet_1 = accounts.get("wallet_1")!;
+    let deployer = accounts.get('deployer')!;
+    let wallet_1 = accounts.get('wallet_1')!;
     // Mint a token for wallet_1
     await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "mint",
-        [types.principal(wallet_1.address)],
+        'taral-purchase-order-nft',
+        'mint',
+        [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
@@ -146,12 +146,12 @@ Clarinet.test({
     //NOTE: only the token owner can call the burn function
     let burnToken = await chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-nft",
-        "burn",
+        'taral-purchase-order-nft',
+        'burn',
         [types.uint(1), types.principal(wallet_1.address)],
         deployer.address
       ),
     ]);
-    assertEquals(burnToken.receipts[0].result, "(ok true)");
+    assertEquals(burnToken.receipts[0].result, '(ok true)');
   },
 });
