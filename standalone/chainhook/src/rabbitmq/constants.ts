@@ -17,7 +17,7 @@ export const rabbitMQServiceOptions = {
                 bindings: [
                 {
                     exchange: 'amq.direct', // default exchange
-                    routingKeys: [ 'auction_event' ],
+                    routingKeys: [ 'rabbitmq_chainhook_event' ],
                 },
                 ],
             },
