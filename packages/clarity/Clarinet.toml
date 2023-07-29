@@ -118,6 +118,8 @@ depends_on=["purchase-order-storage", "taral-purchase-order-trait", "dummy-oracl
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"
 
+
+
 [contracts.marketplace-storage]
 path = 'contracts/taral/marketplace-storage.clar'
 

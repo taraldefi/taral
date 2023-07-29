@@ -6,6 +6,8 @@
       "description": "Taral smart contracts",
       "subfolder": "taral",
       "contracts": [
+        "sip010-ft-trait",
+        "sip009-nft-trait",
         "clarity-bitcoin",
         "exporter-trait",
         "ft-trait",
@@ -35,7 +37,12 @@
         "taral-purchase-order-nft",
         "taral-purchase-order-v1",
         "taral-storage",
-        "usda-token"
+        "usda-token",
+        "marketplace-storage",
+        "marketplace-trait",
+        "nft-marketplace",
+        "sip009-nft",
+        "sip010-token"
       ]
     }
   ]
