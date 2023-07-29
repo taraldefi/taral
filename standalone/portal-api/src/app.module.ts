@@ -51,11 +51,16 @@ import databaseConfig from './config/database.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import onchainConfig from './config/onchain.config';
 import appConfig from './config/app.config';
+import { ClientsModule } from '@nestjs/microservices';
+import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
 
 // const appConfig = config.get('app');
 
 @Module({
   imports: [
+    ClientsModule.register([
+      rabbitMQServiceOptions as any
+    ]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [
