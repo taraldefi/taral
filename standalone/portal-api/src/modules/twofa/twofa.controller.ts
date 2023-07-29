@@ -22,12 +22,14 @@ import {
   TwoFaStatusUpdateResult,
 } from 'src/modules/twofa/dto/twofa-status-update.dto';
 import { TwofaService } from 'src/modules/twofa/twofa.service';
+import { RefreshTokenService } from '../refresh-token/refresh-token.service';
 
 @Controller('twofa')
 export class TwofaController {
   constructor(
     private readonly twofaService: TwofaService,
     private readonly usersService: AuthService,
+    private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
   @Post('authenticate')
@@ -52,7 +54,10 @@ export class TwofaController {
     if (!isCodeValid) {
       throw new UnauthorizedException('invalidOTP');
     }
-    const accessToken = await this.usersService.generateAccessToken(user, true);
+    const accessToken = await this.refreshTokenService.generateAccessToken(
+      user,
+      true,
+    );
     const cookiePayload = this.usersService.buildResponsePayload(accessToken);
     response.setHeader('Set-Cookie', cookiePayload);
     return response.status(HttpStatus.NO_CONTENT).json({});

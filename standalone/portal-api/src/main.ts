@@ -25,7 +25,7 @@ async function bootstrap() {
   });
 
   useContainer(app.select(AppModule), {
-    fallbackOnErrors: true
+    fallbackOnErrors: true,
   });
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
@@ -33,18 +33,18 @@ async function bootstrap() {
   app.use(cookieParser());
 
   const options = new DocumentBuilder()
-    .setTitle('Taral API')
-    .setDescription('Taral API docs')
+    .setTitle('Taral Marketplace API')
+    .setDescription('Taral Marketplace API docs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
 
-  const document = SwaggerModule.createDocument(app, options);
-  if (process.env.NODE_ENV === 'development') {
-    fs.writeFileSync('./swagger-spec.json', JSON.stringify(document));
-  }
+  // const document = SwaggerModule.createDocument(app, options);
+  // if (process.env.NODE_ENV === 'development') {
+  //   fs.writeFileSync('./swagger-spec.json', JSON.stringify(document));
+  // }
 
-  SwaggerModule.setup('docs', app, document);
+  // SwaggerModule.setup('docs', app, document);
 
   const port = configService.get('app.port');
 

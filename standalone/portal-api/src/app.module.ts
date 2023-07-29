@@ -51,11 +51,18 @@ import databaseConfig from './config/database.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
 import onchainConfig from './config/onchain.config';
 import appConfig from './config/app.config';
+import { ClientsModule } from '@nestjs/microservices';
+import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
+import { AuctionModule } from './modules/auctions/auction.module';
+import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
+import { Rabbit } from 'crypto-js';
+import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
 
 // const appConfig = config.get('app');
 
 @Module({
   imports: [
+    ClientsModule.register([rabbitMQServiceOptions as any]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [
@@ -129,6 +136,10 @@ import appConfig from './config/app.config';
     EmailTemplateModule,
     RefreshTokenModule,
     TwofaModule,
+
+    RabbitMqModule,
+    AuctionModule,
+    AuctionHistoryModule,
   ],
   providers: [
     {

@@ -1,18 +1,18 @@
 import { Signature, verify } from "@noble/secp256k1";
 import {
-    createStacksPrivateKey,
-    getAddressFromPublicKey,
-    hashStacksMessage,
-    hexToBigInt,
-    parseRecoverableSignature,
-    PubKeyEncoding,
-    publicKeyFromPrivKey,
-    publicKeyFromSignatureVrs,
-    signatureRsvToVrs,
-    signMessageHashRsv,
-    StacksPrivateKey,
-    TransactionVersion,
-    verifyMessageSignatureRsv
+  createStacksPrivateKey,
+  getAddressFromPublicKey,
+  hashStacksMessage,
+  hexToBigInt,
+  parseRecoverableSignature,
+  PubKeyEncoding,
+  publicKeyFromPrivKey,
+  publicKeyFromSignatureVrs,
+  signatureRsvToVrs,
+  signMessageHashRsv,
+  StacksPrivateKey,
+  TransactionVersion,
+  verifyMessageSignatureRsv,
 } from "lib-stacks";
 
 // const ascii_message_prefix = "Stacks Signed Message: ";
@@ -30,75 +30,75 @@ import {
 // }
 
 export function signature() {
-    const deployerPrivateKey =
-        "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
-    const publicKey = publicKeyFromPrivKey(deployerPrivateKey);
+  const deployerPrivateKey =
+    "753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601";
+  const publicKey = publicKeyFromPrivKey(deployerPrivateKey);
 
-    const stacksPrivateKey: StacksPrivateKey =
-        createStacksPrivateKey(deployerPrivateKey);
+  const stacksPrivateKey: StacksPrivateKey =
+    createStacksPrivateKey(deployerPrivateKey);
 
-    const messageRaw =
-        "e2d0fe1585a63ec6009c8016ff8dda8b17719a637405a4e23c0ff81339148249";
+  const messageRaw =
+    "e2d0fe1585a63ec6009c8016ff8dda8b17719a637405a4e23c0ff81339148249";
 
-    const messageHex = hashStacksMessage({ message: messageRaw });
+  const messageHex = hashStacksMessage({ message: messageRaw });
 
-    const signature = signMessageHashRsv({
-        message: messageRaw,
-        privateKey: stacksPrivateKey,
-    });
+  const signature = signMessageHashRsv({
+    message: messageRaw,
+    privateKey: stacksPrivateKey,
+  });
 
-    const compressedPubKeyFromSig = publicKeyFromSignatureVrs(
-        messageHex,
-        signature,
-        PubKeyEncoding.Compressed
-    );
+  const compressedPubKeyFromSig = publicKeyFromSignatureVrs(
+    messageHex,
+    signature,
+    PubKeyEncoding.Compressed
+  );
 
-    console.log("Compressed public key from signature ", compressedPubKeyFromSig);
-    console.log(
-        "Equality between keys",
-        compressedPubKeyFromSig === publicKey.data.toString("hex")
-    );
+  console.log("Compressed public key from signature ", compressedPubKeyFromSig);
+  console.log(
+    "Equality between keys",
+    compressedPubKeyFromSig === publicKey.data.toString("hex")
+  );
 
-    const result = verifyMessageSignatureRsv({
-        message: Buffer.from(messageHex, "hex"),
-        publicKey: compressedPubKeyFromSig,
-        signature: signature.data,
-    });
+  const result = verifyMessageSignatureRsv({
+    message: Buffer.from(messageHex, "hex"),
+    publicKey: compressedPubKeyFromSig,
+    signature: signature.data,
+  });
 
-    // todo: remove method and pull body to `verifyMessageSignatureRsv`
-    const { r, s } = parseRecoverableSignature(signatureRsvToVrs(signature.data));
+  // todo: remove method and pull body to `verifyMessageSignatureRsv`
+  const { r, s } = parseRecoverableSignature(signatureRsvToVrs(signature.data));
 
-    const nobleSignature: Signature = new Signature(
-        hexToBigInt(r),
-        hexToBigInt(s)
-    );
+  const nobleSignature: Signature = new Signature(
+    hexToBigInt(r),
+    hexToBigInt(s)
+  );
 
-    const nobleVerify = verify(
-        nobleSignature,
-        messageHex,
-        compressedPubKeyFromSig,
-        {
-            strict: true,
-        }
-    );
+  const nobleVerify = verify(
+    nobleSignature,
+    messageHex,
+    compressedPubKeyFromSig,
+    {
+      strict: true,
+    }
+  );
 
-    const addressFromPublicKey = getAddressFromPublicKey(
-        compressedPubKeyFromSig,
-        TransactionVersion.Testnet
-    );
+  const addressFromPublicKey = getAddressFromPublicKey(
+    compressedPubKeyFromSig,
+    TransactionVersion.Testnet
+  );
 
-    // const simpleSignatureBuffer = signMessageForVerification(
-    //   stacksPrivateKey,
-    //   messageRaw
-    // );
+  // const simpleSignatureBuffer = signMessageForVerification(
+  //   stacksPrivateKey,
+  //   messageRaw
+  // );
 
-    console.log("Noble signature verification: ", nobleVerify);
-    // console.log("Simple signature: ", simpleSignatureBuffer.toString("hex"));
-    console.log("Signature verification: ", result);
-    console.log("Noble signature: ", nobleSignature.toCompactHex());
-    console.log("Noble (der) signature hex: ", nobleSignature.toDERHex(true));
-    console.log(publicKey.data.toString("hex"));
-    console.log("Signature: ", signature.data);
-    console.log("Message hex: ", messageHex);
-    console.log(addressFromPublicKey);
+  console.log("Noble signature verification: ", nobleVerify);
+  // console.log("Simple signature: ", simpleSignatureBuffer.toString("hex"));
+  console.log("Signature verification: ", result);
+  console.log("Noble signature: ", nobleSignature.toCompactHex());
+  console.log("Noble (der) signature hex: ", nobleSignature.toDERHex(true));
+  console.log(publicKey.data.toString("hex"));
+  console.log("Signature: ", signature.data);
+  console.log("Message hex: ", messageHex);
+  console.log(addressFromPublicKey);
 }

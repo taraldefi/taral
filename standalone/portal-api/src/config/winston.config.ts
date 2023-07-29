@@ -5,7 +5,7 @@ import WinstonCloudWatch from 'winston-cloudwatch';
 import config from 'config';
 
 const isProduction = process.env.NODE_ENV === 'production';
-const winstonConfig = config.get('winston');
+const winstonConfig = config.get('winston') as any;
 
 export default {
   format: winston.format.colorize(),

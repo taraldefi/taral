@@ -12,7 +12,7 @@ import { Job } from 'bull';
 
 import { MailJobInterface } from 'src/modules/mail/interface/mail-job.interface';
 
-@Processor(config.get('mail.queueName'))
+@Processor(config.get('mail.queueName') as any)
 export class MailProcessor {
   private readonly logger = new Logger(this.constructor.name);
 
@@ -52,7 +52,7 @@ export class MailProcessor {
     }>,
   ): Promise<any> {
     this.logger.log(`Sending email to '${job.data.payload.to}'`);
-    const mailConfig = config.get('mail');
+    const mailConfig = config.get('mail') as any;
     try {
       const options: Record<string, any> = {
         to: job.data.payload.to,

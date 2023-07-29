@@ -2,6 +2,6 @@
  * @ignore
  */
 export enum InvalidPublicKeyReason {
-    InvalidFormat = "InvalidFormat",
-    IsNotPoint = "IsNotPoint",
+  InvalidFormat = "InvalidFormat",
+  IsNotPoint = "IsNotPoint",
 }

@@ -12,6 +12,10 @@ import { PermissionEntityRepositoryProvider } from './permission.repository.prov
   imports: [TypeOrmModule.forFeature([PermissionEntity]), AuthModule],
   exports: [PermissionsService],
   controllers: [PermissionsController],
-  providers: [PermissionsService, UniqueValidatorPipe, PermissionEntityRepositoryProvider],
+  providers: [
+    PermissionsService,
+    UniqueValidatorPipe,
+    PermissionEntityRepositoryProvider,
+  ],
 })
 export class PermissionsModule {}

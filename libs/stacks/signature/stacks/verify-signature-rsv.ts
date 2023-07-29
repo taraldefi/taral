@@ -7,13 +7,13 @@ import { verifyMessageSignature } from "./verify-message-signature";
  * `signature` option needs to be in RSV format.
  */
 export function verifyMessageSignatureRsv({
-    signature,
+  signature,
+  message,
+  publicKey,
+}: VerifyMessageSignatureArgs): boolean {
+  return verifyMessageSignature({
+    signature: signatureRsvToVrs(signature),
     message,
     publicKey,
-}: VerifyMessageSignatureArgs): boolean {
-    return verifyMessageSignature({
-        signature: signatureRsvToVrs(signature),
-        message,
-        publicKey,
-    });
+  });
 }

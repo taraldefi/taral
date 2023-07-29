@@ -1,71 +1,71 @@
 import { StorageServiceContract } from "taral-contracts";
 
 export interface IStorageFileRegister {
-    fileId: string;
+  fileId: string;
 
-    fileHash: string;
+  fileHash: string;
 
-    fileName: string;
+  fileName: string;
 
-    privateKey: string;
+  privateKey: string;
 
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 }
 
 export interface IStorageFileWriteInterrogation {
-    participant: string;
+  participant: string;
 
-    fileId: string;
+  fileId: string;
 
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 }
 
 export interface IStorageFileReadInterrogation {
-    participant: string;
+  participant: string;
 
-    fileId: string;
+  fileId: string;
 
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 }
 
 export interface IStorageFileAccessGrant {
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 
-    fileId: string;
+  fileId: string;
 
-    canRead: boolean;
+  canRead: boolean;
 
-    canWrite: boolean;
+  canWrite: boolean;
 
-    participant: string;
+  participant: string;
 }
 
 export interface IStorageFileAccessUpdate {
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 
-    fileId: string;
+  fileId: string;
 
-    canRead: boolean;
+  canRead: boolean;
 
-    canWrite: boolean;
+  canWrite: boolean;
 
-    participant: string;
+  participant: string;
 }
 
 export interface IStorageFileUpdate {
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 
-    fileId: string;
+  fileId: string;
 
-    privateKey: string;
+  privateKey: string;
 
-    fileHash: string;
+  fileHash: string;
 }
 
 export interface IStorageFileAccessRevoke {
-    contract: StorageServiceContract;
+  contract: StorageServiceContract;
 
-    fileId: string;
+  fileId: string;
 
-    participant: string;
+  participant: string;
 }

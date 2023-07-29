@@ -1,14 +1,14 @@
-import { TestProvider } from 'lib-testing';
+import { TestProvider } from "lib-testing";
 import {
   TaralExporterV1Contract,
   nodeTaralContracts,
   ExporterStorageContract,
-} from 'taral-contracts';
-import { clarinetAccounts, clarityBin } from './jest-setup';
-import { hashStacksMessage, utf8ToBytes } from 'lib-stacks';
-import { tx } from 'lib-shared';
+} from "taral-contracts";
+import { clarinetAccounts, clarityBin } from "./jest-setup";
+import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
+import { tx } from "lib-shared";
 
-describe('Taral Exporter', () => {
+describe("Taral Exporter", () => {
   let taral_exporter: TaralExporterV1Contract;
   let taral_exporter_storage: ExporterStorageContract;
   beforeAll(async () => {
@@ -36,18 +36,18 @@ describe('Taral Exporter', () => {
     taral_exporter = ExporterContract(clarinetAccounts.deployer);
     taral_exporter_storage = ExporterStorageContract(clarinetAccounts.deployer);
   });
-  test('Get exporter contract version', async () => {
+  test("Get exporter contract version", async () => {
     const result = await taral_exporter.getVersion();
 
-    console.log('result: -------->', result);
+    console.log("result: -------->", result);
   }, 3000000);
 
-  test('Ensure that inputs are valid', async () => {
-    const message = 'This is a test message';
+  test("Ensure that inputs are valid", async () => {
+    const message = "This is a test message";
     const messageHex = hashStacksMessage({ message });
-    const exporter_wallet = 'ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5';
-    const exporter_name = 'ALPS Logistics';
-    const exporter_category = '';
+    const exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+    const exporter_name = "ALPS Logistics";
+    const exporter_category = "";
     const buffer = Buffer.from(utf8ToBytes(messageHex));
     const result = await tx(
       taral_exporter.register(
@@ -60,12 +60,12 @@ describe('Taral Exporter', () => {
     expect(result.value).toEqual(100n);
   }, 3000000);
 
-  test('Ensure that exporter registration is a success', async () => {
-    const message = 'This is a test message';
+  test("Ensure that exporter registration is a success", async () => {
+    const message = "This is a test message";
     const messageHex = hashStacksMessage({ message });
     const exporter_wallet = clarinetAccounts.wallet_1.address;
-    const exporter_name = 'ALPS Logistics';
-    const exporter_category = 'Merchant';
+    const exporter_name = "ALPS Logistics";
+    const exporter_category = "Merchant";
     const buffer = Buffer.from(utf8ToBytes(messageHex));
 
     const block_1 = await tx(
@@ -80,22 +80,22 @@ describe('Taral Exporter', () => {
     expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
   }, 3000000);
 
-  test('Ensure that exporter hash getter function works', async () => {
-    const message = 'This is a test message';
+  test("Ensure that exporter hash getter function works", async () => {
+    const message = "This is a test message";
     const messageHex = hashStacksMessage({ message });
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const buffer = Buffer.from(utf8ToBytes(messageHex));
 
     const block_1 = await taral_exporter.getExporterHash(exporter_wallet);
-    expect(block_1.value).toEqual(`0x${buffer.toString('hex')}`);
+    expect(block_1.value).toEqual(`0x${buffer.toString("hex")}`);
   }, 3000000);
 
-  test('Ensure that exporter can register only once with unique wallet id', async () => {
-    const message = 'This is also a test message';
+  test("Ensure that exporter can register only once with unique wallet id", async () => {
+    const message = "This is also a test message";
     const messageHex = hashStacksMessage({ message });
     const exporter_wallet = clarinetAccounts.wallet_2.address;
-    const exporter_name = 'MX Roadways';
-    const exporter_category = 'Project';
+    const exporter_name = "MX Roadways";
+    const exporter_category = "Project";
     const buffer = Buffer.from(utf8ToBytes(messageHex));
 
     const block_1 = await tx(
@@ -120,7 +120,7 @@ describe('Taral Exporter', () => {
     expect(block_2.value).toEqual(105n); //EXPORTER ALREADY REGISTERED
   }, 3000000);
 
-  test('Ensure that exporter storage function works', async () => {
+  test("Ensure that exporter storage function works", async () => {
     const exporter_wallet = clarinetAccounts.wallet_3.address;
 
     const response = await taral_exporter_storage.getExporterByPrincipal(
@@ -130,21 +130,21 @@ describe('Taral Exporter', () => {
     expect(response).toEqual(null);
   }, 3000000);
 
-  test('Ensure that exporter exists after registration', async () => {
+  test("Ensure that exporter exists after registration", async () => {
     const exporter_wallet = clarinetAccounts.wallet_2.address;
 
     const response = await taral_exporter_storage.getExporterProfile(
       exporter_wallet
     );
-    expect(response?.category).toEqual('Project');
+    expect(response?.category).toEqual("Project");
   }, 3000000);
 
-  test('Ensure that next exporter id available', async () => {
+  test("Ensure that next exporter id available", async () => {
     const response = await taral_exporter_storage.getExporterIdNonce();
     expect(response).toEqual(10003n); //Wallet 1 and wallet 2 registered
   }, 3000000);
 
-  test('Ensure that to get exporters profile', async () => {
+  test("Ensure that to get exporters profile", async () => {
     const exporter1_wallet = clarinetAccounts.wallet_1.address;
     const exporter2_wallet = clarinetAccounts.wallet_2.address;
     const exporter3_wallet = clarinetAccounts.wallet_3.address;
@@ -157,7 +157,7 @@ describe('Taral Exporter', () => {
     expect(response.length).toEqual(3);
   }, 3000000);
 
-  test('Ensure that order inputs are valid', async () => {
+  test("Ensure that order inputs are valid", async () => {
     const exporter3_wallet = clarinetAccounts.wallet_3.address;
     const new_order_id = 2001;
     const response = await tx(
@@ -167,7 +167,7 @@ describe('Taral Exporter', () => {
     expect(response.value).toEqual(102n); // ERR-EXPORTER-NOT-REGISTERED
   }, 3000000);
 
-  test('Ensure that adding order is a success', async () => {
+  test("Ensure that adding order is a success", async () => {
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const new_order_id = 2001;
 
@@ -178,7 +178,7 @@ describe('Taral Exporter', () => {
     expect(response.value).toEqual(true); // Succesfully added order
   }, 3000000);
 
-  test('Ensure that order exists after registration', async () => {
+  test("Ensure that order exists after registration", async () => {
     const exporter_wallet = clarinetAccounts.wallet_1.address;
 
     const response = await taral_exporter_storage.getExporterOrder(
@@ -186,10 +186,10 @@ describe('Taral Exporter', () => {
       exporter_wallet
     );
 
-    expect(response?.['order-id']).toEqual(2001n);
+    expect(response?.["order-id"]).toEqual(2001n);
   }, 3000000);
 
-  test('Ensure that to get orders list of exporters', async () => {
+  test("Ensure that to get orders list of exporters", async () => {
     const exporter1_wallet = clarinetAccounts.wallet_1.address;
     const exporter2_wallet = clarinetAccounts.wallet_2.address;
     const response_order2 = await tx(

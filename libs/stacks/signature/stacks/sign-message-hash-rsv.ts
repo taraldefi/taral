@@ -11,25 +11,25 @@ const ascii_message_prefix = "Stacks Signed Message: ";
  * @returns a recoverable signature (in RSV order)
  */
 export function signMessageHashRsv({
-    message,
-    privateKey,
+  message,
+  privateKey,
 }: {
-    message: string;
-    privateKey: StacksPrivateKey;
+  message: string;
+  privateKey: StacksPrivateKey;
 }): MessageSignature {
-    const hash = hashStacksMessage({ message });
+  const hash = hashStacksMessage({ message });
 
-    const messageSignature = signWithKey(privateKey, hash);
-    return {
-        ...messageSignature,
-        data: signatureVrsToRsv(messageSignature.data),
-    };
+  const messageSignature = signWithKey(privateKey, hash);
+  return {
+    ...messageSignature,
+    data: signatureVrsToRsv(messageSignature.data),
+  };
 }
 
 export function hashStacksMessage({ message }: { message: string }) {
-    const hash = createHash("sha256")
-        .update(Buffer.from(`${ascii_message_prefix}${message}`, "ascii"))
-        .digest();
+  const hash = createHash("sha256")
+    .update(Buffer.from(`${ascii_message_prefix}${message}`, "ascii"))
+    .digest();
 
-    return hash.toString("hex");
+  return hash.toString("hex");
 }

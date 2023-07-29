@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
-import { TestProvider } from 'lib-testing';
+import { TestProvider } from "lib-testing";
 import {
   TaralExporterV1Contract,
   TaralImporterV1Contract,
@@ -7,13 +7,13 @@ import {
   ExporterStorageContract,
   TaralCoinContract,
   nodeTaralContracts,
-} from 'taral-contracts';
-import { clarinetAccounts, clarityBin } from './jest-setup';
+} from "taral-contracts";
+import { clarinetAccounts, clarityBin } from "./jest-setup";
 
-import { hashStacksMessage, utf8ToBytes } from 'lib-stacks';
-import { tx } from 'lib-shared';
+import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
+import { tx } from "lib-shared";
 
-describe('Taral Purchase Order', () => {
+describe("Taral Purchase Order", () => {
   let taral_exporter: TaralExporterV1Contract;
   let taral_importer: TaralImporterV1Contract;
   let taral_purchase_order: TaralPurchaseOrderV1Contract;
@@ -75,12 +75,12 @@ describe('Taral Purchase Order', () => {
     taral_coin = TaralCoinContract(clarinetAccounts.deployer);
     taral_exporter_storage = ExporterStorageContract(clarinetAccounts.deployer);
   });
-  test('Get purchase order contract version', async () => {
+  test("Get purchase order contract version", async () => {
     const result = await taral_purchase_order.getVersion();
-    console.log('result: -------->', result);
+    console.log("result: -------->", result);
   }, 3000000);
 
-  test('Check if User holds TAL token', async () => {
+  test("Check if User holds TAL token", async () => {
     const exporter_wallet = clarinetAccounts.wallet_6.address;
     const exporter2_wallet = clarinetAccounts.wallet_7.address;
     const block_1 = await tx(
@@ -100,16 +100,16 @@ describe('Taral Purchase Order', () => {
     expect(block_4.value).toEqual(false);
   }, 3000000);
 
-  test('Ensure that inputs are valid', async () => {
+  test("Ensure that inputs are valid", async () => {
     //First register exporter and importer
-    const exporter_message = 'This is the data containing exporter details';
+    const exporter_message = "This is the data containing exporter details";
     const exporter_messageHex = hashStacksMessage({
       message: exporter_message,
     });
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const importer_wallet = clarinetAccounts.wallet_2.address;
-    const exporter_name = 'ALPS Logistics';
-    const exporter_category = 'Merchant';
+    const exporter_name = "ALPS Logistics";
+    const exporter_category = "Merchant";
     const exporter_buffer = Buffer.from(utf8ToBytes(exporter_messageHex));
 
     const block_1 = await tx(
@@ -123,12 +123,12 @@ describe('Taral Purchase Order', () => {
 
     expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
 
-    const importer_message = 'This is the data containing importer details';
+    const importer_message = "This is the data containing importer details";
     const importer_messageHex = hashStacksMessage({
       message: importer_message,
     });
-    const importer_name = 'XYZ Company';
-    const importer_category = 'Merchant';
+    const importer_name = "XYZ Company";
+    const importer_category = "Merchant";
     const importer_buffer = Buffer.from(utf8ToBytes(importer_messageHex));
 
     const block_2 = await tx(
@@ -149,9 +149,9 @@ describe('Taral Purchase Order', () => {
     const orderHex = hashStacksMessage({ message: order });
     const orderDetailsHex = hashStacksMessage({ message: orderDetails });
 
-    const paymentTerm = ''; // this should throw error
+    const paymentTerm = ""; // this should throw error
     const amount = 10000;
-    const deliveryTerm = 'CFR';
+    const deliveryTerm = "CFR";
     const orderBuffer = Buffer.from(utf8ToBytes(orderHex));
     const orderDetailsBuffer = Buffer.from(utf8ToBytes(orderDetailsHex));
     const result = await tx(
@@ -168,7 +168,7 @@ describe('Taral Purchase Order', () => {
     expect(result.value).toEqual(100n);
   }, 3000000);
 
-  test('Ensure the initialization works', async () => {
+  test("Ensure the initialization works", async () => {
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const importer_wallet = clarinetAccounts.wallet_2.address;
     const order =
@@ -178,9 +178,9 @@ describe('Taral Purchase Order', () => {
     const orderHex = hashStacksMessage({ message: order });
     const orderDetailsHex = hashStacksMessage({ message: orderDetails });
 
-    const paymentTerm = '60 Days';
+    const paymentTerm = "60 Days";
     const amount = 10000;
-    const deliveryTerm = 'CFR';
+    const deliveryTerm = "CFR";
     const orderBuffer = Buffer.from(utf8ToBytes(orderHex));
     const orderDetailsBuffer = Buffer.from(utf8ToBytes(orderDetailsHex));
     const result = await tx(
@@ -200,6 +200,6 @@ describe('Taral Purchase Order', () => {
       0n,
       exporter_wallet
     );
-    expect(appended_order?.['order-id']).toEqual(10001n);
+    expect(appended_order?.["order-id"]).toEqual(10001n);
   }, 3000000);
 });

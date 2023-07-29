@@ -522,9 +522,7 @@ Clarinet.test({
     );
 
     // Assert
-     console.log("----------OLD CONTRACT------------",receipt);
-    
-
+    console.log("----------OLD CONTRACT------------", receipt);
 
     let arrSome = receipt.result.matchAll(/some/gi); // RegExpMatchArray
     let arrSomeCount = 0;

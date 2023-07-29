@@ -2,8 +2,8 @@ import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { ThrottlerModuleOptions } from '@nestjs/throttler';
 import config from 'config';
 
-const throttleConfigVariables = config.get('throttle.global');
-const redisConfig = config.get('queue');
+const throttleConfigVariables = config.get('throttle.global') as any;
+const redisConfig = config.get('queue') as any;
 const throttleConfig: ThrottlerModuleOptions = {
   ttl: process.env.THROTTLE_TTL || throttleConfigVariables.get('ttl'),
   limit: process.env.THROTTLE_LIMIT || throttleConfigVariables.get('limit'),
