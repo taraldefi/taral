@@ -2,7 +2,7 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ChainhookResponse } from './chainhook/ChainhookResponse';
 import { Event } from './chainhook/Event';
 import { cvToValue, deserializeCV } from "@stacks/transactions";
-import { AuctionPublisherService } from './rabbtmq/auction.service';
+import { AuctionPublisherService } from './rabbitmq/auction.service';
 
 // @UseGuards(ApiKeyAuthGuard)
 @Controller()
