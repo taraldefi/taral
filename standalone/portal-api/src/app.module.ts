@@ -53,6 +53,8 @@ import onchainConfig from './config/onchain.config';
 import appConfig from './config/app.config';
 import { ClientsModule } from '@nestjs/microservices';
 import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
+import { AuctionModule } from './modules/auctions/auction.module';
+import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
 
 // const appConfig = config.get('app');
 
@@ -134,6 +136,10 @@ import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
     EmailTemplateModule,
     RefreshTokenModule,
     TwofaModule,
+
+
+    AuctionModule,
+    AuctionHistoryModule
   ],
   providers: [
     {
