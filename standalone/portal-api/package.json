@@ -110,7 +110,19 @@
     "uuid": "^8.3.2",
     "winston": "^3.8.2",
     "winston-cloudwatch": "^3.2.0",
-    "yargs": "^17.0.1"
+    "yargs": "^17.0.1",
+    
+    "@nestjs/microservices": "^10.0.4",
+    "@types/amqplib": "^0.10.1",
+    "@types/cls-hooked": "^4.3.4",
+    "@types/retry": "^0.12.2",
+    "amqp-connection-manager": "^4.1.13",
+    "amqplib": "^0.10.3",
+    "axios": "^1.4.0",
+    "cls-hooked": "^4.2.2",
+    "p-retry": "^5.1.2",
+    "prom-client": "^14.2.0",
+    "retry": "^0.13.1"
   },
   "peerDependencies": {
     "@types/ejs": "^3.0.3",
