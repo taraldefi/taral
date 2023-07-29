@@ -221,8 +221,13 @@ export class RabbitmqService implements OnModuleInit, OnApplicationShutdown {
               }
             })
             .catch((err) => {
-              console.log('In get channel message catch', err);
-              reject(err);
+
+              if (this.consuming) {
+                console.log('In get channel message catch', err);
+                reject(err);  
+              } else {
+                resolve(null);
+              }
             });
         });
       };
@@ -335,8 +340,9 @@ export class RabbitmqService implements OnModuleInit, OnApplicationShutdown {
 
   async stopListening() {
     if (this.channel && this.consuming) {
-      await this.channel.cancel(this.queueName);
       this.consuming = false;
+
+      await this.channel.cancel(this.queueName);
       this.logger.info(`Stopped listening to ${this.queueName}`);
     }
   }
