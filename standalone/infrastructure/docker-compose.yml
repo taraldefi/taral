@@ -1,22 +1,5 @@
 version: '3.8'
 services:
-  postgres:
-    image: postgres:14.2
-    ports:
-      - ${DATABASE_PORT}:5432
-    volumes:
-      - ./.data/db:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: ${DATABASE_USERNAME}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
-      POSTGRES_DB: ${DATABASE_NAME}
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
-      
   rabbit1:
     image: rabbitmq:3-management
     hostname: rabbit1
