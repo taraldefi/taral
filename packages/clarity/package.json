@@ -11,7 +11,7 @@
     "eol": "npx eolConverter \"contracts/**/*.clar\"",
     "clarinet:tests": "clarinet test",
     "clarinet:check": "clarinet check",
-    "clarinet:chainhook:tests": ""
+    "clarinet:chainhook:tests": "clarinet test --chainhooks ./chainhooks/marketplace.chainhook.yaml ./tests_chainhook/integration_test.ts"
   },
   "devDependencies": {
     "typescript": "^5.1.6"
