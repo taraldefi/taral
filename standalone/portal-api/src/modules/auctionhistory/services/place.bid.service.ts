@@ -2,7 +2,6 @@ import { Inject, Injectable } from "@nestjs/common";
 import { PlaceBid } from "src/models";
 import { AuctionEntityRepository } from "src/modules/auctions/repositories/auction.repository";
 import { AuctionEntityRepositoryToken } from "src/modules/auctions/providers/auction.repository.provider";
-import { Transactional } from "src/common/transaction/transaction";
 import { AuctionBidEntity } from "src/modules/auctions/entities/auction.bid.entity";
 import { AuctionBidEntityRepositoryToken } from "src/modules/auctions/providers/auction.bid.repository.provider";
 import { AuctionBidEntityRepository } from "src/modules/auctions/repositories/auction.bid.entity.repository";
@@ -15,6 +14,7 @@ import { AuctionEntity } from "src/modules/auctions/entities/auction.entity";
 import { AuctionHistoryEntity } from "../entities/auction.history.entity";
 import { AuctionHistoryEntityRepositoryToken } from "../providers/auction.history.repository.provider";
 import { AuctionHistoryEntityRepository } from "../repositories/auction.history.repository";
+import { Transactional } from "src/common/transaction";
 
 @Injectable()
 export class PlaceBidService extends BaseService {

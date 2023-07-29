@@ -29,7 +29,7 @@ export abstract class BaseService {
         runOnTransactionCommit(() => this.Logger.info('[COMMIT] Transaction Commit'));
     }
 
-    protected async insertIntoHistory<T extends { id: string }, H extends BaseHistory>(
+    protected async insertIntoHistory<T extends { id: number }, H extends BaseHistory>(
         historyFunc: new () => H,
         oldEntity: T, newEntity: T, action: H['action'], 
         copyEntityToHistory: (entity: T, history: H) => void, 
@@ -73,7 +73,7 @@ export abstract class BaseService {
         return hash.digest('hex');
     }
 
-    private buildChanges<T extends { id: string }>(oldEntity: T, newEntity: T): Array<{ name: string, old_value: any, new_value: any }> {
+    private buildChanges<T extends { id: number }>(oldEntity: T, newEntity: T): Array<{ name: string, old_value: any, new_value: any }> {
         const changes = [];
     
         const decoratedProperties: Array<string | symbol> = Reflect.getMetadata(METADATA_KEY, newEntity.constructor);

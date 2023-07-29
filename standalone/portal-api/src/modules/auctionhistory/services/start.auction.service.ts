@@ -2,7 +2,6 @@ import { Inject, Injectable } from "@nestjs/common";
 import { StartAuction } from "src/models";
 import { AuctionEntityRepository } from "src/modules/auctions/repositories/auction.repository";
 import { AuctionEntityRepositoryToken } from "src/modules/auctions/providers/auction.repository.provider";
-import { Transactional } from "src/common/transaction/transaction";
 import { AuctionEntity } from "src/modules/auctions/entities/auction.entity";
 import { AuctionStatus } from "src/modules/auctions/entities/auction.status";
 import { IsolationLevel } from "src/common/transaction/IsolationLevel";
@@ -10,6 +9,7 @@ import { BaseService } from "./base.service";
 import { AuctionHistoryEntity } from "../entities/auction.history.entity";
 import { AuctionHistoryEntityRepositoryToken } from "../providers/auction.history.repository.provider";
 import { AuctionHistoryEntityRepository } from "../repositories/auction.history.repository";
+import { Transactional } from "src/common/transaction";
 
 @Injectable()
 export class StartAuctionService extends BaseService {
