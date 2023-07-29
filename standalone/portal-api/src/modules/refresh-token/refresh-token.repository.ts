@@ -7,7 +7,7 @@ import { BaseRepository } from 'src/common/repository/base.repository';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { Injectable } from '@nestjs/common';
 
-const tokenConfig = config.get('jwt');
+const tokenConfig = config.get('jwt') as any;
 
 @Injectable()
 @EntityRepository(RefreshTokenEntity)

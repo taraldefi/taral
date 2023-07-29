@@ -49,9 +49,9 @@ import { RoleEntityRepository } from '../role/role.repository';
 import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
 import { NORMAL_ROLE_ID } from '../../config/permission.config';
 
-const throttleConfig = config.get('throttle.login');
-const jwtConfig = config.get('jwt');
-const appConfig = config.get('app');
+const throttleConfig = config.get('throttle.login') as any;
+const jwtConfig = config.get('jwt') as any;
+const appConfig = config.get('app') as any;
 
 const isSameSite =
   appConfig.sameSite !== null
@@ -92,7 +92,7 @@ export class AuthService {
     slug: string,
     linkLabel: string,
   ) {
-    const appConfig = config.get('app');
+    const appConfig = config.get('app') as any;
     const mailData: MailJobInterface = {
       to: user.email,
       subject,

@@ -17,9 +17,9 @@ import { UserEntity } from './entity/user.entity';
 import { UserEntityRepositoryProvider } from './user.repository.provider';
 import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
 
-const throttleConfig = config.get('throttle.login');
-const redisConfig = config.get('queue');
-const jwtConfig = config.get('jwt');
+const throttleConfig = config.get('throttle.login') as any;
+const redisConfig = config.get('queue') as any;
+const jwtConfig = config.get('jwt') as any;
 
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',

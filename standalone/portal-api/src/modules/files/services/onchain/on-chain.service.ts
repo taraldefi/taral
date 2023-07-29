@@ -149,7 +149,7 @@ export class OnChainService {
       },
     );
 
-    const result = contracts.nodeTaralStorage;
+    const result = contracts.nodeStorageService;
     return result;
   }
 }

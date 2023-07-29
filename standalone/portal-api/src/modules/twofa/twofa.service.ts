@@ -9,7 +9,7 @@ import { AuthService } from 'src/modules/auth/auth.service';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 
-const TwofaConfig = config.get('twofa');
+const TwofaConfig = config.get('twofa') as any;
 
 @Injectable()
 export class TwofaService {

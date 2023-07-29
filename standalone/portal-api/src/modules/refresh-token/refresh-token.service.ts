@@ -21,8 +21,8 @@ import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/ref
 import { Pagination } from 'src/modules/paginate';
 import { RefreshTokenEntityRepositoryToken } from './refresh-token.repository.provider';
 
-const appConfig = config.get('app');
-const tokenConfig = config.get('jwt');
+const appConfig = config.get('app') as any;
+const tokenConfig = config.get('jwt') as any;
 const BASE_OPTIONS: SignOptions = {
   issuer: appConfig.appUrl,
   audience: appConfig.frontendUrl,
