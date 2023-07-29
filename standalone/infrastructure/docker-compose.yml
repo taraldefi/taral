@@ -1,0 +1,109 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:14.2
+    ports:
+      - ${DATABASE_PORT}:5432
+    volumes:
+      - ./.data/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+      POSTGRES_DB: ${DATABASE_NAME}
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
+      
+  rabbit1:
+    image: rabbitmq:3-management
+    hostname: rabbit1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'rabbitmq_cookie'
+      RABBITMQ_NODENAME: 'rabbit@rabbit1'
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq ssl_cert_login_from common_name -rabbit ssl_options [{cacertfile,\"/certs/ca.crt\"},{certfile,\"/certs/server.crt\"},{keyfile,\"/certs/server.key\"},{verify,verify_peer},{fail_if_no_peer_cert,true}]"
+
+      RABBITMQ_PLUGINS: "rabbitmq_management rabbitmq_mqtt rabbitmq_federation"
+    volumes:
+      - ./rabbitmq1:/var/lib/rabbitmq
+      - ./rabbitmq1:/certs
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      - rabbitmq-cluster
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+  rabbit2:
+    image: rabbitmq:3-management
+    hostname: rabbit2
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'rabbitmq_cookie'
+      RABBITMQ_NODENAME: 'rabbit@rabbit2'
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_DEFAULT_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_DEFAULT_PASS}
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-rabbitmq ssl_cert_login_from common_name -rabbit ssl_options [{cacertfile,\"/certs/ca.crt\"},{certfile,\"/certs/server.crt\"},{keyfile,\"/certs/server.key\"},{verify,verify_peer},{fail_if_no_peer_cert,true}]"
+
+      RABBITMQ_PLUGINS: "rabbitmq_management rabbitmq_mqtt rabbitmq_federation"
+    volumes:
+      - ./rabbitmq2:/var/lib/rabbitmq
+      - ./rabbitmq2:/certs
+    ports:
+      - "5673:5672"
+      - "15673:15672"
+    networks:
+      - rabbitmq-cluster
+    healthcheck:
+      test: ["CMD", "rabbitmqctl", "status"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./prometheus/provisioning/prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    networks:
+      - rabbitmq-cluster
+  grafana:
+    image: grafana/grafana
+    volumes:
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/certs:/etc/grafana/certs
+    environment:
+      - GF_PATHS_PROVISIONING=/etc/grafana/provisioning
+      - GF_AUTH_BASIC_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ENABLED=false
+      - GF_AUTH_BASIC_USERS_FILE=/etc/grafana/users.ini
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SERVER_PROTOCOL=https
+      - GF_SERVER_CERT_FILE=/etc/grafana/certs/server.crt
+      - GF_SERVER_CERT_KEY=/etc/grafana/certs/server.key
+    ports:
+      - 3001:3000
+    networks:
+      - rabbitmq-cluster
+networks:
+  rabbitmq-cluster:
+    driver: bridge
