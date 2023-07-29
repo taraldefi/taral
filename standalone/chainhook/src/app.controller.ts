@@ -19,6 +19,9 @@ export class AppController {
   async chainhook(@Body() body: any): Promise<void> {
     const chainhook = body as ChainhookResponse;
 
+
+    console.log(JSON.stringify(chainhook, null, 2));
+
     const printEvents: Event[] = [];
 
     const transactions = chainhook.apply
