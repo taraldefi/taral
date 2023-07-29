@@ -55,6 +55,8 @@ import { ClientsModule } from '@nestjs/microservices';
 import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
 import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
+import { Rabbit } from 'crypto-js';
+import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
 
 // const appConfig = config.get('app');
 
@@ -135,6 +137,7 @@ import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.m
     RefreshTokenModule,
     TwofaModule,
 
+    RabbitMqModule,
     AuctionModule,
     AuctionHistoryModule,
   ],

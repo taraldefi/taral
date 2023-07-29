@@ -6,9 +6,9 @@ import {
 import * as amqp from 'amqplib';
 import * as winston from 'winston';
 import { Counter, Registry } from 'prom-client';
-import { StartAuctionService } from './start.auction.service';
-import { CancelAuctionService } from './cancel.auction.service';
-import { PlaceBidService } from './place.bid.service';
+import { StartAuctionService } from '../../auctionhistory/services/start.auction.service';
+import { CancelAuctionService } from '../../auctionhistory/services/cancel.auction.service';
+import { PlaceBidService } from '../../auctionhistory/services/place.bid.service';
 import { CancelAuction, PlaceBid, StartAuction } from 'src/models';
 
 class CancellablePromise<T> {

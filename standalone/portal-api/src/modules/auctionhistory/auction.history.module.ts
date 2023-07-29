@@ -5,10 +5,7 @@ import { AuctionHistoryEntity } from './entities/auction.history.entity';
 import { AuctionBidHistoryEntity } from './entities/auction.bid.history.entity';
 import { AuctionHistoryController } from './controllers/auction.history.controller';
 import { AuctionHistoryService } from './services/auction.history.service';
-import { AuctionSubscriberController } from './controllers/auction.subscriber.controller';
-import { RabbitMQHealthService } from './services/rabbitmq.health.service';
 import { LoggerModule } from '../logger/logger.module';
-import { RabbitmqService } from './services/rabbitmq.service';
 import { StartAuctionService } from './services/start.auction.service';
 import { AuctionEntityRepositoryProvider } from '../auctions/providers/auction.repository.provider';
 import { AuctionBidEntityRepositoryProvider } from '../auctions/providers/auction.bid.repository.provider';
@@ -22,13 +19,11 @@ import { PlaceBidService } from './services/place.bid.service';
     TypeOrmModule.forFeature([AuctionHistoryEntity, AuctionBidHistoryEntity]),
     LoggerModule,
   ],
-  controllers: [AuctionHistoryController, AuctionSubscriberController],
+  controllers: [AuctionHistoryController],
   providers: [
     ConfigModule,
     ConfigService,
     AuctionHistoryService,
-    RabbitMQHealthService,
-    RabbitmqService,
     StartAuctionService,
     CancelAuctionService,
     AuctionHistoryService,
@@ -39,5 +34,12 @@ import { PlaceBidService } from './services/place.bid.service';
     AuctionBidHistoryEntityRepositoryProvider,
     AuctionHistoryEntityRepositoryProvider,
   ],
+  exports: [
+    AuctionHistoryService,
+    StartAuctionService,
+    CancelAuctionService,
+    AuctionHistoryService,
+    PlaceBidService
+  ]
 })
 export class AuctionHistoryModule {}
