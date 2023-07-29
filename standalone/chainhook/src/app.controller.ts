@@ -2,19 +2,19 @@ import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { ChainhookResponse } from './chainhook/ChainhookResponse';
 import { Event } from './chainhook/Event';
 import { cvToValue, deserializeCV } from "@stacks/transactions";
-import { AuctionPublisherService } from './rabbitmq/auction.service';
+import { RabbitMqPublisherService } from './rabbitmq/rabbitmq.publisher.service';
 
+//TODO: Uncomment this when you have the ApiKeyAuthGuard working with the chainhook service
 // @UseGuards(ApiKeyAuthGuard)
 @Controller()
 export class AppController {
-  constructor(private readonly auctionPublishingService: AuctionPublisherService) {}
+  constructor(private readonly rabbitMqPublishingService: RabbitMqPublisherService) {}
 
   @Get()
-  getHello(): string {
-    return 'Hello World!';
+  getStatus(): string {
+    return 'RabbitMQ Chainhook Service v.0.0.1';
   }
 
-  
   @Post('chainhook')
   async chainhook(@Body() body: any): Promise<void> {
     const chainhook = body as ChainhookResponse;
@@ -44,7 +44,7 @@ export class AppController {
 
       console.log('---------------------------------------');
       
-      await this.auctionPublishingService.publishMessage('auction_event', JSON.stringify(printPayload));
+      await this.rabbitMqPublishingService.publishMessage('rabbitmq_chainhook_event', JSON.stringify(printPayload));
 
       console.log('Published message');
     }

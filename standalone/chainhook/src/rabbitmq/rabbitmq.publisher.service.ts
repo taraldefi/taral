@@ -3,7 +3,7 @@ import { ClientProxy } from '@nestjs/microservices';
 import { RabbitMQService } from './constants';
 
 @Injectable()
-export class AuctionPublisherService {
+export class RabbitMqPublisherService {
     constructor(
         @Inject(RabbitMQService) private client: ClientProxy,
     ) {
