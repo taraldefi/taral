@@ -10,7 +10,8 @@
   "scripts": {
     "eol": "npx eolConverter \"contracts/**/*.clar\"",
     "clarinet:tests": "clarinet test",
-    "clarinet:check": "clarinet check"
+    "clarinet:check": "clarinet check",
+    "clarinet:chainhook:tests": ""
   },
   "devDependencies": {
     "typescript": "^5.1.6"
