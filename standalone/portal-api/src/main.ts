@@ -33,8 +33,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   const options = new DocumentBuilder()
-    .setTitle('Taral API')
-    .setDescription('Taral API docs')
+    .setTitle('Taral Marketplace API')
+    .setDescription('Taral Marketplace API docs')
     .setVersion('1.0')
     .addBearerAuth()
     .build();
