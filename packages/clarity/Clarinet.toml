@@ -112,3 +112,27 @@ depends_on=["purchase-order-storage", "taral-purchase-order-trait", "dummy-oracl
 
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"
+
+[contracts.marketplace-storage]
+path = 'contracts/taral/marketplace-storage.clar'
+
+[contracts.marketplace-trait]
+path = 'contracts/taral/marketplace-trait.clar'
+
+[contracts.nft-marketplace]
+path = 'contracts/taral/nft-marketplace.clar'
+depends_on = ['marketplace-trait', 'marketplace-storage']
+
+[contracts.sip010-ft-trait]
+path = "contracts/taral/sip010-ft-trait.clar"
+
+[contracts.sip009-nft-trait]
+path = "contracts/taral/sip009-nft-trait.clar"
+
+[contracts.sip009-nft]
+path = "contracts/taral/sip009-nft.clar"
+depends_on =["sip009-nft-trait"]
+
+[contracts.sip010-token]
+path = "contracts/taral/sip010-token.clar"
+depends_on =["sip010-ft-trait"]
