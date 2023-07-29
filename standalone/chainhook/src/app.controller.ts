@@ -54,5 +54,7 @@ export class AppController {
 
       console.log('Published message');
     }
+
+    console.log('Handled message, waiting for a new one');
   }
 }
