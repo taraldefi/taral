@@ -1,12 +1,12 @@
 import { Allow } from 'class-validator';
-import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { AuctionEntity } from './auction.entity';
 import { Exclude } from 'class-transformer';
 import { TrackChanges } from 'src/common/decorators/track-changes.decorator';
+import { CustomVersionableBaseEntity } from 'src/common/entity/custom-versionable.base.entity';
 
 @Entity({ name: 'Bids' })
-export class AuctionBidEntity extends CustomBaseEntity {
+export class AuctionBidEntity extends CustomVersionableBaseEntity {
   @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
   @Allow()
   @TrackChanges()

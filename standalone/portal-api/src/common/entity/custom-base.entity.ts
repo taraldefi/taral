@@ -33,10 +33,6 @@ export abstract class CustomBaseEntity extends BaseEntity {
   @TrackChanges()
   updatedAt: Date;
 
-  @Column({ type: 'char', length: 64 })
-  @TrackChanges()
-  hash: string;
-
   @BeforeInsert()
   createTimestamp() {
     this.createdAt = new Date();
