@@ -8,10 +8,7 @@ import {
 import { ModelSerializer } from 'src/common/serializer/model.serializer';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { RoleSerializer } from 'src/modules/role/serializer/role.serializer';
-
-export const adminUserGroupsForSerializing: string[] = ['admin'];
-export const ownerUserGroupsForSerializing: string[] = ['owner'];
-export const defaultUserGroupsForSerializing: string[] = ['timestamps'];
+import { adminUserGroupsForSerializing, defaultUserGroupsForSerializing, ownerUserGroupsForSerializing } from 'src/common/groups/constants';
 
 /**
  * user serializer

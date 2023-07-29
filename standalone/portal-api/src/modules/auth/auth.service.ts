@@ -32,12 +32,6 @@ import { ResetPasswordDto } from 'src/modules/auth/dto/reset-password.dto';
 import { UserLoginDto } from 'src/modules/auth/dto/user-login.dto';
 import { UserSearchFilterDto } from 'src/modules/auth/dto/user-search-filter.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
-import {
-  adminUserGroupsForSerializing,
-  defaultUserGroupsForSerializing,
-  ownerUserGroupsForSerializing,
-  UserSerializer,
-} from 'src/modules/auth/serializer/user.serializer';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { ValidationPayloadInterface } from 'src/common/interfaces/validation-error.interface';
@@ -48,6 +42,8 @@ import { RoleEntity } from '../role/entities/role.entity';
 import { RoleEntityRepository } from '../role/role.repository';
 import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
 import { NORMAL_ROLE_ID } from '../../config/permission.config';
+import { UserSerializer } from './serializer/user.serializer';
+import { adminUserGroupsForSerializing, defaultUserGroupsForSerializing, ownerUserGroupsForSerializing } from 'src/common/groups/constants';
 
 const throttleConfig = config.get('throttle.login') as any;
 const jwtConfig = config.get('jwt') as any;
@@ -185,7 +181,7 @@ export class AuthService {
       }
       throw new UnauthorizedException(error, code);
     }
-    const accessToken = await this.generateAccessToken(user);
+    const accessToken = await this.refreshTokenService.generateAccessToken(user);
     let refreshToken = null;
     if (userLoginDto.remember) {
       refreshToken = await this.refreshTokenService.generateRefreshToken(
@@ -197,24 +193,7 @@ export class AuthService {
     return this.buildResponsePayload(accessToken, refreshToken);
   }
 
-  /**
-   * Generate access token
-   * @param user
-   * @param isTwoFAAuthenticated
-   */
-  public async generateAccessToken(
-    user: UserSerializer,
-    isTwoFAAuthenticated = false,
-  ): Promise<string> {
-    const opts: SignOptions = {
-      ...BASE_OPTIONS,
-      subject: String(user.id),
-    };
-    return this.jwt.signAsync({
-      ...opts,
-      isTwoFAAuthenticated,
-    });
-  }
+  
 
   /**
    * promise handler to handle result and error for login

@@ -20,6 +20,10 @@ import { PaginationInfoInterface } from 'src/modules/paginate/pagination-info.in
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { Pagination } from 'src/modules/paginate';
 import { RefreshTokenEntityRepositoryToken } from './refresh-token.repository.provider';
+import { UserEntityRepository } from '../auth/user.repository';
+import { UserEntityRepositoryToken } from '../auth/user.repository.provider';
+import { adminUserGroupsForSerializing } from '../role/serializer/role.serializer';
+import { ownerUserGroupsForSerializing } from 'src/common/groups/constants';
 
 const appConfig = config.get('app') as any;
 const tokenConfig = config.get('jwt') as any;
@@ -31,10 +35,11 @@ const BASE_OPTIONS: SignOptions = {
 @Injectable()
 export class RefreshTokenService {
   constructor(
+    @Inject(UserEntityRepositoryToken)
+    private readonly userRepository: UserEntityRepository,
+
     @Inject(RefreshTokenEntityRepositoryToken)
     private readonly repository: RefreshTokenEntityRepository,
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
     private readonly jwt: JwtService,
   ) {}
 
@@ -113,11 +118,30 @@ export class RefreshTokenService {
     user: UserSerializer;
   }> {
     const { user } = await this.resolveRefreshToken(refresh);
-    const token = await this.authService.generateAccessToken(user);
+    const token = await this.generateAccessToken(user);
     return {
       user,
       token,
     };
+  }
+
+  /**
+   * Generate access token
+   * @param user
+   * @param isTwoFAAuthenticated
+   */
+  public async generateAccessToken(
+    user: UserSerializer,
+    isTwoFAAuthenticated = false,
+  ): Promise<string> {
+    const opts: SignOptions = {
+      ...BASE_OPTIONS,
+      subject: String(user.id),
+    };
+    return this.jwt.signAsync({
+      ...opts,
+      isTwoFAAuthenticated,
+    });
   }
 
   /**
@@ -161,7 +185,20 @@ export class RefreshTokenService {
       );
     }
 
-    return this.authService.findById(subId);
+    return this.findById(subId);
+  }
+
+   /**
+   * Get user By Id
+   * @param id
+   */
+   async findById(id: number): Promise<UserSerializer> {
+    return this.userRepository.get(id, ['role'], {
+      groups: [
+        ...adminUserGroupsForSerializing,
+        ...ownerUserGroupsForSerializing,
+      ],
+    });
   }
 
   /**
