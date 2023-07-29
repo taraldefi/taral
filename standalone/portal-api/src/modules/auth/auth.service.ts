@@ -43,7 +43,11 @@ import { RoleEntityRepository } from '../role/role.repository';
 import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
 import { NORMAL_ROLE_ID } from '../../config/permission.config';
 import { UserSerializer } from './serializer/user.serializer';
-import { adminUserGroupsForSerializing, defaultUserGroupsForSerializing, ownerUserGroupsForSerializing } from 'src/common/groups/constants';
+import {
+  adminUserGroupsForSerializing,
+  defaultUserGroupsForSerializing,
+  ownerUserGroupsForSerializing,
+} from 'src/common/groups/constants';
 
 const throttleConfig = config.get('throttle.login') as any;
 const jwtConfig = config.get('jwt') as any;
@@ -181,7 +185,9 @@ export class AuthService {
       }
       throw new UnauthorizedException(error, code);
     }
-    const accessToken = await this.refreshTokenService.generateAccessToken(user);
+    const accessToken = await this.refreshTokenService.generateAccessToken(
+      user,
+    );
     let refreshToken = null;
     if (userLoginDto.remember) {
       refreshToken = await this.refreshTokenService.generateRefreshToken(
@@ -192,8 +198,6 @@ export class AuthService {
     await this.rateLimiter.delete(usernameIPkey);
     return this.buildResponsePayload(accessToken, refreshToken);
   }
-
-  
 
   /**
    * promise handler to handle result and error for login

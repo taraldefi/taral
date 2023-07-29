@@ -9,10 +9,13 @@ import { UserEntityRepositoryProvider } from '../auth/user.repository.provider';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([RefreshTokenEntity, UserEntity]),
+  imports: [TypeOrmModule.forFeature([RefreshTokenEntity, UserEntity])],
+  providers: [
+    JwtService,
+    RefreshTokenService,
+    RefreshTokenEntityRepositoryProvider,
+    UserEntityRepositoryProvider,
   ],
-  providers: [JwtService, RefreshTokenService, RefreshTokenEntityRepositoryProvider, UserEntityRepositoryProvider],
   exports: [RefreshTokenService],
   controllers: [],
 })

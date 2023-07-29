@@ -11,8 +11,8 @@ import { AuctionHistoryModule } from '../auctionhistory/auction.history.module';
     ConfigModule,
     ConfigService,
     RabbitMQHealthService,
-    RabbitmqService
+    RabbitmqService,
   ],
-  controllers: [AuctionSubscriberController]
+  controllers: [AuctionSubscriberController],
 })
 export class RabbitMqModule {}

@@ -39,7 +39,7 @@ import { PlaceBidService } from './services/place.bid.service';
     StartAuctionService,
     CancelAuctionService,
     AuctionHistoryService,
-    PlaceBidService
-  ]
+    PlaceBidService,
+  ],
 })
 export class AuctionHistoryModule {}

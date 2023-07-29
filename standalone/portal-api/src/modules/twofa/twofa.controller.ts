@@ -54,7 +54,10 @@ export class TwofaController {
     if (!isCodeValid) {
       throw new UnauthorizedException('invalidOTP');
     }
-    const accessToken = await this.refreshTokenService.generateAccessToken(user, true);
+    const accessToken = await this.refreshTokenService.generateAccessToken(
+      user,
+      true,
+    );
     const cookiePayload = this.usersService.buildResponsePayload(accessToken);
     response.setHeader('Set-Cookie', cookiePayload);
     return response.status(HttpStatus.NO_CONTENT).json({});

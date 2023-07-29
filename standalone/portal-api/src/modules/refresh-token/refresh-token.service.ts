@@ -188,11 +188,11 @@ export class RefreshTokenService {
     return this.findById(subId);
   }
 
-   /**
+  /**
    * Get user By Id
    * @param id
    */
-   async findById(id: number): Promise<UserSerializer> {
+  async findById(id: number): Promise<UserSerializer> {
     return this.userRepository.get(id, ['role'], {
       groups: [
         ...adminUserGroupsForSerializing,

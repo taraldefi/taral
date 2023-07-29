@@ -221,10 +221,9 @@ export class RabbitmqService implements OnModuleInit, OnApplicationShutdown {
               }
             })
             .catch((err) => {
-
               if (this.consuming) {
                 console.log('In get channel message catch', err);
-                reject(err);  
+                reject(err);
               } else {
                 resolve(null);
               }

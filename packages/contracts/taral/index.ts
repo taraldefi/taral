@@ -1,3 +1,8 @@
+import { nodeSip010FtTraitInfo, webSip010FtTraitInfo } from "./sip010-ft-trait";
+import {
+  nodeSip009NftTraitInfo,
+  webSip009NftTraitInfo,
+} from "./sip009-nft-trait";
 import {
   nodeClarityBitcoinInfo,
   webClarityBitcoinInfo,
@@ -79,6 +84,22 @@ import {
 } from "./taral-purchase-order-v1";
 import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
 import { nodeUsdaTokenInfo, webUsdaTokenInfo } from "./usda-token";
+import {
+  nodeMarketplaceStorageInfo,
+  webMarketplaceStorageInfo,
+} from "./marketplace-storage";
+import {
+  nodeMarketplaceTraitInfo,
+  webMarketplaceTraitInfo,
+} from "./marketplace-trait";
+import {
+  nodeNftMarketplaceInfo,
+  webNftMarketplaceInfo,
+} from "./nft-marketplace";
+import { nodeSip009NftInfo, webSip009NftInfo } from "./sip009-nft";
+import { nodeSip010TokenInfo, webSip010TokenInfo } from "./sip010-token";
+export type { Sip010FtTraitContract } from "./sip010-ft-trait";
+export type { Sip009NftTraitContract } from "./sip009-nft-trait";
 export type { ClarityBitcoinContract } from "./clarity-bitcoin";
 export type { ExporterTraitContract } from "./exporter-trait";
 export type { FtTraitContract } from "./ft-trait";
@@ -109,8 +130,15 @@ export type { TaralPurchaseOrderNftContract } from "./taral-purchase-order-nft";
 export type { TaralPurchaseOrderV1Contract } from "./taral-purchase-order-v1";
 export type { TaralStorageContract } from "./taral-storage";
 export type { UsdaTokenContract } from "./usda-token";
+export type { MarketplaceStorageContract } from "./marketplace-storage";
+export type { MarketplaceTraitContract } from "./marketplace-trait";
+export type { NftMarketplaceContract } from "./nft-marketplace";
+export type { Sip009NftContract } from "./sip009-nft";
+export type { Sip010TokenContract } from "./sip010-token";
 
 export const nodeTaralContracts = {
+  nodeSip010FtTrait: nodeSip010FtTraitInfo,
+  nodeSip009NftTrait: nodeSip009NftTraitInfo,
   nodeClarityBitcoin: nodeClarityBitcoinInfo,
   nodeExporterTrait: nodeExporterTraitInfo,
   nodeFtTrait: nodeFtTraitInfo,
@@ -141,9 +169,16 @@ export const nodeTaralContracts = {
   nodeTaralPurchaseOrderV1: nodeTaralPurchaseOrderV1Info,
   nodeTaralStorage: nodeTaralStorageInfo,
   nodeUsdaToken: nodeUsdaTokenInfo,
+  nodeMarketplaceStorage: nodeMarketplaceStorageInfo,
+  nodeMarketplaceTrait: nodeMarketplaceTraitInfo,
+  nodeNftMarketplace: nodeNftMarketplaceInfo,
+  nodeSip009Nft: nodeSip009NftInfo,
+  nodeSip010Token: nodeSip010TokenInfo,
 };
 
 export const webTaralContracts = {
+  webSip010FtTrait: webSip010FtTraitInfo,
+  webSip009NftTrait: webSip009NftTraitInfo,
   webClarityBitcoin: webClarityBitcoinInfo,
   webExporterTrait: webExporterTraitInfo,
   webFtTrait: webFtTraitInfo,
@@ -174,4 +209,9 @@ export const webTaralContracts = {
   webTaralPurchaseOrderV1: webTaralPurchaseOrderV1Info,
   webTaralStorage: webTaralStorageInfo,
   webUsdaToken: webUsdaTokenInfo,
+  webMarketplaceStorage: webMarketplaceStorageInfo,
+  webMarketplaceTrait: webMarketplaceTraitInfo,
+  webNftMarketplace: webNftMarketplaceInfo,
+  webSip009Nft: webSip009NftInfo,
+  webSip010Token: webSip010TokenInfo,
 };
