@@ -19,10 +19,8 @@ import { PlaceBidService } from './services/place.bid.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-        AuctionHistoryEntity, AuctionBidHistoryEntity
-    ]),
-    LoggerModule
+    TypeOrmModule.forFeature([AuctionHistoryEntity, AuctionBidHistoryEntity]),
+    LoggerModule,
   ],
   controllers: [AuctionHistoryController, AuctionSubscriberController],
   providers: [

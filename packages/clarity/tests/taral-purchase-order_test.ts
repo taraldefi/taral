@@ -1,46 +1,46 @@
 // deno-lint-ignore-file no-explicit-any
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Clarinet } from '../src/dependencies.ts';
+import { Clarinet } from "../src/dependencies.ts";
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Tx } from '../src/dependencies.ts';
+import { Tx } from "../src/dependencies.ts";
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Chain } from '../src/dependencies.ts';
+import { Chain } from "../src/dependencies.ts";
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { Account } from '../src/dependencies.ts';
+import { Account } from "../src/dependencies.ts";
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { types } from '../src/dependencies.ts';
+import { types } from "../src/dependencies.ts";
 // @ts-ignore Suppressing "The import path cannot end with a '.ts' extension"
-import { assertEquals } from '../src/dependencies.ts';
+import { assertEquals } from "../src/dependencies.ts";
 
 Clarinet.test({
-  name: 'Should check if a user holds TAL tokens',
+  name: "Should check if a user holds TAL tokens",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     //arrange
-    let deployer = accounts.get('deployer')!;
-    let exporter_wallet = accounts.get('wallet_8')!;
-    let exporter2_wallet = accounts.get('wallet_9')!;
+    let deployer = accounts.get("deployer")!;
+    let exporter_wallet = accounts.get("wallet_8")!;
+    let exporter2_wallet = accounts.get("wallet_9")!;
 
     //act
     chain.mineBlock([
       Tx.contractCall(
-        'taral-coin',
-        'mint',
+        "taral-coin",
+        "mint",
         [types.principal(exporter_wallet.address), types.uint(10)],
         deployer.address
       ),
     ]);
     let block = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'check-if-user-holds-tal-token',
+        "taral-purchase-order-v1",
+        "check-if-user-holds-tal-token",
         [types.principal(exporter_wallet.address)],
         deployer.address
       ),
     ]);
     let block2 = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'check-if-user-holds-tal-token',
+        "taral-purchase-order-v1",
+        "check-if-user-holds-tal-token",
         [types.principal(exporter2_wallet.address)],
         deployer.address
       ),
@@ -48,19 +48,19 @@ Clarinet.test({
 
     let [receipt] = block.receipts;
     let [receipt2] = block2.receipts;
-    assertEquals(receipt.result, '(ok true)');
-    assertEquals(receipt2.result, '(ok false)');
+    assertEquals(receipt.result, "(ok true)");
+    assertEquals(receipt2.result, "(ok false)");
   },
 });
 
 Clarinet.test({
-  name: 'purchase-order-contract: create-vault with sufficient collateral',
+  name: "purchase-order-contract: create-vault with sufficient collateral",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    const wallet_1 = accounts.get('wallet_1')!;
+    const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'create-vault',
+        "taral-purchase-order-v1",
+        "create-vault",
         [types.uint(600), types.uint(2500000), types.uint(400), types.uint(30)],
         wallet_1.address
       ),
@@ -88,13 +88,13 @@ Clarinet.test({
 // });
 
 Clarinet.test({
-  name: 'purchase-order-contract: create-vault with invalid loan amount',
+  name: "purchase-order-contract: create-vault with invalid loan amount",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    const wallet_1 = accounts.get('wallet_1')!;
+    const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'create-vault',
+        "taral-purchase-order-v1",
+        "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(0), types.uint(30)],
         wallet_1.address
       ),
@@ -104,13 +104,13 @@ Clarinet.test({
 });
 
 Clarinet.test({
-  name: 'purchase-order-contract: create-vault with invalid duration',
+  name: "purchase-order-contract: create-vault with invalid duration",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    const wallet_1 = accounts.get('wallet_1')!;
+    const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'create-vault',
+        "taral-purchase-order-v1",
+        "create-vault",
         [
           types.uint(500),
           types.uint(2500000),
@@ -231,15 +231,15 @@ Clarinet.test({
 // });
 
 Clarinet.test({
-  name: 'purchase-order-contract: liquidate-vault with overcollateralized vault',
+  name: "purchase-order-contract: liquidate-vault with overcollateralized vault",
   async fn(chain: Chain, accounts: Map<string, Account>) {
-    const wallet_1 = accounts.get('wallet_1')!;
-    const wallet_2 = accounts.get('wallet_2')!;
+    const wallet_1 = accounts.get("wallet_1")!;
+    const wallet_2 = accounts.get("wallet_2")!;
 
     chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'create-vault',
+        "taral-purchase-order-v1",
+        "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)],
         wallet_1.address
       ),
@@ -247,8 +247,8 @@ Clarinet.test({
 
     const block = chain.mineBlock([
       Tx.contractCall(
-        'taral-purchase-order-v1',
-        'liquidate',
+        "taral-purchase-order-v1",
+        "liquidate",
         [types.uint(1)],
         wallet_2.address
       ),

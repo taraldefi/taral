@@ -8,26 +8,26 @@
 // 4254430000000000000000000000000000000000000000000000000000000000  symbol
 
 const EMPTY_BUFFER =
-    "0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006707269636573000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
+  "0000000000000000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006707269636573000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
 
 export function buildPayload(
-    timestamp: number,
-    symbol: string,
-    price: number
+  timestamp: number,
+  symbol: string,
+  price: number
 ): Buffer {
-    // prefill as much, and add timestamp, price and symbol
-    const timestamp_offset = 64 - 8; // 64 bits?
-    const price_offset = 128 - 8; // 64 bits?
-    const symbol_length_offset = 223; // 1 byte
-    const symbol_string_offset = 224;
+  // prefill as much, and add timestamp, price and symbol
+  const timestamp_offset = 64 - 8; // 64 bits?
+  const price_offset = 128 - 8; // 64 bits?
+  const symbol_length_offset = 223; // 1 byte
+  const symbol_string_offset = 224;
 
-    const buffer = Buffer.from(EMPTY_BUFFER, "hex");
-    buffer.writeBigInt64BE(BigInt(timestamp), timestamp_offset);
-    buffer.writeBigInt64BE(BigInt(price), price_offset);
+  const buffer = Buffer.from(EMPTY_BUFFER, "hex");
+  buffer.writeBigInt64BE(BigInt(timestamp), timestamp_offset);
+  buffer.writeBigInt64BE(BigInt(price), price_offset);
 
-    buffer.writeInt8(symbol.length, symbol_length_offset);
-    const symbol_buffer = Buffer.from(symbol, "latin1");
-    symbol_buffer.copy(buffer, symbol_string_offset);
+  buffer.writeInt8(symbol.length, symbol_length_offset);
+  const symbol_buffer = Buffer.from(symbol, "latin1");
+  symbol_buffer.copy(buffer, symbol_string_offset);
 
-    return buffer;
+  return buffer;
 }

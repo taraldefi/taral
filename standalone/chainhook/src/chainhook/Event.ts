@@ -1,6 +1,6 @@
-import { Data } from "./Data";
+import { Data } from './Data';
 
 export interface Event {
-    type: string;
-    data: Data;
+  type: string;
+  data: Data;
 }

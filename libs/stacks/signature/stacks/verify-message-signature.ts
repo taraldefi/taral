@@ -6,13 +6,13 @@ import { hashMessage, hexToBigInt, parseRecoverableSignature } from "./utils";
  * Verify message signature with recoverable public key
  */
 export function verifyMessageSignature({
-    signature,
-    message,
-    publicKey,
+  signature,
+  message,
+  publicKey,
 }: VerifyMessageSignatureArgs): boolean {
-    const { r, s } = parseRecoverableSignature(signature);
-    const sig = new Signature(hexToBigInt(r), hexToBigInt(s));
-    const hashedMsg =
-        typeof message === "string" ? hashMessage(message) : message;
-    return verify(sig, hashedMsg, publicKey);
+  const { r, s } = parseRecoverableSignature(signature);
+  const sig = new Signature(hexToBigInt(r), hexToBigInt(s));
+  const hashedMsg =
+    typeof message === "string" ? hashMessage(message) : message;
+  return verify(sig, hashedMsg, publicKey);
 }

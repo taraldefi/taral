@@ -17,11 +17,19 @@ export abstract class CustomBaseEntity extends BaseEntity {
   @TrackChanges()
   id: number;
 
-  @Column({ type: 'timestamp', precision: 3, default: () => 'CURRENT_TIMESTAMP(3)' })
+  @Column({
+    type: 'timestamp',
+    precision: 3,
+    default: () => 'CURRENT_TIMESTAMP(3)',
+  })
   @TrackChanges()
   createdAt: Date;
 
-  @Column({ type: 'timestamp', precision: 3, default: () => 'CURRENT_TIMESTAMP(3)' })
+  @Column({
+    type: 'timestamp',
+    precision: 3,
+    default: () => 'CURRENT_TIMESTAMP(3)',
+  })
   @TrackChanges()
   updatedAt: Date;
 

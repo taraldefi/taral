@@ -1,11 +1,6 @@
 import { Allow } from 'class-validator';
 import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
-import {
-  Column,
-  Entity,
-  JoinTable,
-  OneToMany,
-} from 'typeorm';
+import { Column, Entity, JoinTable, OneToMany } from 'typeorm';
 import { AuctionStatus } from './auction.status';
 import { AuctionBidEntity } from './auction.bid.entity';
 import { TrackChanges } from 'src/common/decorators/track-changes.decorator';
@@ -47,9 +42,9 @@ export class AuctionEntity extends CustomBaseEntity {
   highestBidder: string;
 
   @Column({
-      type: "enum",
-      enum: AuctionStatus,
-      default: AuctionStatus.OPEN
+    type: 'enum',
+    enum: AuctionStatus,
+    default: AuctionStatus.OPEN,
   })
   @TrackChanges()
   status: AuctionStatus;
@@ -60,4 +55,3 @@ export class AuctionEntity extends CustomBaseEntity {
   )
   bids: AuctionBidEntity[];
 }
-

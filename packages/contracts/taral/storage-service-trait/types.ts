@@ -1,8 +1,4 @@
+import { Transaction } from "lib-shared";
+import { ClarityTypes } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface StorageServiceTraitContract {
-    
-  }
+export interface StorageServiceTraitContract {}

@@ -4,83 +4,83 @@ import { PrivateKey } from "./storage/constants";
 import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
 
 export async function storageManualTest(updateFile: boolean = false) {
-    const storage: StorageApiClient = new StorageApiClient(
-        "http://localhost:3000",
-        PrivateKey
+  const storage: StorageApiClient = new StorageApiClient(
+    "http://localhost:3000",
+    PrivateKey
+  );
+
+  const firstVersionFilename = "dummy.pdf";
+  const secondVersionFilename = "dummy-edited.pdf";
+
+  const fileInfo = readTestFile(firstVersionFilename);
+
+  const result = await storage.createFile(
+    "dummy.pdf",
+    fileInfo.file,
+    fileInfo.fileSizeInBytes
+  );
+
+  if (result.hasError) {
+    console.log(JSON.stringify(result));
+    console.log(
+      "Failed to create file with error: ",
+      result.error?.errors.message
     );
 
-    const firstVersionFilename = "dummy.pdf";
-    const secondVersionFilename = "dummy-edited.pdf";
+    return;
+  }
 
-    const fileInfo = readTestFile(firstVersionFilename);
+  const fileId = result.result?.id!;
 
-    const result = await storage.createFile(
-        "dummy.pdf",
-        fileInfo.file,
-        fileInfo.fileSizeInBytes
+  await requestFile(storage, fileId, "first-version.pdf");
+
+  if (updateFile) {
+    const secondVersionFileInfo = readTestFile(secondVersionFilename);
+    const updateResult = await storage.updateFile(
+      result.result?.id!,
+      secondVersionFileInfo.file,
+      secondVersionFileInfo.fileSizeInBytes
     );
 
-    if (result.hasError) {
-        console.log(JSON.stringify(result));
-        console.log(
-            "Failed to create file with error: ",
-            result.error?.errors.message
-        );
+    if (updateResult.hasError) {
+      console.log(JSON.stringify(updateResult));
+      console.log(
+        "Failed to update file with error: ",
+        updateResult.error?.errors.message
+      );
 
-        return;
+      return;
     }
 
-    const fileId = result.result?.id!;
+    await requestFile(storage, fileId, "second-version.pdf");
+  }
 
-    await requestFile(storage, fileId, "first-version.pdf");
-
-    if (updateFile) {
-        const secondVersionFileInfo = readTestFile(secondVersionFilename);
-        const updateResult = await storage.updateFile(
-            result.result?.id!,
-            secondVersionFileInfo.file,
-            secondVersionFileInfo.fileSizeInBytes
-        );
-
-        if (updateResult.hasError) {
-            console.log(JSON.stringify(updateResult));
-            console.log(
-                "Failed to update file with error: ",
-                updateResult.error?.errors.message
-            );
-
-            return;
-        }
-
-        await requestFile(storage, fileId, "second-version.pdf");
-    }
-
-    console.log("Success");
+  console.log("Success");
 }
 
 async function requestFile(
-    storage: StorageApiClient,
-    id: string,
-    fileName: string
+  storage: StorageApiClient,
+  id: string,
+  fileName: string
 ) {
-    const requestFileResult = await storage.requestFile(id);
+  const requestFileResult = await storage.requestFile(id);
 
-    if (requestFileResult.hasError) {
-        console.log(
-            "Failed to request file with error: ",
-            requestFileResult.error?.errors.message
-        );
-    }
-
-    const encryptedContent = JSON.stringify(
-        requestFileResult.result?.encryptedFile
+  if (requestFileResult.hasError) {
+    console.log(
+      "Failed to request file with error: ",
+      requestFileResult.error?.errors.message
     );
+  }
 
-    const privateKey = ecPrivateKey(PrivateKey);
+  const encryptedContent = JSON.stringify(
+    requestFileResult.result?.encryptedFile
+  );
 
-    const decryptedContent = await decryptString(privateKey, encryptedContent);
+  const privateKey = ecPrivateKey(PrivateKey);
 
-    var buffer = Buffer.from(decryptedContent, "binary");
+  const decryptedContent = await decryptString(privateKey, encryptedContent);
 
-    syncWriteFileWithEncoding(fileName, buffer, "binary");
+  var buffer = Buffer.from(decryptedContent, "binary");
+
+  syncWriteFileWithEncoding(fileName, buffer, "binary");
 }

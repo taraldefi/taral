@@ -116,8 +116,7 @@ export class AuthService {
   ): Promise<UserSerializer> {
     const token = await this.generateUniqueToken(12);
     if (!createUserDto.status) {
-
-      var userRole  = await this.roleRepository.get(NORMAL_ROLE_ID)
+      var userRole = await this.roleRepository.get(NORMAL_ROLE_ID);
 
       createUserDto.role = userRole;
       const currentDateTime = new Date();

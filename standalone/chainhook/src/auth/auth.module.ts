@@ -3,9 +3,7 @@ import { PassportModule } from '@nestjs/passport';
 import { StaticBearerStrategy } from './strategy/static-bearer.strategy';
 
 @Module({
-  imports: [
-    PassportModule
-  ],
+  imports: [PassportModule],
   providers: [StaticBearerStrategy],
   exports: [],
 })

@@ -60,9 +60,7 @@ import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.m
 
 @Module({
   imports: [
-    ClientsModule.register([
-      rabbitMQServiceOptions as any
-    ]),
+    ClientsModule.register([rabbitMQServiceOptions as any]),
     ConfigModule.forRoot({
       isGlobal: true,
       load: [
@@ -137,9 +135,8 @@ import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.m
     RefreshTokenModule,
     TwofaModule,
 
-
     AuctionModule,
-    AuctionHistoryModule
+    AuctionHistoryModule,
   ],
   providers: [
     {

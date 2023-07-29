@@ -1,4 +1,4 @@
 export interface Rule {
-    contract_identifier: string;
-    contains: string;
+  contract_identifier: string;
+  contains: string;
 }

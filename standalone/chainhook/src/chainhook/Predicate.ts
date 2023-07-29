@@ -1,6 +1,6 @@
-import { Rule } from "./Rule";
+import { Rule } from './Rule';
 
 export interface Predicate {
-    type: string;
-    rule: Rule;
+  type: string;
+  rule: Rule;
 }

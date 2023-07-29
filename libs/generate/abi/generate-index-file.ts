@@ -1,22 +1,22 @@
 import { getContractNameFromPath, toCamelCase, toPascalCase } from "lib-shared";
 
 function generateIndexFileInternal({
-    contractFile,
-    imports,
-    address,
+  contractFile,
+  imports,
+  address,
 }: {
-    contractFile: string;
-    subFolder: string;
-    imports: string;
-    address: string;
+  contractFile: string;
+  subFolder: string;
+  imports: string;
+  address: string;
 }) {
-    const contractName = getContractNameFromPath(contractFile);
+  const contractName = getContractNameFromPath(contractFile);
 
-    const contractTitle = toCamelCase(contractName, true);
-    const varName = toPascalCase(contractName);
-    const contractType = `${contractTitle}Contract`;
+  const contractTitle = toCamelCase(contractName, true);
+  const varName = toPascalCase(contractName);
+  const contractType = `${contractTitle}Contract`;
 
-    const fileContents = `
+  const fileContents = `
   ${imports}
   export type { ${contractType} } from './types';
 
@@ -42,57 +42,57 @@ function generateIndexFileInternal({
     contractFile: '${contractFile}',
   };`;
 
-    return fileContents;
+  return fileContents;
 }
 
 export function generateIndexFile({
-    contractFile,
-    subFolder,
-    address,
+  contractFile,
+  subFolder,
+  address,
 }: {
-    contractFile: string;
-    subFolder: string;
-    address: string;
+  contractFile: string;
+  subFolder: string;
+  address: string;
 }) {
-    const contractName = getContractNameFromPath(contractFile);
-    const contractTitle = toCamelCase(contractName, true);
-    const contractType = `${contractTitle}Contract`;
+  const contractName = getContractNameFromPath(contractFile);
+  const contractTitle = toCamelCase(contractName, true);
+  const contractType = `${contractTitle}Contract`;
 
-    const imports = `
+  const imports = `
   import { NodeContract, WebContract, nodeProxy, webProxy, BaseNodeProvider, BaseWebProvider } from 'lib-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 
-    return generateIndexFileInternal({
-        contractFile,
-        subFolder,
-        imports,
-        address,
-    });
+  return generateIndexFileInternal({
+    contractFile,
+    subFolder,
+    imports,
+    address,
+  });
 }
 
 export function generateMockIndexFile({
-    contractFile,
-    subFolder,
-    address,
+  contractFile,
+  subFolder,
+  address,
 }: {
-    contractFile: string;
-    subFolder: string;
-    address: string;
+  contractFile: string;
+  subFolder: string;
+  address: string;
 }) {
-    const contractName = getContractNameFromPath(contractFile);
-    const contractTitle = toCamelCase(contractName, true);
-    const contractType = `${contractTitle}Contract`;
+  const contractName = getContractNameFromPath(contractFile);
+  const contractTitle = toCamelCase(contractName, true);
+  const contractType = `${contractTitle}Contract`;
 
-    const imports = `
+  const imports = `
   import { NodeContract, WebContract, nodeProxy, webProxy, BaseNodeProvider, BaseWebProvider } from 'lib-shared';
   import type { ${contractType} } from './types';
   import { ${contractTitle}Interface } from './abi';`;
 
-    return generateIndexFileInternal({
-        contractFile,
-        subFolder,
-        imports,
-        address,
-    });
+  return generateIndexFileInternal({
+    contractFile,
+    subFolder,
+    imports,
+    address,
+  });
 }

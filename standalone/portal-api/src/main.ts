@@ -25,7 +25,7 @@ async function bootstrap() {
   });
 
   useContainer(app.select(AppModule), {
-    fallbackOnErrors: true
+    fallbackOnErrors: true,
   });
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));

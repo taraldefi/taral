@@ -2,16 +2,16 @@ import { Logger } from "lib-shared";
 import { IStorageFileWriteInterrogation } from "./types";
 
 export async function canWrite(
-    request: IStorageFileWriteInterrogation
+  request: IStorageFileWriteInterrogation
 ): Promise<boolean> {
-    const response = await request.contract.canWriteFile(
-        request.participant,
-        request.fileId
-    );
+  const response = await request.contract.canWriteFile(
+    request.participant,
+    request.fileId
+  );
 
-    const result = response._unsafeUnwrap();
+  const result = response._unsafeUnwrap();
 
-    Logger.debug("can-write-file", "Received result ", result);
+  Logger.debug("can-write-file", "Received result ", result);
 
-    return result;
+  return result;
 }

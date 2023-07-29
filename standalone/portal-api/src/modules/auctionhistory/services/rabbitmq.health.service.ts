@@ -3,19 +3,19 @@ import axios from 'axios';
 
 @Injectable()
 export class RabbitMQHealthService {
-  constructor(
-  ) {
-
-  }
+  constructor() {}
 
   public async checkClientStatus() {
-    try{
-      const response = await axios.get('http://localhost:15673/api/aliveness-test/%2F', {
-        auth: {
-          username: 'admin',
-          password: 'supersecretpassword'
-        }
-      });
+    try {
+      const response = await axios.get(
+        'http://localhost:15673/api/aliveness-test/%2F',
+        {
+          auth: {
+            username: 'admin',
+            password: 'supersecretpassword',
+          },
+        },
+      );
 
       if (response.data.status === 'ok') {
         console.log('Connected to RabbitMQ');

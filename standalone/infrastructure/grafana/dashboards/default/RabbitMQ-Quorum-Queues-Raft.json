@@ -294,11 +294,7 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max",
-            "sum"
-          ],
+          "calcs": ["lastNotNull", "max", "sum"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -596,11 +592,7 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max",
-            "sum"
-          ],
+          "calcs": ["lastNotNull", "max", "sum"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -842,11 +834,7 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max",
-            "sum"
-          ],
+          "calcs": ["lastNotNull", "max", "sum"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -1091,11 +1079,7 @@
       "links": [],
       "options": {
         "legend": {
-          "calcs": [
-            "lastNotNull",
-            "max",
-            "sum"
-          ],
+          "calcs": ["lastNotNull", "max", "sum"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -1119,9 +1103,7 @@
   "refresh": "15s",
   "schemaVersion": 34,
   "style": "dark",
-  "tags": [
-    "rabbitmq-prometheus"
-  ],
+  "tags": ["rabbitmq-prometheus"],
   "templating": {
     "list": [
       {
@@ -1202,24 +1184,8 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "15s",
-      "30s",
-      "1m",
-      "5m",
-      "10m"
-    ],
-    "time_options": [
-      "5m",
-      "15m",
-      "1h",
-      "6h",
-      "12h",
-      "24h",
-      "2d",
-      "7d",
-      "30d"
-    ]
+    "refresh_intervals": ["15s", "30s", "1m", "5m", "10m"],
+    "time_options": ["5m", "15m", "1h", "6h", "12h", "24h", "2d", "7d", "30d"]
   },
   "timezone": "",
   "title": "RabbitMQ-Quorum-Queues-Raft",

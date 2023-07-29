@@ -1,12 +1,11 @@
-import { Transaction } from "./Transaction";
-import { ApplyMetadata } from "./ApplyMetadata";
-import { BlockIdentifier } from "./BlockIdentifier";
-
+import { Transaction } from './Transaction';
+import { ApplyMetadata } from './ApplyMetadata';
+import { BlockIdentifier } from './BlockIdentifier';
 
 export interface Apply {
-    block_identifier: BlockIdentifier;
-    parent_block_identifier: BlockIdentifier;
-    timestamp: number;
-    transactions: Transaction[];
-    metadata: ApplyMetadata;
+  block_identifier: BlockIdentifier;
+  parent_block_identifier: BlockIdentifier;
+  timestamp: number;
+  transactions: Transaction[];
+  metadata: ApplyMetadata;
 }

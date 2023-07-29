@@ -66,7 +66,7 @@ const LoginThrottleFactory = {
     UniqueValidatorPipe,
     LoginThrottleFactory,
     UserEntityRepositoryProvider,
-    RoleEntityRepositoryProvider
+    RoleEntityRepositoryProvider,
   ],
   exports: [
     AuthService,

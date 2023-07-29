@@ -15,6 +15,10 @@ import { EmailTemplateEntityRepositoryProvider } from './email-template.reposito
   ],
   exports: [EmailTemplateService],
   controllers: [EmailTemplateController],
-  providers: [EmailTemplateService, UniqueValidatorPipe, EmailTemplateEntityRepositoryProvider],
+  providers: [
+    EmailTemplateService,
+    UniqueValidatorPipe,
+    EmailTemplateEntityRepositoryProvider,
+  ],
 })
 export class EmailTemplateModule {}

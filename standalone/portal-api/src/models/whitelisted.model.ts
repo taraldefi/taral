@@ -1,4 +1,4 @@
 export interface Whitelisted {
-    type: string;
-    value: boolean;
+  type: string;
+  value: boolean;
 }

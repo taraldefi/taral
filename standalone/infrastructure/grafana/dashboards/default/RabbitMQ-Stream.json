@@ -115,9 +115,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -175,9 +173,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -237,9 +233,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -298,9 +292,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -358,9 +350,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -420,9 +410,7 @@
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -625,22 +613,16 @@
       "id": 16,
       "links": [],
       "options": {
-        "displayLabels": [
-          "value"
-        ],
+        "displayLabels": ["value"],
         "legend": {
           "calcs": [],
           "displayMode": "hidden",
           "placement": "bottom",
-          "values": [
-            "value"
-          ]
+          "values": ["value"]
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -843,18 +825,14 @@
       },
       "id": 17,
       "options": {
-        "displayLabels": [
-          "value"
-        ],
+        "displayLabels": ["value"],
         "legend": {
           "displayMode": "hidden",
           "placement": "bottom"
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -1057,9 +1035,7 @@
       },
       "id": 18,
       "options": {
-        "displayLabels": [
-          "value"
-        ],
+        "displayLabels": ["value"],
         "legend": {
           "displayMode": "hidden",
           "placement": "bottom",
@@ -1067,9 +1043,7 @@
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -1272,18 +1246,14 @@
       },
       "id": 19,
       "options": {
-        "displayLabels": [
-          "value"
-        ],
+        "displayLabels": ["value"],
         "legend": {
           "displayMode": "hidden",
           "placement": "bottom"
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -1486,18 +1456,14 @@
       },
       "id": 20,
       "options": {
-        "displayLabels": [
-          "value"
-        ],
+        "displayLabels": ["value"],
         "legend": {
           "displayMode": "hidden",
           "placement": "bottom"
         },
         "pieType": "pie",
         "reduceOptions": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "fields": "",
           "values": false
         },
@@ -1757,12 +1723,7 @@
       "id": 3,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min",
-            "last"
-          ],
+          "calcs": ["mean", "max", "min", "last"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -1994,12 +1955,7 @@
       "id": 5,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min",
-            "last"
-          ],
+          "calcs": ["mean", "max", "min", "last"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -2234,12 +2190,7 @@
       "id": 7,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min",
-            "last"
-          ],
+          "calcs": ["mean", "max", "min", "last"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -2474,12 +2425,7 @@
       "id": 9,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min",
-            "last"
-          ],
+          "calcs": ["mean", "max", "min", "last"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -2714,12 +2660,7 @@
       "id": 11,
       "options": {
         "legend": {
-          "calcs": [
-            "mean",
-            "max",
-            "min",
-            "last"
-          ],
+          "calcs": ["mean", "max", "min", "last"],
           "displayMode": "table",
           "placement": "bottom"
         },
@@ -2797,9 +2738,7 @@
       "id": 23,
       "options": {
         "legend": {
-          "calcs": [
-            "last"
-          ],
+          "calcs": ["last"],
           "displayMode": "table",
           "placement": "right"
         },
@@ -2952,10 +2891,7 @@
   "refresh": "15s",
   "schemaVersion": 34,
   "style": "dark",
-  "tags": [
-    "rabbitmq-stream",
-    "rabbitmq-prometheus"
-  ],
+  "tags": ["rabbitmq-stream", "rabbitmq-prometheus"],
   "templating": {
     "list": [
       {
@@ -3036,13 +2972,7 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": [
-      "15s",
-      "30s",
-      "1m",
-      "5m",
-      "10m"
-    ]
+    "refresh_intervals": ["15s", "30s", "1m", "5m", "10m"]
   },
   "timezone": "",
   "title": "RabbitMQ-Stream",

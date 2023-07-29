@@ -111,7 +111,6 @@
     "winston": "^3.8.2",
     "winston-cloudwatch": "^3.2.0",
     "yargs": "^17.0.1",
-    
     "@nestjs/microservices": "^10.0.4",
     "@types/amqplib": "^0.10.1",
     "@types/cls-hooked": "^4.3.4",

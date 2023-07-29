@@ -34,9 +34,9 @@ export class AuctionHistoryEntity extends BaseHistory {
   highestBidder: string;
 
   @Column({
-      type: "enum",
-      enum: AuctionStatus,
-      default: AuctionStatus.OPEN
+    type: 'enum',
+    enum: AuctionStatus,
+    default: AuctionStatus.OPEN,
   })
   status: AuctionStatus;
 }

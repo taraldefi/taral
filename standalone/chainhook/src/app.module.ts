@@ -8,13 +8,7 @@ import { rabbitMQServiceOptions } from './rabbitmq/constants';
 import { RabbitMqPublisherService } from './rabbitmq/rabbitmq.publisher.service';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }), 
-    AuthModule,
-    ClientsModule.register([
-      rabbitMQServiceOptions as any
-    ]),
-  ],
+  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, ClientsModule.register([rabbitMQServiceOptions as any])],
   controllers: [AppController],
   providers: [AppService, RabbitMqPublisherService],
 })

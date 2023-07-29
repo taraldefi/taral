@@ -11,14 +11,22 @@ export class AuctionHistoryService {
     @Inject(AuctionHistoryEntityRepositoryToken)
     private auctionHistoryRepository: Repository<AuctionHistoryEntity>,
     @Inject(AuctionBidHistoryEntityRepositoryToken)
-    private auctionBidsHistoryRepository: Repository<AuctionBidHistoryEntity>
+    private auctionBidsHistoryRepository: Repository<AuctionBidHistoryEntity>,
   ) {}
 
   async getHumanReadableAuctionHistory(auctionId: number): Promise<string> {
-    const auctionHistory = await this.auctionHistoryRepository.find({ where: { auctionId: auctionId }, order: { createdAt: 'ASC' } });
-    const bidsHistory = await this.auctionBidsHistoryRepository.find({ where: { auctionId: auctionId }, order: { createdAt: 'ASC' } });
+    const auctionHistory = await this.auctionHistoryRepository.find({
+      where: { auctionId: auctionId },
+      order: { createdAt: 'ASC' },
+    });
+    const bidsHistory = await this.auctionBidsHistoryRepository.find({
+      where: { auctionId: auctionId },
+      order: { createdAt: 'ASC' },
+    });
 
-    const allHistory = [...auctionHistory, ...bidsHistory].sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    const allHistory = [...auctionHistory, ...bidsHistory].sort(
+      (a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
+    );
 
     const humanReadableAuctionHistory = allHistory.map((history) => {
       let actionText: string;
@@ -42,7 +50,12 @@ export class AuctionHistoryService {
           break;
       }
 
-      let changesText = history.changes.map(change => `The ${change.name} was changed to "${change.new_value}".`).join(' ');
+      let changesText = history.changes
+        .map(
+          (change) =>
+            `The ${change.name} was changed to "${change.new_value}".`,
+        )
+        .join(' ');
 
       return `${entityText} ${actionText} at ${history.createdAt.toLocaleString()}. ${changesText}`;
     });

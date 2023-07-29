@@ -1,4 +1,4 @@
 export interface BlockIdentifier {
-    index: number;
-    hash: string;
+  index: number;
+  hash: string;
 }

@@ -7,9 +7,5 @@
     "^.+\\.(t|j)s$": "ts-jest"
   },
   "modulePaths": ["."],
-  "moduleDirectories": [
-    "node_modules", 
-    "src",
-    "../../../modules"
-  ]
+  "moduleDirectories": ["node_modules", "src", "../../../modules"]
 }

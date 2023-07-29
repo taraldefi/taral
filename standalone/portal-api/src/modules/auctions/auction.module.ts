@@ -6,16 +6,8 @@ import { AuctionBidEntity } from './entities/auction.bid.entity';
 import { AuctionEntityRepositoryProvider } from './providers/auction.repository.provider';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([
-        AuctionEntity, AuctionBidEntity
-    ]),
-  ],
+  imports: [TypeOrmModule.forFeature([AuctionEntity, AuctionBidEntity])],
   controllers: [],
-  providers: [
-    ConfigModule,
-    ConfigService,
-    AuctionEntityRepositoryProvider
-  ],
+  providers: [ConfigModule, ConfigService, AuctionEntityRepositoryProvider],
 })
 export class AuctionModule {}

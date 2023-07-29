@@ -1,15 +1,15 @@
 export interface IOraclePriceFeed {
-    source: string;
-    payload: Buffer;
-    signature: Buffer;
+  source: string;
+  payload: Buffer;
+  signature: Buffer;
 }
 
 export interface IOraclePriceEntry {
-    amount: bigint;
-    height: bigint;
-    timestamp: bigint;
+  amount: bigint;
+  height: bigint;
+  timestamp: bigint;
 }
 
 export interface IOracleSource {
-    publicKey: Buffer;
+  publicKey: Buffer;
 }

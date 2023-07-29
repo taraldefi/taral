@@ -1,7 +1,7 @@
-import { Predicate } from "./Predicate";
+import { Predicate } from './Predicate';
 
 export interface Chainhook {
-    uuid: string;
-    transaction_predicate: Predicate;
-    block_predicate: Predicate;
+  uuid: string;
+  transaction_predicate: Predicate;
+  block_predicate: Predicate;
 }

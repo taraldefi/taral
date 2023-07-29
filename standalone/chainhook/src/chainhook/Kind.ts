@@ -1,5 +1,5 @@
-import { ContractCall } from "./ContractCall";
+import { ContractCall } from './ContractCall';
 
 export interface Kind {
-    ContractCall: ContractCall;
+  ContractCall: ContractCall;
 }
