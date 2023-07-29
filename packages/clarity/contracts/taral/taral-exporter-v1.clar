@@ -20,18 +20,6 @@
 ;; @Desc function to fetch or create an exporter ID, makes use of match function to check if exporter id exists
 ;; @Param exporter : principal of exporter
 (define-private (get-or-create-exporter-id (exporter principal))
-    ;; (let (
-    ;;     (exporter-info (contract-call? .exporter-storage get-exporter-by-principal exporter))
-    ;;     (exporter-id (contract-call? .exporter-storage get-exporter-id-nonce))
-    ;; ) 
-    ;; (match exporter-info
-    ;; matched-exporter-id (ok matched-exporter-id)
-    ;; (begin
-    ;;     (unwrap! (contract-call? .exporter-storage add-exporter exporter exporter-id) exporter-storage-error)
-    ;;     (unwrap! (contract-call? .exporter-storage increment-exporter-id-nonce) exporter-storage-error)
-    ;;     (ok exporter-id)))
-    ;; )
-
     (match (contract-call? .exporter-storage get-exporter-by-principal exporter) 
           matched-exporter-id (ok matched-exporter-id)  
           (let ((exporter-id (contract-call? .exporter-storage get-exporter-id-nonce)))  
@@ -49,6 +37,7 @@
 (define-public (register 
     (exporter principal) 
     (exporter-name (string-utf8 100)) 
+    (external-system-id (string-utf8 100))
     (hash (buff 256)) 
     (exporter-category (string-utf8 100))
 )
@@ -56,11 +45,11 @@
         (asserts! (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter)) ERR-EXPORTER-ALREADY-REGISTERED)
         (asserts! (> (len exporter-name) u0) ERR-GENERIC)
         (asserts! (> (len exporter-category) u0) ERR-GENERIC) 
-        ;; check that the hash is not empty
+        ;; check that the hash is not empty+
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
             
         (let ((exporter-id (unwrap! (get-or-create-exporter-id exporter) ERR-GENERIC)))
-        (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id exporter-name hash exporter-category) exporter-storage-error)
+        (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id external-system-id exporter-name hash exporter-category) exporter-storage-error)
         (print {action: "register", exporter: exporter, exporter-name: exporter-name, exporter-category: exporter-category })
         (ok true)
         )

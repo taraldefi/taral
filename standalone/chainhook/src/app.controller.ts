@@ -49,7 +49,7 @@ export class AppController {
 
       console.log('---------------------------------------');
 
-      await this.rabbitMqPublishingService.publishMessage('rabbitmq_chainhook_event', JSON.stringify(printPayload));
+      // await this.rabbitMqPublishingService.publishMessage('rabbitmq_chainhook_event', JSON.stringify(printPayload));
 
       console.log('Published message');
     }

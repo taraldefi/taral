@@ -9,6 +9,7 @@
         exporter-id: uint
     }  
     {
+        external-system-id: (string-utf8 100),
         name: (string-utf8 100),
         hash: (buff 256),
         category: (string-utf8 100), ;; Merchant /Manufacturer /Service /Project /Deemed exporter
@@ -46,7 +47,7 @@
     (map get-exporter-profile principals)       
 )
 
-(define-read-only (get-orders-next-avail-id (exporter {name: (string-utf8 100),hash: (buff 256), category: (string-utf8 100), orders-next-avail-id: uint, created: uint} ))
+(define-read-only (get-orders-next-avail-id (exporter {name: (string-utf8 100), external-system-id: (string-utf8 100), hash: (buff 256), category: (string-utf8 100), orders-next-avail-id: uint, created: uint} ))
     (get orders-next-avail-id exporter)
 )
 
@@ -89,6 +90,7 @@
     hash: (buff 256),
     category: (string-utf8 100),
     orders-next-avail-id: uint,
+    external-system-id: (string-utf8 100),
     created: uint
     }))
     (ok
@@ -96,12 +98,13 @@
     )
 )
 
-(define-public (add-exporter-profile (exporter-id uint) (exporter-name (string-utf8 100)) (hash (buff 256)) (exporter-category (string-utf8 100)))
+(define-public (add-exporter-profile (exporter-id uint) (external-system-id (string-utf8 100)) (exporter-name (string-utf8 100)) (hash (buff 256)) (exporter-category (string-utf8 100)))
     (ok (map-insert exporter-profile 
             {exporter-id: exporter-id} 
             {   
                 name: exporter-name,
                 hash: hash,
+                external-system-id: external-system-id,
                 category: exporter-category,
                 orders-next-avail-id: u0, 
                 created: block-height
