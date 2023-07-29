@@ -28,7 +28,6 @@
     "deploy": "yarn workspace taral-scripts deploy",
     "testbed": "yarn workspace taral-scripts testbed",
     "generate": "yarn workspace taral-scripts generate",
-    "cleanup": "yarn workspace taral-scripts cleanup",
     "doc": "yarn workspace taral-docs doc",
     "install-native-cli": "yarn workspace taral-scripts install-native-cli"
   },
