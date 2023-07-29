@@ -26,7 +26,7 @@ networks:
             #     method: mint
         action:
             http: 
-                url: http://localhost:3000/chainhook
+                url: http://localhost:3333/chainhook
                 method: POST
                 authorization-header: "Bearer api-key-1"
         decode_clarity_values: true
