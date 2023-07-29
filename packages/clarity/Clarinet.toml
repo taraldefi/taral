@@ -1,5 +1,10 @@
 [project]
-name = "clarinet"
+name = 'clarinet'
+description = ''
+authors = []
+telemetry = true
+cache_dir = '.\.cache'
+requirements = []
 
 [contracts.usda-token]
 depends_on = ["ft-trait"]
@@ -136,3 +141,14 @@ depends_on =["sip009-nft-trait"]
 [contracts.sip010-token]
 path = "contracts/taral/sip010-token.clar"
 depends_on =["sip010-ft-trait"]
+
+clarity_version = 1
+epoch = 2.0
+[repl.analysis]
+passes = ['check_checker']
+
+[repl.analysis.check_checker]
+strict = false
+trusted_sender = false
+trusted_caller = false
+callee_filter = false
