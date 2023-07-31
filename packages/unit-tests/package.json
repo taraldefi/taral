@@ -21,7 +21,7 @@
     "typescript": "^5.1.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/preset-env": "^7.22.4",
-    "babel-jest": "^29.6.0"
+    "babel-jest": "^29.6.2"
   },
   "dependencies": {
     "uuid": "^9.0.0",
