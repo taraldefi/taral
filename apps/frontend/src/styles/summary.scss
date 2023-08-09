@@ -1,0 +1,234 @@
+.summary {
+  display: flex;
+  margin-top: 40px;
+  justify-content: space-between;
+
+  .businessSides {
+    color: #475569;
+    width: 225px;
+    height: fit-content;
+    gap: 10px;
+    display: flex;
+    margin-right: 20px;
+    flex-direction: column;
+    justify-content: space-between;
+
+    :nth-child(1) {
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 225px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+
+  .transactionDetails {
+    font-family: inter;
+
+    color: #475569;
+    width: 248px;
+    gap: 10px;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    :nth-child(1) {
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 225px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+
+  .summaryInfo {
+    color: #475569;
+    width: 248px;
+    height: fit-content;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .header {
+      color: #000000;
+      display: flex;
+
+      span {
+        margin-left: 10px;
+        font-size: 14px;
+        margin-top: 24px;
+      }
+
+      svg {
+        margin-top: 24px;
+      }
+    }
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 225px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    :nth-child(1) {
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+}
+
+#dollar {
+  background-image: url(/assets/svg/dollar.svg);
+  background-repeat: no-repeat;
+  background-position: 195px;
+}
+
+#percentage {
+  background-image: url(/assets/svg/percentage.svg);
+  background-repeat: no-repeat;
+  background-position: 195px;
+}
+
+#calendar {
+  // z-index: 0;
+  background-image: url(/assets/svg/calendar.svg);
+  background-repeat: no-repeat;
+  background-position: 193px 10px;
+}
+
+#star {
+  background-image: url(/assets/svg/star.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+#dollar {
+  background-image: url(/assets/svg/dollar.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+#percentage {
+  background-image: url(/assets/svg/percentage.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+#calendar {
+  // z-index: 99;
+  background-image: url(/assets/svg/calendar.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+#upload {
+  z-index: 99;
+  background-image: url(/assets/svg/upload.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+#downarrow {
+  z-index: 99;
+  background-image: url(/assets/svg/downarrow.svg);
+  background-repeat: no-repeat;
+  background-position: 95%;
+}
+
+input[type="date"]::-webkit-inner-spin-button,
+input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 0;
+  -webkit-appearance: none;
+  margin-left: auto !important;
+}

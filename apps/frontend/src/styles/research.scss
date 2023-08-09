@@ -1,0 +1,151 @@
+.researchTitle {
+  color: #64748b;
+  position: relative;
+  top: 25px;
+  font-weight: bold;
+  font-size: 14px;
+  display: flex;
+  flex-direction: row;
+  width: 1103px;
+  justify-content: space-between;
+}
+
+.persons {
+  .title {
+    font-size: 14px;
+    color: #64748b;
+    margin-top: -20px;
+  }
+
+  margin-top: 30px;
+  width: 100%;
+  height: 110px;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+
+  .complianceAddBox {
+    display: flex;
+    flex-direction: row;
+    width: 1100px;
+    height: 68px;
+
+    .name {
+      width: 244px;
+      height: 71px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .inputs {
+        border: 1px solid #cbd5e1;
+        width: 225px;
+        height: 44px;
+        border-radius: 4px;
+      }
+
+      ::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+      }
+
+      :-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      ::-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      :nth-child(1) {
+        color: #475569;
+      }
+    }
+
+    .email {
+      .inputs {
+        border: 1px solid #cbd5e1;
+        width: 470px;
+        height: 44px;
+        border-radius: 4px;
+      }
+
+      width: 494px;
+      height: 71px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      ::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+        padding-left: 8px;
+      }
+
+      :-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      ::-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      :nth-child(1) {
+        color: #475569;
+      }
+    }
+
+    .position {
+      .inputs {
+        border: 1px solid #cbd5e1;
+        width: 200px;
+        height: 44px;
+        border-radius: 4px;
+      }
+
+      width: 224px;
+      height: 71px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      ::placeholder {
+        color: #94a3b8;
+        opacity: 1;
+      }
+
+      :-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      ::-ms-input-placeholder {
+        color: #94a3b8;
+      }
+
+      :nth-child(1) {
+        color: #475569;
+      }
+    }
+
+    .buttonContainer {
+      width: 98px;
+      height: 68px;
+      display: flex;
+      align-items: center;
+      margin-top: 13px;
+      justify-content: center;
+    }
+  }
+}
+
+.sentiment--table {
+  .table {
+    table {
+      width: 100%;
+    }
+
+    .source--tab {
+      width: auto;
+    }
+  }
+}

@@ -1,0 +1,579 @@
+.tsNewContainers {
+  position: fixed;
+  top: 127px;
+  left: 256px;
+  display: flex;
+  width: 84%;
+  padding: 40px 40px 40px 40px;
+  display: flex;
+  font-size: 14px;
+
+  .inputContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    span {
+      font-size: 13.5px;
+    }
+  }
+
+  .inputs {
+    width: 100%;
+    color: #64748b;
+  }
+
+  .vLine {
+    width: 0.1px;
+    height: initial;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+
+  .tsProjContainer {
+    display: flex;
+    flex-direction: row;
+
+    .projectDetails {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+
+      .verticalProjectContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+
+        .inputContainer {
+          padding-top: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .radioBack {
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 15px;
+          gap: 15px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+        }
+      }
+    }
+
+    .consortium {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+      .verticalConContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+        .inputContainer {
+          padding-top: 10px;
+          display: flex;
+          flex-direction: column !important;
+          gap: 6px !important;
+        }
+
+        .radioBack {
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 15px;
+          gap: 10px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+
+          textarea {
+            height: max-content;
+            width: 110%;
+            padding-bottom: 10%;
+          }
+        }
+      }
+    }
+
+    .license {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+      .verticalLicenseContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+        .inputContainer {
+          padding-top: 10px;
+          display: flex;
+          flex-direction: column !important;
+          gap: 6px !important;
+        }
+
+        .radioBack {
+          .hLine {
+            width: 100%;
+            height: 0.3px;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 15px 0px 15px 0px;
+          }
+
+          .secondRadio {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 15px;
+          gap: 10px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+
+          textarea {
+            height: max-content;
+            width: 110%;
+            padding-bottom: 10%;
+          }
+        }
+      }
+    }
+
+    input[type="text"] {
+      padding: 10px !important;
+    }
+
+    span {
+      justify-content: flex-start !important;
+    }
+  }
+
+  .tsContContainer {
+    display: flex;
+    flex-direction: row;
+
+    .contractContainer {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+      .verticalContractContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+        .inputContainer {
+          padding-top: 10px;
+          display: flex;
+          flex-direction: column !important;
+          gap: 6px !important;
+        }
+
+        .radioBack {
+          .hLine {
+            width: 100%;
+            height: 0.3px;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 15px 0px 15px 0px;
+          }
+
+          .secondRadio {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+          }
+
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 5px;
+          gap: 10px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+
+          textarea {
+            height: max-content;
+            width: 110%;
+            padding-bottom: 10%;
+          }
+        }
+      }
+    }
+
+    .deliveryContainer {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+      .verticalDeliveryContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+        .radioBack {
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 5px;
+          gap: 10px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+
+          textarea {
+            height: max-content;
+            width: 110%;
+            padding-bottom: 10%;
+          }
+        }
+      }
+    }
+
+    .deliveredContainer {
+      display: flex;
+      flex-direction: column;
+      width: 33%;
+      height: 75vh;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+      .verticalDeliveredContainer {
+        column-gap: 25px;
+        height: 20px;
+        overflow: scroll;
+        flex: 1;
+        width: 100%;
+        color: #475569;
+        font-size: 14px;
+        font-weight: normal;
+        .radioBack {
+          margin-top: 10px;
+          padding: 16px 44px 16px 16px;
+          display: flex;
+          background-color: #9797970f;
+          flex-direction: column;
+          margin-bottom: 5px;
+          gap: 6px;
+
+          :nth-child(2) {
+            display: flex;
+            flex-direction: row;
+            gap: 30px;
+
+            :nth-child(n) {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              justify-content: center;
+              padding-bottom: 0px;
+              gap: 6px;
+            }
+          }
+
+          textarea {
+            height: max-content;
+            width: 110%;
+            padding-bottom: 10%;
+          }
+        }
+      }
+    }
+  }
+
+  .tsAddiContainer {
+    display: flex;
+    width: 100%;
+
+    .respContainer {
+      flex: 1;
+      width: 100%;
+      color: #475569;
+      font-size: 14px;
+      font-weight: normal;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+
+      .selectBack {
+        margin-top: 10px;
+        padding: 14px 14px 16px 16px;
+        display: flex;
+        background-color: #9797970f;
+        flex-direction: column;
+        margin-bottom: 5px;
+        gap: 6px;
+      }
+
+      .radioBack {
+        margin-top: 10px;
+        padding: 16px 44px 16px 16px;
+        display: flex;
+        background-color: #9797970f;
+        flex-direction: column;
+        margin-bottom: 5px;
+        gap: 6px;
+
+        :nth-child(2) {
+          display: flex;
+          flex-direction: row;
+          gap: 30px;
+
+          :nth-child(n) {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 0px;
+            gap: 6px;
+          }
+        }
+
+        textarea {
+          height: max-content;
+          width: 110%;
+          padding-bottom: 10%;
+        }
+      }
+    }
+
+    .addiContainer {
+      flex: 1;
+      width: 100%;
+      color: #475569;
+      font-size: 14px;
+      font-weight: normal;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+
+      .selectBack {
+        margin-top: 10px;
+        padding: 12px 12px 14px 14px;
+        display: flex;
+        background-color: #9797970f;
+        flex-direction: column;
+        margin-bottom: 5px;
+        gap: 6px;
+
+        :nth-child(n) {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+      }
+    }
+
+    .certiContainer {
+      flex: 1;
+      width: 100%;
+      color: #475569;
+      font-size: 14px;
+      font-weight: normal;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+
+      .maintitle {
+        font-size: 14px;
+        font-weight: bold;
+        color: #64748b;
+        padding-bottom: 11px;
+      }
+
+      .radioBack {
+        margin-top: 10px;
+        padding: 16px 44px 16px 16px;
+        display: flex;
+        background-color: #9797970f;
+        flex-direction: column;
+        margin-bottom: 5px;
+        gap: 10px;
+
+        .radioIn {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        :nth-child(2) {
+          display: flex;
+          // flex-direction: row;
+          gap: 5px;
+
+          :nth-child(n) {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 0px;
+            gap: 6px;
+          }
+        }
+
+        textarea {
+          height: max-content;
+          width: 110%;
+          padding-bottom: 10%;
+        }
+      }
+    }
+  }
+}

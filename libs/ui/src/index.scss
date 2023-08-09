@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css?family=Inter&display=swap');
+
+:root {
+  /* Add your CSS variables here */
+  --background: #f6f7fa;
+  --tariala-black: #000000;
+  --tariala-white: #ffffff;
+  --tariala-red: #d70b48;
+  --tariala-green: #1ab98b;
+  --tariala-blue: #1d4ed8;
+
+  --heading-font-size: 40px;
+  --subheading-font-size: 24px;
+
+  font-family: 'Inter', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #3c3c3c;
+    --font-color: #fafafa;
+  }
+}

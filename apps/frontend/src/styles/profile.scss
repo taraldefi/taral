@@ -1,0 +1,60 @@
+.profilePage {
+  position: relative;
+  width: 100%;
+
+  .content {
+    padding: 150px 90px 50px 90px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .profilePageCardContainer {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+    .profileCard {
+      font-family: "inter", sans-serif;
+      background-color: white;
+      width: auto;
+      height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+      padding: 50px 30px 50px 30px;
+
+      .lastItem {
+        margin-left: auto;
+      }
+
+      .button--secondary {
+        font-size: 14px;
+        color: #1d4ed8;
+        justify-content: center;
+        border: 2px solid #1d4ed8;
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0);
+      }
+
+      .userContainer {
+        display: flex;
+        gap: 40px;
+        align-items: center;
+        .flexBox {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          font-weight: 600;
+          font-size: 27px;
+          :nth-child(2) {
+            font-weight: normal;
+            color: #003c6e;
+            font-size: 16px;
+          }
+        }
+      }
+    }
+  }
+}

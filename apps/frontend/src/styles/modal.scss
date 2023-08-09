@@ -1,0 +1,783 @@
+.formModal {
+  overflow-y: hidden;
+  top: 0;
+  width: 35%;
+  height: 100%;
+  left: 100%;
+  background-color: #fff;
+  position: fixed;
+  z-index: 1000;
+  transition: all 0.5s ease;
+
+  &.active {
+    height: 100vh;
+    left: 65%;
+    box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    animation: animate 0.5s ease;
+    -moz-animation: animate 0.4s ease;
+    /* Firefox */
+    -webkit-animation: animate 0.4s ease;
+    backdrop-filter: blur(5px);
+
+    /* Safari and Chrome */
+    @keyframes animate {
+      from {
+        left: 100%;
+      }
+
+      to {
+        left: 65%;
+      }
+    }
+
+    @-moz-keyframes animate {
+      from {
+        left: 100%;
+      }
+
+      to {
+        left: 65%;
+      }
+    }
+
+    @-webkit-keyframes animate {
+      from {
+        left: 100%;
+      }
+
+      to {
+        left: 65%;
+      }
+    }
+  }
+
+  .modalMenue {
+    .close {
+      position: relative;
+      color: rgb(78, 78, 78);
+      top: 20px;
+      left: 20px;
+    }
+
+    .header {
+      width: 70%;
+
+      margin: auto;
+      padding-top: 10%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      font-size: 25px;
+      font-weight: bolder;
+      color: black;
+      .yield-icon {
+        svg {
+          height: 50px;
+          width: 50px;
+        }
+      }
+
+      span {
+        font-size: 13px;
+        font-weight: normal;
+        text-align: center;
+        color: gray;
+      }
+    }
+
+    .form {
+      padding-top: 10%;
+      width: 70%;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+
+      //lock tal modal
+      .form-tal-info {
+        background-color: rgba(220, 220, 222, 0.2);
+        padding: 20px;
+        margin-top: 24px;
+      }
+
+      .button {
+        border: 0;
+        color: white;
+        background-color: #0d8489;
+        border-radius: 5px;
+        height: 50px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10%;
+      }
+
+      .buttonEdit {
+        border: 2px #1d4ed8 solid;
+        color: #1d4ed8;
+        background-color: white;
+        border-radius: 5px;
+        height: 50px;
+        margin: auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin-top: 10%;
+        font-weight: bold;
+      }
+
+      .label {
+        display: flex;
+        justify-content: flex-start;
+        color: gray;
+        font-size: 15px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .entityfield {
+        width: 100%;
+        padding-top: 20px;
+        color: #475569;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .inputs {
+          white-space: nowrap;
+          appearance: none;
+          font-family: inter;
+          padding: 10px;
+          width: 100%;
+          height: 44px;
+          color: black;
+          border-radius: 4px;
+          border: 1.5px solid #cbd5e1;
+        }
+        .custom-input {
+          position: relative;
+          width: 100%;
+        }
+        .custom-input-input {
+          white-space: nowrap;
+          appearance: none;
+          font-family: inter;
+          padding: 10px;
+          width: 100%;
+          height: 44px;
+          color: black;
+          border-radius: 4px;
+          border: 1.5px solid #cbd5e1;
+        }
+        .custom-input-text {
+          position: absolute;
+          right: 50px;
+          top: 3px;
+          bottom: 3px;
+          border: 0;
+          background-color: transparent;
+          font-weight: normal;
+          color: #94a3b8;
+          outline: none;
+          margin: 0;
+          padding: 0 10px;
+          border-radius: 4px;
+          z-index: 2;
+        }
+        .vl {
+          position: absolute;
+          right: 50px;
+          top: 12px;
+          bottom: 12px;
+          border-left: 1px solid #94a3b8;
+          height: 20px;
+        }
+        .custom-input-button {
+          cursor: pointer;
+          position: absolute;
+          right: 3px;
+          top: 3px;
+          bottom: 3px;
+          border: 0;
+          background-color: transparent;
+          font-weight: bold;
+          color: #0d8489;
+          outline: none;
+          margin: 0;
+          padding: 0 10px;
+          border-radius: 4px;
+          z-index: 2;
+        }
+
+        input[type="file"] {
+          color: #fff;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+        }
+
+        /* Firefox */
+        input[type="number"] {
+          -moz-appearance: textfield;
+        }
+
+        ::-webkit-file-upload-button {
+          visibility: hidden;
+        }
+
+        ::placeholder {
+          /* Chrome, Firefox, Opera, Safari 10.1+ */
+          color: #94a3b8;
+          opacity: 1;
+          /* Firefox */
+        }
+
+        :-ms-input-placeholder {
+          /* Internet Explorer 10-11 */
+          color: #94a3b8;
+        }
+
+        ::-ms-input-placeholder {
+          /* Microsoft Edge */
+          color: #94a3b8;
+        }
+
+        :nth-child(1) {
+          font-size: 14px;
+          padding-bottom: 5px;
+          color: #64748b;
+        }
+
+        span {
+          font-family: inter;
+          color: #475569;
+          font-size: 14px;
+        }
+      }
+
+      .flexrow {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+    }
+  }
+}
+
+.deleteModal {
+  overflow-y: hidden;
+
+  &.active {
+    box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    width: 27vw;
+    height: 45%;
+    left: 35vw;
+    top: 12vw;
+    background-color: #fff;
+    position: fixed;
+    z-index: 99;
+    border-radius: 16px;
+    animation: bounce-in 0.5s ease;
+    -moz-animation: bounce-in 0.5s ease;
+    /* Firefox */
+    -webkit-animation: bounce-in 0.5s ease;
+
+    /* Safari and Chrome */
+    @keyframes bounce-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+
+  .modalMenue {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    .close {
+      position: relative;
+      color: rgb(78, 78, 78);
+      top: 20px;
+      left: 20px;
+    }
+
+    .header {
+      width: 60%;
+
+      margin: auto;
+      padding-top: 5%;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      font-size: 20px;
+      font-weight: 800;
+      color: black;
+
+      span {
+        text-align: center;
+        padding-top: 15px;
+        font-size: 12px;
+        font-weight: normal;
+        color: gray;
+      }
+    }
+
+    .form {
+      width: 70%;
+      gap: 10px;
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      .button {
+        border: 0;
+        color: white;
+        background-color: #d70b48;
+        border-radius: 5px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .buttonEdit {
+        border: 2px #1d4ed8 solid;
+        color: #1d4ed8;
+        background-color: white;
+        border-radius: 5px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+
+        font-weight: bold;
+      }
+
+      .label {
+        display: flex;
+        justify-content: flex-start;
+        color: gray;
+        font-size: 15px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.newApplicationModal {
+  overflow-y: hidden;
+
+  &.active {
+    box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+    width: 42vw;
+    height: 47%;
+    left: 30vw;
+    top: 12.5vw;
+    background-color: #fff;
+    position: fixed;
+    z-index: 99;
+    border-radius: 16px;
+    animation: bounce-in 0.5s ease;
+    -moz-animation: bounce-in 0.5s ease;
+    /* Firefox */
+    -webkit-animation: bounce-in 0.5s ease;
+
+    /* Safari and Chrome */
+    @keyframes bounce-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+
+  .modalMenue {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    .close {
+      position: relative;
+      color: rgb(78, 78, 78);
+      top: 20px;
+      left: 20px;
+    }
+
+    .form {
+      width: 70%;
+      gap: 10px;
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      padding-top: 30px;
+
+      //lock success modal
+
+      .svgContainer {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 10px;
+      }
+
+      .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 12px;
+
+        .btn {
+          width: 107px !important;
+        }
+      }
+
+      .vLine {
+        width: 1.5px;
+        height: initial;
+        position: relative;
+        background-color: rgba(1, 0, 0, 0.1);
+        margin-left: 22px;
+        margin-right: 22px;
+      }
+
+      .header-application {
+        font-weight: bolder;
+        text-align: center;
+      }
+
+      .info-application {
+        font-weight: normal;
+        font-size: 12px;
+        text-align: center;
+        padding-top: 10px;
+      }
+    }
+  }
+}
+
+.lockSuccessModal {
+  overflow-y: hidden;
+
+  &.active {
+    box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.317);
+    width: 33vw;
+    height: 39%;
+    left: 34vw;
+    top: 15.5vw;
+    background-color: #fff;
+    position: fixed;
+    z-index: 99;
+    border-radius: 16px;
+    animation: bounce-in 0.5s ease;
+    -moz-animation: bounce-in 0.5s ease;
+    /* Firefox */
+    -webkit-animation: bounce-in 0.5s ease;
+
+    /* Safari and Chrome */
+    @keyframes bounce-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+
+  .modalMenue {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    .close {
+      position: relative;
+      color: rgb(78, 78, 78);
+      top: 20px;
+      left: 20px;
+    }
+
+    .form {
+      width: 70%;
+      gap: 10px;
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+
+      //lock success modal
+      .lock-success-modal {
+        padding: 22.5px;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+
+        .main-title {
+          font-weight: bolder;
+          font-size: larger;
+          color: #000;
+        }
+
+        .sub-title {
+          font-weight: normal;
+          font-size: normal;
+          color: #475569;
+        }
+
+        .status {
+          font-size: medium;
+          color: #64748b;
+          font-weight: bolder;
+        }
+
+        .button-container {
+          width: 100%;
+          margin-top: 10px;
+          height: 50px;
+
+          .button--secondary {
+            width: 100%;
+            height: 40px;
+            border: solid #475569 1px;
+            color: #475569;
+            font-weight: bolder;
+            font-size: 15px;
+          }
+        }
+      }
+
+      .svgContainer {
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 10px;
+      }
+
+      .buttonContainer {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 12px;
+
+        .btn {
+          width: 107px !important;
+        }
+      }
+
+      .vLine {
+        width: 1.5px;
+        height: initial;
+        position: relative;
+        top: 40px;
+        background-color: rgba(1, 0, 0, 0.1);
+        margin-left: 22px;
+        margin-right: 22px;
+      }
+
+      .header-application {
+        font-weight: bolder;
+        text-align: center;
+      }
+
+      .info-application {
+        font-weight: normal;
+        font-size: 12px;
+        text-align: center;
+        padding-top: 10px;
+      }
+    }
+  }
+}
+
+.settingsModal {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  font-family: "inter", sans-serif;
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1);
+
+  .notificationList {
+    overflow-y: auto;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    .notificationItem {
+      padding-bottom: 15px;
+      border-bottom: 1px solid #cbd5e1;
+      .notificationHeader {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        .notificationTitle {
+          color: #003c6e;
+          font-size: 18px;
+        }
+        .dateTime {
+          color: #475569;
+          font-size: 12px;
+          opacity: 0.699999988079071;
+          margin-left: auto;
+        }
+      }
+      .content {
+        color: #475569;
+        font-size: 12px;
+      }
+    }
+  }
+
+  &.active {
+    width: 30vw;
+    height: fit-content;
+    right: 35px;
+    top: 70px;
+    background-color: #fff;
+    position: fixed;
+    z-index: 99;
+    border-radius: 16px;
+    animation: bounce-in 0.5s ease;
+    -moz-animation: bounce-in 0.5s ease;
+    /* Firefox */
+    -webkit-animation: bounce-in 0.5s ease;
+    /* Safari and Chrome */
+    @keyframes bounce-in {
+      0% {
+        opacity: 0;
+        transform: scale(0.3);
+      }
+
+      50% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
+
+      100% {
+        transform: scale(1);
+      }
+    }
+  }
+
+  .modalMenue {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 5px 20px 30px 20px;
+
+    .header {
+      width: 100%;
+      margin: auto;
+      padding-top: 20px;
+      display: flex;
+      text-align: left;
+      flex-direction: row;
+      color: #003c6e;
+      font-size: 23px;
+      font-weight: 600;
+      letter-spacing: -0.48px;
+      align-items: center;
+
+      /* Prevent shrinking of header */
+      min-height: 60px;
+      min-width: 150px;
+
+      span {
+        text-align: center;
+        padding: 15px;
+        margin-inline: 20px;
+        font-size: 1vw;
+        font-weight: normal;
+        color: gray;
+      }
+      .lastItem {
+        margin-left: auto;
+      }
+      .button--secondary {
+        font-size: 14px;
+        color: #1d4ed8;
+        justify-content: center;
+        border: 2px solid #1d4ed8;
+        font-weight: 600;
+        background-color: rgba(255, 255, 255, 0);
+      }
+    }
+
+    .form {
+      gap: 10px;
+      margin: auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      margin: 0%;
+      span {
+        color: #475569;
+        font-size: 14px;
+      }
+      select {
+        font-family: inter;
+        padding: 10px;
+        width: 13vw;
+        height: 44px;
+        color: black;
+        border-radius: 4px;
+        border: 1.5px solid #cbd5e1;
+      }
+
+      /* Prevent shrinking of form */
+
+      .label {
+        display: flex;
+        justify-content: flex-start;
+        color: gray;
+        font-size: 15px;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+    }
+  }
+}

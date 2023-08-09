@@ -1,0 +1,59 @@
+.yield-container {
+  display: flex;
+  padding: 40px 80px;
+
+  .yield-contents {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    gap: 12px;
+
+    .yield-title-container {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+
+      :nth-child(1) {
+        font-weight: 700;
+        font-size: 24px;
+      }
+
+      :nth-child(2) {
+        font-weight: normal;
+        font-size: 16px;
+      }
+    }
+    .yield-disclaimer-container {
+      svg {
+        height: 30px;
+        width: 30px;
+      }
+      .d-item1 {
+        grid-area: d-icon;
+      }
+      .d-item2 {
+        grid-area: d-title;
+        font-weight: bolder;
+        font-weight: large;
+        color: #000;
+      }
+      .d-item3 {
+        grid-area: d-desc;
+        font-weight: normal;
+        font-weight: medium;
+        color: #000;
+        line-height: 20px;
+      }
+      width: 60%;
+      display: grid;
+      padding: 20px;
+      background-color: #dcdcde33;
+      grid-template-areas:
+        "d-icon d-title"
+        "d-icon d-desc";
+      gap: 5px 20px;
+    }
+  }
+}

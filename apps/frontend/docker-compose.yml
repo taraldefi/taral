@@ -1,0 +1,13 @@
+version: "3.8"
+services:
+  web:
+    build:
+      context: ./
+      target: runner
+    volumes:
+      - .:/app
+    command: npm run dev
+    ports:
+      - "4200:4200"
+    environment:
+      NODE_ENV: development

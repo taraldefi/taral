@@ -1,0 +1,73 @@
+.pool-card--container {
+  font-family: "inter", sans-serif;
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 24px 20px;
+  width: 100%;
+  display: flex;
+
+  justify-content: space-between;
+  .item1 {
+    grid-area: icon;
+    img {
+      height: 40px;
+      width: 40px;
+    }
+  }
+  .item2 {
+    grid-area: title;
+    font-weight: bold;
+    font-size: 14px;
+    color: #003c6e;
+  }
+  .item3 {
+    grid-area: desc;
+    font-weight: normal;
+    font-size: small;
+    color: #003c6e;
+  }
+
+  .pool--title {
+    display: grid;
+    grid-template-areas:
+      "icon title"
+      "icon desc";
+    gap: 0px 20px;
+  }
+
+  .pool--stats {
+    display: flex;
+    flex-direction: column;
+
+    svg {
+      height: 15px;
+      width: 15px;
+    }
+
+    gap: 5px;
+
+    :nth-child(1) {
+      font-weight: bold;
+      font-size: 14px;
+      color: #003c6e;
+    }
+
+    :nth-child(2) {
+      display: flex;
+      gap: 2px;
+      font-weight: normal;
+      font-size: small;
+      color: #003c6e;
+    }
+  }
+
+  .pool--button {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    .button--secondary,
+    .button--primary {
+      width: 130px;
+    }
+  }
+}
