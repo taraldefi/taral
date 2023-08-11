@@ -31,7 +31,7 @@ const NewLayout = ({ children }: LayoutProps) => {
   return (
     <>
       <div className="bodyContainer">
-        <div className="topbarFix1">
+        <div className="topbarFix">
           <Topbar />
           <TopBarNav />
         </div>

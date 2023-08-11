@@ -123,8 +123,8 @@ function Index() {
                 className="inputs"
               >
                 <option value="">Select Type...</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
+                <option value="IF">Importer Financing</option>
+                <option value="EF">Exporter Financing</option>
               </select>
             </div>
             <div>
@@ -180,7 +180,7 @@ function Index() {
           </div>
           <div className="vLine"></div>
           <div className="collateral">
-            <div className="maintitle">INTEREST</div>
+            <div className="maintitle">COLLATERAL</div>
 
             <div className="radioBack">
               <span>Will any collateral be provided?</span>
@@ -194,7 +194,7 @@ function Index() {
                     onChange={handleRadioClick}
                     checked={selectedRadioBtn == "Yes"}
                   />
-                  <label htmlFor="ECACoverYes">Yes</label>
+                  <label htmlFor="ECACoverYes">YES</label>
                 </div>
                 <div>
                   <input
@@ -205,7 +205,7 @@ function Index() {
                     onChange={handleRadioClick}
                     checked={selectedRadioBtn == "No"}
                   />
-                  <label htmlFor="ECACoverNO">No</label>
+                  <label htmlFor="ECACoverNO">NO</label>
                 </div>
               </div>
             </div>

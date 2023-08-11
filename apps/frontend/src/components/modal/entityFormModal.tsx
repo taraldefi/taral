@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { cities, countries, industries } from "@utils/lib/constants";
 
 type Props = {
   isOpen: boolean;
@@ -8,6 +9,7 @@ type Props = {
 };
 
 function FormModal({ isOpen, onClose }: Props) {
+  const [selectedCountry, setSelectedCountry] = React.useState("");
   return (
     <div className={"formModal " + (isOpen && "active")}>
       {isOpen && (
@@ -49,27 +51,50 @@ function FormModal({ isOpen, onClose }: Props) {
             <div className="flexrow">
               <div className="entityfield">
                 <span>Nationality</span>
-                <select id="downarrow" className="inputs">
-                  <option value="" disabled selected hidden>
-                    Select Nationality...
-                  </option>
+                <select
+                  id="downarrow"
+                  className="inputs"
+                  onChange={(e) => setSelectedCountry(e.target.value)}
+                >
+                  <option value="">Select country...</option>
+                  {countries.map((item) => {
+                    return (
+                      <option key={item.id} value={item.alpha2}>
+                        {item.name}
+                      </option>
+                    );
+                  })}
                 </select>
               </div>
               <div className="entityfield">
                 <span>Headquaters Location</span>
                 <select id="downarrow" className="inputs">
-                  <option value="" disabled selected hidden>
-                    Select Location...
-                  </option>
+                  <option value="">Select Location...</option>
+                  {cities
+                    .filter(
+                      (item) => item.country === selectedCountry.toUpperCase()
+                    )
+                    .map((item) => {
+                      return (
+                        <option key={item.name} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
             </div>
             <div className="entityfield">
               <span>Core Business</span>
               <select id="downarrow" className="inputs">
-                <option value="" disabled selected hidden>
-                  Core Business...
-                </option>
+                <option value="">Core Business...</option>
+                {industries.map((item) => {
+                  return (
+                    <option key={item.id} value={item.name}>
+                      {item.name}
+                    </option>
+                  );
+                })}
               </select>
             </div>
             <div className="flexrow">

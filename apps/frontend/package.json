@@ -11,6 +11,7 @@
     "check-types": "tsc --pretty",
     "check-format": "prettier --check .",
     "format": "prettier --write .",
+    "check-lint": "eslint . --ext ts --ext tsx --ext js",
     "test": "jest --watch --verbose --silent",
     "test-all": "ts-node --project scripts/tsconfig.scripts.json scripts/run-checks.ts",
     "reinstall-ui-lib": "yarn remove taral-ui && yarn add taral-ui@latest"

@@ -2,7 +2,7 @@ import FinancialsLayout from "@components/layouts/financials_layout";
 import { ProfitTable } from "@components/widgets/table/profitTable";
 
 const TableData = {
-  "2017": {
+  "2020": {
     revenue: 14234678,
     cogs: 9252541,
     grossProfit: 4982137,
@@ -16,7 +16,7 @@ const TableData = {
     profitForThePeriod: 3904755,
     file: "file",
   },
-  "2018": {
+  "2021": {
     revenue: 15569023,
     cogs: 10586936,
     grossProfit: 4982087,
@@ -30,7 +30,7 @@ const TableData = {
     profitForThePeriod: 3824947,
     file: "file",
   },
-  "2019": {
+  "2022": {
     revenue: 15569023,
     cogs: 10586936,
     grossProfit: 4982087,
@@ -44,7 +44,7 @@ const TableData = {
     profitForThePeriod: 3824947,
     file: "file",
   },
-  "2020": {
+  "2023": {
     revenue: 15569023,
     cogs: 10586936,
     grossProfit: 4982087,

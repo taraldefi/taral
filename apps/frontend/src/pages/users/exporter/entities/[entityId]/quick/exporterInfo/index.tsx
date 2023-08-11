@@ -55,7 +55,7 @@ function Index() {
           <div className="generalInfo">
             <div className="maintitle">GENERAL INFO</div>
             <div>
-              <span>What is your company name?</span>
+              <span>Exporter company name</span>
               <input
                 type="text"
                 className="inputs"
