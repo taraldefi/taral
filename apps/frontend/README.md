@@ -1,19 +1,20 @@
 ## Tariala Frontend
 
-This repository contains the frontend code for the Tariala project.
+This repository contains the frontend code for the Tariala project. It uses the `taral-ui` library from `libs`
 
-## Docker Setup
+## Running Tests
 
-To get a docker container running, run the following command:
+To run tests, run the following command:
 
-`GITHUB_TOKEN` is used to install the private package `taral-ui`.
+To run `services` test run the following command:
 
 ```bash
-$ cp .env.example .env.production
+$ yarn test
+```
+To format, lint and type check there is a script that runs all of them at once:
 
-$ COMPOSE_DOCKER_CLI_BUILD=1 DOCKER_BUILDKIT=1 docker-compose build --build-arg GITHUB_TOKEN=$(cat .env.production | grep GITHUB_TOKEN | cut -d '=' -f2)
-
-$ docker-compose up
+```bash
+$ yarn run test-all
 ```
 
 ## Services

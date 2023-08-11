@@ -5,13 +5,13 @@
 ### Testing
 
 ```
-npm run test
+yarn test
 ```
 
 ### Building
 
 ```
-npm run build
+yarn build
 ```
 
 ### Storybook
@@ -19,13 +19,13 @@ npm run build
 To run a live-reload Storybook server on your local machine:
 
 ```
-npm run storybook
+yarn storybook
 ```
 
 To export your Storybook as static files:
 
 ```
-npm run storybook:export
+yarn storybook:export
 ```
 
 ### Generating New Components
@@ -33,7 +33,7 @@ npm run storybook:export
 Instead of copy pasting components to create a new component, you can instead run this command to generate all the files you need to start building out a new component. To use it:
 
 ```
-npm run generate YourComponentName
+yarn generate YourComponentName
 ```
 
 This will generate:
