@@ -43,7 +43,7 @@ Clarinet.test({
       ),
     ]);
 
-    assertEquals(block.height, 3);
+    assertEquals(block.height, 4);
     console.log("Block");
     console.log(JSON.stringify(block));
     block.receipts[0].result.expectOk();
