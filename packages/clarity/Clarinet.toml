@@ -15,6 +15,9 @@ path = "contracts/taral/usda-token.clar"
 depends_on = []
 path = "contracts/taral/ft-trait.clar"
 
+[contracts.sip010-ft-trait]
+path = "contracts/taral/sip010-ft-trait.clar"
+
 [contracts.nft-trait]
 depends_on = []
 path = "contracts/taral/nft-trait.clar"
@@ -128,10 +131,8 @@ path = 'contracts/taral/marketplace-trait.clar'
 
 [contracts.nft-marketplace]
 path = 'contracts/taral/nft-marketplace.clar'
-depends_on = ['marketplace-trait', 'marketplace-storage']
+depends_on = ['sip010-ft-trait', 'marketplace-trait', 'marketplace-storage']
 
-[contracts.sip010-ft-trait]
-path = "contracts/taral/sip010-ft-trait.clar"
 
 [contracts.sip009-nft-trait]
 path = "contracts/taral/sip009-nft-trait.clar"
@@ -144,8 +145,8 @@ depends_on =["sip009-nft-trait"]
 path = "contracts/taral/sip010-token.clar"
 depends_on =["sip010-ft-trait"]
 
-clarity_version = 1
-epoch = 2.0
+clarity_version = 2
+epoch = 2.4
 [repl.analysis]
 passes = ['check_checker']
 
