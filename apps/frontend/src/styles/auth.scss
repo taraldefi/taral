@@ -1,0 +1,305 @@
+.accountContainer {
+  display: flex;
+  flex-direction: column;
+
+  .vLine {
+    width: 0.1px;
+    height: initial;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+
+  .vLineT {
+    width: 0.1px;
+    height: initial;
+    // background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+
+  .mainTitle {
+    font-size: 12px;
+    font-weight: bold;
+    color: #64748b;
+    padding-bottom: 11px;
+  }
+
+  .greened {
+    color: #0d8489;
+  }
+
+  .agreementBox {
+    input[type="checkbox"] {
+      accent-color: #0d8489;
+    }
+    span {
+      font-size: 12px !important;
+
+      :nth-child(n) {
+        color: #0d8489;
+        font-weight: bold;
+      }
+    }
+
+    display: flex;
+    flex-direction: row;
+    background-color: #fff;
+    padding: 16px 12px 16px 12px;
+    border: 1px solid #cbd5e1;
+    border-radius: 4px;
+    gap: 10px;
+    margin-bottom: 6px;
+
+    .iconContainer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .buttonBox {
+    .button--secondary {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100% !important;
+      height: 42px !important;
+      background-color: #0bd7a4;
+      border: 1px solid #0bd7a4;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+
+      span {
+        font-weight: bold;
+        font-size: 14px;
+        color: #fff;
+      }
+    }
+  }
+
+  .splitBox {
+    span {
+      color: #475569;
+    }
+
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .inputContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+
+    span {
+      font-size: 13.5px;
+      color: #475569;
+    }
+    .custom-input {
+      margin-bottom: 16px;
+
+      .input-container {
+        position: relative;
+
+        .toggle-password {
+          position: absolute;
+          top: 50%;
+          right: 10px;
+          transform: translateY(-50%);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .inputs {
+    width: 100%;
+    color: #64748b;
+  }
+
+  .titleWrapper {
+    display: flex;
+    flex-direction: column;
+
+    .titleTop {
+      flex-grow: 1;
+
+      .accMainTitle {
+        font-weight: bolder;
+        font-size: 24px;
+        padding-bottom: 8px;
+      }
+
+      .accSubTitle {
+        color: #475569;
+        font-size: 12px;
+      }
+    }
+
+    .titleBottomR {
+      flex-grow: 1;
+      height: 32px;
+    }
+
+    .titleBottom {
+      width: max-content;
+      padding: 10px;
+      flex-grow: 1;
+      height: 32px;
+      color: #475569;
+      font-size: 12px;
+      background-color: #4755691a;
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+  }
+
+  .contentWrapper {
+    display: flex;
+    flex-direction: row;
+
+    .innerContainer1 {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .innerContainer2 {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .dummyWrapper {
+      flex: 0.5;
+    }
+  }
+
+  .innerContainer1 {
+    .inputContainer {
+      .button--secondary {
+        font-size: 15px;
+        color: #1d4ed8;
+        font-weight: bold;
+        span {
+          font-weight: bold;
+          color: #1d4ed8;
+        }
+
+        svg {
+          color: #1d4ed8;
+          width: 15px;
+        }
+
+        justify-content: center;
+        width: 100% !important;
+        border: 2px solid #1d4ed8;
+        background-color: rgba(255, 255, 255, 0);
+      }
+    }
+  }
+
+  .fgP {
+    .inputContainer {
+      span {
+        font-weight: bolder;
+        color: #1d4ed8;
+        font-size: 12px;
+        margin-top: -8px;
+      }
+    }
+  }
+
+  .errorMessage {
+    background-color: #f9000023;
+    color: #f84141;
+    padding: 10px 8px 10px 8px;
+    font-size: 12px;
+    width: fit-content;
+  }
+
+  .inputsRed {
+    font-family: inter;
+    padding: 10px;
+    width: 100%;
+    height: 44px;
+    color: black;
+    border-radius: 4px;
+    border: 1.5px solid #df1818;
+  }
+}
+
+.parent {
+  position: relative;
+
+  .iconPassword {
+    position: absolute;
+    bottom: 19px;
+    left: 300px;
+  }
+}
+
+// OtpScreen.scss
+.otp-container {
+  .inputContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: fit-content;
+    span {
+      font-size: 13.5px;
+      color: #475569;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .otp-input-container {
+    display: flex;
+  }
+
+  .otp-input {
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    text-align: center;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+  }
+
+  .submit-button {
+    padding: 10px 20px;
+    font-size: 18px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    outline: none;
+    margin-top: 20px;
+
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+}

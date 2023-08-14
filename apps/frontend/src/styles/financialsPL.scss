@@ -1,0 +1,69 @@
+.plContainer {
+  position: absolute;
+  top: 127px;
+  left: 256px;
+  display: flex;
+  width: 84%;
+  padding: 40px 40px 40px 40px;
+  display: flex;
+
+  .vLine {
+    width: 0.1px;
+    height: initial;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+
+  .hLine {
+    width: 100%;
+    height: 0.3px;
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+
+  .assetsContainer {
+    flex: 0.25;
+
+    .assetsItems {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      font-size: 13.5px;
+      font-weight: bold;
+    }
+    span {
+      height: 44px !important;
+      width: 100%;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .maintitle {
+    font-size: 14px;
+    font-weight: bold;
+    color: #64748b;
+    padding-bottom: 24px;
+  }
+
+  .inputs {
+    width: 100% !important;
+  }
+  .currentYear {
+    flex: 0.5;
+
+    .currentYearItems {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  .prevYear1 {
+    flex: 0.5;
+  }
+
+  .prevYear2 {
+    flex: 0.5;
+  }
+}

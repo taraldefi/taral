@@ -1,0 +1,182 @@
+.repaymentContainer {
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
+  padding-left: 5%;
+  padding-right: 5%;
+  background-image: url("/assets/images/bg.png");
+
+  .repaymentTableAndCardContainer {
+    top: 40%;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    justify-content: flex-start;
+    .tableContainer {
+      .table {
+        margin-top: 0px;
+      }
+      width: 50%;
+      max-height: 600px;
+      overflow: auto;
+    }
+    .cardContainer {
+      width: 50%;
+    }
+  }
+
+  .gridContainer {
+    position: relative;
+    top: 40%;
+    display: grid;
+    grid-template-columns: 35% 35% 30%;
+
+    gap: 20px;
+
+    .repaymentButtonContainer {
+      grid-row-end: span 2;
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      padding: 10%;
+      align-items: center;
+      justify-content: center;
+      gap: 30px;
+      height: auto;
+      background-color: #d0fbde;
+      border: 1px solid #1ab98b;
+      border-radius: 10px;
+      span {
+        color: #65768d;
+      }
+    }
+    .repaymentLogoutContainer {
+      .button--secondary {
+        font-size: 14px;
+        color: #1d4ed8;
+        justify-content: center;
+        border: 2px solid #1d4ed8;
+        background-color: rgba(255, 255, 255, 0);
+      }
+      span {
+        font-size: small;
+        width: 70%;
+        color: #65768d;
+      }
+      border-radius: 10px;
+      display: flex;
+      flex-direction: row;
+      padding: 5%;
+      justify-content: space-around;
+      align-items: center;
+      text-align: left;
+      border: 1px solid #cbd5e1;
+    }
+  }
+
+  .topContainer {
+    top: 23%;
+    position: fixed;
+    display: flex;
+    width: 90vw;
+    box-sizing: border-box;
+    flex-direction: row;
+    align-items: center;
+    .button--secondary {
+      font-size: 14px;
+      color: #1d4ed8;
+
+      justify-content: center;
+      width: 150px;
+      border: 2px solid #1d4ed8;
+      background-color: rgba(255, 255, 255, 0);
+    }
+
+    .titleContainer {
+      width: 100%;
+
+      justify-content: flex-start;
+      gap: 30px;
+
+      display: flex;
+      flex-direction: column;
+      span:nth-child(1) {
+        font-size: 40px;
+        font-weight: 800;
+      }
+      span:nth-child(2) {
+        color: #65768d;
+      }
+    }
+  }
+}
+
+.repaymentCard {
+  border-radius: 12px;
+  background: white;
+  width: auto;
+  display: flex;
+  gap: 20px;
+  flex-direction: column;
+  text-align: flex-start;
+  justify-content: flex-start;
+  padding: 6% 10%;
+  .button--container {
+    width: 100%;
+  }
+  .inputs {
+    width: 100%;
+  }
+
+  span {
+    color: #65768d;
+  }
+  .switchTabContainer {
+    margin-top: 5%;
+    display: flex;
+    gap: 20px;
+  }
+  .switchTab {
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    width: 50%;
+    border: 1px solid #b6c1d0;
+    border-radius: 30px;
+  }
+  .selected {
+    background: #d1e1fd;
+    color: #1b52eb;
+    border: 0px;
+  }
+  .text {
+    text-align: center;
+    flex-grow: 1;
+    color: #003c6e;
+  }
+  .bold {
+    text-align: center;
+    flex-grow: 1;
+    color: #003c6e;
+    font-weight: 600 !important;
+  }
+}
+
+.paymentSuccessContainer {
+  width: 70%;
+  padding: 1% 10%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .button--secondary {
+    font-size: 14px;
+    color: #1d4ed8;
+    justify-content: center;
+    border: 2px solid #1d4ed8;
+    background-color: rgba(255, 255, 255, 0);
+  }
+}

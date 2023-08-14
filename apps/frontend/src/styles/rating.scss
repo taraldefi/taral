@@ -1,0 +1,337 @@
+@font-face {
+  font-family: inter;
+  src: url(/assets/font/Inter.ttf);
+}
+
+.rating {
+  .title {
+    color: #64748b;
+    position: relative;
+    top: 30px;
+    font-weight: bold;
+  }
+
+  .tableQuantitative {
+    margin-top: 40px;
+    width: auto;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+
+    .tableTitles {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 42px;
+
+      .statusTitle {
+        width: 1103px;
+        display: flex;
+        flex-direction: row;
+
+        .statusTitleItems {
+          font-size: 12px;
+          color: #475569;
+          font-weight: bold;
+          font-family: "inter";
+          letter-spacing: 1px;
+          display: flex;
+          align-items: center;
+          padding-left: 24px;
+        }
+
+        :nth-child(1) {
+          width: 360px;
+          height: 42px;
+        }
+
+        :nth-child(2) {
+          width: 180px;
+          height: 42px;
+          padding: 0px;
+        }
+
+        :nth-child(3) {
+          width: 133px;
+          height: 42px;
+          padding: 0px;
+        }
+
+        :nth-child(4) {
+          width: 429px;
+          height: 42px;
+        }
+      }
+    }
+
+    .tableContent {
+      height: 71px;
+      border-top: 1px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+
+      :nth-child(1) {
+        width: 360px;
+        display: flex;
+        align-items: center;
+        padding-left: 24px;
+
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      :nth-child(2) {
+        width: 180px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+
+        font-size: 13px;
+        color: #475569c2;
+      }
+
+      :nth-child(3) {
+        width: 133px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+
+        .status {
+          width: min-content;
+          height: min-content;
+          margin: 0px;
+          padding: 0px;
+          border-radius: 50px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: 400;
+          padding-left: 10px;
+          padding-right: 10px;
+          padding-top: 5px;
+          padding-bottom: 5px;
+
+          svg {
+            padding: 0px;
+            margin: 0px;
+            width: 15px;
+            height: 15px;
+            margin-right: 8px;
+          }
+        }
+      }
+
+      :nth-child(4) {
+        width: 429px;
+        height: 70px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+}
+
+.qualitative {
+  display: flex;
+  margin-top: 40px;
+  justify-content: space-between;
+
+  .firstCol {
+    color: #475569;
+    width: 253px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    :nth-child(1) {
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+    }
+
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 253px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+
+  .secondCol {
+    margin-top: 32px;
+    color: #475569;
+    width: 248px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 225px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+
+  .thirdCol {
+    margin-top: 32px;
+    color: #475569;
+    width: 248px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    .inputs {
+      font-family: inter;
+      padding: 10px;
+      width: 225px;
+      height: 44px;
+      color: black;
+      border-radius: 4px;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    ::placeholder {
+      /* Chrome, Firefox, Opera, Safari 10.1+ */
+      color: #94a3b8;
+      opacity: 1;
+      /* Firefox */
+    }
+
+    :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: #94a3b8;
+    }
+
+    ::-ms-input-placeholder {
+      /* Microsoft Edge */
+      color: #94a3b8;
+    }
+
+    span {
+      font-family: inter;
+      color: #475569;
+      font-size: 14px;
+    }
+  }
+
+  .rating {
+    font-family: inter;
+    display: flex;
+    flex-direction: column;
+    width: 277px;
+    height: 290px;
+    background-color: #dcdcde34;
+    padding: 16px;
+    border-radius: 3px;
+
+    .header {
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+
+      span {
+        font-size: 14px;
+        margin-left: 10px;
+      }
+    }
+
+    .inputs {
+      margin-top: 10px;
+      color: #475569;
+      display: flex;
+      flex-direction: column;
+      height: 264px;
+      width: 248px;
+      // gap: 10px;
+      justify-content: space-evenly;
+      border: 0px;
+      .input {
+        padding: 10px;
+        width: 225px;
+        height: 44px;
+        border: 1.5px solid;
+        border-color: #cbd5e1;
+        color: black;
+        border-radius: 4px;
+      }
+
+      span {
+        font-size: 14px;
+      }
+
+      ::placeholder {
+        /* Chrome, Firefox, Opera, Safari 10.1+ */
+        font-family: inter;
+        color: #94a3b8;
+        opacity: 1;
+        /* Firefox */
+      }
+
+      :-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #94a3b8;
+      }
+
+      ::-ms-input-placeholder {
+        /* Microsoft Edge */
+        color: #94a3b8;
+      }
+    }
+  }
+}

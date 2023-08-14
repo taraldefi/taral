@@ -1,0 +1,60 @@
+.tab {
+  width: 100%;
+  height: 65px;
+  background-color: rgb(255, 255, 255);
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 40px;
+    padding-top: 22px;
+
+    .icons {
+      width: 112px;
+      display: flex;
+      cursor: pointer;
+      margin-left: auto;
+      padding-right: 10px;
+    }
+    .header {
+      font-family: HandelBecker;
+      font-size: 24px;
+    }
+  }
+}
+@font-face {
+  font-family: HandelBecker;
+  src: url(/assets/font/HandelBecker.ttf);
+}
+@font-face {
+  font-family: inter;
+  src: url(/assets/font/Inter.ttf);
+}
+.topbarLower {
+  width: 100%;
+  height: 61px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 0px;
+  border-top: 1px solid #e2e8f065;
+  .contents {
+    font-family: inter;
+    cursor: pointer;
+    width: 479px;
+    display: flex;
+    height: 29px;
+    justify-content: space-between;
+    margin-left: 40px;
+    align-items: center;
+    color: #475569;
+    font-size: 14px;
+    .content {
+      padding: 7px;
+      border-radius: 5px;
+    }
+    .selected {
+      background: rgb(26, 185, 139);
+      color: white;
+    }
+  }
+}

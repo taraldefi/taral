@@ -1,0 +1,183 @@
+.viewbody {
+  display: flex;
+  display: flex;
+  width: 100%;
+
+  .viewContainer {
+    flex: 2;
+    padding: 192px 40px 95px 60px;
+
+    .viewContent {
+      border-right: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+
+      .detailsContainer {
+        :nth-child(1) {
+          font-weight: bold;
+        }
+
+        .card {
+          margin-right: 30px;
+          margin-top: 40px;
+          display: flex;
+          flex-direction: row;
+
+          .cardImage {
+            width: 140px;
+            height: 140px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .images {
+              width: 100% !important;
+              height: 100% !important;
+            }
+          }
+
+          .right {
+            display: flex;
+            flex-direction: column;
+
+            .mainTitle {
+              color: #003c6e;
+              font-size: 30px;
+              font-weight: bold;
+              padding: 0px 0px 62px 30px;
+            }
+
+            .lower {
+              padding-left: 40px;
+              gap: 40px;
+              display: flex;
+              flex-direction: row;
+
+              // .registration {
+              //     width: max-content;
+              //     display: flex;
+              //     flex-direction: column;
+              // }
+
+              // .products {
+              //     display: flex;
+              //     flex-direction: column;
+              // }
+
+              // .applications {
+              //     display: flex;
+              //     flex-direction: column;
+              // }
+
+              * {
+                display: flex;
+                gap: 4px;
+                flex-direction: column;
+                padding: 8px 20px 0px 0px;
+
+                :nth-child(1) {
+                  font-weight: 900;
+                  color: #64748b;
+                  font-size: 10px;
+                  padding: 0px;
+                  width: max-content;
+                }
+
+                :nth-child(2) {
+                  font-weight: 900;
+                  color: #003c6e;
+                  font-size: 16px;
+                  padding: 0px;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .line {
+        width: 90%;
+        height: 1px;
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      .informationsContainer {
+        display: flex;
+        flex-direction: column;
+
+        span {
+          font-weight: bold;
+        }
+
+        .informationContent {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-top: 12px;
+
+          .infoItem {
+            margin-right: 40px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+            .leftInfo {
+              flex: 0.5;
+              color: #64748b;
+              font-size: 14px;
+
+              :nth-child(2) {
+                padding-left: 5px;
+              }
+            }
+
+            .rightInfo {
+              flex: 0.5;
+              float: right;
+              display: flex;
+              justify-content: flex-end;
+              color: #003c6e;
+            }
+          }
+        }
+        .infoAction {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          padding: 40px 40px 0px 0px;
+          gap: 24px;
+          .button--secondary {
+            font-weight: bold;
+            width: 100px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0px;
+            background-color: #fff;
+            color: #000;
+            border: 1px solid #e2e8f0;
+          }
+        }
+      }
+    }
+  }
+
+  .viewTableContainer {
+    table > tr > th {
+      width: 185px;
+    }
+    flex: 3;
+    padding: 192px 40px 95px 0px;
+    .persons--tab {
+      width: 40%;
+    }
+
+    :nth-child(1) {
+      font-weight: bold;
+    }
+  }
+}

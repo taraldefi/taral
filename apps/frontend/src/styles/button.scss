@@ -1,0 +1,46 @@
+@font-face {
+  font-family: inter;
+  src: url(/assets/font/Inter.ttf);
+}
+.btn {
+  width: max-content !important;
+  padding: 10px 20px;
+  display: inline-block;
+  border-radius: 5px;
+  border: none;
+  transition: background 150ms;
+  background: #0d8489;
+  font-size: 12px;
+  font-family: inter;
+  color: #ffffff;
+  cursor: pointer;
+  span {
+    font-weight: 500;
+  }
+}
+.btn:active {
+  background: #0d8589c2;
+}
+
+.btn_secondary {
+  // width:108px;
+  height: 34px;
+  font-size: 12px;
+  // font-weight: 500;
+  font-family: inter;
+  display: inline-block;
+  border-radius: 5px;
+  border: #0d8489 solid 1px;
+  transition: background 150ms;
+  background: #ffffff;
+  font-size: 12px;
+  color: #0d8489;
+}
+.btn_secondary:active {
+  background: #0d858928;
+}
+.btn_container {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+}

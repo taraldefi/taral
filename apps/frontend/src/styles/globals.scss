@@ -1,0 +1,199 @@
+@import "main.scss";
+@import "topbar.scss";
+@import "leftMenu.scss";
+@import "summary.scss";
+@import "status.scss";
+@import "button.scss";
+@import "fileUpload.scss";
+@import "activity.scss";
+@import "compliance.scss";
+@import "research.scss";
+@import "slider.scss";
+@import "rating.scss";
+@import "transactions.scss";
+@import "financials.scss";
+@import "user.scss";
+@import "entityView.scss";
+@import "modal.scss";
+@import "exporterInfo.scss";
+@import "applicationSecurity.scss";
+@import "financialsPL.scss";
+@import "transactionNewApp.scss";
+@import "importerInfo.scss";
+@import "paymentTerms.scss";
+@import "kyc.scss";
+@import "insuranceUser.scss";
+// @import "scss/styles.scss";
+@import "lpUser.scss";
+@import "newLayout.scss";
+@import "auth.scss";
+@import "repayment.scss";
+@import "transactionDocs.scss";
+@import "profile.scss";
+
+body {
+  user-select: none;
+  padding: 0;
+  background-color: #f8fafc;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+.botomBar {
+  width: 100%;
+  z-index: 999;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  bottom: 0px;
+  position: fixed;
+
+  .bbBackground {
+    background-color: #fff;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 100px;
+    position: relative;
+    padding-right: 100px;
+    .btnContainer {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+
+      .button--secondary {
+        width: 80px;
+        border: #475569 solid 1px;
+        font-weight: bold;
+        color: #475569;
+      }
+
+      .button--primary {
+        justify-content: center;
+        width: 140px;
+      }
+    }
+  }
+}
+
+* {
+  font-family: "Inter", sans-serif;
+
+  box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.topbarFix {
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  z-index: 1;
+}
+
+// .tab {
+//   width: 100%;
+//   height: 134px;
+//   background-color: rgb(255, 255, 255);
+// }
+
+.regContainer {
+  display: flex;
+  flex-direction: row;
+
+  .regSideMenu {
+    flex: 0.152;
+    background-color: #003c6e;
+    height: 100vh;
+
+    .regImageContainer {
+      position: relative;
+      top: 90px;
+      left: 45px;
+    }
+  }
+
+  .regMainBody {
+    flex: 0.8;
+    padding: 120px 120px 0px 120px;
+  }
+}
+
+.mainBody {
+  display: flex;
+  background-color: #f8fafc;
+}
+
+.monitoring {
+  width: 100vw;
+  height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closed {
+  width: 100vw;
+  height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tasks {
+  width: 100vw;
+  height: calc(100vh - 140px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dummy {
+  width: calc(100vw - 290px);
+  height: calc(100vh - 230px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.object {
+  max-width: 200px;
+}
+
+.vLine0 {
+  background-color: #2a455c00 !important;
+}
+
+.fileWraper {
+  font-size: 12px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input[type="radio"] {
+  accent-color: #0d8489;
+}
+
+// #greyed {
+//   background-color: rgba(203, 213, 225, 0.068) !important;
+// }
+#search {
+  background-image: url(/assets/svg/search.svg);
+  background-repeat: no-repeat;
+  background-position: 310px;
+}

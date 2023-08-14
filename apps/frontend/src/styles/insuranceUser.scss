@@ -1,0 +1,218 @@
+.insurance-container {
+  display: flex;
+  padding: 40px 80px;
+
+  .insurance-contents {
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    gap: 24px;
+
+    .insurance-title-container {
+      display: flex;
+      width: 100%;
+      flex-direction: column;
+      gap: 10px;
+
+      :nth-child(1) {
+        font-weight: 700;
+        font-size: 24px;
+      }
+
+      :nth-child(2) {
+        font-weight: normal;
+        font-size: 16px;
+      }
+    }
+
+    .insurance-balance-container {
+      background-color: #e7f3f4;
+      display: flex;
+      width: 100%;
+      gap: 10px;
+      padding: 24px 40px;
+      border-radius: 8px;
+
+      .available-balance {
+        width: 80%;
+
+        .balance {
+          font-size: 24px;
+          width: 50px;
+          font-weight: bolder;
+          color: #64748b;
+        }
+      }
+
+      .tal-balance {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        gap: 10px;
+        width: 20%;
+        border-radius: 8px;
+        background-color: rgba(255, 255, 255, 0.502);
+
+        :nth-child(1) {
+          color: #003c6e;
+          font-weight: bolder;
+        }
+
+        :nth-child(2) {
+          color: #0d8489;
+          font-weight: bolder;
+        }
+      }
+
+      .st-tal-balance {
+        display: flex;
+        flex-direction: column;
+        padding: 12px;
+        gap: 10px;
+        width: 20%;
+        border-radius: 8px;
+
+        background-color: rgba(255, 255, 255, 0.5);
+
+        :nth-child(1) {
+          color: #003c6e;
+          font-weight: bolder;
+        }
+
+        :nth-child(2) {
+          color: #0d8489;
+          font-weight: bolder;
+        }
+      }
+    }
+
+    .insurance-tal-container {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+
+      .icon-container {
+        svg {
+          height: 60px;
+          width: 60px;
+        }
+      }
+
+      .lock-tal-container {
+        display: flex;
+        gap: 12px;
+
+        .lock-tal-stTal,
+        .lock-tal-Tal {
+          display: flex;
+          flex-direction: column;
+          width: 25%;
+          gap: 5px;
+
+          :nth-child(1) {
+            font-weight: normal;
+            font-size: small;
+            color: #64748b;
+          }
+
+          :nth-child(2) {
+            font-weight: bolder;
+            font-size: large;
+            color: #003c6e;
+          }
+
+          :nth-child(3) {
+            font-weight: normal;
+            font-size: x-small;
+            color: #64748b;
+            margin-top: 6px;
+          }
+        }
+
+        .lock-tal-APR {
+          display: flex;
+          flex-direction: column;
+          width: 25%;
+          gap: 5px;
+
+          :nth-child(1) {
+            font-weight: normal;
+            font-size: small;
+            color: #64748b;
+          }
+
+          :nth-child(2) {
+            font-weight: bolder;
+            font-size: large;
+            color: #003c6e;
+          }
+        }
+      }
+
+      .lock-tal-button {
+        display: flex;
+        width: 25%;
+        align-items: center;
+        justify-content: center;
+
+        .button--secondary {
+          width: 130px;
+          height: 35px;
+          border: #4c5561d1 1.5px solid;
+          color: #475569;
+          margin-left: 80px;
+          font-weight: bolder;
+        }
+      }
+    }
+
+    .insurance-unstacked-container {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      background-color: #dcdcde33;
+      padding: 34px;
+
+      :nth-child(1) {
+        font-weight: bolder;
+        font-weight: large;
+        color: #000;
+      }
+
+      :nth-child(2) {
+        font-weight: normal;
+        font-weight: medium;
+        color: #000;
+        line-height: 20px;
+      }
+    }
+  }
+
+  .insurance-info {
+    width: 520px;
+    // height: 700px;
+    margin: 0px 40px 40px 40px;
+    padding: 40px;
+    display: flex;
+    gap: 8px;
+    flex-direction: column;
+    background-color: #dcdcde33;
+
+    .insurance-info-title {
+      font-weight: bolder;
+      font-size: large;
+    }
+
+    .insurance-info-content {
+      width: 102%;
+
+      p,
+      li {
+        font-size: 14px;
+      }
+    }
+  }
+}

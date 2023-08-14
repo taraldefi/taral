@@ -1,0 +1,37 @@
+:root {
+  --bg-color: 366px;
+  --color: #003c6e;
+}
+
+.rightContent {
+  position: absolute;
+  .titleBox {
+    font-weight: bold;
+    font-size: 20px;
+  }
+
+  .taskBox {
+    margin-bottom: 16px;
+    margin-top: 40px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    span {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-weight: bolder;
+      color: #64748b;
+      font-size: 14px;
+    }
+    .button--secondary {
+      padding: 10px 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #64748b;
+      height: 34px;
+    }
+  }
+}

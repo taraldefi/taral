@@ -1,0 +1,147 @@
+// Generated with util/create-component.js
+.status {
+	font-family: 'Inter', sans-serif;
+	align-items: center;
+	border-radius: 50px;
+	text-align: center;
+	font-size: 14px;
+	padding-left: 10px;
+	padding-right: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+.status--without--icon {
+	width: auto;
+	height: auto;
+}
+
+.status--with--icon {
+	width: min-content;
+	height: min-content;
+	margin: 0px;
+	display: flex;
+	justify-content: center;
+	font-weight: 400;
+
+	svg {
+		max-height: 1rem;
+		max-width: 1rem;
+		padding: 0px;
+		margin: 0px;
+		width: 15px;
+		height: 15px;
+		margin-right: 8px;
+	}
+}
+
+.progressbar {
+	font-family: 'Inter', sans-serif;
+	margin-top: 5px;
+	background-color: rgba(5, 17, 19, 0.2);
+	border-radius: 5px;
+	height: 10px;
+	width: 177px;
+}
+
+.progressbar--done {
+	font-family: 'Inter', sans-serif;
+	border-radius: 20px;
+	color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	width: 0;
+	opacity: 0;
+	transition: 1s ease 0.3s;
+}
+
+.slider--container {
+	width: 100%;
+	.slider {
+		z-index: 0;
+		-webkit-appearance: none;
+		width: 100%;
+		height: 10px;
+		border-radius: 5px;
+		background: linear-gradient(
+			to right,
+			rgba(239, 68, 68, 0.5),
+			rgba(122, 109, 87, 0.15),
+			rgba(5, 150, 105, 0.5)
+		);
+		outline: none;
+		opacity: 1;
+		-webkit-transition: opacity 0.15s ease-in-out;
+		transition: opacity 0.15s ease-in-out;
+	}
+
+	.slider::-webkit-slider-thumb {
+		-webkit-appearance: none;
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		border: 2px solid #81cfdb;
+		border-radius: 50%;
+		background: white;
+		cursor: pointer;
+	}
+
+	.slider::-moz-range-thumb {
+		appearance: none;
+		width: 16px;
+		height: 16px;
+		border: 2px solid #81cfdb;
+		border-radius: 50%;
+		background: white;
+		cursor: pointer;
+	}
+}
+
+.activity--box {
+	margin-top: 16px;
+	width: max-content;
+	height: 72px;
+	background-color: #fff;
+	border-radius: 5px;
+	border: 1px solid #e2e8f0;
+	display: flex;
+	flex-direction: row;
+
+	.status--box {
+		width: 63px;
+		height: 72px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.detail--box {
+		width: 1039px;
+		height: 71px;
+		display: flex;
+		// align-items: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+
+		.content {
+			:nth-child(1) {
+				color: #0d8489;
+				font-weight: 500;
+				margin-right: 3px;
+			}
+			:nth-child(2) {
+				color: #000000;
+				font-weight: 500;
+				margin-right: 3px;
+			}
+		}
+		:nth-child(2) {
+			color: #94a3b8;
+			font-weight: 400;
+			font-size: 13px;
+		}
+	}
+}

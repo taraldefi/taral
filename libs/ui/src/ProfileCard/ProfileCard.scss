@@ -1,0 +1,40 @@
+.profile--address--card {
+  font-family: 'inter', sans-serif;
+  background-color: white;
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+  .heading {
+    font-size: 20px;
+    color: #003c6e;
+    font-weight: 600;
+    padding-left: 30px;
+  }
+  .grid--container {
+    display: grid;
+    grid-template-columns: auto auto;
+    padding: 10px;
+  }
+  .grid--item {
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #475569;
+    }
+    padding: 20px;
+    font-size: 18px;
+    color: #475569;
+    font-weight: 100;
+    text-align: left;
+    .grid--item--content {
+      display: flex;
+      text-align: left;
+      flex-direction: column;
+      gap: 5px;
+    }
+  }
+}

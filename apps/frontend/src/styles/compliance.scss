@@ -1,0 +1,253 @@
+@font-face {
+  font-family: inter;
+  src: url(/assets/font/Inter.ttf);
+}
+
+.title {
+  color: #64748b;
+  position: relative;
+  top: 30px;
+  font-weight: bold;
+}
+
+.screeningtitle {
+  color: #64748b;
+  position: relative;
+  top: 30px;
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  width: 1103px;
+  justify-content: space-between;
+}
+
+.screening--table {
+  .table {
+    table {
+      width: 100%;
+    }
+
+    .source--tab {
+      width: auto;
+    }
+  }
+}
+
+.personsTable {
+  .persons {
+    .title {
+      font-size: 14px;
+      color: #64748b;
+      margin-top: -20px;
+    }
+
+    margin-top: 30px;
+    width: 100%;
+    height: 110px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .complianceAddBox {
+      justify-content: space-between;
+      display: flex;
+      flex-direction: row;
+      width: auto;
+      height: 68px;
+
+      .name {
+        .inputs {
+          font-family: inter;
+          padding: 10px;
+          width: auto;
+          height: 44px;
+          color: black;
+          border-radius: 4px;
+          border: 1.5px solid #cbd5e1;
+        }
+
+        width: auto;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .hit {
+        ::placeholder {
+          color: #94a3b8;
+          opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        ::-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        :nth-child(1) {
+          color: #475569;
+        }
+
+        .inputs {
+          padding: 10px;
+          font-family: inter;
+          border: 1px solid #cbd5e1;
+          width: auto;
+          height: 44px;
+          border-radius: 4px;
+        }
+
+        width: 450px;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .email {
+        ::placeholder {
+          color: #94a3b8;
+          opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        ::-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        :nth-child(1) {
+          color: #475569;
+        }
+
+        .inputs {
+          padding: 10px;
+          font-family: inter;
+          width: auto;
+          border: 1px solid #cbd5e1;
+          width: auto;
+          height: 44px;
+          border-radius: 4px;
+        }
+
+        width: 224px;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .position {
+        ::placeholder {
+          color: #94a3b8;
+          opacity: 1;
+        }
+
+        :-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        ::-ms-input-placeholder {
+          color: #94a3b8;
+        }
+
+        :nth-child(1) {
+          color: #475569;
+        }
+
+        .inputs {
+          padding: 10px;
+          font-family: inter;
+          width: auto;
+          border: 1px solid #cbd5e1;
+          width: 200px;
+          height: 44px;
+          border-radius: 4px;
+        }
+
+        width: auto;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .verificationStatus {
+        :nth-child(1) {
+          color: #475569;
+        }
+
+        :nth-child(2) {
+          height: 50px;
+          display: flex;
+          align-items: center;
+
+          :nth-child(1) {
+            margin-right: 8px;
+          }
+        }
+
+        width: 164px;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .statusVerification {
+        :nth-child(1) {
+          color: #475569;
+        }
+
+        :nth-child(2) {
+          height: 50px;
+          display: flex;
+          align-items: center;
+
+          :nth-child(1) {
+            margin-right: 8px;
+          }
+
+          :nth-child(1) {
+            margin-right: 5px;
+          }
+        }
+
+        width: 164px;
+        height: 71px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .buttonContainer {
+        width: 98px;
+        height: 68px;
+        display: flex;
+        align-items: center;
+        margin-top: 13px;
+        justify-content: center;
+      }
+    }
+  }
+}
+
+.persons--table {
+  .table {
+    table {
+      width: 100%;
+
+      tr td:first-child {
+        width: 100%;
+      }
+    }
+
+    width: 100%;
+
+    .statusTitleItems {
+      padding: 10px 25px 10px 25px !important;
+    }
+  }
+}

@@ -1,0 +1,232 @@
+.kycContainer {
+  width: 100%;
+  font-size: 13.5px;
+
+  #greyed {
+    background-color: rgba(203, 213, 225, 0.068);
+  }
+
+  .consentContainer {
+    .mainTitle {
+      color: #475569;
+      font-size: 13px;
+    }
+    .consentInnerItems {
+      .consentInnerWrapper {
+        .consentButtonContainer {
+          display: flex;
+          align-items: center;
+        }
+        padding-top: 8px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+    }
+    margin-top: 30px;
+    padding: 16px;
+    display: flex;
+    background-color: #9797970f;
+    flex-direction: column;
+    gap: 2.5px;
+  }
+
+  .pdfWrapper {
+    .buttonContainer {
+      display: flex;
+      justify-content: flex-end;
+      // padding-right: 30px;
+      padding-top: 15px;
+      font-weight: 600;
+
+      .button--secondary {
+        border-radius: 0px;
+        font-weight: 600;
+        color: #0f172a;
+        border: 1px solid #e2e8f0;
+      }
+    }
+
+    display: flex;
+    flex-direction: column;
+
+    .pdfContainer {
+      justify-content: space-between;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      background-color: #fff;
+      border-radius: 2px;
+    }
+  }
+
+  .radioBack {
+    padding: 16px 0px 16px 16px;
+    display: flex;
+    background-color: #9797970f;
+    flex-direction: column;
+    gap: 10px;
+    // margin-bottom: 15px;
+
+    .radioBackIn {
+      padding-right: 15px !important;
+    }
+
+    label {
+      font-size: 12px;
+    }
+
+    :nth-child(2) {
+      display: flex;
+      flex-direction: row;
+      gap: 30px;
+
+      :nth-child(n) {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding-bottom: 0px;
+        gap: 6px;
+      }
+    }
+  }
+
+  .outerContainerKyc {
+    display: flex;
+    flex-direction: row;
+
+    .innerContainer1 {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .innerContainer2 {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .dummyWrapper {
+      flex: 0.5;
+    }
+  }
+
+  .vLine {
+    width: 0.1px;
+    height: initial;
+    background-color: rgba(0, 0, 0, 0.1);
+    margin-left: 22px;
+    margin-right: 22px;
+  }
+
+  .mainTitle {
+    font-size: 14px;
+    font-weight: bold;
+    color: #64748b;
+    padding-bottom: 11px;
+  }
+
+  .splitBox {
+    span {
+      color: #475569;
+    }
+
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    width: 100%;
+  }
+
+  .inputContainer {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+
+    span {
+      font-size: 13.5px;
+      color: #475569;
+    }
+  }
+
+  .inputs {
+    width: 100%;
+    color: #64748b;
+  }
+
+  .genInfo {
+    display: flex;
+    flex-direction: row;
+
+    .infoWrapper {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .branchWrapper {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+
+      .allWrapper {
+        .specialWrapper {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 10px;
+          justify-content: center;
+        }
+
+        .buttonContainer {
+          display: flex;
+          justify-content: flex-end;
+          padding-right: 30px;
+          padding-top: 15px;
+
+          .button--secondary {
+            border-radius: 0px;
+            font-weight: bold;
+            color: #000;
+            border: 1px solid #e2e8f0;
+          }
+        }
+      }
+    }
+
+    .dummyWrapper {
+      flex: 0.5;
+    }
+  }
+
+  .contInfo {
+    display: flex;
+    flex-direction: row;
+
+    .mainWrapper {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .otherWrapper {
+      flex: 0.5;
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+    }
+
+    .dummyWrapper {
+      flex: 0.5;
+    }
+  }
+}
