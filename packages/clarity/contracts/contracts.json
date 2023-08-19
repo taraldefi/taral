@@ -42,7 +42,8 @@
         "marketplace-trait",
         "nft-marketplace",
         "sip009-nft",
-        "sip010-token"
+        "sip010-token",
+        "taral-lender"
       ]
     }
   ]
