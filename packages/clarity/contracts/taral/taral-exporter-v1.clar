@@ -17,6 +17,21 @@
     )
 )
 
+;; (define-private (update-seller-track-record (seller-id principal) (success bool))
+;;     (let ((seller-data (unwrap! (map-get? sellers { id: seller-id }) (err "Seller not found"))))
+;;         (if success
+;;             (map-set sellers
+;;                 { id: seller-id }
+;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (+ (get successful-transactions seller-data) u1), failed-transactions: (get failed-transactions seller-data) }
+;;             )
+;;             (map-set sellers
+;;                 { id: seller-id }
+;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (get successful-transactions seller-data), failed-transactions: (+ (get failed-transactions seller-data) u1) }
+;;             )
+;;         )
+;;     )
+;; )
+
 ;; @Desc function to fetch or create an exporter ID, makes use of match function to check if exporter id exists
 ;; @Param exporter : principal of exporter
 (define-private (get-or-create-exporter-id (exporter principal))

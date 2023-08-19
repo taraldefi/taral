@@ -1,4 +1,4 @@
-(define-map lenders 
+(define-map lenders
     {
         id: principal
     }

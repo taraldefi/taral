@@ -145,6 +145,9 @@ depends_on = ["sip010-ft-trait"]
 [contracts.taral-lender]
 path = "contracts/taral/taral-lender.clar"
 
+[contracts.taral-bank]
+path = "contracts/taral/taral-bank.clar"
+
 clarity_version = 2
 epoch = 2.4
 [repl.analysis]
