@@ -56,10 +56,10 @@
     ) 
 )
 
-(define-public (update-borrower-track-record (borrower-id principal) (success bool))
+(define-public (update-importer-track-record (importer-principal principal) (success bool))
     (let (
-        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal borrower-id ) ERR-IMPORTER-NOT-REGISTERED))
-        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile borrower-id) importer-storage-error))
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer-principal ) ERR-IMPORTER-NOT-REGISTERED))
+        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer-principal) importer-storage-error))
         (successful-transaction-count (get successful-transactions current-importer ))
         (failed-transaction-count (get failed-transactions current-importer ))
         )
