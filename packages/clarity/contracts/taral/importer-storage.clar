@@ -13,6 +13,8 @@
         hash: (buff 256),
         category: (string-utf8 100), ;; Merchant /Manufacturer /Service /Project /Deemed importer
         orders-next-avail-id: uint,
+        successful-transactions: uint,
+        failed-transactions: uint,
         created: uint
     }  
 )
@@ -46,7 +48,16 @@
     (map get-importer-profile principals)       
 )
 
-(define-read-only (get-orders-next-avail-id (importer {name: (string-utf8 100),hash: (buff 256), category: (string-utf8 100), orders-next-avail-id: uint, created: uint} ))
+(define-read-only (get-orders-next-avail-id (importer {
+    name: (string-utf8 100), 
+    hash: (buff 256), 
+    category: (string-utf8 100), 
+    orders-next-avail-id: uint, 
+    successful-transactions: uint,
+    failed-transactions: uint,
+    created: uint
+    } )
+)
     (get orders-next-avail-id importer)
 )
 
@@ -89,7 +100,9 @@
     hash: (buff 256),
     category: (string-utf8 100),
     orders-next-avail-id: uint,
-    created: uint
+    created: uint,
+    successful-transactions: uint,
+    failed-transactions: uint
     }))
     (ok
         (map-set importer-profile key-tuple value-tuple) 
@@ -104,7 +117,9 @@
                 hash: hash,
                 category: importer-category,
                 orders-next-avail-id: u0, 
-                created: block-height
+                created: block-height,
+                successful-transactions: u0,
+                failed-transactions: u0
             }
         )
     )
