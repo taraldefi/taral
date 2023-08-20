@@ -17,6 +17,7 @@
     )
 )
 
+
 ;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
 ;; @Param importer : principal of importer
 (define-private (get-or-create-importer-id (importer principal))
@@ -65,6 +66,24 @@
         (ok true)
         )
     ) 
+)
+
+(define-public (update-borrower-track-record (borrower-id principal) (success bool))
+    (let (
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal borrower-id ) ERR-IMPORTER-NOT-REGISTERED))
+        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile borrower-id) importer-storage-error))
+        (successful-transaction-count (get successful-transactions current-importer ))
+        (failed-transaction-count (get failed-transactions current-importer ))
+        )
+        
+        (if success
+            (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { successful-transactions: (+ u1 successful-transaction-count)})) importer-storage-error)
+
+            (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { failed-transactions: (+ u1 failed-transaction-count)})) importer-storage-error)
+        )
+        
+        (ok true)
+    )
 )
 
 ;; @Desc appends order to importer and updates importer profile
