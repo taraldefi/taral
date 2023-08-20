@@ -21,18 +21,6 @@
 ;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
 ;; @Param importer : principal of importer
 (define-private (get-or-create-importer-id (importer principal))
-    ;; (let (
-    ;;     (importer-info (contract-call? .importer-storage get-importer-by-principal importer))
-    ;;     (importer-id (contract-call? .importer-storage get-importer-id-nonce))
-    ;; ) 
-    ;; (match importer-info
-    ;; matched-importer-id (ok matched-importer-id)
-    ;; (begin
-    ;;     (unwrap! (contract-call? .importer-storage add-importer importer importer-id) importer-storage-error)
-    ;;     (unwrap! (contract-call? .importer-storage increment-importer-id-nonce) importer-storage-error)
-    ;;     (ok importer-id)))
-    ;; )
-
     (match (contract-call? .importer-storage get-importer-by-principal importer) 
           matched-importer-id (ok matched-importer-id)  
           (let ((importer-id (contract-call? .importer-storage get-importer-id-nonce)))  
