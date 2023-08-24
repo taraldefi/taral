@@ -16,7 +16,9 @@
     payments-left: uint,
     first-payment-year: uint,
     first-payment-month: uint,
-    outstanding-amount: uint
+    outstanding-amount: uint,
+    is-completed: bool,
+    completed-successfully: bool
   }
 )
 
@@ -87,7 +89,6 @@
                       (map-set purchase-orders 
                         { id: purchase-order-id }
                         {
-                          ;; ... other fields ...
                           borrower-id: (get borrower-id po),
                           downpayment: (get downpayment po),
                           lender-id: (get lender-id po),
@@ -97,7 +98,9 @@
                           payments-left: updated-payments-left,
                           first-payment-year: (if (is-eq updated-payments-left (get duration bid)) current-year (get first-payment-year po)),
                           first-payment-month: (if (is-eq updated-payments-left (get duration bid)) current-month (get first-payment-month po)),
-                          outstanding-amount: (- (get outstanding-amount po) (* required-amount actual-months-covered))
+                          outstanding-amount: (- (get outstanding-amount po) (* required-amount actual-months-covered)),
+                          is-completed: false,
+                          completed-successfully: false
                         }
                       )
                       (ok purchase-order-id)
@@ -150,7 +153,9 @@
         payments-left: u0,
         first-payment-year: u0,
         first-payment-month: u0,
-        outstanding-amount: (- total-amount downpayment)
+        outstanding-amount: (- total-amount downpayment),
+        is-completed: false,
+        completed-successfully: false
       }
     )
     (ok po-id)
@@ -206,7 +211,9 @@
         payments-left: (get payments-left po),
         overpaid-balance: u0,
         first-payment-month: (get first-payment-month po), ;; This will be updated when the first payment is made
-        first-payment-year: (get first-payment-year po)  ;; This will be updated when the first payment is made
+        first-payment-year: (get first-payment-year po),  ;; This will be updated when the first payment is made,
+        is-completed: (get is-completed po),
+        completed-successfully: (get completed-successfully po)
       }
     )
 
@@ -217,6 +224,32 @@
     )
 
     (ok bid-id)
+  )
+)
+
+(define-public (end-purchase-order-successfully (purchase-order-id uint))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found")))
+        (lender-id (unwrap! (get lender-id po) (err "No lender associated with this purchase order"))))
+
+    ;; Verify that the outstanding amount is fully paid
+    (asserts! (<= (get outstanding-amount po) u0) (err "Purchase order has not been fully paid"))
+
+    ;; Update lender's track record with a successful transaction
+    (unwrap! 
+      (contract-call? .taral-lender update-lender-track-record lender-id true)
+      (err "Failed to update lender's track record")
+    )
+
+    ;; Mark purchase order as completed successfully
+    (map-set purchase-orders
+      { id: purchase-order-id }
+      (merge po { 
+        is-completed: true, 
+        completed-successfully: true
+      })
+    )
+
+    (ok true)
   )
 )
 

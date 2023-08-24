@@ -15,7 +15,7 @@
     (ok (map-set lenders { id: tx-sender } { name: name, description: description, country: country, successful-transactions: u0, failed-transactions: u0 }))
 )
 
-(define-private (update-lender-track-record (lender-id principal) (success bool))
+(define-public (update-lender-track-record (lender-id principal) (success bool))
     (let ((lender-data (unwrap! (map-get? lenders { id: lender-id }) (err "Lender not found"))))
         (if success
             (ok (map-set lenders
