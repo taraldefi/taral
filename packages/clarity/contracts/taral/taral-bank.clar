@@ -261,6 +261,29 @@
   )
 )
 
+(define-public (update-bid-number-of-downpayments (bid-id uint) (new-number-of-downpayments uint))
+  (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
+    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
+  )
+     (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
+        (err "Cannot update or retract an accepted bid.")
+
+        (if (not (get refunded bid))
+        (begin
+            (map-set bids 
+                { id: bid-id } 
+                (merge bid { number-of-downpayments: new-number-of-downpayments })
+            )
+            (ok true)
+        )
+        (err "Bid already refunded. Cannot update.")
+    )
+    )
+  )
+)
+
+
 ;; Refund a bid
 (define-private (refund-bid (bid-id uint))
     (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
@@ -283,63 +306,6 @@
       )
     )
   )
-
-;; ;; Retract or update a bid
-;; (define-public (update-bid (bid-id uint) (new-amount (optional uint)))
-;;   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-;;         (old-amount (get bid-amount bid))
-;;         (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this bid")))
-;;         )
-    
-;;     ;; Check if the bid was already refunded
-;;     (if (get refunded bid)
-;;       (err "Bid already refunded. Cannot update.")
-      
-;;       ;; If no new amount is provided or it's zero, we consider this a retraction and refund the bid
-;;       (if (or (is-none new-amount) (is-eq (unwrap-panic new-amount) u0))
-;;         (refund-bid bid-id)
-        
-;;         ;; If the new amount is more than the old amount
-;;         (if (> (unwrap-panic new-amount) old-amount)
-;;           (let ((difference (- (unwrap-panic new-amount) old-amount)))
-;;             ;; Transfer the difference from the bidder to the contract
-;;             (if (is-ok (ft-transfer? stablecoin difference lender-id contract-caller))
-;;               (begin
-
-;;                 (map-set bids 
-;;                     { id: bid-id } 
-;;                     (merge bid { is-accepted: true, bid-amount: (unwrap-panic new-amount), refunded: false })
-;;                 )
-;;                 (ok true)
-;;               )
-;;               (err "Transfer failed. Not enough funds?")
-;;             )
-;;           )
-          
-;;           ;; If the new amount is less than the old amount
-;;           (if (< (unwrap-panic new-amount) old-amount)
-;;             (let ((difference (- old-amount (unwrap-panic new-amount))))
-;;               ;; Transfer the difference from the contract back to the bidder
-;;               (if (is-ok (ft-transfer? stablecoin difference contract-caller lender-id))
-;;                 (begin
-;;                   (map-set bids 
-;;                     { id: bid-id } 
-;;                     (merge bid { is-accepted: true, bid-amount: (unwrap-panic new-amount), refunded: false })
-;;                   )
-;;                   (ok true)
-;;                 )
-;;                 (err "Transfer failed. Contract does not have enough funds?")
-;;               )
-;;             )
-            
-;;             ;; If the new amount is the same as the old amount, just return success
-;;             (ok true)
-;;           )
-;;         )
-;;       )
-;;     )
-;;   )
-;; )
 
 ;; Retract or update a bid
 (define-public (update-bid (bid-id uint) (new-amount (optional uint)))
