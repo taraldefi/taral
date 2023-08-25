@@ -11,6 +11,7 @@ To run `services` test run the following command:
 ```bash
 $ yarn test
 ```
+
 To format, lint and type check there is a script that runs all of them at once:
 
 ```bash
