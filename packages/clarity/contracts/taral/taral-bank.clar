@@ -18,7 +18,8 @@
     first-payment-month: uint,
     outstanding-amount: uint,
     is-completed: bool,
-    completed-successfully: bool
+    completed-successfully: bool,
+    accepted-bid-id: (optional uint)
   }
 )
 
@@ -35,6 +36,7 @@
     duration: uint,
     number-of-downpayments: uint,
     monthly-payment: uint,
+    refunded: bool
   }
 )
 
@@ -120,7 +122,8 @@
                           first-payment-month: (if (is-eq updated-payments-left (get duration bid)) current-month (get first-payment-month po)),
                           outstanding-amount: (- (get outstanding-amount po) (* required-amount actual-months-covered)),
                           is-completed: false,
-                          completed-successfully: false
+                          completed-successfully: false,
+                          accepted-bid-id: (get accepted-bid-id po)
                         }
                       )
                       (ok purchase-order-id)
@@ -154,7 +157,8 @@
                         first-payment-month: (get first-payment-month po),
                         outstanding-amount: (get outstanding-amount po),
                         is-completed: true,
-                        completed-successfully: false
+                        completed-successfully: false,
+                        accepted-bid-id: (get accepted-bid-id po)
                     }
                 )
                 ;; Update lender's track record.
@@ -216,7 +220,8 @@
         first-payment-month: u0,
         outstanding-amount: (- total-amount downpayment),
         is-completed: false,
-        completed-successfully: false
+        completed-successfully: false,
+        accepted-bid-id: none
       }
     )
     (ok po-id)
@@ -248,13 +253,154 @@
         interest-rate: interest-rate,
         duration: (+ number-of-downpayments u1),
         number-of-downpayments: number-of-downpayments,
-        monthly-payment: monthly-payment-amount
+        monthly-payment: monthly-payment-amount,
+        refunded: false
       }
     )
     (ok bid-id)
   )
 )
 
+;; Refund a bid
+(define-private (refund-bid (bid-id uint))
+    (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
+    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    
+    )
+      (if (not (get refunded bid))
+        (begin
+          (unwrap! (ft-transfer? stablecoin (get bid-amount bid) contract-caller lender-id) (err "Failed to transfer stablecoin"))
+
+          ;; Mark bid as accepted
+            (map-set bids 
+            { id: bid-id } 
+            (merge bid { refunded: true })
+            )
+
+          (ok true)
+        )
+        (err "Bid already refunded")
+      )
+    )
+  )
+
+;; ;; Retract or update a bid
+;; (define-public (update-bid (bid-id uint) (new-amount (optional uint)))
+;;   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
+;;         (old-amount (get bid-amount bid))
+;;         (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this bid")))
+;;         )
+    
+;;     ;; Check if the bid was already refunded
+;;     (if (get refunded bid)
+;;       (err "Bid already refunded. Cannot update.")
+      
+;;       ;; If no new amount is provided or it's zero, we consider this a retraction and refund the bid
+;;       (if (or (is-none new-amount) (is-eq (unwrap-panic new-amount) u0))
+;;         (refund-bid bid-id)
+        
+;;         ;; If the new amount is more than the old amount
+;;         (if (> (unwrap-panic new-amount) old-amount)
+;;           (let ((difference (- (unwrap-panic new-amount) old-amount)))
+;;             ;; Transfer the difference from the bidder to the contract
+;;             (if (is-ok (ft-transfer? stablecoin difference lender-id contract-caller))
+;;               (begin
+
+;;                 (map-set bids 
+;;                     { id: bid-id } 
+;;                     (merge bid { is-accepted: true, bid-amount: (unwrap-panic new-amount), refunded: false })
+;;                 )
+;;                 (ok true)
+;;               )
+;;               (err "Transfer failed. Not enough funds?")
+;;             )
+;;           )
+          
+;;           ;; If the new amount is less than the old amount
+;;           (if (< (unwrap-panic new-amount) old-amount)
+;;             (let ((difference (- old-amount (unwrap-panic new-amount))))
+;;               ;; Transfer the difference from the contract back to the bidder
+;;               (if (is-ok (ft-transfer? stablecoin difference contract-caller lender-id))
+;;                 (begin
+;;                   (map-set bids 
+;;                     { id: bid-id } 
+;;                     (merge bid { is-accepted: true, bid-amount: (unwrap-panic new-amount), refunded: false })
+;;                   )
+;;                   (ok true)
+;;                 )
+;;                 (err "Transfer failed. Contract does not have enough funds?")
+;;               )
+;;             )
+            
+;;             ;; If the new amount is the same as the old amount, just return success
+;;             (ok true)
+;;           )
+;;         )
+;;       )
+;;     )
+;;   )
+;; )
+
+;; Retract or update a bid
+(define-public (update-bid (bid-id uint) (new-amount (optional uint)))
+  (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
+        (old-amount (get bid-amount bid))
+        (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this bid")))
+        )
+    
+    ;; Fetch the purchase order's accepted bid ID
+    (let ((accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) })))))
+      
+      ;; Check if the bid was the accepted one
+      (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
+        (err "Cannot update or retract an accepted bid.")
+
+        ;; Check if the bid was already refunded
+        (if (get refunded bid)
+          (err "Bid already refunded. Cannot update.")
+          
+          ;; If no new amount is provided or it's zero, we consider this a retraction and refund the bid
+          (if (or (is-none new-amount) (is-eq (unwrap-panic new-amount) u0))
+            (refund-bid bid-id)
+            
+            ;; If the new amount is more than the old amount
+            (if (> (unwrap-panic new-amount) old-amount)
+              (let ((difference (- (unwrap-panic new-amount) old-amount)))
+                ;; Transfer the difference from the bidder to the contract
+                (if (is-ok (ft-transfer? stablecoin difference lender-id contract-caller))
+                  (begin
+
+                    (map-set bids 
+                        { id: bid-id } 
+                        (merge bid { bid-amount: (unwrap-panic new-amount) })
+                    )
+                    (ok true)
+                  )
+                  (err "Transfer failed. Not enough funds?")
+                )
+              )
+              
+              ;; If the new amount is less than the old amount
+              (let ((difference (- old-amount (unwrap-panic new-amount))))
+                ;; Transfer the difference from the contract back to the bidder
+                (if (is-ok (ft-transfer? stablecoin difference contract-caller lender-id))
+                  (begin
+                    (map-set bids 
+                            { id: bid-id } 
+                            (merge bid { bid-amount: (unwrap-panic new-amount) })
+                    )
+                    (ok true)
+                  )
+                  (err "Transfer failed. Contract does not have enough funds?")
+                )
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)
 
 (define-public (accept-bid (bid-id uint))
   (let ((bid (unwrap! (map-get? bids { id: bid-id }) (err "Bid not found")))
@@ -276,7 +422,8 @@
         first-payment-month: (get first-payment-month po), ;; This will be updated when the first payment is made
         first-payment-year: (get first-payment-year po),  ;; This will be updated when the first payment is made,
         is-completed: (get is-completed po),
-        completed-successfully: (get completed-successfully po)
+        completed-successfully: (get completed-successfully po),
+        accepted-bid-id: (some bid-id)
       }
     )
 
