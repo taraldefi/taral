@@ -1,6 +1,3 @@
-;; Tokens for the platform
-(define-fungible-token stablecoin)
-
 ;; Maps to keep track of data
 (define-map purchase-orders
   {
@@ -183,7 +180,11 @@
 (current-year uint) (current-month uint)
     (purchase-order-id uint) (months uint) (amount-per-month uint) (borrower principal) (lender (optional principal)))
   (begin
-    (unwrap! (ft-transfer? stablecoin (* months amount-per-month) borrower (unwrap! lender (err "Faled"))) (err "Failed to transfer stablecoin"))
+
+    (try! (contract-call? .usda-token transfer (* months amount-per-month) borrower (unwrap! lender (err u100)) none))
+
+
+    ;; (unwrap! (ft-transfer? .usda (* months amount-per-month) borrower (unwrap! lender (err "Faled"))) (err "Failed to transfer stablecoin"))
     (map-set payments
       { id: (var-get next-purchase-order-id) } 
       {
@@ -315,12 +316,20 @@
 ;; #[allow(unchecked_data)]
 (define-private (refund-bid (bid-id uint))
     (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    (lender-id (unwrap! (get lender-id bid) (err u111)))
     
     )
       (if (not (get refunded bid))
         (begin
-          (unwrap! (ft-transfer? stablecoin (get bid-amount bid) contract-caller lender-id) (err "Failed to transfer stablecoin"))
+
+
+          ;; (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
+
+              (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
+
+
+        
+          ;; (unwrap! (ft-transfer? stablecoin (get bid-amount bid)  lender-id) (err "Failed to transfer stablecoin"))
 
           ;; Mark bid as accepted
             (map-set bids 
@@ -450,8 +459,6 @@
     (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record borrower-id true) (err "Failed to update borrower's track record"))
     (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record seller-id true) (err "Failed to update seller's track record"))
     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err "Failed to update lender's track record"))
-
-
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
