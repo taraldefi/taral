@@ -283,6 +283,28 @@
   )
 )
 
+(define-public (update-interest (id uint) (new-interest uint))
+  (let ((bid (unwrap-panic (map-get? bids { id: id })))
+    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
+  )
+
+    (if (and (not (is-none accepted-bid-id)) (is-eq id (unwrap-panic accepted-bid-id)))
+        (err "Cannot update or retract an accepted bid.")
+
+        (if (not (get refunded bid))
+            (begin
+                (map-set bids 
+                    { id: id } 
+                    (merge bid { interest-rate: new-interest })
+                )
+                (ok true)
+            )
+            (err "Bid already refunded. Cannot update.")
+        )
+    )
+  )
+)
 
 ;; Refund a bid
 (define-private (refund-bid (bid-id uint))
