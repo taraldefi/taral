@@ -261,6 +261,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-bid-number-of-downpayments (bid-id uint) (new-number-of-downpayments uint))
   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
     (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
@@ -283,6 +285,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-interest (id uint) (new-interest uint))
   (let ((bid (unwrap-panic (map-get? bids { id: id })))
     (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
@@ -307,6 +311,8 @@
 )
 
 ;; Refund a bid
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-private (refund-bid (bid-id uint))
     (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
     (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
@@ -330,6 +336,8 @@
   )
 
 ;; Retract or update a bid
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-bid (bid-id uint) (new-amount (optional uint)))
   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
         (old-amount (get bid-amount bid))
@@ -390,6 +398,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (accept-bid (bid-id uint))
   (let ((bid (unwrap! (map-get? bids { id: bid-id }) (err "Bid not found")))
         (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id bid) }) (err "Purchase order not found"))))
