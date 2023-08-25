@@ -56,6 +56,24 @@
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-bid-id uint u1)
 
+(define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
+  (-
+    (+ (* (- current-year first-year) u12) current-month)
+    first-month
+  )
+)
+
+(define-read-only (missed-last-three-payments (purchase-order-id uint) (current-year uint) (current-month uint))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found"))))
+    (let ((months-passed (months-since-first-payment (get first-payment-year po) (get first-payment-month po) current-year current-month))
+          (expected-payments-made (- months-passed (get payments-left po))))
+      (if (> expected-payments-made (+ (get payments-left po) u3))
+          (ok true)   ;; True means they missed a payment in the last three months.
+          (ok false)  ;; False means they didn't.
+      )
+    )
+  )
+)
 
 (define-public (make-payment (purchase-order-id uint) (amount uint) (current-year uint) (current-month uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "PO not found")))
@@ -110,6 +128,45 @@
             )
         )
       )
+    )
+  )
+)
+
+(define-public (check-purchase-order-health (purchase-order-id uint) (current-year uint) (current-month uint))
+  (let ((missed-payments (unwrap! (missed-last-three-payments purchase-order-id current-year current-month) (err "Failed to check missed payments"))))
+    (if missed-payments
+        (begin
+            ;; Mark the purchase order as ended unsuccessfully.
+            (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found"))))
+                (map-set purchase-orders
+                    { id: purchase-order-id }
+                    {
+                        borrower-id: (get borrower-id po),
+                        lender-id: (get lender-id po),
+                        seller-id: (get seller-id po),
+                        total-amount: (get total-amount po),
+                        downpayment: (get downpayment po),
+                        overpaid-balance: (get overpaid-balance po),
+                        payments-left: (get payments-left po),
+                        first-payment-year: (get first-payment-year po),
+                        first-payment-month: (get first-payment-month po),
+                        outstanding-amount: (get outstanding-amount po),
+                        is-completed: true,
+                        completed-successfully: false
+                    }
+                )
+                ;; Update lender's track record.
+                (let ((lender-principal (unwrap! (get lender-id po) (err "No lender found for this purchase order"))))
+                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record lender-principal false) (err "Failed to update borrower's track record"))
+                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record lender-principal false) (err "Failed to update seller's track record"))
+                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err "Failed to update lender's track record"))
+
+
+                    (ok purchase-order-id)
+                )
+            )
+        )
+        (err "No missed payments found")
     )
   )
 )
