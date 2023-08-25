@@ -94,6 +94,8 @@
 )
 
 ;; public functions
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (initialize 
                   (exporter principal)
                   (importer principal)

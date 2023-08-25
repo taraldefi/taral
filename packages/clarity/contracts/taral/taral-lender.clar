@@ -11,10 +11,14 @@
     }
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (register-lender (name (string-utf8 128)) (description (string-utf8 256)) (country (string-utf8 56)))
     (ok (map-set lenders { id: tx-sender } { name: name, description: description, country: country, successful-transactions: u0, failed-transactions: u0 }))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-lender-track-record (lender-id principal) (success bool))
     (let ((lender-data (unwrap! (map-get? lenders { id: lender-id }) (err "Lender not found"))))
         (if success

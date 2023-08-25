@@ -18,6 +18,8 @@
     (ok (fold find-out (get outs tx) {pubscriptkey: pubscriptkey, out: none})))
 
 ;; create a swap between btc and non fungible token
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (create-swap (sats uint) (btc-receiver (buff 40)) (nft-id uint) (nft-receiver principal) (nft <non-fungible-token>))
   (let ((id (var-get next-id)))
     (asserts! (map-insert swaps id

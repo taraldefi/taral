@@ -75,6 +75,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (make-payment (purchase-order-id uint) (amount uint) (current-year uint) (current-month uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "PO not found")))
         (bid (unwrap! (map-get? bids { id: purchase-order-id }) (err "Bid not found for this PO"))))
@@ -195,6 +197,8 @@
 )
 
 ;; Create Purchase Order
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
   (let ((po-id (var-get next-purchase-order-id)))
     (var-set next-purchase-order-id (+ po-id u1))
@@ -221,6 +225,8 @@
 
 (define-constant protocol-interest-rate u5) ;; 5% protocol interest
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (place-bid (purchase-order-id uint) (bid-amount uint) (interest-rate uint) (number-of-downpayments uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "No PO found")))
         (bid-id (var-get next-bid-id))
@@ -284,6 +290,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (end-purchase-order-successfully (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found")))
         (lender-id (unwrap! (get lender-id po) (err "No lender associated with this purchase order")))

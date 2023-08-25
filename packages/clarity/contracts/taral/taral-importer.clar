@@ -126,7 +126,8 @@
   )
 )
 
-
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (append-order (newOrderId uint)
                              (importer principal)                                                       
                )

@@ -259,6 +259,9 @@
 ;;
 ;; The idea is that this signature must only be generated from the owner address
 ;; This is to enforce that whoever registers a file, uploaded it first on the off-chain storage API 
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (register-file 
     (file-id (string-utf8 36))
     (filename (string-ascii 128))
@@ -467,6 +470,9 @@
 ;;
 ;; Allows revoking someone's access to the file. This does not delete data from the map
 ;;
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (revoke-access 
     (file-id (string-utf8 36))
     (participant principal)

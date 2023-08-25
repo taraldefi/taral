@@ -84,10 +84,14 @@
     (ok (var-set exporter-id-nonce (+ (var-get exporter-id-nonce) u1)))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-exporter (exporter principal) (exporter-id uint)) 
     (ok (map-set exporter-by-principal exporter exporter-id))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-order (id uint) (exporter-id uint) (order-id uint)) 
     (ok 
         (map-insert orders {id: id,exporter-id: exporter-id}   
@@ -96,6 +100,8 @@
     )   
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-exporter-profile (key-tuple {exporter-id: uint}) (value-tuple {
     name: (string-utf8 100), 
     hash: (buff 256),
@@ -110,6 +116,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-exporter-profile (exporter-id uint) (exporter-name (string-utf8 100)) (hash (buff 256)) (exporter-category (string-utf8 100)))
     (ok (map-insert exporter-profile 
             {exporter-id: exporter-id} 

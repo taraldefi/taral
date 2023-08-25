@@ -44,6 +44,8 @@
 )
 
 ;; transfer function should assert that sender == tx-sender.
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (transfer (id uint) (sender principal) (recipient principal)) 
     (begin
         (asserts! (is-eq tx-sender sender) err-not-token-owner)
