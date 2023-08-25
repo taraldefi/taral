@@ -1,26 +1,27 @@
 import useModal from "@hooks/useModal";
-import { Button } from "taral-ui";
+import ConnectWallet from "@components/widgets/connectWallet";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import { NotificationModalAtom, SettingsModalAtom } from "@store/ModalStore";
+import {
+  NotificationModalAtom,
+  SettingsModalAtom,
+  networkDialogIsOpenAtom,
+} from "@store/ModalStore";
 import { PortalIcons } from "../icons";
-import { AppConfig, UserData, showConnect, UserSession } from "@stacks/connect";
-import { AppDetails } from "lib-web";
 import React from "react";
-
-const appConfig = new AppConfig();
-const userSession = new UserSession({ appConfig });
-
-const appDetails: AppDetails = {
-  icon: "https://avatars.githubusercontent.com/u/87638650?s=200&v=4",
-  name: "Taral",
-};
+import { Button } from "taral-ui";
+import { useNetworks } from "@hooks/useNetwork";
+import { Globe } from "react-feather";
 
 const Topbar = () => {
   const router = useRouter();
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
-  const [user, setUser] = React.useState<UserData>();
+
+  const networkDialogueModal = useModal(networkDialogIsOpenAtom);
+  const { networks, currentNetworkIndex } = useNetworks();
+  const currentNetwork = networks[currentNetworkIndex];
+  console.log("current network ======>", currentNetwork);
 
   const handleModalClick = (clickedModal: any, otherModal: any) => {
     if (clickedModal.isOpen) {
@@ -79,37 +80,12 @@ const Topbar = () => {
               ></PortalIcons>
             </div>
           </div>
-          {user || userSession.isUserSignedIn() ? (
-            <>
-              {/* <p>{user?.profile.stxAddress.testnet}</p> */}
-              <Button
-                onClick={() => {
-                  userSession.signUserOut();
-                  setUser(undefined);
-                }}
-                primary
-                backgroundColor="#003C6E"
-                label="DISCONNECT"
-              ></Button>
-            </>
-          ) : (
-            <Button
-              onClick={() =>
-                showConnect({
-                  appDetails,
-                  onFinish: () => {
-                    setUser(userSession.loadUserData());
-                  },
-                  onCancel: () => {
-                    console.error("Cancelled connect");
-                  },
-                })
-              }
-              primary
-              backgroundColor="#003C6E"
-              label="CONNECT WALLET"
-            ></Button>
-          )}
+          <Button
+            icon={<Globe size={"15px"}></Globe>}
+            onClick={() => networkDialogueModal.open()}
+            label={currentNetwork.name.toUpperCase()}
+          ></Button>
+          <ConnectWallet />
         </div>
       </div>
     </>

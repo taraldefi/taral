@@ -6,6 +6,7 @@ import {
 	ProgressBarWidgetProps,
 	MetricProps,
 	ActivityProps,
+	CircularLoaderProps,
 } from './Widgets.types';
 
 import './Widgets.scss';
@@ -114,7 +115,16 @@ export function ProgressBar({
 		</div>
 	);
 }
-
+export const CircularLoader = ({ color }: CircularLoaderProps) => {
+	const loaderStyle = {
+		borderTopColor: color,
+	};
+	return (
+		<div className='circular--loader--container'>
+			<div className='circular--loader' style={loaderStyle}></div>
+		</div>
+	);
+};
 export const MetricRange = ({ value }: MetricProps) => {
 	return (
 		<>
