@@ -157,8 +157,8 @@
                 )
                 ;; Update lender's track record.
                 (let ((lender-principal (unwrap! (get lender-id po) (err "No lender found for this purchase order"))))
-                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record lender-principal false) (err "Failed to update borrower's track record"))
-                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record lender-principal false) (err "Failed to update seller's track record"))
+                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record (get borrower-id po) false) (err "Failed to update borrower's track record"))
+                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record (get seller-id po) false) (err "Failed to update seller's track record"))
                     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err "Failed to update lender's track record"))
 
 
@@ -286,16 +286,19 @@
 
 (define-public (end-purchase-order-successfully (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found")))
-        (lender-id (unwrap! (get lender-id po) (err "No lender associated with this purchase order"))))
+        (lender-id (unwrap! (get lender-id po) (err "No lender associated with this purchase order")))
+        (borrower-id (get borrower-id po))
+        (seller-id (get seller-id po))
+    )
 
     ;; Verify that the outstanding amount is fully paid
     (asserts! (<= (get outstanding-amount po) u0) (err "Purchase order has not been fully paid"))
 
-    ;; Update lender's track record with a successful transaction
-    (unwrap! 
-      (contract-call? .taral-lender update-lender-track-record lender-id true)
-      (err "Failed to update lender's track record")
-    )
+    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record borrower-id true) (err "Failed to update borrower's track record"))
+    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record seller-id true) (err "Failed to update seller's track record"))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err "Failed to update lender's track record"))
+
+
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
@@ -313,4 +316,3 @@
 (define-private (default-lender-id) 
   (some 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB) ;; this is a dummy principal value
 )
-
