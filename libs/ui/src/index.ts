@@ -1,6 +1,12 @@
 import Button from './Button';
 import PoolCard from './PoolCard';
-import { StatusWidget, MetricRange, ProgressBar, Activity } from './Widgets';
+import {
+	StatusWidget,
+	MetricRange,
+	ProgressBar,
+	Activity,
+	CircularLoader,
+} from './Widgets';
 import {
 	ApplicationTable,
 	EntityTable,
@@ -18,7 +24,7 @@ import {
 	QuantitativeTable,
 	TxFinanceTable,
 } from './Table';
-import { DeleteModal } from './Modals';
+import { DeleteModal, SelectNetworkModal } from './Modals';
 import { Entity } from './Entity';
 import { SmallLoanCard, LargeLoanCard, PaymentSuccessCard } from './LoanCard';
 import { ProfileAddressCard, ProfilePersonalCard } from './ProfileCard';
@@ -28,6 +34,7 @@ export {
 	PoolCard,
 	StatusWidget,
 	MetricRange,
+	CircularLoader,
 	ProgressBar,
 	SignOffTable,
 	ApplicationTable,
@@ -50,5 +57,6 @@ export {
 	ProfileAddressCard,
 	ProfilePersonalCard,
 	DeleteModal,
+	SelectNetworkModal,
 	Activity,
 };
