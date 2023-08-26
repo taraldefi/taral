@@ -1,20 +1,20 @@
 import * as React from "react";
 import { useAtom } from "jotai";
-import //   StacksMainnet,
-//   StacksMocknet,
-//   StacksTestnet,
-//   StacksDevnet,
-//   StacksNetwork,
-"@stacks/network";
+import {
+  StacksMainnet,
+  StacksMocknet,
+  StacksTestnet,
+  StacksDevnet,
+} from "@stacks/network";
 import { useNetworks } from "@hooks/useNetwork";
 import { Network } from "@utils/lib/constants";
 import {
   anyNetworkStatusAtom,
   anyNetworkIsLoadingFamily,
+  currentStacksNetworkAtom,
 } from "@store/networkStore";
 import { networkDialogIsOpenAtom } from "@store/ModalStore";
 import { SelectNetworkModal, CircularLoader } from "taral-ui";
-
 import { Cloud, CloudOff, Check, RefreshCw, Delete } from "react-feather";
 
 const NetworkListItem = ({
@@ -24,18 +24,14 @@ const NetworkListItem = ({
   network: any;
   index: number;
 }) => {
-  const {
-    // networks,
-    currentNetworkIndex,
-    handleUpdateNetworkIndex,
-    handleRemoveNetwork,
-  } = useNetworks();
+  const { currentNetworkIndex, handleUpdateNetworkIndex, handleRemoveNetwork } =
+    useNetworks();
 
   const [, setOpen] = useAtom(networkDialogIsOpenAtom);
+  const [, setCurrentNetwork] = useAtom(currentStacksNetworkAtom);
   const [anyStatus, dispatchAnyStatus] = useAtom(
     anyNetworkStatusAtom(network.name)
   );
-  console.log(anyStatus);
 
   const isLoadingFamily = anyNetworkIsLoadingFamily(network);
   const [isLoading, setIsLoading] = useAtom(isLoadingFamily);
@@ -44,15 +40,15 @@ const NetworkListItem = ({
     // used to select and display user selections
     handleUpdateNetworkIndex(index);
     // sets the currently active network used by the wallet
-    // setCurrentNetwork(
-    //   index === 0
-    //     ? new StacksMainnet({ url: networks[index].url })
-    //     : index === 1
-    //     ? new StacksTestnet({ url: networks[index].url })
-    //     : index === 2
-    //     ? new StacksDevnet({ url: networks[index].url })
-    //     : new StacksMocknet({ url: networks[index].url })
-    // );
+    setCurrentNetwork(
+      index === 0
+        ? new StacksMainnet()
+        : index === 1
+        ? new StacksTestnet()
+        : index === 2
+        ? new StacksDevnet()
+        : new StacksMocknet()
+    );
     setOpen(false);
   };
 
@@ -122,10 +118,7 @@ const NetworkListItem = ({
             position: "relative",
           }}
         >
-          <div
-
-          //disabled={anyStatus.data.status === "ready" ? false : true}
-          >
+          <div>
             {anyStatus.data.status === "ready" ? (
               <React.Suspense
                 fallback={
@@ -182,7 +175,6 @@ const NetworkListItem = ({
                     width: "40px",
                     height: "40px",
                     borderRadius: "50%",
-                    borderColor: color,
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
@@ -200,8 +192,25 @@ const NetworkListItem = ({
             )}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "5px" }}>
-            <span>{network.name}</span>
-            <span>{network.label}</span>
+            <div style={{ display: "flex", gap: "5px" }}>
+              <span>{network.name}</span>
+              <span
+                style={{
+                  borderStyle: "solid",
+                  borderColor: "grey",
+                  borderRadius: "30px",
+                  paddingLeft: "5px",
+                  color: "grey",
+                  fontSize: "12px",
+                  paddingRight: "5px",
+                }}
+              >
+                {network.chain}
+              </span>
+            </div>
+            <span style={{ color: "grey", fontSize: "14px" }}>
+              {network.label}
+            </span>
           </div>
         </div>
       </div>

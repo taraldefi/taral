@@ -4,6 +4,7 @@ import {
   currentNetworkIndexAtom,
   networksAtom,
   anyNetworkStatusAtom,
+  currentStacksNetworkAtom,
 } from "@store/networkStore";
 import { useAtomCallback } from "jotai/utils";
 import { useAtom, useAtomValue } from "jotai";
@@ -11,6 +12,7 @@ import { useAtom, useAtomValue } from "jotai";
 export const useNetworks = () => {
   const [customNetworks, setCustomNetworks] = useAtom(customNetworksAtom);
   const networks = useAtomValue(networksAtom);
+  const currentStacksNetwork = useAtomValue(currentStacksNetworkAtom);
   const [currentNetworkIndex, setCurrentNetworkIndex] = useAtom(
     currentNetworkIndexAtom
   );
@@ -41,6 +43,7 @@ export const useNetworks = () => {
 
   return {
     networks,
+    currentStacksNetwork,
     setCustomNetworks,
     currentNetworkIndex,
     setCurrentNetworkIndex,

@@ -5,7 +5,7 @@ import {
 import { atom } from "jotai";
 import { atomFamily, atomWithStorage } from "jotai/utils";
 import { atomsWithQuery } from "jotai-tanstack-query";
-
+import { StacksMainnet } from "@stacks/network";
 import {
   DEFAULT_NETWORK_LIST,
   DEFAULT_NETWORK_INDEX,
@@ -48,6 +48,11 @@ export const currentNetworkAtom = atom<Network>((get) => {
   return networks[index];
 });
 
+export const currentStacksNetworkAtom = atomWithStorage(
+  "currentNetwork",
+  new StacksMainnet()
+);
+
 export const anyNetworkStatusAtom = atomFamily(
   (networkName: string) =>
     atomsWithQuery((get) => ({
@@ -57,10 +62,8 @@ export const anyNetworkStatusAtom = atomFamily(
         const network = networks.find(function (net) {
           return net["name"] === networkName;
         }) || { url: "" };
-        console.log(network);
         const networkUrl = network.url || "";
         try {
-          console.log(networkUrl);
           const res = await fetch(networkUrl);
           return res.json();
         } catch (error) {

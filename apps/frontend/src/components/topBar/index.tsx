@@ -19,9 +19,9 @@ const Topbar = () => {
   const notificationModal = useModal(NotificationModalAtom);
 
   const networkDialogueModal = useModal(networkDialogIsOpenAtom);
-  const { networks, currentNetworkIndex } = useNetworks();
+  const { networks, currentNetworkIndex, currentStacksNetwork } = useNetworks();
   const currentNetwork = networks[currentNetworkIndex];
-  console.log("current network ======>", currentNetwork);
+  console.log("current network ======>", currentStacksNetwork);
 
   const handleModalClick = (clickedModal: any, otherModal: any) => {
     if (clickedModal.isOpen) {
@@ -81,7 +81,9 @@ const Topbar = () => {
             </div>
           </div>
           <Button
-            icon={<Globe size={"15px"}></Globe>}
+            primary
+            backgroundColor="#003C6E"
+            icon={<Globe color={"white"} size={"15px"}></Globe>}
             onClick={() => networkDialogueModal.open()}
             label={currentNetwork.name.toUpperCase()}
           ></Button>
