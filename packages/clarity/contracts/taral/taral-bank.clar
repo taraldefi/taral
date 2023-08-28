@@ -55,6 +55,25 @@
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-bid-id uint u1)
 
+(define-constant ERR_PURCHASE_ORDER_NOT_FOUND (err u100))
+(define-constant ERR_BID_NOT_FOUND_FOR_PURCHASE_ORDER (err u101))
+(define-constant ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT u102)
+(define-constant ERR_FAILED_TO_RECORD_PAYMENTS u103)
+(define-constant ERR_FAILED_TO_CHECK_MISSED_PAYMENTS u104)
+(define-constant ERR_NO_LENDER_FOR_PURCHASE_ORDER u105)
+(define-constant ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD u106)
+(define-constant ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD u107)
+(define-constant ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD u108)
+(define-constant ERR_NO_MISSED_PAYMENTS u109)
+(define-constant ERR_NO_LENDER_FOR_BID u110)
+(define-constant ERR_CANNOT_MODIFY_ACCEPTED_BID u111)
+(define-constant ERR_NOT_ENOUGH_FUNDS u112)
+(define-constant ERR_PURCHASE_ORDER_NOT_FULLY_PAID u113)
+(define-constant ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER u114)
+(define-constant ERR_BID_NOT_FOUND u115)
+(define-constant ERR_BID_ALREADY_REFUNDED u116)
+(define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_BID u117)
+
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
     (+ (* (- current-year first-year) u12) current-month)
@@ -63,7 +82,7 @@
 )
 
 (define-read-only (missed-last-three-payments (purchase-order-id uint) (current-year uint) (current-month uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found"))))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
     (let ((months-passed (months-since-first-payment (get first-payment-year po) (get first-payment-month po) current-year current-month))
           (expected-payments-made (- months-passed (get payments-left po))))
       (if (> expected-payments-made (+ (get payments-left po) u3))
@@ -77,32 +96,40 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (make-payment (purchase-order-id uint) (amount uint) (current-year uint) (current-month uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "PO not found")))
-        (bid (unwrap! (map-get? bids { id: purchase-order-id }) (err "Bid not found for this PO"))))
-    (let ((required-amount (get monthly-payment bid))
-          (overpaid-balance (get overpaid-balance po)))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (bid (unwrap! (map-get? bids { id: purchase-order-id }) (err ERR_BID_NOT_FOUND_FOR_PURCHASE_ORDER)))
+        (borrower-id (get borrower-id po))
+        (required-amount (get monthly-payment bid))
+          (overpaid-balance (get overpaid-balance po))
+        (total-available (+ amount overpaid-balance))
+        (months-covered (/ total-available required-amount))
+        (lender-id (unwrap-panic (get lender-id bid) ))
+        (actual-months-covered (if (> months-covered (get payments-left po)) 
+                                                   (get payments-left po)
+                                                   months-covered))
+
+                                                   (remaining-balance (- total-available (* required-amount actual-months-covered)))
+                          (updated-payments-left (- (get payments-left po) actual-months-covered))
+        )
       
       ;; Calculate total available amount (current payment + overpaid balance)
-      (let ((total-available (+ amount overpaid-balance)))
         
         (if (< total-available required-amount)
-            (err "Insufficient amount to cover monthly payment.")
+            (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
             
             (begin
                 ;; Calculate months covered by the payment using integer division
-                (let ((months-covered (/ total-available required-amount)))
-                  
                   ;; Check if months-covered is more than payments-left and adjust if necessary
-                  (let ((actual-months-covered (if (> months-covered (get payments-left po)) 
-                                                   (get payments-left po)
-                                                   months-covered)))
-                    
                     ;; Record payments for all months covered
-                    (unwrap! (record-multiple-payments current-year current-month  purchase-order-id actual-months-covered required-amount (get borrower-id po) (get lender-id bid)) (err "Failed to record payments"))
+                    ;; (unwrap! (record-multiple-payments current-year current-month  purchase-order-id actual-months-covered required-amount (get borrower-id po) (get lender-id bid)) (err ERR_FAILED_TO_RECORD_PAYMENTS))
                     
+
+                    (unwrap-err! (record-multiple-payments current-year current-month  purchase-order-id actual-months-covered required-amount (get borrower-id po) (get lender-id bid)) (err u100))
+
+
+                    ;; (unwrap-panic (contract-call? .usda-token transfer (* actual-months-covered required-amount) (get borrower-id po) lender-id none))
+
                     ;; Calculate any left-over overpaid balance
-                    (let ((remaining-balance (- total-available (* required-amount actual-months-covered)))
-                          (updated-payments-left (- (get payments-left po) actual-months-covered)))
                       
                       ;; Update purchase order with new data
                       (map-set purchase-orders 
@@ -124,22 +151,21 @@
                         }
                       )
                       (ok purchase-order-id)
-                    )
-                  )
                 )
             )
-        )
+
+        
       )
+      
     )
-  )
-)
+
 
 (define-public (check-purchase-order-health (purchase-order-id uint) (current-year uint) (current-month uint))
-  (let ((missed-payments (unwrap! (missed-last-three-payments purchase-order-id current-year current-month) (err "Failed to check missed payments"))))
+  (let ((missed-payments (unwrap! (missed-last-three-payments purchase-order-id current-year current-month) (err ERR_FAILED_TO_CHECK_MISSED_PAYMENTS))))
     (if missed-payments
         (begin
             ;; Mark the purchase order as ended unsuccessfully.
-            (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found"))))
+            (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
                 (map-set purchase-orders
                     { id: purchase-order-id }
                     {
@@ -159,17 +185,17 @@
                     }
                 )
                 ;; Update lender's track record.
-                (let ((lender-principal (unwrap! (get lender-id po) (err "No lender found for this purchase order"))))
-                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record (get borrower-id po) false) (err "Failed to update borrower's track record"))
-                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record (get seller-id po) false) (err "Failed to update seller's track record"))
-                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err "Failed to update lender's track record"))
+                (let ((lender-principal (unwrap! (get lender-id po) (err ERR_NO_LENDER_FOR_PURCHASE_ORDER))))
+                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record (get borrower-id po) false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record (get seller-id po) false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
 
                     (ok purchase-order-id)
                 )
             )
         )
-        (err "No missed payments found")
+        (err ERR_NO_MISSED_PAYMENTS)
     )
   )
 )
@@ -182,9 +208,6 @@
   (begin
 
     (try! (contract-call? .usda-token transfer (* months amount-per-month) borrower (unwrap! lender (err u100)) none))
-
-
-    ;; (unwrap! (ft-transfer? .usda (* months amount-per-month) borrower (unwrap! lender (err "Faled"))) (err "Failed to transfer stablecoin"))
     (map-set payments
       { id: (var-get next-purchase-order-id) } 
       {
@@ -234,7 +257,7 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (place-bid (purchase-order-id uint) (bid-amount uint) (interest-rate uint) (number-of-downpayments uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "No PO found")))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
         (bid-id (var-get next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
         (lender-interest-amount (* (/ interest-rate u100) total-amount))
@@ -266,11 +289,11 @@
 ;; #[allow(unchecked_data)]
 (define-public (update-bid-number-of-downpayments (bid-id uint) (new-number-of-downpayments uint))
   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    (lender-id (unwrap! (get lender-id bid) (err ERR_NO_LENDER_FOR_BID)))
     (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
   )
      (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
-        (err "Cannot update or retract an accepted bid.")
+        ;; (err ERR_CANNOT_MODIFY_ACCEPTED_BID)
 
         (if (not (get refunded bid))
         (begin
@@ -280,7 +303,7 @@
             )
             (ok true)
         )
-        (err "Bid already refunded. Cannot update.")
+        (err ERR_CANNOT_MODIFY_ACCEPTED_BID)
     )
     )
   )
@@ -290,12 +313,12 @@
 ;; #[allow(unchecked_data)]
 (define-public (update-interest (id uint) (new-interest uint))
   (let ((bid (unwrap-panic (map-get? bids { id: id })))
-    (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this purchase bid")))
+    (lender-id (unwrap! (get lender-id bid) (err ERR_NO_LENDER_FOR_BID)))
     (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
   )
 
     (if (and (not (is-none accepted-bid-id)) (is-eq id (unwrap-panic accepted-bid-id)))
-        (err "Cannot update or retract an accepted bid.")
+        ;; (err "Cannot update or retract an accepted bid.")
 
         (if (not (get refunded bid))
             (begin
@@ -305,7 +328,7 @@
                 )
                 (ok true)
             )
-            (err "Bid already refunded. Cannot update.")
+            (err ERR_CANNOT_MODIFY_ACCEPTED_BID)
         )
     )
   )
@@ -325,7 +348,7 @@
 
           ;; (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
 
-              (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
+          (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
 
 
         
@@ -339,7 +362,7 @@
 
           (ok true)
         )
-        (err "Bid already refunded")
+        (err ERR_BID_ALREADY_REFUNDED)
       )
     )
   )
@@ -350,7 +373,7 @@
 (define-public (update-bid (bid-id uint) (new-amount (optional uint)))
   (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
         (old-amount (get bid-amount bid))
-        (lender-id (unwrap! (get lender-id bid) (err "No lender associated with this bid")))
+        (lender-id (unwrap! (get lender-id bid) (err ERR_NO_LENDER_FOR_BID)))
         )
     
     ;; Fetch the purchase order's accepted bid ID
@@ -358,11 +381,11 @@
       
       ;; Check if the bid was the accepted one
       (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
-        (err "Cannot update or retract an accepted bid.")
+        ;; (err "Cannot update or retract an accepted bid.")
 
         ;; Check if the bid was already refunded
         (if (get refunded bid)
-          (err "Bid already refunded. Cannot update.")
+          (err ERR_BID_ALREADY_REFUNDED)
           
           ;; If no new amount is provided or it's zero, we consider this a retraction and refund the bid
           (if (or (is-none new-amount) (is-eq (unwrap-panic new-amount) u0))
@@ -381,7 +404,7 @@
                     )
                     (ok true)
                   )
-                  (err "Transfer failed. Not enough funds?")
+                  (err ERR_NOT_ENOUGH_FUNDS)
                 )
               )
               
@@ -396,7 +419,7 @@
                     )
                     (ok true)
                   )
-                  (err "Transfer failed. Contract does not have enough funds?")
+                  (err ERR_NOT_ENOUGH_FUNDS)
                 )
               )
             )
@@ -410,9 +433,9 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (accept-bid (bid-id uint))
-  (let ((bid (unwrap! (map-get? bids { id: bid-id }) (err "Bid not found")))
-        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id bid) }) (err "Purchase order not found"))))
-    (asserts! (is-eq tx-sender (get borrower-id po)) (err "Only the borrower can accept the bid"))
+  (let ((bid (unwrap! (map-get? bids { id: bid-id }) (err ERR_BID_NOT_FOUND)))
+        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id bid) }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (asserts! (is-eq tx-sender (get borrower-id po)) (err ERR_ONLY_BORROWER_CAN_ACCEPT_BID))
 
     ;; Update purchase order with details from the accepted bid
     (map-set purchase-orders 
@@ -447,18 +470,18 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (end-purchase-order-successfully (purchase-order-id uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err "Purchase order not found")))
-        (lender-id (unwrap! (get lender-id po) (err "No lender associated with this purchase order")))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (lender-id (unwrap! (get lender-id po) (err ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER)))
         (borrower-id (get borrower-id po))
         (seller-id (get seller-id po))
     )
 
     ;; Verify that the outstanding amount is fully paid
-    (asserts! (<= (get outstanding-amount po) u0) (err "Purchase order has not been fully paid"))
+    (asserts! (<= (get outstanding-amount po) u0) (err ERR_PURCHASE_ORDER_NOT_FULLY_PAID))
 
-    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record borrower-id true) (err "Failed to update borrower's track record"))
-    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record seller-id true) (err "Failed to update seller's track record"))
-    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err "Failed to update lender's track record"))
+    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record borrower-id true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record seller-id true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
