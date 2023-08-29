@@ -26,4 +26,6 @@ export interface ActivityProps {
 
 export interface CircularLoaderProps {
 	color: string;
+	bgColor?: string;
+	size?: string;
 }

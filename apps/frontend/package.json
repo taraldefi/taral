@@ -36,6 +36,7 @@
     "next": "13.2.4",
     "pdfjs-dist": "^2.14.305",
     "react": "18.2.0",
+    "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
     "react-feather": "^2.0.10",
     "react-hook-form": "^7.33.1",

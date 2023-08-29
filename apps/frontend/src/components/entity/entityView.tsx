@@ -3,7 +3,14 @@ import { Button } from "taral-ui";
 import { useModal } from "@utils/hooks";
 import Image from "next/image";
 import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
+import { useRouter } from "next/router";
+import { useAtom } from "jotai";
+import { EntityDeletedAtom } from "@store/entityStore";
+
 interface infoType {
+  id: string;
+  name: string;
+  logo: string;
   BeneficialOwner: string;
   CodeAbbreviation: string;
   Nationality: string;
@@ -12,6 +19,7 @@ interface infoType {
   CoreBusiness: string;
   IncorporationDate: string;
   LegalForm: string;
+  productCount: number;
 }
 type Props = {
   infoData: infoType;
@@ -19,6 +27,9 @@ type Props = {
 function EntityView({ infoData }: Props) {
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
+  const router = useRouter();
+  const [entityDeleted] = useAtom(EntityDeletedAtom);
+
   return (
     <>
       <div className="viewContent">
@@ -28,7 +39,7 @@ function EntityView({ infoData }: Props) {
             <div className="cardImage">
               <Image
                 className="images"
-                src="/assets/images/entity.png"
+                src={infoData.logo}
                 alt=""
                 width={200}
                 height={200}
@@ -36,7 +47,7 @@ function EntityView({ infoData }: Props) {
             </div>
             <div className="right">
               <div className="mainTitle">
-                <span>Engelbrecht Ltd</span>
+                <span>{infoData.name}</span>
               </div>
               <div className="lower">
                 <div className="registration">
@@ -45,7 +56,7 @@ function EntityView({ infoData }: Props) {
                 </div>
                 <div className="products">
                   <span>PRODUCTS</span>
-                  <span>25</span>
+                  <span>{infoData.productCount}</span>
                 </div>
                 <div className="applications">
                   <span>APPLICATIONS</span>
@@ -125,12 +136,20 @@ function EntityView({ infoData }: Props) {
             </div>
           </div>
           <div className="infoAction">
-            <div onClick={() => deleteModal.open()}>
+            <div
+              onClick={() => {
+                deleteModal.open(infoData.id);
+                if (entityDeleted)
+                  router.push(
+                    `/users/${router.asPath.split("/")[2]}/entities/`
+                  );
+              }}
+            >
               <PortalIcons selected={false} icon={"delete"}></PortalIcons>
             </div>
             <Button
               label={"Edit Entity"}
-              onClick={() => editModal.open()}
+              onClick={() => editModal.open(infoData.id)}
             ></Button>
           </div>
         </div>

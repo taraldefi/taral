@@ -6,10 +6,10 @@ import axios from "axios";
 jest.mock("axios");
 
 describe("Role Service", () => {
-  const mockAxiosConfigGET = getAxiosConfig("GET");
-  const mockAxiosConfigPOST = getAxiosConfig("POST");
-  const mockAxiosConfigPATCH = getAxiosConfig("PATCH");
-  const mockAxiosConfigDELETE = getAxiosConfig("DELETE");
+  const mockAxiosConfigGET = getAxiosConfig({ method: "GET" });
+  const mockAxiosConfigPOST = getAxiosConfig({ method: "POST" });
+  const mockAxiosConfigPATCH = getAxiosConfig({ method: "PATCH" });
+  const mockAxiosConfigDELETE = getAxiosConfig({ method: "DELETE" });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -18,7 +18,7 @@ describe("Role Service", () => {
   describe("getAllRoles", () => {
     it("should fetch all roles successfully", async () => {
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: [
           // Provide mock role data
         ],
@@ -39,7 +39,7 @@ describe("Role Service", () => {
     it("should throw an error when fetching roles fails", async () => {
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -62,7 +62,7 @@ describe("Role Service", () => {
     it("should fetch a role by ID successfully", async () => {
       const roleId = "123";
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           // Provide mock role data
         },
@@ -84,7 +84,7 @@ describe("Role Service", () => {
       const roleId = "123";
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -112,7 +112,7 @@ describe("Role Service", () => {
       };
 
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: {
           // Provide mock created permission data
         },
@@ -140,7 +140,7 @@ describe("Role Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -165,7 +165,7 @@ describe("Role Service", () => {
       const roleId = "123";
 
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         // Provide other response properties as needed
       };
 
@@ -184,7 +184,7 @@ describe("Role Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -213,7 +213,7 @@ describe("Role Service", () => {
       };
 
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           // Provide mock updated permission data
         },
@@ -242,7 +242,7 @@ describe("Role Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },

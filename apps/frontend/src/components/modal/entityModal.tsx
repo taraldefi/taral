@@ -5,15 +5,19 @@ import { useModal } from "@utils/hooks";
 import router from "next/router";
 import React from "react";
 import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
+import { useAtom } from "jotai";
+import { currentSelectedEntityAtom } from "@store/entityStore";
 
 interface ModalProps {
-  entityID: number;
+  entityID: any;
 }
 
 function Modal({ entityID }: ModalProps) {
   const [modal, setModal] = React.useState(false);
   const editModal = useModal(EditFormModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
+  const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
+
   return (
     <div className={"modal"} onClick={() => setModal(!modal)}>
       <div className={"iconEntityOption " + (modal && "active")}>
@@ -30,6 +34,7 @@ function Modal({ entityID }: ModalProps) {
             <div
               className="modalViewButton"
               onClick={() => {
+                setCurrentSelectedEntity(entityID);
                 router.push(
                   `/users/${
                     router.asPath.split("/")[2]
@@ -40,12 +45,12 @@ function Modal({ entityID }: ModalProps) {
               <PortalIcons selected={false} icon={"eye"}></PortalIcons>
               <span>View</span>
             </div>
-            <div onClick={() => editModal.open()}>
+            <div onClick={() => editModal.open(entityID)}>
               <PortalIcons selected={false} icon={"pen"}></PortalIcons>
               <span>Edit</span>
             </div>
             <span></span>
-            <div onClick={() => deleteModal.open()}>
+            <div onClick={() => deleteModal.open(entityID)}>
               <PortalIcons selected={false} icon={"delete"}></PortalIcons>
               <span>Delete</span>
             </div>

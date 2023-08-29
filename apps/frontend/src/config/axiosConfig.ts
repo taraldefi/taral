@@ -6,7 +6,17 @@ import { AxiosRequestConfig } from "axios";
  * @param method
  * @returns
  */
-export default function getAxiosConfig(method: string, contentType?: string) {
+
+interface axiosConfigType {
+  method: string;
+  contentType?: string;
+  responseType?: any;
+}
+export default function getAxiosConfig({
+  method,
+  contentType,
+  responseType,
+}: axiosConfigType) {
   const authHeader = CoreUtils.return("authHeader");
   const config: AxiosRequestConfig = {
     headers: {
@@ -14,6 +24,7 @@ export default function getAxiosConfig(method: string, contentType?: string) {
       "Content-Type": contentType ? contentType : "application/json",
       Authorization: authHeader.Authorization,
     },
+    responseType: responseType ? responseType : "json",
   };
 
   return config;

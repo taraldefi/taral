@@ -59,6 +59,11 @@ export class EntityService {
 
     return this.mappingService.mapEntityDetails(entity);
   }
+  public async getAllEntity(): Promise<LegalEntity[]> {
+    return await this.entityRepository.find({
+      select: ['id', 'abbreviation', 'name', 'logo'],
+    });
+  }
 
   @Transactional()
   public async updateEntity(
@@ -92,8 +97,8 @@ export class EntityService {
       entity.coreBusiness = data.coreBusiness;
     }
 
-    if (data.headquaters) {
-      entity.headquaters = data.headquaters;
+    if (data.headquarters) {
+      entity.headquarters = data.headquarters;
     }
 
     if (data.incorporationDate) {
@@ -149,7 +154,7 @@ export class EntityService {
     entity.name = data.name;
     entity.beneficialOwner = data.beneficialOwner;
     entity.coreBusiness = data.coreBusiness;
-    entity.headquaters = data.headquaters;
+    entity.headquarters = data.headquarters;
     entity.incorporationDate = data.incorporationDate;
     entity.industryType = data.industryType;
     entity.legalForm = data.legalForm;

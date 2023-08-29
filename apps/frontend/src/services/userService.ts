@@ -15,7 +15,7 @@ class UserService {
     limit: number,
     page: number
   ): Promise<RegisterResponse[]> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
         `${apiUrls.USER}?keywords=${keywords}&limit=${limit}&page=${page}`,
@@ -23,7 +23,7 @@ class UserService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -42,7 +42,7 @@ class UserService {
    * @returns
    */
   async createUser(userInfo: IcreateUser): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         `${apiUrls.USER}`,
@@ -51,7 +51,7 @@ class UserService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -70,12 +70,12 @@ class UserService {
    * @returns
    */
   async getUserById(id: string): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(`${apiUrls.USER}/${id}`, axiosConfig);
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -98,7 +98,7 @@ class UserService {
     id: string,
     userInfo: IupdateUser
   ): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         `${apiUrls.USER}/${id}`,
@@ -106,7 +106,7 @@ class UserService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode == 200) {
+      if (response.status == 200) {
         return data;
       }
     } catch (error: any) {

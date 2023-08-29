@@ -1050,7 +1050,7 @@
           "beneficialOwner": { "type": "string", "example": "John Smith" },
           "abbreviation": { "type": "string", "example": "55-NB" },
           "nationality": { "type": "string", "example": "German" },
-          "headquaters": { "type": "string", "example": "Berlin" },
+          "headquarters": { "type": "string", "example": "Berlin" },
           "industryType": {
             "type": "string",
             "example": "Information Technology"
@@ -1093,7 +1093,7 @@
           "beneficialOwner",
           "abbreviation",
           "nationality",
-          "headquaters",
+          "headquarters",
           "industryType",
           "coreBusiness",
           "incorporationDate",

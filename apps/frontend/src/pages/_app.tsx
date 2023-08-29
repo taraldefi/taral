@@ -4,11 +4,7 @@ import type { AppProps } from "next/app";
 import React from "react";
 import { Provider } from "jotai";
 import SelectNetworkDialog from "@components/selectNetworkDialog";
-declare module "axios" {
-  interface AxiosResponse {
-    statusCode: number;
-  }
-}
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>

@@ -7,12 +7,18 @@ import { useAtom } from "jotai";
 import { pageIndexAtom } from "@store/PageIndexStore";
 import { useModal } from "@utils/hooks";
 import { ApplicationModalAtom, FormModalAtom } from "@store/ModalStore";
+import { EntitiesAtom, currentSelectedEntityAtom } from "@store/entityStore";
 
 function TopBarNav() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const formModal = useModal(FormModalAtom);
-  const entityID = router.query.entityId;
+  const [entities] = useAtom(EntitiesAtom);
+  const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
+    currentSelectedEntityAtom
+  );
+  console.log(entities, currentSelectedEntity);
+  const entityID = currentSelectedEntity;
   const newApplicationModal = useModal(ApplicationModalAtom);
   const handleClick1 = () => {
     setIndex(0);
@@ -222,8 +228,29 @@ function TopBarNav() {
                   </div>
                 ) : (
                   <div className="viewEntitySelect">
-                    <select name="" id="" className="inputs">
-                      <option value="">Entity Name</option>
+                    <select
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setCurrentSelectedEntity(e.target.value);
+                        router.push(
+                          `/users/importer/entities/${currentSelectedEntity}/overview`
+                        );
+                      }}
+                      name=""
+                      id=""
+                      className="inputs"
+                    >
+                      {entities.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={item.id}
+                            selected={item.id === currentSelectedEntity}
+                          >
+                            {item.name}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 )}

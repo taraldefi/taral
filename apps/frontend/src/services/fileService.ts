@@ -9,7 +9,10 @@ class FileService {
    * @param File object
    */
   async createFile(file: File): Promise<IfileResponse[]> {
-    const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+    const axiosConfig = getAxiosConfig({
+      method: "POST",
+      contentType: "multipart/ form-data",
+    });
     try {
       const response = await axios.post(
         `${apiUrls.CREATE_FILE}`,
@@ -18,7 +21,7 @@ class FileService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -37,7 +40,10 @@ class FileService {
    * @returns
    */
   async updateFile(file: File, externalId: number): Promise<IfileResponse> {
-    const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+    const axiosConfig = getAxiosConfig({
+      method: "POST",
+      contentType: "multipart/ form-data",
+    });
     try {
       const response = await axios.post(
         `${apiUrls.UPDATE_FILE}`,
@@ -46,7 +52,7 @@ class FileService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -64,7 +70,7 @@ class FileService {
    * @returns
    */
   async requestFile(externalId: number): Promise<IfileResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         `${apiUrls.REQUEST_FILE}`,
@@ -73,7 +79,7 @@ class FileService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {

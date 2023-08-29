@@ -18,7 +18,7 @@ describe("EmailService", () => {
   const emailTemplateId = "1";
   const axiosResponse = {
     data: emailTemplate,
-    statusCode: 200,
+    status: 200,
     statusText: "OK",
     headers: {},
     config: {},
@@ -108,7 +108,7 @@ describe("EmailService", () => {
         createdAt: "2023-05-22T14:29:07.655Z",
         updatedAt: "2023-05-22T14:29:07.655Z",
       };
-      const responseMock = { data: expectedData, statusCode: 201 };
+      const responseMock = { data: expectedData, status: 201 };
       const createTemplateInfo: IcreateEmailTemplate = {
         title: "string",
         sender: "string",
@@ -154,7 +154,7 @@ describe("EmailService", () => {
 
   describe("deleteEmailTemplate", () => {
     it("should successfully delete the email template when the request is successful", async () => {
-      (axios.delete as jest.Mock).mockResolvedValueOnce({ statusCode: 204 });
+      (axios.delete as jest.Mock).mockResolvedValueOnce({ status: 204 });
 
       await emailService.deleteEmailTemplate(emailTemplateId);
 

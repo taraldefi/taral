@@ -16,7 +16,7 @@ describe("UserService", () => {
       const expectedData = {
         message: "OK",
       };
-      const responseMock = { data: expectedData, statusCode: 200 };
+      const responseMock = { data: expectedData, status: 200 };
       (axios.get as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const keywords = "example";
@@ -24,7 +24,7 @@ describe("UserService", () => {
       const page = 1;
 
       const result = await userService.getAllUsers(keywords, limit, page);
-      const axiosConfig = getAxiosConfig("GET");
+      const axiosConfig = getAxiosConfig({ method: "GET" });
 
       expect(axios.get).toHaveBeenCalledWith(
         expect.stringContaining(
@@ -55,7 +55,7 @@ describe("UserService", () => {
       const expectedData = {
         /* expected response data */
       };
-      const responseMock = { data: expectedData, statusCode: 201 };
+      const responseMock = { data: expectedData, status: 201 };
       (axios.post as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const userInfo: IcreateUser = {
@@ -100,13 +100,13 @@ describe("UserService", () => {
       const expectedData = {
         /* expected response data */
       };
-      const responseMock = { data: expectedData, statusCode: 200 };
+      const responseMock = { data: expectedData, status: 200 };
       (axios.get as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const id = "12345";
 
       const result = await userService.getUserById(id);
-      const axiosConfig = getAxiosConfig("GET");
+      const axiosConfig = getAxiosConfig({ method: "GET" });
       expect(axios.get).toHaveBeenCalledWith(
         expect.stringContaining(`${apiUrls.USER}/${id}`),
         axiosConfig
@@ -132,7 +132,7 @@ describe("UserService", () => {
       const expectedData = {
         /* expected response data */
       };
-      const responseMock = { data: expectedData, statusCode: 200 };
+      const responseMock = { data: expectedData, status: 200 };
       (axios.put as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const id = "12345";
@@ -147,7 +147,7 @@ describe("UserService", () => {
       };
 
       const result = await userService.updateUser(id, userInfo);
-      const axiosConfig = getAxiosConfig("PUT");
+      const axiosConfig = getAxiosConfig({ method: "PUT" });
       expect(axios.put).toHaveBeenCalledWith(
         expect.stringContaining(`${apiUrls.USER}/${id}`),
         JSON.stringify(userInfo),

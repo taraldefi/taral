@@ -36,7 +36,7 @@ export class UpdateEntityDto {
   @ApiProperty({ example: 'Berlin' })
   @IsString()
   @IsOptional()
-  headquaters?: string;
+  headquarters?: string;
 
   @ApiProperty({ example: 'Information Technology' })
   @IsString()

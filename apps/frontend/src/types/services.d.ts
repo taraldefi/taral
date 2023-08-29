@@ -66,8 +66,9 @@ interface EntityApplication {
   issuanceDate: string;
 }
 interface Entity {
+  id: string;
   name: string;
-  logo: string;
+  logo: any;
   beneficialOwner: string;
   abbreviation: string;
   nationality: string;
@@ -84,13 +85,20 @@ interface EntityResponse {
   beneficialOwner: string;
   abbreviation: string;
   nationality: string;
-  headquaters: string;
+  headquarters: string;
   industryType: string;
   coreBusiness: string;
   incorporationDate: string;
   legalForm: string;
   products: EntityProduct[];
   applications: EntityApplication[];
+}
+
+interface EntityCardResponse {
+  id: string;
+  name: string;
+  abbreviation: string;
+  logo: string;
 }
 
 //Email template interfaces
@@ -152,6 +160,7 @@ export {
   RegisterResponse,
   TwoFAResponse,
   EntityResponse,
+  EntityCardResponse,
   Entity,
   resetPasswordProps,
   changePasswordProps,

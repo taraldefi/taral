@@ -6,6 +6,7 @@ import SidebarData from "./data";
 export default function LeftMenu() {
   const router = useRouter();
   const entityID = router.query.entityId;
+  console.log(entityID);
   function checkActive(item: any) {
     if (router.asPath.includes(item.path)) {
       return true;

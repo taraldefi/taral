@@ -27,7 +27,7 @@ export class LegalEntity extends EntityHelper {
 
   @Column()
   @Allow()
-  headquaters: string;
+  headquarters: string;
 
   @Column()
   @Allow()

@@ -115,8 +115,18 @@ export function ProgressBar({
 		</div>
 	);
 }
-export const CircularLoader = ({ color }: CircularLoaderProps) => {
+export const CircularLoader = ({
+	color,
+	size,
+	bgColor,
+}: CircularLoaderProps) => {
 	const loaderStyle = {
+		borderColor: bgColor, // Use the borderColor property
+		borderTopWidth: '4px',
+		borderRightWidth: '4px',
+		borderBottomWidth: '4px',
+		borderLeftWidth: '4px',
+		borderStyle: 'solid',
 		borderTopColor: color,
 	};
 	return (
