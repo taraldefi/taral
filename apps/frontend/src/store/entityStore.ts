@@ -4,6 +4,7 @@ import { atomWithStorage } from "jotai/utils";
 
 export const EntityEditedAtom = atom<string>("");
 export const EntityDeletedAtom = atom<string>("");
+export const EntityCreatedAtom = atom<string>("");
 export const EntitiesAtom = atomWithStorage<EntityCardResponse[]>(
   "entities",
   []

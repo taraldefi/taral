@@ -19,9 +19,9 @@ import {
 } from "@store/ModalStore";
 import React, { useEffect, useState } from "react";
 import entityService from "@services/entityService";
-import { useRouter } from "next/router";
 import {
   EntitiesAtom,
+  EntityCreatedAtom,
   EntityDeletedAtom,
   EntityEditedAtom,
 } from "@store/entityStore";
@@ -116,27 +116,27 @@ function Index() {
   const notificationModal = useModal(NotificationModalAtom);
   const [entityEdited] = useAtom(EntityEditedAtom);
   const [entityDeleted, setEntityDeleted] = useAtom(EntityDeletedAtom);
+  const [entityCreated] = useAtom(EntityCreatedAtom);
+  const [isLoading, setLoading] = useState(false);
 
   const searchItems = (searchValue: string) => {
     setSearchInput(searchValue);
   };
   const [entities, setEntities] = useAtom(EntitiesAtom);
-  const router = useRouter();
-
-  const entityID = router.query.entityId;
-  console.log(entityID);
   useEffect(() => {
     async function fetchData() {
       try {
+        setLoading(true);
         const res = await entityService.getAllEntity();
         setEntities(res);
+        setLoading(false);
       } catch (error) {
         console.error("Error fetching entity:", error);
       }
     }
 
     fetchData();
-  }, [entityEdited, entityDeleted]);
+  }, [entityEdited, entityDeleted, entityCreated]);
   async function fetchEntityLogo(id: string): Promise<string> {
     let srcImg = "";
     try {
@@ -150,40 +150,69 @@ function Index() {
   }
   const handleDelete = async (entityIdToDelete: string) => {
     try {
-      await entityService.deleteEntity(entityIdToDelete);
-      // Update the state to remove the deleted entity
-      setEntities((prevEntities: any) =>
-        prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
-      );
-      setEntityDeleted(entityIdToDelete);
-      deleteModal.close();
+      await entityService.deleteEntity(entityIdToDelete).then(() => {
+        // Update the state to remove the deleted entity
+        setEntities((prevEntities: any) =>
+          prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
+        );
+        setEntityDeleted(entityIdToDelete);
+        deleteModal.close();
+      });
     } catch (error) {
       console.error("Error deleting entity:", error);
     }
   };
   const MyLoader = (props: any) => (
-    <ContentLoader
-      speed={2}
-      width={350}
-      height={150}
-      viewBox="0 0 350 150"
-      backgroundColor="#f3f3f3"
-      foregroundColor="#ecebeb"
-      {...props}
-    >
-      <rect x="83" y="7" rx="3" ry="3" width="192" height="13" />
-      <rect x="87" y="29" rx="3" ry="3" width="52" height="6" />
-      <rect x="11" y="249" rx="3" ry="3" width="410" height="6" />
-      <rect x="0" y="170" rx="3" ry="3" width="380" height="6" />
-      <rect x="5" y="189" rx="3" ry="3" width="178" height="6" />
-      <circle cx="29" cy="29" r="29" />
-      <rect x="7" y="76" rx="0" ry="0" width="326" height="6" />
-      <rect x="7" y="97" rx="0" ry="0" width="125" height="6" />
-      <rect x="7" y="113" rx="3" ry="3" width="52" height="6" />
-      <rect x="145" y="97" rx="0" ry="0" width="125" height="6" />
-      <rect x="145" y="113" rx="3" ry="3" width="52" height="6" />
-    </ContentLoader>
+    <div style={{ marginTop: "75px" }}>
+      <ContentLoader
+        speed={2}
+        width={350}
+        height={150}
+        viewBox="0 0 350 150"
+        backgroundColor="#f3f3f3"
+        foregroundColor="#ecebeb"
+        {...props}
+      >
+        <rect x="83" y="7" rx="3" ry="3" width="192" height="13" />
+        <rect x="87" y="29" rx="3" ry="3" width="52" height="6" />
+        <rect x="11" y="249" rx="3" ry="3" width="410" height="6" />
+        <rect x="0" y="170" rx="3" ry="3" width="380" height="6" />
+        <rect x="5" y="189" rx="3" ry="3" width="178" height="6" />
+        <circle cx="29" cy="29" r="29" />
+        <rect x="7" y="76" rx="0" ry="0" width="326" height="6" />
+        <rect x="7" y="97" rx="0" ry="0" width="125" height="6" />
+        <rect x="7" y="113" rx="3" ry="3" width="52" height="6" />
+        <rect x="145" y="97" rx="0" ry="0" width="125" height="6" />
+        <rect x="145" y="113" rx="3" ry="3" width="52" height="6" />
+      </ContentLoader>
+    </div>
   );
+  const EntityBody = () => {
+    return (
+      <div className="entityContainer">
+        {!isLoading
+          ? entities
+              .filter(function (item) {
+                return item!.name
+                  .toLowerCase()
+                  .includes(searchInput.toLowerCase());
+              })
+              .map((item, index) => {
+                return (
+                  <Entity
+                    fetchLogo={fetchEntityLogo}
+                    key={index}
+                    entityData={item!}
+                    modal={<Modal entityID={item!.id}></Modal>}
+                  ></Entity>
+                );
+              })
+          : [1, 2, 3].map((index) => {
+              return <MyLoader key={index}></MyLoader>;
+            })}
+      </div>
+    );
+  };
   return (
     <div>
       <div className="topbarFix">
@@ -216,28 +245,11 @@ function Index() {
       {/* {<BottomBar></BottomBar>} */}
       <div className="mainBody">
         {" "}
-        <div className="entityContainer">
-          {entities
-            ? entities
-                .filter(function (item) {
-                  return item!.name
-                    .toLowerCase()
-                    .includes(searchInput.toLowerCase());
-                })
-                .map((item, index) => {
-                  return (
-                    <Entity
-                      fetchLogo={fetchEntityLogo}
-                      key={index}
-                      entityData={item!}
-                      modal={<Modal entityID={item!.id}></Modal>}
-                    ></Entity>
-                  );
-                })
-            : [1, 2, 3].fill(3).map(() => {
-                return <MyLoader></MyLoader>;
-              })}
-        </div>
+        {entities.length ? (
+          <EntityBody></EntityBody>
+        ) : (
+          <div className="entityContainer">no entities registered</div>
+        )}
       </div>
       <DeleteModal
         title="Delete Entity"

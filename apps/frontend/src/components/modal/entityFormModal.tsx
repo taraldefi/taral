@@ -6,6 +6,11 @@ import { useForm } from "react-hook-form";
 import entityService from "@services/entityService";
 import { Entity } from "src/types";
 import { useRouter } from "next/router";
+import {
+  EntityCreatedAtom,
+  currentSelectedEntityAtom,
+} from "@store/entityStore";
+import { useAtom } from "jotai";
 
 type Props = {
   isOpen: boolean;
@@ -16,6 +21,8 @@ function FormModal({ isOpen, onClose }: Props) {
   const [, setSelectedCountry] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const { register, handleSubmit } = useForm<Entity>();
+  const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
+  const [, setEntityCreated] = useAtom(EntityCreatedAtom);
   const router = useRouter();
 
   const onSubmit = (data: Entity) => {
@@ -32,17 +39,13 @@ function FormModal({ isOpen, onClose }: Props) {
     entityService.createEntity(formData).then((data) => {
       if (data.id) {
         console.log(data.id);
-        router.push(
-          {
-            pathname: `/users/${router.asPath.split("/")[2]}/entities/${
-              data.id
-            }/overview`,
-            query: { entityId: data.id },
-          },
-          `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
-        );
+        setCurrentSelectedEntity(data.id);
         onClose();
         setLoading(false);
+        setEntityCreated(data.id);
+        router.push(
+          `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
+        );
       }
     });
   };
@@ -118,7 +121,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <option value="">Select country...</option>
                   {countries.map((item) => {
                     return (
-                      <option key={item.id} value={item.alpha2}>
+                      <option key={item.id} value={item.name}>
                         {item.name}
                       </option>
                     );
@@ -217,11 +220,7 @@ function FormModal({ isOpen, onClose }: Props) {
             </div>
             <div>
               <button disabled={isLoading} className="button" type="submit">
-                {isLoading ? (
-                  <span>"Creating Entity..."</span>
-                ) : (
-                  "Create Entity"
-                )}
+                {isLoading ? <span>Creating Entity...</span> : "Create Entity"}
               </button>
             </div>
           </form>

@@ -2,13 +2,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useForm } from "react-hook-form";
-import { Entity } from "src/types";
+import { Entity, EntityResponse } from "src/types";
 import { countries, industries } from "@utils/lib/constants";
 import entityService from "@services/entityService";
 import useModal from "@hooks/useModal";
 import { EditFormModalAtom } from "@store/ModalStore";
 import { EntityEditedAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
+import convertDate from "@utils/lib/convertDate";
 
 type Props = {
   isOpen: boolean;
@@ -34,8 +35,8 @@ function FormEditModal({ isOpen, onClose }: Props) {
   const [isLoading, setLoading] = React.useState(false);
   const { entityId } = useModal(EditFormModalAtom);
   const [, setEntityEdited] = useAtom(EntityEditedAtom);
-  const [data, setData] = React.useState<Entity>();
-  const { register, handleSubmit, reset } = useForm<Entity>({
+  const [data, setData] = React.useState<EntityResponse>();
+  const { register, handleSubmit, reset } = useForm<EntityResponse>({
     defaultValues: data,
     mode: "onChange",
   });
@@ -44,8 +45,14 @@ function FormEditModal({ isOpen, onClose }: Props) {
     if (entityId) {
       const fetchData = async () => {
         const res = await entityService.getEntity(entityId);
-        setData(res);
-        reset(res);
+        setData({
+          ...res,
+          incorporationDate: convertDate(res.incorporationDate),
+        });
+        reset({
+          ...res,
+          incorporationDate: convertDate(res.incorporationDate),
+        });
       };
       fetchData();
     }
@@ -56,7 +63,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
 
     const updates = compareEntities(data!, newData);
     if (updates.logo) updates.logo = newData.logo[0];
-
+    console.log(updates);
     console.log(entityId);
     if (entityId)
       entityService.updateEntity(entityId, updates).then((data) => {
@@ -140,7 +147,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
                   <option value="">Select country...</option>
                   {countries.map((item) => {
                     return (
-                      <option key={item.id} value={item.alpha2}>
+                      <option key={item.id} value={item.name}>
                         {item.name}
                       </option>
                     );

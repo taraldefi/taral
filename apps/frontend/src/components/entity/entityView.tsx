@@ -6,6 +6,7 @@ import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
 import { useRouter } from "next/router";
 import { useAtom } from "jotai";
 import { EntityDeletedAtom } from "@store/entityStore";
+import convertDate from "@utils/lib/convertDate";
 
 interface infoType {
   id: string;
@@ -123,7 +124,7 @@ function EntityView({ infoData }: Props) {
                 <span>Incorporation Date</span>
               </div>
               <div className="rightInfo">
-                <span>{infoData.IncorporationDate}</span>
+                <span>{convertDate(infoData.IncorporationDate)}</span>
               </div>
             </div>
             <div className="infoItem">

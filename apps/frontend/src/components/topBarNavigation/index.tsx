@@ -18,6 +18,7 @@ function TopBarNav() {
     currentSelectedEntityAtom
   );
   console.log(entities, currentSelectedEntity);
+
   const entityID = currentSelectedEntity;
   const newApplicationModal = useModal(ApplicationModalAtom);
   const handleClick1 = () => {
