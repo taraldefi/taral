@@ -1,16 +1,21 @@
 import EntityView from "@components/entity/entityView";
 import Layout from "@components/layouts/layout";
-import { EntityTable } from "taral-ui";
+import { DeleteModal, EntityTable } from "taral-ui";
 import entityService from "@services/entityService";
 import React, { useEffect, useState } from "react";
 import { Entity } from "src/types";
 import { getBase64Src } from "@utils/lib/getBase64";
 import { useAtom } from "jotai";
 import {
+  EntitiesAtom,
+  EntityDeletedAtom,
   EntityEditedAtom,
   currentSelectedEntityAtom,
 } from "@store/entityStore";
 import ContentLoader from "react-content-loader";
+import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
+import useModal from "@hooks/useModal";
+import { useRouter } from "next/router";
 
 const TableData = [
   {
@@ -54,8 +59,13 @@ const TableData = [
 function index() {
   const [entityData, setEntityData] = useState<Entity>();
   const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
+  const [, setEntities] = useAtom(EntitiesAtom);
   const entityId = currentSelectedEntity;
   const [entityEdited] = useAtom(EntityEditedAtom);
+  const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
+  const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
+  const deleteModal = useModal(DeleteModalAtom);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchData() {
@@ -74,6 +84,24 @@ function index() {
 
     fetchData();
   }, [entityEdited, currentSelectedEntity]);
+
+  const handleDelete = async (entityIdToDelete: string) => {
+    try {
+      await entityService.deleteEntity(entityIdToDelete).then(() => {
+        // Update the state to remove the deleted entity
+        setEntities((prevEntities: any) =>
+          prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
+        );
+        setEntityDeleted(entityIdToDelete);
+        setSelectedEntity("");
+        deleteModal.close();
+        router.push(`/users/${router.asPath.split("/")[2]}/entities`);
+      });
+    } catch (error) {
+      console.error("Error deleting entity:", error);
+    }
+  };
+
   const MyLoader = (props: any) => (
     <ContentLoader
       speed={2}
@@ -127,6 +155,14 @@ function index() {
           <EntityTable entityTableData={TableData} />
         </div>
       </div>
+      <DeleteModal
+        title="Delete Entity"
+        onDelete={async () => {
+          if (deleteModal.entityId) handleDelete(deleteModal.entityId);
+        }}
+        isOpen={deleteModal.isOpen}
+        onClose={() => deleteModal.close()}
+      ></DeleteModal>
     </Layout>
   );
 }

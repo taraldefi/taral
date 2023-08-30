@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button } from "taral-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,17 +7,22 @@ import { useAtom } from "jotai";
 import { pageIndexAtom } from "@store/PageIndexStore";
 import { useModal } from "@utils/hooks";
 import { ApplicationModalAtom, FormModalAtom } from "@store/ModalStore";
-import { EntitiesAtom, currentSelectedEntityAtom } from "@store/entityStore";
+import {
+  EntitiesAtom,
+  EntityCreatedAtom,
+  currentSelectedEntityAtom,
+} from "@store/entityStore";
+import entityService from "@services/entityService";
 
 function TopBarNav() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const formModal = useModal(FormModalAtom);
-  const [entities] = useAtom(EntitiesAtom);
+  const [entities, setEntities] = useAtom(EntitiesAtom);
   const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
     currentSelectedEntityAtom
   );
-  console.log(entities, currentSelectedEntity);
+  const [entityCreated] = useAtom(EntityCreatedAtom);
 
   const entityID = currentSelectedEntity;
   const newApplicationModal = useModal(ApplicationModalAtom);
@@ -25,6 +30,18 @@ function TopBarNav() {
     setIndex(0);
     router.push(`/users/${router.asPath.split("/")[2]}/entities`);
   };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await entityService.getAllEntity();
+        setEntities(res);
+      } catch (error) {
+        console.error("Error fetching entity:", error);
+      }
+    }
+
+    fetchData();
+  }, [entityCreated]);
 
   const TopbarData = [
     {

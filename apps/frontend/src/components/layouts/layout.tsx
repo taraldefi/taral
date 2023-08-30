@@ -1,12 +1,10 @@
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";
-import { DeleteModal } from "taral-ui";
 import { useModal } from "@utils/hooks";
 import React from "react";
 import {
   ApplicationModalAtom,
-  DeleteModalAtom,
   EditFormModalAtom,
   FormModalAtom,
   NotificationModalAtom,
@@ -22,7 +20,6 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
   const applicationModal = useModal(ApplicationModalAtom);
   const newEntityModal = useModal(FormModalAtom);
@@ -39,12 +36,7 @@ const Layout = ({ children }: LayoutProps) => {
       {/* {<BottomBar></BottomBar>} */}
 
       <div className="mainBody">{children}</div>
-      <DeleteModal
-        title="Delete Entity"
-        onDelete={() => {}}
-        isOpen={deleteModal.isOpen}
-        onClose={() => deleteModal.close()}
-      ></DeleteModal>
+
       <FormModal
         isOpen={newEntityModal.isOpen}
         onClose={() => newEntityModal.close()}
