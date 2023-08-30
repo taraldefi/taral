@@ -12,8 +12,9 @@ interface ModalState {
 
 function useModal(modalAtom: PrimitiveAtom<boolean>): ModalState {
   const [isOpen, setIsOpen] = useAtom(modalAtom);
-  const [entityId, setEntityId] = useAtom(selectedEntityModalAtom); // Initialize entityId state
+  const [entityId, setEntityId] = useAtom(selectedEntityModalAtom); // Atom to store the entity ID if passed as prop
 
+  // Sets the entity ID and isOpen variable and meant to be used globally
   function open(entityID?: string) {
     setEntityId(entityID);
     setIsOpen(true);

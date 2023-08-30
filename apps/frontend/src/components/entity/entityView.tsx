@@ -3,9 +3,6 @@ import { Button } from "taral-ui";
 import { useModal } from "@utils/hooks";
 import Image from "next/image";
 import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
-import { useRouter } from "next/router";
-import { useAtom } from "jotai";
-import { EntityDeletedAtom } from "@store/entityStore";
 import convertDate from "@utils/lib/convertDate";
 
 interface infoType {
@@ -28,8 +25,6 @@ type Props = {
 function EntityView({ infoData }: Props) {
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
-  const router = useRouter();
-  const [entityDeleted] = useAtom(EntityDeletedAtom);
 
   return (
     <>
@@ -140,10 +135,6 @@ function EntityView({ infoData }: Props) {
             <div
               onClick={() => {
                 deleteModal.open(infoData.id);
-                if (entityDeleted)
-                  router.push(
-                    `/users/${router.asPath.split("/")[2]}/entities/`
-                  );
               }}
             >
               <PortalIcons selected={false} icon={"delete"}></PortalIcons>

@@ -10,7 +10,6 @@ class EntityService {
    */
 
   async getEntity(id: string): Promise<EntityResponse> {
-    console.log(id);
     const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(`${apiUrls.ENTITY}/${id}`, axiosConfig);
@@ -101,17 +100,16 @@ class EntityService {
    * Delete Entity Function
    * @param id
    */
-  async deleteEntity(id: string): Promise<void> {
+  async deleteEntity(id: string): Promise<boolean> {
     const axiosConfig = getAxiosConfig({ method: "DELETE" });
     try {
       const response = await axios.delete(
         `${apiUrls.ENTITY}/${id}`,
         axiosConfig
       );
-      const { data } = response;
 
       if (response.status === 200) {
-        return data;
+        return true;
       }
     } catch (error: any) {
       if (axios.isAxiosError(error)) {

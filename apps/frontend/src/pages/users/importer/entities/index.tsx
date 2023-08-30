@@ -16,6 +16,7 @@ import {
   FormModalAtom,
   NotificationModalAtom,
   SettingsModalAtom,
+  selectedEntityModalAtom,
 } from "@store/ModalStore";
 import React, { useEffect, useState } from "react";
 import entityService from "@services/entityService";
@@ -26,85 +27,8 @@ import {
   EntityEditedAtom,
 } from "@store/entityStore";
 import { useAtom } from "jotai";
-import { getBase64Src } from "@utils/lib/getBase64";
 import ContentLoader from "react-content-loader";
-
-// const data = [
-//   {
-//     id: "2870525b-36dc-4da3-9318-d96c2c7adb1f",
-//     image: "/assets/images/entity.png",
-//     title: "Lange Wiegand GmbH & Co. KG	",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 2,
-//     image: "https://figmage.com/images/Br5KdMfZ_LWxQKCYBNuRq.png",
-//     title: "Ullrich Weigel OHG mbH",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   ,
-//   {
-//     id: 3,
-//     image: "https://figmage.com/images/9ca-5Ncq_01BTg1sDOTS6.png",
-//     title: "Lohmann Kuhn AG	",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   ,
-//   {
-//     id: 4,
-//     image: "https://figmage.com/images/FcXtuf9MpbZqLQZLQIi_i.png",
-//     title: "Market Kovačić",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 5,
-//     image: "https://figmage.com/images/Br5KdMfZ_LWxQKCYBNuRq.png",
-//     title: "Engelbrecht Ltd",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 6,
-//     image: "https://figmage.com/images/qqgzoDF6kdfYFjw81RCW7.png",
-//     title: "Ullrich Weigel",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 7,
-//     image: "https://figmage.com/images/kjwPXyAc7JYESBaAsvYcl.png",
-//     title: "Veum Inc",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 8,
-//     image: "https://figmage.com/images/z5o_OyEUvsa9sLodviQ4k.png",
-//     title: "Kovačić d.o.o.",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-//   {
-//     id: 9,
-//     image: "https://figmage.com/images/PaCl_9GDyqUzXDJq-Wtti.png",
-//     title: "Renaud S.A.",
-//     registrationNo: 1,
-//     products: 25,
-//     applications: 25,
-//   },
-// ];
+import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 
 function Index() {
   const [searchInput, setSearchInput] = useState("");
@@ -118,6 +42,7 @@ function Index() {
   const [entityDeleted, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [entityCreated] = useAtom(EntityCreatedAtom);
   const [isLoading, setLoading] = useState(false);
+  const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
 
   const searchItems = (searchValue: string) => {
     setSearchInput(searchValue);
@@ -137,26 +62,20 @@ function Index() {
 
     fetchData();
   }, [entityEdited, entityDeleted, entityCreated]);
-  async function fetchEntityLogo(id: string): Promise<string> {
-    let srcImg = "";
-    try {
-      const res = await entityService.getEntityLogo(id);
-      srcImg = getBase64Src(res);
-      console.log(srcImg);
-    } catch (error) {
-      console.error("Error fetching entity:", error);
-    }
-    return srcImg;
-  }
+
   const handleDelete = async (entityIdToDelete: string) => {
     try {
-      await entityService.deleteEntity(entityIdToDelete).then(() => {
-        // Update the state to remove the deleted entity
-        setEntities((prevEntities: any) =>
-          prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
-        );
-        setEntityDeleted(entityIdToDelete);
-        deleteModal.close();
+      await entityService.deleteEntity(entityIdToDelete).then((data) => {
+        if (data) {
+          // Update the state to remove the deleted entity
+          setEntities((prevEntities: any) =>
+            prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
+          );
+          setEntityDeleted(entityIdToDelete);
+          // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
+          setSelectedEntity("");
+          deleteModal.close();
+        }
       });
     } catch (error) {
       console.error("Error deleting entity:", error);
@@ -248,7 +167,18 @@ function Index() {
         {entities.length ? (
           <EntityBody></EntityBody>
         ) : (
-          <div className="entityContainer">no entities registered</div>
+          <div
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "24px",
+              fontWeight: "400",
+            }}
+          >
+            <div>No entities registered</div>
+          </div>
         )}
       </div>
       <DeleteModal

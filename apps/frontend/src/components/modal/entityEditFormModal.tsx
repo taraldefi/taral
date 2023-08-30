@@ -40,7 +40,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
     defaultValues: data,
     mode: "onChange",
   });
-  console.log(entityId, data);
+
   React.useEffect(() => {
     if (entityId) {
       const fetchData = async () => {
@@ -63,15 +63,14 @@ function FormEditModal({ isOpen, onClose }: Props) {
 
     const updates = compareEntities(data!, newData);
     if (updates.logo) updates.logo = newData.logo[0];
-    console.log(updates);
-    console.log(entityId);
+
     if (entityId)
       entityService.updateEntity(entityId, updates).then((data) => {
         if (data.id) {
           console.log(data.id);
           setEntityEdited(JSON.stringify(data));
-          onClose();
           setLoading(false);
+          onClose();
         }
       });
   };
@@ -88,7 +87,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
             <FontAwesomeIcon icon={faClose}></FontAwesomeIcon>
           </div>
           <div className="header">
-            Edit {data && data?.name}
+            Edit {data && data.name}
             <span className="subtitle">
               Edit entity info and properties from the form below.
             </span>

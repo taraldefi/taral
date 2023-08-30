@@ -175,9 +175,7 @@ describe("EntityService", () => {
   it("should be able delete an entity by ID", async () => {
     const mockResponse = {
       status: 200,
-      data: {
-        message: "OK",
-      },
+      data: {},
     };
 
     const id = "05159674-06ea-4bc2-b750-603b0f454025";
@@ -191,7 +189,7 @@ describe("EntityService", () => {
       expect.any(Object)
     );
 
-    expect(result).toEqual(mockResponse.data);
+    expect(result).toEqual(true);
   });
 
   it("should throw an error when deleting entity fails", async () => {

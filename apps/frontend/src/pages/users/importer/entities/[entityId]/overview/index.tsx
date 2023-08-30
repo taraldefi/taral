@@ -4,7 +4,6 @@ import { DeleteModal, EntityTable } from "taral-ui";
 import entityService from "@services/entityService";
 import React, { useEffect, useState } from "react";
 import { Entity } from "src/types";
-import { getBase64Src } from "@utils/lib/getBase64";
 import { useAtom } from "jotai";
 import {
   EntitiesAtom,
@@ -16,6 +15,7 @@ import ContentLoader from "react-content-loader";
 import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
 import useModal from "@hooks/useModal";
 import { useRouter } from "next/router";
+import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 
 const TableData = [
   {
@@ -72,8 +72,8 @@ function index() {
       try {
         await entityService.getEntity(entityId as string).then(async (data) => {
           if (data.id) {
-            const image = await entityService.getEntityLogo(data.logo);
-            data.logo = getBase64Src(image);
+            const image = await fetchEntityLogo(data.logo);
+            data.logo = image;
             setEntityData(data);
           }
         });
@@ -87,15 +87,19 @@ function index() {
 
   const handleDelete = async (entityIdToDelete: string) => {
     try {
-      await entityService.deleteEntity(entityIdToDelete).then(() => {
-        // Update the state to remove the deleted entity
-        setEntities((prevEntities: any) =>
-          prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
-        );
-        setEntityDeleted(entityIdToDelete);
-        setSelectedEntity("");
-        deleteModal.close();
-        router.push(`/users/${router.asPath.split("/")[2]}/entities`);
+      await entityService.deleteEntity(entityIdToDelete).then((data) => {
+        if (data) {
+          // Update the state to remove the deleted entity
+          setEntities((prevEntities: any) =>
+            prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
+          );
+          setEntityDeleted(entityIdToDelete);
+          // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
+          setSelectedEntity("");
+          deleteModal.close();
+
+          router.push(`/users/${router.asPath.split("/")[2]}/entities`);
+        }
       });
     } catch (error) {
       console.error("Error deleting entity:", error);

@@ -31,7 +31,7 @@ const userWalletAtom = atomWithStorage<UserData>("userWallet", initialValue);
 const ConnectWallet = () => {
   const [user, setUser] = useAtom(userWalletAtom);
   const [buttonLabel, setButtonLabel] = React.useState("");
-  console.log(user);
+
   //fixes hydration error on reload
   React.useEffect(() => {
     setButtonLabel(

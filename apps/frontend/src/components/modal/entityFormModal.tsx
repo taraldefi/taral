@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useEffect } from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { countries, industries } from "@utils/lib/constants";
 import { useForm } from "react-hook-form";
@@ -20,7 +20,8 @@ type Props = {
 function FormModal({ isOpen, onClose }: Props) {
   const [, setSelectedCountry] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
-  const { register, handleSubmit } = useForm<Entity>();
+  const [isSubmitSuccessful, setSubmitSuccessful] = React.useState(false);
+  const { register, handleSubmit, reset } = useForm<Entity>();
   const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const [, setEntityCreated] = useAtom(EntityCreatedAtom);
   const router = useRouter();
@@ -28,7 +29,7 @@ function FormModal({ isOpen, onClose }: Props) {
   const onSubmit = (data: Entity) => {
     setLoading(true);
     const formData = new FormData();
-    console.log(data);
+
     Object.entries(data).forEach(([key, value]) => {
       if (key === "logo") {
         formData.append(key, value[0]);
@@ -36,12 +37,14 @@ function FormModal({ isOpen, onClose }: Props) {
         formData.append(key, value);
       }
     });
+
     entityService.createEntity(formData).then((data) => {
       if (data.id) {
         console.log(data.id);
         setCurrentSelectedEntity(data.id);
         onClose();
         setLoading(false);
+        setSubmitSuccessful(true);
         setEntityCreated(data.id);
         router.push(
           `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
@@ -49,6 +52,12 @@ function FormModal({ isOpen, onClose }: Props) {
       }
     });
   };
+
+  // Clear field values on submission is successful
+  useEffect(() => {
+    reset();
+  }, [isSubmitSuccessful]);
+
   return (
     <div className={"formModal " + (isOpen && "active")}>
       {isOpen && (
