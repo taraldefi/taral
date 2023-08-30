@@ -1,11 +1,10 @@
 .viewbody {
   display: flex;
-  display: flex;
   width: 100%;
 
   .viewContainer {
-    flex: 3;
-    padding: 192px 40px 95px 60px;
+    width: 50%;
+    padding: 150px 40px 95px 60px;
 
     .viewContent {
       border-right: 1px solid rgba(0, 0, 0, 0.1);
@@ -19,7 +18,6 @@
         }
 
         .card {
-          margin-right: 30px;
           margin-top: 40px;
           display: flex;
           flex-direction: row;
@@ -41,16 +39,26 @@
           .right {
             display: flex;
             flex-direction: column;
+            margin-left: auto;
+            margin-right: 40px;
 
             .mainTitle {
+              display: flex;
               color: #003c6e;
               font-size: 30px;
               font-weight: bold;
-              padding: 0px 0px 62px 30px;
+              align-items: center;
+              justify-content: space-between;
+              padding: 0px 0px 30px 0px;
+
+              .infoAction {
+                display: flex;
+                align-items: center;
+                gap: 20px;
+              }
             }
 
             .lower {
-              padding-left: 40px;
               gap: 40px;
               display: flex;
               flex-direction: row;
@@ -141,25 +149,6 @@
               justify-content: flex-end;
               color: #003c6e;
             }
-          }
-        }
-        .infoAction {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          padding: 40px 40px 0px 0px;
-          gap: 24px;
-          .button--secondary {
-            font-weight: bold;
-            width: 100px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0px;
-            background-color: #fff;
-            color: #000;
-            border: 1px solid #e2e8f0;
           }
         }
       }

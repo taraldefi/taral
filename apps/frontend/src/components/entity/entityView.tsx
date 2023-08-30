@@ -1,9 +1,9 @@
 import { PortalIcons } from "@components/icons";
-import { Button } from "taral-ui";
 import { useModal } from "@utils/hooks";
 import Image from "next/image";
 import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
 import convertDate from "@utils/lib/convertDate";
+import { Edit } from "react-feather";
 
 interface infoType {
   id: string;
@@ -30,7 +30,6 @@ function EntityView({ infoData }: Props) {
     <>
       <div className="viewContent">
         <div className="detailsContainer">
-          <span>Details</span>
           <div className="card">
             <div className="cardImage">
               <Image
@@ -43,7 +42,19 @@ function EntityView({ infoData }: Props) {
             </div>
             <div className="right">
               <div className="mainTitle">
-                <span>{infoData.name}</span>
+                <div>{infoData.name}</div>
+                <div className="infoAction">
+                  <div onClick={() => editModal.open(infoData.id)}>
+                    <Edit></Edit>
+                  </div>
+                  <div
+                    onClick={() => {
+                      deleteModal.open(infoData.id);
+                    }}
+                  >
+                    <PortalIcons selected={false} icon={"delete"}></PortalIcons>
+                  </div>
+                </div>
               </div>
               <div className="lower">
                 <div className="registration">
@@ -62,9 +73,7 @@ function EntityView({ infoData }: Props) {
             </div>
           </div>
         </div>
-        <div className="line"></div>
         <div className="informationsContainer">
-          <span>Information</span>
           <div className="informationContent">
             <div className="infoItem">
               <div className="leftInfo">
@@ -130,19 +139,6 @@ function EntityView({ infoData }: Props) {
                 <span>{infoData.LegalForm}</span>
               </div>
             </div>
-          </div>
-          <div className="infoAction">
-            <div
-              onClick={() => {
-                deleteModal.open(infoData.id);
-              }}
-            >
-              <PortalIcons selected={false} icon={"delete"}></PortalIcons>
-            </div>
-            <Button
-              label={"Edit Entity"}
-              onClick={() => editModal.open(infoData.id)}
-            ></Button>
           </div>
         </div>
       </div>
