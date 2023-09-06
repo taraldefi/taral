@@ -10,7 +10,7 @@ import {
 } from 'typeorm';
 import { PaymentExperienceEntity } from './payment.experience.relationship.entity';
 
-@Entity({ name: 'Relationships' })
+@Entity({ name: 'Relationship' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class RelationshipEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')

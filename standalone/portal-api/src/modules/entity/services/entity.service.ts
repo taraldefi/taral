@@ -59,7 +59,6 @@ export class EntityService {
 
     return this.mappingService.mapEntityDetails(entity);
   }
-
   public async getAllEntity(): Promise<LegalEntity[]> {
     return await this.entityRepository.find({
       select: ['id', 'abbreviation', 'name', 'logo'],

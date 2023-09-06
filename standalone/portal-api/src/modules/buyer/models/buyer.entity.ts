@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
-import { RelationshipEntity } from 'src/modules/relationship/models/relationship.entity';
+import { BuyerRelationshipWithSupplierEntity } from 'src/modules/relationship/models/supplier.relationship.entity';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
@@ -21,8 +21,11 @@ export class BuyerEntity extends EntityHelper {
   @Allow()
   sector: SectorEntity;
 
-  @OneToOne(() => RelationshipEntity)
+  @OneToOne(
+    () => BuyerRelationshipWithSupplierEntity,
+    (relationshipwithsupplier) => relationshipwithsupplier.buyer,
+  )
   @JoinColumn()
   @Allow()
-  relationshipWithSupplier: RelationshipEntity;
+  relationshipWithSupplier: BuyerRelationshipWithSupplierEntity;
 }
