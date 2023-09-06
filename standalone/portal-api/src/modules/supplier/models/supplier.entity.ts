@@ -2,6 +2,7 @@ import { Allow } from 'class-validator';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
+import { SupplierRelationshipWithBuyerEntity } from 'src/modules/relationship/models/buyer.relationship.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -27,4 +28,12 @@ export class SupplierEntity extends EntityHelper {
   @JoinColumn()
   @Allow()
   rating: SupplierRatingEntity;
+
+  @OneToOne(
+    () => SupplierRelationshipWithBuyerEntity,
+    (relationshipwithbuyer) => relationshipwithbuyer.supplier,
+  )
+  @JoinColumn()
+  @Allow()
+  relationshipWithBuyer: SupplierRelationshipWithBuyerEntity;
 }

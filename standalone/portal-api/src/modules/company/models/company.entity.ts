@@ -9,7 +9,7 @@ import {
   TableInheritance,
 } from 'typeorm';
 import { CompanyAddressEntity } from './company.address.entity';
-import { CompanyTaxAndRevenueEntity } from './company.taxAndRevenue.entity';
+import { CompanyTaxAndRevenueEntity } from './company.tax.and.revenue.entity';
 
 @Entity({ name: 'Companies' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
