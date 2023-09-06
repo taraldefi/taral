@@ -2,7 +2,7 @@ import { Allow } from 'class-validator';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
-import { SupplierRelationshipWithBuyerEntity } from 'src/modules/relationship/models/buyer.relationship.entity';
+import { RelationshipEntity } from 'src/modules/relationship/models/relationship.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -29,11 +29,8 @@ export class SupplierEntity extends EntityHelper {
   @Allow()
   rating: SupplierRatingEntity;
 
-  @OneToOne(
-    () => SupplierRelationshipWithBuyerEntity,
-    (relationshipwithbuyer) => relationshipwithbuyer.supplier,
-  )
+  @OneToOne(() => RelationshipEntity)
   @JoinColumn()
   @Allow()
-  relationshipWithBuyer: SupplierRelationshipWithBuyerEntity;
+  relationshipWithBuyer: RelationshipEntity;
 }
