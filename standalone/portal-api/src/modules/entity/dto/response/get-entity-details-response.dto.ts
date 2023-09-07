@@ -22,7 +22,7 @@ export class GetEntityDetailsResponse {
   nationality: string;
 
   @ApiProperty({ example: 'Berlin' })
-  headquaters: string;
+  headquarters: string;
 
   @ApiProperty({ example: 'Information Technology' })
   industryType: string;

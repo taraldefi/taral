@@ -1,7 +1,7 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
 import axios from "axios";
-import { Entity, EntityResponse } from "src/types";
+import { Entity, EntityCardResponse, EntityResponse } from "src/types";
 
 class EntityService {
   /**
@@ -10,12 +10,13 @@ class EntityService {
    */
 
   async getEntity(id: string): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(`${apiUrls.ENTITY}/${id}`, axiosConfig);
+
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -27,22 +28,62 @@ class EntityService {
     }
     throw new Error("Fetch Entity by ID failed.");
   }
+  async getAllEntity(): Promise<EntityCardResponse[]> {
+    const axiosConfig = getAxiosConfig({ method: "GET" });
+    try {
+      const response = await axios.get(`${apiUrls.ENTITY}`, axiosConfig);
+
+      const { data } = response;
+
+      if (response.status === 200) {
+        return data;
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.status || error.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+    throw new Error("Fetch Entities failed.");
+  }
+
+  async getEntityLogo(id: string) {
+    const axiosConfig = getAxiosConfig({
+      method: "GET",
+      responseType: "arraybuffer",
+    });
+    try {
+      const response = await axios.get(
+        `${apiUrls.ENTITYLOGO}/${id}`,
+        axiosConfig
+      );
+      const { data } = response;
+
+      if (response.status === 200) {
+        return data;
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.status || error.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+    throw new Error("Fetch Entity Logo by ID failed.");
+  }
 
   /**
    * Create Entity Function
    * @param entity
    */
-  async createEntity(entity: Entity): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+  async createEntity(entity: FormData): Promise<EntityResponse> {
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
-      const response = await axios.post(
-        apiUrls.ENTITY,
-        JSON.stringify(entity),
-        axiosConfig
-      );
+      const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -59,17 +100,16 @@ class EntityService {
    * Delete Entity Function
    * @param id
    */
-  async deleteEntity(id: string): Promise<void> {
-    const axiosConfig = getAxiosConfig("DELETE");
+  async deleteEntity(id: string): Promise<boolean> {
+    const axiosConfig = getAxiosConfig({ method: "DELETE" });
     try {
       const response = await axios.delete(
         `${apiUrls.ENTITY}/${id}`,
         axiosConfig
       );
-      const { data } = response;
 
-      if (response.statusCode === 200) {
-        return data;
+      if (response.status === 200) {
+        return true;
       }
     } catch (error: any) {
       if (axios.isAxiosError(error)) {
@@ -85,8 +125,11 @@ class EntityService {
    * @param id
    * @param entity
    */
-  async updateEntity(id: string, entity: Entity): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig("PATCH");
+  async updateEntity(
+    id: string,
+    entity: Partial<Entity>
+  ): Promise<EntityResponse> {
+    const axiosConfig = getAxiosConfig({ method: "PATCH" });
     try {
       const response = await axios.patch(
         `${apiUrls.ENTITY}/${id}`,
@@ -94,8 +137,7 @@ class EntityService {
         axiosConfig
       );
       const { data } = response;
-
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {

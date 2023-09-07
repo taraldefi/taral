@@ -20,12 +20,12 @@ function Index() {
   type FormValues = {
     branch: {
       nationality: string;
-      headquaters: string;
+      headquarters: string;
     }[];
   };
   const { register, control } = useForm<FormValues>({
     defaultValues: {
-      branch: [{ nationality: "American", headquaters: "New York" }],
+      branch: [{ nationality: "American", headquarters: "New York" }],
     },
     mode: "onBlur",
   });
@@ -118,7 +118,7 @@ function Index() {
                         <div className="specialWrapper">
                           <select
                             {...register(
-                              `branch.${index}.headquaters` as const,
+                              `branch.${index}.headquarters` as const,
                               {
                                 required: true,
                               }
@@ -147,7 +147,7 @@ function Index() {
                   onClick={() =>
                     append({
                       nationality: "",
-                      headquaters: "",
+                      headquarters: "",
                     })
                   }
                 ></Button>

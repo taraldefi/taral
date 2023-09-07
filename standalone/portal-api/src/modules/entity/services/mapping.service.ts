@@ -12,7 +12,7 @@ export class EntityMappingService {
     response.abbreviation = entity.abbreviation;
     response.beneficialOwner = entity.beneficialOwner;
     response.coreBusiness = entity.coreBusiness;
-    response.headquaters = entity.headquaters;
+    response.headquarters = entity.headquarters;
 
     response.id = entity.id;
     response.incorporationDate = entity.incorporationDate;

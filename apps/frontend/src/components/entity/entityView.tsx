@@ -1,9 +1,14 @@
 import { PortalIcons } from "@components/icons";
-import { Button } from "taral-ui";
 import { useModal } from "@utils/hooks";
 import Image from "next/image";
 import { DeleteModalAtom, EditFormModalAtom } from "@store/ModalStore";
+import convertDate from "@utils/lib/convertDate";
+import { Edit } from "react-feather";
+
 interface infoType {
+  id: string;
+  name: string;
+  logo: string;
   BeneficialOwner: string;
   CodeAbbreviation: string;
   Nationality: string;
@@ -12,6 +17,7 @@ interface infoType {
   CoreBusiness: string;
   IncorporationDate: string;
   LegalForm: string;
+  productCount: number;
 }
 type Props = {
   infoData: infoType;
@@ -19,16 +25,16 @@ type Props = {
 function EntityView({ infoData }: Props) {
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
+
   return (
     <>
       <div className="viewContent">
         <div className="detailsContainer">
-          <span>Details</span>
           <div className="card">
             <div className="cardImage">
               <Image
                 className="images"
-                src="/assets/images/entity.png"
+                src={infoData.logo}
                 alt=""
                 width={200}
                 height={200}
@@ -36,7 +42,19 @@ function EntityView({ infoData }: Props) {
             </div>
             <div className="right">
               <div className="mainTitle">
-                <span>Engelbrecht Ltd</span>
+                <div>{infoData.name}</div>
+                <div className="infoAction">
+                  <div onClick={() => editModal.open(infoData.id)}>
+                    <Edit></Edit>
+                  </div>
+                  <div
+                    onClick={() => {
+                      deleteModal.open(infoData.id);
+                    }}
+                  >
+                    <PortalIcons selected={false} icon={"delete"}></PortalIcons>
+                  </div>
+                </div>
               </div>
               <div className="lower">
                 <div className="registration">
@@ -45,7 +63,7 @@ function EntityView({ infoData }: Props) {
                 </div>
                 <div className="products">
                   <span>PRODUCTS</span>
-                  <span>25</span>
+                  <span>{infoData.productCount}</span>
                 </div>
                 <div className="applications">
                   <span>APPLICATIONS</span>
@@ -55,9 +73,7 @@ function EntityView({ infoData }: Props) {
             </div>
           </div>
         </div>
-        <div className="line"></div>
         <div className="informationsContainer">
-          <span>Information</span>
           <div className="informationContent">
             <div className="infoItem">
               <div className="leftInfo">
@@ -112,7 +128,7 @@ function EntityView({ infoData }: Props) {
                 <span>Incorporation Date</span>
               </div>
               <div className="rightInfo">
-                <span>{infoData.IncorporationDate}</span>
+                <span>{convertDate(infoData.IncorporationDate)}</span>
               </div>
             </div>
             <div className="infoItem">
@@ -123,15 +139,6 @@ function EntityView({ infoData }: Props) {
                 <span>{infoData.LegalForm}</span>
               </div>
             </div>
-          </div>
-          <div className="infoAction">
-            <div onClick={() => deleteModal.open()}>
-              <PortalIcons selected={false} icon={"delete"}></PortalIcons>
-            </div>
-            <Button
-              label={"Edit Entity"}
-              onClick={() => editModal.open()}
-            ></Button>
           </div>
         </div>
       </div>

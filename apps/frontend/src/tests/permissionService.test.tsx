@@ -6,10 +6,10 @@ import axios from "axios";
 jest.mock("axios");
 
 describe("Permission Service", () => {
-  const mockAxiosConfigGET = getAxiosConfig("GET");
-  const mockAxiosConfigPOST = getAxiosConfig("POST");
-  const mockAxiosConfigPATCH = getAxiosConfig("PATCH");
-  const mockAxiosConfigDELETE = getAxiosConfig("DELETE");
+  const mockAxiosConfigGET = getAxiosConfig({ method: "GET" });
+  const mockAxiosConfigPOST = getAxiosConfig({ method: "POST" });
+  const mockAxiosConfigPATCH = getAxiosConfig({ method: "PATCH" });
+  const mockAxiosConfigDELETE = getAxiosConfig({ method: "DELETE" });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -18,7 +18,7 @@ describe("Permission Service", () => {
   describe("getAllPermissions", () => {
     it("should fetch all permissions successfully", async () => {
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: [
           // Provide mock permission data
         ],
@@ -43,7 +43,7 @@ describe("Permission Service", () => {
     it("should throw an error when fetching permissions fails", async () => {
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -66,7 +66,7 @@ describe("Permission Service", () => {
     it("should fetch a permission by ID successfully", async () => {
       const permissionId = "123";
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           // Provide mock permission data
         },
@@ -88,7 +88,7 @@ describe("Permission Service", () => {
       const permissionId = "123";
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -117,7 +117,7 @@ describe("Permission Service", () => {
       };
 
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: {
           // Provide mock created permission data
         },
@@ -148,7 +148,7 @@ describe("Permission Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -173,7 +173,7 @@ describe("Permission Service", () => {
       const permissionId = "123";
 
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         // Provide other response properties as needed
       };
 
@@ -192,7 +192,7 @@ describe("Permission Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -222,7 +222,7 @@ describe("Permission Service", () => {
       };
 
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           // Provide mock updated permission data
         },
@@ -255,7 +255,7 @@ describe("Permission Service", () => {
 
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },

@@ -1,28 +1,30 @@
-import React from "react";
+import React from 'react';
 
 export interface EntityDataType {
-  id: number;
-  image: string;
-  title: string;
-  registrationNo: number;
-  products: number;
-  applications: number;
+	id: string;
+	name: string;
+	abbreviation: string;
+	registrationNo?: number;
+	products?: number;
+	applications?: number;
+	logo: string;
 }
 export interface EntityType {
-  entityData: EntityDataType;
-  modal?: React.ReactNode;
+	entityData: EntityDataType;
+	modal?: React.ReactNode;
+	fetchLogo?: (id: string) => Promise<string>;
 }
 export interface EntityViewType {
-  infoData: InfoDataType[];
+	infoData: InfoDataType[];
 }
 
 export interface InfoDataType {
-  BeneficialOwner: string;
-  CodeAbbreviation: string;
-  Nationality: string;
-  HeadquartersLocation: string;
-  IndustryType: string;
-  CoreBusiness: string;
-  IncorporationDate: string;
-  LegalForm: string;
+	BeneficialOwner: string;
+	CodeAbbreviation: string;
+	Nationality: string;
+	HeadquartersLocation: string;
+	IndustryType: string;
+	CoreBusiness: string;
+	IncorporationDate: string;
+	LegalForm: string;
 }

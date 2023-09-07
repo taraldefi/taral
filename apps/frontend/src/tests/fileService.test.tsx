@@ -13,9 +13,12 @@ describe("FileService", () => {
   describe("createFile", () => {
     it("should create a file successfully", async () => {
       const mockFile = new File(["file content"], "filename");
-      const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+      const axiosConfig = getAxiosConfig({
+        method: "POST",
+        contentType: "multipart/ form-data",
+      });
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: [
           // Provide mock file response data
         ],
@@ -36,10 +39,13 @@ describe("FileService", () => {
 
     it("should throw an error when creating a file fails", async () => {
       const mockFile = new File(["file content"], "filename");
-      const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+      const axiosConfig = getAxiosConfig({
+        method: "POST",
+        contentType: "multipart/ form-data",
+      });
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -61,12 +67,15 @@ describe("FileService", () => {
 
   describe("updateFile", () => {
     it("should update a file successfully", async () => {
-      const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+      const axiosConfig = getAxiosConfig({
+        method: "POST",
+        contentType: "multipart/ form-data",
+      });
       const mockFile = new File(["file content"], "filename");
       const externalId = 123;
 
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: {
           // Provide mock updated file data
         },
@@ -88,10 +97,13 @@ describe("FileService", () => {
     it("should throw an error when updating a file fails", async () => {
       const mockFile = new File(["file content"], "filename");
       const externalId = 123;
-      const axiosConfig = getAxiosConfig("POST", "multipart/ form-data");
+      const axiosConfig = getAxiosConfig({
+        method: "POST",
+        contentType: "multipart/ form-data",
+      });
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },
@@ -114,9 +126,9 @@ describe("FileService", () => {
   describe("requestFile", () => {
     it("should request a file successfully", async () => {
       const externalId = 123;
-      const axiosConfig = getAxiosConfig("POST");
+      const axiosConfig = getAxiosConfig({ method: "POST" });
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: {
           // Provide mock file data
         },
@@ -137,10 +149,10 @@ describe("FileService", () => {
 
     it("should throw an error when requesting a file fails", async () => {
       const externalId = 123;
-      const axiosConfig = getAxiosConfig("POST");
+      const axiosConfig = getAxiosConfig({ method: "POST" });
       const mockErrorResponse = {
         response: {
-          statusCode: 500,
+          status: 500,
           data: {
             // Provide mock error response data
           },

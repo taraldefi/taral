@@ -16,7 +16,7 @@ class PermissionService {
     limit: number,
     page: number
   ): Promise<IpermissionResponse[]> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
         `${apiUrls.PERMISSIONS}?keywords=${keywords}&limit=${limit}&page=${page}`,
@@ -24,7 +24,7 @@ class PermissionService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -43,7 +43,7 @@ class PermissionService {
    * @returns
    */
   async getPermissionById(id: string): Promise<IpermissionResponse> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
         `${apiUrls.PERMISSIONS}/${id}`,
@@ -51,7 +51,7 @@ class PermissionService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -73,7 +73,7 @@ class PermissionService {
   async createPermission(
     PermissionInfo: IcreatePermission
   ): Promise<IpermissionResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         apiUrls.PERMISSIONS,
@@ -82,7 +82,7 @@ class PermissionService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -101,14 +101,14 @@ class PermissionService {
    * @returns
    */
   async deletePermission(id: string): Promise<void> {
-    const axiosConfig = getAxiosConfig("DELETE");
+    const axiosConfig = getAxiosConfig({ method: "DELETE" });
     try {
       const response = await axios.delete(
         `${apiUrls.PERMISSIONS}/${id}`,
         axiosConfig
       );
 
-      if (response.statusCode === 204) {
+      if (response.status === 204) {
         return;
       }
     } catch (error: any) {
@@ -129,7 +129,7 @@ class PermissionService {
     id: string,
     PermissionInfo: IcreatePermission
   ): Promise<IpermissionResponse> {
-    const axiosConfig = getAxiosConfig("PATCH");
+    const axiosConfig = getAxiosConfig({ method: "PATCH" });
     try {
       const response = await axios.patch(
         `${apiUrls.PERMISSIONS}/${id}`,
@@ -138,7 +138,7 @@ class PermissionService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {

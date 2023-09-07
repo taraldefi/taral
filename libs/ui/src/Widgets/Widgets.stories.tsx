@@ -67,4 +67,5 @@ activity.args = {
 export const circularLoader = CircularLoaderTemplate.bind({});
 circularLoader.args = {
 	color: 'red',
+	bgColor: 'white',
 };

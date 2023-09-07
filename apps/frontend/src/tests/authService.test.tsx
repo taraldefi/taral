@@ -13,7 +13,7 @@ describe("AuthService", () => {
   describe("login", () => {
     it("should be able to login a user", async () => {
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         data: {},
         headers: {
           "set-cookie": [
@@ -42,7 +42,7 @@ describe("AuthService", () => {
     it("should throw an error when login fails", async () => {
       const errorMessage = "Login failed.";
       const mockResponse = {
-        statusCode: 400,
+        status: 400,
         data: {},
       };
       (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
@@ -68,7 +68,7 @@ describe("AuthService", () => {
   describe("register", () => {
     it("should register a user successfully", async () => {
       const mockResponse = {
-        statusCode: 201,
+        status: 201,
         data: {
           username: "string",
           email: "string",
@@ -118,7 +118,7 @@ describe("AuthService", () => {
       const errorMessage = "Registration failed.";
 
       const mockResponse = {
-        statusCode: 400,
+        status: 400,
         data: {
           message: "something went wrong",
         },
@@ -153,7 +153,7 @@ describe("AuthService", () => {
   describe("TwoFA", () => {
     it("should toggle TwoFA", async () => {
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         data: {
           success: true,
           qrCodeUri: "qrCodeData",
@@ -183,7 +183,7 @@ describe("AuthService", () => {
     it("should throw an error when toggle fails", async () => {
       const errorMessage = "2FA toggle failed.";
       const mockResponse = {
-        statusCode: 400,
+        status: 400,
         data: {
           message: "already enabled",
         },
@@ -210,7 +210,7 @@ describe("AuthService", () => {
 
     it("should be able to authenticate 2FA", async () => {
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           success: true,
         },
@@ -239,7 +239,7 @@ describe("AuthService", () => {
     it("should throw an error when 2FA authentication fails", async () => {
       const errorMessage = "2FA authentication failed.";
       const mockResponse = {
-        statusCode: 400,
+        status: 400,
         data: {
           message: "invalid Code",
         },
@@ -267,7 +267,7 @@ describe("AuthService", () => {
 
   describe("User Account", () => {
     it("should logout successfully", async () => {
-      const responseMock = { statusCode: 201 };
+      const responseMock = { status: 201 };
       (axios.post as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const result = await authService.logout();
@@ -277,7 +277,7 @@ describe("AuthService", () => {
         expect.any(Object)
       );
 
-      expect(result).toEqual(undefined); // No data expected, as statusCode is 201
+      expect(result).toEqual(undefined); // No data expected, as status is 201
     });
 
     it("should handle error during logout", async () => {
@@ -302,7 +302,7 @@ describe("AuthService", () => {
 
     it("should activate an account successfully", async () => {
       const token = "example_token";
-      const responseMock = { statusCode: 204 };
+      const responseMock = { status: 204 };
       (axios.get as jest.Mock).mockResolvedValueOnce(responseMock);
 
       const result = await authService.activateAccount(token);
@@ -311,7 +311,7 @@ describe("AuthService", () => {
         expect.stringContaining(`${apiUrls.USER_ACTIVATE}?token=${token}`),
         expect.any(Object)
       );
-      expect(result).toEqual(undefined); // No data expected, as statusCode is 204
+      expect(result).toEqual(undefined); // No data expected, as status is 204
     });
 
     it("should handle error during account activation", async () => {
@@ -344,7 +344,7 @@ describe("AuthService", () => {
 
     it("should fetch the profile successfully", async () => {
       const responseMock = {
-        statusCode: 200,
+        status: 200,
         data: {
           /* profile data */
         },
@@ -390,7 +390,7 @@ describe("AuthService", () => {
         avatar: "test",
       };
       const responseMock = {
-        statusCode: 200,
+        status: 200,
         data: {
           /* updated profile data */
         },
@@ -453,7 +453,7 @@ describe("AuthService", () => {
   describe("Password", () => {
     it("should be able to change password", async () => {
       const mockResponse = {
-        statusCode: 200,
+        status: 200,
         data: {
           message: "OK",
         },
@@ -489,7 +489,7 @@ describe("AuthService", () => {
 
     it("should be able to reset password", async () => {
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         data: {},
       };
       (axios.put as jest.Mock).mockResolvedValueOnce(mockResponse); // Mock the axios.post method to return the mockResponse
@@ -523,7 +523,7 @@ describe("AuthService", () => {
 
     it("forgot password works properly", async () => {
       const mockResponse = {
-        statusCode: 204,
+        status: 204,
         data: {},
       };
       (axios.put as jest.Mock).mockResolvedValueOnce(mockResponse); // Mock the axios.post method to return the mockResponse
@@ -555,7 +555,7 @@ describe("AuthService", () => {
       ];
 
       const mockResponse = {
-        statusCode: 500,
+        status: 500,
         data: {
           message: "internal server error",
         },

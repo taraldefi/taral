@@ -19,9 +19,9 @@ const Topbar = () => {
   const notificationModal = useModal(NotificationModalAtom);
 
   const networkDialogueModal = useModal(networkDialogIsOpenAtom);
-  const { networks, currentNetworkIndex, currentStacksNetwork } = useNetworks();
+  const { networks, currentNetworkIndex } = useNetworks();
   const currentNetwork = networks[currentNetworkIndex];
-  console.log("current network ======>", currentStacksNetwork);
+  //console.log("current network ======>", currentStacksNetwork);
 
   const handleModalClick = (clickedModal: any, otherModal: any) => {
     if (clickedModal.isOpen) {

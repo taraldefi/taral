@@ -50,7 +50,7 @@ export class CreateEntityDto {
   @ApiProperty({ example: 'Berlin' })
   @IsNotEmpty()
   @IsString()
-  headquaters: string;
+  headquarters: string;
 
   @ApiProperty({ example: 'Information Technology' })
   @IsNotEmpty()

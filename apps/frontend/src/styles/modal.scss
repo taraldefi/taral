@@ -1,8 +1,9 @@
 .formModal {
-  overflow-y: hidden;
+  overflow-x: hidden;
   top: 0;
   width: 35%;
   height: 100%;
+  max-height: 100vh;
   left: 100%;
   background-color: #fff;
   position: fixed;
@@ -465,6 +466,7 @@
 
         .btn {
           width: 107px !important;
+          background-color: #1ab98b;
         }
       }
 

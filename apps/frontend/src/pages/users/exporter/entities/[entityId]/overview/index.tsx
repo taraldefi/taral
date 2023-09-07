@@ -48,6 +48,10 @@ function index() {
         <div className="viewContainer">
           <EntityView
             infoData={{
+              id: "123",
+              name: "",
+              logo: "",
+              productCount: 3,
               BeneficialOwner: "John Smith",
               CodeAbbreviation: "55-NB",
               Nationality: "German",

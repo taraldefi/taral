@@ -29,7 +29,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
           <div className="form">
             <div className="quickAppli">
               <div className="svgContainer">
-                <PortalIcons selected={false} icon={"quick appli"} />
+                <PortalIcons selected={false} icon={"quick application"} />
               </div>
               <div className="header-application">Quick Application</div>
               <div className="info-application">
@@ -50,7 +50,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
             <div className="vLine"></div>
             <div className="fullAppli">
               <div className="svgContainer">
-                <PortalIcons selected={false} icon={"full appli"} />
+                <PortalIcons selected={false} icon={"full application"} />
               </div>
               <div className="header-application">full Application</div>
               <div className="info-application">

@@ -16,7 +16,7 @@ class RoleService {
     limit: number,
     page: number
   ): Promise<IroleResponse[]> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
         `${apiUrls.ROLES}?keywords=${keywords}&limit=${limit}&page=${page}`,
@@ -24,7 +24,7 @@ class RoleService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -43,12 +43,12 @@ class RoleService {
    * @returns
    */
   async getRoleById(id: string): Promise<IroleResponse> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(`${apiUrls.ROLES}/${id}`, axiosConfig);
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -68,7 +68,7 @@ class RoleService {
    */
 
   async createRole(roleInfo: IcreateRole): Promise<IroleResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         apiUrls.ROLES,
@@ -77,7 +77,7 @@ class RoleService {
       );
       const { data } = response;
 
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -96,14 +96,14 @@ class RoleService {
    * @returns
    */
   async deleteRole(id: string): Promise<void> {
-    const axiosConfig = getAxiosConfig("DELETE");
+    const axiosConfig = getAxiosConfig({ method: "DELETE" });
     try {
       const response = await axios.delete(
         `${apiUrls.ROLES}/${id}`,
         axiosConfig
       );
 
-      if (response.statusCode === 204) {
+      if (response.status === 204) {
         return;
       }
     } catch (error: any) {
@@ -121,7 +121,7 @@ class RoleService {
    * @param roleInfo
    */
   async updateRole(id: string, roleInfo: IcreateRole): Promise<IroleResponse> {
-    const axiosConfig = getAxiosConfig("PATCH");
+    const axiosConfig = getAxiosConfig({ method: "PATCH" });
     try {
       const response = await axios.patch(
         `${apiUrls.ROLES}/${id}`,
@@ -130,7 +130,7 @@ class RoleService {
       );
       const { data } = response;
 
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {

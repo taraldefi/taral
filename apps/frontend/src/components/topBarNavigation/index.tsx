@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button } from "taral-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -7,17 +7,41 @@ import { useAtom } from "jotai";
 import { pageIndexAtom } from "@store/PageIndexStore";
 import { useModal } from "@utils/hooks";
 import { ApplicationModalAtom, FormModalAtom } from "@store/ModalStore";
+import {
+  EntitiesAtom,
+  EntityCreatedAtom,
+  currentSelectedEntityAtom,
+} from "@store/entityStore";
+import entityService from "@services/entityService";
 
 function TopBarNav() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const formModal = useModal(FormModalAtom);
-  const entityID = router.query.entityId;
+  const [entities, setEntities] = useAtom(EntitiesAtom);
+  const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
+    currentSelectedEntityAtom
+  );
+  const [entityCreated] = useAtom(EntityCreatedAtom);
+
+  const entityID = currentSelectedEntity;
   const newApplicationModal = useModal(ApplicationModalAtom);
   const handleClick1 = () => {
     setIndex(0);
     router.push(`/users/${router.asPath.split("/")[2]}/entities`);
   };
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const res = await entityService.getAllEntity();
+        setEntities(res);
+      } catch (error) {
+        console.error("Error fetching entity:", error);
+      }
+    }
+
+    fetchData();
+  }, [entityCreated]);
 
   const TopbarData = [
     {
@@ -222,8 +246,29 @@ function TopBarNav() {
                   </div>
                 ) : (
                   <div className="viewEntitySelect">
-                    <select name="" id="" className="inputs">
-                      <option value="">Entity Name</option>
+                    <select
+                      onChange={(e) => {
+                        console.log(e.target.value);
+                        setCurrentSelectedEntity(e.target.value);
+                        router.push(
+                          `/users/importer/entities/${currentSelectedEntity}/overview`
+                        );
+                      }}
+                      name=""
+                      id=""
+                      className="inputs"
+                    >
+                      {entities.map((item, index) => {
+                        return (
+                          <option
+                            key={index}
+                            value={item.id}
+                            selected={item.id === currentSelectedEntity}
+                          >
+                            {item.name}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 )}

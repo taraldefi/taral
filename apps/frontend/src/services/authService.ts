@@ -23,7 +23,7 @@ class AuthService {
     remember: boolean
   ): Promise<void> {
     const url = apiUrls.USER_LOGIN;
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
 
     // if (process.env.NODE_ENV !== "production") {
     //   url += "?";
@@ -49,7 +49,7 @@ class AuthService {
         .find((cookie) => cookie.includes(cookieName))
         ?.match(new RegExp(`^${cookieName}=(.+?);`))?.[1];
 
-      if (response.statusCode === 204) {
+      if (response.status === 204) {
         localStorage.setItem(
           "SITE_DATA_AUTH",
           JSON.stringify({
@@ -99,7 +99,7 @@ class AuthService {
     password: string,
     name: string
   ): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         apiUrls.USER_REGISTER,
@@ -112,7 +112,7 @@ class AuthService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode === 201) {
+      if (response.status === 201) {
         return data;
       }
     } catch (error: any) {
@@ -129,7 +129,7 @@ class AuthService {
    * @param isTwoFAEnabled
    */
   async toggle2FA(isTwoFAEnabled: boolean): Promise<TwoFAResponse> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         apiUrls.USER_TOGGLE_2FA,
@@ -139,7 +139,7 @@ class AuthService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode === 204) {
+      if (response.status === 204) {
         return data;
       }
     } catch (error: any) {
@@ -157,7 +157,7 @@ class AuthService {
    * @param code
    */
   async authenticateTwoFA(code: string): Promise<any> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
         apiUrls.USER_AUTHENTICATE,
@@ -167,7 +167,7 @@ class AuthService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode === 200) {
+      if (response.status === 200) {
         return data;
       }
     } catch (error: any) {
@@ -185,13 +185,13 @@ class AuthService {
    * @returns
    */
   async activateAccount(token: string): Promise<void> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
         `${apiUrls.USER_ACTIVATE}?token=${token}`,
         axiosConfig
       );
-      if (response.statusCode == 204) {
+      if (response.status == 204) {
         return;
       }
     } catch (error: any) {
@@ -209,10 +209,10 @@ class AuthService {
 
    */
   async logout(): Promise<void> {
-    const axiosConfig = getAxiosConfig("POST");
+    const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(apiUrls.USER_LOGOUT, axiosConfig);
-      if (response.statusCode == 201) {
+      if (response.status == 201) {
         localStorage.removeItem("SITE_DATA_AUTH");
         CoreUtils.call("delCookie", "SITE_DATA_LOGIN_COOKIE", "/");
         return;
@@ -235,7 +235,7 @@ class AuthService {
    * @returns
    */
   async forgotPassword(email: string): Promise<void> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         apiUrls.USER_FORGOT_PASSWORD,
@@ -244,7 +244,7 @@ class AuthService {
         },
         axiosConfig
       );
-      if (response.statusCode == 204) {
+      if (response.status == 204) {
         return;
       }
     } catch (error: any) {
@@ -268,7 +268,7 @@ class AuthService {
     password,
     confirmPassword,
   }: resetPasswordProps): Promise<void> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         apiUrls.USER_RESET_PASSWORD,
@@ -280,7 +280,7 @@ class AuthService {
         axiosConfig
       );
 
-      if (response.statusCode == 204) {
+      if (response.status == 204) {
         return;
       }
     } catch (error: any) {
@@ -304,7 +304,7 @@ class AuthService {
     password,
     confirmPassword,
   }: changePasswordProps): Promise<void> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         apiUrls.USER_CHANGE_PASSWORD,
@@ -316,7 +316,7 @@ class AuthService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode == 200) {
+      if (response.status == 200) {
         return data;
       }
     } catch (error: any) {
@@ -335,11 +335,11 @@ class AuthService {
    * @returns
    */
   async getProfile(): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("GET");
+    const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(apiUrls.USER_PROFILE, axiosConfig);
       const { data } = response;
-      if (response.statusCode == 200) {
+      if (response.status == 200) {
         return data;
       }
     } catch (error: any) {
@@ -353,7 +353,7 @@ class AuthService {
   }
 
   async updateProfile(userInfo: userProfile): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig("PUT");
+    const axiosConfig = getAxiosConfig({ method: "PUT" });
     try {
       const response = await axios.put(
         apiUrls.USER_PROFILE,
@@ -361,7 +361,7 @@ class AuthService {
         axiosConfig
       );
       const { data } = response;
-      if (response.statusCode == 200) {
+      if (response.status == 200) {
         return data;
       }
     } catch (error: any) {

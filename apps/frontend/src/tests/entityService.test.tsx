@@ -13,7 +13,7 @@ describe("EntityService", () => {
   });
   it("should be able fetch an entity by ID", async () => {
     const mockResponse = {
-      statusCode: 200,
+      status: 200,
       data: {
         id: "05159674-06ea-4bc2-b750-603b0f454025",
         logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
@@ -21,7 +21,7 @@ describe("EntityService", () => {
         beneficialOwner: "John Smith",
         abbreviation: "55-NB",
         nationality: "German",
-        headquaters: "Berlin",
+        headquarters: "Berlin",
         industryType: "Information Technology",
         coreBusiness: "Software Development",
         incorporationDate: "12-12-2022",
@@ -58,7 +58,7 @@ describe("EntityService", () => {
   it("should throw an error when fetching entity fails", async () => {
     const mockErrorResponse = {
       response: {
-        statusCode: 500,
+        status: 500,
         data: {
           // Provide mock error response data
         },
@@ -77,86 +77,9 @@ describe("EntityService", () => {
     );
   });
 
-  it("should be able to create an entity", async () => {
-    const mockResponse = {
-      statusCode: 201,
-      data: {
-        id: "05159674-06ea-4bc2-b750-603b0f454025",
-        logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
-        name: "Engelbrecht Ltd",
-        beneficialOwner: "John Smith",
-        abbreviation: "55-NB",
-        nationality: "German",
-        headquaters: "Berlin",
-        industryType: "Information Technology",
-        coreBusiness: "Software Development",
-        incorporationDate: "12-12-2022",
-        legalForm: "Limited",
-      },
-    };
-
-    (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
-    // provide test data
-    const requestBody: Entity = {
-      logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
-      name: "Engelbrecht Ltd",
-      beneficialOwner: "John Smith",
-      abbreviation: "55-NB",
-      nationality: "German",
-      headquarters: "Berlin",
-      industryType: "Information Technology",
-      coreBusiness: "Software Development",
-      incorporationDate: "12-12-2022",
-      legalForm: "Limited",
-    };
-
-    const result = await entityService.createEntity(requestBody);
-    expect(axios.post).toHaveBeenCalledWith(
-      `${apiUrls.ENTITY}`,
-      JSON.stringify(requestBody),
-      expect.any(Object)
-    );
-    expect(result).toEqual(mockResponse.data);
-  });
-
-  it("should throw an error when creating entity fails", async () => {
-    const mockErrorResponse = {
-      response: {
-        statusCode: 500,
-        data: {
-          // Provide mock error response data
-        },
-      },
-    };
-
-    const requestBody: Entity = {
-      logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
-      name: "Engelbrecht Ltd",
-      beneficialOwner: "John Smith",
-      abbreviation: "55-NB",
-      nationality: "German",
-      headquarters: "Berlin",
-      industryType: "Information Technology",
-      coreBusiness: "Software Development",
-      incorporationDate: "12-12-2022",
-      legalForm: "Limited",
-    };
-
-    (axios.post as jest.Mock).mockRejectedValueOnce(mockErrorResponse);
-    await expect(entityService.createEntity(requestBody)).rejects.toThrow(
-      "Creating entity failed."
-    );
-
-    expect(axios.post).toHaveBeenCalledWith(
-      apiUrls.ENTITY,
-      JSON.stringify(requestBody),
-      expect.any(Object)
-    );
-  });
-
   it("should be able update an entity by ID", async () => {
     const mockResponse = {
-      statusCode: 200,
+      status: 200,
       data: {
         id: "05159674-06ea-4bc2-b750-603b0f454025",
         logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
@@ -164,7 +87,7 @@ describe("EntityService", () => {
         beneficialOwner: "John Smith",
         abbreviation: "55-NB",
         nationality: "German",
-        headquaters: "Berlin",
+        headquarters: "Berlin",
         industryType: "Information Technology",
         coreBusiness: "Software Development",
         incorporationDate: "12-12-2022",
@@ -186,6 +109,7 @@ describe("EntityService", () => {
 
     const id = "05159674-06ea-4bc2-b750-603b0f454025";
     const requestBody: Entity = {
+      id: "",
       logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
       name: "Engelbrecht Ltd",
       beneficialOwner: "John Smith",
@@ -214,7 +138,7 @@ describe("EntityService", () => {
   it("should throw an error when updating entity fails", async () => {
     const mockErrorResponse = {
       response: {
-        statusCode: 500,
+        status: 500,
         data: {
           // Provide mock error response data
         },
@@ -222,6 +146,7 @@ describe("EntityService", () => {
     };
     const id = "05159674-06ea-4bc2-b750-603b0f454025";
     const requestBody: Entity = {
+      id: "",
       logo: "05159674-06ea-4bc2-b750-603b0f454025.png",
       name: "Engelbrecht Ltd",
       beneficialOwner: "John Smith",
@@ -249,10 +174,8 @@ describe("EntityService", () => {
 
   it("should be able delete an entity by ID", async () => {
     const mockResponse = {
-      statusCode: 200,
-      data: {
-        message: "OK",
-      },
+      status: 200,
+      data: {},
     };
 
     const id = "05159674-06ea-4bc2-b750-603b0f454025";
@@ -266,13 +189,13 @@ describe("EntityService", () => {
       expect.any(Object)
     );
 
-    expect(result).toEqual(mockResponse.data);
+    expect(result).toEqual(true);
   });
 
   it("should throw an error when deleting entity fails", async () => {
     const mockErrorResponse = {
       response: {
-        statusCode: 500,
+        status: 500,
         data: {
           // Provide mock error response data
         },
