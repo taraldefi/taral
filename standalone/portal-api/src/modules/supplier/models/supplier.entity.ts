@@ -2,9 +2,15 @@ import { Allow } from 'class-validator';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
-import { SupplierRelationshipWithBuyerEntity } from 'src/modules/relationship/models/buyer.relationship.entity';
+import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity({ name: 'Suppliers' })
 export class SupplierEntity extends EntityHelper {
@@ -29,11 +35,11 @@ export class SupplierEntity extends EntityHelper {
   @Allow()
   rating: SupplierRatingEntity;
 
-  @OneToOne(
-    () => SupplierRelationshipWithBuyerEntity,
-    (relationshipwithbuyer) => relationshipwithbuyer.supplier,
+  @OneToMany(
+    () => CollaborationRelationshipEntity,
+    (collaborationRelationship) => collaborationRelationship.supplier,
   )
   @JoinColumn()
   @Allow()
-  relationshipWithBuyer: SupplierRelationshipWithBuyerEntity;
+  relationshipWithBuyers: CollaborationRelationshipEntity[];
 }

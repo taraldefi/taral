@@ -1,9 +1,10 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { RelationshipEntity } from './relationship.entity';
+import { CollaborationRelationshipEntity } from './collaboration.relationship.entity';
+import { PaymentHistory } from './payment.experience.history.entity';
 
-@Entity({ name: 'paymentExperienceRelationships' })
+@Entity({ name: 'paymentExperiences' })
 export class PaymentExperienceEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -24,7 +25,10 @@ export class PaymentExperienceEntity extends EntityHelper {
   @Allow()
   avgBusinessVol: string;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: PaymentHistory,
+  })
   @Allow()
   paymentHistory: string; // should be an enum of delays | on-time | early
 
@@ -33,7 +37,7 @@ export class PaymentExperienceEntity extends EntityHelper {
   paymentDelays?: string; // explanation if there was a delay in payment
 
   @OneToOne(
-    () => RelationshipEntity,
+    () => CollaborationRelationshipEntity,
     (relationship) => relationship.paymentExperience,
     {
       eager: true,
@@ -41,5 +45,5 @@ export class PaymentExperienceEntity extends EntityHelper {
       onDelete: 'CASCADE',
     },
   )
-  relationship: RelationshipEntity;
+  relationship: CollaborationRelationshipEntity;
 }
