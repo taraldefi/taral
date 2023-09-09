@@ -2,7 +2,7 @@ import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CollaborationRelationshipEntity } from './collaboration.relationship.entity';
-import { PaymentHistory } from './payment.experience.history.entity';
+import { PaymentHistory } from '../enums/payment.experience.history.entity';
 
 @Entity({ name: 'paymentExperiences' })
 export class PaymentExperienceEntity extends EntityHelper {
@@ -30,7 +30,7 @@ export class PaymentExperienceEntity extends EntityHelper {
     enum: PaymentHistory,
   })
   @Allow()
-  paymentHistory: string; // should be an enum of delays | on-time | early
+  paymentHistory: string; // should be an enum of delays | on-time
 
   @Column()
   @Allow()

@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   TableInheritance,
@@ -33,21 +34,23 @@ export class CollaborationRelationshipEntity extends EntityHelper {
   @JoinColumn()
   paymentExperience: PaymentExperienceEntity;
 
-  @OneToOne(
+  @ManyToOne(
     () => SupplierEntity,
-    (supplier) => supplier.relationshipWithBuyer,
+    (supplier) => supplier.relationshipWithBuyers,
     {
       eager: true,
       cascade: true,
       onDelete: 'CASCADE',
     },
   )
+  @JoinColumn()
   supplier: SupplierEntity;
 
-  @OneToOne(() => BuyerEntity, (buyer) => buyer.relationshipWithSupplier, {
+  @ManyToOne(() => BuyerEntity, (buyer) => buyer.relationshipWithSuppliers, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })
+  @JoinColumn()
   buyer: BuyerEntity;
 }

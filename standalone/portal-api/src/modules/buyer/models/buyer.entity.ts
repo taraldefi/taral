@@ -31,7 +31,6 @@ export class BuyerEntity extends EntityHelper {
     () => CollaborationRelationshipEntity,
     (collaborationRelationship) => collaborationRelationship.buyer,
   )
-  @JoinColumn()
   @Allow()
   relationshipWithSuppliers: CollaborationRelationshipEntity[];
 }
