@@ -5,16 +5,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
-  OneToOne,
   PrimaryGeneratedColumn,
   TableInheritance,
 } from 'typeorm';
-import { PaymentExperienceEntity } from './payment.experience.entity';
+import { PaymentExperience } from './payment.experience';
 import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
 
 @Entity({ name: 'CollaborationRelationships' })
-@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class CollaborationRelationshipEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -27,12 +25,9 @@ export class CollaborationRelationshipEntity extends EntityHelper {
   @Allow()
   influence?: string;
 
-  @OneToOne(
-    () => PaymentExperienceEntity,
-    (paymentexperience) => paymentexperience.relationship,
-  )
-  @JoinColumn()
-  paymentExperience: PaymentExperienceEntity;
+  @Column(() => PaymentExperience)
+  @Allow()
+  paymentExperience: PaymentExperience;
 
   @ManyToOne(
     () => SupplierEntity,

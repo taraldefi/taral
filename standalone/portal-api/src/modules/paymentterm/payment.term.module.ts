@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CollaborationRelationshipEntity } from './models/collaboration.relationship.entity';
+import { PaymentTermEntity } from './models/payment.term.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CollaborationRelationshipEntity])],
+  imports: [TypeOrmModule.forFeature([PaymentTermEntity])],
   controllers: [],
   providers: [ConfigModule, ConfigService],
 })
-export class RelationshipModule {}
+export class PaymentTermModule {}
