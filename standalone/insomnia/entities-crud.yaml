@@ -1,0 +1,1113 @@
+_type: export
+__export_format: 4
+__export_date: 2023-09-13T08:41:11.736Z
+__export_source: insomnia.desktop.app:v2023.5.8
+resources:
+  - _id: req_de65aa11a15b40f9827b92d889b3c28b
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1694594259371
+    created: 1661251668358
+    url: http://localhost:3000/api/v1/logo/0978b687-882b-4d31-a75a-70ffdd60eb48
+    name: Logo details
+    description: Get a logo file by its id
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661242716786
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_42755499134c44338bcf75598e6a493e
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668357
+    created: 1661251668357
+    name: Entities
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1661242711547
+    _type: request_group
+  - _id: wrk_3808718d0b104eafb8b39fc47130e28c
+    parentId: null
+    modified: 1661251668348
+    created: 1661251668348
+    name: Old document
+    description: ""
+    scope: design
+    _type: workspace
+  - _id: req_a655372afc2540589912ccfc1c2cd549
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1694594111924
+    created: 1661251668360
+    url: http://localhost:3000/api/v1/entities
+    name: Create Legal Entity
+    description: Creates a legal entity
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_f0bcffebfd1e44aa861d991873a8965c
+          name: name
+          value: Engelbrecht Ltd
+          description: ""
+        - id: pair_c27be6a565b542e8b2985fc018965252
+          name: beneficialOwner
+          value: John Smith
+          description: ""
+        - id: pair_80e791e6b7054115859a678c04861617
+          name: abbreviation
+          value: 55-NB
+          description: ""
+        - id: pair_b3399f77d7a14c75bbca8b290bb6fe7c
+          name: nationality
+          value: German
+          description: ""
+        - id: pair_497bec888acc47918351f81a6aa76163
+          name: headquarters
+          value: Berlin
+          description: ""
+        - id: pair_afb09e195fde4f03b05fcc9c170fbfff
+          name: industryType
+          value: Information Technology
+          description: ""
+        - id: pair_f18d2400d129474c86e61ee4aa3017ef
+          name: coreBusiness
+          value: Software Development
+          description: ""
+        - id: pair_07e99004d8ab439a82f5b2d6a37704a6
+          name: incorporationDate
+          value: 2022-12-12
+          description: ""
+        - id: pair_944257d88a8a4335bcbd81215f806f97
+          name: legalForm
+          value: Limited
+          description: ""
+        - id: pair_1fe77742817a42689b0997dfea8eb2e2
+          name: logo
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\logo.png
+          disabled: false
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_271fc62c356a403ca9ee570b7c282c01
+    authentication: {}
+    metaSortKey: -1661247769003
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_85aacfa2fb85460398fa4494aac02300
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1694594153496
+    created: 1661251668362
+    url: http://localhost:3000/api/v1/entities/885be03d-ea33-475b-8509-383d16f6a78e
+    name: Patch entity details
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"beneficialOwner": "Johnny Smith"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d7dd755c56a449e6acf1eed035c7ca24
+    authentication: {}
+    metaSortKey: -1661248690170
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_c91786f117bd4de0a782852f32308a38
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1694594169911
+    created: 1661251668363
+    url: http://localhost:3000/api/v1/entities/885be03d-ea33-475b-8509-383d16f6a78e
+    name: Get entity details
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249118896
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_63bf11412641416b9b30e2997d583285
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1684514073099
+    created: 1661251668365
+    url: http://localhost:3000/api/v1/entities/e4ed4684-a15b-4a6d-99e6-0f4aec623e5c
+    name: Delete entity details
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249137139
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_07897c72440a45fea05bcc09ded012b0
+    parentId: fld_42755499134c44338bcf75598e6a493e
+    modified: 1694594246926
+    created: 1694594207661
+    url: http://localhost:3000/api/v1/entities/885be03d-ea33-475b-8509-383d16f6a78e
+    name: Update Legal Entity
+    description: Creates a legal entity
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_f0bcffebfd1e44aa861d991873a8965c
+          name: name
+          value: Engelbrecht Ltd
+          description: ""
+        - id: pair_c27be6a565b542e8b2985fc018965252
+          name: beneficialOwner
+          value: John Smith
+          description: ""
+        - id: pair_80e791e6b7054115859a678c04861617
+          name: abbreviation
+          value: 55-NB
+          description: ""
+        - id: pair_b3399f77d7a14c75bbca8b290bb6fe7c
+          name: nationality
+          value: German
+          description: ""
+        - id: pair_497bec888acc47918351f81a6aa76163
+          name: headquarters
+          value: Berlin
+          description: ""
+        - id: pair_afb09e195fde4f03b05fcc9c170fbfff
+          name: industryType
+          value: Information Technology
+          description: ""
+        - id: pair_f18d2400d129474c86e61ee4aa3017ef
+          name: coreBusiness
+          value: Software Development
+          description: ""
+        - id: pair_07e99004d8ab439a82f5b2d6a37704a6
+          name: incorporationDate
+          value: 2022-12-12
+          description: ""
+        - id: pair_944257d88a8a4335bcbd81215f806f97
+          name: legalForm
+          value: Limited
+          description: ""
+        - id: pair_1fe77742817a42689b0997dfea8eb2e2
+          name: logo
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\yell.png
+          disabled: false
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_271fc62c356a403ca9ee570b7c282c01
+    authentication: {}
+    metaSortKey: -1661245242894.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_44a1b648f477436dbdcfb9d830395b0a
+    parentId: fld_7077cee10d554291b26bc5079de46152
+    modified: 1684783965461
+    created: 1684586636577
+    url: http://localhost:3000/api/auth/login
+    name: Login
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "admin",
+        	"password": "Truthy@123",
+        	"remember": true
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1684586636577
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_7077cee10d554291b26bc5079de46152
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1684586624964
+    created: 1684586624964
+    name: Auth
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1684586624964
+    _type: request_group
+  - _id: req_74c3f9b9a29c4ccb8e0e3e522f33caef
+    parentId: fld_7077cee10d554291b26bc5079de46152
+    modified: 1684870298508
+    created: 1684784119943
+    url: http://localhost:3000/api/auth/register
+    name: Register
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"username": "taralw",
+        	"email": "taralw@taral.com",
+        	"password": "Truthy@123",
+        	"name": "Taral userw"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication: {}
+    metaSortKey: -1684784119943
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_5da0ddeb574d49c0b097b1f0fe375650
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1661247783143
+    created: 1657549088963
+    url: http://localhost:3000/api/v1/files/create-file
+    name: New Request
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_04178021fdae4f57b849d43b4515a343
+          name: file
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\stuff\Cioclea-Doru-Declaratie-Unica-2022.pdf
+        - id: pair_6b2870a172f246b98cd71dde03a0d0cd
+          name: signedMessage
+          value: Hello world
+          description: ""
+          disabled: false
+          type: text
+          multiline: false
+        - id: pair_25891df859f14e4aa528605f681c0555
+          name: signature
+          value: 5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800
+          description: ""
+          disabled: false
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_9dd6a476dd854267b33181dfcab5442b
+    authentication: {}
+    metaSortKey: -1657549088963
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    parentId: null
+    modified: 1657549088941
+    created: 1657549088941
+    name: New Document
+    description: ""
+    scope: design
+    _type: workspace
+  - _id: req_d885a59a39fe423b84b14417f75d6ccc
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1661242713740
+    created: 1657634843667
+    url: http://localhost:3000/api/v1/files/update-file
+    name: Update File
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_6b2870a172f246b98cd71dde03a0d0cd
+          name: id
+          value: b8911d34-e793-4c8c-bb7e-48447da0c835
+          description: ""
+        - id: pair_ac78ddd0393e4e6caba70bca436c358d
+          name: newFile
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\Downloads\Wedding - Foaie1.pdf
+        - id: pair_099951c0f038433d9674b068bed79567
+          name: signedMessage
+          value: Hello world
+          description: ""
+        - id: pair_6195e062018c4666bdeb3eafcce982cb
+          name: signature
+          value: 5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800
+          description: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_9dd6a476dd854267b33181dfcab5442b
+    authentication: {}
+    metaSortKey: -1657549088913
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1b1afe5b689c4b5984af64c94a1aba7c
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1661251739408
+    created: 1657637219729
+    url: http://localhost:3000/api/v1/files/request-file
+    name: New Request
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"id": "b8911d34-e793-4c8c-bb7e-48447da0c835",
+        	"signedMessage": "Hello world",
+        	"signature": "5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b3e690304ecc4b93b76bbd034709129b
+    authentication: {}
+    metaSortKey: -1657637219729
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_76b650e7e66e4d7cba76ebac58867e36
+    parentId: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    modified: 1661249106363
+    created: 1661242716786
+    url: http://localhost:3000/api/v1/logo/7da1a894-af99-415a-b309-2f4aa4235510
+    name: Logo details
+    description: Get a logo file by its id
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661242716786
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1661242711547
+    created: 1661242711547
+    name: Entities
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1661242711547
+    _type: request_group
+  - _id: req_9e9bf8edf60b4ab3b25db912c642e719
+    parentId: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    modified: 1661249090987
+    created: 1661247769003
+    url: http://localhost:3000/api/v1/entities
+    name: Create Legal Entity
+    description: Creates a legal entity
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_f0bcffebfd1e44aa861d991873a8965c
+          name: name
+          value: Engelbrecht Ltd
+          description: ""
+        - id: pair_c27be6a565b542e8b2985fc018965252
+          name: beneficialOwner
+          value: John Smith
+          description: ""
+        - id: pair_80e791e6b7054115859a678c04861617
+          name: abbreviation
+          value: 55-NB
+          description: ""
+        - id: pair_b3399f77d7a14c75bbca8b290bb6fe7c
+          name: nationality
+          value: German
+          description: ""
+        - id: pair_497bec888acc47918351f81a6aa76163
+          name: headquaters
+          value: Berlin
+          description: ""
+        - id: pair_afb09e195fde4f03b05fcc9c170fbfff
+          name: industryType
+          value: Information Technology
+          description: ""
+        - id: pair_f18d2400d129474c86e61ee4aa3017ef
+          name: coreBusiness
+          value: Software Development
+          description: ""
+        - id: pair_07e99004d8ab439a82f5b2d6a37704a6
+          name: incorporationDate
+          value: 2022-12-12
+          description: ""
+        - id: pair_944257d88a8a4335bcbd81215f806f97
+          name: legalForm
+          value: Limited
+          description: ""
+        - id: pair_1fe77742817a42689b0997dfea8eb2e2
+          name: logo
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\logo.png
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_271fc62c356a403ca9ee570b7c282c01
+    authentication: {}
+    metaSortKey: -1661247769003
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4d3ee4b4d3ba4463b66bd00a06ea6c43
+    parentId: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    modified: 1661249120121
+    created: 1661248690170
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Patch entity details
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"beneficialOwner": "Johnny Smith"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d7dd755c56a449e6acf1eed035c7ca24
+    authentication: {}
+    metaSortKey: -1661248690170
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e10b19e4416a48d2b148b29a85e7cf5d
+    parentId: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    modified: 1661249134183
+    created: 1661249118896
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Get entity details
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249118896
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2980e62aee0a45a8bbe95bedfa6be92c
+    parentId: fld_0f9fc2dfe08a45dbb451cad1aaca3795
+    modified: 1661249149883
+    created: 1661249137139
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Delete entity details
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249137139
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_dd763c162fcb47438b2f8384aa18173f
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753175
+    created: 1661251753175
+    url: http://localhost:3000/api/v1/files/create-file
+    name: New Request
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_04178021fdae4f57b849d43b4515a343
+          name: file
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\stuff\Cioclea-Doru-Declaratie-Unica-2022.pdf
+        - id: pair_6b2870a172f246b98cd71dde03a0d0cd
+          name: signedMessage
+          value: Hello world
+          description: ""
+          disabled: false
+          type: text
+          multiline: false
+        - id: pair_25891df859f14e4aa528605f681c0555
+          name: signature
+          value: 5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800
+          description: ""
+          disabled: false
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_9dd6a476dd854267b33181dfcab5442b
+    authentication: {}
+    metaSortKey: -1657549088963
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: wrk_038aa9d375114601a319796229845973
+    parentId: null
+    modified: 1661251753155
+    created: 1661251753155
+    name: Backup
+    description: ""
+    scope: design
+    _type: workspace
+  - _id: req_3ff7ccb785694b5d918d26b30182db22
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753177
+    created: 1661251753177
+    url: http://localhost:3000/api/v1/files/update-file
+    name: Update File
+    description: ""
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_6b2870a172f246b98cd71dde03a0d0cd
+          name: id
+          value: b8911d34-e793-4c8c-bb7e-48447da0c835
+          description: ""
+        - id: pair_ac78ddd0393e4e6caba70bca436c358d
+          name: newFile
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\Downloads\Wedding - Foaie1.pdf
+        - id: pair_099951c0f038433d9674b068bed79567
+          name: signedMessage
+          value: Hello world
+          description: ""
+        - id: pair_6195e062018c4666bdeb3eafcce982cb
+          name: signature
+          value: 5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800
+          description: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_9dd6a476dd854267b33181dfcab5442b
+    authentication: {}
+    metaSortKey: -1657549088913
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6197a98b631240a3953804db3f5266d3
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753179
+    created: 1661251753179
+    url: http://localhost:3000/api/v1/files/request-file
+    name: New Request
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: >-
+        {
+        	"id": "b8911d34-e793-4c8c-bb7e-48447da0c835",
+        	"signedMessage": "Hello world",
+        	"signature": "5bd25b481e3bce3d8c70c7e8165c32a2ded778f7ef5de3af38f13062ead0410e64ac1ba7459be3a491e3d4ecc971a63b6a994d470899f35cbcab60851759475800"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_b3e690304ecc4b93b76bbd034709129b
+    authentication: {}
+    metaSortKey: -1657637219729
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_25ad21a4d6e4452aa9d7ba487024e71d
+    parentId: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    modified: 1661251753165
+    created: 1661251753165
+    url: http://localhost:3000/api/v1/logo/7da1a894-af99-415a-b309-2f4aa4235510
+    name: Logo details
+    description: Get a logo file by its id
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661242716786
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753162
+    created: 1661251753162
+    name: Entities
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1661242711547
+    _type: request_group
+  - _id: req_436b5a9f88014a3498109eac564d5221
+    parentId: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    modified: 1661251753167
+    created: 1661251753167
+    url: http://localhost:3000/api/v1/entities
+    name: Create Legal Entity
+    description: Creates a legal entity
+    method: POST
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_f0bcffebfd1e44aa861d991873a8965c
+          name: name
+          value: Engelbrecht Ltd
+          description: ""
+        - id: pair_c27be6a565b542e8b2985fc018965252
+          name: beneficialOwner
+          value: John Smith
+          description: ""
+        - id: pair_80e791e6b7054115859a678c04861617
+          name: abbreviation
+          value: 55-NB
+          description: ""
+        - id: pair_b3399f77d7a14c75bbca8b290bb6fe7c
+          name: nationality
+          value: German
+          description: ""
+        - id: pair_497bec888acc47918351f81a6aa76163
+          name: headquaters
+          value: Berlin
+          description: ""
+        - id: pair_afb09e195fde4f03b05fcc9c170fbfff
+          name: industryType
+          value: Information Technology
+          description: ""
+        - id: pair_f18d2400d129474c86e61ee4aa3017ef
+          name: coreBusiness
+          value: Software Development
+          description: ""
+        - id: pair_07e99004d8ab439a82f5b2d6a37704a6
+          name: incorporationDate
+          value: 2022-12-12
+          description: ""
+        - id: pair_944257d88a8a4335bcbd81215f806f97
+          name: legalForm
+          value: Limited
+          description: ""
+        - id: pair_1fe77742817a42689b0997dfea8eb2e2
+          name: logo
+          value: ""
+          description: ""
+          type: file
+          fileName: C:\Users\Corebuild\OneDrive\Desktop\logo.png
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: multipart/form-data
+        id: pair_271fc62c356a403ca9ee570b7c282c01
+    authentication: {}
+    metaSortKey: -1661247769003
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_f2093d6c4c6046218b62bcfd23c92844
+    parentId: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    modified: 1661251753169
+    created: 1661251753169
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Patch entity details
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"beneficialOwner": "Johnny Smith"
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+        id: pair_d7dd755c56a449e6acf1eed035c7ca24
+    authentication: {}
+    metaSortKey: -1661248690170
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1e7e06eaa08f423998c77a3a644e32cb
+    parentId: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    modified: 1661251753171
+    created: 1661251753171
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Get entity details
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249118896
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_1ef3893ad0c14522a513bcf5e52b3a7a
+    parentId: fld_38d4eeec5b364b52b574c6ef1f9e00ec
+    modified: 1661251753173
+    created: 1661251753173
+    url: http://localhost:3000/api/v1/entities/dbc39d49-6bf7-4377-8cf3-b70391cddd78
+    name: Delete entity details
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1661249137139
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_13b5cd1560d14cc68f8d9f3feae363f6
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668349
+    created: 1661251668349
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1657549088957
+    _type: environment
+  - _id: jar_7ac1a0b076b4435da371e0510adef1e7
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1684783190090
+    created: 1661251668353
+    name: Default Jar
+    cookies:
+      - key: Authentication
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJodHRwOi8vbG9jYWxob3N0Ojc3NzciLCJhdWRpZW5jZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCIsInN1YmplY3QiOiIzIiwiaXNUd29GQUF1dGhlbnRpY2F0ZWQiOmZhbHNlLCJpYXQiOjE2ODQ3ODMxODksImV4cCI6MTY4NDc4NDA4OX0.HRvIHJK6AExfCZXqbo-nVy1DK8Vcw8DIK2FRRM8F5IQ
+        maxAge: 604800
+        domain: localhost
+        path: /
+        httpOnly: true
+        hostOnly: true
+        creation: 2023-05-22T19:19:50.089Z
+        lastAccessed: 2023-05-22T19:19:50.089Z
+        id: "39058518476880577"
+      - key: Refresh
+        value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3N1ZXIiOiJodHRwOi8vbG9jYWxob3N0Ojc3NzciLCJhdWRpZW5jZSI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCIsInN1YmplY3QiOiIzIiwiand0aWQiOiIxIiwiaWF0IjoxNjg0NzgzMTkwLCJleHAiOjE2ODUzODc5OTB9.xZTC_HHqt2B_Lmmv05b_t0UJnqoTFMcl8Z9HMsjvlPo
+        maxAge: 604800
+        domain: localhost
+        path: /
+        httpOnly: true
+        hostOnly: true
+        creation: 2023-05-22T19:19:50.090Z
+        lastAccessed: 2023-05-22T19:19:50.090Z
+        id: "6139752655693527"
+      - key: ExpiresIn
+        value: Mon May 22 2023 22:34:50 GMT+0300 (Eastern European Summer Time)
+        maxAge: 604800
+        domain: localhost
+        path: /
+        hostOnly: true
+        creation: 2023-05-22T19:19:50.090Z
+        lastAccessed: 2023-05-22T19:19:50.090Z
+        id: "9012975806455248"
+    _type: cookie_jar
+  - _id: spc_65be873c25f843768188cebef808893e
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251681585
+    created: 1661251668355
+    fileName: Taral Business API
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: uts_50b7f3a2f26d4043893df17c116ea144
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668374
+    created: 1661251668374
+    name: Example Test Suite
+    _type: unit_test_suite
+  - _id: uts_aec8d9f1ab3744eb8e77524e4549e93d
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668374
+    created: 1661251668374
+    name: Example Test Suite
+    _type: unit_test_suite
+  - _id: uts_ace6efb1cb284293aff1d965f458dfee
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668376
+    created: 1661251668376
+    name: New Suite
+    _type: unit_test_suite
+  - _id: uts_ff1de94998fb4d60b718041768571c51
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1661251668376
+    created: 1661251668376
+    name: New Suite
+    _type: unit_test_suite
+  - _id: ut_175b4a030cf748249bbd90ecbdd04331
+    parentId: uts_ace6efb1cb284293aff1d965f458dfee
+    modified: 1661251668377
+    created: 1661251668377
+    requestId: req_76b650e7e66e4d7cba76ebac58867e36
+    name: Returns 200
+    code: |-
+      const response1 = await insomnia.send();
+      expect(response1.status).to.equal(200);
+    _type: unit_test
+  - _id: ut_1d32534887ca4b1097f25d88fcfbd7f7
+    parentId: uts_ff1de94998fb4d60b718041768571c51
+    modified: 1661251668377
+    created: 1661251668377
+    requestId: null
+    name: Returns 200
+    code: |-
+      const response1 = await insomnia.send();
+      expect(response1.status).to.equal(200);
+    _type: unit_test
+  - _id: env_d9dc9e9a3817738622734ab70645578132404f45
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1657549088957
+    created: 1657549088957
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1657549088957
+    _type: environment
+  - _id: jar_d9dc9e9a3817738622734ab70645578132404f45
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1657549088960
+    created: 1657549088960
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_963a7d285f494808a1437df9c060dd03
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1694153373438
+    created: 1657549088952
+    fileName: New Document
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: uts_1f54ab085c094a9cbf22fbf75d99a58c
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1657549088964
+    created: 1657549088964
+    name: Example Test Suite
+    _type: unit_test_suite
+  - _id: uts_e3ee967c3db0400e9fb0533e04e3e304
+    parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
+    modified: 1661242745216
+    created: 1661242745216
+    name: New Suite
+    _type: unit_test_suite
+  - _id: ut_dbb61f6d52da4a3fb7480fbb553f509d
+    parentId: uts_e3ee967c3db0400e9fb0533e04e3e304
+    modified: 1661242761452
+    created: 1661242750713
+    requestId: req_76b650e7e66e4d7cba76ebac58867e36
+    name: Returns 200
+    code: |-
+      const response1 = await insomnia.send();
+      expect(response1.status).to.equal(200);
+    _type: unit_test
+  - _id: env_39e84334ae1349dba381d573d9ce1fb0
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753156
+    created: 1661251753156
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1657549088957
+    _type: environment
+  - _id: jar_5cd24603d24642f99e6296edeb030069
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753159
+    created: 1661251753159
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
+  - _id: spc_8eb45dd931fc4f8b8d7518f6af4a089c
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753194
+    created: 1661251753161
+    fileName: Backup
+    contents: ""
+    contentType: yaml
+    _type: api_spec
+  - _id: uts_7707117b4fe946c1b88dfe5fdc70a369
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753181
+    created: 1661251753181
+    name: Example Test Suite
+    _type: unit_test_suite
+  - _id: uts_b179fc7fc493427688d4e49f8a6a7d5f
+    parentId: wrk_038aa9d375114601a319796229845973
+    modified: 1661251753183
+    created: 1661251753183
+    name: New Suite
+    _type: unit_test_suite
+  - _id: ut_69c4094960f04af18241ab014f6df3a1
+    parentId: uts_b179fc7fc493427688d4e49f8a6a7d5f
+    modified: 1661251753184
+    created: 1661251753184
+    requestId: req_76b650e7e66e4d7cba76ebac58867e36
+    name: Returns 200
+    code: |-
+      const response1 = await insomnia.send();
+      expect(response1.status).to.equal(200);
+    _type: unit_test
