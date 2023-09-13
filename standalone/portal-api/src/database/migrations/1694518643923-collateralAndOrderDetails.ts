@@ -24,5 +24,4 @@ export class collateralAndOrderDetails1694518643923 implements MigrationInterfac
         await queryRunner.query(`DROP TABLE "CompanyTaxAndRevenue"`);
         await queryRunner.query(`ALTER TABLE "Companies" RENAME COLUMN "taxAndRevenueId" TO "taxNumber"`);
     }
-
 }
