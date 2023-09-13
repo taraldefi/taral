@@ -136,10 +136,16 @@ export class EntityController {
           type: 'string',
           format: 'string',
         },
+
+        logo: {
+          type: 'string',
+          format: 'binary',
+        }
       },
     },
   })
   @Patch('/:id')
+  @FormDataRequest({ storage: MemoryStoredFile })
   async updateEntity(
     @Param('id') id,
     @Body() entity: UpdateEntityDto,
