@@ -136,11 +136,82 @@ export class EntityController {
           type: 'string',
           format: 'string',
         },
+
+        logo: {
+          type: 'string',
+          format: 'binary',
+        }
       },
     },
   })
   @Patch('/:id')
+  @FormDataRequest({ storage: MemoryStoredFile })
   async updateEntity(
+    @Param('id') id,
+    @Body() entity: UpdateEntityDto,
+  ): Promise<GetEntityDetailsResponse> {
+    return await this.entityService.updateEntity(id, entity);
+  }
+
+  @ApiBody({
+    schema: {
+      type: 'object',
+      properties: {
+        name: {
+          type: 'string',
+          format: 'string',
+        },
+
+        beneficialOwner: {
+          type: 'string',
+          format: 'string',
+        },
+
+        abbreviation: {
+          type: 'string',
+          format: 'string',
+        },
+
+        nationality: {
+          type: 'string',
+          format: 'string',
+        },
+
+        headquarters: {
+          type: 'string',
+          format: 'string',
+        },
+
+        industryType: {
+          type: 'string',
+          format: 'string',
+        },
+
+        coreBusiness: {
+          type: 'string',
+          format: 'string',
+        },
+
+        incorporationDate: {
+          type: 'string',
+          format: 'date',
+        },
+
+        legalForm: {
+          type: 'string',
+          format: 'string',
+        },
+
+        logo: {
+          type: 'string',
+          format: 'binary',
+        }
+      },
+    },
+  })
+  @Post('/:id')
+  @FormDataRequest({ storage: MemoryStoredFile })
+  async updateEntityByForm(
     @Param('id') id,
     @Body() entity: UpdateEntityDto,
   ): Promise<GetEntityDetailsResponse> {

@@ -78,6 +78,16 @@ export class EntityService {
 
     if (!id) throw triggerError('missing-entity-id');
 
+    const imageUUID = uuidv4();
+    const storage = Storage.disk('files');
+    const onDiskFilename = `${imageUUID}.png`;
+
+    if (data.logo) {
+      const _ = await storage.put(onDiskFilename, data.logo.buffer);
+    } else {
+      console.log('No logo provided for entity');
+    }
+
     const entity = await this.entityRepository.findOneOrFail({
       relations: ['legalProducts', 'legalApplications'],
       where: { id: id },
@@ -111,6 +121,10 @@ export class EntityService {
 
     if (data.legalForm) {
       entity.legalForm = data.legalForm;
+    }
+
+    if (data.logo) {
+      entity.logo = imageUUID;
     }
 
     if (data.name) {

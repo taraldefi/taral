@@ -13,6 +13,21 @@ import {
 } from '@modules/multipart';
 
 export class UpdateEntityDto {
+
+  @IsFile()
+  @MaxFileSize(100e6)
+  @HasMimeType(['image/png'])
+  @ApiProperty({
+    example: {
+      file: {
+        type: 'string',
+        format: 'binary',
+      },
+    },
+  })
+  @IsOptional()
+  logo: MemoryStoredFile;
+
   @ApiProperty({ example: 'Engelbrecht Ltd' })
   @IsString()
   @IsOptional()

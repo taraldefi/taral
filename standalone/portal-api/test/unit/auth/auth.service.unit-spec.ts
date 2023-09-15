@@ -66,7 +66,7 @@ const jwtServiceMock = () => ({
 });
 
 describe('AuthService', () => {
-  let service: AuthService,
+  let authService: AuthService,
     userRepository,
     refreshTokenService,
     mailService,
@@ -100,7 +100,7 @@ describe('AuthService', () => {
       ],
     }).compile();
 
-    service = await module.get<AuthService>(AuthService);
+    authService = await module.get<AuthService>(AuthService);
     userRepository = await module.get(getRepositoryToken(UserEntity));
     refreshTokenService = await module.get<RefreshTokenService>(
       RefreshTokenService,
@@ -120,21 +120,21 @@ describe('AuthService', () => {
       const forgetPasswordDto: ForgetPasswordDto = {
         email: 'taraluser@gmail.com',
       };
-      await service.forgotPassword(forgetPasswordDto);
+      await authService.forgotPassword(forgetPasswordDto);
       expect(mockUser.save).toHaveBeenCalledTimes(1);
       expect(mailService.sendMail).toHaveBeenCalled();
     });
     it('check if generate code works as expected', () => {
-      const result = service.generateRandomCode(5);
+      const result = authService.generateRandomCode(5);
       expect(typeof result).toBe('string');
       expect(result.length).toEqual(5);
     });
 
     it('generate unique code test', async () => {
-      service.generateRandomCode = jest.fn().mockReturnValue('W45Rft');
+      authService.generateRandomCode = jest.fn().mockReturnValue('W45Rft');
       userRepository.countEntityByCondition.mockResolvedValue(0);
-      await service.generateUniqueToken(6);
-      expect(service.generateRandomCode).toHaveBeenCalledWith(6);
+      await authService.generateUniqueToken(6);
+      expect(authService.generateRandomCode).toHaveBeenCalledWith(6);
       expect(userRepository.countEntityByCondition).toHaveBeenCalledWith({
         token: 'W45Rft',
       });
@@ -151,18 +151,18 @@ describe('AuthService', () => {
       });
       it('reset password for existing user', async () => {
         userRepository.getUserForResetPassword.mockResolvedValue(mockUser);
-        service.generateUniqueToken = jest.fn();
-        await service.resetPassword(resetPasswordDto);
+        authService.generateUniqueToken = jest.fn();
+        await authService.resetPassword(resetPasswordDto);
         expect(userRepository.getUserForResetPassword).toHaveBeenCalledWith(
           resetPasswordDto,
         );
-        expect(service.generateUniqueToken).toHaveBeenCalledTimes(1);
+        expect(authService.generateUniqueToken).toHaveBeenCalledTimes(1);
         expect(mockUser.save).toHaveBeenCalled();
       });
       it('try to reset password with invalid token', async () => {
         userRepository.getUserForResetPassword.mockResolvedValue(null);
         await expect(
-          service.resetPassword(resetPasswordDto),
+          authService.resetPassword(resetPasswordDto),
         ).rejects.toThrowError(NotFoundException);
       });
       describe('change password', () => {
@@ -185,7 +185,7 @@ describe('AuthService', () => {
         it('change password for loggedin user with correct password', async () => {
           user.validatePassword = jest.fn().mockResolvedValue(true);
           bcrypt.hash = jest.fn().mockResolvedValue('result');
-          await service.changePassword(user, changePasswordDto);
+          await authService.changePassword(user, changePasswordDto);
           expect(user.validatePassword).toHaveBeenCalledTimes(1);
           expect(user.save).toHaveBeenCalledTimes(1);
         });
@@ -193,7 +193,7 @@ describe('AuthService', () => {
           bcrypt.hash = jest.fn().mockResolvedValue('result');
           user.validatePassword = jest.fn().mockResolvedValue(false);
           await expect(
-            service.changePassword(user, changePasswordDto),
+            authService.changePassword(user, changePasswordDto),
           ).rejects.toThrowError(CustomHttpException);
           expect(user.validatePassword).toHaveBeenCalledTimes(1);
           expect(user.save).toHaveBeenCalledTimes(0);
@@ -206,38 +206,38 @@ describe('AuthService', () => {
     const user = new UserSerializer();
     user.id = 1;
     user.email = 'test@mail.com';
-    await service.generateAccessToken(user);
+    await refreshTokenService.generateAccessToken(user);
     expect(jwtService.signAsync).toHaveBeenCalledTimes(1);
   });
 
   describe('addUser', () => {
     it('add new user test', async () => {
       const token = 'Adf2vBnVV';
-      service.generateUniqueToken = jest.fn().mockResolvedValue(token);
+      authService.generateUniqueToken = jest.fn().mockResolvedValue(token);
       userRepository.store.mockResolvedValue(mockUser);
       const createUserDto: CreateUserDto = mockUser;
-      await service.create(createUserDto);
-      expect(service.generateUniqueToken).toHaveBeenCalled();
+      await authService.create(createUserDto);
+      expect(authService.generateUniqueToken).toHaveBeenCalled();
       expect(userRepository.store).toHaveBeenCalledWith(createUserDto, token);
       expect(mailService.sendMail).toHaveBeenCalledTimes(1);
       expect(userRepository.store).not.toThrow();
     });
 
     it('activate account with valid token', async () => {
-      service.generateUniqueToken = jest.fn();
+      authService.generateUniqueToken = jest.fn();
       userRepository.findOne.mockResolvedValue(mockUser);
       mockUser.status = UserStatusEnum.INACTIVE; // initially user will have inactive status
       const token = 'Adf2vBnVV';
-      await service.activateAccount(token);
+      await authService.activateAccount(token);
       expect(userRepository.findOne).toHaveBeenCalledWith({ token });
-      expect(service.generateUniqueToken).toHaveBeenCalled();
+      expect(authService.generateUniqueToken).toHaveBeenCalled();
       expect(mockUser.save).toHaveBeenCalled();
     });
 
     it('activate account with invalid token', async () => {
       userRepository.findOne.mockResolvedValue(null);
       const token = 'Bgf2vBnVV';
-      await expect(service.activateAccount(token)).rejects.toThrowError(
+      await expect(authService.activateAccount(token)).rejects.toThrowError(
         NotFoundException,
       );
       expect(userRepository.findOne).toHaveBeenCalledTimes(1);
@@ -248,7 +248,7 @@ describe('AuthService', () => {
   describe('findBy', () => {
     it('find user by id', async () => {
       userRepository.findBy.mockResolvedValue(mockUser);
-      const result = await service.findBy('username', 'tester');
+      const result = await authService.findBy('username', 'tester');
       expect(userRepository.findBy).toHaveBeenCalledWith('username', 'tester');
       expect(result).toBe(mockUser);
     });
@@ -281,36 +281,36 @@ describe('AuthService', () => {
       });
       userRepository.login.mockResolvedValue(user);
       await expect(
-        service.login(userLoginDto, refreshTokenPayload),
+        authService.login(userLoginDto, refreshTokenPayload),
       ).rejects.toThrowError(CustomHttpException);
     });
 
     it('login user successfully', async () => {
       throttleService.get.mockResolvedValue(null);
-      jest.spyOn(service, 'buildResponsePayload').mockReturnValue(['result']);
+      jest.spyOn(authService, 'buildResponsePayload').mockReturnValue(['result']);
       userRepository.login.mockResolvedValue([user, null]);
       jest
-        .spyOn(service, 'generateAccessToken')
+        .spyOn(refreshTokenService, 'generateAccessToken')
         .mockResolvedValue('access_token');
-      await service.login(userLoginDto, refreshTokenPayload);
+      await authService.login(userLoginDto, refreshTokenPayload);
       expect(userRepository.login).toHaveBeenCalledWith(userLoginDto);
       expect(throttleService.delete).toHaveBeenCalledWith(
         `${user.username}_${ip}`,
       );
       expect(refreshTokenService.generateRefreshToken).toHaveBeenCalledTimes(1);
-      expect(service.generateAccessToken).toHaveBeenCalledTimes(1);
-      expect(service.buildResponsePayload).toHaveBeenCalledTimes(1);
+      expect(refreshTokenService.generateAccessToken).toHaveBeenCalledTimes(1);
+      expect(authService.buildResponsePayload).toHaveBeenCalledTimes(1);
     });
 
     it('get profile', async () => {
       userRepository.transform.mockResolvedValue(mockUser);
-      await service.get(user);
+      await authService.get(user);
       expect(userRepository.transform).toHaveBeenCalledTimes(1);
     });
 
     it('get user by id', async () => {
       userRepository.get.mockResolvedValue(mockUser);
-      await service.findById(1);
+      await authService.findById(1);
       expect(userRepository.get).toHaveBeenCalledTimes(1);
     });
 
@@ -331,7 +331,7 @@ describe('AuthService', () => {
         userRepository.countEntityByCondition.mockResolvedValue(1);
 
         userRepository.get.mockResolvedValue(mockUser);
-        await expect(service.update(user, updateUserDto)).rejects.toThrowError(
+        await expect(authService.update(user, updateUserDto)).rejects.toThrowError(
           UnprocessableEntityException,
         );
         expect(userRepository.countEntityByCondition).toHaveBeenCalledTimes(2);
@@ -341,7 +341,7 @@ describe('AuthService', () => {
         userRepository.updateEntity.mockResolvedValue(mockUser);
         userRepository.get.mockResolvedValue(mockUser);
         userRepository.countEntityByCondition.mockResolvedValue(0);
-        await service.update(user.id, updateUserDto);
+        await authService.update(user.id, updateUserDto);
         expect(userRepository.countEntityByCondition).toHaveBeenCalledTimes(2);
         expect(userRepository.updateEntity).toHaveBeenCalledTimes(1);
         expect(userRepository.updateEntity).toHaveBeenCalledWith(
@@ -362,7 +362,7 @@ describe('AuthService', () => {
         user: mockUser,
         token: mockToken,
       });
-      await service.revokeRefreshToken('refresh_token');
+      await authService.revokeRefreshToken('refresh_token');
       expect(refreshTokenService.resolveRefreshToken).toHaveBeenCalledTimes(1);
       expect(refreshTokenService.resolveRefreshToken).toHaveBeenCalledWith(
         'refresh_token',
@@ -376,7 +376,7 @@ describe('AuthService', () => {
       limit: 10,
       page: 1,
     };
-    await service.activeRefreshTokenList(userId, filter);
+    await authService.activeRefreshTokenList(userId, filter);
     expect(refreshTokenService.getRefreshTokenByUserId).toHaveBeenCalledWith(
       userId,
       filter,
@@ -394,12 +394,12 @@ describe('AuthService', () => {
     refreshTokenService.revokeRefreshTokenById.mockResolvedValue(
       mockRefreshToken,
     );
-    await expect(service.revokeTokenById(1, 1)).resolves.not.toThrow();
+    await expect(authService.revokeTokenById(1, 1)).resolves.not.toThrow();
     expect(refreshTokenService.revokeRefreshTokenById).toHaveBeenCalledTimes(1);
   });
 
   it('should update user twofa secret', async () => {
-    await service.setTwoFactorAuthenticationSecret('secret', 1);
+    await authService.setTwoFactorAuthenticationSecret('secret', 1);
     expect(userRepository.update).toHaveBeenCalledTimes(1);
   });
 
@@ -409,7 +409,7 @@ describe('AuthService', () => {
     user.email = mockUser.email;
     user.username = mockUser.username;
     user.password = mockUser.password;
-    await service.turnOnTwoFactorAuthentication(user, true, 'qrcode');
+    await authService.turnOnTwoFactorAuthentication(user, true, 'qrcode');
     expect(userRepository.update).toHaveBeenCalledTimes(1);
     expect(userRepository.update).toHaveBeenCalledWith(1, {
       isTwoFAEnabled: true,
@@ -417,7 +417,7 @@ describe('AuthService', () => {
   });
 
   it('should return users stats data', async () => {
-    await service.countByCondition({});
+    await authService.countByCondition({});
     expect(userRepository.countEntityByCondition).toHaveBeenCalledTimes(1);
   });
 });

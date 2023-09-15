@@ -96,7 +96,7 @@ export class NodeProvider implements BaseProvider {
     const argumentsFormatted = request.arguments.map((arg, index) => {
       const { type } = request.function.args[index];
       const valueCV = parseToCV(arg, type);
-      return serializeCV(valueCV).toString("hex");
+      return serializeCV(valueCV).toString();
     });
     const [contractAddress, contractName] = this.identifier.split(".");
     const response = await this.apiClient.callReadOnlyFunction({
