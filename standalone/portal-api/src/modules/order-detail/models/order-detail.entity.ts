@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { OrderProductEntity } from './orderProducts.entity';
+import { OrderProductEntity } from '../models/order-product.entity';
 
 @Entity({ name: 'orderDetails' })
 export class OrderDetailEntity extends EntityHelper {
@@ -10,11 +10,11 @@ export class OrderDetailEntity extends EntityHelper {
 
   @Column()
   @Allow()
-  importerPort: string;
+  importPort: string;
 
   @Column()
   @Allow()
-  exporterPort: string;
+  exportPort: string;
 
   @OneToMany(() => OrderProductEntity, (product) => product.order)
   products: OrderProductEntity[];

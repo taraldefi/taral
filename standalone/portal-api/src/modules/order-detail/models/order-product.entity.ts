@@ -7,7 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { OrderDetailEntity } from './orderDetail.entity';
+import { OrderDetailEntity } from './order-detail.entity';
 
 @Entity({ name: 'orderProducts' })
 export class OrderProductEntity extends EntityHelper {
@@ -26,7 +26,9 @@ export class OrderProductEntity extends EntityHelper {
   @Allow()
   unitPrice: number;
 
-  @ManyToOne(() => OrderDetailEntity, (orderDetail) => orderDetail.products)
+  @ManyToOne(() => OrderDetailEntity, (orderDetail) => orderDetail.products, {
+    cascade: true,
+  })
   @JoinColumn()
   order: OrderDetailEntity;
 }

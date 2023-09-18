@@ -57,6 +57,7 @@ import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
 import { Rabbit } from 'crypto-js';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
+import { orderDetailsModule } from './modules/order-detail/order-details.module';
 
 // const appConfig = config.get('app');
 
@@ -136,7 +137,7 @@ import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
     EmailTemplateModule,
     RefreshTokenModule,
     TwofaModule,
-
+    orderDetailsModule,
     RabbitMqModule,
     AuctionModule,
     AuctionHistoryModule,
