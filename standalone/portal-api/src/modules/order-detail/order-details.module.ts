@@ -17,4 +17,4 @@ import { OrderProductService } from './services/order-product.service';
     OrderProductService,
   ],
 })
-export class orderDetailsModule {}
+export class OrderDetailsModule {}

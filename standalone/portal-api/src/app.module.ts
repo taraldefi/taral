@@ -57,7 +57,8 @@ import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
 import { Rabbit } from 'crypto-js';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
-import { orderDetailsModule } from './modules/order-detail/order-details.module';
+import { OrderDetailsModule } from './modules/order-detail/order-details.module';
+import { CollateralModule } from './modules/collateral/collateral.module';
 
 // const appConfig = config.get('app');
 
@@ -137,7 +138,8 @@ import { orderDetailsModule } from './modules/order-detail/order-details.module'
     EmailTemplateModule,
     RefreshTokenModule,
     TwofaModule,
-    orderDetailsModule,
+    OrderDetailsModule,
+    CollateralModule,
     RabbitMqModule,
     AuctionModule,
     AuctionHistoryModule,

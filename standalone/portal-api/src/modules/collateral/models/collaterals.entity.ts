@@ -12,11 +12,11 @@ export class CollateralEntity extends EntityHelper {
   @Allow()
   facilityType: string;
 
-  @Column({ type: 'decimal', precision: 2, scale: 2, default: 0 })
+  @Column({ type: 'integer' })
   @Allow()
   financingRatio: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({ type: 'integer' })
   @Allow()
   facilityAmount: number;
 

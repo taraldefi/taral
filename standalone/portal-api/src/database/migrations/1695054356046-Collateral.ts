@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class orderDetails1694698812980 implements MigrationInterface {
-    name = 'orderDetails1694698812980'
+export class Collateral1695054356046 implements MigrationInterface {
+    name = 'Collateral1695054356046'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`ALTER TABLE "Companies" RENAME COLUMN "taxNumber" TO "taxAndRevenueId"`);
@@ -9,11 +9,11 @@ export class orderDetails1694698812980 implements MigrationInterface {
         await queryRunner.query(`CREATE TYPE "public"."CollaborationRelationships_paymentexperiencehistory_enum" AS ENUM('ON_TIME', 'DELAYS')`);
         await queryRunner.query(`CREATE TABLE "CollaborationRelationships" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "shareHoldingRelationship" character varying NOT NULL, "influence" character varying NOT NULL, "supplierId" uuid, "buyerId" uuid, "paymentExperienceDescription" character varying NOT NULL, "paymentExperienceLength" character varying NOT NULL, "paymentExperienceNoofdeals" integer NOT NULL, "paymentExperienceAvgbusinessvol" character varying NOT NULL, "paymentExperienceHistory" "public"."CollaborationRelationships_paymentexperiencehistory_enum" NOT NULL, "paymentExperienceDelays" character varying NOT NULL, CONSTRAINT "PK_8b5a77158ca83fd4dfc36245f34" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."Collaterals_facilitytype_enum" AS ENUM('IMPORTER_FINANCING', 'EXPORTER_FINANCING')`);
-        await queryRunner.query(`CREATE TABLE "Collaterals" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "facilityType" "public"."Collaterals_facilitytype_enum" NOT NULL, "financingRatio" numeric(2,2) NOT NULL DEFAULT '0', "facilityAmount" numeric(10,2) NOT NULL DEFAULT '0', "requestedTenure" TIMESTAMP WITH TIME ZONE NOT NULL, "requestedPurpose" character varying NOT NULL, "repaymentSource" character varying NOT NULL, "collateralProviderInfluence" character varying NOT NULL, "collateralProviderExperience" character varying NOT NULL, CONSTRAINT "PK_76a2cc571bfa3f4926c61200af2" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "orderProducts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "unitPrice" integer NOT NULL, "orderId" uuid, CONSTRAINT "PK_cb16d1f7ac5d8fcd6d66edf3254" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "orderDetails" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "importPort" character varying NOT NULL, "exportPort" character varying NOT NULL, CONSTRAINT "PK_11d407f307ebf19af9702464e22" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "Collaterals" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "facilityType" "public"."Collaterals_facilitytype_enum" NOT NULL, "financingRatio" integer NOT NULL, "facilityAmount" integer NOT NULL, "requestedTenure" TIMESTAMP WITH TIME ZONE NOT NULL, "requestedPurpose" character varying NOT NULL, "repaymentSource" character varying NOT NULL, "collateralProviderInfluence" character varying NOT NULL, "collateralProviderExperience" character varying NOT NULL, CONSTRAINT "PK_76a2cc571bfa3f4926c61200af2" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."PaymentTerms_paymenttype_enum" AS ENUM('SHORT', 'MEDIUM', 'SHORT_MEDIUM')`);
         await queryRunner.query(`CREATE TABLE "PaymentTerms" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "isConcluded" boolean NOT NULL, "partialRefinancing" boolean NOT NULL, "interestCurrency" character varying NOT NULL, "interestPercentage" numeric(10,2) NOT NULL DEFAULT '0', "interestFixedrate" numeric(10,2) NOT NULL DEFAULT '0', "interestDegressiverate" numeric(10,2) NOT NULL DEFAULT '0', "paymentType" "public"."PaymentTerms_paymenttype_enum" NOT NULL, "paymentDuration" character varying NOT NULL, CONSTRAINT "PK_85ade235e83a47c423ab766eadf" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "orderProducts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "unitPrice" integer NOT NULL, "orderId" uuid, CONSTRAINT "PK_cb16d1f7ac5d8fcd6d66edf3254" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "orderDetails" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "importPort" character varying NOT NULL, "exportPort" character varying NOT NULL, CONSTRAINT "PK_11d407f307ebf19af9702464e22" PRIMARY KEY ("id"))`);
         await queryRunner.query(`ALTER TABLE "Companies" DROP COLUMN "taxAndRevenueId"`);
         await queryRunner.query(`ALTER TABLE "Companies" ADD "taxAndRevenueId" uuid`);
         await queryRunner.query(`ALTER TABLE "Companies" ADD CONSTRAINT "UQ_96328b06f0e4bf3954e067c2a2f" UNIQUE ("taxAndRevenueId")`);
@@ -31,10 +31,10 @@ export class orderDetails1694698812980 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "Companies" DROP CONSTRAINT "UQ_96328b06f0e4bf3954e067c2a2f"`);
         await queryRunner.query(`ALTER TABLE "Companies" DROP COLUMN "taxAndRevenueId"`);
         await queryRunner.query(`ALTER TABLE "Companies" ADD "taxAndRevenueId" character varying NOT NULL`);
-        await queryRunner.query(`DROP TABLE "PaymentTerms"`);
-        await queryRunner.query(`DROP TYPE "public"."PaymentTerms_paymenttype_enum"`);
         await queryRunner.query(`DROP TABLE "orderDetails"`);
         await queryRunner.query(`DROP TABLE "orderProducts"`);
+        await queryRunner.query(`DROP TABLE "PaymentTerms"`);
+        await queryRunner.query(`DROP TYPE "public"."PaymentTerms_paymenttype_enum"`);
         await queryRunner.query(`DROP TABLE "Collaterals"`);
         await queryRunner.query(`DROP TYPE "public"."Collaterals_facilitytype_enum"`);
         await queryRunner.query(`DROP TABLE "CollaborationRelationships"`);
