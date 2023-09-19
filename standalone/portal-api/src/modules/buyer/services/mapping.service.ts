@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { BuyerEntity } from '../models/buyer.entity';
-import { GetBuyerResponse } from '../dto/get-buyer-response.dto';
+import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
 
 @Injectable()
 export class EntityMappingService {

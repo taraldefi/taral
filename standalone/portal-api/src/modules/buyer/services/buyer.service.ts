@@ -3,7 +3,7 @@ import { BuyerEntityRepository } from "../repositories/buyer.repository";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BuyerEntity } from "../models/buyer.entity";
 import { triggerError } from "src/modules/entity/utils/trigger.error";
-import { GetBuyerResponse } from "../dto/get-buyer-response.dto";
+import { GetBuyerResponse } from "../dto/response/get-buyer-response.dto";
 import { EntityMappingService } from "./mapping.service";
 
 @Injectable()
