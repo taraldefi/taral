@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { BuyerEntityRepository } from "../repositories/buyer.repository";
 import { InjectRepository } from "@nestjs/typeorm";
 import { BuyerEntity } from "../models/buyer.entity";
-import { triggerError } from "src/modules/entity/utils/trigger.error";
+import { triggerError } from "src/common/trigger.error";
 import { GetBuyerResponse } from "../dto/response/get-buyer-response.dto";
 import { EntityMappingService } from "./mapping.service";
 import { IsolationLevel, Transactional } from "src/common/transaction";
