@@ -8,6 +8,7 @@ export class GetOrderDetailsResponse {
 
   @ApiProperty({
     description: 'Port of import',
+    example: 'Port of Shanghai',
   })
   @IsNotEmpty()
   @IsString()
@@ -15,6 +16,7 @@ export class GetOrderDetailsResponse {
 
   @ApiProperty({
     description: 'Port of export',
+    example: 'Port of Singapore',
   })
   @IsNotEmpty()
   @IsString()
@@ -23,9 +25,9 @@ export class GetOrderDetailsResponse {
   @ApiProperty({
     example: {
       id: '05159674-06ea-4bc2-b750-603b0f454025',
-      name: 'Product Title',
-      quantity: 5,
-      unitPrice: 10,
+      name: 'Coffee',
+      quantity: 30,
+      unitPrice: 5,
     },
   })
   products: GetOrderProductResponse[];

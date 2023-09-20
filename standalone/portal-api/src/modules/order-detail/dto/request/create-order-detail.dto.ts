@@ -6,6 +6,7 @@ import { Type } from 'class-transformer';
 export class CreateOrderDetailDto {
   @ApiProperty({
     description: 'Port of import',
+    example: 'Port of Shanghai',
   })
   @IsNotEmpty()
   @IsString()
@@ -13,6 +14,7 @@ export class CreateOrderDetailDto {
 
   @ApiProperty({
     description: 'Port of export',
+    example: 'Port of Singapore',
   })
   @IsNotEmpty()
   @IsString()
