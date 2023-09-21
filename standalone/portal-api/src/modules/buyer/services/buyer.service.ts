@@ -49,7 +49,7 @@ export class BuyerService extends BaseService {
     await this.buyerEntityRepository.delete({ id: id });
   }
 
-  public async getBuyer(id: string): Promise<GetBuyerResponse> {
+  public async getEntity(id: string): Promise<GetBuyerResponse> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne({

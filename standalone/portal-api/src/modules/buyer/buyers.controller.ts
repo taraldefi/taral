@@ -1,8 +1,9 @@
 import { ApiTags } from "@nestjs/swagger";
 import { BuyerService } from "./services/buyer.service";
-import { Body, Controller, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { GetBuyerResponse } from "./dto/response/get-buyer-response.dto";
 import { CreateBuyerRequest } from "./dto/request/create-buyer-request.dto";
+import { UpdateBuyerRequest } from "./dto/request/update-buyer-request.dto";
 
 @ApiTags('Buyers')
 @Controller({
@@ -21,5 +22,24 @@ export class EntityController {
     return await this.buyerService.createEntity(entity);
   }
 
-  
+  @Post('/:id')
+  async updateEntity(
+    @Param('id') id: string,
+    @Body() entity: UpdateBuyerRequest,
+  ): Promise<GetBuyerResponse> {
+    return await this.buyerService.updateEntity(id, entity);
+  }
+
+  @Patch('/:id')
+  async patchEntity(
+    @Param('id') id: string,
+    @Body() entity: UpdateBuyerRequest,
+  ): Promise<GetBuyerResponse> {
+    return await this.buyerService.updateEntity(id, entity);
+  }
+
+  @Get('/:id')
+  async getEntity(@Param('id') id: string): Promise<GetBuyerResponse> {
+    return await this.buyerService.getEntity(id);
+  }
 }
