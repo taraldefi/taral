@@ -1,35 +1,33 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TransactionDocEntity } from '../models/transaction-documents.entity';
-import { TransactionDocRepository } from '../repositories/transaction-documents.repository';
+import { TxDocEntity } from '../models/transaction-documents.entity';
+import { TxDocRepository } from '../repositories/transaction-documents.repository';
 import { FilesService } from 'src/modules/files/services/files.service';
-import { CreateTransactionDocumentDto } from '../dto/request/create-transaction-document.dto';
-import { CreateTransactionDocumentResponse } from '../dto/response/create-transaction-document-response.dto';
+import { CreateTxDocDto } from '../dto/request/create-transaction-document.dto';
+import { CreateTxDocResponse } from '../dto/response/create-transaction-document-response.dto';
 import { AuthenticationService } from 'src/modules/files/services/onchain/authentication.service';
 import { CreateFileResponse } from 'src/modules/files/dto/create-file-response.dto';
 
 @Injectable()
-export class TransactionDocService {
+export class TxDocService {
   constructor(
-    @InjectRepository(TransactionDocEntity)
-    private transactionDocRepository: TransactionDocRepository,
+    @InjectRepository(TxDocEntity)
+    private txDocRepository: TxDocRepository,
     private fileService: FilesService,
     private authenticationService: AuthenticationService,
   ) {}
 
-  private CreateTransactionDocumentResponse(
+  private CreateTxDocResponse(
     confirmationDocument: CreateFileResponse,
     additionalDocument: CreateFileResponse,
-  ): CreateTransactionDocumentResponse {
-    const result = new CreateTransactionDocumentResponse();
+  ): CreateTxDocResponse {
+    const result = new CreateTxDocResponse();
     result.confirmationDocument = confirmationDocument;
     result.additionalDocument = additionalDocument;
     return result;
   }
 
-  async createTransactionDoc(
-    data: CreateTransactionDocumentDto,
-  ): Promise<CreateTransactionDocumentResponse> {
+  async createTxDoc(data: CreateTxDocDto): Promise<CreateTxDocResponse> {
     const confirmationDocSignatureResult = this.authenticationService.guard(
       data.confirmationDocument.signature,
       data.confirmationDocument.signedMessage,
@@ -40,24 +38,31 @@ export class TransactionDocService {
       data.additionalDocument.signedMessage,
     );
 
-    const confirmationDocument = await this.fileService.createFile(
+    const {
+      response: confirmationDocumentResponse,
+      savedFileEntity: confirmationDocumentEntity,
+    } = await this.fileService.createFile(
       data.confirmationDocument,
       confirmationDocSignatureResult,
     );
 
-    const additionalDocument = await this.fileService.createFile(
+    const {
+      response: additionalDocumentResponse,
+      savedFileEntity: additionalDocumentEntity,
+    } = await this.fileService.createFile(
       data.additionalDocument,
       additionalDocSignatureResult,
     );
-    const documents = new TransactionDocEntity();
+    const documents = new TxDocEntity();
 
-    documents.confirmationDocument = confirmationDocument.id;
-    documents.additionalDocument = additionalDocument.id;
+    documents.confirmationDocument = confirmationDocumentEntity;
+    documents.additionalDocument = additionalDocumentEntity;
 
-    await this.transactionDocRepository.save(documents);
-    return this.CreateTransactionDocumentResponse(
-      confirmationDocument,
-      additionalDocument,
+    await this.txDocRepository.save(documents);
+
+    return this.CreateTxDocResponse(
+      confirmationDocumentResponse,
+      additionalDocumentResponse,
     );
   }
 }

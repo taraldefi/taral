@@ -3,15 +3,15 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'TransactionDocuments' })
-export class TransactionDocEntity extends EntityHelper {
+export class TxDocEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @OneToOne(() => FileEntity)
   @JoinColumn()
-  confirmationDocument: FileEntity['id'];
+  confirmationDocument: FileEntity;
 
   @OneToOne(() => FileEntity)
   @JoinColumn()
-  additionalDocument: FileEntity['id'];
+  additionalDocument: FileEntity;
 }
