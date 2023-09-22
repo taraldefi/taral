@@ -3,7 +3,7 @@ import { CreateOrderDetailDto } from '../dto/request/create-order-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderDetailEntity } from '../models/order-detail.entity';
 import { OrderDetailsRepository } from '../repositories/order-details.repository';
-import { GetOrderDetailsResponse } from '../dto/respose/get-order-detail.dto';
+import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-response.dto';
 import { OrderProductService } from './order-product.service';
 
 @Injectable()
