@@ -1,16 +1,16 @@
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  AfterLoad,
-  AfterInsert,
-  OneToMany,
-  ManyToMany,
-} from 'typeorm';
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { FileVersionEntity } from './file-version.entity';
+import {
+  AfterInsert,
+  AfterLoad,
+  Column,
+  Entity,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { FileParticipantEntity } from './file-participant.entity';
+import { FileVersionEntity } from './file-version.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
