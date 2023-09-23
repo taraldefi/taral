@@ -7,6 +7,7 @@ import { OrderDetailService } from './services/order-detail.service';
 import { OrderProductEntity } from './models/order-product.entity';
 import { OrderProductService } from './services/order-product.service';
 import { OrderProductController } from './order-product.controller';
+import { OrderDetailMappingService } from './services/mapping.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderDetailEntity, OrderProductEntity])],
@@ -16,6 +17,7 @@ import { OrderProductController } from './order-product.controller';
     ConfigService,
     OrderDetailService,
     OrderProductService,
+    OrderDetailMappingService,
   ],
 })
 export class OrderDetailsModule {}

@@ -3,6 +3,7 @@ import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDetailDto } from './dto/request/create-order-detail.dto';
 import { GetOrderDetailsResponse } from './dto/response/get-order-detail-response.dto';
 import { OrderDetailService } from './services/order-detail.service';
+import { OrderDetailMappingService } from './services/mapping.service';
 
 @ApiTags('Orders')
 @Controller({
@@ -10,7 +11,10 @@ import { OrderDetailService } from './services/order-detail.service';
   version: '1',
 })
 export class OrderDetailsController {
-  constructor(private readonly orderDetailsService: OrderDetailService) {}
+  constructor(
+    private readonly orderDetailsService: OrderDetailService,
+    private mappingService: OrderDetailMappingService,
+  ) {}
   @Post()
   async createOrder(
     @Body() order: CreateOrderDetailDto,
@@ -19,8 +23,8 @@ export class OrderDetailsController {
   }
 
   @Get('/:id')
-  async getOrder(@Param('id') id) {
-    return await this.orderDetailsService.findOrderById(id);
+  async getOrder(@Param('id') id: string) {
+    return await this.orderDetailsService.getorder(id);
   }
 
   @Get('')

@@ -1,4 +1,4 @@
-import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderProductDto } from './dto/request/create-order-product.dto';
 import { OrderDetailService } from './services/order-detail.service';
@@ -34,5 +34,10 @@ export class OrderProductController {
     @Body() updateOrderProduct: UpdateOrderProductDto,
   ) {
     return await this.orderProductService.updateProduct(id, updateOrderProduct);
+  }
+
+  @Delete('/:id')
+  async deleteProduct(@Param('id') id: string) {
+    await this.orderProductService.deleteProduct(id);
   }
 }
