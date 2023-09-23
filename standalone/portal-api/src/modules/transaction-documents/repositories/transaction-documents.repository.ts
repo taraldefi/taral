@@ -1,6 +1,6 @@
 import { BaseRepository } from 'src/common/transaction/BaseRepository';
 import { EntityRepository } from 'typeorm';
-import { TxDocEntity } from '../models/transaction-documents.entity';
+import { TransactionDocumentEntity } from '../models/transaction-documents.entity';
 
-@EntityRepository(TxDocEntity)
-export class TxDocRepository extends BaseRepository<TxDocEntity> {}
+@EntityRepository(TransactionDocumentEntity)
+export class TransactionDocumentRepository extends BaseRepository<TransactionDocumentEntity> {}

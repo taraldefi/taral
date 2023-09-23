@@ -59,7 +59,7 @@ import { Rabbit } from 'crypto-js';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
 import { OrderDetailsModule } from './modules/order-detail/order-details.module';
 import { CollateralModule } from './modules/collateral/collateral.module';
-import { TxDocModule } from './modules/transaction-documents/transaction-documents.module';
+import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 
 // const appConfig = config.get('app');
 
@@ -124,7 +124,7 @@ import { TxDocModule } from './modules/transaction-documents/transaction-documen
     CompaniesModule,
     FinancialsModule,
     FilesModule,
-    TxDocModule,
+    TransactionDocumentModule,
     RatingsModule,
     SectorsModule,
     SuppliersModule,

@@ -1,17 +1,12 @@
 import { FileEntity } from 'src/modules/files/entities/file.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'TransactionDocuments' })
-export class TxDocEntity extends EntityHelper {
+export class TransactionDocumentEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @OneToOne(() => FileEntity)
-  @JoinColumn()
-  confirmationDocument: FileEntity;
-
-  @OneToOne(() => FileEntity)
-  @JoinColumn()
-  additionalDocument: FileEntity;
+  @OneToMany(() => FileEntity, (file) => file.transactionDocuments)
+  documents: FileEntity[];
 }

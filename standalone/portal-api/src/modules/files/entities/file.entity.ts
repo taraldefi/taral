@@ -5,12 +5,15 @@ import {
   AfterLoad,
   Column,
   Entity,
+  JoinColumn,
   ManyToMany,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FileParticipantEntity } from './file-participant.entity';
 import { FileVersionEntity } from './file-version.entity';
+import { TransactionDocumentEntity } from 'src/modules/transaction-documents/models/transaction-documents.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
@@ -28,6 +31,13 @@ export class FileEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   last_updated: Date;
+
+  @ManyToOne(
+    () => TransactionDocumentEntity,
+    (transaction) => transaction.documents,
+  )
+  @JoinColumn()
+  transactionDocuments: TransactionDocumentEntity;
 
   @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
   versions: FileVersionEntity[];
