@@ -20,7 +20,7 @@ export class OrderDetailsController {
 
   @Get('/:id')
   async getOrder(@Param('id') id) {
-    return await this.orderDetailsService.getOrder(id);
+    return await this.orderDetailsService.findOrderById(id);
   }
 
   @Get('')

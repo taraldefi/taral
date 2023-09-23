@@ -28,14 +28,6 @@ export class OrderDetailService {
     return savedOrder;
   }
 
-  public async getOrder(id: string): Promise<GetOrderDetailsResponse> {
-    const order = await this.orderDetailsRepository.findOne({
-      relations: ['products'],
-      where: { id: id },
-    });
-    return order;
-  }
-
   public async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
     return await this.orderDetailsRepository.find({
       relations: ['products'],

@@ -1,10 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Param, Patch, Post } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateOrderDetailDto } from './dto/request/create-order-detail.dto';
-import { GetOrderDetailsResponse } from './dto/response/get-order-detail-response.dto';
+import { CreateOrderProductDto } from './dto/request/create-order-product.dto';
 import { OrderDetailService } from './services/order-detail.service';
 import { OrderProductService } from './services/order-product.service';
-import { CreateOrderProductDto } from './dto/request/create-order-product.dto';
+import { UpdateOrderProductDto } from './dto/request/update-order-product.dto';
 
 @ApiTags('Orders')
 @Controller({
@@ -16,6 +15,7 @@ export class OrderProductController {
     private readonly orderProductService: OrderProductService,
     private readonly orderDetailService: OrderDetailService,
   ) {}
+
   @Post()
   async saveProductToOrder(@Body() createOrderProduct: CreateOrderProductDto) {
     const order = await this.orderDetailService.findOrderById(
@@ -26,5 +26,13 @@ export class OrderProductController {
       order,
     );
     return product;
+  }
+
+  @Patch('/:id')
+  async updateProduct(
+    @Param('id') id: string,
+    @Body() updateOrderProduct: UpdateOrderProductDto,
+  ) {
+    return await this.orderProductService.updateProduct(id, updateOrderProduct);
   }
 }
