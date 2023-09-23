@@ -6,7 +6,7 @@ import { triggerError } from "src/common/trigger.error";
 import { GetBuyerResponse } from "../dto/response/get-buyer-response.dto";
 import { EntityMappingService } from "./mapping.service";
 import { IsolationLevel, Transactional } from "src/common/transaction";
-import { CreateBuyerRequest } from "../dto/request/create-buyer-request.dto";
+import { CreateBuyerRequest } from "../dto/request/create-buyer.dto";
 import { BaseService } from "src/modules/auctionhistory/services/base.service";
 import { BuyerCompanyEntity } from "src/modules/company/models/buyer.company.entity";
 import { CompanyAddressEntity } from "src/modules/company/models/company.address.entity";
@@ -14,7 +14,7 @@ import { BuyerCompanyEntityRepository } from "../repositories/buyer-company.repo
 import { SectorEntityRepository } from "../repositories/sector.repository";
 import { CompanyAddressEntityRepository } from "../repositories/company-address.repository";
 import { SectorEntity } from "src/modules/sectors/models/sector.entity";
-import { UpdateBuyerRequest } from "../dto/request/update-buyer-request.dto";
+import { UpdateBuyerRequest } from "../dto/request/update-buyer.dto";
 
 @Injectable()
 export class BuyerService extends BaseService {

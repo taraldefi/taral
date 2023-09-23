@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsNotEmpty, IsNumber, IsOptional, IsString, ValidateNested } from "class-validator";
 import { CreateBuyerCompanyTaxAndRevenueRequest } from "./create-buyer-company-tax-and-revenue.dto";
-import { CreateBuyerCompanyAddressRequest } from "./create-buyer-company-address-request.dto";
+import { CreateBuyerCompanyAddressRequest } from "./create-buyer-company-address.dto";
 import { Type } from "class-transformer";
 
 export class CreateBuyerCompanyRequest {

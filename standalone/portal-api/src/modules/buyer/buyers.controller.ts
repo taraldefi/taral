@@ -2,8 +2,8 @@ import { ApiTags } from "@nestjs/swagger";
 import { BuyerService } from "./services/buyer.service";
 import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
 import { GetBuyerResponse } from "./dto/response/get-buyer-response.dto";
-import { CreateBuyerRequest } from "./dto/request/create-buyer-request.dto";
-import { UpdateBuyerRequest } from "./dto/request/update-buyer-request.dto";
+import { CreateBuyerRequest } from "./dto/request/create-buyer.dto";
+import { UpdateBuyerRequest } from "./dto/request/update-buyer.dto";
 
 @ApiTags('Buyers')
 @Controller({

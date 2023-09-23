@@ -1,6 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { CreateBuyerCompanyRequest } from "./create-buyer-company-request.dto";
-import { CreateBuyerSectorRequest } from "./create-buyer-sector-request.dto";
+import { CreateBuyerCompanyRequest } from "./create-buyer-company.dto";
+import { CreateBuyerSectorRequest } from "./create-buyer-sector.dto";
 import { ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
 
