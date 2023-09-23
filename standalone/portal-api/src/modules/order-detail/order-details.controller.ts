@@ -6,7 +6,7 @@ import { OrderDetailService } from './services/order-detail.service';
 
 @ApiTags('Orders')
 @Controller({
-  path: 'orders',
+  path: 'order',
   version: '1',
 })
 export class OrderDetailsController {
@@ -23,7 +23,7 @@ export class OrderDetailsController {
     return await this.orderDetailsService.getOrder(id);
   }
 
-  @Get()
+  @Get('')
   async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
     return await this.orderDetailsService.getAllOrders();
   }

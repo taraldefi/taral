@@ -3,7 +3,7 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { OrderProductEntity } from '../models/order-product.entity';
 
-@Entity({ name: 'orderDetails' })
+@Entity({ name: 'order_details' })
 export class OrderDetailEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;

@@ -11,9 +11,12 @@ export class OrderDetailService {
   constructor(
     @InjectRepository(OrderDetailEntity)
     private orderDetailsRepository: OrderDetailsRepository,
-    private orderProductService: OrderProductService,
   ) {}
-
+  async findOrderById(id: string): Promise<OrderDetailEntity> {
+    return await this.orderDetailsRepository.findOne(id, {
+      relations: ['products'],
+    });
+  }
   async createOrder(
     data: CreateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
@@ -21,11 +24,6 @@ export class OrderDetailService {
 
     order.importPort = data.importPort;
     order.exportPort = data.exportPort;
-
-    const products = await this.orderProductService.saveProductsToOrder(
-      data.products,
-    );
-    order.products = products;
     const savedOrder = await this.orderDetailsRepository.save(order);
     return savedOrder;
   }

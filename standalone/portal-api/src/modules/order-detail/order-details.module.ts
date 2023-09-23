@@ -6,10 +6,11 @@ import { OrderDetailsController } from './order-details.controller';
 import { OrderDetailService } from './services/order-detail.service';
 import { OrderProductEntity } from './models/order-product.entity';
 import { OrderProductService } from './services/order-product.service';
+import { OrderProductController } from './order-product.controller';
 
 @Module({
   imports: [TypeOrmModule.forFeature([OrderDetailEntity, OrderProductEntity])],
-  controllers: [OrderDetailsController],
+  controllers: [OrderDetailsController, OrderProductController],
   providers: [
     ConfigModule,
     ConfigService,

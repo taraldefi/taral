@@ -25,4 +25,11 @@ export class CreateOrderProductDto {
   @IsNotEmpty()
   @IsNumber()
   unitPrice: number;
+
+  @ApiProperty({
+    description: 'The ID of the order',
+    example: '05159674-06ea-4bc2-b750-603b0f454025',
+  })
+  @IsNotEmpty()
+  orderId: string;
 }
