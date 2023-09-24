@@ -15,6 +15,11 @@ export class OrderProductService {
     private readonly orderDetailMappingService: OrderDetailMappingService,
   ) {}
 
+  async getProduct(id: string) {
+    const product = await this.orderProductsRepository.findOneOrFail(id);
+    return this.orderDetailMappingService.mapOrderProductDetails(product);
+  }
+
   async creatProduct(product: CreateOrderProductDto, order: OrderDetailEntity) {
     const newProduct = await this.orderProductsRepository.save(product);
     order.products = [...order.products, newProduct];
@@ -37,13 +42,16 @@ export class OrderProductService {
     }
 
     const updatedProduct = await this.orderProductsRepository.save(product);
-    return updatedProduct;
+    return this.orderDetailMappingService.mapOrderProductDetails(
+      updatedProduct,
+    );
   }
 
   async deleteProduct(id: string) {
     const product = await this.orderProductsRepository.findOneOrFail({
       where: { id: id },
     });
+    //TODO: error handling
     await this.orderProductsRepository.delete({ id: id });
   }
 }

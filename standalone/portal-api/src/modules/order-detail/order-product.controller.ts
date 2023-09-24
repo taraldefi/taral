@@ -1,9 +1,17 @@
-import { Body, Controller, Delete, Param, Patch, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderProductDto } from './dto/request/create-order-product.dto';
+import { UpdateOrderProductDto } from './dto/request/update-order-product.dto';
 import { OrderDetailService } from './services/order-detail.service';
 import { OrderProductService } from './services/order-product.service';
-import { UpdateOrderProductDto } from './dto/request/update-order-product.dto';
 
 @ApiTags('Orders')
 @Controller({
@@ -15,6 +23,11 @@ export class OrderProductController {
     private readonly orderProductService: OrderProductService,
     private readonly orderDetailService: OrderDetailService,
   ) {}
+
+  @Get('/:id')
+  async getProduct(@Param('id') id: string) {
+    return await this.orderProductService.getProduct(id);
+  }
 
   @Post()
   async saveProductToOrder(@Body() createOrderProduct: CreateOrderProductDto) {

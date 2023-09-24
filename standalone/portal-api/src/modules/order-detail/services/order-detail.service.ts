@@ -6,12 +6,14 @@ import { OrderDetailsRepository } from '../repositories/order-details.repository
 import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-response.dto';
 import { OrderProductService } from './order-product.service';
 import { OrderDetailMappingService } from './mapping.service';
+import { UpdateOrderDetailDto } from '../dto/request/update-order-detail.dto';
 
 @Injectable()
 export class OrderDetailService {
   constructor(
     @InjectRepository(OrderDetailEntity)
     private orderDetailsRepository: OrderDetailsRepository,
+    private orderProductService: OrderProductService,
     private orderDetailMappingService: OrderDetailMappingService,
   ) {}
   async findOrderById(id: string): Promise<OrderDetailEntity> {
@@ -26,19 +28,48 @@ export class OrderDetailService {
 
     order.importPort = data.importPort;
     order.exportPort = data.exportPort;
+    order.products = [];
     const savedOrder = await this.orderDetailsRepository.save(order);
-    return savedOrder;
+    return this.orderDetailMappingService.mapOrderDetails(savedOrder);
   }
-  public async getorder(id: string): Promise<GetOrderDetailsResponse> {
+  async getorder(id: string): Promise<GetOrderDetailsResponse> {
     const order = await this.orderDetailsRepository.findOne(id, {
       relations: ['products'],
     });
     return this.orderDetailMappingService.mapOrderDetails(order);
   }
 
-  public async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
-    return await this.orderDetailsRepository.find({
+  async updateOrder(
+    id: string,
+    data: UpdateOrderDetailDto,
+  ): Promise<GetOrderDetailsResponse> {
+    const order = await this.orderDetailsRepository.findOneOrFail(id, {
       relations: ['products'],
+    });
+    if (data.importPort) {
+      order.importPort = data.importPort;
+    }
+    if (data.exportPort) {
+      order.exportPort = data.exportPort;
+    }
+    const updatedOrder = await this.orderDetailsRepository.save(order);
+    return this.orderDetailMappingService.mapOrderDetails(updatedOrder);
+  }
+
+  async deleteOrder(id: string) {
+    const order = await this.orderDetailsRepository.findOneOrFail({
+      where: { id: id },
+      relations: ['products'],
+    });
+    await this.orderDetailsRepository.delete({ id: id });
+  }
+
+  async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
+    const orders = await this.orderDetailsRepository.find({
+      relations: ['products'],
+    });
+    return orders.map((order) => {
+      return this.orderDetailMappingService.mapOrderDetails(order);
     });
   }
 }

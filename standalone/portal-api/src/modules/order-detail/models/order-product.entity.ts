@@ -27,7 +27,9 @@ export class OrderProductEntity extends EntityHelper {
   unitPrice: number;
 
   @ManyToOne(() => OrderDetailEntity, (orderDetail) => orderDetail.products, {
+    eager: true,
     cascade: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   order: OrderDetailEntity;
