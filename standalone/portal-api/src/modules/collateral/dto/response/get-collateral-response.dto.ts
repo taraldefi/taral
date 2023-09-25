@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { FacilityType } from '../../enums/facility.enum';
 
-export class GetCollateralDto {
+export class GetCollateralResponse {
   @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
   id: string;
 
