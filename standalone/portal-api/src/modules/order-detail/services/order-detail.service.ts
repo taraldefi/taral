@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { OrderDetailEntity } from '../models/order-detail.entity';
 import { OrderDetailsRepository } from '../repositories/order-details.repository';
 import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-response.dto';
-import { OrderProductService } from './order-product.service';
 import { OrderDetailMappingService } from './mapping.service';
 import { UpdateOrderDetailDto } from '../dto/request/update-order-detail.dto';
 
@@ -13,7 +12,6 @@ export class OrderDetailService {
   constructor(
     @InjectRepository(OrderDetailEntity)
     private orderDetailsRepository: OrderDetailsRepository,
-    private orderProductService: OrderProductService,
     private orderDetailMappingService: OrderDetailMappingService,
   ) {}
   async findOrderById(id: string): Promise<OrderDetailEntity> {

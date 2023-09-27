@@ -1,27 +1,42 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { PaymentTermInterest } from './payment-term-interest';
-import { PaymentTermType } from './payment-term-type';
+import { paymentTypes } from '../enums/payment-term-type.enum';
 
 @Entity({ name: 'PaymentTerms' })
 export class PaymentTermEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'bool' })
+  @Column({ type: 'boolean', default: false })
   @Allow()
   isConcluded: boolean;
 
-  @Column({ type: 'bool' })
+  @Column({ type: 'boolean', default: false })
   @Allow()
   partialRefinancing: boolean;
 
-  @Column(() => PaymentTermInterest)
+  @Column()
   @Allow()
-  interest: PaymentTermInterest;
+  interestCurrency: string;
 
-  @Column(() => PaymentTermType)
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
   @Allow()
-  payment: PaymentTermType;
+  interestPercentage: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Allow()
+  interestFixedRate: number;
+
+  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Allow()
+  interestRegressiveRate: number;
+
+  @Column({ type: 'enum', enum: paymentTypes })
+  @Allow()
+  paymentType: string;
+
+  @Column()
+  @Allow()
+  paymentDuration: string;
 }
