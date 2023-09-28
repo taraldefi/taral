@@ -1,7 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { BaseService } from "src/modules/auctionhistory/services/base.service";
 import { SupplierRepository } from "../repositories/supplier.repository";
-import { In } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { SupplierCompanyEntityRepository } from "../repositories/supplier-company.repository";
 import { SupplierCompanyEntity } from "src/modules/company/models/supplier.company.entity";
@@ -19,6 +18,7 @@ import { IsolationLevel, Transactional } from "src/common/transaction";
 import { SupplierEntity } from "../models/supplier.entity";
 import { CompanyAddressEntity } from "src/modules/company/models/company.address.entity";
 import { CompanyAddressEntityRepository } from "src/modules/buyer/repositories/company-address.repository";
+import { UpdateSupplierRequest } from "../dto/request/update-supplier.dto";
 
 @Injectable()
 export class SupplierService extends BaseService {
@@ -136,5 +136,77 @@ export class SupplierService extends BaseService {
         var entitySavedResult = await this.supplierRepository.save(entity);
 
         return this.mappingService.mapEntityDetails(entitySavedResult);
+    }
+
+    @Transactional({
+        isolationLevel: IsolationLevel.READ_COMMITTED,
+    })
+    public async updateEntity(
+        id: string,
+        data: UpdateSupplierRequest): Promise<GetSupplierResponse> {
+        this.setupTransactionHooks();
+        
+        const entity = await this.supplierRepository.findOneOrFail({
+            relations: ['relationshipWithBuyers', 'company', 'financials', 'rating'],
+            where: { id: id },
+        });
+
+        if (!entity) throw triggerError('entity-not-found');
+
+        if (data.company.address.addressLine1) {
+            entity.company.address.addressLine1 = data.company.address.addressLine1;
+        }
+
+        if (data.company.address.addressLine2) {
+            entity.company.address.addressLine2 = data.company.address.addressLine2;
+        }
+
+        if (data.company.address.city) {
+            entity.company.address.city = data.company.address.city;
+        }
+
+        if (data.company.address.postalCode) {
+            entity.company.address.postalCode = data.company.address.postalCode;
+        }
+
+        if (data.company.companyName) {
+            entity.company.companyName = data.company.companyName;
+        }
+
+        if (data.company.dateEstablished) {
+            entity.company.dateEstablished = data.company.dateEstablished;
+        }
+
+        if (data.company.employeeCount) {
+            entity.company.employeeCount = data.company.employeeCount;
+        }
+
+        if (data.company.registrationNumbers) {
+            entity.company.registrationNumbers = data.company.registrationNumbers;
+        }
+
+        if (data.financialInformation.turnover) {
+            entity.financials.turnover = data.financialInformation.turnover;
+        }
+
+        if (data.financialInformation.balanceSheetTotal) {
+            entity.financials.balanceSheetTotal = data.financialInformation.balanceSheetTotal;
+        }
+
+        if (data.rating.agencyName) {
+            entity.rating.agencyName = data.rating.agencyName;
+        }
+
+        if (data.rating.rating) {
+            entity.rating.rating = data.rating.rating;
+        }
+
+        if (data.rating.issuanceDate) {
+            entity.rating.issuanceDate = data.rating.issuanceDate;
+        }
+
+        var updatedEntity = await this.supplierRepository.save(entity);
+
+        return this.mappingService.mapEntityDetails(updatedEntity);
     }
 }
