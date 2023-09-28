@@ -4,7 +4,7 @@ import { Type } from "class-transformer";
 import { CreateSupplierCompanyTaxAndRevenueRequest } from "./create-supplier-company-tax-and-revenue.dto";
 import { CreateSupplierCompanyAddressRequest } from "./create-supplier-company-address.dto";
 
-export class CreateBuyerCompanyRequest {
+export class CreateSupplierCompanyRequest {
     @ApiProperty({ example: 'Engelbrecht Ltd' })
     @IsNotEmpty()
     @IsString()
