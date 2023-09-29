@@ -24,12 +24,12 @@ export class OrderDetailsController {
   async createOrder(
     @Body() order: CreateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
-    return await this.orderDetailsService.createOrder(order);
+    return await this.orderDetailsService.create(order);
   }
 
   @Get('/:id')
   async getOrder(@Param('id') id: string) {
-    return await this.orderDetailsService.getorder(id);
+    return await this.orderDetailsService.get(id);
   }
 
   @Patch('/:id')
@@ -37,16 +37,16 @@ export class OrderDetailsController {
     @Param('id') id: string,
     @Body() order: UpdateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
-    return await this.orderDetailsService.updateOrder(id, order);
+    return await this.orderDetailsService.update(id, order);
   }
 
   @Get('')
   async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
-    return await this.orderDetailsService.getAllOrders();
+    return await this.orderDetailsService.getAll();
   }
 
   @Delete('/:id')
   async deleteOrder(@Param('id') id: string): Promise<void> {
-    return await this.orderDetailsService.deleteOrder(id);
+    return await this.orderDetailsService.delete(id);
   }
 }

@@ -15,9 +15,7 @@ export class CollateralService {
     private readonly collateralMappingService: CollateralMappingService,
   ) {}
 
-  async createCollateral(
-    data: CreateCollateralDto,
-  ): Promise<GetCollateralResponse> {
+  async create(data: CreateCollateralDto): Promise<GetCollateralResponse> {
     const collateral = new CollateralEntity();
 
     collateral.facilityType = data.facilityType;
@@ -33,14 +31,14 @@ export class CollateralService {
     return this.collateralMappingService.mapCollateralDetails(savedCollateral);
   }
 
-  public async getCollateral(id: string): Promise<GetCollateralResponse> {
+  public async get(id: string): Promise<GetCollateralResponse> {
     const collateral = await this.collateralRepository.findOne({
       where: { id: id },
     });
     return this.collateralMappingService.mapCollateralDetails(collateral);
   }
 
-  public async updateCollateral(id: string, data: UpdateCollateralDto) {
+  public async update(id: string, data: UpdateCollateralDto) {
     const collateral = await this.collateralRepository.findOneOrFail({
       where: { id: id },
     });
@@ -75,14 +73,14 @@ export class CollateralService {
     );
   }
 
-  public async deleteCollateral(id: string) {
+  public async delete(id: string) {
     const collateral = await this.collateralRepository.findOneOrFail({
       where: { id: id },
     });
     await this.collateralRepository.delete({ id: id });
   }
 
-  public async getAllCollaterals(): Promise<GetCollateralResponse[]> {
+  public async getAll(): Promise<GetCollateralResponse[]> {
     const collaterals = await this.collateralRepository.find();
     return collaterals.map((collateral) => {
       return this.collateralMappingService.mapCollateralDetails(collateral);

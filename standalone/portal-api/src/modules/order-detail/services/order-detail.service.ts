@@ -19,9 +19,7 @@ export class OrderDetailService {
       relations: ['products'],
     });
   }
-  async createOrder(
-    data: CreateOrderDetailDto,
-  ): Promise<GetOrderDetailsResponse> {
+  async create(data: CreateOrderDetailDto): Promise<GetOrderDetailsResponse> {
     const order = new OrderDetailEntity();
 
     order.importPort = data.importPort;
@@ -30,14 +28,14 @@ export class OrderDetailService {
     const savedOrder = await this.orderDetailsRepository.save(order);
     return this.orderDetailMappingService.mapOrderDetails(savedOrder);
   }
-  async getorder(id: string): Promise<GetOrderDetailsResponse> {
+  async get(id: string): Promise<GetOrderDetailsResponse> {
     const order = await this.orderDetailsRepository.findOne(id, {
       relations: ['products'],
     });
     return this.orderDetailMappingService.mapOrderDetails(order);
   }
 
-  async updateOrder(
+  async update(
     id: string,
     data: UpdateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
@@ -54,7 +52,7 @@ export class OrderDetailService {
     return this.orderDetailMappingService.mapOrderDetails(updatedOrder);
   }
 
-  async deleteOrder(id: string) {
+  async delete(id: string) {
     const order = await this.orderDetailsRepository.findOneOrFail({
       where: { id: id },
       relations: ['products'],
@@ -62,7 +60,7 @@ export class OrderDetailService {
     await this.orderDetailsRepository.delete({ id: id });
   }
 
-  async getAllOrders(): Promise<GetOrderDetailsResponse[]> {
+  async getAll(): Promise<GetOrderDetailsResponse[]> {
     const orders = await this.orderDetailsRepository.find({
       relations: ['products'],
     });

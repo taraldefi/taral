@@ -15,9 +15,7 @@ export class PaymentTermService {
     private paymentTermMappingService: PaymentTermMappingService,
   ) {}
 
-  async createPaymentTerm(
-    data: CreatePaymentTermDto,
-  ): Promise<GetPaymentTermResponse> {
+  async create(data: CreatePaymentTermDto): Promise<GetPaymentTermResponse> {
     const paymentTerm = new PaymentTermEntity();
 
     paymentTerm.isConcluded = data.isConcluded;
@@ -34,12 +32,12 @@ export class PaymentTermService {
       savedPaymentTerm,
     );
   }
-  async getPaymentTerm(id: string): Promise<GetPaymentTermResponse> {
+  async get(id: string): Promise<GetPaymentTermResponse> {
     const paymentTerm = await this.paymentTermRepository.findOneOrFail(id);
     return this.paymentTermMappingService.mapPaymentTermDetails(paymentTerm);
   }
 
-  async updatePaymentTerm(
+  async update(
     id: string,
     data: UpdatePaymentTermDto,
   ): Promise<GetPaymentTermResponse> {
@@ -75,12 +73,12 @@ export class PaymentTermService {
     );
   }
 
-  async deletePaymentTerm(id: string) {
+  async delete(id: string) {
     const paymentTerm = await this.paymentTermRepository.findOneOrFail(id);
     await this.paymentTermRepository.delete({ id: id });
   }
 
-  async getAllPaymentTerms(): Promise<GetPaymentTermResponse[]> {
+  async getAll(): Promise<GetPaymentTermResponse[]> {
     const paymentTerms = await this.paymentTermRepository.find();
     return paymentTerms.map((paymentTerm) => {
       return this.paymentTermMappingService.mapPaymentTermDetails(paymentTerm);

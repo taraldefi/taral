@@ -21,32 +21,32 @@ import { UpdatePaymentTermDto } from './dto/request/update-payment-term.dto';
 export class PaymentTermController {
   constructor(private readonly paymentTermService: PaymentTermService) {}
   @Post()
-  async createPaymentTerm(
+  async create(
     @Body() paymentTerm: CreatePaymentTermDto,
   ): Promise<GetPaymentTermResponse> {
-    return await this.paymentTermService.createPaymentTerm(paymentTerm);
+    return await this.paymentTermService.create(paymentTerm);
   }
 
   @Get('/:id')
-  async getPaymentTerm(@Param('id') id: string) {
-    return await this.paymentTermService.getPaymentTerm(id);
+  async get(@Param('id') id: string) {
+    return await this.paymentTermService.get(id);
   }
 
   @Patch('/:id')
-  async updatePaymentTerm(
+  async update(
     @Param('id') id: string,
     @Body() paymentTerm: UpdatePaymentTermDto,
   ): Promise<GetPaymentTermResponse> {
-    return await this.paymentTermService.updatePaymentTerm(id, paymentTerm);
+    return await this.paymentTermService.update(id, paymentTerm);
   }
 
   @Get('')
-  async getAllPaymentTerms(): Promise<GetPaymentTermResponse[]> {
-    return await this.paymentTermService.getAllPaymentTerms();
+  async getAll(): Promise<GetPaymentTermResponse[]> {
+    return await this.paymentTermService.getAll();
   }
 
   @Delete('/:id')
-  async deletePaymentTerm(@Param('id') id: string): Promise<void> {
-    return await this.paymentTermService.deletePaymentTerm(id);
+  async delete(@Param('id') id: string): Promise<void> {
+    return await this.paymentTermService.delete(id);
   }
 }

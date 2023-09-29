@@ -15,12 +15,12 @@ export class OrderProductService {
     private readonly orderDetailMappingService: OrderDetailMappingService,
   ) {}
 
-  async getProduct(id: string) {
+  async get(id: string) {
     const product = await this.orderProductsRepository.findOneOrFail(id);
     return this.orderDetailMappingService.mapOrderProductDetails(product);
   }
 
-  async creatProduct(product: CreateOrderProductDto, order: OrderDetailEntity) {
+  async create(product: CreateOrderProductDto, order: OrderDetailEntity) {
     const newProduct = await this.orderProductsRepository.save(product);
     order.products = [...order.products, newProduct];
     await order.save();
@@ -28,7 +28,7 @@ export class OrderProductService {
     return this.orderDetailMappingService.mapOrderProductDetails(newProduct);
   }
 
-  async updateProduct(id: string, productData: UpdateOrderProductDto) {
+  async update(id: string, productData: UpdateOrderProductDto) {
     const product = await this.orderProductsRepository.findOneOrFail(id);
 
     if (productData.name) {
@@ -47,7 +47,7 @@ export class OrderProductService {
     );
   }
 
-  async deleteProduct(id: string) {
+  async delete(id: string) {
     const product = await this.orderProductsRepository.findOneOrFail({
       where: { id: id },
     });

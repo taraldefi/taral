@@ -25,16 +25,16 @@ export class OrderProductController {
   ) {}
 
   @Get('/:id')
-  async getProduct(@Param('id') id: string) {
-    return await this.orderProductService.getProduct(id);
+  async get(@Param('id') id: string) {
+    return await this.orderProductService.get(id);
   }
 
   @Post()
-  async saveProductToOrder(@Body() createOrderProduct: CreateOrderProductDto) {
+  async create(@Body() createOrderProduct: CreateOrderProductDto) {
     const order = await this.orderDetailService.findOrderById(
       createOrderProduct.orderId,
     );
-    const product = await this.orderProductService.creatProduct(
+    const product = await this.orderProductService.create(
       createOrderProduct,
       order,
     );
@@ -42,15 +42,15 @@ export class OrderProductController {
   }
 
   @Patch('/:id')
-  async updateProduct(
+  async update(
     @Param('id') id: string,
     @Body() updateOrderProduct: UpdateOrderProductDto,
   ) {
-    return await this.orderProductService.updateProduct(id, updateOrderProduct);
+    return await this.orderProductService.update(id, updateOrderProduct);
   }
 
   @Delete('/:id')
-  async deleteProduct(@Param('id') id: string) {
-    await this.orderProductService.deleteProduct(id);
+  async delete(@Param('id') id: string) {
+    await this.orderProductService.delete(id);
   }
 }

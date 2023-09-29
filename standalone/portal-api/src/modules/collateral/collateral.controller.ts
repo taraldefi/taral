@@ -21,32 +21,32 @@ import { UpdateCollateralDto } from './dto/request/update-collateral.dto';
 export class CollateralController {
   constructor(private readonly collateralService: CollateralService) {}
   @Post()
-  async createCollateral(
+  async create(
     @Body() collateral: CreateCollateralDto,
   ): Promise<GetCollateralResponse> {
-    return await this.collateralService.createCollateral(collateral);
+    return await this.collateralService.create(collateral);
   }
 
   @Get('/:id')
-  async getCollateral(@Param('id') id: string) {
-    return await this.collateralService.getCollateral(id);
+  async get(@Param('id') id: string) {
+    return await this.collateralService.get(id);
   }
 
   @Patch('/:id')
-  async updateCollateral(
+  async update(
     @Param('id') id: string,
     @Body() collateral: UpdateCollateralDto,
   ) {
-    return await this.collateralService.updateCollateral(id, collateral);
+    return await this.collateralService.update(id, collateral);
   }
 
   @Delete('/:id')
-  async deleteCollateral(@Param('id') id: string) {
-    return await this.collateralService.deleteCollateral(id);
+  async delete(@Param('id') id: string) {
+    return await this.collateralService.delete(id);
   }
 
   @Get()
-  async getAllCollaterals(): Promise<GetCollateralResponse[]> {
-    return await this.collateralService.getAllCollaterals();
+  async getAll(): Promise<GetCollateralResponse[]> {
+    return await this.collateralService.getAll();
   }
 }
