@@ -10,7 +10,7 @@ import { UpdateBuyerRequest } from "./dto/request/update-buyer.dto";
   path: 'buyers',
   version: '1',
 })
-export class EntityController {
+export class BuyersEntityController {
   constructor(private readonly buyerService: BuyerService) {
 
   }
