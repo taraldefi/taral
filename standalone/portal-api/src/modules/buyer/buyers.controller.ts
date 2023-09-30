@@ -42,4 +42,9 @@ export class BuyersEntityController {
   async getEntity(@Param('id') id: string): Promise<GetBuyerResponse> {
     return await this.buyerService.getEntity(id);
   }
+
+  @Get()
+  async getAll(): Promise<GetBuyerResponse[]> {
+    return await this.buyerService.getAll();
+  }
 }

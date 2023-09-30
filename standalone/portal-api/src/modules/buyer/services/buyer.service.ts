@@ -166,4 +166,12 @@ export class BuyerService extends BaseService {
 
     return this.mappingService.mapEntityDetails(updatedEntity);
   }
+
+  public async getAll(): Promise<GetBuyerResponse[]> {
+    const entities = await this.buyerEntityRepository.find({
+      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
+    });
+
+    return this.mappingService.mapManyEntities(entities);
+  }
 }

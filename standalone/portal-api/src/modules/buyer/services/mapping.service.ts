@@ -4,6 +4,17 @@ import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
 
 @Injectable()
 export class EntityMappingService {
+
+  public mapManyEntities(entities: BuyerEntity[]): GetBuyerResponse[] {
+    var response = new Array<GetBuyerResponse>();
+
+    entities.forEach(entity => {
+      response.push(this.mapEntityDetails(entity));
+    });
+
+    return response;
+  }
+
   public mapEntityDetails(entity: BuyerEntity): GetBuyerResponse {
     var response = new GetBuyerResponse();
 
