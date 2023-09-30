@@ -50,7 +50,7 @@ export class SupplierService extends BaseService {
         if (!id) throw triggerError('missing-entity-id');
 
         const entity = await this.supplierRepository.findOneOrFail({
-            relations: ['relationshipWithBuyers'],
+            relations: ['relationshipWithBuyers', 'company', 'company.address', 'financials', 'rating'],
             where: { id: id },
         });
 
@@ -63,7 +63,7 @@ export class SupplierService extends BaseService {
         if (!id) throw triggerError('missing-entity-id');
 
         const entity = await this.supplierRepository.findOne({
-            relations: ['relationshipWithBuyers'],
+            relations: ['relationshipWithBuyers', 'company', 'company.address', 'financials', 'rating'],
             where: { id: id },
         });
 
