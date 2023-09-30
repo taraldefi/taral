@@ -122,44 +122,75 @@ export class BuyerService extends BaseService {
 
     if (!entity) throw triggerError('entity-not-found');
 
+    let companyAddressChanged = false;
+
     if (data.company.address.addressLine1) {
+      companyAddressChanged = true;
       entity.company.address.addressLine1 = data.company.address.addressLine1;
     }
 
     if (data.company.address.addressLine2) {
+      companyAddressChanged = true;
       entity.company.address.addressLine2 = data.company.address.addressLine2;
     }
 
     if (data.company.address.city) {
+      companyAddressChanged = true;
       entity.company.address.city = data.company.address.city;
     }
 
     if (data.company.address.postalCode) {
+      companyAddressChanged = true;
       entity.company.address.postalCode = data.company.address.postalCode;
     }
 
+    if (companyAddressChanged) {
+      var addressSavedResult = await this.companyAddressRepository.save(entity.company.address);
+      entity.company.address = addressSavedResult;
+    }
+
+    let companyChanged = false;
+
     if (data.company.companyName) {
+      companyChanged = true;
       entity.company.companyName = data.company.companyName;
     }
 
     if (data.company.dateEstablished) {
+      companyChanged = true;
       entity.company.dateEstablished = data.company.dateEstablished;
     }
 
     if (data.company.employeeCount) {
+      companyChanged = true;
       entity.company.employeeCount = data.company.employeeCount;
     }
 
     if (data.company.registrationNumbers) {
+      companyChanged = true;
       entity.company.registrationNumbers = data.company.registrationNumbers;
     }
 
+    if (companyChanged) {
+      var companySavedResult = await this.buyerCompanyRepository.save(entity.company);
+      entity.company = companySavedResult;
+    }
+
+    let sectorChanged = false;
+
     if (data.sector.industryType) {
+      sectorChanged = true;
       entity.sector.industryType = data.sector.industryType;
     }
 
     if (data.sector.status) {
+      sectorChanged = true;
       entity.sector.status = data.sector.status;
+    }
+
+    if (sectorChanged) {
+      var sectorSavedResult = await this.sectorEntityRepository.save(entity.sector);
+      entity.sector = sectorSavedResult;
     }
 
     var updatedEntity = await this.buyerEntityRepository.save(entity);
