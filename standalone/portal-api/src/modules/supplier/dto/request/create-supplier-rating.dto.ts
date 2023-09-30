@@ -1,7 +1,7 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsNotEmpty, IsNumber, IsString } from "class-validator";
 
-export class CreateBuyerCompanyRequest {
+export class CreateSupplierRatingRequest {
    
     @ApiProperty({ example: 4 })
     @IsNotEmpty()
