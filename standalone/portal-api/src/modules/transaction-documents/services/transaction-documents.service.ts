@@ -16,9 +16,7 @@ export class TransactionDocumentService {
     private authenticationService: AuthenticationService,
   ) {}
 
-  async createTransactionDocument(
-    data: CreateFileDataDto,
-  ): Promise<CreateFileResponse> {
+  public async create(data: CreateFileDataDto): Promise<CreateFileResponse> {
     const documentSignatureResult = this.authenticationService.guard(
       data.signature,
       data.signedMessage,

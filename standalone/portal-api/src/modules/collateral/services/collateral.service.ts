@@ -6,6 +6,7 @@ import { CollateralsRepository } from '../repositories/collaterals.repository';
 import { GetCollateralResponse } from '../dto/response/get-collateral-response.dto';
 import { CollateralMappingService } from './mapping.service';
 import { UpdateCollateralDto } from '../dto/request/update-collateral.dto';
+import { triggerError } from 'src/modules/entity/utils/trigger.error';
 
 @Injectable()
 export class CollateralService {
@@ -15,7 +16,9 @@ export class CollateralService {
     private readonly collateralMappingService: CollateralMappingService,
   ) {}
 
-  async create(data: CreateCollateralDto): Promise<GetCollateralResponse> {
+  public async create(
+    data: CreateCollateralDto,
+  ): Promise<GetCollateralResponse> {
     const collateral = new CollateralEntity();
 
     collateral.facilityType = data.facilityType;
@@ -32,16 +35,26 @@ export class CollateralService {
   }
 
   public async get(id: string): Promise<GetCollateralResponse> {
+    if (!id) throw triggerError('missing-entity-id');
+
     const collateral = await this.collateralRepository.findOne({
       where: { id: id },
     });
+
+    if (!collateral) throw triggerError('entity-not-found');
+
     return this.collateralMappingService.mapCollateralDetails(collateral);
   }
 
   public async update(id: string, data: UpdateCollateralDto) {
-    const collateral = await this.collateralRepository.findOneOrFail({
+    if (!id) throw triggerError('missing-entity-id');
+
+    const collateral = await this.collateralRepository.findOne({
       where: { id: id },
     });
+
+    if (!collateral) throw triggerError('entity-not-found');
+
     if (data.facilityType) {
       collateral.facilityType = data.facilityType;
     }
@@ -67,21 +80,29 @@ export class CollateralService {
     if (data.collateralProviderInfluence) {
       collateral.collateralProviderInfluence = data.collateralProviderInfluence;
     }
+
     const updatedCollateral = await this.collateralRepository.save(collateral);
+
     return this.collateralMappingService.mapCollateralDetails(
       updatedCollateral,
     );
   }
 
   public async delete(id: string) {
-    const collateral = await this.collateralRepository.findOneOrFail({
+    if (!id) throw triggerError('missing-entity-id');
+
+    const collateral = await this.collateralRepository.findOne({
       where: { id: id },
     });
+
+    if (!collateral) throw triggerError('entity-not-found');
+
     await this.collateralRepository.delete({ id: id });
   }
 
   public async getAll(): Promise<GetCollateralResponse[]> {
     const collaterals = await this.collateralRepository.find();
+
     return collaterals.map((collateral) => {
       return this.collateralMappingService.mapCollateralDetails(collateral);
     });

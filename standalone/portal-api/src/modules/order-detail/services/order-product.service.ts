@@ -6,6 +6,7 @@ import { OrderProductsRepository } from '../repositories/order-products.reposito
 import { OrderDetailEntity } from '../models/order-detail.entity';
 import { UpdateOrderProductDto } from '../dto/request/update-order-product.dto';
 import { OrderDetailMappingService } from './mapping.service';
+import { triggerError } from 'src/modules/entity/utils/trigger.error';
 
 @Injectable()
 export class OrderProductService {
@@ -15,21 +16,34 @@ export class OrderProductService {
     private readonly orderDetailMappingService: OrderDetailMappingService,
   ) {}
 
-  async get(id: string) {
-    const product = await this.orderProductsRepository.findOneOrFail(id);
+  public async get(id: string) {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const product = await this.orderProductsRepository.findOne(id);
+
+    if (!product) throw triggerError('entity-not-found');
+
     return this.orderDetailMappingService.mapOrderProductDetails(product);
   }
 
-  async create(product: CreateOrderProductDto, order: OrderDetailEntity) {
+  public async create(
+    product: CreateOrderProductDto,
+    order: OrderDetailEntity,
+  ) {
     const newProduct = await this.orderProductsRepository.save(product);
+
     order.products = [...order.products, newProduct];
     await order.save();
 
     return this.orderDetailMappingService.mapOrderProductDetails(newProduct);
   }
 
-  async update(id: string, productData: UpdateOrderProductDto) {
-    const product = await this.orderProductsRepository.findOneOrFail(id);
+  public async update(id: string, productData: UpdateOrderProductDto) {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const product = await this.orderProductsRepository.findOne(id);
+
+    if (!product) throw triggerError('entity-not-found');
 
     if (productData.name) {
       product.name = productData.name;
@@ -42,16 +56,21 @@ export class OrderProductService {
     }
 
     const updatedProduct = await this.orderProductsRepository.save(product);
+
     return this.orderDetailMappingService.mapOrderProductDetails(
       updatedProduct,
     );
   }
 
-  async delete(id: string) {
-    const product = await this.orderProductsRepository.findOneOrFail({
+  public async delete(id: string) {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const product = await this.orderProductsRepository.findOne({
       where: { id: id },
     });
-    //TODO: error handling
+
+    if (!product) throw triggerError('entity-not-found');
+
     await this.orderProductsRepository.delete({ id: id });
   }
 }

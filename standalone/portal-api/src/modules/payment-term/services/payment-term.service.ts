@@ -6,6 +6,7 @@ import { PaymentTermRepository } from '../repositories/payment-term.repository';
 import { GetPaymentTermResponse } from '../dto/response/get-payment-term.response.dto';
 import { PaymentTermMappingService } from './mapping.service';
 import { UpdatePaymentTermDto } from '../dto/request/update-payment-term.dto';
+import { triggerError } from 'src/modules/entity/utils/trigger.error';
 
 @Injectable()
 export class PaymentTermService {
@@ -15,7 +16,9 @@ export class PaymentTermService {
     private paymentTermMappingService: PaymentTermMappingService,
   ) {}
 
-  async create(data: CreatePaymentTermDto): Promise<GetPaymentTermResponse> {
+  public async create(
+    data: CreatePaymentTermDto,
+  ): Promise<GetPaymentTermResponse> {
     const paymentTerm = new PaymentTermEntity();
 
     paymentTerm.isConcluded = data.isConcluded;
@@ -28,20 +31,30 @@ export class PaymentTermService {
     paymentTerm.paymentDuration = data.paymentDuration;
 
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
+
     return this.paymentTermMappingService.mapPaymentTermDetails(
       savedPaymentTerm,
     );
   }
-  async get(id: string): Promise<GetPaymentTermResponse> {
-    const paymentTerm = await this.paymentTermRepository.findOneOrFail(id);
+  public async get(id: string): Promise<GetPaymentTermResponse> {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const paymentTerm = await this.paymentTermRepository.findOne(id);
+
+    if (!paymentTerm) throw triggerError('entity-not-found');
+
     return this.paymentTermMappingService.mapPaymentTermDetails(paymentTerm);
   }
 
-  async update(
+  public async update(
     id: string,
     data: UpdatePaymentTermDto,
   ): Promise<GetPaymentTermResponse> {
-    const paymentTerm = await this.paymentTermRepository.findOneOrFail(id);
+    if (!id) throw triggerError('missing-entity-id');
+
+    const paymentTerm = await this.paymentTermRepository.findOne(id);
+
+    if (!paymentTerm) throw triggerError('entity-not-found');
 
     paymentTerm.isConcluded = data.isConcluded || false;
     paymentTerm.partialRefinancing = data.partialRefinancing || false;
@@ -73,12 +86,17 @@ export class PaymentTermService {
     );
   }
 
-  async delete(id: string) {
-    const paymentTerm = await this.paymentTermRepository.findOneOrFail(id);
+  public async delete(id: string) {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const paymentTerm = await this.paymentTermRepository.findOne(id);
+
+    if (!paymentTerm) throw triggerError('entity-not-found');
+
     await this.paymentTermRepository.delete({ id: id });
   }
 
-  async getAll(): Promise<GetPaymentTermResponse[]> {
+  public async getAll(): Promise<GetPaymentTermResponse[]> {
     const paymentTerms = await this.paymentTermRepository.find();
     return paymentTerms.map((paymentTerm) => {
       return this.paymentTermMappingService.mapPaymentTermDetails(paymentTerm);

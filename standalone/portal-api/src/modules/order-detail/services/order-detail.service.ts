@@ -6,6 +6,7 @@ import { OrderDetailsRepository } from '../repositories/order-details.repository
 import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-response.dto';
 import { OrderDetailMappingService } from './mapping.service';
 import { UpdateOrderDetailDto } from '../dto/request/update-order-detail.dto';
+import { triggerError } from 'src/modules/entity/utils/trigger.error';
 
 @Injectable()
 export class OrderDetailService {
@@ -14,56 +15,86 @@ export class OrderDetailService {
     private orderDetailsRepository: OrderDetailsRepository,
     private orderDetailMappingService: OrderDetailMappingService,
   ) {}
-  async findOrderById(id: string): Promise<OrderDetailEntity> {
-    return await this.orderDetailsRepository.findOne(id, {
+
+  public async findOrderById(id: string): Promise<OrderDetailEntity> {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const order = await this.orderDetailsRepository.findOne(id, {
       relations: ['products'],
     });
+
+    if (!order) throw triggerError('entity-not-found');
+
+    return order;
   }
-  async create(data: CreateOrderDetailDto): Promise<GetOrderDetailsResponse> {
+
+  public async create(
+    data: CreateOrderDetailDto,
+  ): Promise<GetOrderDetailsResponse> {
     const order = new OrderDetailEntity();
 
     order.importPort = data.importPort;
     order.exportPort = data.exportPort;
     order.products = [];
+
     const savedOrder = await this.orderDetailsRepository.save(order);
+
     return this.orderDetailMappingService.mapOrderDetails(savedOrder);
   }
-  async get(id: string): Promise<GetOrderDetailsResponse> {
+
+  public async get(id: string): Promise<GetOrderDetailsResponse> {
+    if (!id) throw triggerError('missing-entity-id');
+
     const order = await this.orderDetailsRepository.findOne(id, {
       relations: ['products'],
     });
+    if (!order) throw triggerError('entity-not-found');
+
     return this.orderDetailMappingService.mapOrderDetails(order);
   }
 
-  async update(
+  public async update(
     id: string,
     data: UpdateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
-    const order = await this.orderDetailsRepository.findOneOrFail(id, {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const order = await this.orderDetailsRepository.findOne(id, {
       relations: ['products'],
     });
+
+    if (!order) throw triggerError('entity-not-found');
+
     if (data.importPort) {
       order.importPort = data.importPort;
     }
     if (data.exportPort) {
       order.exportPort = data.exportPort;
     }
+
     const updatedOrder = await this.orderDetailsRepository.save(order);
+
     return this.orderDetailMappingService.mapOrderDetails(updatedOrder);
   }
 
-  async delete(id: string) {
-    const order = await this.orderDetailsRepository.findOneOrFail({
+  public async delete(id: string) {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const order = await this.orderDetailsRepository.findOne({
       where: { id: id },
       relations: ['products'],
     });
+
+    if (!order) throw triggerError('entity-not-found');
+
     await this.orderDetailsRepository.delete({ id: id });
   }
 
-  async getAll(): Promise<GetOrderDetailsResponse[]> {
+  public async getAll(): Promise<GetOrderDetailsResponse[]> {
     const orders = await this.orderDetailsRepository.find({
       relations: ['products'],
     });
+
     return orders.map((order) => {
       return this.orderDetailMappingService.mapOrderDetails(order);
     });

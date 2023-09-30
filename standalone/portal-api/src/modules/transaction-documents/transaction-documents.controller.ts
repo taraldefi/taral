@@ -27,18 +27,15 @@ export class TransactionDocumentController {
       },
     },
   })
-  @Post('create-file')
+  @Post('create-doc')
   @FormDataRequest({ storage: MemoryStoredFile })
-  async createTransactionDocument(
-    @Body() data: CreateFileDataDto,
-  ): Promise<CreateFileResponse> {
+  async create(@Body() data: CreateFileDataDto): Promise<CreateFileResponse> {
     //TODO: add validation
     // if (!fileData || !fileData.file) {
     //   throw triggerError('no-file');
     // }
 
-    const response =
-      await this.transactionDocumentService.createTransactionDocument(data);
+    const response = await this.transactionDocumentService.create(data);
 
     return response;
   }
