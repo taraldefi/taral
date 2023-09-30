@@ -43,4 +43,9 @@ export class SuppliersEntityController {
   async getEntity(@Param('id') id: string): Promise<GetSupplierResponse> {
     return await this.supplierService.getEntity(id);
   }
+
+  @Get()
+  async getAll(): Promise<GetSupplierResponse[]> {
+    return await this.supplierService.getAll();
+  }
 }

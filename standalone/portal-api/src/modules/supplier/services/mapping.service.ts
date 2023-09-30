@@ -4,6 +4,17 @@ import { GetSupplierResponse } from '../dto/response/get-supplier-response.dto';
 
 @Injectable()
 export class EntityMappingService {
+
+  public mapManyEntities(entities: SupplierEntity[]): GetSupplierResponse[] {
+    var response = new Array<GetSupplierResponse>();
+
+    entities.forEach(entity => {
+      response.push(this.mapEntityDetails(entity));
+    });
+
+    return response;
+  }
+
   public mapEntityDetails(entity: SupplierEntity): GetSupplierResponse {
     var response = new GetSupplierResponse();
 

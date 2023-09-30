@@ -59,6 +59,15 @@ export class SupplierService extends BaseService {
         await this.supplierRepository.delete({ id: id });
     }
 
+    public async getAll(): Promise<GetSupplierResponse[]> {
+
+        const entities = await this.supplierRepository.find({
+            relations: ['relationshipWithBuyers', 'company', 'company.address', 'financials', 'rating'],
+        });
+
+        return this.mappingService.mapManyEntities(entities);
+    }
+
     public async getEntity(id: string): Promise<GetSupplierResponse> {
         if (!id) throw triggerError('missing-entity-id');
 
@@ -158,6 +167,8 @@ export class SupplierService extends BaseService {
         });
 
         if (!entity) throw triggerError('entity-not-found');
+
+        console.log(JSON.stringify(data, null, 2));
 
         if (data.company.address.addressLine1) {
             entity.company.address.addressLine1 = data.company.address.addressLine1;
