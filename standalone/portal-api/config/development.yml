@@ -6,7 +6,9 @@ db:
   password: 'secret'
   synchronize: false
 
-
+app:
+  runchainhook: false
+  runjobs: false
   
 # DATABASE_TYPE=postgres
 # DATABASE_HOST=localhost
