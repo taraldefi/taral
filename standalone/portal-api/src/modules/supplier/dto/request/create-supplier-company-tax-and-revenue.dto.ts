@@ -3,12 +3,12 @@ import { IsBoolean, IsDateString, IsNotEmpty, IsNumberString, IsOptional, IsStri
 
 export class CreateSupplierCompanyTaxAndRevenueRequest {
     
-    @ApiProperty({ example: 'Engelbrecht Ltd' })
+    @ApiProperty({ example: '123456' })
     @IsOptional()
     @IsString()
     taxNumber?: string;
   
-    @ApiProperty({ example: '12-12-2022' })
+    @ApiProperty({ example: '2022-12-12' })
     @IsDateString()
     lastFiscalYear?: Date;
   
@@ -20,7 +20,6 @@ export class CreateSupplierCompanyTaxAndRevenueRequest {
     @ApiProperty({ example: '1000000000' })
     @IsNumberString()
     exportValue?: number;
-  
 
     @ApiProperty({ example: '1000000000' })
     @IsNotEmpty()

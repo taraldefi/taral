@@ -14,7 +14,7 @@ export class CreateSupplierRatingRequest {
     agencyName: string;
   
 
-    @ApiProperty({ example: '12-12-2022' })
+    @ApiProperty({ example: '2022-12-12' })
     @IsNotEmpty()
     @IsDateString()
     issuanceDate: Date;

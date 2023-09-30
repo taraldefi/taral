@@ -19,6 +19,7 @@ export class SuppliersEntityController {
   async createEntity(
     @Body() entity: CreateSupplierRequest,
   ): Promise<GetSupplierResponse> {
+    console.log(JSON.stringify(entity, null, 2));
     return await this.supplierService.createEntity(entity);
   }
 

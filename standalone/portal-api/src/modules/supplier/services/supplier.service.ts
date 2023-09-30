@@ -84,6 +84,11 @@ export class SupplierService extends BaseService {
 
         const address = new CompanyAddressEntity();
 
+        company.address = address;
+        entity.company = company;
+
+        console.log(JSON.stringify(data, null, 2));
+
         entity.company.address.addressLine1 = data.company.address.addressLine1;
         entity.company.address.addressLine2 = data.company.address.addressLine2;
         entity.company.address.city = data.company.address.city;
@@ -106,6 +111,7 @@ export class SupplierService extends BaseService {
         taxAndRevenue.exportRevenuePercentage = data.company.taxAndRevenue.exportRevenuePercentage;
         taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
         taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
+        taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
 
         var taxAndRevenueSavedResult = await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
