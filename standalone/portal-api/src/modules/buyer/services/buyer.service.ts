@@ -53,7 +53,7 @@ export class BuyerService extends BaseService {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne({
-      relations: ['relationshipWithSuppliers'],
+      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
       where: { id: id },
     });
 
