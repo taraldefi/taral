@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
-import { CreateOrderProductDto } from './create-order-product.dto';
-import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateOrderDetailDto {
   @ApiProperty({
@@ -19,9 +17,4 @@ export class CreateOrderDetailDto {
   @IsNotEmpty()
   @IsString()
   exportPort: string;
-
-  @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => CreateOrderProductDto)
-  products: CreateOrderProductDto[];
 }

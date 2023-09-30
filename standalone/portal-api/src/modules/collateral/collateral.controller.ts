@@ -1,30 +1,52 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCollateralDto } from './dto/request/create-collateral.dto';
-import { GetCollateralDto } from './dto/response/get-collateral.dto';
+import { GetCollateralResponse } from './dto/response/get-collateral-response.dto';
 import { CollateralService } from './services/collateral.service';
+import { UpdateCollateralDto } from './dto/request/update-collateral.dto';
 
 @ApiTags('Collaterals')
 @Controller({
-  path: 'collaterals',
+  path: 'collateral',
   version: '1',
 })
 export class CollateralController {
   constructor(private readonly collateralService: CollateralService) {}
   @Post()
-  async createCollateral(
+  async create(
     @Body() collateral: CreateCollateralDto,
-  ): Promise<GetCollateralDto> {
-    return await this.collateralService.createCollateral(collateral);
+  ): Promise<GetCollateralResponse> {
+    return await this.collateralService.create(collateral);
   }
 
   @Get('/:id')
-  async getCollateral(@Param('id') id) {
-    return await this.collateralService.getCollateral(id);
+  async get(@Param('id') id: string) {
+    return await this.collateralService.get(id);
+  }
+
+  @Patch('/:id')
+  async update(
+    @Param('id') id: string,
+    @Body() collateral: UpdateCollateralDto,
+  ) {
+    return await this.collateralService.update(id, collateral);
+  }
+
+  @Delete('/:id')
+  async delete(@Param('id') id: string) {
+    return await this.collateralService.delete(id);
   }
 
   @Get()
-  async getAllCollaterals(): Promise<GetCollateralDto[]> {
-    return await this.collateralService.getAllCollaterals();
+  async getAll(): Promise<GetCollateralResponse[]> {
+    return await this.collateralService.getAll();
   }
 }
