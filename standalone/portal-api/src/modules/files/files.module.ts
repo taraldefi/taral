@@ -21,6 +21,7 @@ import { FileParticipantEntity } from './entities/file-participant.entity';
     ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
+  exports: [FilesService, AuthenticationService],
   controllers: [FilesController],
   providers: [
     ConfigModule,
