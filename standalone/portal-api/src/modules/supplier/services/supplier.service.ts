@@ -153,7 +153,7 @@ export class SupplierService extends BaseService {
         this.setupTransactionHooks();
         
         const entity = await this.supplierRepository.findOneOrFail({
-            relations: ['relationshipWithBuyers', 'company', 'financials', 'rating'],
+            relations: ['relationshipWithBuyers', 'company', 'company.address', 'financials', 'rating'],
             where: { id: id },
         });
 
