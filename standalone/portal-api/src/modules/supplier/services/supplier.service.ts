@@ -23,7 +23,7 @@ import { UpdateSupplierRequest } from "../dto/request/update-supplier.dto";
 @Injectable()
 export class SupplierService extends BaseService {
     constructor(
-        @InjectRepository(SupplierRepository)
+        @InjectRepository(SupplierEntity)
         private supplierRepository: SupplierRepository,
 
         @InjectRepository(SupplierCompanyEntity)

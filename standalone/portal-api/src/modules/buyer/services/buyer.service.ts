@@ -28,7 +28,7 @@ export class BuyerService extends BaseService {
     @InjectRepository(BuyerCompanyEntity)
     private buyerCompanyRepository: BuyerCompanyEntityRepository,
 
-    @InjectRepository(SectorEntityRepository)
+    @InjectRepository(SectorEntity)
     private sectorEntityRepository: SectorEntityRepository,
 
     private mappingService: EntityMappingService,

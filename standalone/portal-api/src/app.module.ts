@@ -163,11 +163,17 @@ export class AppModule {
     const shouldRunJobs = config.get('app.runjobs');
 
     if (shouldRunChainhook) {
+      console.log('Running chainhook');
       imports.push(RabbitMqModule);
+    } else {
+      console.log('Not running chainhook');
     }
 
     if (shouldRunJobs) {
+      console.log('Running jobs');
       imports.push(JobsModule);
+    } else {
+      console.log('Not running jobs');
     }
     
     return imports;
