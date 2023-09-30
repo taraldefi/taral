@@ -72,8 +72,11 @@ export class BuyerService extends BaseService {
 
     const entity = new BuyerEntity();
     const company = new BuyerCompanyEntity();
-
     const address = new CompanyAddressEntity();
+
+    company.address = address;
+    entity.company = company;
+
     entity.company.address.addressLine1 = data.company.address.addressLine1;
     entity.company.address.addressLine2 = data.company.address.addressLine2;
     entity.company.address.city = data.company.address.city;
@@ -112,8 +115,9 @@ export class BuyerService extends BaseService {
     this.setupTransactionHooks();
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['relationshipWithSuppliers', 'sector', 'company'],
+      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
       where: { id: id },
+      loadEagerRelations: true,
     });
 
     if (!entity) throw triggerError('entity-not-found');
