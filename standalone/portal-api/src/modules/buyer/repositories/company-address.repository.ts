@@ -1,6 +1,6 @@
 import { BaseRepository } from 'src/common/transaction/BaseRepository';
 import { EntityRepository } from 'typeorm';
-import { BuyerEntity } from '../models/buyer.entity';
+import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
 
-@EntityRepository(BuyerEntity)
-export class CompanyAddressEntityRepository extends BaseRepository<BuyerEntity> {}
+@EntityRepository(CompanyAddressEntity)
+export class CompanyAddressEntityRepository extends BaseRepository<CompanyAddressEntity> {}
