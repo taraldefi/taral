@@ -164,62 +164,98 @@ export class SupplierService extends BaseService {
         const entity = await this.supplierRepository.findOneOrFail({
             relations: ['relationshipWithBuyers', 'company', 'company.address', 'financials', 'rating'],
             where: { id: id },
+            loadEagerRelations: true
         });
 
         if (!entity) throw triggerError('entity-not-found');
 
-        console.log(JSON.stringify(data, null, 2));
+        let companyAddressChanged = false;
 
         if (data.company.address.addressLine1) {
+            companyAddressChanged = true;
             entity.company.address.addressLine1 = data.company.address.addressLine1;
         }
 
         if (data.company.address.addressLine2) {
+            companyAddressChanged = true;
             entity.company.address.addressLine2 = data.company.address.addressLine2;
         }
 
         if (data.company.address.city) {
+            companyAddressChanged = true;
             entity.company.address.city = data.company.address.city;
         }
 
         if (data.company.address.postalCode) {
+            companyAddressChanged = true;
             entity.company.address.postalCode = data.company.address.postalCode;
         }
 
+        if (companyAddressChanged) {
+            await this.companyAddressRepository.save(entity.company.address);
+        }
+
+        let companyChanged = false;
+
         if (data.company.companyName) {
+            companyChanged = true;
             entity.company.companyName = data.company.companyName;
         }
 
         if (data.company.dateEstablished) {
+            companyChanged = true;
             entity.company.dateEstablished = data.company.dateEstablished;
         }
 
         if (data.company.employeeCount) {
+            companyChanged = true;
             entity.company.employeeCount = data.company.employeeCount;
         }
 
         if (data.company.registrationNumbers) {
+            companyChanged = true;
             entity.company.registrationNumbers = data.company.registrationNumbers;
         }
 
+        if (companyChanged) {
+            await this.supplierCompanyRepository.save(entity.company);
+        }
+        
+        let financialInformationChanged = false;
+
         if (data.financialInformation.turnover) {
+            financialInformationChanged = true;
             entity.financials.turnover = data.financialInformation.turnover;
         }
 
         if (data.financialInformation.balanceSheetTotal) {
+            financialInformationChanged = true;
             entity.financials.balanceSheetTotal = data.financialInformation.balanceSheetTotal;
         }
 
+        if (financialInformationChanged) {
+            await this.supplierFinancialInformationRepository.save(entity.financials);
+        }
+
+        let ratingChanged = false;
+
         if (data.rating.agencyName) {
+            ratingChanged = true;
             entity.rating.agencyName = data.rating.agencyName;
         }
 
         if (data.rating.rating) {
+            ratingChanged = true;
             entity.rating.rating = data.rating.rating;
         }
 
         if (data.rating.issuanceDate) {
+            ratingChanged = true;
             entity.rating.issuanceDate = data.rating.issuanceDate;
+        }
+
+        if (ratingChanged) {
+            await this.supplierRatingRepository.save(entity.rating);
         }
 
         var updatedEntity = await this.supplierRepository.save(entity);
