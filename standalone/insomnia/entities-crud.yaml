@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-09-13T08:41:11.736Z
+__export_date: 2023-09-30T08:55:55.594Z
 __export_source: insomnia.desktop.app:v2023.5.8
 resources:
   - _id: req_de65aa11a15b40f9827b92d889b3c28b
@@ -314,6 +314,190 @@ resources:
         value: application/json
     authentication: {}
     metaSortKey: -1684784119943
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2735d46e2fa2469895f9c9119b5188e2
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063171459
+    created: 1696062587106
+    url: http://localhost:3000/api/v1/suppliers
+    name: Create Supplier
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"financialInformation": {
+        		"turnover": 10000000,
+        		"balanceSheetTotal": 150000
+        	},
+        	
+        	"rating": {
+        		"rating": 5,
+        		"agencyName": "Discovery LTD",
+        		"issuanceDate": "2022-12-12"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696062590777
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_bf766d6d613b43629efa9224ee0a5c79
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1696062579911
+    created: 1696062579911
+    name: Suppliers
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1696062579911
+    _type: request_group
+  - _id: req_72b289039ef842d59dd21372786f3061
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696064014886
+    created: 1696063509346
+    url: http://localhost:3000/api/v1/suppliers/902ef3f1-ccf1-44b8-84e2-772e211a49d6
+    name: Update Supplier
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd International",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"financialInformation": {
+        		"turnover": 10000000,
+        		"balanceSheetTotal": 150000
+        	},
+        	
+        	"rating": {
+        		"rating": 5,
+        		"agencyName": "Discovery LTD",
+        		"issuanceDate": "2022-12-12"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1690423355360
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_61cdeb67d78a4dda9169d054ceed0355
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063710917
+    created: 1696063703142
+    url: http://localhost:3000/api/v1/suppliers/f4fa8b6c-3b34-41a9-8f6c-7aba6fdf42af
+    name: Get Supplier
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1687603737651.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8fe6d7558cc843e9b38edffcf7992c4a
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063991944
+    created: 1696063815239
+    url: http://localhost:3000/api/v1/suppliers
+    name: Get All Suppliers
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1686193928797.25
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
@@ -1035,7 +1219,7 @@ resources:
     _type: cookie_jar
   - _id: spc_963a7d285f494808a1437df9c060dd03
     parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
-    modified: 1694153373438
+    modified: 1696062568007
     created: 1657549088952
     fileName: New Document
     contents: ""
