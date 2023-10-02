@@ -29,8 +29,9 @@ import {
 import { useAtom } from "jotai";
 import ContentLoader from "react-content-loader";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
+import { useRouter } from "next/router";
 
-function Index() {
+function Index({ ...props }) {
   const [searchInput, setSearchInput] = useState("");
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
@@ -43,24 +44,18 @@ function Index() {
   const [entityCreated] = useAtom(EntityCreatedAtom);
   const [isLoading, setLoading] = useState(false);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   const searchItems = (searchValue: string) => {
     setSearchInput(searchValue);
   };
   const [entities, setEntities] = useAtom(EntitiesAtom);
   useEffect(() => {
-    async function fetchData() {
-      try {
-        setLoading(true);
-        const res = await entityService.getAllEntity();
-        setEntities(res);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching entity:", error);
-      }
-    }
-
-    fetchData();
+    refreshData();
   }, [entityEdited, entityDeleted, entityCreated]);
 
   const handleDelete = async (entityIdToDelete: string) => {
@@ -110,13 +105,13 @@ function Index() {
     return (
       <div className="entityContainer">
         {!isLoading
-          ? entities
-              .filter(function (item) {
+          ? props.entities
+              .filter(function (item: any) {
                 return item!.name
                   .toLowerCase()
                   .includes(searchInput.toLowerCase());
               })
-              .map((item, index) => {
+              .map((item: any, index: any) => {
                 return (
                   <Entity
                     fetchLogo={fetchEntityLogo}
@@ -164,7 +159,7 @@ function Index() {
       {/* {<BottomBar></BottomBar>} */}
       <div className="mainBody">
         {" "}
-        {entities.length ? (
+        {props.entities.length ? (
           <EntityBody></EntityBody>
         ) : (
           <div
@@ -205,6 +200,21 @@ function Index() {
       <NotificationModal isOpen={notificationModal.isOpen}></NotificationModal>
     </div>
   );
+}
+export async function getServerSideProps() {
+  try {
+    const res = await entityService.getAllEntity();
+    const entities = res || [];
+
+    return {
+      props: { entities },
+    };
+  } catch (error) {
+    console.error("Error fetching entity:", error);
+    return {
+      props: { entities: [] },
+    };
+  }
 }
 
 export default Index;

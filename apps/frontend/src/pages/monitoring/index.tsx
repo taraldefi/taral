@@ -4,7 +4,7 @@ function Monitoring() {
   return (
     <>
       <Layout>
-        <div className="monitoring">Monitoring page</div>
+        <div className="monitoring">coming soon</div>
       </Layout>
     </>
   );

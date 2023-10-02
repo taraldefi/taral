@@ -6905,13 +6905,14 @@ axios@*, axios@1.4.0:
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
-axios@^0.27.2:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
-  integrity sha512-t+yRIyySRTp/wua5xEr+z1q60QmLq8ABsS5O9Me1AsE5dfKqgnCFzwiCZZ/cGNd1lq4/7akDWMxdhVlucjmnOQ==
+axios@^1.5.1:
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-1.5.1.tgz#11fbaa11fc35f431193a9564109c88c1f27b585f"
+  integrity sha512-Q28iYCWzNHjAm+yEAot5QaAMxhMghWLFVf7rRdwhUI+c2jix2DUXjAHXVi+s1ibs3mjPO/cCgbA++3BjD0vP/A==
   dependencies:
-    follow-redirects "^1.14.9"
+    follow-redirects "^1.15.0"
     form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
 
 axobject-query@^3.1.1:
   version "3.2.1"
@@ -10712,7 +10713,7 @@ flow-parser@0.*:
   resolved "https://registry.yarnpkg.com/flow-parser/-/flow-parser-0.214.0.tgz#455efc841ec015c62f6dec022cf6c61480f231a2"
   integrity sha512-RW1Dh6BuT14DA7+gtNRKzgzvG3GTPdrceHCi4ddZ9VFGQ9HtO5L8wzxMGsor7XtInIrbWZZCSak0oxnBF7tApw==
 
-follow-redirects@^1.0.0, follow-redirects@^1.14.9, follow-redirects@^1.15.0:
+follow-redirects@^1.0.0, follow-redirects@^1.15.0:
   version "1.15.2"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
   integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==

@@ -82,6 +82,7 @@ class EntityService {
     try {
       const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
       const { data } = response;
+      console.log(response);
 
       if (response.status === 201) {
         return data;
