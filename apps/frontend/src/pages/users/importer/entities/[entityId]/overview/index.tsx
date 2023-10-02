@@ -1,21 +1,20 @@
 import EntityView from "@components/entity/entityView";
 import Layout from "@components/layouts/layout";
-import { DeleteModal, EntityTable } from "taral-ui";
+import useModal from "@hooks/useModal";
 import entityService from "@services/entityService";
-import React, { useEffect, useState } from "react";
-import { Entity } from "src/types";
-import { useAtom } from "jotai";
+import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
 import {
-  EntitiesAtom,
   EntityDeletedAtom,
   EntityEditedAtom,
   currentSelectedEntityAtom,
 } from "@store/entityStore";
-import ContentLoader from "react-content-loader";
-import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
-import useModal from "@hooks/useModal";
-import { useRouter } from "next/router";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
+import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import ContentLoader from "react-content-loader";
+import { Entity } from "src/types";
+import { DeleteModal, EntityTable } from "taral-ui";
 
 const TableData = [
   {
@@ -59,7 +58,7 @@ const TableData = [
 function index() {
   const [entityData, setEntityData] = useState<Entity>();
   const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
-  const [, setEntities] = useAtom(EntitiesAtom);
+
   const entityId = currentSelectedEntity;
   const [entityEdited] = useAtom(EntityEditedAtom);
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
@@ -90,9 +89,7 @@ function index() {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {
         if (data) {
           // Update the state to remove the deleted entity
-          setEntities((prevEntities: any) =>
-            prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
-          );
+
           setEntityDeleted(entityIdToDelete);
           // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
           setSelectedEntity("");
@@ -170,5 +167,22 @@ function index() {
     </Layout>
   );
 }
+// export async function getServerSideProps({ query }: any) {
+//   const entityId = query?.entityId;
+//   try {
+//     const res = await entityService.getEntity(entityId);
+//     const entity = res || [];
+
+//     return {
+//       props: { entity },
+//     };
+//   } catch (error) {
+//     //TODO: Handle error
+//     console.error("Error fetching entity:", error);
+//     return {
+//       props: { entity: {} },
+//     };
+//   }
+// }
 
 export default index;

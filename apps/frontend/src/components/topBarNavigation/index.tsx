@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Button } from "taral-ui";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -8,17 +8,17 @@ import { pageIndexAtom } from "@store/PageIndexStore";
 import { useModal } from "@utils/hooks";
 import { ApplicationModalAtom, FormModalAtom } from "@store/ModalStore";
 import {
-  EntitiesAtom,
   EntityCreatedAtom,
   currentSelectedEntityAtom,
 } from "@store/entityStore";
 import entityService from "@services/entityService";
+import { EntityCardResponse } from "src/types";
 
 function TopBarNav() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const formModal = useModal(FormModalAtom);
-  const [entities, setEntities] = useAtom(EntitiesAtom);
+  const [entities, setEntities] = useState<EntityCardResponse[]>([]);
   const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
     currentSelectedEntityAtom
   );
@@ -250,25 +250,26 @@ function TopBarNav() {
                       onChange={(e) => {
                         console.log(e.target.value);
                         setCurrentSelectedEntity(e.target.value);
-                        router.push(
-                          `/users/importer/entities/${currentSelectedEntity}/overview`
-                        );
+                        router.replace({
+                          pathname: `/users/importer/entities/${e.target.value}/overview`,
+                        });
                       }}
                       name=""
                       id=""
                       className="inputs"
                     >
-                      {entities.map((item, index) => {
-                        return (
-                          <option
-                            key={index}
-                            value={item.id}
-                            selected={item.id === currentSelectedEntity}
-                          >
-                            {item.name}
-                          </option>
-                        );
-                      })}
+                      {entities &&
+                        entities.map((item, index) => {
+                          return (
+                            <option
+                              key={index}
+                              value={item.id}
+                              selected={item.id === currentSelectedEntity}
+                            >
+                              {item.name}
+                            </option>
+                          );
+                        })}
                     </select>
                   </div>
                 )}

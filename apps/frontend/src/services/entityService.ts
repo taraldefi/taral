@@ -17,6 +17,7 @@ class EntityService {
       const { data } = response;
 
       if (response.status === 200) {
+        //data.logo = await this.getEntityLogo(data.logo);
         return data;
       }
     } catch (error: any) {
