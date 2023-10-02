@@ -56,34 +56,12 @@ const TableData = [
   },
 ];
 
-function index(props: { entityData: EntityCardResponse; hasError: boolean }) {
-  const [entityData, setEntityData] = useState<Entity>();
-  const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
-
-  const entityId = currentSelectedEntity;
-  const [entityEdited] = useAtom(EntityEditedAtom);
+function index(props: { entityData: Entity; hasError: boolean }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     try {
-  //       await entityService.getEntity(entityId as string).then(async (data) => {
-  //         if (data.id) {
-  //           const image = await fetchEntityLogo(data.logo);
-  //           data.logo = image;
-  //           setEntityData(data);
-  //         }
-  //       });
-  //     } catch (error) {
-  //       console.error("Error fetching entity:", error);
-  //     }
-  //   }
-
-  //   fetchData();
-  // }, [entityEdited, currentSelectedEntity]);
   if (props.hasError) {
     return <h1>Error - please try another parameter</h1>;
   }
@@ -142,15 +120,15 @@ function index(props: { entityData: EntityCardResponse; hasError: boolean }) {
               infoData={{
                 id: props.entityData.id,
                 name: props.entityData.name,
-                logo: "",
-                BeneficialOwner: "",
-                CodeAbbreviation: "",
-                Nationality: "",
-                HeadquartersLocation: "",
-                IndustryType: "",
-                CoreBusiness: "",
-                IncorporationDate: "",
-                LegalForm: "",
+                logo: props.entityData.logo,
+                BeneficialOwner: props.entityData.beneficialOwner,
+                CodeAbbreviation: props.entityData.abbreviation,
+                Nationality: props.entityData.nationality,
+                HeadquartersLocation: props.entityData.headquarters,
+                IndustryType: props.entityData.industryType,
+                CoreBusiness: props.entityData.coreBusiness,
+                IncorporationDate: props.entityData.incorporationDate,
+                LegalForm: props.entityData.legalForm,
                 productCount: 20,
               }}
             />
@@ -178,16 +156,16 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const itemID = context.params?.entityId;
   const data = await entityService.getAllEntity();
   const foundItem = data.find((item: EntityCardResponse) => itemID === item.id);
-
   if (!foundItem) {
     return {
       props: { hasError: true },
     };
   }
+  const entity = await entityService.getEntity(itemID as string);
 
   return {
     props: {
-      entityData: foundItem,
+      entityData: entity,
     },
   };
 };

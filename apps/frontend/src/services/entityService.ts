@@ -1,5 +1,6 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
+import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
 import { Entity, EntityCardResponse, EntityResponse } from "src/types";
 
@@ -17,7 +18,8 @@ class EntityService {
       const { data } = response;
 
       if (response.status === 200) {
-        //data.logo = await this.getEntityLogo(data.logo);
+        const logo = await this.getEntityLogo(data.logo);
+        data.logo = getBase64Src(logo);
         return data;
       }
     } catch (error: any) {
