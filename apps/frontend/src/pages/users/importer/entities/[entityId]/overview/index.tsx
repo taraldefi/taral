@@ -10,10 +10,11 @@ import {
 } from "@store/entityStore";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 import { useAtom } from "jotai";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
-import { Entity } from "src/types";
+import { Entity, EntityCardResponse } from "src/types";
 import { DeleteModal, EntityTable } from "taral-ui";
 
 const TableData = [
@@ -55,7 +56,7 @@ const TableData = [
   },
 ];
 
-function index() {
+function index(props: { entityData: EntityCardResponse; hasError: boolean }) {
   const [entityData, setEntityData] = useState<Entity>();
   const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
 
@@ -66,24 +67,30 @@ function index() {
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        await entityService.getEntity(entityId as string).then(async (data) => {
-          if (data.id) {
-            const image = await fetchEntityLogo(data.logo);
-            data.logo = image;
-            setEntityData(data);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching entity:", error);
-      }
-    }
+  // useEffect(() => {
+  //   async function fetchData() {
+  //     try {
+  //       await entityService.getEntity(entityId as string).then(async (data) => {
+  //         if (data.id) {
+  //           const image = await fetchEntityLogo(data.logo);
+  //           data.logo = image;
+  //           setEntityData(data);
+  //         }
+  //       });
+  //     } catch (error) {
+  //       console.error("Error fetching entity:", error);
+  //     }
+  //   }
 
-    fetchData();
-  }, [entityEdited, currentSelectedEntity]);
+  //   fetchData();
+  // }, [entityEdited, currentSelectedEntity]);
+  if (props.hasError) {
+    return <h1>Error - please try another parameter</h1>;
+  }
 
+  if (router.isFallback) {
+    return <h1>Loading...</h1>;
+  }
   const handleDelete = async (entityIdToDelete: string) => {
     try {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {
@@ -130,20 +137,20 @@ function index() {
     <Layout>
       <div className="viewbody">
         <div className="viewContainer">
-          {entityData ? (
+          {props.entityData ? (
             <EntityView
               infoData={{
-                id: entityData.id,
-                name: entityData.name,
-                logo: entityData.logo,
-                BeneficialOwner: entityData.beneficialOwner,
-                CodeAbbreviation: entityData.abbreviation,
-                Nationality: entityData.nationality,
-                HeadquartersLocation: entityData.headquarters,
-                IndustryType: entityData.industryType,
-                CoreBusiness: entityData.coreBusiness,
-                IncorporationDate: entityData.incorporationDate,
-                LegalForm: entityData.legalForm,
+                id: props.entityData.id,
+                name: props.entityData.name,
+                logo: "",
+                BeneficialOwner: "",
+                CodeAbbreviation: "",
+                Nationality: "",
+                HeadquartersLocation: "",
+                IndustryType: "",
+                CoreBusiness: "",
+                IncorporationDate: "",
+                LegalForm: "",
                 productCount: 20,
               }}
             />
@@ -167,22 +174,34 @@ function index() {
     </Layout>
   );
 }
-// export async function getServerSideProps({ query }: any) {
-//   const entityId = query?.entityId;
-//   try {
-//     const res = await entityService.getEntity(entityId);
-//     const entity = res || [];
+export const getStaticProps: GetStaticProps = async (context) => {
+  const itemID = context.params?.entityId;
+  const data = await entityService.getAllEntity();
+  const foundItem = data.find((item: EntityCardResponse) => itemID === item.id);
 
-//     return {
-//       props: { entity },
-//     };
-//   } catch (error) {
-//     //TODO: Handle error
-//     console.error("Error fetching entity:", error);
-//     return {
-//       props: { entity: {} },
-//     };
-//   }
-// }
+  if (!foundItem) {
+    return {
+      props: { hasError: true },
+    };
+  }
+
+  return {
+    props: {
+      entityData: foundItem,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await entityService.getAllEntity();
+  const pathsWithParams = data.map((entity: EntityCardResponse) => ({
+    params: { entityId: entity.id },
+  }));
+
+  return {
+    paths: pathsWithParams,
+    fallback: true,
+  };
+};
 
 export default index;
