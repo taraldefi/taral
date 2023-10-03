@@ -1,6 +1,6 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import loader from "../../src/loader";
+import globalloader from "../../src/loader";
 
 class MyDocument extends Document {
   render() {
@@ -8,13 +8,12 @@ class MyDocument extends Document {
       <Html>
         <Head />
         <head>
-          <style>{loader}</style>
+          <style>{globalloader}</style>
         </head>
         <body>
           <div id={"globalLoader"}>
             <div className="loader">
-              <div />
-              <div />
+              <img src="/assets/images/logo-500.png" alt="" />
             </div>
           </div>
           <Main />

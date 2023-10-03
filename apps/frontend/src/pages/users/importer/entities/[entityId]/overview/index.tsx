@@ -62,6 +62,9 @@ function index(props: { entityData: Entity; hasError: boolean }) {
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
+  if (router.isFallback) {
+    return;
+  }
   const handleDelete = async (entityIdToDelete: string) => {
     try {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {

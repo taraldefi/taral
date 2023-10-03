@@ -10,49 +10,31 @@ display: block;
     transform: translate(-50%, -50%);
     background-color: #fff;
     display: flex;
-    left: 0,
-    right: 0;
     width: 100%;
     height: 100%;
     justify-content: center;
     align-items: center;
 }
 .loader {
- --clr: #1AB98B;
- /* color of spining  */
- width: 50px;
- height: 50px;
- position: relative;
+    border: 10px solid #f3f3f3; /* Light grey */
+    border-top: 10px solid #1AB98B; /* Dark Green */
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+   
+    animation: spinloader 2s linear infinite;
 }
-.loader div:nth-child(1), .loader div:nth-child(2) {
- content: "";
- position: absolute;
- top: -10px;
- left: -10px;
- width: 100%;
- height: 100%;
- border-radius: 100%;
- border: 10px solid transparent;
- border-top-color: var(--clr);
+.loader img{
+    height : 100px;
+    width : 100px;
+    animation: spinlogo 2s linear infinite;
 }
-.loader div:nth-child(1) {
- z-index: 100;
- animation: spin 1s infinite;
+@keyframes spinloader {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
-.loader div:nth-child(2) {
- border: 10px solid #ccc;
+@keyframes spinlogo {
+    0% { transform: rotate(360deg); }
+    100% { transform: rotate(0deg); }
 }
-@keyframes spin {
- 0% {
-  -webkit-transform: rotate(0deg);
-  -ms-transform: rotate(0deg);
-  -o-transform: rotate(0deg);
-  transform: rotate(0deg);
- }
- 100% {
-  -webkit-transform: rotate(360deg);
-  -ms-transform: rotate(360deg);
-  -o-transform: rotate(360deg);
-  transform: rotate(360deg);
- }
 }`;
