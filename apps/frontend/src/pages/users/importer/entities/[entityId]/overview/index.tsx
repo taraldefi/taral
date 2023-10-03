@@ -62,13 +62,6 @@ function index(props: { entityData: Entity; hasError: boolean }) {
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
-  if (props.hasError) {
-    return <h1>Error - please try another parameter</h1>;
-  }
-
-  if (router.isFallback) {
-    return <h1>Loading...</h1>;
-  }
   const handleDelete = async (entityIdToDelete: string) => {
     try {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {
@@ -158,7 +151,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
   const foundItem = data.find((item: EntityCardResponse) => itemID === item.id);
   if (!foundItem) {
     return {
-      props: { hasError: true },
+      notFound: true,
     };
   }
   const entity = await entityService.getEntity(itemID as string);
