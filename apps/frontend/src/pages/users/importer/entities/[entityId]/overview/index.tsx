@@ -3,16 +3,10 @@ import Layout from "@components/layouts/layout";
 import useModal from "@hooks/useModal";
 import entityService from "@services/entityService";
 import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
-import {
-  EntityDeletedAtom,
-  EntityEditedAtom,
-  currentSelectedEntityAtom,
-} from "@store/entityStore";
-import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
+import { EntityDeletedAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { Entity, EntityCardResponse } from "src/types";
 import { DeleteModal, EntityTable } from "taral-ui";
