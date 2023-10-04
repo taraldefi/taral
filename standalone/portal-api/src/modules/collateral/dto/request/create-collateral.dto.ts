@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import { IsDecimal, IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { FacilityType } from '../../enums/facility.enum';
 
 export class CreateCollateralDto {
@@ -16,7 +16,7 @@ export class CreateCollateralDto {
     description: 'Financing ratio',
     example: 0.8,
   })
-  @IsNumber()
+  @IsDecimal()
   @IsNotEmpty()
   financingRatio: number;
 
@@ -24,7 +24,7 @@ export class CreateCollateralDto {
     description: 'Facility amount',
     example: 100000,
   })
-  @IsNumber()
+  @IsDecimal()
   @IsNotEmpty()
   facilityAmount: number;
 

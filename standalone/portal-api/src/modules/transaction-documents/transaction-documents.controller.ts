@@ -4,6 +4,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateFileDataDto } from '../files/dto/create-file-data.dto';
 import { CreateFileResponse } from '../files/dto/create-file-response.dto';
 import { TransactionDocumentService } from './services/transaction-documents.service';
+import { triggerError } from '../files/utils/trigger.errror';
 
 @ApiTags('TransactionDocs')
 @Controller({
@@ -30,10 +31,9 @@ export class TransactionDocumentController {
   @Post('create-doc')
   @FormDataRequest({ storage: MemoryStoredFile })
   async create(@Body() data: CreateFileDataDto): Promise<CreateFileResponse> {
-    //TODO: add validation
-    // if (!fileData || !fileData.file) {
-    //   throw triggerError('no-file');
-    // }
+    if (!data || !data.file) {
+      throw triggerError('no-file');
+    }
 
     const response = await this.transactionDocumentService.create(data);
 

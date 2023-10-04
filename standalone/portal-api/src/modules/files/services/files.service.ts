@@ -32,11 +32,8 @@ import { FileParticipantEntity } from '../entities/file-participant.entity';
 import { FileParticipantRepository } from '../repositories/file-participant.repository';
 import { SignatureService } from './onchain/signature.service';
 import { triggerError } from '../utils/trigger.errror';
+import { CreateFile } from '../types/file';
 
-type ICreateFile = {
-  response: CreateFileResponse;
-  savedFileEntity: FileEntity;
-};
 @Injectable()
 export class FilesService {
   constructor(
@@ -179,7 +176,7 @@ export class FilesService {
   async createFile(
     file: CreateFileDataDto,
     signature: SignatureVerificationModel,
-  ): Promise<ICreateFile> {
+  ): Promise<CreateFile> {
     const onDiskFilename = `${uuidv4()}.pdf`;
     const storage = Storage.disk('files');
 
