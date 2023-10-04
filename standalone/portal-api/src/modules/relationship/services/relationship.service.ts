@@ -51,7 +51,7 @@ export class RelationshipService extends BaseService {
  @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
  })
- public async create(entity: CreateRelationshipRequest, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
+ public async createEntity(entity: CreateRelationshipRequest, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
     this.setupTransactionHooks();
 
     if (!entity) throw triggerError('missing-entity-id');
@@ -91,7 +91,7 @@ export class RelationshipService extends BaseService {
  @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
  })
- public async update(entity: UpdateRelationshipRequest, relationshipId: string, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
+ public async updateEntity(entity: UpdateRelationshipRequest, relationshipId: string, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
     this.setupTransactionHooks();
 
     if (!entity) throw triggerError('missing-entity-id');
@@ -157,6 +157,15 @@ export class RelationshipService extends BaseService {
     return this.mappingService.mapEntityDetails(relationship);
  }
 
+ public async getEntity(id: string): Promise<GetRelationshipResponse> {
+    const entity = await this.relationshipRepository.findOneOrFail({
+        relations: ['buyer', 'supplier'],
+        where: { id: id },
+    });
+
+    return this.mappingService.mapEntityDetails(entity);
+ }
+
  public async getAll(): Promise<GetRelationshipResponse[]> {
     const entities = await this.relationshipRepository.find({
       relations: ['buyer', 'supplier'],
@@ -164,5 +173,5 @@ export class RelationshipService extends BaseService {
 
     return this.mappingService.mapManyEntities(entities);
  }
- 
+
 }

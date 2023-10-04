@@ -7,6 +7,7 @@ import { SuppliersModule } from '../supplier/suppliers.module';
 import { CompaniesModule } from '../company/company.module';
 import { EntityMappingService } from './services/mapping.service';
 import { RelationshipService } from './services/relationship.service';
+import { RelationshipController } from './relationship.controller';
 
 @Module({
   imports: [
@@ -15,7 +16,7 @@ import { RelationshipService } from './services/relationship.service';
     SuppliersModule,
     TypeOrmModule.forFeature([CollaborationRelationshipEntity])
   ],
-  controllers: [],
+  controllers: [RelationshipController],
   providers: [ConfigModule, ConfigService, RelationshipService, EntityMappingService],
 })
 export class RelationshipModule {}
