@@ -57,6 +57,11 @@ import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
 import { Rabbit } from 'crypto-js';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
+import { OrderDetailsModule } from './modules/order-detail/order-details.module';
+import { CollateralModule } from './modules/collateral/collateral.module';
+import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
+import { PaymentTermModule } from './modules/payment-term/payment-term.module';
+
 
 // const appConfig = config.get('app');
 
@@ -121,10 +126,12 @@ import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
     CompaniesModule,
     FinancialsModule,
     FilesModule,
+    TransactionDocumentModule,
     RatingsModule,
     SectorsModule,
     SuppliersModule,
     BuyersModule,
+    PaymentTermModule,
     TransactionsModule,
     GoodsAndServicesModule,
     ContractsModule,
@@ -136,7 +143,8 @@ import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
     EmailTemplateModule,
     RefreshTokenModule,
     TwofaModule,
-
+    OrderDetailsModule,
+    CollateralModule,
     RabbitMqModule,
     AuctionModule,
     AuctionHistoryModule,

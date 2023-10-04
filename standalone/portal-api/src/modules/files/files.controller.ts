@@ -55,7 +55,7 @@ export class FilesController {
       fileData.signedMessage,
     );
 
-    const response = await this.filesService.createFile(
+    const { response } = await this.filesService.createFile(
       fileData,
       signatureResult,
     );

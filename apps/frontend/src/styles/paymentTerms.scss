@@ -1,9 +1,9 @@
 .ptContainer {
   position: absolute;
   top: 127px;
-  left: 256px;
+  left: 20vw;
   display: flex;
-  width: 84%;
+  width: 80%;
   padding: 40px 40px 80px 40px;
   display: flex;
   font-size: 14px;
@@ -37,7 +37,7 @@
     }
   }
   .productContainer {
-    width: 70%;
+    width: 50%;
     color: #475569;
     display: flex;
     flex-direction: column;
