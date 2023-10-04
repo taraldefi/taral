@@ -55,6 +55,7 @@ import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
 import { JobsModule } from './modules/jobs/jobs.module';
+import { RelationshipModule } from './modules/relationship/relationship.module';
 
 @Module({
   imports: [
@@ -155,6 +156,7 @@ export class AppModule {
       TwofaModule,
       AuctionModule,
       AuctionHistoryModule,
+      RelationshipModule
     ];
 
     const config = new ConfigService();
