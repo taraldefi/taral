@@ -64,7 +64,7 @@
     "@types/styled-components": "^5.1.26",
     "eslint": "8.17.0",
     "eslint-config-next": "12.1.6",
-    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-prettier": "5.0.0",
     "husky": "^8.0.0",
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
