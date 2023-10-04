@@ -1,19 +1,54 @@
 import ApplicationLeftMenu from "@components/applicationLeftMenu";
+import FormEditModal from "@components/modal/entityEditFormModal";
+import FormModal from "@components/modal/entityFormModal";
+import NewApplicationModal from "@components/modal/newApplicationModal";
+import NotificationModal from "@components/modal/notificationModal";
+import SettingsModal from "@components/modal/settingsModal";
+import Topbar from "@components/topBar";
+import NewApplicationTopNav from "@components/topBarNavigation/newApplication";
+import useModal from "@hooks/useModal";
+import {
+  ApplicationModalAtom,
+  EditFormModalAtom,
+  FormModalAtom,
+  NotificationModalAtom,
+  SettingsModalAtom,
+} from "@store/ModalStore";
 import React from "react";
-import Layout from "./layout";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const ApplicationLayout = ({ children }: LayoutProps) => {
+  const editModal = useModal(EditFormModalAtom);
+  const applicationModal = useModal(ApplicationModalAtom);
+  const newEntityModal = useModal(FormModalAtom);
+  const settingsModal = useModal(SettingsModalAtom);
+  const notificationModal = useModal(NotificationModalAtom);
   return (
-    <>
-      <Layout>
-        <ApplicationLeftMenu></ApplicationLeftMenu>
-        <div className="mainBodyIn">{children}</div>
-      </Layout>
-    </>
+    <div>
+      <div className="topbarFix">
+        <Topbar />
+        <NewApplicationTopNav />
+      </div>
+      <ApplicationLeftMenu></ApplicationLeftMenu>
+      <div className="mainBody">{children}</div>
+      <FormModal
+        isOpen={newEntityModal.isOpen}
+        onClose={() => newEntityModal.close()}
+      ></FormModal>
+      <FormEditModal
+        isOpen={editModal.isOpen}
+        onClose={() => editModal.close()}
+      ></FormEditModal>
+      <NewApplicationModal
+        isOpen={applicationModal.isOpen}
+        onClose={() => applicationModal.close()}
+      ></NewApplicationModal>
+      <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
+      <NotificationModal isOpen={notificationModal.isOpen}></NotificationModal>
+    </div>
   );
 };
 

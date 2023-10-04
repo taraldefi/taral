@@ -1,22 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { Button } from "taral-ui";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
-import { useAtom } from "jotai";
-import { pageIndexAtom } from "@store/PageIndexStore";
-import { useModal } from "@utils/hooks";
+import entityService from "@services/entityService";
 import { ApplicationModalAtom, FormModalAtom } from "@store/ModalStore";
 import {
   EntityCreatedAtom,
   currentSelectedEntityAtom,
 } from "@store/entityStore";
-import entityService from "@services/entityService";
+import { useModal } from "@utils/hooks";
+import { useAtom } from "jotai";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { EntityCardResponse } from "src/types";
+import { Button } from "taral-ui";
 
 function TopBarNav() {
   const router = useRouter();
-  const [, setIndex] = useAtom(pageIndexAtom);
+
   const formModal = useModal(FormModalAtom);
   const [entities, setEntities] = useState<EntityCardResponse[]>([]);
   const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
@@ -26,10 +23,7 @@ function TopBarNav() {
 
   const entityID = currentSelectedEntity;
   const newApplicationModal = useModal(ApplicationModalAtom);
-  const handleClick1 = () => {
-    setIndex(0);
-    router.push(`/users/${router.asPath.split("/")[2]}/entities`);
-  };
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -162,32 +156,9 @@ function TopBarNav() {
     }
   };
 
-  const matchPathNewApp = () => {
-    const currentPath = router.asPath.split("/")[5];
-    if (currentPath === "newApplication" || currentPath === "quick") {
-      return true;
-    }
-  };
   return (
     <>
       <div className="topbarLower">
-        {matchPathNewApp() ? (
-          <>
-            <div className="newAppBackContainer">
-              <div onClick={handleClick1}>
-                <FontAwesomeIcon
-                  icon={faArrowLeft}
-                  onClick={() => alert("form changes wont be saved")}
-                  fontSize="24px"
-                  color="#003C6E"
-                />
-              </div>
-              <span>New Application</span>
-            </div>
-          </>
-        ) : (
-          <></>
-        )}
         {
           //Overview,kyc etc top bar
           router.asPath.split("/")[1] == "users" &&
