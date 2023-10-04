@@ -20,6 +20,8 @@ export class EntityMappingService {
     var response = new GetRelationshipResponse();
     response.paymentExperience = new GetPaymentExperienceResponse();
 
+    response.id = entity.id;
+
     response.influence = entity.influence;
     response.shareHoldingRelationship = entity.shareHoldingRelationship;
     response.paymentExperience.avgBusinessVol = entity.paymentExperience.avgBusinessVol;
