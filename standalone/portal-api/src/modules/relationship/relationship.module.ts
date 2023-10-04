@@ -5,6 +5,7 @@ import { CollaborationRelationshipEntity } from './models/collaboration.relation
 import { BuyersModule } from '../buyer/buyers.module';
 import { SuppliersModule } from '../supplier/suppliers.module';
 import { CompaniesModule } from '../company/company.module';
+import { EntityMappingService } from './services/mapping.service';
 
 @Module({
   imports: [
@@ -14,6 +15,6 @@ import { CompaniesModule } from '../company/company.module';
     TypeOrmModule.forFeature([CollaborationRelationshipEntity])
   ],
   controllers: [],
-  providers: [ConfigModule, ConfigService],
+  providers: [ConfigModule, ConfigService, EntityMappingService],
 })
 export class RelationshipModule {}
