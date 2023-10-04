@@ -21,5 +21,11 @@ import { SupplierRatingEntity } from '../rating/models/supplier.rating.entity';
   ],
   controllers: [SuppliersEntityController],
   providers: [ConfigModule, ConfigService, SupplierService, EntityMappingService],
+  exports: [
+    TypeOrmModule.forFeature([SupplierEntity]),
+    TypeOrmModule.forFeature([SupplierFinancialInformationEntity]),
+    TypeOrmModule.forFeature([CompanyTaxAndRevenueEntity]),
+    TypeOrmModule.forFeature([SupplierRatingEntity])
+  ],
 })
 export class SuppliersModule {}
