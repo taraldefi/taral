@@ -20,5 +20,10 @@ import { SectorsModule } from '../sectors/sectors.module';
   ],
   controllers: [BuyersEntityController],
   providers: [ConfigModule, ConfigService, BuyerService, EntityMappingService],
+  exports: [
+    TypeOrmModule.forFeature([BuyerEntity]),
+    TypeOrmModule.forFeature([CompanyAddressEntity]),
+    TypeOrmModule.forFeature([BuyerCompanyEntity])
+  ]
 })
 export class BuyersModule {}
