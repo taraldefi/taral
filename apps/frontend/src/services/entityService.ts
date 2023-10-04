@@ -2,7 +2,7 @@ import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
-import { Entity, EntityCardResponse, EntityResponse } from "src/types";
+import { EntityCardResponse, EntityResponse } from "src/types";
 
 class EntityService {
   /**
@@ -129,15 +129,12 @@ class EntityService {
    * @param id
    * @param entity
    */
-  async updateEntity(
-    id: string,
-    entity: Partial<Entity>
-  ): Promise<EntityResponse> {
+  async updateEntity(id: string, entity: FormData): Promise<EntityResponse> {
     const axiosConfig = getAxiosConfig({ method: "PATCH" });
     try {
       const response = await axios.patch(
         `${apiUrls.ENTITY}/${id}`,
-        JSON.stringify(entity),
+        entity,
         axiosConfig
       );
       const { data } = response;

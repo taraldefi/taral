@@ -64,8 +64,12 @@ function FormEditModal({ isOpen, onClose }: Props) {
     const updates = compareEntities(data!, newData);
     if (updates.logo) updates.logo = newData.logo[0];
 
+    const formData = new FormData();
+    Object.entries(updates).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
     if (entityId)
-      entityService.updateEntity(entityId, updates).then((data) => {
+      entityService.updateEntity(entityId, formData).then((data) => {
         if (data.id) {
           console.log(data.id);
           setEntityEdited(JSON.stringify(data));

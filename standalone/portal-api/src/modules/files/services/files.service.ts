@@ -32,6 +32,7 @@ import { FileParticipantEntity } from '../entities/file-participant.entity';
 import { FileParticipantRepository } from '../repositories/file-participant.repository';
 import { SignatureService } from './onchain/signature.service';
 import { triggerError } from '../utils/trigger.errror';
+import { CreateFile } from '../types/file';
 
 @Injectable()
 export class FilesService {
@@ -175,7 +176,7 @@ export class FilesService {
   async createFile(
     file: CreateFileDataDto,
     signature: SignatureVerificationModel,
-  ): Promise<CreateFileResponse> {
+  ): Promise<CreateFile> {
     const onDiskFilename = `${uuidv4()}.pdf`;
     const storage = Storage.disk('files');
 
@@ -194,7 +195,7 @@ export class FilesService {
       encryptedFileBuffer,
     );
 
-    var savedFileId = await this.saveFileEntity(
+    var savedFile = await this.saveFileEntity(
       now,
       fileHash,
       storageResponse.path,
@@ -206,12 +207,15 @@ export class FilesService {
 
     const signedFileHash = this.signatureService.signMessage(fileHash);
 
-    return this.createFileResponse(
-      fileName,
-      fileHash,
-      savedFileId,
-      signedFileHash,
-    );
+    return {
+      response: this.createFileResponse(
+        fileName,
+        fileHash,
+        savedFile.id,
+        signedFileHash,
+      ),
+      savedFileEntity: savedFile,
+    };
   }
 
   @Transactional()
@@ -269,7 +273,7 @@ export class FilesService {
     onDiskName: string,
     participantPublicKey: string,
     participantWallet: string,
-  ): Promise<string> {
+  ): Promise<FileEntity> {
     runOnTransactionRollback((cb) =>
       console.log('Rollback error ' + cb.message),
     );
@@ -300,7 +304,7 @@ export class FilesService {
     fileVersionEntity.file = fileEntity;
 
     var result = await this.fileRepository.save(fileEntity);
-    return result.id;
+    return result;
   }
 
   private async createFileParticipant(

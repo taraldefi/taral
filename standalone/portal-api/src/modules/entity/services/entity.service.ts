@@ -61,6 +61,7 @@ export class EntityService {
   }
   public async getAllEntity(): Promise<LegalEntity[]> {
     return await this.entityRepository.find({
+      relations: ['legalProducts', 'legalApplications'],
       select: ['id', 'abbreviation', 'name', 'logo'],
     });
   }
