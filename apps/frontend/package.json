@@ -28,7 +28,7 @@
     "@stacks/connect": "^7.3.1",
     "@tanstack/query-core": "^4.33.0",
     "@tanstack/react-query": "^4.33.0",
-    "axios": "^0.27.2",
+    "axios": "^1.5.1",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "jotai": "^2.0.4",
