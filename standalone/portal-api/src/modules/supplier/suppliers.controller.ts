@@ -1,5 +1,5 @@
 import { ApiTags } from "@nestjs/swagger";
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { SupplierService } from "./services/supplier.service";
 import { CreateSupplierRequest } from "./dto/request/create-supplier.dto";
 import { GetSupplierResponse } from "./dto/response/get-supplier-response.dto";
@@ -23,7 +23,7 @@ export class SuppliersEntityController {
     return await this.supplierService.createEntity(entity);
   }
 
-  @Post('/:id')
+  @Put('/:id')
   async updateEntity(
     @Param('id') id: string,
     @Body() entity: UpdateSupplierRequest,

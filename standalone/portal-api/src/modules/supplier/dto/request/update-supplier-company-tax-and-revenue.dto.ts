@@ -22,7 +22,7 @@ export class UpdateSupplierCompanyTaxAndRevenueRequest {
     exportValue?: number;
   
 
-    @ApiProperty({ example: '1000000000' })
+    @ApiProperty({ example: 'true' })
     @IsNotEmpty()
     @IsBoolean()
     audited: boolean;

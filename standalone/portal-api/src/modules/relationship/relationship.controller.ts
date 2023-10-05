@@ -1,5 +1,5 @@
 import { ApiTags } from "@nestjs/swagger";
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { RelationshipService } from "./services/relationship.service";
 import { CreateRelationshipRequest } from "./dto/request/create-relationship.dto";
 import { GetRelationshipResponse } from "./dto/response/get-relationship-response.dto";
@@ -24,7 +24,7 @@ export class RelationshipController {
     return await this.relationshipService.createEntity(entity, buyerId, supplierId);
   }
 
-  @Post('/:id/:buyerId/:supplierId')
+  @Put('/:id/:buyerId/:supplierId')
   async updateEntity(
     @Param('id') id: string,
     @Param('buyerId') buyerId: string,
