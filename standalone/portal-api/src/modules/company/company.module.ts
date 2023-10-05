@@ -17,5 +17,11 @@ import { SupplierCompanyEntity } from './models/supplier.company.entity';
   ],
   controllers: [],
   providers: [ConfigModule, ConfigService],
+  exports: [TypeOrmModule.forFeature([
+    CompanyEntity,
+    CompanyAddressEntity,
+    SupplierCompanyEntity,
+    BuyerCompanyEntity,
+  ])],
 })
 export class CompaniesModule {}

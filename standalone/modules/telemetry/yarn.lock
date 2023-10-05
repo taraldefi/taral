@@ -940,9 +940,9 @@ get-caller-file@^2.0.5:
   integrity sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==
 
 graphql@*:
-  version "16.6.0"
-  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.6.0.tgz#c2dcffa4649db149f6282af726c8c83f1c7c5fdb"
-  integrity sha512-KPIBPDlW7NxrbT/eh4qPXz5FiFdL5UbaA0XUNz2Rp3Z3hqBSkbj0GVjwFDztsWVauZUWsbKHgMg++sk8UX0bkw==
+  version "16.8.1"
+  resolved "https://registry.yarnpkg.com/graphql/-/graphql-16.8.1.tgz#1930a965bef1170603702acdb68aedd3f3cf6f07"
+  integrity sha512-59LZHPdGZVh695Ud9lRzPBVTtlX9ZCV150Er2W43ro37wVof0ctenSaskPPjN7lVTIN8mSZt8PHUNKZuNQUuxw==
 
 has-flag@^4.0.0:
   version "4.0.0"
@@ -1152,9 +1152,9 @@ process@^0.10.0:
   integrity sha512-dyIett8dgGIZ/TXKUzeYExt7WA6ldDzys9vTDU/cCA9L17Ypme+KzS+NjQCjpn9xsvi/shbMC+yP/BcFMBz0NA==
 
 protobufjs@^6.11.3:
-  version "6.11.3"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.3.tgz#637a527205a35caa4f3e2a9a4a13ddffe0e7af74"
-  integrity sha512-xL96WDdCZYdU7Slin569tFX712BxsxslWwAfAhCYjQKGTq7dAU91Lomy6nLLhh/dyGhk/YH4TwTSRxTzhuHyZg==
+  version "6.11.4"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-6.11.4.tgz#29a412c38bf70d89e537b6d02d904a6f448173aa"
+  integrity sha512-5kQWPaJHi1WoCpjTGszzQ32PG2F4+wRY6BmAT4Vfw56Q2FZ4YZzK20xUYQH4YkfehY1e6QSICrJquM6xXZNcrw==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -1171,9 +1171,9 @@ protobufjs@^6.11.3:
     long "^4.0.0"
 
 protobufjs@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.0.0.tgz#8c678e1351fd926178fce5a4213913e8d990974f"
-  integrity sha512-ffNIEm+quOcYtQvHdW406v1NQmZSuqVklxsXk076BtuFnlYZfigLU+JOMrTD8TUOyqHYbRI/fSVNvgd25YeN3w==
+  version "7.2.4"
+  resolved "https://registry.yarnpkg.com/protobufjs/-/protobufjs-7.2.4.tgz#3fc1ec0cdc89dd91aef9ba6037ba07408485c3ae"
+  integrity sha512-AT+RJgD2sH8phPmCf7OUZR8xGdcJRga4+1cOaXJ64hvcSkVhNcRHOwIxUatPH15+nj59WAGTDv3LSGZPEQbJaQ==
   dependencies:
     "@protobufjs/aspromise" "^1.1.2"
     "@protobufjs/base64" "^1.1.2"
@@ -1185,7 +1185,6 @@ protobufjs@^7.0.0:
     "@protobufjs/path" "^1.1.2"
     "@protobufjs/pool" "^1.1.0"
     "@protobufjs/utf8" "^1.1.0"
-    "@types/long" "^4.0.1"
     "@types/node" ">=13.7.0"
     long "^5.0.0"
 
@@ -1285,9 +1284,9 @@ supports-preserve-symlinks-flag@^1.0.0:
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
 systeminformation@^5.0.0:
-  version "5.12.6"
-  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.12.6.tgz#b75d7aaf9f5da32439fc633d2be9eb741691d200"
-  integrity sha512-FkCvT5BOuH1OE3+8lFM25oXIYJ0CM8kq4Wgvz2jyBTrsOIgha/6gdJXgbF4rv+g0j/5wJqQLDKan7kc/p7uIvw==
+  version "5.21.8"
+  resolved "https://registry.yarnpkg.com/systeminformation/-/systeminformation-5.21.8.tgz#18395187e5983698619ed07ca8640ae48ec232b2"
+  integrity sha512-Xf1KDMUTQHLOT9Z7MjpSpsbaICOHcm4OZ9c9qqpkCoXuxq5MoyDrgu5GIQYpoiralXNPrqxDz3ND8MdllpXeQA==
 
 thriftrw@^3.5.0:
   version "3.12.0"

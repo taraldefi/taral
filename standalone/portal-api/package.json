@@ -148,7 +148,6 @@
     "@stacks/stacks-blockchain-api-types": "^6.3.2",
     "@stacks/transactions": "^6.1.0",
     "@types/busboy": "^1.5.0",
-    "@types/cls-hooked": "^4.3.3",
     "@types/coinbase": "^2.0.8",
     "@types/concat-stream": "^2.0.0",
     "@types/express": "4.17.13",

@@ -6,7 +6,6 @@ import {
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
-  TableInheritance,
 } from 'typeorm';
 import { PaymentExperience } from './payment.experience';
 import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';

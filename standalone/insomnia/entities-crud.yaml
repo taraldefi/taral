@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-09-13T08:41:11.736Z
+__export_date: 2023-10-05T09:27:05.207Z
 __export_source: insomnia.desktop.app:v2023.5.8
 resources:
   - _id: req_de65aa11a15b40f9827b92d889b3c28b
@@ -314,6 +314,498 @@ resources:
         value: application/json
     authentication: {}
     metaSortKey: -1684784119943
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_2735d46e2fa2469895f9c9119b5188e2
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063171459
+    created: 1696062587106
+    url: http://localhost:3000/api/v1/suppliers
+    name: Create Supplier
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"financialInformation": {
+        		"turnover": 10000000,
+        		"balanceSheetTotal": 150000
+        	},
+        	
+        	"rating": {
+        		"rating": 5,
+        		"agencyName": "Discovery LTD",
+        		"issuanceDate": "2022-12-12"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696062590777
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_bf766d6d613b43629efa9224ee0a5c79
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1696062579911
+    created: 1696062579911
+    name: Suppliers
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1696062579911
+    _type: request_group
+  - _id: req_72b289039ef842d59dd21372786f3061
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696064014886
+    created: 1696063509346
+    url: http://localhost:3000/api/v1/suppliers/902ef3f1-ccf1-44b8-84e2-772e211a49d6
+    name: Update Supplier
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd International",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"financialInformation": {
+        		"turnover": 10000000,
+        		"balanceSheetTotal": 150000
+        	},
+        	
+        	"rating": {
+        		"rating": 5,
+        		"agencyName": "Discovery LTD",
+        		"issuanceDate": "2022-12-12"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1690423355360
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_61cdeb67d78a4dda9169d054ceed0355
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063710917
+    created: 1696063703142
+    url: http://localhost:3000/api/v1/suppliers/f4fa8b6c-3b34-41a9-8f6c-7aba6fdf42af
+    name: Get Supplier
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1687603737651.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8fe6d7558cc843e9b38edffcf7992c4a
+    parentId: fld_bf766d6d613b43629efa9224ee0a5c79
+    modified: 1696063991944
+    created: 1696063815239
+    url: http://localhost:3000/api/v1/suppliers
+    name: Get All Suppliers
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1686193928797.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_d94b2c9cccd646fea954c884da134e12
+    parentId: fld_1b0405afb30e47dda448f05f5b36eabb
+    modified: 1696070355579
+    created: 1696070235116
+    url: http://localhost:3000/api/v1/buyers
+    name: Create Buyer
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"sector": {
+        		"industryType": "IT",
+        		"type": "public",
+        		"status": "subsidiary"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696062590777
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_1b0405afb30e47dda448f05f5b36eabb
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1696070235115
+    created: 1696070235115
+    name: Buyers
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1690324602437.5
+    _type: request_group
+  - _id: req_898f62b2809c42058d21a0147a49591d
+    parentId: fld_1b0405afb30e47dda448f05f5b36eabb
+    modified: 1696070534188
+    created: 1696070235119
+    url: http://localhost:3000/api/v1/buyers/4cc1314d-b726-4ae6-b55f-537c0a8492f0
+    name: Update Buyer
+    description: ""
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"company": {
+        		"companyName": "Engelbrecht Ltd International",
+        		"dateEstablished": "2022-12-12",
+        		"employeeCount": 10,
+        		"registrationNumbers": "123456",
+        		"taxAndRevenue": {
+        			"taxNumber": "123456",
+        			"lastFiscalYear": "2022-12-12",
+        			"totalRevenue": "100000",
+        			"exportValue": "50000",
+        			"audited": true,
+        			"exportRevenuePercentage": "10"
+        		},
+        		"address": {
+        			"city": "Cluj-Napoca",
+        			"addressLine1": "First Address Line one",
+        			"addressLine2": "Second Address Line two",
+        			"postalCode": "ABC123"
+        		}
+        	},
+        	
+        	"sector": {
+        		"industryType": "IT",
+        		"type": "public",
+        		"status": "subsidiary"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1690423355360
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_db7e3809121447f4906b76c7aa985dd6
+    parentId: fld_1b0405afb30e47dda448f05f5b36eabb
+    modified: 1696070558141
+    created: 1696070235122
+    url: http://localhost:3000/api/v1/buyers/4cc1314d-b726-4ae6-b55f-537c0a8492f0
+    name: Get Buyer
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1687603737651.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_4e0f7c380ba54edda6d5e173e17137a5
+    parentId: fld_1b0405afb30e47dda448f05f5b36eabb
+    modified: 1696070637060
+    created: 1696070235124
+    url: http://localhost:3000/api/v1/buyers
+    name: Get All Buyers
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1686193928797.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_8dad1e4430ea4a52878272b5f41da4cf
+    parentId: fld_00e120a7d8804a9380c2f93e1641c495
+    modified: 1696447905908
+    created: 1696445089315
+    url: http://localhost:3000/api/v1/relationships/3e70b1d3-a997-4df2-83ee-7c2fd06d7cd9/4cc1314d-b726-4ae6-b55f-537c0a8492f0/902ef3f1-ccf1-44b8-84e2-772e211a49d6
+    name: Create Relationship
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"shareHoldingRelationship": "Business relationship",
+        	"influence": "Partnership",
+        	"paymentExperience": {
+        		"description": "Provider description one",
+        		"length": "1 year",
+        		"noOfDeals": "12",
+        		"avgBusinessVol": "100000000",
+        		"history": "ON_TIME",
+        		"delays": "No delays"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696445089315
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_00e120a7d8804a9380c2f93e1641c495
+    parentId: wrk_3808718d0b104eafb8b39fc47130e28c
+    modified: 1696445082831
+    created: 1696445082831
+    name: Relationships
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1696445082831
+    _type: request_group
+  - _id: req_3f93138dcc6747d6b737c3378f180d45
+    parentId: fld_00e120a7d8804a9380c2f93e1641c495
+    modified: 1696498000530
+    created: 1696447892787
+    url: http://localhost:3000/api/v1/relationships/4cc1314d-b726-4ae6-b55f-537c0a8492f0/902ef3f1-ccf1-44b8-84e2-772e211a49d6
+    name: Update Relationship
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"shareHoldingRelationship": "Business relationship",
+        	"influence": "Partnership",
+        	"paymentExperience": {
+        		"description": "Provider description",
+        		"length": "1 year",
+        		"noOfDeals": "12",
+        		"avgBusinessVol": "100000000",
+        		"history": "ON_TIME",
+        		"delays": "No delays"
+        	}
+        }
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696253840046
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_96757282ebc7490c8667b93a085f6831
+    parentId: fld_00e120a7d8804a9380c2f93e1641c495
+    modified: 1696447952290
+    created: 1696447929403
+    url: http://localhost:3000/api/v1/relationships/3e70b1d3-a997-4df2-83ee-7c2fd06d7cd9
+    name: Get Relationship
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696447929403
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_0c6e8c17b31a49ddbda7ca3810301893
+    parentId: fld_00e120a7d8804a9380c2f93e1641c495
+    modified: 1696447982770
+    created: 1696447977499
+    url: http://localhost:3000/api/v1/relationships
+    name: Get Relationships
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/2023.5.8
+    authentication: {}
+    metaSortKey: -1696446509359
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
@@ -1035,7 +1527,7 @@ resources:
     _type: cookie_jar
   - _id: spc_963a7d285f494808a1437df9c060dd03
     parentId: wrk_b62d0f743fa549f9be28edbc2a1955d1
-    modified: 1694153373438
+    modified: 1696445069492
     created: 1657549088952
     fileName: New Document
     contents: ""

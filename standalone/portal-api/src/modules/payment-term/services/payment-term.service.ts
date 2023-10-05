@@ -6,7 +6,7 @@ import { PaymentTermRepository } from '../repositories/payment-term.repository';
 import { GetPaymentTermResponse } from '../dto/response/get-payment-term.response.dto';
 import { PaymentTermMappingService } from './mapping.service';
 import { UpdatePaymentTermDto } from '../dto/request/update-payment-term.dto';
-import { triggerError } from 'src/modules/entity/utils/trigger.error';
+import { triggerError } from 'src/common/trigger.error';
 
 @Injectable()
 export class PaymentTermService {

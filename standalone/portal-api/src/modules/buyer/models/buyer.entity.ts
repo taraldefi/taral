@@ -20,7 +20,7 @@ export class BuyerEntity extends EntityHelper {
   @OneToOne(() => BuyerCompanyEntity, (company) => company.buyer)
   @JoinColumn()
   @Allow()
-  company: SupplierCompanyEntity;
+  company: BuyerCompanyEntity;
 
   @OneToOne(() => SectorEntity, (sector) => sector.buyer)
   @JoinColumn()
