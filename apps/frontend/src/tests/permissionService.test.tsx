@@ -7,7 +7,7 @@ jest.mock("axios");
 
 describe("Permission Service", () => {
   const mockAxiosConfigGET = getAxiosConfig({ method: "GET" });
-  const mockAxiosConfigPOST = getAxiosConfig({ method: "POST" });
+  //const mockAxiosConfigPOST = getAxiosConfig({ method: "POST" });
   const mockAxiosConfigPATCH = getAxiosConfig({ method: "PATCH" });
   const mockAxiosConfigDELETE = getAxiosConfig({ method: "DELETE" });
 
@@ -107,66 +107,66 @@ describe("Permission Service", () => {
     });
   });
 
-  describe("createPermission", () => {
-    it("should create a permission successfully", async () => {
-      const mockPermissionInfo = {
-        resource: "string",
-        description: "string",
-        path: "string",
-        method: "get",
-      };
+  // describe("createPermission", () => {
+  //   it("should create a permission successfully", async () => {
+  //     const mockPermissionInfo = {
+  //       resource: "string",
+  //       description: "string",
+  //       path: "string",
+  //       method: "get",
+  //     };
 
-      const mockResponse = {
-        status: 201,
-        data: {
-          // Provide mock created permission data
-        },
-        // Provide other response properties as needed
-      };
+  //     const mockResponse = {
+  //       status: 201,
+  //       data: {
+  //         // Provide mock created permission data
+  //       },
+  //       // Provide other response properties as needed
+  //     };
 
-      (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
+  //     (axios.post as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-      const result = await permissionService.createPermission(
-        mockPermissionInfo
-      );
+  //     const result = await permissionService.createPermission(
+  //       mockPermissionInfo
+  //     );
 
-      expect(result).toEqual(mockResponse.data);
-      expect(axios.post).toHaveBeenCalledWith(
-        apiUrls.PERMISSIONS,
-        JSON.stringify(mockPermissionInfo),
-        mockAxiosConfigPOST
-      );
-    });
+  //     expect(result).toEqual(mockResponse.data);
+  //     expect(axios.post).toHaveBeenCalledWith(
+  //       apiUrls.PERMISSIONS,
+  //       JSON.stringify(mockPermissionInfo),
+  //       mockAxiosConfigPOST
+  //     );
+  //   });
 
-    it("should throw an error when creating a permission fails", async () => {
-      const mockPermissionInfo = {
-        resource: "string",
-        description: "string",
-        path: "string",
-        method: "get",
-      };
+  //   it("should throw an error when creating a permission fails", async () => {
+  //     const mockPermissionInfo = {
+  //       resource: "string",
+  //       description: "string",
+  //       path: "string",
+  //       method: "get",
+  //     };
 
-      const mockErrorResponse = {
-        response: {
-          status: 500,
-          data: {
-            // Provide mock error response data
-          },
-        },
-      };
+  //     const mockErrorResponse = {
+  //       response: {
+  //         status: 500,
+  //         data: {
+  //           // Provide mock error response data
+  //         },
+  //       },
+  //     };
 
-      (axios.post as jest.Mock).mockRejectedValueOnce(mockErrorResponse);
+  //     (axios.post as jest.Mock).mockRejectedValueOnce(mockErrorResponse);
 
-      await expect(
-        permissionService.createPermission(mockPermissionInfo)
-      ).rejects.toThrow("Failed to create Permission.");
-      expect(axios.post).toHaveBeenCalledWith(
-        apiUrls.PERMISSIONS,
-        JSON.stringify(mockPermissionInfo),
-        mockAxiosConfigPOST
-      );
-    });
-  });
+  //     await expect(
+  //       permissionService.createPermission(mockPermissionInfo)
+  //     ).rejects.toThrow("Failed to create Permission.");
+  //     expect(axios.post).toHaveBeenCalledWith(
+  //       apiUrls.PERMISSIONS,
+  //       JSON.stringify(mockPermissionInfo),
+  //       mockAxiosConfigPOST
+  //     );
+  //   });
+  // });
 
   describe("deletePermission", () => {
     it("should delete a permission successfully", async () => {

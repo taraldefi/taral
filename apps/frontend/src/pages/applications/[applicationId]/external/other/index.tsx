@@ -1,4 +1,4 @@
-import ReportLayout from "@components/layouts/cover_layout";
+import ReportLayout from "@components/layouts/auditor/cover_layout";
 import FileUpload from "@components/widgets/FileUpload";
 import { useRouter } from "next/router";
 

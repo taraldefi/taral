@@ -1,6 +1,6 @@
 import React from "react";
-import LeftMenu from "../leftMenu";
-import Layout from "./layout";
+import LeftMenu from "@components/leftMenu";
+import Layout from "@components/layouts/layout";
 
 interface LayoutProps {
   children: React.ReactNode;

@@ -1,5 +1,5 @@
 import React from "react";
-import SignOffLayout from "@components/layouts/signOffLayout";
+import SignOffLayout from "@components/layouts/auditor/signOffLayout";
 import { SignOffTable } from "taral-ui";
 
 const SignoffTableData = [

@@ -1,4 +1,4 @@
-import FinancialsLayout from "@components/layouts/financials_layout";
+import FinancialsLayout from "@components/layouts/auditor/financials_layout";
 import { CashTable } from "@components/widgets/table/cashTable";
 
 const TableData = {

@@ -1,4 +1,4 @@
-import ComplianceLayout from "@components/layouts/compliance_layout";
+import ComplianceLayout from "@components/layouts/auditor/compliance_layout";
 import FileUpload from "@components/widgets/FileUpload";
 function Company() {
   return (

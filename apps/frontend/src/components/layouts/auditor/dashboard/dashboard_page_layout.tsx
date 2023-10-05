@@ -1,7 +1,7 @@
 import React from "react";
-import DashBoardLayout from "@components/layouts/dashboard_layout";
+import DashBoardLayout from "@components/layouts/auditor/dashboard/dashboard_layout";
 import SortBarNav from "@components/sortBar";
-import { SortBarItem } from "../../types";
+import { SortBarItem } from "src/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 

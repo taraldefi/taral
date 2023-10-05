@@ -1,6 +1,5 @@
-import StatusLayout from "@components/layouts/status_layout";
-import { TaskTable } from "taral-ui";
-import { TeamTable } from "taral-ui";
+import StatusLayout from "@components/layouts/auditor/status_layout";
+import { TaskTable, TeamTable } from "taral-ui";
 
 const TeamData = [
   {
