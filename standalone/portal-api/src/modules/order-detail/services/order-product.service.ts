@@ -6,7 +6,7 @@ import { OrderProductsRepository } from '../repositories/order-products.reposito
 import { OrderDetailEntity } from '../models/order-detail.entity';
 import { UpdateOrderProductDto } from '../dto/request/update-order-product.dto';
 import { OrderDetailMappingService } from './mapping.service';
-import { triggerError } from 'src/modules/entity/utils/trigger.error';
+import { triggerError } from 'src/common/trigger.error';
 
 @Injectable()
 export class OrderProductService {

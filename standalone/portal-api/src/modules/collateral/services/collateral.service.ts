@@ -6,7 +6,7 @@ import { CollateralsRepository } from '../repositories/collaterals.repository';
 import { GetCollateralResponse } from '../dto/response/get-collateral-response.dto';
 import { CollateralMappingService } from './mapping.service';
 import { UpdateCollateralDto } from '../dto/request/update-collateral.dto';
-import { triggerError } from 'src/modules/entity/utils/trigger.error';
+import { triggerError } from 'src/common/trigger.error';
 
 @Injectable()
 export class CollateralService {

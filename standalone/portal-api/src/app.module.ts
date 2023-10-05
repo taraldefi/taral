@@ -56,6 +56,8 @@ import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.m
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
 import { JobsModule } from './modules/jobs/jobs.module';
 import { RelationshipModule } from './modules/relationship/relationship.module';
+import { OrderDetailsModule } from './modules/order-detail/order-details.module';
+import { CollateralModule } from './modules/collateral/collateral.module';
 
 @Module({
   imports: [
@@ -156,7 +158,9 @@ export class AppModule {
       TwofaModule,
       AuctionModule,
       AuctionHistoryModule,
-      RelationshipModule
+      RelationshipModule,
+      OrderDetailsModule,
+      CollateralModule,
     ];
 
     const config = new ConfigService();
