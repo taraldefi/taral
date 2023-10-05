@@ -1,4 +1,4 @@
-import Layout from "@components/layouts/layout";
+import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout";
 import { ApplicationTable } from "taral-ui";
 
 const TableData = [
@@ -113,13 +113,13 @@ const TableData = [
 ];
 function Index() {
   return (
-    <Layout>
+    <ImporterBaseLayout>
       <div className="viewbody">
         <div style={{ padding: "10%", width: "100%" }}>
           <ApplicationTable applicationTableData={TableData}></ApplicationTable>
         </div>
       </div>
-    </Layout>
+    </ImporterBaseLayout>
   );
 }
 

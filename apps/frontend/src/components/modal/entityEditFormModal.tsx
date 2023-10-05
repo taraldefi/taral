@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import { Entity, EntityResponse } from "src/types";
 import { countries, industries } from "@utils/lib/constants";
 import entityService from "@services/entityService";
@@ -16,35 +16,25 @@ type Props = {
   onClose: () => void;
 };
 
-function compareEntities(entity1: Entity, entity2: Entity): Partial<Entity> {
-  const changedFields: Partial<Entity> = {};
-
-  for (const key in entity1) {
-    if (entity1.hasOwnProperty(key) && entity2.hasOwnProperty(key)) {
-      if (entity1[key as keyof Entity] !== entity2[key as keyof Entity]) {
-        changedFields[key as keyof Entity] = entity2[key as keyof Entity];
-      }
-    }
-  }
-
-  return changedFields;
-}
-
 function FormEditModal({ isOpen, onClose }: Props) {
   const [, setSelectedCountry] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const { entityId } = useModal(EditFormModalAtom);
   const [, setEntityEdited] = useAtom(EntityEditedAtom);
   const [data, setData] = React.useState<EntityResponse>();
-  const { register, handleSubmit, reset } = useForm<EntityResponse>({
+  const { register, handleSubmit, reset, control } = useForm<EntityResponse>({
     defaultValues: data,
     mode: "onChange",
+  });
+  const { dirtyFields } = useFormState({
+    control,
   });
 
   React.useEffect(() => {
     if (entityId) {
       const fetchData = async () => {
         const res = await entityService.getEntity(entityId);
+
         setData({
           ...res,
           incorporationDate: convertDate(res.incorporationDate),
@@ -60,14 +50,16 @@ function FormEditModal({ isOpen, onClose }: Props) {
 
   const onSubmit = (newData: Entity) => {
     setLoading(true);
-
-    const updates = compareEntities(data!, newData);
-    if (updates.logo) updates.logo = newData.logo[0];
-
+    newData.logo = newData.logo[0] || "";
     const formData = new FormData();
-    Object.entries(updates).forEach(([key, value]) => {
-      formData.append(key, value);
+    Object.keys(dirtyFields).forEach((key) => {
+      formData.append(key, newData[key as keyof Entity]);
     });
+
+    for (const pair of formData.entries()) {
+      console.log(pair[0] + " : " + pair[1]);
+    }
+
     if (entityId)
       entityService.updateEntity(entityId, formData).then((data) => {
         if (data.id) {
@@ -159,24 +151,6 @@ function FormEditModal({ isOpen, onClose }: Props) {
               </div>
               <div className="entityfield">
                 <span>Headquarters Location</span>
-                {/* <select
-                  id="downarrow"
-                  className="inputs"
-                  {...register("headquarters")}
-                >
-                  <option value="">Select Location...</option>
-                  {cities
-                    .filter(
-                      (item) => item.country === selectedCountry.toUpperCase()
-                    )
-                    .map((item) => {
-                      return (
-                        <option key={item.name} value={item.name}>
-                          {item.name}
-                        </option>
-                      );
-                    })}
-                </select> */}
                 <input
                   {...register("headquarters")}
                   className="inputs"

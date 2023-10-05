@@ -1,5 +1,5 @@
 import EntityView from "@components/entity/entityView";
-import Layout from "@components/layouts/layout";
+import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout";
 import useModal from "@hooks/useModal";
 import entityService from "@services/entityService";
 import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
@@ -102,7 +102,7 @@ function index(props: { entityData: Entity; hasError: boolean }) {
   );
 
   return (
-    <Layout>
+    <ImporterBaseLayout>
       <div className="viewbody">
         <div className="viewContainer">
           {props.entityData ? (
@@ -139,7 +139,7 @@ function index(props: { entityData: Entity; hasError: boolean }) {
         isOpen={deleteModal.isOpen}
         onClose={() => deleteModal.close()}
       ></DeleteModal>
-    </Layout>
+    </ImporterBaseLayout>
   );
 }
 export const getStaticProps: GetStaticProps = async (context) => {

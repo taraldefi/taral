@@ -1,8 +1,8 @@
-import KYCLayout from "@components/layouts/kycLayout";
+import ImporterKycLayout from "@components/layouts/importer/importerKycLayout";
 
 function index() {
   return (
-    <KYCLayout>
+    <ImporterKycLayout>
       <div className="kycContainer">
         <div className="outerContainerKyc">
           <div className="innerContainer1">
@@ -61,7 +61,7 @@ function index() {
           <div className="dummyWrapper"></div>
         </div>
       </div>
-    </KYCLayout>
+    </ImporterKycLayout>
   );
 }
 

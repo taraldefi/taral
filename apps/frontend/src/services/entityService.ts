@@ -130,7 +130,13 @@ class EntityService {
    * @param entity
    */
   async updateEntity(id: string, entity: FormData): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig({ method: "PATCH" });
+    const axiosConfig = getAxiosConfig({
+      method: "PATCH",
+      contentType: "multipart/form-data",
+    });
+    for (const [key, value] of entity.entries()) {
+      console.log(key, value);
+    }
     try {
       const response = await axios.patch(
         `${apiUrls.ENTITY}/${id}`,
