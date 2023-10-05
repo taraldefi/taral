@@ -15,20 +15,14 @@ export class CustomValidationPipe implements PipeTransform<any> {
     }
     const object = plainToClass(metatype, value);
     const errors = await validate(object);
-
-    console.log('Raw Errors:', JSON.stringify(errors, null, 2));
-
     if (errors && errors.length > 0) {
-      const translatedError = this.transformError(errors);
-
-      console.log('Translated Errors:', JSON.stringify(translatedError, null, 2));
-
-      throw new UnprocessableEntityException(translatedError);
+      const translatedErrors = this.transformErrors(errors);
+      throw new UnprocessableEntityException(translatedErrors);
     }
     return value;
   }
 
-  transformError(errors: ValidationError[]): any[] {
+  transformErrors(errors: ValidationError[]): any[] {
     const transformedErrors: any[] = [];
   
     function extractErrors(error: ValidationError, prefix = ''): void {
