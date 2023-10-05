@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2023-10-04T19:33:31.425Z
+__export_date: 2023-10-05T09:27:05.207Z
 __export_source: insomnia.desktop.app:v2023.5.8
 resources:
   - _id: req_de65aa11a15b40f9827b92d889b3c28b
@@ -731,12 +731,12 @@ resources:
     _type: request_group
   - _id: req_3f93138dcc6747d6b737c3378f180d45
     parentId: fld_00e120a7d8804a9380c2f93e1641c495
-    modified: 1696447892787
+    modified: 1696498000530
     created: 1696447892787
     url: http://localhost:3000/api/v1/relationships/4cc1314d-b726-4ae6-b55f-537c0a8492f0/902ef3f1-ccf1-44b8-84e2-772e211a49d6
     name: Update Relationship
     description: ""
-    method: POST
+    method: PUT
     body:
       mimeType: application/json
       text: |-
