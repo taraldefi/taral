@@ -1,12 +1,12 @@
 import { PortalIcons } from "@components/icons";
-import KYCLayout from "@components/layouts/kycLayout";
-import { Button } from "taral-ui";
+import ExporterKycLayout from "@components/layouts/exporter/exporterKycLayout";
 import React from "react";
+import { Button } from "taral-ui";
 
 function Index() {
   const [selected, setSelected] = React.useState(false);
   return (
-    <KYCLayout>
+    <ExporterKycLayout>
       <>
         {console.log(selected)}
         <div className="kycContainer">
@@ -116,7 +116,7 @@ function Index() {
           </div>
         </div>
       </>
-    </KYCLayout>
+    </ExporterKycLayout>
   );
 }
 

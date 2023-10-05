@@ -1,10 +1,10 @@
 import { PortalIcons } from "@components/icons";
-import KYCLayout from "@components/layouts/kycLayout";
+import ExporterKycLayout from "@components/layouts/exporter/exporterKycLayout";
 import { Button } from "taral-ui";
 
 function index() {
   return (
-    <KYCLayout>
+    <ExporterKycLayout>
       <div className="kycContainer">
         <div className="outerContainerKyc">
           <div className="innerContainer1">
@@ -86,7 +86,7 @@ function index() {
           </div>
         </div>
       </div>
-    </KYCLayout>
+    </ExporterKycLayout>
   );
 }
 export default index;

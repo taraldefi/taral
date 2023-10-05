@@ -1,7 +1,6 @@
 import LeftMenu from "@components/kycLeftMenu";
 import React from "react";
-import Topbar from "../topBar";
-import TopBarNav from "../topBarNavigation";
+import Topbar from "@components/topBar";
 import { useModal } from "@utils/hooks";
 import {
   ApplicationModalAtom,
@@ -17,11 +16,12 @@ import FormEditModal from "@components/modal/entityEditFormModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";
 import SettingsModal from "@components/modal/settingsModal";
 import NotificationModal from "@components/modal/notificationModal";
+import ExporterTopNav from "@components/topBarNavigation/exporter";
 interface LayoutProps {
   children: React.ReactNode;
 }
 
-const NewLayout = ({ children }: LayoutProps) => {
+const ExporterKycLayout = ({ children }: LayoutProps) => {
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
   const applicationModal = useModal(ApplicationModalAtom);
@@ -33,11 +33,13 @@ const NewLayout = ({ children }: LayoutProps) => {
       <div className="bodyContainer">
         <div className="topbarFix">
           <Topbar />
-          <TopBarNav />
+          <ExporterTopNav />
         </div>
         <div className="mainBody1">
           <LeftMenu></LeftMenu>
-          <div className="mainBodyIn">{children}</div>
+          <div className="mainBodyIn">
+            <div className="bodyContent">{children}</div>
+          </div>
         </div>
       </div>
       <DeleteModal
@@ -64,4 +66,4 @@ const NewLayout = ({ children }: LayoutProps) => {
   );
 };
 
-export default NewLayout;
+export default ExporterKycLayout;

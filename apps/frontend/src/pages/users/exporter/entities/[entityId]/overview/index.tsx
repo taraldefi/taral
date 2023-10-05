@@ -1,5 +1,5 @@
 import EntityView from "@components/entity/entityView";
-import Layout from "@components/layouts/layout";
+import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout";
 import { EntityTable } from "taral-ui";
 
 const TableData = [
@@ -43,7 +43,7 @@ const TableData = [
 
 function index() {
   return (
-    <Layout>
+    <ExporterBaseLayout>
       <div className="viewbody">
         <div className="viewContainer">
           <EntityView
@@ -68,7 +68,7 @@ function index() {
           <EntityTable entityTableData={TableData} />
         </div>
       </div>
-    </Layout>
+    </ExporterBaseLayout>
   );
 }
 

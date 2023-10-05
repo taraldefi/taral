@@ -1,4 +1,4 @@
-import KYCLayout from "@components/layouts/kycLayout";
+import ExporterKycLayout from "@components/layouts/exporter/exporterKycLayout";
 import React, { useEffect, useRef, useState } from "react";
 
 function Index() {
@@ -15,7 +15,7 @@ function Index() {
     }
   }, [value]);
   return (
-    <KYCLayout>
+    <ExporterKycLayout>
       <div className="kycContainer">
         <div className="outerContainerKyc">
           <div className="innerContainer1">
@@ -84,7 +84,7 @@ function Index() {
           <div className="dummyWrapper"></div>
         </div>
       </div>
-    </KYCLayout>
+    </ExporterKycLayout>
   );
 }
 

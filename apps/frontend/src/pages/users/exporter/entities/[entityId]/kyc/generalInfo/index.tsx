@@ -1,8 +1,8 @@
 import { PortalIcons } from "@components/icons";
-import KYCLayout from "@components/layouts/kycLayout";
-import { Button } from "taral-ui";
+import ExporterKycLayout from "@components/layouts/exporter/exporterKycLayout";
 import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { Button } from "taral-ui";
 
 function Index() {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
@@ -35,7 +35,7 @@ function Index() {
   });
 
   return (
-    <KYCLayout>
+    <ExporterKycLayout>
       <div className="kycContainer">
         <div className="genInfo">
           <div className="infoWrapper">
@@ -157,7 +157,7 @@ function Index() {
           <div className="dummyWrapper"></div>
         </div>
       </div>
-    </KYCLayout>
+    </ExporterKycLayout>
   );
 }
 
