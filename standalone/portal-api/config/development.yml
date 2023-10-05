@@ -9,6 +9,7 @@ db:
 app:
   runchainhook: false
   runjobs: false
+  fluentdlogging: false
   
 # DATABASE_TYPE=postgres
 # DATABASE_HOST=localhost
