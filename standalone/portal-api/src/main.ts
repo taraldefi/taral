@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import fs from 'fs';
 import { useContainer } from 'class-validator';
 import { UnprocessableExceptionFilter } from './common/filters/unprocessable-entity.filter';
+import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -31,7 +32,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
-  app.useGlobalFilters(new UnprocessableExceptionFilter());
+  app.useGlobalFilters(
+    new UnprocessableExceptionFilter(), new EntityNotFoundFilter()
+  );
 
   app.use(cookieParser());
 
