@@ -17,6 +17,8 @@ RUN gem install fluent-plugin-mongo --version "~> 1.3.0"
 # Install Fluentd plugins and UI
 RUN gem install fluent-plugin-mongo fluentd-ui
 
+RUN gem install fluent-plugin-secure-forward
+
 # Create directories for supervisor logs and Fluentd
 RUN mkdir -p /var/log/supervisor /fluentd/log
 
