@@ -5,7 +5,7 @@ import { AuctionHistoryEntity } from './entities/auction.history.entity';
 import { AuctionBidHistoryEntity } from './entities/auction.bid.history.entity';
 import { AuctionHistoryController } from './controllers/auction.history.controller';
 import { AuctionHistoryService } from './services/auction.history.service';
-import { LoggerModule } from '../logger/logger.module';
+import { WinstonLoggerModule } from '../logger/logger.module';
 import { StartAuctionService } from './services/start.auction.service';
 import { AuctionEntityRepositoryProvider } from '../auctions/providers/auction.repository.provider';
 import { AuctionBidEntityRepositoryProvider } from '../auctions/providers/auction.bid.repository.provider';
@@ -16,8 +16,9 @@ import { PlaceBidService } from './services/place.bid.service';
 
 @Module({
   imports: [
+    ConfigModule,
     TypeOrmModule.forFeature([AuctionHistoryEntity, AuctionBidHistoryEntity]),
-    LoggerModule,
+    WinstonLoggerModule,
   ],
   controllers: [AuctionHistoryController],
   providers: [

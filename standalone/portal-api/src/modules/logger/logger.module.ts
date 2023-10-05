@@ -9,9 +9,10 @@ import { createLogger } from './logger';
       provide: 'Logger',
       useFactory: (configService: ConfigService) => {
         return createLogger(configService);
-      }
+      },
+      inject: [ConfigService]
     },
   ],
   exports: ['Logger'],
 })
-export class LoggerModule {}
+export class WinstonLoggerModule {}
