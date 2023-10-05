@@ -4,3 +4,4 @@ jwt:
 app:
   runchainhook: false
   runjobs: false
+  fluentdlogging: true

@@ -27,6 +27,7 @@ app:
   appUrl: 'http://localhost:7777'
   frontendUrl: 'http://localhost:3000'
   sameSite: true
+  fluentdlogging: true
 
 mail:
   host: 'smtp.mailtrap.io'
