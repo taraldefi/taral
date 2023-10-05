@@ -1,6 +1,6 @@
 import { Injectable, StreamableFile } from '@nestjs/common';
 import { Storage } from '@modules/storage';
-import { triggerError } from '../utils/trigger.error';
+import { triggerError } from '../../../common/trigger.error';
 
 @Injectable()
 export class LogoService {

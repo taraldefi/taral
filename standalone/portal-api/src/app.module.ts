@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module, Type } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,13 +15,11 @@ import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
-import { SuppliersModule } from './modules/supplier/supplier.module';
+import { SuppliersModule } from './modules/supplier/suppliers.module';
 import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
-
-// import { JobsModule } from './modules/jobs/jobs.module';
 
 import {
   CookieResolver,
@@ -55,99 +53,15 @@ import { ClientsModule } from '@nestjs/microservices';
 import { rabbitMQServiceOptions } from './common/rabbitmq/constants';
 import { AuctionModule } from './modules/auctions/auction.module';
 import { AuctionHistoryModule } from './modules/auctionhistory/auction.history.module';
-import { Rabbit } from 'crypto-js';
 import { RabbitMqModule } from './modules/rabbit/rabbitmq.module';
+import { JobsModule } from './modules/jobs/jobs.module';
+import { RelationshipModule } from './modules/relationship/relationship.module';
 import { OrderDetailsModule } from './modules/order-detail/order-details.module';
 import { CollateralModule } from './modules/collateral/collateral.module';
-import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
-import { PaymentTermModule } from './modules/payment-term/payment-term.module';
-
-
-// const appConfig = config.get('app');
 
 @Module({
   imports: [
-    ClientsModule.register([rabbitMQServiceOptions as any]),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [
-        authConfig,
-        mailConfig,
-        fileConfig,
-        databaseConfig,
-        onchainConfig,
-        appConfig,
-      ],
-      envFilePath: ['.env'],
-    }),
-    TypeOrmModule.forRootAsync({
-      useClass: TypeOrmConfigService,
-    }),
-    WinstonModule.forRoot(winstonConfig),
-    ThrottlerModule.forRootAsync({
-      useFactory: () => throttleConfig,
-    }),
-    I18nModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        fallbackLanguage: configService.get('app.fallbackLanguage'),
-        parserOptions: {
-          path: path.join(__dirname, '/i18n/'),
-          watch: true,
-        },
-      }),
-      parser: I18nJsonParser,
-      resolvers: [
-        {
-          use: QueryResolver,
-          options: ['lang', 'locale', 'l'],
-        },
-        new HeaderResolver(['x-custom-lang']),
-        new CookieResolver(['lang', 'locale', 'l']),
-      ],
-      inject: [ConfigService],
-    }),
-    // ServeStaticModule.forRoot({
-    //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
-
-    //   exclude: ['/api*']
-    // }),
-    StorageModule.registerAsync({
-      imports: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        return config.get('filesystem');
-      },
-      inject: [ConfigService],
-    }),
-    HomeModule,
-    EventModule,
-    StorageModule,
-    LoggerModule,
-    EntitiesModule,
-    CompaniesModule,
-    FinancialsModule,
-    FilesModule,
-    TransactionDocumentModule,
-    RatingsModule,
-    SectorsModule,
-    SuppliersModule,
-    BuyersModule,
-    PaymentTermModule,
-    TransactionsModule,
-    GoodsAndServicesModule,
-    ContractsModule,
-    // JobsModule,
-    AuthModule,
-    RolesModule,
-    PermissionsModule,
-    MailModule,
-    EmailTemplateModule,
-    RefreshTokenModule,
-    TwofaModule,
-    OrderDetailsModule,
-    CollateralModule,
-    RabbitMqModule,
-    AuctionModule,
-    AuctionHistoryModule,
+    ...AppModule.createDynamicImports(),
   ],
   providers: [
     {
@@ -165,4 +79,109 @@ import { PaymentTermModule } from './modules/payment-term/payment-term.module';
   ],
   controllers: [AppController],
 })
-export class AppModule {}
+export class AppModule {
+
+  static createDynamicImports(): (Type<any> | DynamicModule)[] {
+    const imports: (Type<any> | DynamicModule)[] = [
+      ClientsModule.register([rabbitMQServiceOptions as any]),
+      ConfigModule.forRoot({
+        isGlobal: true,
+        load: [
+          authConfig,
+          mailConfig,
+          fileConfig,
+          databaseConfig,
+          onchainConfig,
+          appConfig,
+        ],
+        envFilePath: ['.env'],
+      }),
+      TypeOrmModule.forRootAsync({
+        useClass: TypeOrmConfigService,
+      }),
+      WinstonModule.forRoot(winstonConfig),
+      ThrottlerModule.forRootAsync({
+        useFactory: () => throttleConfig,
+      }),
+      I18nModule.forRootAsync({
+        useFactory: (configService: ConfigService) => ({
+          fallbackLanguage: configService.get('app.fallbackLanguage'),
+          parserOptions: {
+            path: path.join(__dirname, '/i18n/'),
+            watch: true,
+          },
+        }),
+        parser: I18nJsonParser,
+        resolvers: [
+          {
+            use: QueryResolver,
+            options: ['lang', 'locale', 'l'],
+          },
+          new HeaderResolver(['x-custom-lang']),
+          new CookieResolver(['lang', 'locale', 'l']),
+        ],
+        inject: [ConfigService],
+      }),
+      // ServeStaticModule.forRoot({
+      //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
+
+      //   exclude: ['/api*']
+      // }),
+      StorageModule.registerAsync({
+        imports: [ConfigService],
+        useFactory: (config: ConfigService) => {
+          return config.get('filesystem');
+        },
+        inject: [ConfigService],
+      }),
+      HomeModule,
+      EventModule,
+      StorageModule,
+      LoggerModule,
+      EntitiesModule,
+      CompaniesModule,
+      FinancialsModule,
+      FilesModule,
+      RatingsModule,
+      SectorsModule,
+      SuppliersModule,
+      BuyersModule,
+      TransactionsModule,
+      GoodsAndServicesModule,
+      ContractsModule,
+      AuthModule,
+      RolesModule,
+      PermissionsModule,
+      MailModule,
+      EmailTemplateModule,
+      RefreshTokenModule,
+      TwofaModule,
+      AuctionModule,
+      AuctionHistoryModule,
+      RelationshipModule,
+      OrderDetailsModule,
+      CollateralModule,
+    ];
+
+    const config = new ConfigService();
+
+    const shouldRunChainhook = config.get('app.runchainhook');
+    const shouldRunJobs = config.get('app.runjobs');
+
+    if (shouldRunChainhook) {
+      console.log('Running chainhook');
+      imports.push(RabbitMqModule);
+    } else {
+      console.log('Not running chainhook');
+    }
+
+    if (shouldRunJobs) {
+      console.log('Running jobs');
+      imports.push(JobsModule);
+    } else {
+      console.log('Not running jobs');
+    }
+    
+    return imports;
+  }
+}

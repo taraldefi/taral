@@ -13,7 +13,6 @@ import { CreateEntityDto } from './dto/request/create-entity.dto';
 import { UpdateEntityDto } from './dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
 import { EntityService } from './services/entity.service';
-import { LegalEntity } from './models/legal-entity.entity';
 
 @ApiTags('Entities')
 @Controller({
