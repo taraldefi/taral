@@ -64,7 +64,7 @@ services:
     ports:
       - "24224:24224"
       - "24224:24224/udp"
-      - "9292:9292"
+      # - "9293:9292"
 
     volumes:
       - ./docker/fluentd/fluentd.conf:/fluentd/etc/fluentd.conf
