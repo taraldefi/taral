@@ -1,2 +1,6 @@
 jwt:
   secret: 'example@123'
+
+app:
+  runchainhook: false
+  runjobs: false

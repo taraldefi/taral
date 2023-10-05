@@ -4,6 +4,8 @@ server:
 
 db:
   host: 'localhost'
+  runchainhook: false
+  runjobs: false
   type: 'postgres'
   name: 'api'
   port: 5432

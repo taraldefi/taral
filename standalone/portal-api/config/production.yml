@@ -20,6 +20,8 @@ app:
   description: 'Taral API'
   appUrl: 'heroku url'
   frontendUrl: 'http://localhost:3000'
+  runchainhook: true
+  runjobs: true
 
 mail:
   host: ''

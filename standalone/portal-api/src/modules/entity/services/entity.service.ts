@@ -17,7 +17,7 @@ import {
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
 import { EntityMappingService } from './mapping.service';
 import { UpdateEntityDto } from '../dto/request/update-entity.dto';
-import { triggerError } from '../utils/trigger.error';
+import { triggerError } from '../../../common/trigger.error';
 
 @Injectable()
 export class EntityService {
