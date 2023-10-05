@@ -57,6 +57,21 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  fluentd:
+    build:
+      context: .
+      dockerfile: docker/fluentd/Dockerfile
+    ports:
+      - "24224:24224"
+      - "24224:24224/udp"
+      - "9292:9292"
+
+    volumes:
+      - ./docker/fluentd/fluentd.conf:/fluentd/etc/fluentd.conf
+      - ./docker/fluentd/ca_cert.pem:/certs/to/ca_cert.pem
+      - ./docker/fluentd/server_key.pem:/certs/to/server_key.pem
+      - ./docker/fluentd/server_cert.pem:/certs/server_cert.pem
+
   redis:
     image: redis:7-alpine
     ports:
