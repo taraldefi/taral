@@ -10,6 +10,9 @@ import fs from 'fs';
 import { useContainer } from 'class-validator';
 import { UnprocessableExceptionFilter } from './common/filters/unprocessable-entity.filter';
 import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
+import { CommonExceptionFilter } from './common/exception/exception-filter';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { I18nService } from 'nestjs-i18n';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -17,6 +20,8 @@ async function bootstrap() {
   initializeTransactionalContext(); // Initialize cls-hooked
   const app = await NestFactory.create(AppModule, { cors: true });
   const configService = app.get(ConfigService);
+  const logger = app.get(WINSTON_MODULE_PROVIDER);
+  const i18n = app.get(I18nService);
 
   app.enableShutdownHooks();
   app.setGlobalPrefix(configService.get('app.apiPrefix'), {
@@ -33,7 +38,9 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   app.useGlobalFilters(
-    new UnprocessableExceptionFilter(), new EntityNotFoundFilter()
+    new CommonExceptionFilter(logger, i18n),
+    new UnprocessableExceptionFilter(logger), 
+    new EntityNotFoundFilter(logger),
   );
 
   app.use(cookieParser());
