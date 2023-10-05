@@ -29,7 +29,7 @@ COPY ./docker/fluentd/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ./docker/fluentd/fluentd.conf /fluentd/etc/
 
 # Expose ports for Fluentd and Fluentd-UI
-EXPOSE 24224 24224/udp 9292
+# EXPOSE 24224 24224/udp 9292
 
 CMD ["/usr/bin/supervisord"]
 
