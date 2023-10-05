@@ -16,9 +16,10 @@ export class UnprocessableExceptionFilter implements ExceptionFilter {
         this.logger.error('Error: ', {
             meta: {
                 name: exception.name,
+                message: exception.message,
                 cause: exception.cause,
                 stack: exception.stack,
-                error: exception.message,
+                error: exception.getResponse(),
             },
         });
 
