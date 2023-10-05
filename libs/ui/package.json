@@ -28,7 +28,7 @@
     "@rollup/plugin-commonjs": "^24.0.1",
     "@rollup/plugin-image": "^3.0.2",
     "@rollup/plugin-node-resolve": "^15.0.1",
-    "@svgr/webpack": "^6.5.1",
+    "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@types/jest": "^29.4.0",
