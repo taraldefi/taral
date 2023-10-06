@@ -36,7 +36,7 @@
     "jotai-tanstack-query": "^0.7.1",
     "next": "13.2.4",
     "nextjs-progressbar": "^0.0.16",
-    "pdfjs-dist": "^2.14.305",
+    "pdfjs-dist": "^3.11.174",
     "react": "18.2.0",
     "react-content-loader": "^6.2.1",
     "react-dom": "18.2.0",
