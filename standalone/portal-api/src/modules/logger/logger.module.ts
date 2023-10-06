@@ -1,13 +1,18 @@
 import { Module } from '@nestjs/common';
-import logger from './logger';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { createLogger } from './logger';
 
 @Module({
+  imports: [ConfigModule],
   providers: [
     {
       provide: 'Logger',
-      useValue: logger,
+      useFactory: (configService: ConfigService) => {
+        return createLogger(configService);
+      },
+      inject: [ConfigService]
     },
   ],
   exports: ['Logger'],
 })
-export class LoggerModule {}
+export class WinstonLoggerModule {}

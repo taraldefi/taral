@@ -58,6 +58,7 @@ import { JobsModule } from './modules/jobs/jobs.module';
 import { RelationshipModule } from './modules/relationship/relationship.module';
 import { OrderDetailsModule } from './modules/order-detail/order-details.module';
 import { CollateralModule } from './modules/collateral/collateral.module';
+import { WinstonLoggerModule } from './modules/logger/logger.module';
 
 @Module({
   imports: [
@@ -138,6 +139,7 @@ export class AppModule {
       EventModule,
       StorageModule,
       LoggerModule,
+      WinstonLoggerModule,
       EntitiesModule,
       CompaniesModule,
       FinancialsModule,
