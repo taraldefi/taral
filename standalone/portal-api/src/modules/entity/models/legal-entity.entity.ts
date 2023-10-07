@@ -1,4 +1,8 @@
 import { Allow } from 'class-validator';
+import {
+  BuyerQuickApplicationEntity,
+  SupplierQuickApplicationEntity,
+} from 'src/modules/applications/models/quickapplication.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import {
   Column,
@@ -7,18 +11,8 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { LegalApplicationEntity } from './legal-application.entity';
-import { LegalProductEntity } from './legal-product.entity';
-import {
-  BuyerQuickApplicationEntity,
-  QuickApplicationEntity,
-} from 'src/modules/applications/models/quickapplication.entity';
 
-@Entity({ name: 'legal-entity' })
-export class LegalEntity extends EntityHelper {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
+export abstract class LegalEntity extends EntityHelper {
   @Column()
   @Allow()
   name: string;
@@ -58,12 +52,18 @@ export class LegalEntity extends EntityHelper {
   @Column({ nullable: true })
   @Allow()
   logo: string;
+}
 
-  @OneToMany(
-    () => LegalProductEntity,
-    (legalProduct) => legalProduct.legalEntity,
-  )
-  legalProducts: LegalProductEntity[];
+@Entity({ name: 'Buyer_Entities' })
+export class LegalBuyerEntity extends LegalEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  // @OneToMany(
+  //   () => LegalProductEntity,
+  //   (legalProduct) => legalProduct.legalEntity,
+  // )
+  // legalProducts: LegalProductEntity[];
 
   @OneToMany(
     () => BuyerQuickApplicationEntity,
@@ -71,4 +71,23 @@ export class LegalEntity extends EntityHelper {
   )
   @JoinColumn()
   legalApplications: BuyerQuickApplicationEntity[];
+}
+
+@Entity({ name: 'Supplier_Entities' })
+export class LegalSupplierEntity extends LegalEntity {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
+  // @OneToMany(
+  //   () => LegalProductEntity,
+  //   (legalProduct) => legalProduct.legalEntity,
+  // )
+  // legalProducts: LegalProductEntity[];
+
+  @OneToMany(
+    () => SupplierQuickApplicationEntity,
+    (LegalApplication) => LegalApplication.legalEntity,
+  )
+  @JoinColumn()
+  legalApplications: SupplierQuickApplicationEntity[];
 }

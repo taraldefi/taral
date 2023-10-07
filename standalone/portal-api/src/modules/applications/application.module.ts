@@ -6,7 +6,6 @@ import { EntitiesModule } from 'src/modules/entity/entity.module';
 import { QuickApplicationController } from './controllers/buyer-quickapplication-controller';
 import {
   BuyerQuickApplicationEntity,
-  QuickApplicationEntity,
   SupplierQuickApplicationEntity,
 } from './models/quickapplication.entity';
 import { BuyerQuickApplicationService } from './services/buyer.quickapplication.service';
@@ -16,7 +15,6 @@ import { BuyerQuickApplicationService } from './services/buyer.quickapplication.
     EntitiesModule,
     TypeOrmModule.forFeature([
       BuyerQuickApplicationEntity,
-      QuickApplicationEntity,
       SupplierQuickApplicationEntity,
     ]),
   ],

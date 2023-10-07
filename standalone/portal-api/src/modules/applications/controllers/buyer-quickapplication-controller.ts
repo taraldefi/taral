@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { BuyerQuickApplicationService } from '../services/buyer.quickapplication.service';
-import { EntityService } from 'src/modules/entity/services/entity.service';
+import { BuyerEntityService } from 'src/modules/entity/services/entity.service';
 import { CreateQuickApplicationRequest } from '../dto/request/create-quick-application.dto';
 
 @ApiTags('Applications')
@@ -20,7 +20,7 @@ import { CreateQuickApplicationRequest } from '../dto/request/create-quick-appli
 export class QuickApplicationController {
   constructor(
     private readonly buyerQuickApplicationService: BuyerQuickApplicationService,
-    private readonly entityService: EntityService,
+    private readonly entityService: BuyerEntityService,
   ) {}
 
   //   @Get('/:id')
@@ -30,7 +30,7 @@ export class QuickApplicationController {
 
   @Post()
   async create(@Body() applicationDto: CreateQuickApplicationRequest) {
-    const entity = await this.entityService.findEntityById(
+    const entity = await this.entityService.findBuyerEntityById(
       applicationDto.entityId,
     );
     const application = await this.buyerQuickApplicationService.create(

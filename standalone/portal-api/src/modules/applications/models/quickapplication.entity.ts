@@ -1,7 +1,10 @@
 import { Allow } from 'class-validator';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
 import { CollateralEntity } from 'src/modules/collateral/models/collaterals.entity';
-import { LegalEntity } from 'src/modules/entity/models/legal-entity.entity';
+import {
+  LegalBuyerEntity,
+  LegalSupplierEntity,
+} from 'src/modules/entity/models/legal-entity.entity';
 import { OrderDetailEntity } from 'src/modules/order-detail/models/order-detail.entity';
 import { PaymentTermEntity } from 'src/modules/payment-term/models/payment-term.entity';
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
@@ -87,7 +90,7 @@ export class BuyerQuickApplicationEntity extends QuickApplicationEntity {
   orderDetails: OrderDetailEntity;
 
   @ManyToOne(
-    () => LegalEntity,
+    () => LegalBuyerEntity,
     (legalEntity) => legalEntity.legalApplications,
     {
       eager: true,
@@ -95,7 +98,7 @@ export class BuyerQuickApplicationEntity extends QuickApplicationEntity {
       onDelete: 'CASCADE',
     },
   )
-  legalEntity: LegalEntity;
+  legalEntity: LegalBuyerEntity;
 }
 
 @Entity({ name: 'Supplier_Quick_Applications' })
@@ -117,7 +120,7 @@ export class SupplierQuickApplicationEntity extends QuickApplicationEntity {
   // contract: ContractEntity;
 
   @ManyToOne(
-    () => LegalEntity,
+    () => LegalSupplierEntity,
     (legalEntity) => legalEntity.legalApplications,
     {
       eager: true,
@@ -125,5 +128,5 @@ export class SupplierQuickApplicationEntity extends QuickApplicationEntity {
       onDelete: 'CASCADE',
     },
   )
-  legalEntity: LegalEntity;
+  legalEntity: LegalSupplierEntity;
 }
