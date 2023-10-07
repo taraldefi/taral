@@ -12,6 +12,7 @@ export class OrderDetailMappingService {
     response.id = order.id;
     response.importPort = order.importPort;
     response.exportPort = order.exportPort;
+    response.applicationId = order.application.id;
 
     response.products = order.products.map((product) => {
       var productItem = new GetOrderProductResponse();

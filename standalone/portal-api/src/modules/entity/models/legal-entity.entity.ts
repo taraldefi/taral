@@ -1,8 +1,18 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { LegalApplicationEntity } from './legal-application.entity';
 import { LegalProductEntity } from './legal-product.entity';
+import {
+  BuyerQuickApplicationEntity,
+  QuickApplicationEntity,
+} from 'src/modules/applications/models/quickapplication.entity';
 
 @Entity({ name: 'legal-entity' })
 export class LegalEntity extends EntityHelper {
@@ -56,8 +66,9 @@ export class LegalEntity extends EntityHelper {
   legalProducts: LegalProductEntity[];
 
   @OneToMany(
-    () => LegalApplicationEntity,
+    () => BuyerQuickApplicationEntity,
     (LegalApplication) => LegalApplication.legalEntity,
   )
-  legalApplications: LegalApplicationEntity[];
+  @JoinColumn()
+  legalApplications: BuyerQuickApplicationEntity[];
 }

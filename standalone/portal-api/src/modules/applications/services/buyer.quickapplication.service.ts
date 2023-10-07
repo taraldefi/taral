@@ -5,9 +5,10 @@ import { CreateQuickApplicationRequest } from '../dto/request/create-quick-appli
 import { CreateBuyerQuickApplicationResponse } from '../dto/response/create-buyer-application-response.dto';
 import { BuyerQuickApplicationEntity } from '../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../repositories/buyer.quickapplication.repository';
+import { LegalEntity } from 'src/modules/entity/models/legal-entity.entity';
 
 @Injectable()
-export class BuyerApplicationService {
+export class BuyerQuickApplicationService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -37,16 +38,21 @@ export class BuyerApplicationService {
 
   public async create(
     data: CreateQuickApplicationRequest,
+    entity: LegalEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
     const application = new BuyerQuickApplicationEntity();
 
     application.title = data.title;
     application.issuanceDate = new Date();
     application.status = 'ACTIVE';
+    application.createdAt = new Date();
 
     const savedApplication = await this.buyerApplicationRepository.save(
       application,
     );
+
+    entity.legalApplications = [...entity.legalApplications, savedApplication];
+    entity.save();
 
     return savedApplication;
   }

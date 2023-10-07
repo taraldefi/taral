@@ -28,5 +28,6 @@ import { LogoService } from './services/logo.service';
     EntityMappingService,
     LogoService,
   ],
+  exports: [EntityService],
 })
 export class EntitiesModule {}

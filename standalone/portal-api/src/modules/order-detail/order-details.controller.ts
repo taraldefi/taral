@@ -12,6 +12,7 @@ import { CreateOrderDetailDto } from './dto/request/create-order-detail.dto';
 import { GetOrderDetailsResponse } from './dto/response/get-order-detail-response.dto';
 import { OrderDetailService } from './services/order-detail.service';
 import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
+import { BuyerQuickApplicationService } from '../applications/services/buyer.quickapplication.service';
 
 @ApiTags('Orders')
 @Controller({
@@ -19,12 +20,18 @@ import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
   version: '1',
 })
 export class OrderDetailsController {
-  constructor(private readonly orderDetailsService: OrderDetailService) {}
+  constructor(
+    private readonly orderDetailsService: OrderDetailService,
+    private readonly buyerApplicationService: BuyerQuickApplicationService,
+  ) {}
   @Post()
   async createOrder(
     @Body() order: CreateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
-    return await this.orderDetailsService.create(order);
+    const application = await this.buyerApplicationService.findApplicationById(
+      order.applicationId,
+    );
+    return await this.orderDetailsService.create(order, application);
   }
 
   @Get('/:id')

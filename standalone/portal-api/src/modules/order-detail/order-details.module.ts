@@ -8,9 +8,13 @@ import { OrderProductEntity } from './models/order-product.entity';
 import { OrderProductService } from './services/order-product.service';
 import { OrderProductController } from './order-product.controller';
 import { OrderDetailMappingService } from './services/mapping.service';
+import { ApplicationModule } from '../applications/application.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([OrderDetailEntity, OrderProductEntity])],
+  imports: [
+    ApplicationModule,
+    TypeOrmModule.forFeature([OrderDetailEntity, OrderProductEntity]),
+  ],
   controllers: [OrderDetailsController, OrderProductController],
   providers: [
     ConfigModule,

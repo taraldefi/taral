@@ -34,6 +34,18 @@ export class EntityService {
     private mappingService: EntityMappingService,
   ) {}
 
+  public async findEntityById(id: string): Promise<LegalEntity> {
+    if (!id) throw triggerError('missing-entity-id');
+
+    const entity = await this.entityRepository.findOne(id, {
+      relations: ['legalProducts', 'legalApplications'],
+    });
+
+    if (!entity) throw triggerError('entity-not-found');
+
+    return entity;
+  }
+
   public async deleteEntity(id: string): Promise<void> {
     if (!id) throw triggerError('missing-entity-id');
 
@@ -162,7 +174,6 @@ export class EntityService {
     }
 
     const entityProducts = await this.createProducts();
-    const entityApplications = await this.createApplications();
 
     const entity = new LegalEntity();
     entity.abbreviation = data.abbreviation;
@@ -180,12 +191,9 @@ export class EntityService {
     }
 
     entityProducts.forEach((product) => (product.legalEntity = entity));
-    entityApplications.forEach(
-      (application) => (application.legalEntity = entity),
-    );
 
     entity.legalProducts = [...entityProducts];
-    entity.legalApplications = [...entityApplications];
+    entity.legalApplications = [];
 
     var result = await this.entityRepository.save(entity);
 

@@ -63,13 +63,6 @@ export abstract class QuickApplicationEntity extends EntityHelper {
   @Allow()
   transactionDocuments: TransactionDocumentEntity;
 
-  @ManyToOne(() => LegalEntity, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  legalEntity: LegalEntity;
-
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   createdAt: Date;
@@ -92,6 +85,17 @@ export class BuyerQuickApplicationEntity extends QuickApplicationEntity {
   @JoinColumn()
   @Allow()
   orderDetails: OrderDetailEntity;
+
+  @ManyToOne(
+    () => LegalEntity,
+    (legalEntity) => legalEntity.legalApplications,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  legalEntity: LegalEntity;
 }
 
 @Entity({ name: 'Supplier_Quick_Applications' })
@@ -111,4 +115,15 @@ export class SupplierQuickApplicationEntity extends QuickApplicationEntity {
   // @JoinColumn()
   // @Allow()
   // contract: ContractEntity;
+
+  @ManyToOne(
+    () => LegalEntity,
+    (legalEntity) => legalEntity.legalApplications,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  legalEntity: LegalEntity;
 }

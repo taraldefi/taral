@@ -139,7 +139,7 @@ export class EntityController {
         logo: {
           type: 'string',
           format: 'binary',
-        }
+        },
       },
     },
   })
@@ -204,7 +204,7 @@ export class EntityController {
         logo: {
           type: 'string',
           format: 'binary',
-        }
+        },
       },
     },
   })
