@@ -79,7 +79,7 @@ export class BuyerQuickApplicationEntity extends QuickApplicationEntity {
   )
   @JoinColumn()
   @Allow()
-  relationshipWithSuppplier: CollaborationRelationshipEntity;
+  relationshipWithSupplier: CollaborationRelationshipEntity;
 
   @OneToOne(() => OrderDetailEntity, (orderDetail) => orderDetail.application)
   @JoinColumn()
