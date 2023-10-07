@@ -1,6 +1,7 @@
 import { Allow } from 'class-validator';
+
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
-import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
@@ -26,6 +27,12 @@ export class BuyerEntity extends EntityHelper {
   @JoinColumn()
   @Allow()
   sector: SectorEntity;
+
+  @OneToOne(
+    () => QuickApplicationEntity,
+    (quickApplication) => quickApplication.buyerInformation,
+  )
+  application: QuickApplicationEntity;
 
   @OneToMany(
     () => CollaborationRelationshipEntity,

@@ -1,6 +1,7 @@
 import { Allow } from 'class-validator';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { paymentTypes } from '../enums/payment-term-type.enum';
 
 @Entity({ name: 'PaymentTerms' })
@@ -39,4 +40,10 @@ export class PaymentTermEntity extends EntityHelper {
   @Column()
   @Allow()
   paymentDuration: string;
+
+  @OneToOne(
+    () => QuickApplicationEntity,
+    (application) => application.paymentTerms,
+  )
+  application: QuickApplicationEntity;
 }

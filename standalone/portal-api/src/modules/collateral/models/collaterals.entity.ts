@@ -1,7 +1,8 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { FacilityType } from '../enums/facility.enum';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 
 @Entity({ name: 'Collaterals' })
 export class CollateralEntity extends EntityHelper {
@@ -39,4 +40,7 @@ export class CollateralEntity extends EntityHelper {
   @Column()
   @Allow()
   collateralProviderExperience: string;
+
+  @OneToOne(() => QuickApplicationEntity, (application) => application.security)
+  application: QuickApplicationEntity;
 }
