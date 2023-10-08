@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateCollateralDto } from './dto/request/create-collateral.dto';
+import { UpdateCollateralDto } from './dto/request/update-collateral.dto';
 import { GetCollateralResponse } from './dto/response/get-collateral-response.dto';
 import { CollateralService } from './services/collateral.service';
-import { UpdateCollateralDto } from './dto/request/update-collateral.dto';
 
 @ApiTags('Collaterals')
 @Controller({

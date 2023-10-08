@@ -3,15 +3,24 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { triggerError } from 'src/common/trigger.error';
 import { CreateQuickApplicationRequest } from '../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../dto/response/create-buyer-application-response.dto';
-import { BuyerQuickApplicationEntity } from '../models/quickapplication.entity';
+import { BuyerQuickApplicationEntity } from '../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../repositories/buyer.quickapplication.repository';
-import { LegalBuyerEntity } from 'src/modules/entity/models/legal-entity.entity';
+import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
+import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
+import { GetOrderDetailsResponse } from 'src/modules/order-detail/dto/response/get-order-detail-response.dto';
+import { OrderDetailEntity } from 'src/modules/order-detail/models/order-detail.entity';
+import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
+import { CreateBuyerRequest } from 'src/modules/buyer/dto/request/create-buyer.dto';
+import { BuyerService } from 'src/modules/buyer/services/buyer.service';
+import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
 
 @Injectable()
 export class BuyerQuickApplicationService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+    private readonly orderDetailsService: OrderDetailService,
+    private readonly buyerService: BuyerService,
   ) {}
 
   public async findApplicationById(
@@ -23,7 +32,6 @@ export class BuyerQuickApplicationService {
       relations: [
         'buyerInformation',
         'supplierInformation',
-        'relationshipWithSupplier',
         'paymentTerms',
         'orderDetails',
         'security',
@@ -55,6 +63,54 @@ export class BuyerQuickApplicationService {
     entity.save();
 
     return savedApplication;
+  }
+
+  public async createOrderDetail(
+    data: CreateOrderDetailDto,
+    applicationId: string,
+  ): Promise<GetOrderDetailsResponse> {
+    const savedOrder = await this.orderDetailsService.create(data);
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
+    application.orderDetails = savedOrder;
+    application.save();
+
+    return savedOrder;
+  }
+
+  public async createBuyerInformation(
+    data: CreateBuyerRequest,
+    applicationId: string,
+  ): Promise<BuyerEntity> {
+    const savedBuyer = await this.buyerService.createEntity(data);
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
+    application.buyerInformation = savedBuyer;
+    application.save();
+
+    return savedBuyer;
   }
 
   //   public async get(id: string): Promise<GetOrderDetailsResponse> {

@@ -9,11 +9,16 @@ import { OrderProductService } from './services/order-product.service';
 import { OrderProductController } from './order-product.controller';
 import { OrderDetailMappingService } from './services/mapping.service';
 import { ApplicationModule } from '../applications/application.module';
+import { BuyerQuickApplicationEntity } from '../applications/models/buyer-quickapplication.entity';
+import { OrderDetailsRepository } from './repositories/order-details.repository';
 
 @Module({
   imports: [
-    ApplicationModule,
-    TypeOrmModule.forFeature([OrderDetailEntity, OrderProductEntity]),
+    TypeOrmModule.forFeature([
+      BuyerQuickApplicationEntity,
+      OrderDetailEntity,
+      OrderProductEntity,
+    ]),
   ],
   controllers: [OrderDetailsController, OrderProductController],
   providers: [
@@ -23,5 +28,6 @@ import { ApplicationModule } from '../applications/application.module';
     OrderProductService,
     OrderDetailMappingService,
   ],
+  exports: [OrderDetailService],
 })
 export class OrderDetailsModule {}

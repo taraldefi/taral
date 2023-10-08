@@ -1,24 +1,24 @@
-import { Injectable } from "@nestjs/common";
-import { BuyerEntityRepository } from "../repositories/buyer.repository";
-import { InjectRepository } from "@nestjs/typeorm";
-import { BuyerEntity } from "../models/buyer.entity";
-import { triggerError } from "src/common/trigger.error";
-import { GetBuyerResponse } from "../dto/response/get-buyer-response.dto";
-import { EntityMappingService } from "./mapping.service";
-import { IsolationLevel, Transactional } from "src/common/transaction";
-import { CreateBuyerRequest } from "../dto/request/create-buyer.dto";
-import { BaseService } from "src/modules/auctionhistory/services/base.service";
-import { BuyerCompanyEntity } from "src/modules/company/models/buyer.company.entity";
-import { CompanyAddressEntity } from "src/modules/company/models/company.address.entity";
-import { BuyerCompanyEntityRepository } from "../repositories/buyer-company.repository";
-import { SectorEntityRepository } from "../repositories/sector.repository";
-import { CompanyAddressEntityRepository } from "../repositories/company-address.repository";
-import { SectorEntity } from "src/modules/sectors/models/sector.entity";
-import { UpdateBuyerRequest } from "../dto/request/update-buyer.dto";
+import { Injectable } from '@nestjs/common';
+import { BuyerEntityRepository } from '../repositories/buyer.repository';
+import { InjectRepository } from '@nestjs/typeorm';
+import { BuyerEntity } from '../models/buyer.entity';
+import { triggerError } from 'src/common/trigger.error';
+import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
+import { EntityMappingService } from './mapping.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { CreateBuyerRequest } from '../dto/request/create-buyer.dto';
+import { BaseService } from 'src/modules/auctionhistory/services/base.service';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
+import { BuyerCompanyEntityRepository } from '../repositories/buyer-company.repository';
+import { SectorEntityRepository } from '../repositories/sector.repository';
+import { CompanyAddressEntityRepository } from '../repositories/company-address.repository';
+import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
+import { UpdateBuyerRequest } from '../dto/request/update-buyer.dto';
 
 @Injectable()
 export class BuyerService extends BaseService {
- constructor(
+  constructor(
     @InjectRepository(BuyerEntity)
     private buyerEntityRepository: BuyerEntityRepository,
 
@@ -32,11 +32,11 @@ export class BuyerService extends BaseService {
     private sectorEntityRepository: SectorEntityRepository,
 
     private mappingService: EntityMappingService,
- ) {
-  super();
- }
+  ) {
+    super();
+  }
 
- public async deleteBuyer(id: string): Promise<void> {
+  public async deleteBuyer(id: string): Promise<void> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
@@ -53,7 +53,12 @@ export class BuyerService extends BaseService {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne({
-      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
+      relations: [
+        'relationshipWithSuppliers',
+        'sector',
+        'company',
+        'company.address',
+      ],
       where: { id: id },
     });
 
@@ -65,9 +70,7 @@ export class BuyerService extends BaseService {
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
-  public async createEntity(
-    data: CreateBuyerRequest,
-  ): Promise<GetBuyerResponse> {
+  public async createEntity(data: CreateBuyerRequest): Promise<BuyerEntity> {
     this.setupTransactionHooks();
 
     const entity = new BuyerEntity();
@@ -103,19 +106,25 @@ export class BuyerService extends BaseService {
 
     var entitySavedResult = await this.buyerEntityRepository.save(entity);
 
-    return this.mappingService.mapEntityDetails(entitySavedResult);
+    return entitySavedResult;
   }
 
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
   public async updateEntity(
-    id: string, 
-    data: UpdateBuyerRequest): Promise<GetBuyerResponse> {
+    id: string,
+    data: UpdateBuyerRequest,
+  ): Promise<GetBuyerResponse> {
     this.setupTransactionHooks();
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
+      relations: [
+        'relationshipWithSuppliers',
+        'sector',
+        'company',
+        'company.address',
+      ],
       where: { id: id },
       loadEagerRelations: true,
     });
@@ -145,7 +154,9 @@ export class BuyerService extends BaseService {
     }
 
     if (companyAddressChanged) {
-      var addressSavedResult = await this.companyAddressRepository.save(entity.company.address);
+      var addressSavedResult = await this.companyAddressRepository.save(
+        entity.company.address,
+      );
       entity.company.address = addressSavedResult;
     }
 
@@ -172,7 +183,9 @@ export class BuyerService extends BaseService {
     }
 
     if (companyChanged) {
-      var companySavedResult = await this.buyerCompanyRepository.save(entity.company);
+      var companySavedResult = await this.buyerCompanyRepository.save(
+        entity.company,
+      );
       entity.company = companySavedResult;
     }
 
@@ -189,7 +202,9 @@ export class BuyerService extends BaseService {
     }
 
     if (sectorChanged) {
-      var sectorSavedResult = await this.sectorEntityRepository.save(entity.sector);
+      var sectorSavedResult = await this.sectorEntityRepository.save(
+        entity.sector,
+      );
       entity.sector = sectorSavedResult;
     }
 
@@ -200,7 +215,12 @@ export class BuyerService extends BaseService {
 
   public async getAll(): Promise<GetBuyerResponse[]> {
     const entities = await this.buyerEntityRepository.find({
-      relations: ['relationshipWithSuppliers', 'sector', 'company', 'company.address'],
+      relations: [
+        'relationshipWithSuppliers',
+        'sector',
+        'company',
+        'company.address',
+      ],
     });
 
     return this.mappingService.mapManyEntities(entities);

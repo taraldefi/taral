@@ -7,7 +7,6 @@ import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-respon
 import { OrderDetailMappingService } from './mapping.service';
 import { UpdateOrderDetailDto } from '../dto/request/update-order-detail.dto';
 import { triggerError } from 'src/common/trigger.error';
-import { BuyerQuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 
 @Injectable()
 export class OrderDetailService {
@@ -29,10 +28,7 @@ export class OrderDetailService {
     return order;
   }
 
-  public async create(
-    data: CreateOrderDetailDto,
-    application: BuyerQuickApplicationEntity,
-  ): Promise<GetOrderDetailsResponse> {
+  public async create(data: CreateOrderDetailDto): Promise<OrderDetailEntity> {
     const order = new OrderDetailEntity();
 
     order.importPort = data.importPort;
@@ -42,10 +38,7 @@ export class OrderDetailService {
 
     const savedOrder = await this.orderDetailsRepository.save(order);
 
-    application.orderDetails = savedOrder;
-    await application.save();
-
-    return this.orderDetailMappingService.mapOrderDetails(savedOrder);
+    return savedOrder;
   }
 
   public async get(id: string): Promise<GetOrderDetailsResponse> {

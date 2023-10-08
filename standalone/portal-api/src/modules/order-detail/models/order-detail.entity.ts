@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderProductEntity } from '../models/order-product.entity';
-import { BuyerQuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntity } from 'src/modules/applications/models/buyer-quickapplication.entity';
 
 @Entity({ name: 'order_details' })
 export class OrderDetailEntity extends EntityHelper {

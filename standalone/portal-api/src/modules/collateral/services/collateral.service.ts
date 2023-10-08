@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCollateralDto } from '../dto/request/create-collateral.dto';
 import { InjectRepository } from '@nestjs/typeorm';
+import { triggerError } from 'src/common/trigger.error';
+import { CreateCollateralDto } from '../dto/request/create-collateral.dto';
+import { UpdateCollateralDto } from '../dto/request/update-collateral.dto';
+import { GetCollateralResponse } from '../dto/response/get-collateral-response.dto';
 import { CollateralEntity } from '../models/collaterals.entity';
 import { CollateralsRepository } from '../repositories/collaterals.repository';
-import { GetCollateralResponse } from '../dto/response/get-collateral-response.dto';
 import { CollateralMappingService } from './mapping.service';
-import { UpdateCollateralDto } from '../dto/request/update-collateral.dto';
-import { triggerError } from 'src/common/trigger.error';
 
 @Injectable()
 export class CollateralService {
@@ -31,6 +31,7 @@ export class CollateralService {
     collateral.collateralProviderInfluence = data.collateralProviderInfluence;
 
     const savedCollateral = await this.collateralRepository.save(collateral);
+
     return this.collateralMappingService.mapCollateralDetails(savedCollateral);
   }
 

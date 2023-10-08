@@ -17,12 +17,4 @@ export class CreateOrderDetailDto {
   @IsNotEmpty()
   @IsString()
   exportPort: string;
-
-  @ApiProperty({
-    description: 'Application ID',
-    example: '05159674-06ea-4bc2-b750-603b0f454025',
-  })
-  @IsNotEmpty()
-  @IsString()
-  applicationId: string;
 }

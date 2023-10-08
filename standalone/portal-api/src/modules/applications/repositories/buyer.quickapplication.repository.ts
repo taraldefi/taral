@@ -1,5 +1,5 @@
 import { EntityRepository } from 'typeorm';
-import { BuyerQuickApplicationEntity } from '../models/quickapplication.entity';
+import { BuyerQuickApplicationEntity } from '../models/buyer-quickapplication.entity';
 import { BaseSimpleRepository } from 'src/common/repository/base.simple.repository';
 
 @EntityRepository(BuyerQuickApplicationEntity)

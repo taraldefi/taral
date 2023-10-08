@@ -26,10 +26,6 @@ export class GetOrderDetailsResponse {
     description: 'Application ID',
     example: '05159674-06ea-4bc2-b750-603b0f454025',
   })
-  @IsNotEmpty()
-  @IsString()
-  applicationId: string;
-
   @ApiProperty({
     example: {
       id: '05159674-06ea-4bc2-b750-603b0f454025',

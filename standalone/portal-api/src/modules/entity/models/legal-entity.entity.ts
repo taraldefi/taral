@@ -1,18 +1,18 @@
 import { Allow } from 'class-validator';
-import {
-  BuyerQuickApplicationEntity,
-  SupplierQuickApplicationEntity,
-} from 'src/modules/applications/models/quickapplication.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import {
   Column,
   Entity,
-  JoinColumn,
-  OneToMany,
   PrimaryGeneratedColumn,
+  TableInheritance,
 } from 'typeorm';
 
-export abstract class LegalEntity extends EntityHelper {
+@Entity({ name: 'Entities' })
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
+export class LegalEntity extends EntityHelper {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
+
   @Column()
   @Allow()
   name: string;
@@ -52,42 +52,4 @@ export abstract class LegalEntity extends EntityHelper {
   @Column({ nullable: true })
   @Allow()
   logo: string;
-}
-
-@Entity({ name: 'Buyer_Entities' })
-export class LegalBuyerEntity extends LegalEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  // @OneToMany(
-  //   () => LegalProductEntity,
-  //   (legalProduct) => legalProduct.legalEntity,
-  // )
-  // legalProducts: LegalProductEntity[];
-
-  @OneToMany(
-    () => BuyerQuickApplicationEntity,
-    (LegalApplication) => LegalApplication.legalEntity,
-  )
-  @JoinColumn()
-  legalApplications: BuyerQuickApplicationEntity[];
-}
-
-@Entity({ name: 'Supplier_Entities' })
-export class LegalSupplierEntity extends LegalEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
-
-  // @OneToMany(
-  //   () => LegalProductEntity,
-  //   (legalProduct) => legalProduct.legalEntity,
-  // )
-  // legalProducts: LegalProductEntity[];
-
-  @OneToMany(
-    () => SupplierQuickApplicationEntity,
-    (LegalApplication) => LegalApplication.legalEntity,
-  )
-  @JoinColumn()
-  legalApplications: SupplierQuickApplicationEntity[];
 }

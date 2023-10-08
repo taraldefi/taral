@@ -12,7 +12,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateEntityDto } from './dto/request/create-entity.dto';
 import { UpdateEntityDto } from './dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
-import { BuyerEntityService } from './services/entity.service';
+import { BuyerEntityService } from './services/buyer-entity.service';
 
 @ApiTags('Entities')
 @Controller({
