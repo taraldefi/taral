@@ -16,9 +16,7 @@ export class PaymentTermService {
     private paymentTermMappingService: PaymentTermMappingService,
   ) {}
 
-  public async create(
-    data: CreatePaymentTermDto,
-  ): Promise<GetPaymentTermResponse> {
+  public async create(data: CreatePaymentTermDto): Promise<PaymentTermEntity> {
     const paymentTerm = new PaymentTermEntity();
 
     paymentTerm.isConcluded = data.isConcluded;
@@ -32,9 +30,7 @@ export class PaymentTermService {
 
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
 
-    return this.paymentTermMappingService.mapPaymentTermDetails(
-      savedPaymentTerm,
-    );
+    return savedPaymentTerm;
   }
   public async get(id: string): Promise<GetPaymentTermResponse> {
     if (!id) throw triggerError('missing-entity-id');
