@@ -15,5 +15,6 @@ import { CollateralMappingService } from './services/mapping.service';
     CollateralService,
     CollateralMappingService,
   ],
+  exports: [CollateralService],
 })
 export class CollateralModule {}

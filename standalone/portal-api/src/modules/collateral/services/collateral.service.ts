@@ -16,9 +16,7 @@ export class CollateralService {
     private readonly collateralMappingService: CollateralMappingService,
   ) {}
 
-  public async create(
-    data: CreateCollateralDto,
-  ): Promise<GetCollateralResponse> {
+  public async create(data: CreateCollateralDto): Promise<CollateralEntity> {
     const collateral = new CollateralEntity();
 
     collateral.facilityType = data.facilityType;
@@ -32,7 +30,7 @@ export class CollateralService {
 
     const savedCollateral = await this.collateralRepository.save(collateral);
 
-    return this.collateralMappingService.mapCollateralDetails(savedCollateral);
+    return savedCollateral;
   }
 
   public async get(id: string): Promise<GetCollateralResponse> {

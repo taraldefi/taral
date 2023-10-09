@@ -11,12 +11,18 @@ import { BuyerQuickApplicationService } from './services/buyer.quickapplication.
 
 import { OrderDetailsModule } from '../order-detail/order-details.module';
 import { BuyersModule } from '../buyer/buyers.module';
+import { CollateralModule } from '../collateral/collateral.module';
+import { SuppliersModule } from '../supplier/suppliers.module';
+import { RelationshipModule } from '../relationship/relationship.module';
 
 @Module({
   imports: [
     EntitiesModule,
     OrderDetailsModule,
+    CollateralModule,
     BuyersModule,
+    SuppliersModule,
+    RelationshipModule,
     TypeOrmModule.forFeature([
       BuyerQuickApplicationEntity,
       SupplierQuickApplicationEntity,

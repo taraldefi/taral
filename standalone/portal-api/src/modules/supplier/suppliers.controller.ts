@@ -1,9 +1,10 @@
-import { ApiTags } from "@nestjs/swagger";
-import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
-import { SupplierService } from "./services/supplier.service";
-import { CreateSupplierRequest } from "./dto/request/create-supplier.dto";
-import { GetSupplierResponse } from "./dto/response/get-supplier-response.dto";
-import { UpdateSupplierRequest } from "./dto/request/update-supplier.dto";
+import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { SupplierService } from './services/supplier.service';
+import { CreateSupplierRequest } from './dto/request/create-supplier.dto';
+import { GetSupplierResponse } from './dto/response/get-supplier-response.dto';
+import { UpdateSupplierRequest } from './dto/request/update-supplier.dto';
+import { SupplierEntity } from './models/supplier.entity';
 
 @ApiTags('Suppliers')
 @Controller({
@@ -11,14 +12,12 @@ import { UpdateSupplierRequest } from "./dto/request/update-supplier.dto";
   version: '1',
 })
 export class SuppliersEntityController {
-  constructor(private readonly supplierService: SupplierService) {
-
-  }
+  constructor(private readonly supplierService: SupplierService) {}
 
   @Post()
   async createEntity(
     @Body() entity: CreateSupplierRequest,
-  ): Promise<GetSupplierResponse> {
+  ): Promise<SupplierEntity> {
     console.log(JSON.stringify(entity, null, 2));
     return await this.supplierService.createEntity(entity);
   }
