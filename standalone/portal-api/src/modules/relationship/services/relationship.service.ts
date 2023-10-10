@@ -1,22 +1,19 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { triggerError } from 'src/common/trigger.error';
-import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { triggerError } from 'src/common/trigger.error';
 import { BaseService } from 'src/modules/auctionhistory/services/base.service';
-import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
-import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
-import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
-import { CollaborationRelationshipEntity } from '../models/collaboration.relationship.entity';
-import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
-import { SupplierRepository } from 'src/modules/supplier/repositories/supplier.repository';
-import { BuyerEntityRepository } from 'src/modules/buyer/repositories/buyer.repository';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
+import { BuyerEntityRepository } from 'src/modules/buyer/repositories/buyer.repository';
+import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
+import { SupplierRepository } from 'src/modules/supplier/repositories/supplier.repository';
 import { CreateRelationshipRequest } from '../dto/request/create-relationship.dto';
-import { GetRelationshipResponse } from '../dto/response/get-relationship-response.dto';
-import { PaymentExperience } from '../models/payment.experience';
 import { UpdateRelationshipRequest } from '../dto/request/update-relationship.dto';
+import { GetRelationshipResponse } from '../dto/response/get-relationship-response.dto';
+import { CollaborationRelationshipEntity } from '../models/collaboration.relationship.entity';
+import { PaymentExperience } from '../models/payment.experience';
+import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
+import { EntityMappingService } from './mapping.service';
 
 @Injectable()
 export class RelationshipService extends BaseService {
