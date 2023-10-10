@@ -14276,10 +14276,10 @@ jotai-query-toolkit@^0.1.18, jotai-query-toolkit@^0.1.23:
     react-query latest
     use-memo-one "1.1.2"
 
-jotai-tanstack-query@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/jotai-tanstack-query/-/jotai-tanstack-query-0.7.1.tgz#3035d5e1d2393298a4f5c37a47eb90acb8534b00"
-  integrity sha512-62PDt8s3c1fN/f3AmTMzAFUHZAstUIPUZMFdhERbmTRWiGznVAq6uJMt08FCI3JL53wZj5q5FhuA39LTL5zqRg==
+jotai-tanstack-query@^0.7.2:
+  version "0.7.2"
+  resolved "https://registry.yarnpkg.com/jotai-tanstack-query/-/jotai-tanstack-query-0.7.2.tgz#076441e3795f050b3ef0955d510efd3e938b45d1"
+  integrity sha512-acwJJf4HKgs4c0mtgRJEvdL7jqQnKcT0ARvs33weGysLpQ8L1S3SqPPoMeHuLDz6vREcocsVFRZ5RsB7rJJHZQ==
 
 jotai@^2.0.4, jotai@latest:
   version "2.3.1"
