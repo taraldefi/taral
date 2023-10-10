@@ -41,7 +41,7 @@ export class QuickApplicationController {
     private readonly buyerQuickApplicationService: BuyerQuickApplicationService,
     private readonly entityService: BuyerEntityService,
     private readonly buyerQuickApplicationBuyerInformationService: BuyerQuickApplicationBuyerInformationService,
-    private readonly buyerQuickApplicationASupplierInformationService: BuyerQuickApplicationSupplierInformationService,
+    private readonly buyerQuickApplicationSupplierInformationService: BuyerQuickApplicationSupplierInformationService,
     private readonly buyerQuickApplicationOrderDetailsService: BuyerQuickApplicationOrderDetailService,
     private readonly buyerQuickApplicationCollateralService: BuyerQuickApplicationCollateralService,
     private readonly buyerQuickApplicationpaymentTermService: BuyerQuickApplicationPaymentTermService,
@@ -117,6 +117,14 @@ export class QuickApplicationController {
 
   // Routes for operations related to application's supplier information
 
+  // Get supplier info of an application by ID
+  @Get('/:id/supplier-info')
+  async getSupplierInfo(@Param('id') id: string) {
+    return await this.buyerQuickApplicationSupplierInformationService.getSupplierInformation(
+      id,
+    );
+  }
+
   // Create supplier information for an application
   @Post('/:id/supplier-info')
   async createSupplierInfo(
@@ -124,7 +132,7 @@ export class QuickApplicationController {
     @Body() supplierInfo: CreateSupplierInformationRequest,
   ) {
     const supplierInformation =
-      await this.buyerQuickApplicationASupplierInformationService.createSupplierInformation(
+      await this.buyerQuickApplicationSupplierInformationService.createSupplierInformation(
         supplierInfo,
         applicationId,
       );
@@ -138,7 +146,7 @@ export class QuickApplicationController {
     @Body() supplierInfo: UpdateSupplierInformationRequest,
   ) {
     const supplierInformation =
-      await this.buyerQuickApplicationASupplierInformationService.updateSupplierInformation(
+      await this.buyerQuickApplicationSupplierInformationService.updateSupplierInformation(
         applicationId,
         supplierInfo,
       );

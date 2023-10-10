@@ -79,7 +79,7 @@ export class SupplierService extends BaseService {
     return this.mappingService.mapManyEntities(entities);
   }
 
-  public async getEntity(id: string): Promise<GetSupplierResponse> {
+  public async getEntity(id: string): Promise<SupplierEntity> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.supplierRepository.findOne({
@@ -95,7 +95,7 @@ export class SupplierService extends BaseService {
 
     if (!entity) throw triggerError('entity-not-found');
 
-    return this.mappingService.mapEntityDetails(entity);
+    return entity;
   }
 
   @Transactional({

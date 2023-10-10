@@ -4,11 +4,10 @@ import { GetSupplierResponse } from '../dto/response/get-supplier-response.dto';
 
 @Injectable()
 export class EntityMappingService {
-
   public mapManyEntities(entities: SupplierEntity[]): GetSupplierResponse[] {
     var response = new Array<GetSupplierResponse>();
 
-    entities.forEach(entity => {
+    entities.forEach((entity) => {
       response.push(this.mapEntityDetails(entity));
     });
 
@@ -23,7 +22,7 @@ export class EntityMappingService {
     response.dateEstablished = entity.company.dateEstablished;
     response.employeeCount = entity.company.employeeCount;
     response.registrationNumbers = entity.company.registrationNumbers;
-    
+
     return response;
   }
 }

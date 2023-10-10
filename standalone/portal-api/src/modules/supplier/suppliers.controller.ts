@@ -38,10 +38,10 @@ export class SuppliersEntityController {
     return await this.supplierService.updateEntity(id, entity);
   }
 
-  @Get('/:id')
-  async getEntity(@Param('id') id: string): Promise<GetSupplierResponse> {
-    return await this.supplierService.getEntity(id);
-  }
+  // @Get('/:id')
+  // async getEntity(@Param('id') id: string): Promise<GetSupplierResponse> {
+  //   return await this.supplierService.getEntity(id);
+  // }
 
   @Get()
   async getAll(): Promise<GetSupplierResponse[]> {

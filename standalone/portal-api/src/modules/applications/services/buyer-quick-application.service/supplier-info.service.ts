@@ -20,6 +20,21 @@ export class BuyerQuickApplicationSupplierInformationService {
     private readonly buyerService: BuyerService,
   ) {}
 
+  public async getSupplierInformation(applicationId: string) {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['supplierInformation'],
+      },
+    );
+
+    const savedSupplier = await this.supplierService.getEntity(
+      application.supplierInformation.id,
+    );
+    console.log('savedSupplier', savedSupplier);
+    return savedSupplier;
+  }
+
   public async createSupplierInformation(
     data: CreateSupplierInformationRequest,
     applicationId: string,

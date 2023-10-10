@@ -49,8 +49,8 @@ export class GetBuyerQuickApplicationResponse {
   @Type(() => GetCollateralResponse)
   security: GetCollateralResponse;
 
-  @ApiProperty()
-  @ValidateNested()
-  @Type(() => CreateTxDocResponse)
-  transactionDocuments: CreateTxDocResponse;
+  // @ApiProperty()
+  // @ValidateNested()
+  // @Type(() => CreateTxDocResponse)
+  // transactionDocuments: CreateTxDocResponse;
 }
