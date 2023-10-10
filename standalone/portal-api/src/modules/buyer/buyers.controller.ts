@@ -4,6 +4,7 @@ import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { GetBuyerResponse } from './dto/response/get-buyer-response.dto';
 import { CreateBuyerRequest } from './dto/request/create-buyer.dto';
 import { UpdateBuyerRequest } from './dto/request/update-buyer.dto';
+import { BuyerEntity } from './models/buyer.entity';
 
 @ApiTags('Buyers')
 @Controller({
@@ -38,7 +39,7 @@ export class BuyersEntityController {
   }
 
   @Get('/:id')
-  async getEntity(@Param('id') id: string): Promise<GetBuyerResponse> {
+  async getEntity(@Param('id') id: string): Promise<BuyerEntity> {
     return await this.buyerService.getEntity(id);
   }
 

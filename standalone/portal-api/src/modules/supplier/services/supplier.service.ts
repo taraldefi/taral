@@ -191,8 +191,6 @@ export class SupplierService extends BaseService {
       loadEagerRelations: true,
     });
 
-    if (!entity) throw triggerError('entity-not-found');
-
     let companyAddressChanged = false;
 
     if (data.company.address.addressLine1) {

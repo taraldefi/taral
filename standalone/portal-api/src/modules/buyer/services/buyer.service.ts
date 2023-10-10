@@ -49,7 +49,7 @@ export class BuyerService extends BaseService {
     await this.buyerEntityRepository.delete({ id: id });
   }
 
-  public async getEntity(id: string): Promise<GetBuyerResponse> {
+  public async getEntity(id: string): Promise<BuyerEntity> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne({
@@ -64,7 +64,7 @@ export class BuyerService extends BaseService {
 
     if (!entity) throw triggerError('entity-not-found');
 
-    return this.mappingService.mapEntityDetails(entity);
+    return entity;
   }
 
   @Transactional({

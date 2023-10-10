@@ -6,6 +6,9 @@ import { SupplierService } from 'src/modules/supplier/services/supplier.service'
 import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { CreateSupplierInformationRequest } from '../../dto/request/create-supplier-info.dto';
+import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
+import { UpdateSupplierInformationRequest } from '../../dto/request/update-supplier-info.dto';
+import { BuyerService } from 'src/modules/buyer/services/buyer.service';
 
 @Injectable()
 export class BuyerQuickApplicationSupplierInformationService {
@@ -14,6 +17,7 @@ export class BuyerQuickApplicationSupplierInformationService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly supplierService: SupplierService,
     private readonly relationshipService: RelationshipService,
+    private readonly buyerService: BuyerService,
   ) {}
 
   public async createSupplierInformation(
@@ -52,5 +56,41 @@ export class BuyerQuickApplicationSupplierInformationService {
     application.save();
 
     return savedSupplier;
+  }
+
+  public async updateSupplierInformation(
+    applicationId: string,
+    data: UpdateSupplierInformationRequest,
+  ): Promise<void> {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['supplierInformation', 'buyerInformation'],
+      },
+    );
+
+    const buyer = await this.buyerService.getEntity(
+      application.buyerInformation.id,
+    );
+
+    const supplier = await this.supplierService.getEntity(
+      application.supplierInformation.id,
+    );
+
+    if (data.supplierInformation) {
+      await this.supplierService.updateEntity(
+        application.supplierInformation.id,
+        data.supplierInformation,
+      );
+    }
+
+    if (data.relationshipWithSupplier) {
+      await this.relationshipService.updateEntity(
+        data.relationshipWithSupplier,
+        buyer.relationshipWithSuppliers[0].id,
+        application.buyerInformation.id,
+        supplier.id,
+      );
+    }
   }
 }

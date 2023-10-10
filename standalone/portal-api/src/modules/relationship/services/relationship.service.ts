@@ -106,8 +106,6 @@ export class RelationshipService extends BaseService {
   ): Promise<GetRelationshipResponse> {
     this.setupTransactionHooks();
 
-    if (!entity) throw triggerError('missing-entity-id');
-
     const buyer = await this.buyerEntityRepository.findOneOrFail({
       relations: ['relationshipWithSuppliers'],
       where: { id: buyerId },

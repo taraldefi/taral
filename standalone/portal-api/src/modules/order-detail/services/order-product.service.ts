@@ -7,6 +7,7 @@ import { OrderDetailEntity } from '../models/order-detail.entity';
 import { UpdateOrderProductDto } from '../dto/request/update-order-product.dto';
 import { OrderDetailMappingService } from './mapping.service';
 import { triggerError } from 'src/common/trigger.error';
+import { OrderDetailService } from './order-detail.service';
 
 @Injectable()
 export class OrderProductService {
@@ -14,6 +15,7 @@ export class OrderProductService {
     @InjectRepository(OrderProductEntity)
     private orderProductsRepository: OrderProductsRepository,
     private readonly orderDetailMappingService: OrderDetailMappingService,
+    private readonly orderDetailService: OrderDetailService,
   ) {}
 
   public async get(id: string) {
@@ -26,10 +28,9 @@ export class OrderProductService {
     return this.orderDetailMappingService.mapOrderProductDetails(product);
   }
 
-  public async create(
-    product: CreateOrderProductDto,
-    order: OrderDetailEntity,
-  ) {
+  public async create(product: CreateOrderProductDto, orderId: string) {
+    const order = await this.orderDetailService.findOrderById(orderId);
+
     const newProduct = await this.orderProductsRepository.save(product);
 
     order.products = [...order.products, newProduct];
