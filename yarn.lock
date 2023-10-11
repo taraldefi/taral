@@ -5717,10 +5717,10 @@
   resolved "https://registry.yarnpkg.com/@types/caseless/-/caseless-0.12.2.tgz#f65d3d6389e01eeb458bd54dc8f52b95a9463bc8"
   integrity sha512-6ckxMjBBD8URvjB6J3NcnuAn5Pkl7t3TizAg+xdlzzQGSPSmBcXf8KoIH0ua/i+tio+ZRUHEXp0HEmvaR4kt0w==
 
-"@types/coinbase@^2.0.8":
-  version "2.0.8"
-  resolved "https://registry.yarnpkg.com/@types/coinbase/-/coinbase-2.0.8.tgz#71ddb373525a4e20b7d432fdaa216128ac1a623f"
-  integrity sha512-zoOtXUe5kyjCXLM5RMqBF6izHLwlImc512x3oZ6ePhsmSkjezS9vgs5hzpk2K+jCzpGOQ7e1ymYXvbOQcLzubg==
+"@types/coinbase@^2.0.9":
+  version "2.0.9"
+  resolved "https://registry.yarnpkg.com/@types/coinbase/-/coinbase-2.0.9.tgz#5414e3b3ac057136199a43e1ab1a893b306d3637"
+  integrity sha512-wyWm1jgiAe96GEcV9OPGBh102tmClpGcW/2kYw9ZHYEF6SwfKYl0SNkW7xYkZjhBeLL5Ofca5YsYxAbtzl7AIg==
 
 "@types/connect-history-api-fallback@^1.3.5":
   version "1.5.0"
