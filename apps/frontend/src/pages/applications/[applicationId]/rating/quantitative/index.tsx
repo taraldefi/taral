@@ -1,4 +1,4 @@
-import CRSLayout from "@components/layouts/crs_layout";
+import CRSLayout from "@components/layouts/auditor/crs_layout";
 import { QuantitativeTable } from "taral-ui";
 import { useRouter } from "next/router";
 

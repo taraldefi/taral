@@ -1,5 +1,5 @@
 import React from "react";
-import DashBoardPageLayout from "@components/layouts/dashboard_page_layout";
+import DashBoardPageLayout from "@components/layouts/auditor/dashboard/dashboard_page_layout";
 
 interface ReportLayoutProps {
   children: React.ReactNode;

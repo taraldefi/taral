@@ -121,10 +121,14 @@ describe("EntityService", () => {
       incorporationDate: "12-12-2022",
       legalForm: "Limited",
     };
+    const formData = new FormData();
+    Object.keys(requestBody).forEach((key) => {
+      formData.append(key, requestBody[key as keyof Entity]);
+    });
 
     (axios.patch as jest.Mock).mockResolvedValueOnce(mockResponse);
 
-    const result = await entityService.updateEntity(id, requestBody);
+    const result = await entityService.updateEntity(id, formData);
 
     expect(axios.patch).toHaveBeenCalledWith(
       `${apiUrls.ENTITY}/${id}`,
@@ -158,10 +162,14 @@ describe("EntityService", () => {
       incorporationDate: "12-12-2022",
       legalForm: "Limited",
     };
+    const formData = new FormData();
+    Object.keys(requestBody).forEach((key) => {
+      formData.append(key, requestBody[key as keyof Entity]);
+    });
 
     (axios.patch as jest.Mock).mockRejectedValueOnce(mockErrorResponse);
 
-    await expect(entityService.updateEntity(id, requestBody)).rejects.toThrow(
+    await expect(entityService.updateEntity(id, formData)).rejects.toThrow(
       "Updating entity failed."
     );
 

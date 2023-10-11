@@ -1,8 +1,8 @@
-import Layout from "@components/layouts/layout";
+import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout";
 import RepaymentCard from "@components/widgets/RepaymentCard";
-import { RepaymentTable } from "taral-ui";
-import { RepaymentTableData } from "src/bin/mockData";
 import { useRouter } from "next/router";
+import { RepaymentTableData } from "src/bin/mockData";
+import { RepaymentTable } from "taral-ui";
 
 export enum LoanCardTypes {
   INTEREST_RATE = "INTEREST_RATE",
@@ -17,7 +17,7 @@ function Index() {
   const router = useRouter();
   const entityID = router.query.entityId;
   return (
-    <Layout>
+    <ExporterBaseLayout>
       <div className="viewbody">
         <div className="repaymentContainer">
           <div className="topContainer">
@@ -49,7 +49,7 @@ function Index() {
           </div>
         </div>
       </div>
-    </Layout>
+    </ExporterBaseLayout>
   );
 }
 

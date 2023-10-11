@@ -1,5 +1,5 @@
 import { PortalIcons } from "@components/icons";
-import TxLayout from "@components/layouts/tx_layout";
+import TxLayout from "@components/layouts/auditor/tx_layout";
 import React from "react";
 export default function Transactiontx() {
   const [toggle, setToggle] = React.useState(true);

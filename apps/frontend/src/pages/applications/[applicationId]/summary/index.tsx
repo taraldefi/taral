@@ -1,5 +1,5 @@
 import { PortalIcons } from "@components/icons";
-import DashBoardPageLayout from "@components/layouts/dashboard_page_layout";
+import DashBoardPageLayout from "@components/layouts/auditor/dashboard/dashboard_page_layout";
 export default function summary() {
   return (
     <DashBoardPageLayout

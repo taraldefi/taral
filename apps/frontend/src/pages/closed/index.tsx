@@ -4,7 +4,7 @@ function Closed() {
   return (
     <>
       <Layout>
-        <div className="closed">Closed page</div>
+        <div className="closed">Coming soon</div>
       </Layout>
     </>
   );

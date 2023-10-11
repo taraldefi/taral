@@ -1,6 +1,6 @@
 import React from "react";
 import { SortBarItem } from "src/types";
-import DashBoardPageLayout from "@components/layouts/dashboard_page_layout";
+import DashBoardPageLayout from "@components/layouts/auditor/dashboard/dashboard_page_layout";
 
 interface CRSLayoutProps {
   children: React.ReactNode;

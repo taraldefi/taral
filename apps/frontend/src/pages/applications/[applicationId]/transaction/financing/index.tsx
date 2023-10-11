@@ -1,4 +1,4 @@
-import TxLayout from "@components/layouts/tx_layout";
+import TxLayout from "@components/layouts/auditor/tx_layout";
 import { TxFinanceTable } from "taral-ui";
 
 const TableData = {

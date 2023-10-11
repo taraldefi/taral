@@ -1,5 +1,6 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
+import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
 import { EntityCardResponse, EntityResponse } from "src/types";
 
@@ -17,6 +18,8 @@ class EntityService {
       const { data } = response;
 
       if (response.status === 200) {
+        const logo = await this.getEntityLogo(data.logo);
+        data.logo = getBase64Src(logo);
         return data;
       }
     } catch (error: any) {
@@ -82,6 +85,7 @@ class EntityService {
     try {
       const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
       const { data } = response;
+      console.log(response);
 
       if (response.status === 201) {
         return data;
@@ -126,7 +130,13 @@ class EntityService {
    * @param entity
    */
   async updateEntity(id: string, entity: FormData): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig({ method: "PATCH" });
+    const axiosConfig = getAxiosConfig({
+      method: "PATCH",
+      contentType: "multipart/form-data",
+    });
+    for (const [key, value] of entity.entries()) {
+      console.log(key, value);
+    }
     try {
       const response = await axios.patch(
         `${apiUrls.ENTITY}/${id}`,

@@ -98,7 +98,7 @@ function Index() {
               <div className="buttonBox">
                 <Button
                   onClick={() => {
-                    router.push("/users/exporter/entities");
+                    router.push("/users/importer/entities");
                   }}
                   label={"Login"}
                   icon={

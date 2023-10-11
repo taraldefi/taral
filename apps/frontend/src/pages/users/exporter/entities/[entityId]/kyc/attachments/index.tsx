@@ -1,13 +1,13 @@
-import KYCLayout from "@components/layouts/kycLayout";
+import ExporterKycLayout from "@components/layouts/exporter/exporterKycLayout";
 import FileUpload from "@components/widgets/FileUpload";
 
 function index() {
   return (
-    <KYCLayout>
+    <ExporterKycLayout>
       <div className="kycContainer">
         <FileUpload></FileUpload>
       </div>
-    </KYCLayout>
+    </ExporterKycLayout>
   );
 }
 

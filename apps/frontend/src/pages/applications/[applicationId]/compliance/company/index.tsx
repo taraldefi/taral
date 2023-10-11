@@ -1,4 +1,4 @@
-import ComplianceLayout from "@components/layouts/compliance_layout";
+import ComplianceLayout from "@components/layouts/auditor/compliance_layout";
 import { CompanyTable } from "taral-ui";
 
 const TableData = [

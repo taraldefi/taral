@@ -29,6 +29,7 @@ function FormModal({ isOpen, onClose }: Props) {
   const onSubmit = (data: Entity) => {
     setLoading(true);
     const formData = new FormData();
+    console.log("data", data);
 
     Object.entries(data).forEach(([key, value]) => {
       if (key === "logo") {
@@ -50,6 +51,7 @@ function FormModal({ isOpen, onClose }: Props) {
           `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
         );
       }
+      setLoading(false);
     });
   };
 

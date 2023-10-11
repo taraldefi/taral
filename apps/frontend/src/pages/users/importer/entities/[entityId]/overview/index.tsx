@@ -1,21 +1,15 @@
 import EntityView from "@components/entity/entityView";
-import Layout from "@components/layouts/layout";
-import { DeleteModal, EntityTable } from "taral-ui";
-import entityService from "@services/entityService";
-import React, { useEffect, useState } from "react";
-import { Entity } from "src/types";
-import { useAtom } from "jotai";
-import {
-  EntitiesAtom,
-  EntityDeletedAtom,
-  EntityEditedAtom,
-  currentSelectedEntityAtom,
-} from "@store/entityStore";
-import ContentLoader from "react-content-loader";
-import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
+import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout";
 import useModal from "@hooks/useModal";
+import entityService from "@services/entityService";
+import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
+import { EntityDeletedAtom } from "@store/entityStore";
+import { useAtom } from "jotai";
+import { GetStaticPaths, GetStaticProps } from "next";
 import { useRouter } from "next/router";
-import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
+import ContentLoader from "react-content-loader";
+import { Entity, EntityCardResponse } from "src/types";
+import { DeleteModal, EntityTable } from "taral-ui";
 
 const TableData = [
   {
@@ -56,43 +50,21 @@ const TableData = [
   },
 ];
 
-function index() {
-  const [entityData, setEntityData] = useState<Entity>();
-  const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
-  const [, setEntities] = useAtom(EntitiesAtom);
-  const entityId = currentSelectedEntity;
-  const [entityEdited] = useAtom(EntityEditedAtom);
+function index(props: { entityData: Entity; hasError: boolean }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        await entityService.getEntity(entityId as string).then(async (data) => {
-          if (data.id) {
-            const image = await fetchEntityLogo(data.logo);
-            data.logo = image;
-            setEntityData(data);
-          }
-        });
-      } catch (error) {
-        console.error("Error fetching entity:", error);
-      }
-    }
-
-    fetchData();
-  }, [entityEdited, currentSelectedEntity]);
-
+  if (router.isFallback) {
+    return;
+  }
   const handleDelete = async (entityIdToDelete: string) => {
     try {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {
         if (data) {
           // Update the state to remove the deleted entity
-          setEntities((prevEntities: any) =>
-            prevEntities.filter((entity: any) => entity.id !== entityIdToDelete)
-          );
+
           setEntityDeleted(entityIdToDelete);
           // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
           setSelectedEntity("");
@@ -130,23 +102,23 @@ function index() {
   );
 
   return (
-    <Layout>
+    <ImporterBaseLayout>
       <div className="viewbody">
         <div className="viewContainer">
-          {entityData ? (
+          {props.entityData ? (
             <EntityView
               infoData={{
-                id: entityData.id,
-                name: entityData.name,
-                logo: entityData.logo,
-                BeneficialOwner: entityData.beneficialOwner,
-                CodeAbbreviation: entityData.abbreviation,
-                Nationality: entityData.nationality,
-                HeadquartersLocation: entityData.headquarters,
-                IndustryType: entityData.industryType,
-                CoreBusiness: entityData.coreBusiness,
-                IncorporationDate: entityData.incorporationDate,
-                LegalForm: entityData.legalForm,
+                id: props.entityData.id,
+                name: props.entityData.name,
+                logo: props.entityData.logo,
+                BeneficialOwner: props.entityData.beneficialOwner,
+                CodeAbbreviation: props.entityData.abbreviation,
+                Nationality: props.entityData.nationality,
+                HeadquartersLocation: props.entityData.headquarters,
+                IndustryType: props.entityData.industryType,
+                CoreBusiness: props.entityData.coreBusiness,
+                IncorporationDate: props.entityData.incorporationDate,
+                LegalForm: props.entityData.legalForm,
                 productCount: 20,
               }}
             />
@@ -167,8 +139,37 @@ function index() {
         isOpen={deleteModal.isOpen}
         onClose={() => deleteModal.close()}
       ></DeleteModal>
-    </Layout>
+    </ImporterBaseLayout>
   );
 }
+export const getStaticProps: GetStaticProps = async (context) => {
+  const itemID = context.params?.entityId;
+  const data = await entityService.getAllEntity();
+  const foundItem = data.find((item: EntityCardResponse) => itemID === item.id);
+  if (!foundItem) {
+    return {
+      notFound: true,
+    };
+  }
+  const entity = await entityService.getEntity(itemID as string);
+
+  return {
+    props: {
+      entityData: entity,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const data = await entityService.getAllEntity();
+  const pathsWithParams = data.map((entity: EntityCardResponse) => ({
+    params: { entityId: entity.id },
+  }));
+
+  return {
+    paths: pathsWithParams,
+    fallback: true,
+  };
+};
 
 export default index;
