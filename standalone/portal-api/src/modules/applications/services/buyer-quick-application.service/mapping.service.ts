@@ -1,15 +1,19 @@
 import { Injectable } from '@nestjs/common';
+import { GetBuyerCompanyAddressRequest } from 'src/modules/buyer/dto/response/get-buyer-company-address-response.dto';
+import { CollateralMappingService } from 'src/modules/collateral/services/mapping.service';
+import { PaymentTermMappingService } from 'src/modules/payment-term/services/mapping.service';
+import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
+import { EntityMappingService } from 'src/modules/relationship/services/mapping.service';
+import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { SupplierInformationResponse } from '../../dto/response/get-supplier-information-response.dto';
-import { EntityMappingService } from 'src/modules/relationship/services/mapping.service';
-import { GetBuyerCompanyAddressRequest } from 'src/modules/buyer/dto/response/get-buyer-company-address-response.dto';
-import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
-import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 
 @Injectable()
 export class BuyerQuickApplicationMappingService {
   constructor(
     private readonly relationshipMappingService: EntityMappingService,
+    private readonly collateralMappingService: CollateralMappingService,
+    private readonly paymentTermMappingService: PaymentTermMappingService,
   ) {}
 
   public mapSupplierInformationForImporterApplication(

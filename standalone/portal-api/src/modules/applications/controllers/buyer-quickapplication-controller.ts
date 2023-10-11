@@ -52,7 +52,7 @@ export class QuickApplicationController {
   // Get application by ID
   @Get('/:id')
   async getApplication(@Param('id') id: string) {
-    return await this.buyerQuickApplicationService.findApplicationById(id);
+    return await this.buyerQuickApplicationService.get(id);
   }
 
   // Get active application by Entity ID
@@ -243,6 +243,12 @@ export class QuickApplicationController {
 
   // Routes for operations related to application's collateral
 
+  // Get collateral of an application by ID
+  @Get('/:id/security')
+  async getSecurity(@Param('id') id: string) {
+    return await this.buyerQuickApplicationCollateralService.getCollateral(id);
+  }
+
   // Create collateral for an application
   @Post('/:id/security')
   async createCollateral(
@@ -272,6 +278,14 @@ export class QuickApplicationController {
   }
 
   // Routes for operations related to application's payment terms
+
+  // Get payment terms of an application by ID
+  @Get('/:id/payment-terms')
+  async getPaymentTerm(@Param('id') id: string) {
+    return await this.buyerQuickApplicationpaymentTermService.getPaymentTerm(
+      id,
+    );
+  }
 
   // Create payment terms for an application
   @Post('/:id/payment-terms')

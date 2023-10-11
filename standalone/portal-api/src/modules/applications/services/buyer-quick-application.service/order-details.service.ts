@@ -29,11 +29,7 @@ export class BuyerQuickApplicationOrderDetailService {
         relations: ['orderDetails'],
       },
     );
-    const order = await this.orderDetailsService.findOrderById(
-      application.orderDetails.id,
-    );
-
-    return this.mappingService.mapOrderDetails(order);
+    return this.orderDetailsService.get(application.orderDetails.id);
   }
 
   public async createOrderDetail(

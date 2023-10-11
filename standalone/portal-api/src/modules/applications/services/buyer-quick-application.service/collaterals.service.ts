@@ -7,6 +7,7 @@ import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { UpdateCollateralDto } from 'src/modules/collateral/dto/request/update-collateral.dto';
 import { GetCollateralResponse } from 'src/modules/collateral/dto/response/get-collateral-response.dto';
+import { CollateralMappingService } from 'src/modules/collateral/services/mapping.service';
 
 @Injectable()
 export class BuyerQuickApplicationCollateralService {
@@ -14,12 +15,23 @@ export class BuyerQuickApplicationCollateralService {
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly collateralService: CollateralService,
+    private readonly mappingService: CollateralMappingService,
   ) {}
+
+  public async getCollateral(applicationId: string) {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['security'],
+      },
+    );
+    return await this.collateralService.get(application.security.id);
+  }
 
   public async createCollateral(
     data: CreateCollateralDto,
     applicationId: string,
-  ): Promise<CollateralEntity> {
+  ): Promise<GetCollateralResponse> {
     const savedCollateral = await this.collateralService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -37,7 +49,7 @@ export class BuyerQuickApplicationCollateralService {
     application.security = savedCollateral;
     application.save();
 
-    return savedCollateral;
+    return this.mappingService.mapCollateralDetails(savedCollateral);
   }
 
   public async updateCollateral(

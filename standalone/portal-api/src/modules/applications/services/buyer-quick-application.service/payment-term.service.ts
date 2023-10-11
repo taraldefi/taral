@@ -7,6 +7,7 @@ import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/update-payment-term.dto';
 import { GetPaymentTermResponse } from 'src/modules/payment-term/dto/response/get-payment-term.response.dto';
+import { PaymentTermMappingService } from 'src/modules/payment-term/services/mapping.service';
 
 @Injectable()
 export class BuyerQuickApplicationPaymentTermService {
@@ -14,12 +15,23 @@ export class BuyerQuickApplicationPaymentTermService {
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly paymentTermService: PaymentTermService,
+    private readonly mappingService: PaymentTermMappingService,
   ) {}
+
+  public async getPaymentTerm(applicationId: string) {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['paymentTerms'],
+      },
+    );
+    return await this.paymentTermService.get(application.paymentTerms.id);
+  }
 
   public async createPaymentTerm(
     data: CreatePaymentTermDto,
     applicationId: string,
-  ): Promise<PaymentTermEntity> {
+  ): Promise<GetPaymentTermResponse> {
     const savedPaymentTerm = await this.paymentTermService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -37,7 +49,7 @@ export class BuyerQuickApplicationPaymentTermService {
     application.paymentTerms = savedPaymentTerm;
     application.save();
 
-    return savedPaymentTerm;
+    return this.mappingService.mapPaymentTermDetails(savedPaymentTerm);
   }
 
   public async updatePaymentTerm(

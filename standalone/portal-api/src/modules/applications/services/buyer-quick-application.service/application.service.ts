@@ -1,18 +1,74 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
+import { GetApplicationResponse } from 'src/modules/entity/dto/response/get-application-response.dto';
 import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
 import { CreateQuickApplicationRequest } from '../../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-buyer-application-response.dto';
+import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';
 import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
+import { BuyerQuickApplicationBuyerInformationService } from './buyer-info.service';
+import { BuyerQuickApplicationCollateralService } from './collaterals.service';
+import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
+import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';
+import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 
 @Injectable()
 export class BuyerQuickApplicationService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+
+    private buyerInfoService: BuyerQuickApplicationBuyerInformationService,
+    private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
+    private paymentTermService: BuyerQuickApplicationPaymentTermService,
+    private orderDetailService: BuyerQuickApplicationOrderDetailService,
+    private collateralService: BuyerQuickApplicationCollateralService,
   ) {}
+
+  public async get(id: string): Promise<GetApplicationResponse> {
+    const application = await this.buyerApplicationRepository.findOneOrFail(
+      id,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
+    var response = new GetBuyerQuickApplicationResponse();
+    response.id = application.id;
+    response.title = application.title;
+    response.status = application.status;
+
+    const savedBuyerInformation =
+      await this.buyerInfoService.getBuyerInformation(application.id);
+    const savedSupplierInformation =
+      await this.supplierInfoService.getSupplierInformation(application.id);
+
+    const savedPaymentTerm = await this.paymentTermService.getPaymentTerm(
+      application.id,
+    );
+    const savedOrderDetail = await this.orderDetailService.getOrderDetails(
+      application.id,
+    );
+    const savedCollateral = await this.collateralService.getCollateral(
+      application.id,
+    );
+
+    response.buyerInformation = savedBuyerInformation;
+    response.supplierInformation = savedSupplierInformation;
+    response.orderDetails = savedOrderDetail;
+    response.security = savedCollateral;
+    response.paymentTerms = savedPaymentTerm;
+
+    return response;
+  }
 
   public async findApplicationById(
     id: string,
