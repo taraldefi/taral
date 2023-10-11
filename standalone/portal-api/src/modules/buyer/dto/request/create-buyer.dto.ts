@@ -13,5 +13,5 @@ export class CreateBuyerRequest {
   @ApiProperty()
   @ValidateNested()
   @Type(() => CreateBuyerSectorRequest)
-  sector: CreateBuyerSectorRequest;
+  sector?: CreateBuyerSectorRequest;
 }

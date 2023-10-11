@@ -122,48 +122,53 @@ export class SupplierService extends BaseService {
 
     company.address = addressSavedResult;
     company.companyName = data.company.companyName;
-
+    company.phoneNumber = data.company.phoneNumber;
     company.dateEstablished = data.company.dateEstablished;
     company.employeeCount = data.company.employeeCount;
     company.registrationNumbers = data.company.registrationNumbers;
+    // this is a hack to make tax and revenue optional
+    if (data.company.taxAndRevenue) {
+      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      taxAndRevenue.audited = data.company.taxAndRevenue.audited;
+      taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
+      taxAndRevenue.exportRevenuePercentage =
+        data.company.taxAndRevenue.exportRevenuePercentage;
+      taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
+      taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
+      taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-    const taxAndRevenue = new CompanyTaxAndRevenueEntity();
-
-    taxAndRevenue.audited = data.company.taxAndRevenue.audited;
-    taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
-    taxAndRevenue.exportRevenuePercentage =
-      data.company.taxAndRevenue.exportRevenuePercentage;
-    taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
-    taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
-    taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
-
-    var taxAndRevenueSavedResult =
-      await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
-
-    company.taxAndRevenue = taxAndRevenueSavedResult;
+      company.taxAndRevenue = taxAndRevenueSavedResult;
+    }
 
     var companySavedResult = await this.supplierCompanyRepository.save(company);
 
     entity.company = companySavedResult;
 
-    const financials = new SupplierFinancialInformationEntity();
+    if (data.financialInformation) {
+      const financials = new SupplierFinancialInformationEntity();
 
-    financials.turnover = data.financialInformation.turnover;
-    financials.balanceSheetTotal = data.financialInformation.balanceSheetTotal;
+      financials.turnover = data.financialInformation.turnover;
+      financials.balanceSheetTotal =
+        data.financialInformation.balanceSheetTotal;
 
-    var financialsSavedResult =
-      await this.supplierFinancialInformationRepository.save(financials);
+      var financialsSavedResult =
+        await this.supplierFinancialInformationRepository.save(financials);
 
-    entity.financials = financialsSavedResult;
+      entity.financials = financialsSavedResult;
+    }
 
-    const rating = new SupplierRatingEntity();
-    rating.agencyName = data.rating.agencyName;
-    rating.rating = data.rating.rating;
-    rating.issuanceDate = data.rating.issuanceDate;
+    if (data.rating) {
+      const rating = new SupplierRatingEntity();
+      rating.agencyName = data.rating.agencyName;
+      rating.rating = data.rating.rating;
+      rating.issuanceDate = data.rating.issuanceDate;
 
-    var ratingSavedResult = await this.supplierRatingRepository.save(rating);
+      var ratingSavedResult = await this.supplierRatingRepository.save(rating);
 
-    entity.rating = ratingSavedResult;
+      entity.rating = ratingSavedResult;
+    }
 
     var entitySavedResult = await this.supplierRepository.save(entity);
 

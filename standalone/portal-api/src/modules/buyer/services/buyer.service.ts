@@ -15,6 +15,8 @@ import { SectorEntityRepository } from '../repositories/sector.repository';
 import { CompanyAddressEntityRepository } from '../repositories/company-address.repository';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { UpdateBuyerRequest } from '../dto/request/update-buyer.dto';
+import { CompanyTaxAndRevenueEntity } from 'src/modules/company/models/company.tax.and.revenue.entity';
+import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
 
 @Injectable()
 export class BuyerService extends BaseService {
@@ -24,6 +26,9 @@ export class BuyerService extends BaseService {
 
     @InjectRepository(CompanyAddressEntity)
     private companyAddressRepository: CompanyAddressEntityRepository,
+
+    @InjectRepository(CompanyTaxAndRevenueEntity)
+    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
 
     @InjectRepository(BuyerCompanyEntity)
     private buyerCompanyRepository: BuyerCompanyEntityRepository,
@@ -90,19 +95,35 @@ export class BuyerService extends BaseService {
     company.address = addressSavedResult;
     company.companyName = data.company.companyName;
     company.dateEstablished = data.company.dateEstablished;
+    company.phoneNumber = data.company.phoneNumber;
     company.employeeCount = data.company.employeeCount;
     company.registrationNumbers = data.company.registrationNumbers;
 
+    if (data.company.taxAndRevenue) {
+      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      taxAndRevenue.audited = data.company.taxAndRevenue.audited;
+      taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
+      taxAndRevenue.exportRevenuePercentage =
+        data.company.taxAndRevenue.exportRevenuePercentage;
+      taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
+      taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
+      taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+
+      company.taxAndRevenue = taxAndRevenueSavedResult;
+    }
+
     var companySavedResult = await this.buyerCompanyRepository.save(company);
-
-    const sector = new SectorEntity();
-    sector.industryType = data.sector.industryType;
-    sector.status = data.sector.status;
-
-    var sectorSavedResult = await this.sectorEntityRepository.save(sector);
-
     entity.company = companySavedResult;
-    entity.sector = sectorSavedResult;
+    if (data.sector) {
+      const sector = new SectorEntity();
+      sector.industryType = data.sector.industryType;
+      sector.status = data.sector.status;
+
+      var sectorSavedResult = await this.sectorEntityRepository.save(sector);
+      entity.sector = sectorSavedResult;
+    }
 
     var entitySavedResult = await this.buyerEntityRepository.save(entity);
 

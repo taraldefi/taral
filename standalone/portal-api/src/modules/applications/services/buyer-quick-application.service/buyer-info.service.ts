@@ -20,7 +20,7 @@ export class BuyerQuickApplicationBuyerInformationService {
     data: CreateBuyerRequest,
     applicationId: string,
   ): Promise<BuyerEntity> {
-    const savedBuyer = await this.buyerService.createEntity(data);
+    //TODO: check if application ID is valid to prevent isolated buyer entity creation
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
@@ -34,6 +34,8 @@ export class BuyerQuickApplicationBuyerInformationService {
         ],
       },
     );
+    const savedBuyer = await this.buyerService.createEntity(data);
+
     application.buyerInformation = savedBuyer;
     application.save();
 

@@ -8,27 +8,33 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   taxNumber?: string;
 
   @Column({ type: 'timestamptz' })
   @Allow()
-  lastFiscalYear?: Date;
+  lastFiscalYear: Date;
 
   @Column()
   @Allow()
   totalRevenue: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   exportValue?: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   audited?: boolean;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0,
+    nullable: true,
+  })
   @Allow()
   exportRevenuePercentage: number;
 
