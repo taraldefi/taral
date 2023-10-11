@@ -1,15 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
-import { GetOrderDetailsResponse } from 'src/modules/order-detail/dto/response/get-order-detail-response.dto';
-import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
-import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
-import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
-import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
-import { GetOrderProductResponse } from 'src/modules/order-detail/dto/response/get-order-product-response.dto';
 import { UpdateOrderDetailDto } from 'src/modules/order-detail/dto/request/update-order-detail.dto';
 import { UpdateOrderProductDto } from 'src/modules/order-detail/dto/request/update-order-product.dto';
+import { GetOrderDetailsResponse } from 'src/modules/order-detail/dto/response/get-order-detail-response.dto';
+import { GetOrderProductResponse } from 'src/modules/order-detail/dto/response/get-order-product-response.dto';
+import { OrderDetailMappingService } from 'src/modules/order-detail/services/mapping.service';
+import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
+import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
+import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 
 @Injectable()
 export class BuyerQuickApplicationOrderDetailService {
@@ -18,7 +19,22 @@ export class BuyerQuickApplicationOrderDetailService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly orderDetailsService: OrderDetailService,
     private readonly orderProductService: OrderProductService,
+    private readonly mappingService: OrderDetailMappingService,
   ) {}
+
+  public async getOrderDetails(applicationId: string) {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['orderDetails'],
+      },
+    );
+    const order = await this.orderDetailsService.findOrderById(
+      application.orderDetails.id,
+    );
+
+    return this.mappingService.mapOrderDetails(order);
+  }
 
   public async createOrderDetail(
     data: CreateOrderDetailDto,
@@ -34,7 +50,7 @@ export class BuyerQuickApplicationOrderDetailService {
     application.orderDetails = savedOrder;
     application.save();
 
-    return savedOrder;
+    return this.mappingService.mapOrderDetails(application.orderDetails);
   }
 
   public async updateOrderDetail(
@@ -47,12 +63,10 @@ export class BuyerQuickApplicationOrderDetailService {
         relations: ['orderDetails'],
       },
     );
-    const savedOrder = await this.orderDetailsService.update(
+    return await this.orderDetailsService.update(
       application.orderDetails.id,
       data,
     );
-
-    return savedOrder;
   }
 
   public async addProductsToOrderDetail(
@@ -65,12 +79,10 @@ export class BuyerQuickApplicationOrderDetailService {
         relations: ['orderDetails'],
       },
     );
-    const savedOrder = await this.orderProductService.create(
+    return await this.orderProductService.create(
       data,
       application.orderDetails.id,
     );
-
-    return savedOrder;
   }
 
   public async updateProductsToOrderDetail(

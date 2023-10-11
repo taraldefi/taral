@@ -22,21 +22,21 @@ export class BuyersEntityController {
   //   return await this.buyerService.createEntity(entity);
   // }
 
-  @Post('/:id')
-  async updateEntity(
-    @Param('id') id: string,
-    @Body() entity: UpdateBuyerRequest,
-  ): Promise<GetBuyerResponse> {
-    return await this.buyerService.updateEntity(id, entity);
-  }
+  // @Post('/:id')
+  // async updateEntity(
+  //   @Param('id') id: string,
+  //   @Body() entity: UpdateBuyerRequest,
+  // ): Promise<GetBuyerResponse> {
+  //   return await this.buyerService.updateEntity(id, entity);
+  // }
 
-  @Patch('/:id')
-  async patchEntity(
-    @Param('id') id: string,
-    @Body() entity: UpdateBuyerRequest,
-  ): Promise<GetBuyerResponse> {
-    return await this.buyerService.updateEntity(id, entity);
-  }
+  // @Patch('/:id')
+  // async patchEntity(
+  //   @Param('id') id: string,
+  //   @Body() entity: UpdateBuyerRequest,
+  // ): Promise<GetBuyerResponse> {
+  //   return await this.buyerService.updateEntity(id, entity);
+  // }
 
   @Get('/:id')
   async getEntity(@Param('id') id: string): Promise<BuyerEntity> {

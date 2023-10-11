@@ -9,36 +9,50 @@ import { CreateSupplierInformationRequest } from '../../dto/request/create-suppl
 import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 import { UpdateSupplierInformationRequest } from '../../dto/request/update-supplier-info.dto';
 import { BuyerService } from 'src/modules/buyer/services/buyer.service';
+import { BuyerQuickApplicationMappingService } from './mapping.service';
+import { SupplierInformationResponse } from '../../dto/response/get-supplier-information-response.dto';
 
 @Injectable()
 export class BuyerQuickApplicationSupplierInformationService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+    private readonly mappingService: BuyerQuickApplicationMappingService,
     private readonly supplierService: SupplierService,
     private readonly relationshipService: RelationshipService,
     private readonly buyerService: BuyerService,
   ) {}
 
-  public async getSupplierInformation(applicationId: string) {
+  public async getSupplierInformation(
+    applicationId: string,
+  ): Promise<SupplierInformationResponse> {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
-        relations: ['supplierInformation'],
+        relations: ['supplierInformation', 'buyerInformation'],
       },
     );
 
     const savedSupplier = await this.supplierService.getEntity(
       application.supplierInformation.id,
     );
-    console.log('savedSupplier', savedSupplier);
-    return savedSupplier;
+
+    const savedRelationship = await this.relationshipService.getEntity(
+      application.buyerInformation.id,
+      application.supplierInformation.id,
+    );
+
+    return this.mappingService.mapSupplierInformationForImporterApplication(
+      savedSupplier,
+      savedRelationship,
+    );
   }
 
   public async createSupplierInformation(
     data: CreateSupplierInformationRequest,
     applicationId: string,
-  ): Promise<SupplierEntity> {
+  ): Promise<SupplierInformationResponse> {
+    //TODO: check for application so that isolated supplier creation is prevented
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
@@ -70,7 +84,10 @@ export class BuyerQuickApplicationSupplierInformationService {
 
     application.save();
 
-    return savedSupplier;
+    return this.mappingService.mapSupplierInformationForImporterApplication(
+      savedSupplier,
+      savedRelationship,
+    );
   }
 
   public async updateSupplierInformation(

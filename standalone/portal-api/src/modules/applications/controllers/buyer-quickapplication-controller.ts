@@ -87,6 +87,13 @@ export class QuickApplicationController {
 
   // Routes for operations related to application's buyer information
 
+  @Get('/:id/buyer-info')
+  async getBuyerInfo(@Param('id') id: string) {
+    return await this.buyerQuickApplicationBuyerInformationService.getBuyerInformation(
+      id,
+    );
+  }
+
   // Create buyer information for an application
   @Post('/:id/buyer-info')
   async createBuyerInfo(
@@ -155,6 +162,13 @@ export class QuickApplicationController {
 
   // Routes for operations related to application's order details
 
+  // Get order details of an application by ID
+  @Get('/:id/order-details')
+  async getOrderDetails(@Param('id') id: string) {
+    return await this.buyerQuickApplicationOrderDetailsService.getOrderDetails(
+      id,
+    );
+  }
   // Create order details for an application
   @Post('/:id/order-details')
   async createOrder(

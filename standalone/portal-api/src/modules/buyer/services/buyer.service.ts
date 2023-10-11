@@ -63,6 +63,7 @@ export class BuyerService extends BaseService {
         'sector',
         'company',
         'company.address',
+        'company.taxAndRevenue',
       ],
       where: { id: id },
     });
@@ -136,7 +137,7 @@ export class BuyerService extends BaseService {
   public async updateEntity(
     id: string,
     data: UpdateBuyerRequest,
-  ): Promise<GetBuyerResponse> {
+  ): Promise<BuyerEntity> {
     this.setupTransactionHooks();
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
@@ -145,6 +146,7 @@ export class BuyerService extends BaseService {
         'sector',
         'company',
         'company.address',
+        'company.taxAndRevenue',
       ],
       where: { id: id },
       loadEagerRelations: true,
@@ -249,15 +251,16 @@ export class BuyerService extends BaseService {
     }
 
     let sectorChanged = false;
+    if (data.sector) {
+      if (data.sector.industryType) {
+        sectorChanged = true;
+        entity.sector.industryType = data.sector.industryType;
+      }
 
-    if (data.sector.industryType) {
-      sectorChanged = true;
-      entity.sector.industryType = data.sector.industryType;
-    }
-
-    if (data.sector.status) {
-      sectorChanged = true;
-      entity.sector.status = data.sector.status;
+      if (data.sector.status) {
+        sectorChanged = true;
+        entity.sector.status = data.sector.status;
+      }
     }
 
     if (sectorChanged) {
@@ -269,7 +272,7 @@ export class BuyerService extends BaseService {
 
     var updatedEntity = await this.buyerEntityRepository.save(entity);
 
-    return this.mappingService.mapEntityDetails(updatedEntity);
+    return updatedEntity;
   }
 
   public async getAll(): Promise<GetBuyerResponse[]> {

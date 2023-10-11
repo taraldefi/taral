@@ -8,7 +8,10 @@ import {
   IsString,
 } from 'class-validator';
 
-export class UpdateBuyerCompanyTaxAndRevenueRequest {
+export class GetSupplierCompanyTaxAndRevenueRequest {
+  @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
+  id: string;
+
   @ApiProperty({ example: 'Engelbrecht Ltd' })
   @IsOptional()
   @IsString()

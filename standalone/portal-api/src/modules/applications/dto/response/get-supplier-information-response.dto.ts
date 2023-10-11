@@ -5,6 +5,9 @@ import { GetRelationshipResponse } from 'src/modules/relationship/dto/response/g
 import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 
 export class SupplierInformationResponse {
+  @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
+  id: string;
+
   @ApiProperty()
   @ValidateNested()
   @Type(() => GetSupplierResponse)
@@ -13,5 +16,5 @@ export class SupplierInformationResponse {
   @ApiProperty()
   @ValidateNested()
   @Type(() => GetRelationshipResponse)
-  relationshipWithBuyer: GetRelationshipResponse;
+  relationshipWithSupplier: GetRelationshipResponse;
 }

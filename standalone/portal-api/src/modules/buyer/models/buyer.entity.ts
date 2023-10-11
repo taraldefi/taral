@@ -32,6 +32,7 @@ export class BuyerEntity extends EntityHelper {
     () => QuickApplicationEntity,
     (quickApplication) => quickApplication.buyerInformation,
   )
+  @JoinColumn()
   application: QuickApplicationEntity;
 
   @OneToMany(

@@ -22,6 +22,7 @@ import { SectorsModule } from '../sectors/sectors.module';
   providers: [ConfigModule, ConfigService, BuyerService, EntityMappingService],
   exports: [
     BuyerService,
+    EntityMappingService,
     TypeOrmModule.forFeature([BuyerEntity]),
     TypeOrmModule.forFeature([CompanyAddressEntity]),
     TypeOrmModule.forFeature([BuyerCompanyEntity]),

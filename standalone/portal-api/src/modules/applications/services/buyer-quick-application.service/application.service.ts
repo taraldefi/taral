@@ -17,16 +17,19 @@ export class BuyerQuickApplicationService {
   public async findApplicationById(
     id: string,
   ): Promise<BuyerQuickApplicationEntity> {
-    const application = await this.buyerApplicationRepository.findOne(id, {
-      relations: [
-        'buyerInformation',
-        'supplierInformation',
-        'paymentTerms',
-        'orderDetails',
-        'security',
-        'transactionDocuments',
-      ],
-    });
+    const application = await this.buyerApplicationRepository.findOneOrFail(
+      id,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
 
     return application;
   }

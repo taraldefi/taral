@@ -57,10 +57,10 @@ export class RelationshipController {
     );
   }
 
-  @Get('/:id')
-  async getEntity(@Param('id') id: string): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.getEntity(id);
-  }
+  // @Get('/:id')
+  // async getEntity(@Param('id') id: string): Promise<GetRelationshipResponse> {
+  //   return await this.relationshipService.getEntity(id);
+  // }
 
   @Get()
   async getAll(): Promise<GetRelationshipResponse[]> {

@@ -189,6 +189,7 @@ export class SupplierService extends BaseService {
         'relationshipWithBuyers',
         'company',
         'company.address',
+        'company.taxAndRevenue',
         'financials',
         'rating',
       ],
@@ -223,34 +224,38 @@ export class SupplierService extends BaseService {
     }
 
     let taxAndRevenueChanged = false;
-    if (data.company.taxAndRevenue.taxNumber) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.taxNumber =
-        data.company.taxAndRevenue.taxNumber;
-    }
-    if (data.company.taxAndRevenue.audited) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.audited = data.company.taxAndRevenue.audited;
-    }
-    if (data.company.taxAndRevenue.exportRevenuePercentage) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.exportRevenuePercentage =
-        data.company.taxAndRevenue.exportRevenuePercentage;
-    }
-    if (data.company.taxAndRevenue.exportValue) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.exportValue =
-        data.company.taxAndRevenue.exportValue;
-    }
-    if (data.company.taxAndRevenue.lastFiscalYear) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.lastFiscalYear =
-        data.company.taxAndRevenue.lastFiscalYear;
-    }
-    if (data.company.taxAndRevenue.totalRevenue) {
-      taxAndRevenueChanged = true;
-      entity.company.taxAndRevenue.totalRevenue =
-        data.company.taxAndRevenue.totalRevenue;
+
+    if (data.company.taxAndRevenue) {
+      if (data.company.taxAndRevenue.taxNumber) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.taxNumber =
+          data.company.taxAndRevenue.taxNumber;
+      }
+      if (data.company.taxAndRevenue.audited) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.audited =
+          data.company.taxAndRevenue.audited;
+      }
+      if (data.company.taxAndRevenue.exportRevenuePercentage) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.exportRevenuePercentage =
+          data.company.taxAndRevenue.exportRevenuePercentage;
+      }
+      if (data.company.taxAndRevenue.exportValue) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.exportValue =
+          data.company.taxAndRevenue.exportValue;
+      }
+      if (data.company.taxAndRevenue.lastFiscalYear) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.lastFiscalYear =
+          data.company.taxAndRevenue.lastFiscalYear;
+      }
+      if (data.company.taxAndRevenue.totalRevenue) {
+        taxAndRevenueChanged = true;
+        entity.company.taxAndRevenue.totalRevenue =
+          data.company.taxAndRevenue.totalRevenue;
+      }
     }
     if (taxAndRevenueChanged) {
       var taxAndRevenueSavedResult =
@@ -288,36 +293,38 @@ export class SupplierService extends BaseService {
 
     let financialInformationChanged = false;
 
-    if (data.financialInformation.turnover) {
-      financialInformationChanged = true;
-      entity.financials.turnover = data.financialInformation.turnover;
-    }
+    if (data.financialInformation) {
+      if (data.financialInformation.turnover) {
+        financialInformationChanged = true;
+        entity.financials.turnover = data.financialInformation.turnover;
+      }
 
-    if (data.financialInformation.balanceSheetTotal) {
-      financialInformationChanged = true;
-      entity.financials.balanceSheetTotal =
-        data.financialInformation.balanceSheetTotal;
+      if (data.financialInformation.balanceSheetTotal) {
+        financialInformationChanged = true;
+        entity.financials.balanceSheetTotal =
+          data.financialInformation.balanceSheetTotal;
+      }
     }
 
     if (financialInformationChanged) {
       await this.supplierFinancialInformationRepository.save(entity.financials);
     }
-
     let ratingChanged = false;
+    if (data.rating) {
+      if (data.rating.agencyName) {
+        ratingChanged = true;
+        entity.rating.agencyName = data.rating.agencyName;
+      }
 
-    if (data.rating.agencyName) {
-      ratingChanged = true;
-      entity.rating.agencyName = data.rating.agencyName;
-    }
+      if (data.rating.rating) {
+        ratingChanged = true;
+        entity.rating.rating = data.rating.rating;
+      }
 
-    if (data.rating.rating) {
-      ratingChanged = true;
-      entity.rating.rating = data.rating.rating;
-    }
-
-    if (data.rating.issuanceDate) {
-      ratingChanged = true;
-      entity.rating.issuanceDate = data.rating.issuanceDate;
+      if (data.rating.issuanceDate) {
+        ratingChanged = true;
+        entity.rating.issuanceDate = data.rating.issuanceDate;
+      }
     }
 
     if (ratingChanged) {

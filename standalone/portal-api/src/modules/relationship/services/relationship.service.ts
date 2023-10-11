@@ -167,13 +167,16 @@ export class RelationshipService extends BaseService {
     return this.mappingService.mapEntityDetails(relationship);
   }
 
-  public async getEntity(id: string): Promise<GetRelationshipResponse> {
+  public async getEntity(
+    buyerId: string,
+    supplierId: string,
+  ): Promise<CollaborationRelationshipEntity> {
     const entity = await this.relationshipRepository.findOneOrFail({
       relations: ['buyer', 'supplier'],
-      where: { id: id },
+      where: { buyer: buyerId, supplier: supplierId },
     });
 
-    return this.mappingService.mapEntityDetails(entity);
+    return entity;
   }
 
   public async getAll(): Promise<GetRelationshipResponse[]> {

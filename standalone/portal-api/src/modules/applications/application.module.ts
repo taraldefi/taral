@@ -20,6 +20,7 @@ import { BuyerQuickApplicationSupplierInformationService } from './services/buye
 import { BuyerQuickApplicationOrderDetailService } from './services/buyer-quick-application.service/order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './services/buyer-quick-application.service/payment-term.service';
 import { BuyerQuickApplicationCollateralService } from './services/buyer-quick-application.service/collaterals.service';
+import { BuyerQuickApplicationMappingService } from './services/buyer-quick-application.service/mapping.service';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { BuyerQuickApplicationCollateralService } from './services/buyer-quick-a
     BuyerQuickApplicationOrderDetailService,
     BuyerQuickApplicationPaymentTermService,
     BuyerQuickApplicationCollateralService,
+    BuyerQuickApplicationMappingService,
   ],
   exports: [BuyerQuickApplicationService],
 })

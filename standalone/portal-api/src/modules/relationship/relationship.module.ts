@@ -25,6 +25,7 @@ import { RelationshipController } from './relationship.controller';
   ],
   exports: [
     RelationshipService,
+    EntityMappingService,
     TypeOrmModule.forFeature([CollaborationRelationshipEntity]),
   ],
 })
