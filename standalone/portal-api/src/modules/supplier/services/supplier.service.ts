@@ -222,6 +222,44 @@ export class SupplierService extends BaseService {
       await this.companyAddressRepository.save(entity.company.address);
     }
 
+    let taxAndRevenueChanged = false;
+    if (data.company.taxAndRevenue.taxNumber) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.taxNumber =
+        data.company.taxAndRevenue.taxNumber;
+    }
+    if (data.company.taxAndRevenue.audited) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.audited = data.company.taxAndRevenue.audited;
+    }
+    if (data.company.taxAndRevenue.exportRevenuePercentage) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.exportRevenuePercentage =
+        data.company.taxAndRevenue.exportRevenuePercentage;
+    }
+    if (data.company.taxAndRevenue.exportValue) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.exportValue =
+        data.company.taxAndRevenue.exportValue;
+    }
+    if (data.company.taxAndRevenue.lastFiscalYear) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.lastFiscalYear =
+        data.company.taxAndRevenue.lastFiscalYear;
+    }
+    if (data.company.taxAndRevenue.totalRevenue) {
+      taxAndRevenueChanged = true;
+      entity.company.taxAndRevenue.totalRevenue =
+        data.company.taxAndRevenue.totalRevenue;
+    }
+    if (taxAndRevenueChanged) {
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(
+          entity.company.taxAndRevenue,
+        );
+      entity.company.taxAndRevenue = taxAndRevenueSavedResult;
+    }
+
     let companyChanged = false;
 
     if (data.company.companyName) {
