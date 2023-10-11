@@ -238,6 +238,10 @@ export class BuyerService extends BaseService {
       entity.company.employeeCount = data.company.employeeCount;
     }
 
+    if (data.company.phoneNumber) {
+      companyChanged = true;
+      entity.company.phoneNumber = data.company.phoneNumber;
+    }
     if (data.company.registrationNumbers) {
       companyChanged = true;
       entity.company.registrationNumbers = data.company.registrationNumbers;

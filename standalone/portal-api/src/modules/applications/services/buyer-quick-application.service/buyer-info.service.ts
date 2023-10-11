@@ -51,6 +51,7 @@ export class BuyerQuickApplicationBuyerInformationService {
         ],
       },
     );
+    // TODO: check if buyer already exists
     const savedBuyer = await this.buyerService.createEntity(data);
 
     application.buyerInformation = savedBuyer;
