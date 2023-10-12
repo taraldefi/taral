@@ -17,14 +17,14 @@
     "ts-jest": "^27.1.4",
     "ts-node": "^10.9.1",
     "@types/jest": "^27.4.1",
-    "@types/uuid": "^9.0.2",
+    "@types/uuid": "^9.0.5",
     "typescript": "^5.1.6",
     "@babel/preset-typescript": "^7.21.0",
     "@babel/preset-env": "^7.22.4",
     "babel-jest": "^29.6.0"
   },
   "dependencies": {
-    "uuid": "^9.0.0",
+    "uuid": "^9.0.1",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
     "lib-shared": "1.0.0",
