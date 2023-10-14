@@ -32,7 +32,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
         <Topbar />
         <NewApplicationTopNav />
       </div>
-      <ApplicationLeftMenu></ApplicationLeftMenu>
+      <ApplicationLeftMenu />
       <div className="mainBody">{children}</div>
       <FormModal
         isOpen={newEntityModal.isOpen}

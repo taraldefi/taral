@@ -8,42 +8,43 @@ export default function ApplicationLeftMenu() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const entityID = router.query.entityId;
+  const applicationID = router.query.applicationId;
   const SidebarDataEx = [
     {
       id: 0,
       title: "Exporter Info",
       name: "exporterInfo",
-      path: `/users/exporter/entities/${entityID}/quick/exporterInfo`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/exporterInfo`,
     },
     {
       id: 1,
       title: "Importer Info",
       name: "importerInfo",
-      path: `/users/exporter/entities/${entityID}/quick/importerInfo`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/importerInfo`,
     },
     {
       id: 2,
       title: "Contract",
       name: "contract",
-      path: `/users/exporter/entities/${entityID}/quick/contract`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/contract`,
     },
     {
       id: 3,
       title: "Payment terms",
       name: "paymentTerms",
-      path: `/users/exporter/entities/${entityID}/quick/paymentTerms`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/paymentTerms`,
     },
     {
       id: 4,
       title: "Security",
       name: "security",
-      path: `/users/exporter/entities/${entityID}/quick/security`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/security`,
     },
     {
       id: 5,
       title: "Transaction Docs",
       name: "Transaction Docs",
-      path: `/users/exporter/entities/${entityID}/quick/transactionDocs`,
+      path: `/users/exporter/entities/${entityID}/quick/${applicationID}/transactionDocs`,
     },
   ];
   const SidebarDataIm = [
@@ -51,37 +52,37 @@ export default function ApplicationLeftMenu() {
       id: 0,
       title: "Exporter Info",
       name: "Your Info",
-      path: `/users/importer/entities/${entityID}/quick/exporterInfo`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/importerInfo`,
     },
     {
       id: 1,
       title: "Importer Info",
       name: "Supplier Info",
-      path: `/users/importer/entities/${entityID}/quick/importerInfo`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/supplierInfo`,
     },
     {
       id: 2,
       title: "Order Details",
       name: "Order Details",
-      path: `/users/importer/entities/${entityID}/quick/orderDetails`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/orderDetails`,
     },
     {
       id: 3,
       title: "Payment Terms",
       name: "Payment Terms",
-      path: `/users/importer/entities/${entityID}/quick/paymentTerms`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/paymentTerms`,
     },
     {
       id: 4,
       title: "Security",
       name: "Security",
-      path: `/users/importer/entities/${entityID}/quick/security`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/security`,
     },
     {
       id: 5,
       title: "Transaction Docs",
       name: "Transaction Docs",
-      path: `/users/importer/entities/${entityID}/quick/transactionDocs`,
+      path: `/users/importer/entities/${entityID}/quick/${applicationID}/transactionDocs`,
     },
   ];
 
