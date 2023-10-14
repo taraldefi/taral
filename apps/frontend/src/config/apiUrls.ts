@@ -15,11 +15,20 @@ interface Config {
   EMAIL_TEMPLATE: string;
   ROLES: string;
   PERMISSIONS: string;
+
+  // entity routes
   ENTITY: string;
   ENTITYLOGO: string;
+
+  // file routes
   CREATE_FILE: string;
   UPDATE_FILE: string;
   REQUEST_FILE: string;
+
+  // application routes
+  CREATE_APPLICATION: string;
+  GET_ACTIVE_APPLICATION: string;
+  SUBMIT_APPLICATION: string;
 }
 
 const config: Config = {
@@ -43,6 +52,9 @@ const config: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  CREATE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  GET_ACTIVE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  SUBMIT_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
 };
 
 const localConfig: Config = {
@@ -66,6 +78,9 @@ const localConfig: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  CREATE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  GET_ACTIVE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  SUBMIT_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
 };
 
 const urls = process.env.NODE_ENV === "production" ? config : localConfig;

@@ -1,10 +1,11 @@
 import { Button } from "taral-ui";
 import { useRouter } from "next/router";
+import { BottomBarProps } from "src/types";
 
-function BottomBar({ onSubmit, onBack }: any) {
+function BottomBar({ onSubmit, onBack }: BottomBarProps) {
   const router = useRouter();
 
-  const paths = [
+  let page_paths = [
     "exporterInfo",
     "importerInfo",
     "contract",
@@ -12,6 +13,16 @@ function BottomBar({ onSubmit, onBack }: any) {
     "security",
     "transactionDocs",
   ];
+  if (router.asPath.split("/")[1] === "importer") {
+    page_paths = [
+      "importerInfo",
+      "supplierInfo",
+      "orderDetails",
+      "paymentTerms",
+      "security",
+      "transactionDocs",
+    ];
+  }
   // const handleNextClick = () => {
   //   const nextIndex = index + 1;
   //   if (nextIndex >= paths.length) {
@@ -39,7 +50,8 @@ function BottomBar({ onSubmit, onBack }: any) {
             backgroundColor="#1ab98b"
             primary={true}
             label={
-              paths.indexOf(router.asPath.split("/")[6]) === paths.length - 1
+              page_paths.indexOf(router.asPath.split("/")[7]) ===
+              page_paths.length - 1
                 ? "Finish Application"
                 : router.asPath.split("/")[6] === "contract"
                 ? "Agree & Continue"
