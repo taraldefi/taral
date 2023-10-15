@@ -7,7 +7,11 @@ export interface modalsProps {
 	onClose: () => void;
 	onDelete: () => void;
 }
-
+export interface IdleTimeOutModalProps {
+	showModal: boolean;
+	handleContinue: () => void;
+	handleLogout: () => void;
+}
 export interface selectNetworkProps {
 	isOpen: boolean;
 	onClose: () => void;

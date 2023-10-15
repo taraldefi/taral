@@ -26,6 +26,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const newEntityModal = useModal(FormModalAtom);
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+
   return (
     <div>
       <div className="topbarFix">
@@ -34,6 +35,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
       </div>
       <ApplicationLeftMenu />
       <div className="mainBody">{children}</div>
+
       <FormModal
         isOpen={newEntityModal.isOpen}
         onClose={() => newEntityModal.close()}
