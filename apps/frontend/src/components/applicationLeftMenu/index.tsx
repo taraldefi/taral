@@ -445,7 +445,11 @@ function ApplicationLeftMenu() {
             );
           })}
           <div className="last-item">
-            <ProgressBar progress={progress} color={"black"} showText={true} />
+            <ProgressBar
+              progress={progress}
+              color={"#1ab98b"}
+              showText={true}
+            />
           </div>
         </div>
       ) : (
