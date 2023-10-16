@@ -1,39 +1,74 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
+import { applicationProgressAtom } from "@store/applicationStore";
+import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 
-import React from "react";
-import { useForm } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useForm, useFormState } from "react-hook-form";
 
 function Index() {
   const router = useRouter();
   const entityID = router.query.entityId;
   const applicationID = router.query.applicationId;
+  const [, setProgress] = useAtom(applicationProgressAtom);
 
   type FormValues = {
     company: {
-      companyName: "";
-      dateEstablished: "";
-      phoneNumber: "";
-      registrationNumbers: "";
+      companyName: null;
+      dateEstablished: null;
+      phoneNumber: null;
+      registrationNumbers: null;
       taxAndRevenue: {
-        lastFiscalYear: "";
-        totalRevenue: "";
-        exportRevenuePercentage: "";
+        lastFiscalYear: null;
+        totalRevenue: null;
+        exportRevenuePercentage: null;
       };
       address: {
-        city: "";
-        addressLine1: "";
-        addressLine2: "";
-        postalCode: "";
+        city: null;
+        addressLine1: null;
+        addressLine2: null;
+        postalCode: null;
       };
     };
   };
   const {
     register,
     handleSubmit,
+    getValues,
+    control,
+    watch,
     formState: { errors },
   } = useForm<FormValues>();
+
+  const { dirtyFields, isDirty } = useFormState({
+    control,
+  });
+
+  const watchAllFields = watch();
+
+  const calculateProgress = () => {
+    // convert json to string and count the occurance of true
+    // no of true = changed values in the form
+    const stringifiedJson = JSON.stringify(dirtyFields);
+    const regex = new RegExp("true", "g");
+    const filledFields = stringifiedJson.match(regex);
+
+    console.log((filledFields || []).length);
+    const totalFilledFIelds = (filledFields || []).length;
+    const totalFields = 9;
+    const score = totalFilledFIelds / totalFields;
+    const progressScore = score * 17;
+    console.log(dirtyFields);
+    return progressScore.toFixed(0);
+  };
+
+  useEffect(() => {
+    // Update the progress atom when the form data changes
+
+    const progress = calculateProgress();
+    setProgress(parseInt(progress));
+  }, [watchAllFields]);
 
   const onSubmit = (data: any) => {
     console.log("data:", data);
@@ -61,7 +96,9 @@ function Index() {
                 type="text"
                 className="inputs"
                 placeholder="Company name..."
-                {...register("company.companyName", { required: true })}
+                {...register("company.companyName", {
+                  required: true,
+                })}
               />
             </div>
             <div>

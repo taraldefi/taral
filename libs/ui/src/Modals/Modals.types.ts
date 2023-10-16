@@ -11,6 +11,7 @@ export interface IdleTimeOutModalProps {
 	showModal: boolean;
 	handleContinue: () => void;
 	handleLogout: () => void;
+	remainingTime: number;
 }
 export interface selectNetworkProps {
 	isOpen: boolean;

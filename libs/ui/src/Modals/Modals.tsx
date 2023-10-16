@@ -63,6 +63,7 @@ export const IdleTimeOutModal: FC<IdleTimeOutModalProps> = ({
 	showModal,
 	handleContinue,
 	handleLogout,
+	remainingTime,
 }) => {
 	return (
 		<div className={'tariala--modal ' + (showModal && 'active')}>
@@ -80,7 +81,8 @@ export const IdleTimeOutModal: FC<IdleTimeOutModalProps> = ({
 					<div className='header'>
 						You Have Been Idle!
 						<span className='subtitle'>
-							Your session is Timed Out. You want to stay?
+							Your session is expiring. You have {remainingTime}{' '}
+							seconds left
 						</span>
 					</div>
 					<div className='form'>
