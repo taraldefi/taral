@@ -4,17 +4,38 @@ import { Button } from "taral-ui";
 import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { X } from "react-feather";
+import { useRouter } from "next/router";
 
 function Index() {
-  const { register, control, handleSubmit } = useForm({
+  const router = useRouter();
+  const entityID = router.query.entityId;
+  const applicationID = router.query.applicationId;
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
+      exportPort: "",
+      importPort: "",
       products: [{ name: "", quantity: 0, unitPrice: 0 }],
     },
   });
+  console.log("errors", errors);
   const { fields, append, remove } = useFieldArray({
+    rules: { minLength: 1 },
     control,
     name: "products",
   });
+  const onBack = () => {
+    router.push(
+      `/users/${
+        router.asPath.split("/")[2]
+      }/entities/${entityID}/quick/${applicationID}/supplierInfo`
+    );
+  };
+  // TODO: create an order first, then add products to it
   const onSubmit = (data: any) => console.log("data", data);
 
   return (
@@ -89,6 +110,7 @@ function Index() {
               type="text"
               className="inputs"
               placeholder="Search ports..."
+              {...register(`exportPort`, { required: true })}
             />
           </div>
           <div className="inputContainer">
@@ -97,11 +119,17 @@ function Index() {
               type="text"
               className="inputs"
               placeholder="Search ports..."
+              {...register(`importPort`, { required: true })}
             />
           </div>
+          {Object.keys(errors).length != 0 && (
+            <span className="errorMessage">
+              Please fill all the required fields to continue
+            </span>
+          )}
         </div>
       </div>
-      <BottomBar onSubmit={handleSubmit(onSubmit)}></BottomBar>
+      <BottomBar onBack={onBack} onSubmit={handleSubmit(onSubmit)}></BottomBar>
     </ApplicationLayout>
   );
 }

@@ -12,6 +12,8 @@ interface IdleTimeOutHandlerProps {
 const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isLogout, setLogout] = useState<boolean>(false);
+  const [remainingTime, setRemainingTime] = useState<number>(0);
+
   let timer: NodeJS.Timeout | undefined = undefined;
   const events: (keyof GlobalEventHandlersEventMap)[] = [
     "click",
@@ -26,6 +28,7 @@ const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
   const eventHandler = () => {
     if (!isLogout) {
       localStorage.setItem("lastInteractionTime", moment().toString());
+      handleContinueSession();
       if (timer) {
         props.onActive();
         startTimer();
@@ -52,19 +55,29 @@ const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
 
       const timeOutInterval = props.timeOutInterval
         ? props.timeOutInterval
-        : 10000;
+        : 40000;
+
+      console.log(diff, isLogout);
+
       if (isLogout) {
         clearTimeout(timer);
       } else {
-        if (diff.asMilliseconds() < timeOutInterval) {
-          startTimer();
-          props.onActive();
-        } else {
+        if (diff.asMilliseconds() >= timeOutInterval) {
+          //logout
+          handleLogout();
+        } else if (diff.asMilliseconds() >= timeOutInterval - 30000) {
+          // Show alert 30 seconds before timeout
           props.onIdle();
           setShowModal(true);
         }
+        const calcRemainingTime = (
+          (timeOutInterval - diff.asMilliseconds()) /
+          1000
+        ).toFixed(2);
+        setRemainingTime(parseInt(calcRemainingTime));
+        startTimer();
       }
-    }, 2000);
+    }, 1000);
   };
 
   const addEvents = () => {
@@ -97,6 +110,7 @@ const IdleTimeOutHandler: React.FC<IdleTimeOutHandlerProps> = (props) => {
   return (
     <div>
       <IdleTimeOutModal
+        remainingTime={remainingTime}
         showModal={showModal}
         handleContinue={handleContinueSession}
         handleLogout={handleLogout}

@@ -1,5 +1,7 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
+import BottomBar from "@components/newApplicationBottom";
 import React from "react";
+import { useForm } from "react-hook-form";
 
 function Index() {
   const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
@@ -11,6 +13,24 @@ function Index() {
   const [selectedRadioBtn2, setSelectedRadioBtn2] = React.useState("No");
   const handleRadioClick2 = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setSelectedRadioBtn2(e.currentTarget.value);
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FormValues>();
+  type FormValues = {
+    isConcluded: false;
+    partialRefinancing: true;
+    interestPercentage: "6.7";
+    interestCurrency: "EUR";
+    interestFixedRate: "6";
+    paymentType: "SHORT";
+    paymentDuration: "60";
+  };
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
   return (
     <ApplicationLayout>
       <div className="ptContainer">
@@ -21,22 +41,27 @@ function Index() {
               <span>Have payment terms already been concluded?</span>
               <div>
                 <div>
-                  <input
-                    type="radio"
-                    name="ptConcludeRadio"
-                    value="Yes"
-                    // onChange={}
-                  />
-                  <label>YES</label>
+                  <label>
+                    <input
+                      type="radio"
+                      value="true"
+                      {...register("isConcluded")}
+                      // onChange={}
+                    />
+                    YES
+                  </label>
                 </div>
                 <div>
-                  <input
-                    type="radio"
-                    name="ptConcludeRadio"
-                    value="No"
-                    // onChange={}
-                  />
-                  <label>NO</label>
+                  <label>
+                    {" "}
+                    <input
+                      type="radio"
+                      value="false"
+                      {...register("isConcluded")}
+                      // onChange={}
+                    />
+                    NO
+                  </label>
                 </div>
               </div>
             </div>
@@ -92,7 +117,7 @@ function Index() {
                   <label>No</label>
                 </div>
               </div>
-              {selectedRadioBtn == "Yes" ? (
+              {selectedRadioBtn == "Yes" && (
                 <>
                   <div className="inputContainer">
                     <span>
@@ -114,80 +139,76 @@ function Index() {
                       className="inputs"
                     />
                   </div>
+                  <div className="radioBack">
+                    <span>Is the interest rate/premium fixed?</span>
+                    <div>
+                      <div>
+                        <input
+                          type="radio"
+                          name="ptPremiumFixedRadio"
+                          value="Yes"
+                          onChange={handleRadioClick1}
+                        />
+                        <label>Yes</label>
+                      </div>
+                      <div>
+                        <input
+                          type="radio"
+                          name="ptPremiumFixedRadio"
+                          value="No"
+                          onChange={handleRadioClick1}
+                        />
+                        <label>No</label>
+                      </div>
+                    </div>
+                    {selectedRadioBtn1 == "Yes" && (
+                      <div className="inputContainer">
+                        <span>Fixed interest rate value</span>
+                        <input
+                          type="text"
+                          className="inputs"
+                          id="percentage"
+                          placeholder="Percentage..."
+                        />
+                      </div>
+                    )}
+                  </div>
+                  {selectedRadioBtn1 == "No" && (
+                    <div className="radioBack">
+                      <span>Is the interest rate/premium degressive?</span>
+                      <div>
+                        <div>
+                          <input
+                            type="radio"
+                            name="ptPremiumDegressiveRadio"
+                            value="Yes"
+                            onChange={handleRadioClick2}
+                          />
+                          <label>Yes</label>
+                        </div>
+                        <div>
+                          <input
+                            type="radio"
+                            name="ptPremiumDegressiveRadio"
+                            value="No"
+                            onChange={handleRadioClick2}
+                          />
+                          <label>No</label>
+                        </div>
+                      </div>
+                      {selectedRadioBtn2 == "Yes" && (
+                        <div className="inputContainer">
+                          <span>Degressiv interest rate description</span>
+                          <input
+                            type="text"
+                            className="inputs"
+                            placeholder="Degressiv interest rate description"
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className="radioBack">
-              <span>Is the interest rate/premium fixed?</span>
-              <div>
-                <div>
-                  <input
-                    type="radio"
-                    name="ptPremiumFixedRadio"
-                    value="Yes"
-                    onChange={handleRadioClick1}
-                  />
-                  <label>Yes</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    name="ptPremiumFixedRadio"
-                    value="No"
-                    onChange={handleRadioClick1}
-                  />
-                  <label>No</label>
-                </div>
-              </div>
-              {selectedRadioBtn1 == "Yes" ? (
-                <div className="inputContainer">
-                  <span>Fixed interest rate value</span>
-                  <input
-                    type="text"
-                    className="inputs"
-                    id="percentage"
-                    placeholder="Percentage..."
-                  />
-                </div>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className="radioBack">
-              <span>Is the interest rate/premium degressive?</span>
-              <div>
-                <div>
-                  <input
-                    type="radio"
-                    name="ptPremiumDegressiveRadio"
-                    value="Yes"
-                    onChange={handleRadioClick2}
-                  />
-                  <label>Yes</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    name="ptPremiumDegressiveRadio"
-                    value="No"
-                    onChange={handleRadioClick2}
-                  />
-                  <label>No</label>
-                </div>
-              </div>
-              {selectedRadioBtn2 == "Yes" ? (
-                <div className="inputContainer">
-                  <span>Degressiv interest rate description</span>
-                  <input
-                    type="text"
-                    className="inputs"
-                    placeholder="Degressiv interest rate description"
-                  />
-                </div>
-              ) : (
-                <></>
               )}
             </div>
           </div>
@@ -218,7 +239,7 @@ function Index() {
           </div>
         </div>
       </div>
-      {/* <BottomBar></BottomBar> */}
+      <BottomBar onSubmit={handleSubmit(onSubmit)}></BottomBar>
     </ApplicationLayout>
   );
 }

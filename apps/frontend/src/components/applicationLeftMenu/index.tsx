@@ -1,14 +1,18 @@
 import { useAtom } from "jotai";
-import { useRouter } from "next/router";
+import { useRouter, withRouter } from "next/router";
 import { pageIndexAtom } from "@store/PageIndexStore";
 import { PortalIcons } from "../icons";
 import MenuItem from "./MenuItem";
+import { ProgressBar } from "taral-ui";
+import { applicationProgressAtom } from "@store/applicationStore";
 
-export default function ApplicationLeftMenu() {
+function ApplicationLeftMenu() {
   const router = useRouter();
   const [, setIndex] = useAtom(pageIndexAtom);
   const entityID = router.query.entityId;
   const applicationID = router.query.applicationId;
+  const [progress] = useAtom(applicationProgressAtom);
+
   const SidebarDataEx = [
     {
       id: 0,
@@ -440,6 +444,9 @@ export default function ApplicationLeftMenu() {
               </>
             );
           })}
+          <div className="last-item">
+            <ProgressBar progress={progress} color={"black"} showText={true} />
+          </div>
         </div>
       ) : (
         <></>
@@ -447,3 +454,5 @@ export default function ApplicationLeftMenu() {
     </div>
   );
 }
+
+export default ApplicationLeftMenu;

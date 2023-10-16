@@ -1,16 +1,17 @@
-//import IdleTimeOutHandler from "@components/idleTimeOutHandler";
+import IdleTimeOutHandler from "@components/idleTimeOutHandler";
 import SelectNetworkDialog from "@components/selectNetworkDialog";
 import "@styles/globals.scss";
 import { Provider } from "jotai";
 import type { AppProps } from "next/app";
-//import { useRouter } from "next/router";
+import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import "taral-ui/build/index.scss";
 
 function MyApp({ Component, pageProps }: AppProps) {
-  // const router = useRouter();
+  const router = useRouter();
+
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loader = document.getElementById("globalLoader");
@@ -25,11 +26,12 @@ function MyApp({ Component, pageProps }: AppProps) {
         options={{ showSpinner: false }}
       />
       <Component {...pageProps} />
+
       {/* <IdleTimeOutHandler
         onActive={() => {}}
         onIdle={() => {}}
-        onLogout={() => {
-          router.push("/auth/login");
+        onLogout={async () => {
+          await router.push("/auth/login");
         }}
       /> */}
 

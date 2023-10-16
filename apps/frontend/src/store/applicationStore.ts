@@ -4,7 +4,7 @@ export const previousPaymentRadioButtonAtom = atom<string | null>(null);
 export const interestRadioButtonAtom = atom<string | null>(null);
 export const fixedInterestRadioButtonAtom = atom<string | null>(null);
 export const degressiveInterestRadioButtonAtom = atom<string | null>(null);
-
+export const applicationProgressAtom = atom<number>(0);
 export const collateralRadioButtonAtom = atom<string | null>(null);
 export const collateralPaymentExpRadioButtonAtom = atom<string | null>(null);
 export const collateralInfluenceRadioButtonAtom = atom<string | null>(null);

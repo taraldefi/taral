@@ -130,6 +130,9 @@
     .item:hover {
       cursor: pointer;
     }
+    .last-item {
+      margin-top: auto;
+    }
 
     .item {
       display: flex;

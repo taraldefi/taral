@@ -1,4 +1,5 @@
 // Generated with util/create-component.js
+
 .tariala--modal {
 	overflow-y: hidden;
 	overflow-x: hidden;
@@ -18,8 +19,9 @@
 		top: 10vw;
 		background-color: #fff;
 		position: fixed;
-		z-index: 99;
+		z-index: 999;
 		border-radius: 16px;
+
 		animation: bounce-in 0.5s ease;
 		-moz-animation: bounce-in 0.5s ease;
 		/* Firefox */
