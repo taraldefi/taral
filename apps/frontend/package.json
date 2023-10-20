@@ -50,7 +50,7 @@
     "sass": "^1.52.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "^17.7.2",
+    "@commitlint/cli": "^18.0.0",
     "@commitlint/config-conventional": "^17.6.6",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
