@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBuyerRequest } from 'src/modules/buyer/dto/request/create-buyer.dto';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
@@ -10,6 +10,7 @@ import { UpdateBuyerRequest } from 'src/modules/buyer/dto/request/update-buyer.d
 import { EntityMappingService } from 'src/modules/buyer/services/mapping.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { EntityNotFoundError } from 'typeorm';
 
 @Injectable()
 export class BuyerQuickApplicationBuyerInformationService extends BaseService {
@@ -47,20 +48,32 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     applicationId: string,
   ): Promise<GetBuyerResponse> {
     this.setupTransactionHooks();
-    //TODO: check if application ID is valid to prevent isolated buyer entity creation
-    const application = await this.buyerApplicationRepository.findOne(
-      applicationId,
-      {
-        relations: [
-          'buyerInformation',
-          'supplierInformation',
-          'paymentTerms',
-          'orderDetails',
-          'security',
-          'transactionDocuments',
-        ],
-      },
-    );
+
+    let application: BuyerQuickApplicationEntity = undefined;
+    
+    try {
+      application = await this.buyerApplicationRepository.findOne(
+        applicationId,
+        {
+          relations: [
+            'buyerInformation',
+            'supplierInformation',
+            'paymentTerms',
+            'orderDetails',
+            'security',
+            'transactionDocuments',
+          ],
+        },
+      );
+    } catch (exception) {
+      throw new EntityNotFoundError('BuyerQuickApplicationEntity', {
+        where: {
+          id: applicationId
+        }
+      });
+    }
+
+
     // TODO: check if buyer already exists
     const savedBuyer = await this.buyerService.createEntity(data);
 

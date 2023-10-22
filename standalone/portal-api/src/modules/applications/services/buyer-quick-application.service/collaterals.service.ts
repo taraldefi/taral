@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateCollateralDto } from 'src/modules/collateral/dto/request/create-collateral.dto';
-import { CollateralEntity } from 'src/modules/collateral/models/collaterals.entity';
 import { CollateralService } from 'src/modules/collateral/services/collateral.service';
 import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
@@ -70,7 +69,7 @@ export class BuyerQuickApplicationCollateralService extends BaseService {
     applicationId: string,
   ): Promise<GetCollateralResponse> {
     this.setupTransactionHooks();
-    
+
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
