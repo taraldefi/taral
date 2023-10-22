@@ -13,9 +13,11 @@ import { BuyerQuickApplicationCollateralService } from './collaterals.service';
 import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';
 import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
+import { BaseService } from 'src/common/services/base.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationService {
+export class BuyerQuickApplicationService  extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -25,7 +27,9 @@ export class BuyerQuickApplicationService {
     private paymentTermService: BuyerQuickApplicationPaymentTermService,
     private orderDetailService: BuyerQuickApplicationOrderDetailService,
     private collateralService: BuyerQuickApplicationCollateralService,
-  ) {}
+  ) {
+    super();
+  }
 
   public async get(id: string): Promise<GetApplicationResponse> {
     const application = await this.buyerApplicationRepository.findOneOrFail(
@@ -90,11 +94,17 @@ export class BuyerQuickApplicationService {
     return application;
   }
 
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async create(
     data: CreateQuickApplicationRequest,
     entity: LegalBuyerEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
     // await this.checkActiveApplicationExists();
+
+    this.setupTransactionHooks();
 
     const application = new BuyerQuickApplicationEntity();
 
@@ -113,7 +123,13 @@ export class BuyerQuickApplicationService {
     return savedApplication;
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async markAsComplete(id: string): Promise<void> {
+
+    this.setupTransactionHooks();
+
     const application = await this.findApplicationById(id);
     // const isComplete = await this.checkIfApplicationIsComplete(application);
     // if (!isComplete)

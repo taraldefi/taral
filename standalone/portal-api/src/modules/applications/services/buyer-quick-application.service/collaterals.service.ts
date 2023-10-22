@@ -8,15 +8,19 @@ import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.
 import { UpdateCollateralDto } from 'src/modules/collateral/dto/request/update-collateral.dto';
 import { GetCollateralResponse } from 'src/modules/collateral/dto/response/get-collateral-response.dto';
 import { CollateralMappingService } from 'src/modules/collateral/services/mapping.service';
+import { BaseService } from 'src/common/services/base.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationCollateralService {
+export class BuyerQuickApplicationCollateralService extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly collateralService: CollateralService,
     private readonly mappingService: CollateralMappingService,
-  ) {}
+  ) {
+    super();
+  }
 
   public async getCollateral(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
@@ -28,10 +32,16 @@ export class BuyerQuickApplicationCollateralService {
     return await this.collateralService.get(application.security.id);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async createCollateral(
     data: CreateCollateralDto,
     applicationId: string,
   ): Promise<GetCollateralResponse> {
+
+    this.setupTransactionHooks();
+
     const savedCollateral = await this.collateralService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -52,10 +62,15 @@ export class BuyerQuickApplicationCollateralService {
     return this.mappingService.mapCollateralDetails(savedCollateral);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async updateCollateral(
     data: UpdateCollateralDto,
     applicationId: string,
   ): Promise<GetCollateralResponse> {
+    this.setupTransactionHooks();
+    
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {

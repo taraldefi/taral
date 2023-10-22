@@ -8,15 +8,19 @@ import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.
 import { GetBuyerResponse } from 'src/modules/buyer/dto/response/get-buyer-response.dto';
 import { UpdateBuyerRequest } from 'src/modules/buyer/dto/request/update-buyer.dto';
 import { EntityMappingService } from 'src/modules/buyer/services/mapping.service';
+import { BaseService } from 'src/common/services/base.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationBuyerInformationService {
+export class BuyerQuickApplicationBuyerInformationService extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly buyerService: BuyerService,
     private readonly buyerMappingService: EntityMappingService,
-  ) {}
+  ) {
+    super();
+  }
 
   public async getBuyerInformation(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
@@ -33,10 +37,16 @@ export class BuyerQuickApplicationBuyerInformationService {
     return this.buyerMappingService.mapEntityDetails(buyer);
   }
 
+  @Transactional(
+    {
+      isolationLevel: IsolationLevel.READ_COMMITTED,
+    },
+  )
   public async createBuyerInformation(
     data: CreateBuyerRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {
+    this.setupTransactionHooks();
     //TODO: check if application ID is valid to prevent isolated buyer entity creation
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -60,10 +70,16 @@ export class BuyerQuickApplicationBuyerInformationService {
     return this.buyerMappingService.mapEntityDetails(savedBuyer);
   }
 
+  @Transactional(
+    {
+      isolationLevel: IsolationLevel.READ_COMMITTED,
+    },
+  )
   public async updateBuyerInformation(
     data: UpdateBuyerRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {
+    this.setupTransactionHooks();
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {

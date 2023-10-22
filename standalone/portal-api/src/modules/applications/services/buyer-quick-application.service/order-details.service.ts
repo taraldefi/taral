@@ -11,16 +11,20 @@ import { OrderDetailService } from 'src/modules/order-detail/services/order-deta
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
 import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
+import { BaseService } from 'src/common/services/base.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationOrderDetailService {
+export class BuyerQuickApplicationOrderDetailService extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly orderDetailsService: OrderDetailService,
     private readonly orderProductService: OrderProductService,
     private readonly mappingService: OrderDetailMappingService,
-  ) {}
+  ) {
+    super();
+  }
 
   public async getOrderDetails(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
@@ -32,10 +36,15 @@ export class BuyerQuickApplicationOrderDetailService {
     return this.orderDetailsService.get(application.orderDetails.id);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async createOrderDetail(
     data: CreateOrderDetailDto,
     applicationId: string,
   ): Promise<GetOrderDetailsResponse> {
+    this.setupTransactionHooks();
+
     const savedOrder = await this.orderDetailsService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -49,10 +58,15 @@ export class BuyerQuickApplicationOrderDetailService {
     return this.mappingService.mapOrderDetails(application.orderDetails);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async updateOrderDetail(
     data: UpdateOrderDetailDto,
     applicationId: string,
   ): Promise<GetOrderDetailsResponse> {
+    this.setupTransactionHooks();
+
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
@@ -65,10 +79,16 @@ export class BuyerQuickApplicationOrderDetailService {
     );
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async addProductsToOrderDetail(
     data: CreateOrderProductDto,
     applicationId: string,
   ): Promise<GetOrderProductResponse> {
+
+    this.setupTransactionHooks();
+
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
