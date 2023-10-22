@@ -14,9 +14,19 @@ import { RelationshipController } from './relationship.controller';
     CompaniesModule,
     BuyersModule,
     SuppliersModule,
-    TypeOrmModule.forFeature([CollaborationRelationshipEntity])
+    TypeOrmModule.forFeature([CollaborationRelationshipEntity]),
   ],
   controllers: [RelationshipController],
-  providers: [ConfigModule, ConfigService, RelationshipService, EntityMappingService],
+  providers: [
+    ConfigModule,
+    ConfigService,
+    RelationshipService,
+    EntityMappingService,
+  ],
+  exports: [
+    RelationshipService,
+    EntityMappingService,
+    TypeOrmModule.forFeature([CollaborationRelationshipEntity]),
+  ],
 })
 export class RelationshipModule {}

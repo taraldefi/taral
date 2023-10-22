@@ -13,16 +13,18 @@ export class OrderDetailMappingService {
     response.importPort = order.importPort;
     response.exportPort = order.exportPort;
 
-    response.products = order.products.map((product) => {
-      var productItem = new GetOrderProductResponse();
+    if (order.products) {
+      response.products = order.products.map((product) => {
+        var productItem = new GetOrderProductResponse();
 
-      productItem.id = product.id;
-      productItem.name = product.name;
-      productItem.quantity = product.quantity;
-      productItem.unitPrice = product.unitPrice;
+        productItem.id = product.id;
+        productItem.name = product.name;
+        productItem.quantity = product.quantity;
+        productItem.unitPrice = product.unitPrice;
 
-      return productItem;
-    });
+        return productItem;
+      });
+    }
 
     return response;
   }

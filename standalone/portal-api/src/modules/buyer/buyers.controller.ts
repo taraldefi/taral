@@ -1,9 +1,10 @@
 import { ApiTags } from "@nestjs/swagger";
 import { BuyerService } from "./services/buyer.service";
-import { Body, Controller, Get, Param, Patch, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
 import { GetBuyerResponse } from "./dto/response/get-buyer-response.dto";
 import { CreateBuyerRequest } from "./dto/request/create-buyer.dto";
 import { UpdateBuyerRequest } from "./dto/request/update-buyer.dto";
+import { EntityMappingService } from "./services/mapping.service";
 
 @ApiTags('Buyers')
 @Controller({
@@ -11,7 +12,7 @@ import { UpdateBuyerRequest } from "./dto/request/update-buyer.dto";
   version: '1',
 })
 export class BuyersEntityController {
-  constructor(private readonly buyerService: BuyerService) {
+  constructor(private readonly buyerService: BuyerService, private readonly mappingService: EntityMappingService) {
 
   }
 
@@ -19,15 +20,19 @@ export class BuyersEntityController {
   async createEntity(
     @Body() entity: CreateBuyerRequest,
   ): Promise<GetBuyerResponse> {
-    return await this.buyerService.createEntity(entity);
+    const createdEntity = await this.buyerService.createEntity(entity);
+
+    return this.mappingService.mapEntityDetails(createdEntity);
   }
 
-  @Post('/:id')
+  @Put('/:id')
   async updateEntity(
     @Param('id') id: string,
     @Body() entity: UpdateBuyerRequest,
   ): Promise<GetBuyerResponse> {
-    return await this.buyerService.updateEntity(id, entity);
+    const updatedEntity = await this.buyerService.updateEntity(id, entity);
+
+    return this.mappingService.mapEntityDetails(updatedEntity);
   }
 
   @Patch('/:id')
@@ -35,12 +40,16 @@ export class BuyersEntityController {
     @Param('id') id: string,
     @Body() entity: UpdateBuyerRequest,
   ): Promise<GetBuyerResponse> {
-    return await this.buyerService.updateEntity(id, entity);
+    const updatedEntity = await this.buyerService.updateEntity(id, entity);
+
+    return this.mappingService.mapEntityDetails(updatedEntity);
   }
 
   @Get('/:id')
   async getEntity(@Param('id') id: string): Promise<GetBuyerResponse> {
-    return await this.buyerService.getEntity(id);
+    const entity = await this.buyerService.getEntity(id);
+
+    return this.mappingService.mapEntityDetails(entity);
   }
 
   @Get()

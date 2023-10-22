@@ -27,6 +27,10 @@ export class CompanyEntity extends EntityHelper {
 
   @Column()
   @Allow()
+  phoneNumber: string;
+
+  @Column({ nullable: true })
+  @Allow()
   employeeCount?: number;
 
   @Column()
@@ -38,7 +42,7 @@ export class CompanyEntity extends EntityHelper {
     (taxAndRevenue) => taxAndRevenue.company,
   )
   @JoinColumn()
-  taxAndRevenue: CompanyTaxAndRevenueEntity;
+  taxAndRevenue?: CompanyTaxAndRevenueEntity;
 
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()

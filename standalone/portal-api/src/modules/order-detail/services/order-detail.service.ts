@@ -28,18 +28,17 @@ export class OrderDetailService {
     return order;
   }
 
-  public async create(
-    data: CreateOrderDetailDto,
-  ): Promise<GetOrderDetailsResponse> {
+  public async create(data: CreateOrderDetailDto): Promise<OrderDetailEntity> {
     const order = new OrderDetailEntity();
 
     order.importPort = data.importPort;
     order.exportPort = data.exportPort;
+
     order.products = [];
 
     const savedOrder = await this.orderDetailsRepository.save(order);
 
-    return this.orderDetailMappingService.mapOrderDetails(savedOrder);
+    return savedOrder;
   }
 
   public async get(id: string): Promise<GetOrderDetailsResponse> {

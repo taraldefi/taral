@@ -1,10 +1,14 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
-import { LegalApplicationEntity } from './legal-application.entity';
-import { LegalProductEntity } from './legal-product.entity';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  TableInheritance,
+} from 'typeorm';
 
-@Entity({ name: 'legal-entity' })
+@Entity({ name: 'Entities' })
+@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class LegalEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -48,16 +52,4 @@ export class LegalEntity extends EntityHelper {
   @Column({ nullable: true })
   @Allow()
   logo: string;
-
-  @OneToMany(
-    () => LegalProductEntity,
-    (legalProduct) => legalProduct.legalEntity,
-  )
-  legalProducts: LegalProductEntity[];
-
-  @OneToMany(
-    () => LegalApplicationEntity,
-    (LegalApplication) => LegalApplication.legalEntity,
-  )
-  legalApplications: LegalApplicationEntity[];
 }

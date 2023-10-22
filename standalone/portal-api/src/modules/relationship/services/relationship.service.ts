@@ -1,26 +1,23 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { triggerError } from "src/common/trigger.error";
-import { EntityMappingService } from "./mapping.service";
-import { IsolationLevel, Transactional } from "src/common/transaction";
-import { BaseService } from "src/modules/auctionhistory/services/base.service";
-import { BuyerCompanyEntity } from "src/modules/company/models/buyer.company.entity";
-import { CompanyAddressEntity } from "src/modules/company/models/company.address.entity";
-import { SectorEntity } from "src/modules/sectors/models/sector.entity";
-import { SupplierEntity } from "src/modules/supplier/models/supplier.entity";
-import { CollaborationRelationshipEntity } from "../models/collaboration.relationship.entity";
-import { CollaborationRelationshipsRepository } from "../repositories/collaboration.relationships.repository";
-import { SupplierRepository } from "src/modules/supplier/repositories/supplier.repository";
-import { BuyerEntityRepository } from "src/modules/buyer/repositories/buyer.repository";
-import { BuyerEntity } from "src/modules/buyer/models/buyer.entity";
-import { CreateRelationshipRequest } from "../dto/request/create-relationship.dto";
-import { GetRelationshipResponse } from "../dto/response/get-relationship-response.dto";
-import { PaymentExperience } from "../models/payment.experience";
-import { UpdateRelationshipRequest } from "../dto/request/update-relationship.dto";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { triggerError } from 'src/common/trigger.error';
+import { BaseService } from 'src/common/services/base.service';
+import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
+import { BuyerEntityRepository } from 'src/modules/buyer/repositories/buyer.repository';
+import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
+import { SupplierRepository } from 'src/modules/supplier/repositories/supplier.repository';
+import { CreateRelationshipRequest } from '../dto/request/create-relationship.dto';
+import { UpdateRelationshipRequest } from '../dto/request/update-relationship.dto';
+import { GetRelationshipResponse } from '../dto/response/get-relationship-response.dto';
+import { CollaborationRelationshipEntity } from '../models/collaboration.relationship.entity';
+import { PaymentExperience } from '../models/payment.experience';
+import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
+import { EntityMappingService } from './mapping.service';
 
 @Injectable()
 export class RelationshipService extends BaseService {
- constructor(
+  constructor(
     @InjectRepository(BuyerEntity)
     private buyerEntityRepository: BuyerEntityRepository,
 
@@ -31,11 +28,11 @@ export class RelationshipService extends BaseService {
     private relationshipRepository: CollaborationRelationshipsRepository,
 
     private mappingService: EntityMappingService,
- ) {
-  super();
- }
+  ) {
+    super();
+  }
 
- public async delete(id: string): Promise<void> {
+  public async delete(id: string): Promise<void> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.relationshipRepository.findOneOrFail({
@@ -46,12 +43,16 @@ export class RelationshipService extends BaseService {
     if (!entity) throw triggerError('entity-not-found');
 
     await this.relationshipRepository.delete({ id: id });
- }
+  }
 
- @Transactional({
+  @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
- })
- public async createEntity(entity: CreateRelationshipRequest, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
+  })
+  public async createEntity(
+    entity: CreateRelationshipRequest,
+    buyerId: string,
+    supplierId: string,
+  ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
     if (!entity) throw triggerError('missing-entity-id');
@@ -77,24 +78,30 @@ export class RelationshipService extends BaseService {
     relationship.influence = entity.influence;
     relationship.shareHoldingRelationship = entity.shareHoldingRelationship;
     relationship.paymentExperience.Delays = entity.paymentExperience.delays;
-    relationship.paymentExperience.description = entity.paymentExperience.description;
+    relationship.paymentExperience.description =
+      entity.paymentExperience.description;
     relationship.paymentExperience.History = entity.paymentExperience.history;
     relationship.paymentExperience.length = entity.paymentExperience.length;
-    relationship.paymentExperience.noOfDeals = entity.paymentExperience.noOfDeals;
-    relationship.paymentExperience.avgBusinessVol = entity.paymentExperience.avgBusinessVol;
+    relationship.paymentExperience.noOfDeals =
+      entity.paymentExperience.noOfDeals;
+    relationship.paymentExperience.avgBusinessVol =
+      entity.paymentExperience.avgBusinessVol;
 
     await this.relationshipRepository.save(relationship);
 
-    return this.mappingService.mapEntityDetails(relationship);
- }
+    return relationship;
+  }
 
- @Transactional({
+  @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
- })
- public async updateEntity(entity: UpdateRelationshipRequest, relationshipId: string, buyerId: string, supplierId: string): Promise<GetRelationshipResponse> {
+  })
+  public async updateEntity(
+    entity: UpdateRelationshipRequest,
+    relationshipId: string,
+    buyerId: string,
+    supplierId: string,
+  ): Promise<GetRelationshipResponse> {
     this.setupTransactionHooks();
-
-    if (!entity) throw triggerError('missing-entity-id');
 
     const buyer = await this.buyerEntityRepository.findOneOrFail({
       relations: ['relationshipWithSuppliers'],
@@ -117,61 +124,66 @@ export class RelationshipService extends BaseService {
 
     if (!relationship) throw triggerError('entity-not-found');
 
-    if (entity.influence){
-        relationship.influence = entity.influence;
+    if (entity.influence) {
+      relationship.influence = entity.influence;
     }
 
-    if (entity.shareHoldingRelationship){
-        relationship.shareHoldingRelationship = entity.shareHoldingRelationship;
+    if (entity.shareHoldingRelationship) {
+      relationship.shareHoldingRelationship = entity.shareHoldingRelationship;
     }
 
     if (entity.paymentExperience) {
-        
-        if (entity.paymentExperience.delays){
-            relationship.paymentExperience.Delays = entity.paymentExperience.delays;
-        }
+      if (entity.paymentExperience.delays) {
+        relationship.paymentExperience.Delays = entity.paymentExperience.delays;
+      }
 
-        if (entity.paymentExperience.description){
-            relationship.paymentExperience.description = entity.paymentExperience.description;
-        }
+      if (entity.paymentExperience.description) {
+        relationship.paymentExperience.description =
+          entity.paymentExperience.description;
+      }
 
-        if (entity.paymentExperience.history){
-            relationship.paymentExperience.History = entity.paymentExperience.history;
-        }
+      if (entity.paymentExperience.history) {
+        relationship.paymentExperience.History =
+          entity.paymentExperience.history;
+      }
 
-        if (entity.paymentExperience.length){
-            relationship.paymentExperience.length = entity.paymentExperience.length;
-        }
+      if (entity.paymentExperience.length) {
+        relationship.paymentExperience.length = entity.paymentExperience.length;
+      }
 
-        if (entity.paymentExperience.noOfDeals){
-            relationship.paymentExperience.noOfDeals = entity.paymentExperience.noOfDeals;
-        }
+      if (entity.paymentExperience.noOfDeals) {
+        relationship.paymentExperience.noOfDeals =
+          entity.paymentExperience.noOfDeals;
+      }
 
-        if (entity.paymentExperience.avgBusinessVol){
-            relationship.paymentExperience.avgBusinessVol = entity.paymentExperience.avgBusinessVol;
-        }
+      if (entity.paymentExperience.avgBusinessVol) {
+        relationship.paymentExperience.avgBusinessVol =
+          entity.paymentExperience.avgBusinessVol;
+      }
     }
 
     await this.relationshipRepository.save(relationship);
 
     return this.mappingService.mapEntityDetails(relationship);
- }
+  }
 
- public async getEntity(id: string): Promise<GetRelationshipResponse> {
+  public async getEntity(
+    buyerId: string,
+    supplierId: string,
+  ): Promise<CollaborationRelationshipEntity> {
     const entity = await this.relationshipRepository.findOneOrFail({
-        relations: ['buyer', 'supplier'],
-        where: { id: id },
+      relations: ['buyer', 'supplier'],
+      where: { buyer: buyerId, supplier: supplierId },
     });
 
-    return this.mappingService.mapEntityDetails(entity);
- }
+    return entity;
+  }
 
- public async getAll(): Promise<GetRelationshipResponse[]> {
+  public async getAll(): Promise<GetRelationshipResponse[]> {
     const entities = await this.relationshipRepository.find({
       relations: ['buyer', 'supplier'],
     });
 
     return this.mappingService.mapManyEntities(entities);
- }
-
+  }
 }

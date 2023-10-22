@@ -9,9 +9,9 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { CreateOrderDetailDto } from './dto/request/create-order-detail.dto';
+import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
 import { GetOrderDetailsResponse } from './dto/response/get-order-detail-response.dto';
 import { OrderDetailService } from './services/order-detail.service';
-import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
 
 @ApiTags('Orders')
 @Controller({
@@ -20,12 +20,12 @@ import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
 })
 export class OrderDetailsController {
   constructor(private readonly orderDetailsService: OrderDetailService) {}
-  @Post()
-  async createOrder(
-    @Body() order: CreateOrderDetailDto,
-  ): Promise<GetOrderDetailsResponse> {
-    return await this.orderDetailsService.create(order);
-  }
+  // @Post()
+  // async createOrder(
+  //   @Body() order: CreateOrderDetailDto,
+  // ): Promise<GetOrderDetailsResponse> {
+  //   return await this.orderDetailsService.create(order);
+  // }
 
   @Get('/:id')
   async getOrder(@Param('id') id: string) {

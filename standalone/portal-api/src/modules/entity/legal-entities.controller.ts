@@ -12,7 +12,7 @@ import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateEntityDto } from './dto/request/create-entity.dto';
 import { UpdateEntityDto } from './dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
-import { EntityService } from './services/entity.service';
+import { BuyerEntityService } from './services/buyer-entity.service';
 
 @ApiTags('Entities')
 @Controller({
@@ -20,7 +20,7 @@ import { EntityService } from './services/entity.service';
   version: '1',
 })
 export class EntityController {
-  constructor(private readonly entityService: EntityService) {}
+  constructor(private readonly entityService: BuyerEntityService) {}
 
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -84,7 +84,7 @@ export class EntityController {
   async createEntity(
     @Body() entity: CreateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.createEntity(entity);
+    return await this.entityService.createBuyerEntity(entity);
   }
 
   @ApiBody({
@@ -139,7 +139,7 @@ export class EntityController {
         logo: {
           type: 'string',
           format: 'binary',
-        }
+        },
       },
     },
   })
@@ -149,7 +149,7 @@ export class EntityController {
     @Param('id') id,
     @Body() entity: UpdateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.updateEntity(id, entity);
+    return await this.entityService.updateBuyerEntity(id, entity);
   }
 
   @ApiBody({
@@ -204,7 +204,7 @@ export class EntityController {
         logo: {
           type: 'string',
           format: 'binary',
-        }
+        },
       },
     },
   })
@@ -214,21 +214,21 @@ export class EntityController {
     @Param('id') id,
     @Body() entity: UpdateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.updateEntity(id, entity);
+    return await this.entityService.updateBuyerEntity(id, entity);
   }
 
   @Delete('/:id')
   async deleteEntity(@Param('id') id) {
-    await this.entityService.deleteEntity(id);
+    await this.entityService.deleteBuyerEntity(id);
   }
 
   @Get('/:id')
   async getEntity(@Param('id') id) {
-    return await this.entityService.getEntity(id);
+    return await this.entityService.getBuyerEntity(id);
   }
 
   @Get()
   async getAllEntity() {
-    return await this.entityService.getAllEntity();
+    return await this.entityService.getAllBuyerEntity();
   }
 }

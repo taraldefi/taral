@@ -1,4 +1,6 @@
 import { Allow } from 'class-validator';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
@@ -34,6 +36,12 @@ export class SupplierEntity extends EntityHelper {
   @JoinColumn()
   @Allow()
   rating: SupplierRatingEntity;
+
+  @OneToOne(
+    () => QuickApplicationEntity,
+    (QuickApplication) => QuickApplication.supplierInformation,
+  )
+  application: QuickApplicationEntity;
 
   @OneToMany(
     () => CollaborationRelationshipEntity,

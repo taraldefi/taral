@@ -23,6 +23,10 @@ export class GetOrderDetailsResponse {
   exportPort: string;
 
   @ApiProperty({
+    description: 'Application ID',
+    example: '05159674-06ea-4bc2-b750-603b0f454025',
+  })
+  @ApiProperty({
     example: {
       id: '05159674-06ea-4bc2-b750-603b0f454025',
       name: 'Coffee',

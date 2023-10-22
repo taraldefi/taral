@@ -15,5 +15,6 @@ import { PaymentTermController } from './payment-term.controller';
     PaymentTermService,
     PaymentTermMappingService,
   ],
+  exports: [PaymentTermService, PaymentTermMappingService],
 })
 export class PaymentTermModule {}

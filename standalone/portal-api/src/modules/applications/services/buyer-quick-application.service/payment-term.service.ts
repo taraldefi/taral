@@ -1,0 +1,87 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/create-payment-term.dto';
+import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
+import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
+import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/update-payment-term.dto';
+import { GetPaymentTermResponse } from 'src/modules/payment-term/dto/response/get-payment-term.response.dto';
+import { PaymentTermMappingService } from 'src/modules/payment-term/services/mapping.service';
+import { BaseService } from 'src/common/services/base.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
+
+@Injectable()
+export class BuyerQuickApplicationPaymentTermService extends BaseService {
+  constructor(
+    @InjectRepository(BuyerQuickApplicationEntity)
+    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+    private readonly paymentTermService: PaymentTermService,
+    private readonly mappingService: PaymentTermMappingService,
+  ) {
+    super();
+  }
+
+  public async getPaymentTerm(applicationId: string) {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['paymentTerms'],
+      },
+    );
+    return await this.paymentTermService.get(application.paymentTerms.id);
+  }
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async createPaymentTerm(
+    data: CreatePaymentTermDto,
+    applicationId: string,
+  ): Promise<GetPaymentTermResponse> {
+
+    this.setupTransactionHooks();
+
+    const savedPaymentTerm = await this.paymentTermService.create(data);
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
+    application.paymentTerms = savedPaymentTerm;
+    application.save();
+
+    return this.mappingService.mapPaymentTermDetails(savedPaymentTerm);
+  }
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async updatePaymentTerm(
+    data: UpdatePaymentTermDto,
+    applicationId: string,
+  ): Promise<GetPaymentTermResponse> {
+
+    this.setupTransactionHooks();
+
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['paymentTerms'],
+      },
+    );
+    const savedCollateral = await this.paymentTermService.update(
+      application.paymentTerms.id,
+      data,
+    );
+
+    return savedCollateral;
+  }
+}

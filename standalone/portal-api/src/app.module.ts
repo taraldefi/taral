@@ -59,11 +59,10 @@ import { RelationshipModule } from './modules/relationship/relationship.module';
 import { OrderDetailsModule } from './modules/order-detail/order-details.module';
 import { CollateralModule } from './modules/collateral/collateral.module';
 import { WinstonLoggerModule } from './modules/logger/logger.module';
+import { ApplicationModule } from './modules/applications/application.module';
 
 @Module({
-  imports: [
-    ...AppModule.createDynamicImports(),
-  ],
+  imports: [...AppModule.createDynamicImports()],
   providers: [
     {
       provide: APP_PIPE,
@@ -81,7 +80,6 @@ import { WinstonLoggerModule } from './modules/logger/logger.module';
   controllers: [AppController],
 })
 export class AppModule {
-
   static createDynamicImports(): (Type<any> | DynamicModule)[] {
     const imports: (Type<any> | DynamicModule)[] = [
       ClientsModule.register([rabbitMQServiceOptions as any]),
@@ -141,6 +139,7 @@ export class AppModule {
       LoggerModule,
       WinstonLoggerModule,
       EntitiesModule,
+      ApplicationModule,
       CompaniesModule,
       FinancialsModule,
       FilesModule,
@@ -183,7 +182,7 @@ export class AppModule {
     } else {
       console.log('Not running jobs');
     }
-    
+
     return imports;
   }
 }

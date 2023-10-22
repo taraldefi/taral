@@ -29,17 +29,17 @@ export class OrderProductController {
     return await this.orderProductService.get(id);
   }
 
-  @Post()
-  async create(@Body() createOrderProduct: CreateOrderProductDto) {
-    const order = await this.orderDetailService.findOrderById(
-      createOrderProduct.orderId,
-    );
-    const product = await this.orderProductService.create(
-      createOrderProduct,
-      order,
-    );
-    return product;
-  }
+  // @Post()
+  // async create(@Body() createOrderProduct: CreateOrderProductDto) {
+  //   const order = await this.orderDetailService.findOrderById(
+  //     createOrderProduct.orderId,
+  //   );
+  //   const product = await this.orderProductService.create(
+  //     createOrderProduct,
+  //     order,
+  //   );
+  //   return product;
+  // }
 
   @Patch('/:id')
   async update(

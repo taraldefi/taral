@@ -1,9 +1,10 @@
-import { ApiTags } from "@nestjs/swagger";
-import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
-import { RelationshipService } from "./services/relationship.service";
-import { CreateRelationshipRequest } from "./dto/request/create-relationship.dto";
-import { GetRelationshipResponse } from "./dto/response/get-relationship-response.dto";
-import { UpdateRelationshipRequest } from "./dto/request/update-relationship.dto";
+import { ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { RelationshipService } from './services/relationship.service';
+import { CreateRelationshipRequest } from './dto/request/create-relationship.dto';
+import { GetRelationshipResponse } from './dto/response/get-relationship-response.dto';
+import { UpdateRelationshipRequest } from './dto/request/update-relationship.dto';
+import { CollaborationRelationshipEntity } from './models/collaboration.relationship.entity';
 
 @ApiTags('Relationships')
 @Controller({
@@ -11,17 +12,19 @@ import { UpdateRelationshipRequest } from "./dto/request/update-relationship.dto
   version: '1',
 })
 export class RelationshipController {
-  constructor(private readonly relationshipService: RelationshipService) {
-
-  }
+  constructor(private readonly relationshipService: RelationshipService) {}
 
   @Post('/:buyerId/:supplierId')
   async createEntity(
     @Param('buyerId') buyerId: string,
     @Param('supplierId') supplierId: string,
     @Body() entity: CreateRelationshipRequest,
-  ): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.createEntity(entity, buyerId, supplierId);
+  ): Promise<CollaborationRelationshipEntity> {
+    return await this.relationshipService.createEntity(
+      entity,
+      buyerId,
+      supplierId,
+    );
   }
 
   @Put('/:id/:buyerId/:supplierId')
@@ -31,7 +34,12 @@ export class RelationshipController {
     @Param('supplierId') supplierId: string,
     @Body() entity: UpdateRelationshipRequest,
   ): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.updateEntity(entity, id, buyerId, supplierId);
+    return await this.relationshipService.updateEntity(
+      entity,
+      id,
+      buyerId,
+      supplierId,
+    );
   }
 
   @Patch('/:id/:buyerId/:supplierId')
@@ -41,13 +49,18 @@ export class RelationshipController {
     @Param('supplierId') supplierId: string,
     @Body() entity: UpdateRelationshipRequest,
   ): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.updateEntity(entity, id, buyerId, supplierId);
+    return await this.relationshipService.updateEntity(
+      entity,
+      id,
+      buyerId,
+      supplierId,
+    );
   }
 
-  @Get('/:id')
-  async getEntity(@Param('id') id: string): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.getEntity(id);
-  }
+  // @Get('/:id')
+  // async getEntity(@Param('id') id: string): Promise<GetRelationshipResponse> {
+  //   return await this.relationshipService.getEntity(id);
+  // }
 
   @Get()
   async getAll(): Promise<GetRelationshipResponse[]> {
