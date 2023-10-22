@@ -102,7 +102,7 @@ export class BuyerQuickApplicationService  extends BaseService {
     data: CreateQuickApplicationRequest,
     entity: LegalBuyerEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
-    // await this.checkActiveApplicationExists();
+    await this.checkActiveApplicationExists();
 
     this.setupTransactionHooks();
 
@@ -131,9 +131,12 @@ export class BuyerQuickApplicationService  extends BaseService {
     this.setupTransactionHooks();
 
     const application = await this.findApplicationById(id);
-    // const isComplete = await this.checkIfApplicationIsComplete(application);
-    // if (!isComplete)
-    //   throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+    const isComplete = await this.checkIfApplicationIsComplete(application);
+    if (!isComplete)
+      throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+
+    if (application.status == 'COMPLETED')
+      throw new HttpException('Application already submited', HttpStatus.BAD_REQUEST);
 
     application.status = 'COMPLETED';
     application.save();
