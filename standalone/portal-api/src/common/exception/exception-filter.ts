@@ -22,10 +22,15 @@ export class CommonExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const statusCode = exception.getStatus();
 
+    console.log(JSON.stringify(exception, null,2));
+
     let message = exception.getResponse() as {
       key: string;
       args: Record<string, any>;
     };
+
+    console.log('Message key', message.key);
+    console.log('Message args', JSON.stringify(message.args, null, 2));
 
     message = await this.i18n.translate(message.key, {
       lang: ctx.getRequest().i18nLang,

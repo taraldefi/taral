@@ -30,6 +30,8 @@ import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/updat
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
 import { UpdateOrderDetailDto } from 'src/modules/order-detail/dto/request/update-order-detail.dto';
 import { UpdateOrderProductDto } from 'src/modules/order-detail/dto/request/update-order-product.dto';
+import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
+import { EntityNotFoundError } from 'typeorm';
 
 @ApiTags('Applications')
 @Controller({
@@ -66,9 +68,22 @@ export class QuickApplicationController {
   // Create an application
   @Post()
   async create(@Body() applicationDto: CreateQuickApplicationRequest) {
-    const entity = await this.entityService.findBuyerEntityById(
-      applicationDto.entityId,
-    );
+  
+    let entity: LegalBuyerEntity = undefined;
+
+    try {
+      entity = await this.entityService.findBuyerEntityById(
+        applicationDto.entityId,
+      );
+    } catch (exception) {
+      throw new EntityNotFoundError('LegalBuyerEntity', {
+        where: {
+          id: applicationDto.entityId
+        }
+      });
+    }
+
+
     const application = await this.buyerQuickApplicationService.create(
       applicationDto,
       entity,
