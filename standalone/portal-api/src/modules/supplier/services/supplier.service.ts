@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { BaseService } from 'src/modules/auctionhistory/services/base.service';
+import { BaseService } from 'src/common/services/base.service';
 import { SupplierRepository } from '../repositories/supplier.repository';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SupplierCompanyEntityRepository } from '../repositories/supplier-company.repository';

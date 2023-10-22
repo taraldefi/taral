@@ -4,7 +4,7 @@ import { AuctionEntityRepository } from 'src/modules/auctions/repositories/aucti
 import { AuctionEntityRepositoryToken } from 'src/modules/auctions/providers/auction.repository.provider';
 import { AuctionStatus } from 'src/modules/auctions/entities/auction.status';
 import { IsolationLevel } from 'src/common/transaction/IsolationLevel';
-import { BaseService } from './base.service';
+import { BaseService } from '../../../common/services/base.service';
 import { AuctionEntity } from 'src/modules/auctions/entities/auction.entity';
 import { AuctionHistoryEntity } from '../entities/auction.history.entity';
 import { AuctionHistoryEntityRepositoryToken } from '../providers/auction.history.repository.provider';

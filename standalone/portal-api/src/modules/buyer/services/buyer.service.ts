@@ -7,7 +7,7 @@ import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
 import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { CreateBuyerRequest } from '../dto/request/create-buyer.dto';
-import { BaseService } from 'src/modules/auctionhistory/services/base.service';
+import { BaseService } from 'src/common/services/base.service';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
 import { BuyerCompanyEntityRepository } from '../repositories/buyer-company.repository';

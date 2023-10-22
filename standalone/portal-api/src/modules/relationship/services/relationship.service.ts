@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { triggerError } from 'src/common/trigger.error';
-import { BaseService } from 'src/modules/auctionhistory/services/base.service';
+import { BaseService } from 'src/common/services/base.service';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
 import { BuyerEntityRepository } from 'src/modules/buyer/repositories/buyer.repository';
 import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
