@@ -119,7 +119,7 @@ export abstract class BaseService {
 
   private stringify(obj: any): string {
     const cache = new Set();
-    const replacer = (key, value) => {
+    const replacer = (_, value) => {
       if (typeof value === 'object' && value !== null) {
         if (cache.has(value)) {
           // Duplicate reference found, discard key
