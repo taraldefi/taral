@@ -29,23 +29,40 @@ export class CommonExceptionFilter implements ExceptionFilter {
       args: Record<string, any>;
     };
 
-    console.log('Message key', message.key);
-    console.log('Message args', JSON.stringify(message.args, null, 2));
+    if (message !== undefined && message.key !== undefined) {
+      console.log('Message key', message.key);
+      console.log('Message args', JSON.stringify(message.args, null, 2));
 
-    message = await this.i18n.translate(message.key, {
-      lang: ctx.getRequest().i18nLang,
-      args: message.args,
-    });
+      message = await this.i18n.translate(message.key, {
+        lang: ctx.getRequest().i18nLang,
+        args: message.args,
+      });
 
-    this.logger.error('Error: ', {
-      meta: {
-        error: message,
-      },
-    });
+      this.logger.error('Error: ', {
+        meta: {
+          error: message,
+        },
+      });
 
-    response.status(statusCode).json({
-      statusCode,
-      message,
-    });
+      response.status(statusCode).json({
+        statusCode,
+        message,
+      });
+    } else {
+      const simpleException = exception as any;
+
+      let message = "Http Error";
+
+      if (simpleException.response.errors && simpleException.response.errors.message) {
+        message = simpleException.response.errors.message;
+      } else if (simpleException.message) {
+        message = simpleException.message;
+      }
+
+      response.status(simpleException.status).json({
+        statusCode: simpleException.status,
+        message
+      });
+    }
   }
 }
