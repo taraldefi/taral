@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./pdfViewer";
 import { useNetworks } from "@hooks/useNetwork";
-import { useToast } from "@hooks/index";
+
 import { signData } from "@utils/lib/signData";
 
 const FileUpload = ({ onFileUpload }: any) => {
@@ -15,7 +15,6 @@ const FileUpload = ({ onFileUpload }: any) => {
   const [isLoading, setLoading] = React.useState(false);
   const [showPdfViewer, setShowPdfViewer] = React.useState(false);
   const { currentStacksNetwork } = useNetworks();
-  const { toastError } = useToast();
 
   const deleteFile = (_name: any) => {
     axios
@@ -47,7 +46,6 @@ const FileUpload = ({ onFileUpload }: any) => {
       setFile(null);
       // Reset the target value so that user can re upload if he uploads the same file again
       event.target.value = null;
-      toastError(error.toString());
     }
   };
 

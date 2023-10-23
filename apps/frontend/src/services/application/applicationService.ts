@@ -1,7 +1,7 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   CreateApplication,
   CreateApplicationResponse,
@@ -41,30 +41,28 @@ export class ApplicationService {
    * Create Application Function
    * @param application
    */
-  async createApplication(
+  createApplication(
     application: CreateApplication
   ): Promise<CreateApplicationResponse> {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.post(
-        apiUrls.APPLICATION,
-        application,
-        axiosConfig
-      );
-      const { data } = response;
-      console.log(response);
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
 
-      if (response.status === 201) {
-        return data;
+      try {
+        const response = await axios.post(
+          apiUrls.APPLICATION,
+          application,
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(new Error(error.response.data.message));
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Creating application failed.");
+    });
   }
 
   /**

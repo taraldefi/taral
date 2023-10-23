@@ -8,9 +8,10 @@ import { useRouter } from "next/router";
 const NewApplicationTopNav = () => {
   const [, setIndex] = useAtom(pageIndexAtom);
   const router = useRouter();
+  const entityId = router.query.entityId;
   const handleClick = () => {
     setIndex(0);
-    router.push(`/users/${router.asPath.split("/")[2]}/entities`);
+    router.push(`/users/${router.asPath.split("/")[2]}/entities/${entityId}`);
   };
   return (
     <div>

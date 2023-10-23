@@ -28,6 +28,7 @@ import {
 import { useAtom } from "jotai";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 import { useRouter } from "next/router";
+import { toast } from "sonner";
 
 function Index({ ...props }) {
   const [searchInput, setSearchInput] = useState("");
@@ -56,19 +57,21 @@ function Index({ ...props }) {
   }, [entityEdited, entityDeleted, entityCreated]);
 
   const handleDelete = async (entityIdToDelete: string) => {
-    try {
-      await entityService.deleteEntity(entityIdToDelete).then((data) => {
-        if (data) {
-          // Update the state to remove the deleted entity
-          setEntityDeleted(entityIdToDelete);
-          // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
-          setSelectedEntity("");
-          deleteModal.close();
-        }
-      });
-    } catch (error) {
-      console.error("Error deleting entity:", error);
-    }
+    const response = () => entityService.deleteEntity(entityIdToDelete);
+    toast.promise(response, {
+      loading: "Loading...",
+      success: () => {
+        // Update the state to remove the deleted entity
+        setEntityDeleted(entityIdToDelete);
+        // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
+        setSelectedEntity("");
+        deleteModal.close();
+        return `entity deleted`;
+      },
+      error: (err) => {
+        return `${err.message}`;
+      },
+    });
   };
 
   const EntityBody = () => {

@@ -50,7 +50,7 @@ const config: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/quick-applications`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/quick-applications`,
 };
 
 const localConfig: Config = {
@@ -74,7 +74,7 @@ const localConfig: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/quick-applications`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/quick-applications`,
 };
 
 const urls = process.env.NODE_ENV === "production" ? config : localConfig;

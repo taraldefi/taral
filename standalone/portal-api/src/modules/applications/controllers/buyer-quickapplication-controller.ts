@@ -68,7 +68,6 @@ export class QuickApplicationController {
   // Create an application
   @Post()
   async create(@Body() applicationDto: CreateQuickApplicationRequest) {
-  
     let entity: LegalBuyerEntity = undefined;
 
     try {
@@ -78,11 +77,10 @@ export class QuickApplicationController {
     } catch (exception) {
       throw new EntityNotFoundError('LegalBuyerEntity', {
         where: {
-          id: applicationDto.entityId
-        }
+          id: applicationDto.entityId,
+        },
       });
     }
-
 
     const application = await this.buyerQuickApplicationService.create(
       applicationDto,

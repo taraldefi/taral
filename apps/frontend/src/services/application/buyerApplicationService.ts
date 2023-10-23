@@ -5,6 +5,7 @@ import axios from "axios";
 import {
   CreateApplication,
   CreateApplicationResponse,
+  CreateBuyerInformationForBuyerApplication,
   EntityResponse,
 } from "src/types";
 import { ApplicationService } from "./applicationService";
@@ -42,14 +43,14 @@ class BuyerApplicationService extends ApplicationService {
    * Create Application Function
    * @param application
    */
-  async createApplication(
-    application: CreateApplication
+  async createBuyerInfo(
+    buyerInfo: CreateBuyerInformationForBuyerApplication
   ): Promise<CreateApplicationResponse> {
     const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
       const response = await axios.post(
-        apiUrls.APPLICATION,
-        application,
+        `${apiUrls.APPLICATION}`,
+        buyerInfo,
         axiosConfig
       );
       const { data } = response;

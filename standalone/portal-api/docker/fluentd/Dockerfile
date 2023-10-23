@@ -9,7 +9,7 @@ RUN mkdir -p /var/log/supervisor && \
 RUN apt-get update && apt-get install -y supervisor
 
 # Install build tools and Ruby development headers
-RUN apt-get update && apt-get install -y build-essential ruby-dev && rm -rf /var/lib/apt/lists/*
+RUN apt-get clean all && apt-get update && apt-get install -y build-essential ruby-dev && rm -rf /var/lib/apt/lists/*
 
 # Install the MongoDB plugin for Fluentd
 RUN gem install fluent-plugin-mongo --version "~> 1.3.0"

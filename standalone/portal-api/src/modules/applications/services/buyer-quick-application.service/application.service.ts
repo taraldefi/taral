@@ -17,7 +17,7 @@ import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationService  extends BaseService {
+export class BuyerQuickApplicationService extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -94,7 +94,6 @@ export class BuyerQuickApplicationService  extends BaseService {
     return application;
   }
 
-
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
@@ -127,7 +126,6 @@ export class BuyerQuickApplicationService  extends BaseService {
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
   public async markAsComplete(id: string): Promise<void> {
-
     this.setupTransactionHooks();
 
     const application = await this.findApplicationById(id);
@@ -136,7 +134,10 @@ export class BuyerQuickApplicationService  extends BaseService {
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
     if (application.status == 'COMPLETED')
-      throw new HttpException('Application already submited', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
 
     application.status = 'COMPLETED';
     application.save();
@@ -173,10 +174,10 @@ export class BuyerQuickApplicationService  extends BaseService {
     const activeApplication = await this.buyerApplicationRepository.findOne({
       where: { status: 'ACTIVE' },
     });
-    console.log('activeApplication', activeApplication.id);
-    if (activeApplication.id) {
+
+    if (activeApplication && activeApplication.id) {
       throw new HttpException(
-        'ACTIVE application exists',
+        'An active application exists',
         HttpStatus.BAD_REQUEST,
       );
     }
