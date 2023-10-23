@@ -26,7 +26,7 @@
     "@stacks/transactions": "^6.5.4",
     "@stacks/wallet-sdk": "^4.2.0",
     "@types/crypto-js": "^4.1.1",
-    "@types/json-schema": "^7.0.12",
+    "@types/json-schema": "^7.0.14",
     "@types/wif": "^2.0.2",
     "ajv": "^8.12.0",
     "bip32": "^4.0.0",
