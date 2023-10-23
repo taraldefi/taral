@@ -22,6 +22,8 @@
 
 ;; Public functions
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-btc-price (new-price uint))
   (begin
     (var-set btc-price new-price)
@@ -29,6 +31,8 @@
   )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-stx-price (new-price uint))
   (begin
     (var-set stx-price new-price)

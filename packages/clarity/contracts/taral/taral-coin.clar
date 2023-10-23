@@ -25,6 +25,8 @@
   (ok u6))
 
 ;; Transfers tokens to a recipient
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
   (if (is-eq tx-sender sender)
     (begin
@@ -37,6 +39,8 @@
 (define-public (get-token-uri)
   (ok (some u"https://taraldefi.github.io")))
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (mint (recipient principal) (amount uint))
   (ft-mint? taral-token amount recipient)
 )

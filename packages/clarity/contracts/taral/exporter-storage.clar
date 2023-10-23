@@ -13,6 +13,8 @@
         hash: (buff 256),
         category: (string-utf8 100), ;; Merchant /Manufacturer /Service /Project /Deemed exporter
         orders-next-avail-id: uint,
+        successful-transactions: uint,
+        failed-transactions: uint,
         created: uint
     }  
 )
@@ -46,7 +48,17 @@
     (map get-exporter-profile principals)       
 )
 
-(define-read-only (get-orders-next-avail-id (exporter {name: (string-utf8 100),hash: (buff 256), category: (string-utf8 100), orders-next-avail-id: uint, created: uint} ))
+(define-read-only (get-orders-next-avail-id (exporter 
+    { 
+        name: (string-utf8 100),
+        hash: (buff 256), 
+        category: (string-utf8 100), 
+        orders-next-avail-id: uint,
+        successful-transactions: uint,
+        failed-transactions: uint,
+        created: uint
+    } )
+)
     (get orders-next-avail-id exporter)
 )
 
@@ -72,10 +84,14 @@
     (ok (var-set exporter-id-nonce (+ (var-get exporter-id-nonce) u1)))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-exporter (exporter principal) (exporter-id uint)) 
     (ok (map-set exporter-by-principal exporter exporter-id))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-order (id uint) (exporter-id uint) (order-id uint)) 
     (ok 
         (map-insert orders {id: id,exporter-id: exporter-id}   
@@ -84,11 +100,15 @@
     )   
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-exporter-profile (key-tuple {exporter-id: uint}) (value-tuple {
     name: (string-utf8 100), 
     hash: (buff 256),
     category: (string-utf8 100),
     orders-next-avail-id: uint,
+    successful-transactions: uint,
+    failed-transactions: uint,
     created: uint
     }))
     (ok
@@ -96,6 +116,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-exporter-profile (exporter-id uint) (exporter-name (string-utf8 100)) (hash (buff 256)) (exporter-category (string-utf8 100)))
     (ok (map-insert exporter-profile 
             {exporter-id: exporter-id} 
@@ -104,7 +126,9 @@
                 hash: hash,
                 category: exporter-category,
                 orders-next-avail-id: u0, 
-                created: block-height
+                created: block-height,
+                successful-transactions: u0,
+                failed-transactions: u0
             }
         )
     )

@@ -37,6 +37,8 @@
 ;; @Params sender: principal of sender
 ;; @Params receiver: principal of receiver
 ;; @returns (response bool uint)
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (transfer (token-id uint) (sender principal) (receiver principal))
     (begin 
         (try! (nft-transfer? purchase-order-nft token-id sender receiver))
@@ -47,6 +49,8 @@
 ;; @Desc mint function to transfer NFT 
 ;; @Params receiver: principal of receiver to mint NFT
 ;; @returns (response uint uint)
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (mint (token-id uint) (receiver principal)) 
     (begin
         ;;(asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
@@ -62,6 +66,8 @@
 ;; @returns (response bool uint)
 
 ;; note: Clarity restricts burning of an asset only by it's owner.
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (burn (token-id uint) (sender principal)) 
     (begin
         ;;(asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)

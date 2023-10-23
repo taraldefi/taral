@@ -21,6 +21,8 @@
 
 
 ;; transfer function asserts that sender == tx-sender, unwrap and print memo
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
     (begin 
         (asserts! (is-eq tx-sender sender) err-owner-only)

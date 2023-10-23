@@ -77,6 +77,8 @@
 )
 
 ;; @Desc public function to update values in vault mapping
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-vault (key-tuple {vault-id: uint}) (value-tuple {
     borrower: principal,
     collateral-stx: uint,
@@ -93,6 +95,8 @@
 ;; @Desc public function to delete vault mapping
 ;; @param vault-id: the ID of the target vault to be deleted
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (delete-vault (vault-id uint))
     (ok (map-delete vaults {vault-id: vault-id}))
 )
@@ -105,6 +109,8 @@
 ;; @Param amount: amount in uint
 ;; @param delivery-term: Terms of delivery of type string UTF8 eg: FOB CIF, CFR
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-order 
     (exporter-id uint)
     (importer-id uint)
@@ -128,6 +134,8 @@
 ;; @Desc function to insert order detail object
 ;; @Param order-detail-hash: Hashed data of order details
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-order-details 
     (order-detail-hash (buff 256)))
     (ok (map-insert order-detail 
