@@ -26,9 +26,7 @@ interface Config {
   REQUEST_FILE: string;
 
   // application routes
-  CREATE_APPLICATION: string;
-  GET_ACTIVE_APPLICATION: string;
-  SUBMIT_APPLICATION: string;
+  APPLICATION: string;
 }
 
 const config: Config = {
@@ -52,9 +50,7 @@ const config: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  CREATE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  GET_ACTIVE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  SUBMIT_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/quick-applications`,
 };
 
 const localConfig: Config = {
@@ -78,9 +74,7 @@ const localConfig: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  CREATE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  GET_ACTIVE_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
-  SUBMIT_APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/quick-applications`,
 };
 
 const urls = process.env.NODE_ENV === "production" ? config : localConfig;
