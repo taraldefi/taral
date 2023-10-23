@@ -4298,10 +4298,10 @@
     "@types/node" "^18.0.4"
     buffer "^6.0.3"
 
-"@stacks/common@^6.0.0", "@stacks/common@^6.5.2", "@stacks/common@^6.5.5":
-  version "6.5.5"
-  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.5.5.tgz#c6149fd7acff185ac191a9a84b719b62ed4963a5"
-  integrity sha512-6v2AVHTTryvl1Govu5rmBXLywAyen2fU3doMCx/7Lk/tFLc4OjMEx4uf1wzpPx1zw/fwJnvoz74OrT/RSALDYw==
+"@stacks/common@^6.0.0", "@stacks/common@^6.5.2", "@stacks/common@^6.5.5", "@stacks/common@^6.8.1":
+  version "6.8.1"
+  resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.8.1.tgz#4f13f4635014b1d50e78745d72ecb9085afed69d"
+  integrity sha512-ewL9GLZNQYa5a/3K4xSHlHIgHkD4rwWW/QEaPId8zQIaL+1O9qCaF4LX9orNQeOmEk8kvG0x2xGV54fXKCZeWQ==
   dependencies:
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
@@ -4339,15 +4339,15 @@
     ripemd160-min "^0.0.6"
     varuint-bitcoin "^1.1.2"
 
-"@stacks/encryption@^6.2.0", "@stacks/encryption@^6.7.0":
-  version "6.7.0"
-  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.7.0.tgz#0358062b95c08939064c67bc75d121e323d904a7"
-  integrity sha512-31eh+Wd14/+4rsD3HGtbpfWl7T30aZHTJsCdK5+XWvl4umJQytNkTMH3nPHoouxfLW0lR9rHPm8gTntblKMQhg==
+"@stacks/encryption@^6.7.0", "@stacks/encryption@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@stacks/encryption/-/encryption-6.9.0.tgz#340141caabed37ea9aaa253db4aca82a55ef15ef"
+  integrity sha512-hbpZ47eYgw9ZH5ly+GSgvw2Ffsu9L6d++2XIhvYSzL7yxYl4m1+FV5QYdJthJ2AS3vi8cI5otE254HTfCrhKzg==
   dependencies:
     "@noble/hashes" "1.1.5"
     "@noble/secp256k1" "1.7.1"
     "@scure/bip39" "1.1.0"
-    "@stacks/common" "^6.5.5"
+    "@stacks/common" "^6.8.1"
     "@types/node" "^18.0.4"
     base64-js "^1.5.1"
     bs58 "^5.0.0"
@@ -6199,12 +6199,7 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-17.0.45.tgz#2c0fafd78705e7a18b7906b5201a522719dc5190"
   integrity sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==
 
-"@types/node@^18.0.4":
-  version "18.17.4"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-18.17.4.tgz#bf8ae9875528929cc9930dc3f066cd0481fe1231"
-  integrity sha512-ATL4WLgr7/W40+Sp1WnNTSKbgVn6Pvhc/2RHAdt8fl6NsQyp4oPCi2eKcGOvA494bwf1K/W6nGgZ9TwDqvpjdw==
-
-"@types/node@^18.11.9":
+"@types/node@^18.0.4", "@types/node@^18.11.9":
   version "18.18.6"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-18.18.6.tgz#26da694f75cdb057750f49d099da5e3f3824cb3e"
   integrity sha512-wf3Vz+jCmOQ2HV1YUJuCWdL64adYxumkrxtc+H1VUQlnQI04+5HtH+qZCOE21lBE7gIrt+CwX2Wv8Acrw5Ak6w==
