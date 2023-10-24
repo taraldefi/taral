@@ -54,7 +54,7 @@ function Index() {
           </div>
         </div>
       </div>
-      <BottomBar></BottomBar>
+      {/* <BottomBar></BottomBar> */}
     </ApplicationLayout>
   );
 }

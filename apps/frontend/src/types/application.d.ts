@@ -35,6 +35,24 @@ interface CreateBuyerInformationForBuyerApplication {
   company: Company;
 }
 
+interface CreateSupplierInformationForBuyerApplication {
+  supplierInformation: {
+    company: Company;
+  };
+  relationshipWithSupplier: {
+    shareHoldingRelationship: string;
+    influence: string;
+    paymentExperience: {
+      description: string;
+      length: string;
+      noOfDeals: string;
+      avgBusinessVol: string;
+      history: string;
+      delays: string;
+    };
+  };
+}
+
 interface GetBuyerInfoResponse {
   address: Address;
   taxAndRevenue: TaxAndRevenue;
@@ -50,6 +68,7 @@ export {
   CreateApplication,
   CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
+  CreateSupplierInformationForBuyerApplication,
   GetBuyerInfoResponse,
   Address,
   Company,

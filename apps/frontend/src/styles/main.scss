@@ -2,6 +2,11 @@
   font-family: inter;
   src: url(/assets/font/Inter.ttf);
 }
+.react-international-phone-input-container
+  .react-international-phone-country-selector-button {
+  height: 44px;
+  border: 1.5px solid #cbd5e1;
+}
 
 .pdfviewer_header {
   background-color: #ffffff;

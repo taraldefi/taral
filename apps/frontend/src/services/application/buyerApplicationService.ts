@@ -32,7 +32,7 @@ class BuyerApplicationService extends ApplicationService {
           resolve(data);
         }
       } catch (error: any) {
-        reject(new Error(error.response.data.message));
+        reject(error.response.data.message);
       }
     });
   }
@@ -60,7 +60,7 @@ class BuyerApplicationService extends ApplicationService {
           resolve(data);
         }
       } catch (error: any) {
-        reject(new Error(error.response.data.message));
+        reject(error.response.data.message);
       }
     });
   }
@@ -84,7 +84,7 @@ class BuyerApplicationService extends ApplicationService {
           resolve(data);
         }
       } catch (error: any) {
-        reject(new Error(error.response.data.message));
+        reject(error.response.data.message);
       }
     });
   }

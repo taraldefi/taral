@@ -1,52 +1,65 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
+import { CreateSupplierInformationForBuyerApplication } from "src/types";
+import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
 import { useForm } from "react-hook-form";
+import * as Yup from "yup";
 
-function Index() {
+const schemaValidation = Yup.object().shape({
+  company: Yup.object().shape({
+    companyName: Yup.string().required("Company name is required"),
+
+    dateEstablished: Yup.string().required("Establishment date is required"),
+
+    phoneNumber: Yup.string()
+      .matches(/^\d{10}$/, "Phone number must be a 10-digit number")
+      .required("Phone number is required"),
+
+    registrationNumbers: Yup.string().required(
+      "Registration numbers are required"
+    ),
+
+    taxAndRevenue: Yup.object().shape({
+      lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+
+      totalRevenue: Yup.string().required("Total revenue is required"),
+
+      exportRevenuePercentage: Yup.string()
+        .required("Export revenue percentage is required")
+        .min(0, "Export revenue percentage must be at least 0")
+        .max(100, "Export revenue percentage cannot exceed 100"),
+    }),
+
+    address: Yup.object().shape({
+      city: Yup.string().required("City is required"),
+
+      addressLine1: Yup.string().required("Address line 1 is required"),
+
+      addressLine2: Yup.string().required("Address line 2 is required"),
+
+      postalCode: Yup.string().required("Postal code is required"),
+    }),
+  }),
+});
+
+function Index({ ...props }) {
+  const { query } = props;
   const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
   const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
     setSelectedRadioBtn(e.currentTarget.value);
+  const [updateMode, setUpdateMode] = React.useState(false);
 
   const router = useRouter();
-  const entityID = router.query.entityId;
-  const applicationID = router.query.applicationId;
+  const entityID = query.entityId;
+  const applicationID = query.applicationId;
 
-  type FormValues = {
-    supplierInformation: {
-      company: {
-        companyName: "";
-        dateEstablished: "";
-        phoneNumber: "";
-        registrationNumbers: "";
-        address: {
-          city: "";
-          addressLine1: "";
-          addressLine2: "";
-          postalCode: "";
-        };
-      };
-    };
-    relationshipWithSupplier: {
-      shareHoldingRelationship: "";
-      influence: "";
-      paymentExperience: {
-        description: "";
-        length: "";
-        noOfDeals: "";
-        avgBusinessVol: "";
-        history: "";
-        delays: "";
-      };
-    };
-  };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormValues>();
-
+  } = useForm<CreateSupplierInformationForBuyerApplication>();
   const onSubmit = (data: any) => {
     console.log("data:", data);
     router.push(
@@ -242,6 +255,11 @@ function Index() {
       </ApplicationLayout>
     </div>
   );
+}
+
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
 }
 
 export default Index;

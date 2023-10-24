@@ -22,6 +22,12 @@
   .inputs {
     width: 100%;
     color: #64748b;
+    #calendar {
+      // z-index: 0;
+      background-image: url(/assets/svg/calendar.svg);
+      background-repeat: no-repeat;
+      background-position: 193px 10px;
+    }
   }
 
   .vLine {

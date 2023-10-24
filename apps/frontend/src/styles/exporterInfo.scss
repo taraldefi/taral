@@ -1,11 +1,12 @@
 .exporterInfoContainer {
-  position: absolute;
+  position: fixed;
   top: 127px;
   left: 20vw;
   display: flex;
   width: 84%;
   padding: 40px 40px 40px 40px;
   height: 100vh;
+
   .vLine {
     width: 0.1px;
     height: initial;
@@ -17,6 +18,16 @@
   .generalInfo {
     flex: 1;
     width: 100%;
+
+    .form-item {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      padding-bottom: 10px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: normal;
+    }
 
     .maintitle {
       font-size: 14px;
@@ -39,19 +50,19 @@
       }
     }
 
-    :nth-child(n + 2) {
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      gap: 6px;
-      flex-direction: column;
-      padding-bottom: 13px;
+    // :nth-child(n) {
+    //   display: flex;
+    //   gap: 2px;
+    //   flex-direction: column;
+    //   padding-bottom: 10px;
+    //   color: #475569;
+    //   font-size: 14px;
+    //   font-weight: normal;
 
-      .inputs {
-        width: 100%;
-      }
-    }
+    //   .inputs {
+    //     width: 100%;
+    //   }
+    // }
 
     .splitBox {
       display: flex;
@@ -90,6 +101,12 @@
 
       .inputs {
         width: 100%;
+        #calendar {
+          // z-index: 0;
+          background-image: url(/assets/svg/calendar.svg);
+          background-repeat: no-repeat;
+          background-position: 193px 10px;
+        }
       }
     }
     .errorMessage {
@@ -176,7 +193,32 @@
     }
   }
   .inputs {
+    font-family: inter;
+    padding: 10px;
     width: 100%;
+    height: 44px;
+    color: #475569;
+    border-radius: 4px;
+    border: 1.5px solid #cbd5e1;
+  }
+  .inputRed {
+    border: 1px solid #f84141;
+    ::placeholder {
+      color: red;
+      opacity: 1; /* Firefox */
+    }
+
+    ::-ms-input-placeholder {
+      /* Edge 12 -18 */
+      color: red;
+    }
+  }
+  input[type="tel"] {
+    // height: 44px !important;
+    color: #475569;
+    font-family: inter;
+    font-size: 14px;
+    //  padding-top: 100px !important;
   }
   input[type="date"] {
     // height: 44px !important;

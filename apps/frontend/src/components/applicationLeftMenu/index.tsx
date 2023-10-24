@@ -444,13 +444,13 @@ function ApplicationLeftMenu() {
               </>
             );
           })}
-          <div className="last-item">
+          {/* <div className="last-item">
             <ProgressBar
               progress={progress}
               color={"#1ab98b"}
               showText={true}
             />
-          </div>
+          </div> */}
         </div>
       ) : (
         <></>

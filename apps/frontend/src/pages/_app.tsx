@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { useEffect, useState } from "react";
 import "taral-ui/build/index.scss";
+
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function MyApp({ Component, pageProps }: AppProps) {

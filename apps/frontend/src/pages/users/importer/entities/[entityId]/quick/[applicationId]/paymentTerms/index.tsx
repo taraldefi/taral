@@ -239,7 +239,7 @@ function Index() {
           </div>
         </div>
       </div>
-      <BottomBar onSubmit={handleSubmit(onSubmit)}></BottomBar>
+      {/* <BottomBar onSubmit={handleSubmit(onSubmit)}></BottomBar> */}
     </ApplicationLayout>
   );
 }

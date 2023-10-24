@@ -1,63 +1,66 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
-import { applicationProgressAtom } from "@store/applicationStore";
-import { useAtom } from "jotai";
-import { useRouter } from "next/router";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import * as Yup from "yup";
-import React, { useEffect } from "react";
-import { useForm, useFormState } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
 import buyerApplicationService from "@services/application/buyerApplicationService";
-import { CreateBuyerInformationForBuyerApplication } from "src/types";
+import { applicationProgressAtom } from "@store/applicationStore";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import convertDate from "@utils/lib/convertDate";
+import { useAtom } from "jotai";
+import { PhoneInput } from "react-international-phone";
+import "react-international-phone/style.css";
 import debounce from "just-debounce-it";
+import { useRouter } from "next/router";
+import { NextPageContext } from "next/types";
+import React from "react";
+import { Controller, useForm, useFormState } from "react-hook-form";
 import { toast } from "sonner";
-import { GetServerSideProps, NextPageContext } from "next";
+import { CreateBuyerInformationForBuyerApplication } from "src/types";
+import * as Yup from "yup";
 
-function Index() {
+const schemaValidation = Yup.object().shape({
+  company: Yup.object().shape({
+    companyName: Yup.string().required("Company name is required"),
+
+    dateEstablished: Yup.string().required("Establishment date is required"),
+
+    phoneNumber: Yup.string().required("Phone number is required"),
+
+    registrationNumbers: Yup.string().required(
+      "Registration numbers are required"
+    ),
+
+    taxAndRevenue: Yup.object().shape({
+      lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+
+      totalRevenue: Yup.string().required("Total revenue is required"),
+
+      exportRevenuePercentage: Yup.string()
+        .required("Export revenue percentage is required")
+        .min(0, "Export revenue percentage must be at least 0")
+        .max(100, "Export revenue percentage cannot exceed 100"),
+    }),
+
+    address: Yup.object().shape({
+      city: Yup.string().required("City is required"),
+
+      addressLine1: Yup.string().required("Address line 1 is required"),
+
+      addressLine2: Yup.string().required("Address line 2 is required"),
+
+      postalCode: Yup.string().required("Postal code is required"),
+    }),
+  }),
+});
+
+function Index({ ...props }) {
   const router = useRouter();
-  const paths = router.asPath.split("/");
-  const applicationID = paths[paths.length - 2];
-  const entityID = router.query.entityId;
+  const { query } = props;
+
+  const applicationID = query.applicationId;
+  const entityID = query.entityId;
 
   const [, setProgress] = useAtom(applicationProgressAtom);
   const [updateMode, setUpdateMode] = React.useState(false);
-
-  const schemaValidation = Yup.object().shape({
-    company: Yup.object().shape({
-      companyName: Yup.string().required("Company name is required"),
-
-      dateEstablished: Yup.string().required("Establishment date is required"),
-
-      phoneNumber: Yup.string()
-        .matches(/^\d{10}$/, "Phone number must be a 10-digit number")
-        .required("Phone number is required"),
-
-      registrationNumbers: Yup.string().required(
-        "Registration numbers are required"
-      ),
-
-      taxAndRevenue: Yup.object().shape({
-        lastFiscalYear: Yup.string().required("Last fiscal year is required"),
-
-        totalRevenue: Yup.string().required("Total revenue is required"),
-
-        exportRevenuePercentage: Yup.string()
-          .required("Export revenue percentage is required")
-          .min(0, "Export revenue percentage must be at least 0")
-          .max(100, "Export revenue percentage cannot exceed 100"),
-      }),
-
-      address: Yup.object().shape({
-        city: Yup.string().required("City is required"),
-
-        addressLine1: Yup.string().required("Address line 1 is required"),
-
-        addressLine2: Yup.string().required("Address line 2 is required"),
-
-        postalCode: Yup.string().required("Postal code is required"),
-      }),
-    }),
-  });
 
   const getInitialData = async () => {
     console.log("applicationID", applicationID);
@@ -92,11 +95,11 @@ function Index() {
       const responseData: CreateBuyerInformationForBuyerApplication = {
         company: {
           companyName: response.companyName,
-          dateEstablished: response.dateEstablished,
+          dateEstablished: convertDate(response.dateEstablished),
           phoneNumber: response.phoneNumber,
           registrationNumbers: response.registrationNumbers,
           taxAndRevenue: {
-            lastFiscalYear: response.taxAndRevenue.lastFiscalYear,
+            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
             totalRevenue: response.taxAndRevenue.totalRevenue,
             exportRevenuePercentage:
               response.taxAndRevenue.exportRevenuePercentage,
@@ -113,8 +116,6 @@ function Index() {
       // If successful, use the fetched data for the form
       return responseData;
     } catch (error) {
-      // If there's an error (e.g., data not found), handle it here
-      // You can set a flag to indicate that you're in "update mode" or return default data
       return initialData; // or return some default data if needed
     }
   };
@@ -131,19 +132,22 @@ function Index() {
       toast.promise(createBuyerInfo, {
         loading: "Loading...",
         success: (data) => {
+          setUpdateMode(true);
           return `buyer information created`;
         },
-        error: "Error",
+        error: (err) => {
+          return `${err}`;
+        },
       });
       const response = await createBuyerInfo;
       const responseData: CreateBuyerInformationForBuyerApplication = {
         company: {
           companyName: response.companyName,
-          dateEstablished: response.dateEstablished,
+          dateEstablished: convertDate(response.dateEstablished),
           phoneNumber: response.phoneNumber,
           registrationNumbers: response.registrationNumbers,
           taxAndRevenue: {
-            lastFiscalYear: response.taxAndRevenue.lastFiscalYear,
+            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
             totalRevenue: response.taxAndRevenue.totalRevenue,
             exportRevenuePercentage:
               response.taxAndRevenue.exportRevenuePercentage,
@@ -167,17 +171,19 @@ function Index() {
         success: (data) => {
           return `buyer information updated`;
         },
-        error: "Error",
+        error: (err) => {
+          return `${err}`;
+        },
       });
       const response = await createBuyerInfo;
       const responseData: CreateBuyerInformationForBuyerApplication = {
         company: {
           companyName: response.companyName,
-          dateEstablished: response.dateEstablished,
+          dateEstablished: convertDate(response.dateEstablished),
           phoneNumber: response.phoneNumber,
           registrationNumbers: response.registrationNumbers,
           taxAndRevenue: {
-            lastFiscalYear: response.taxAndRevenue.lastFiscalYear,
+            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
             totalRevenue: response.taxAndRevenue.totalRevenue,
             exportRevenuePercentage:
               response.taxAndRevenue.exportRevenuePercentage,
@@ -195,15 +201,12 @@ function Index() {
     }
   };
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    control,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm<CreateBuyerInformationForBuyerApplication>();
+  const { register, getValues, control, watch, reset, formState } =
+    useForm<CreateBuyerInformationForBuyerApplication>({
+      mode: "all",
+      criteriaMode: "all",
+      resolver: yupResolver(schemaValidation),
+    });
 
   const queryResult = useQuery(["importerInfo"], getInitialData);
   const mutationResult = useMutation(saveChangeToDatabase, {
@@ -211,32 +214,28 @@ function Index() {
       console.count("success mutating: " + JSON.stringify(dataTosave));
     },
   });
+
+  const { errors } = formState;
   const { mutateAsync } = mutationResult;
-  const { dirtyFields, isDirty } = useFormState({
-    control,
-  });
-  const calculateProgress = () => {
-    // convert json to string and count the occurance of true
-    // no of true = changed values in the form
-    const stringifiedJson = JSON.stringify(dirtyFields);
-    const regex = new RegExp("true", "g");
-    const filledFields = stringifiedJson.match(regex);
 
-    console.log((filledFields || []).length);
-    const totalFilledFIelds = (filledFields || []).length;
-    const totalFields = 9;
-    const score = totalFilledFIelds / totalFields;
-    const progressScore = score * 17;
-    console.log(dirtyFields);
-    return progressScore.toFixed(0);
-  };
+  // const calculateProgress = () => {
+  //   const stringifiedJson = JSON.stringify(dirtyFields);
+  //   const regex = new RegExp("true", "g");
+  //   const filledFields = stringifiedJson.match(regex);
 
-  console.log(updateMode);
+  //   console.log((filledFields || []).length);
+  //   const totalFilledFIelds = (filledFields || []).length;
+  //   const totalFields = 9;
+  //   const score = totalFilledFIelds / totalFields;
+  //   const progressScore = score * 17;
+  //   console.log(dirtyFields);
+  //   return progressScore.toFixed(0);
+  // };
 
   React.useEffect(() => {
     reset(queryResult.data);
-    const progress = calculateProgress();
-    setProgress(parseInt(progress));
+    // const progress = calculateProgress();
+    // setProgress(parseInt(progress));
   }, [queryResult.data]);
 
   const handleDebouncedChange = React.useMemo(
@@ -251,7 +250,6 @@ function Index() {
   const onChange = async () => {
     const data = getValues();
     try {
-      console.log(errors);
       const validated = await schemaValidation.validate(data);
       console.log("valdiations:", validated);
       handleDebouncedChange(validated);
@@ -260,14 +258,9 @@ function Index() {
     }
   };
 
-  if (queryResult.isLoading) {
-    return <h2>Loading...</h2>;
-  }
-
-  const watchAllFields = watch();
-
-  const onSubmit = (data: any) => {
-    console.log("data:", data);
+  const onSubmit = () => {
+    console.log(errors);
+    if (errors.company) return;
     router.push(
       `/users/${
         router.asPath.split("/")[2]
@@ -286,88 +279,156 @@ function Index() {
         <form onChange={onChange} className="exporterInfoContainer">
           <div className="generalInfo">
             <div className="maintitle">GENERAL INFO</div>
-            <div>
+            <div className="form-item">
               <span>What is your company name?</span>
               <input
                 type="text"
-                className="inputs"
+                className={
+                  errors.company?.companyName ? "inputs inputRed" : "inputs"
+                }
                 placeholder="Company name..."
-                {...register("company.companyName", {
-                  required: true,
-                })}
+                {...register("company.companyName")}
               />
             </div>
-            <div>
-              <span>Establishment Date</span>
-              <input
-                type="date"
-                className="inputs"
-                placeholder="Revenue amount..."
-                {...register("company.dateEstablished", {
-                  required: true,
-                })}
-              />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                alignContent: "center",
+                gap: "15px",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>Establishment Date</span>
+                <input
+                  type="date"
+                  id="calendar"
+                  className={
+                    errors.company?.dateEstablished
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder="Revenue amount..."
+                  {...register("company.dateEstablished")}
+                />
+              </div>
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>Registration Number</span>
+                <input
+                  type="text"
+                  className={
+                    errors.company?.registrationNumbers
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder="Registration Number..."
+                  {...register("company.registrationNumbers")}
+                />
+              </div>
             </div>
-            <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                paddingBottom: "10px",
+                color: "#475569",
+                fontSize: "14px",
+                fontStyle: "normal",
+                gap: "10px",
+                width: "100%",
+              }}
+            >
               <span>Phone Number</span>
-              <input
+              {/* <input
                 type="text"
-                className="inputs"
+                className={
+                  errors.company?.companyName ? "inputs inputRed" : "inputs"
+                }
                 placeholder="Contact number..."
-                {...register("company.phoneNumber", { required: true })}
+                {...register("company.phoneNumber")}
+              /> */}
+              <Controller
+                control={control}
+                name="company.phoneNumber"
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <PhoneInput
+                    inputStyle={{
+                      width: "100%",
+                      height: "44px",
+                      border: "1.5px solid #cbd5e1",
+                    }}
+                    defaultCountry="us"
+                    value={value}
+                    onChange={onChange}
+                  />
+                )}
               />
             </div>
-            <div>
-              <span>Registration Number</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="Registration Number..."
-                {...register("company.registrationNumbers", { required: true })}
-              />
-            </div>
-            <div>
+
+            <div className="form-item">
               <span>Address line 1</span>
               <input
                 type="text"
-                className="inputs"
+                className={
+                  errors.company?.address?.addressLine1
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
                 placeholder="Address line 1..."
-                {...register("company.address.addressLine1", {
-                  required: true,
-                })}
+                {...register("company.address.addressLine1")}
               />
             </div>
-            <div>
+            <div className="form-item">
               <span>Address line 2</span>
               <input
                 type="text"
-                className="inputs"
+                className={
+                  errors.company?.address?.addressLine2
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
                 placeholder="Address line 2..."
-                {...register("company.address.addressLine2", {
-                  required: true,
-                })}
+                {...register("company.address.addressLine2")}
               />
             </div>
-            <div>
-              <span>City</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="city"
-                {...register("company.address.city", {
-                  required: true,
-                })}
-              />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                alignContent: "center",
+                gap: "15px",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>City</span>
+                <input
+                  type="text"
+                  className={
+                    errors.company?.address?.city ? "inputs inputRed" : "inputs"
+                  }
+                  placeholder="city"
+                  {...register("company.address.city")}
+                />
+              </div>
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>Company Post Code</span>
+                <input
+                  type="text"
+                  className={
+                    errors.company?.address?.postalCode
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder="Post code..."
+                  {...register("company.address.postalCode")}
+                />
+              </div>
             </div>
-            <div>
-              <span>Company Post Code</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="Post code..."
-                {...register("company.address.postalCode", { required: true })}
-              />
-            </div>
+            <p></p>
           </div>
           <div className="vLine"></div>
           <div className="taxAndRevenue">
@@ -376,52 +437,62 @@ function Index() {
               <span>Last fiscal year?</span>
               <input
                 type="date"
-                className="inputs"
+                className={
+                  errors.company?.taxAndRevenue?.lastFiscalYear
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
+                id="calendar"
                 placeholder="Revenue amount..."
-                {...register("company.taxAndRevenue.lastFiscalYear", {
-                  required: true,
-                })}
+                {...register("company.taxAndRevenue.lastFiscalYear")}
               />
             </div>
             <div>
               <span>Total revenue last fiscal year?</span>
               <input
                 type="text"
-                className="inputs"
+                className={
+                  errors.company?.taxAndRevenue?.totalRevenue
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
                 placeholder="Revenue amount..."
-                {...register("company.taxAndRevenue.totalRevenue", {
-                  required: true,
-                })}
+                {...register("company.taxAndRevenue.totalRevenue")}
               />
             </div>
             <div>
               <span>What % of revenue was comprised by exports?</span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Revenue percentage..."
+                className={
+                  errors.company?.taxAndRevenue?.exportRevenuePercentage
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
+                placeholder={
+                  errors.company?.taxAndRevenue?.exportRevenuePercentage
+                    ? `${errors.company?.taxAndRevenue?.exportRevenuePercentage?.message}`
+                    : "revenue percentage"
+                }
                 id="percentage"
-                {...register("company.taxAndRevenue.exportRevenuePercentage", {
-                  required: true,
-                })}
+                {...register("company.taxAndRevenue.exportRevenuePercentage")}
               />
             </div>
             {Object.keys(errors).length != 0 && (
-              <span className="errorMessage">
-                Please fill all the required fields to continue
-              </span>
+              <span className="errorMessage">Form validation error</span>
             )}
           </div>
           <div className="vLine0"></div>
           <div className="otherInfo"></div>
         </form>
-        {/* <BottomBar
-          onBack={onBack}
-          onSubmit={handleSubmit(onSubmit)}
-        ></BottomBar> */}
+        {/* <BottomBar onBack={onBack} onSubmit={() => onSubmit()}></BottomBar> */}
       </ApplicationLayout>
     </div>
   );
+}
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
 }
 
 export default Index;
