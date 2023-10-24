@@ -11,37 +11,46 @@ interface CreateApplicationResponse {
   id: string;
 }
 interface Company {
-  companyName: "Engelbrecht Ltd";
-  dateEstablished: "2022-12-12";
-  phoneNumber: "1234567891";
-  registrationNumbers: "123456";
+  companyName: string;
+  dateEstablished: string;
+  phoneNumber: string;
+  registrationNumbers: string;
   taxAndRevenue: TaxAndRevenue;
   address: Address;
 }
 
 interface TaxAndRevenue {
-  lastFiscalYear: "2022-12-12";
-  totalRevenue: "100000";
-  exportRevenuePercentage: "10";
+  lastFiscalYear: string;
+  totalRevenue: string;
+  exportRevenuePercentage: string;
 }
 
 interface Address {
-  city: "Cluj-Napoca";
-  addressLine1: "First Address Line one";
-  addressLine2: "Second Address Line two";
-  postalCode: "ABC123";
+  city: string;
+  addressLine1: string;
+  addressLine2: string;
+  postalCode: string;
 }
 interface CreateBuyerInformationForBuyerApplication {
   company: Company;
 }
-interface CreateBuyerInformationForBuyerApplicationResponse {
+
+interface GetBuyerInfoResponse {
+  address: Address;
+  taxAndRevenue: TaxAndRevenue;
   id: string;
-  company: Company;
+  companyName: string;
+  dateEstablished: string;
+  employeeCount: number | null;
+  phoneNumber: string;
+  registrationNumbers: string;
 }
+
 export {
   CreateApplication,
   CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
+  GetBuyerInfoResponse,
   Address,
   Company,
   TaxAndRevenue,

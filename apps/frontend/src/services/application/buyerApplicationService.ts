@@ -7,6 +7,7 @@ import {
   CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
   EntityResponse,
+  GetBuyerInfoResponse,
 } from "src/types";
 import { ApplicationService } from "./applicationService";
 
@@ -16,57 +17,76 @@ class BuyerApplicationService extends ApplicationService {
    * @param id
    */
 
-  async getApplication(id: string) {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
-    try {
-      const response = await axios.get(
-        `${apiUrls.APPLICATION}/${id}`,
-        axiosConfig
-      );
+  getBuyerInfo(applicationId: string): Promise<GetBuyerInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
+          axiosConfig
+        );
 
-      const { data } = response;
+        const { data } = response;
 
-      if (response.status === 200) {
-        return data;
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(new Error(error.response.data.message));
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Fetch Application by ID failed.");
+    });
   }
 
   /**
    * Create Application Function
    * @param application
    */
-  async createBuyerInfo(
+  createBuyerInfo(
+    applicationId: string,
     buyerInfo: CreateBuyerInformationForBuyerApplication
-  ): Promise<CreateApplicationResponse> {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.post(
-        `${apiUrls.APPLICATION}`,
-        buyerInfo,
-        axiosConfig
-      );
-      const { data } = response;
-      console.log(response);
+  ): Promise<GetBuyerInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
+          JSON.stringify(buyerInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
 
-      if (response.status === 201) {
-        return data;
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(new Error(error.response.data.message));
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
+    });
+  }
+
+  updateBuyerInfo(
+    applicationId: string,
+    buyerInfo: CreateBuyerInformationForBuyerApplication
+  ): Promise<GetBuyerInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.patch(
+          `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
+          JSON.stringify(buyerInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(new Error(error.response.data.message));
       }
-    }
-    throw new Error("Creating application failed.");
+    });
   }
 
   /**

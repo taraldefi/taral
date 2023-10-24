@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { useEffect, useState } from "react";
 import "taral-ui/build/index.scss";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -18,17 +19,19 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (loader) loader.style.display = "none";
     }
   }, []);
+  const queryClient = new QueryClient();
   return (
     <Provider>
-      <Toaster richColors position={"top-center"} />
-      <NextNProgress
-        color="#1ab98b"
-        height={6}
-        options={{ showSpinner: false }}
-      />
-      <Component {...pageProps} />
+      <QueryClientProvider client={queryClient}>
+        <Toaster richColors position={"top-center"} />
+        <NextNProgress
+          color="#1ab98b"
+          height={6}
+          options={{ showSpinner: false }}
+        />
+        <Component {...pageProps} />
 
-      {/* <IdleTimeOutHandler
+        {/* <IdleTimeOutHandler
         onActive={() => {}}
         onIdle={() => {}}
         onLogout={async () => {
@@ -36,7 +39,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       /> */}
 
-      <SelectNetworkDialog></SelectNetworkDialog>
+        <SelectNetworkDialog></SelectNetworkDialog>
+      </QueryClientProvider>
     </Provider>
   );
 }
