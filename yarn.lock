@@ -5376,12 +5376,12 @@
   dependencies:
     defer-to-connect "^1.0.1"
 
-"@tanstack/query-core@5.0.5":
+"@tanstack/query-core@5.0.5", "@tanstack/query-core@^5.0.5":
   version "5.0.5"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-5.0.5.tgz#db02d648398f75a04cc536dacd640265f3614b14"
   integrity sha512-MThCETMkHDHTnFZHp71L+SqTtD5d6XHftFCVR1xRJdWM3qGrlQ2VCXaj0SKVcyJej2e1Opa2c7iknu1llxCDNQ==
 
-"@tanstack/query-core@^4.0.0-beta.1", "@tanstack/query-core@^4.35.7":
+"@tanstack/query-core@^4.0.0-beta.1":
   version "4.35.7"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.35.7.tgz#31d6f520ab8abedb6024d2d870af8afca764d048"
   integrity sha512-PgDJtX75ubFS0WCYFM7DqEoJ4QbxU3S5OH3gJSI40xr7UVVax3/J4CM3XUMOTs+EOT5YGEfssi3tfRVGte4DEw==
