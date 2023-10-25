@@ -28,6 +28,6 @@
     "node-binance-api": "^0.13.1",
     "node-fetch": "^3.2.3",
     "taral-configuration": "1.0.0",
-    "web3": "^4.0.3"
+    "web3": "^4.2.0"
   }
 }
