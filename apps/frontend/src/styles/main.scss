@@ -186,17 +186,11 @@
 }
 
 .sortBackground {
-  background-color: #f8fafc;
-  z-index: 99;
-  padding: 10px;
+  background-color: transparent;
   align-items: center;
-  position: fixed;
-  display: flex;
-  top: 126px;
   justify-content: flex-end;
-  height: 100px;
-  width: 80vw;
-  left: 290px;
+  display: flex;
+  height: 10vh;
 }
 
 .rightContent {
@@ -219,10 +213,9 @@
 }
 
 .titleBox {
-  z-index: 99;
   display: flex;
   justify-content: space-between;
-  width: 157vh;
+  width: 100%;
 
   #bodyTitle {
     font-size: 20px;
@@ -243,10 +236,7 @@
   border-radius: 8px;
   display: flex;
   align-items: center;
-  justify-content: center;
 
-  z-index: 0;
-  right: 30px;
   box-shadow: rgba(0, 0, 0, 0.148) 0px 4px 12px;
 
   .sortBox {
@@ -275,13 +265,13 @@
 
 .rightContent {
   background-color: #f8fafc;
-  padding-top: 66px;
   padding-right: 40px;
-  padding-left: 40px;
+
   display: flex;
   position: relative;
-  left: 260px;
-  top: 132px;
+  left: 19vw;
+  max-width: 80vw;
+  top: 20vh;
   flex-direction: column;
   width: 80vw;
 

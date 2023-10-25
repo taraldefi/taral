@@ -4,8 +4,8 @@ export default function summary() {
   return (
     <DashBoardPageLayout
       showexport={true}
-      exporter={""}
-      importer={""}
+      exporter={"Exporter"}
+      importer={"Importer"}
       date={""}
     >
       <div className="summary">

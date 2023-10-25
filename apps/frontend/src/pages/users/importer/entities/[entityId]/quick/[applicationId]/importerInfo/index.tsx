@@ -280,13 +280,19 @@ function Index({ ...props }) {
           <div className="generalInfo">
             <div className="maintitle">GENERAL INFO</div>
             <div className="form-item">
-              <span>What is your company name?</span>
+              <span>
+                What is your company name? <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className={
                   errors.company?.companyName ? "inputs inputRed" : "inputs"
                 }
-                placeholder="Company name..."
+                placeholder={
+                  errors.company?.companyName
+                    ? `${errors.company.companyName.message}`
+                    : "company name"
+                }
                 {...register("company.companyName")}
               />
             </div>
@@ -301,7 +307,9 @@ function Index({ ...props }) {
               }}
             >
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>Establishment Date</span>
+                <span>
+                  Establishment Date <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
                   type="date"
                   id="calendar"
@@ -310,12 +318,18 @@ function Index({ ...props }) {
                       ? "inputs inputRed"
                       : "inputs"
                   }
-                  placeholder="Revenue amount..."
+                  placeholder={
+                    errors.company?.dateEstablished
+                      ? `${errors.company.dateEstablished.message}`
+                      : "date established"
+                  }
                   {...register("company.dateEstablished")}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>Registration Number</span>
+                <span>
+                  Registration Number <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
                   type="text"
                   className={
@@ -323,7 +337,11 @@ function Index({ ...props }) {
                       ? "inputs inputRed"
                       : "inputs"
                   }
-                  placeholder="Registration Number..."
+                  placeholder={
+                    errors.company?.registrationNumbers
+                      ? `${errors.company.registrationNumbers.message}`
+                      : "registration number"
+                  }
                   {...register("company.registrationNumbers")}
                 />
               </div>
@@ -340,7 +358,9 @@ function Index({ ...props }) {
                 width: "100%",
               }}
             >
-              <span>Phone Number</span>
+              <span>
+                Phone Number <b style={{ color: "#f84141" }}>*</b>
+              </span>
               {/* <input
                 type="text"
                 className={
@@ -354,11 +374,24 @@ function Index({ ...props }) {
                 name="company.phoneNumber"
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <PhoneInput
-                    inputStyle={{
-                      width: "100%",
-                      height: "44px",
-                      border: "1.5px solid #cbd5e1",
-                    }}
+                    inputStyle={
+                      errors.company?.phoneNumber
+                        ? {
+                            width: "100%",
+                            height: "44px",
+                            border: "1.5px solid red",
+                          }
+                        : {
+                            width: "100%",
+                            height: "44px",
+                            border: `1.5px solid #cbd5e1`,
+                          }
+                    }
+                    placeholder={
+                      errors.company?.phoneNumber
+                        ? `${errors.company.phoneNumber.message}`
+                        : "phone number"
+                    }
                     defaultCountry="us"
                     value={value}
                     onChange={onChange}
@@ -368,7 +401,9 @@ function Index({ ...props }) {
             </div>
 
             <div className="form-item">
-              <span>Address line 1</span>
+              <span>
+                Address line 1 <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className={
@@ -376,12 +411,18 @@ function Index({ ...props }) {
                     ? "inputs inputRed"
                     : "inputs"
                 }
-                placeholder="Address line 1..."
+                placeholder={
+                  errors.company?.address?.addressLine1
+                    ? `${errors.company?.address?.addressLine1?.message}`
+                    : "Address line 1"
+                }
                 {...register("company.address.addressLine1")}
               />
             </div>
             <div className="form-item">
-              <span>Address line 2</span>
+              <span>
+                Address line 2 <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className={
@@ -389,7 +430,11 @@ function Index({ ...props }) {
                     ? "inputs inputRed"
                     : "inputs"
                 }
-                placeholder="Address line 2..."
+                placeholder={
+                  errors.company?.address?.addressLine2
+                    ? `${errors.company?.address?.addressLine2?.message}`
+                    : "Address line 2"
+                }
                 {...register("company.address.addressLine2")}
               />
             </div>
@@ -404,18 +449,26 @@ function Index({ ...props }) {
               }}
             >
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>City</span>
+                <span>
+                  City <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
                   type="text"
                   className={
                     errors.company?.address?.city ? "inputs inputRed" : "inputs"
                   }
-                  placeholder="city"
+                  placeholder={
+                    errors.company?.address?.city
+                      ? `${errors.company.address.city}`
+                      : "city"
+                  }
                   {...register("company.address.city")}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>Company Post Code</span>
+                <span>
+                  Company Post Code <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
                   type="text"
                   className={
@@ -423,7 +476,11 @@ function Index({ ...props }) {
                       ? "inputs inputRed"
                       : "inputs"
                   }
-                  placeholder="Post code..."
+                  placeholder={
+                    errors.company?.address?.postalCode
+                      ? `${errors.company.address.postalCode}`
+                      : "postal code"
+                  }
                   {...register("company.address.postalCode")}
                 />
               </div>
@@ -434,7 +491,9 @@ function Index({ ...props }) {
           <div className="taxAndRevenue">
             <div className="maintitle">TAX AND REVENUE</div>
             <div>
-              <span>Last fiscal year?</span>
+              <span>
+                Last fiscal year? <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="date"
                 className={
@@ -443,12 +502,19 @@ function Index({ ...props }) {
                     : "inputs"
                 }
                 id="calendar"
-                placeholder="Revenue amount..."
+                placeholder={
+                  errors.company?.taxAndRevenue?.lastFiscalYear
+                    ? `${errors.company?.taxAndRevenue?.lastFiscalYear?.message}`
+                    : "last fiscal year"
+                }
                 {...register("company.taxAndRevenue.lastFiscalYear")}
               />
             </div>
             <div>
-              <span>Total revenue last fiscal year?</span>
+              <span>
+                Total revenue last fiscal year?{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className={
@@ -456,12 +522,19 @@ function Index({ ...props }) {
                     ? "inputs inputRed"
                     : "inputs"
                 }
-                placeholder="Revenue amount..."
+                placeholder={
+                  errors.company?.taxAndRevenue?.totalRevenue
+                    ? `${errors.company?.taxAndRevenue?.totalRevenue?.message}`
+                    : "total revenue"
+                }
                 {...register("company.taxAndRevenue.totalRevenue")}
               />
             </div>
             <div>
-              <span>What % of revenue was comprised by exports?</span>
+              <span>
+                What % of revenue was comprised by exports?{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className={
@@ -478,14 +551,23 @@ function Index({ ...props }) {
                 {...register("company.taxAndRevenue.exportRevenuePercentage")}
               />
             </div>
+
             {Object.keys(errors).length != 0 && (
-              <span className="errorMessage">Form validation error</span>
+              <>
+                <span className="errorMessage">
+                  Please fill all the required fields to continue
+                </span>
+                <br />
+                <span className="errorMessage">
+                  <b style={{ color: "#f84141" }}>*</b> Required fields
+                </span>
+              </>
             )}
           </div>
           <div className="vLine0"></div>
           <div className="otherInfo"></div>
         </form>
-        {/* <BottomBar onBack={onBack} onSubmit={() => onSubmit()}></BottomBar> */}
+        <BottomBar onBack={onBack} onSubmit={() => onSubmit()}></BottomBar>
       </ApplicationLayout>
     </div>
   );

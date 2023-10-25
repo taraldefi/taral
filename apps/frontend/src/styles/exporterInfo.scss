@@ -110,6 +110,8 @@
       }
     }
     .errorMessage {
+      display: flex;
+      flex-direction: row;
       background-color: #f9000023;
       color: #f84141;
       padding: 10px 8px 10px 8px;
@@ -201,17 +203,13 @@
     border-radius: 4px;
     border: 1.5px solid #cbd5e1;
   }
+  .inputRed::placeholder {
+    color: #f84141;
+    opacity: 1; /* Firefox */
+  }
+
   .inputRed {
     border: 1px solid #f84141;
-    ::placeholder {
-      color: red;
-      opacity: 1; /* Firefox */
-    }
-
-    ::-ms-input-placeholder {
-      /* Edge 12 -18 */
-      color: red;
-    }
   }
   input[type="tel"] {
     // height: 44px !important;

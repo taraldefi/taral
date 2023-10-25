@@ -8,39 +8,42 @@ import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 
 const schemaValidation = Yup.object().shape({
-  company: Yup.object().shape({
-    companyName: Yup.string().required("Company name is required"),
+  supplierInformation: Yup.object().shape({
+    company: Yup.object().shape({
+      companyName: Yup.string().required("Company name is required"),
 
-    dateEstablished: Yup.string().required("Establishment date is required"),
+      dateEstablished: Yup.string().required("Establishment date is required"),
 
-    phoneNumber: Yup.string()
-      .matches(/^\d{10}$/, "Phone number must be a 10-digit number")
-      .required("Phone number is required"),
+      phoneNumber: Yup.string()
+        .matches(/^\d{10}$/, "Phone number must be a 10-digit number")
+        .required("Phone number is required"),
 
-    registrationNumbers: Yup.string().required(
-      "Registration numbers are required"
-    ),
+      registrationNumbers: Yup.string().required(
+        "Registration numbers are required"
+      ),
 
-    taxAndRevenue: Yup.object().shape({
-      lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+      taxAndRevenue: Yup.object().shape({
+        lastFiscalYear: Yup.string().required("Last fiscal year is required"),
 
-      totalRevenue: Yup.string().required("Total revenue is required"),
+        totalRevenue: Yup.string().required("Total revenue is required"),
 
-      exportRevenuePercentage: Yup.string()
-        .required("Export revenue percentage is required")
-        .min(0, "Export revenue percentage must be at least 0")
-        .max(100, "Export revenue percentage cannot exceed 100"),
+        exportRevenuePercentage: Yup.string()
+          .required("Export revenue percentage is required")
+          .min(0, "Export revenue percentage must be at least 0")
+          .max(100, "Export revenue percentage cannot exceed 100"),
+      }),
+
+      address: Yup.object().shape({
+        city: Yup.string().required("City is required"),
+
+        addressLine1: Yup.string().required("Address line 1 is required"),
+
+        addressLine2: Yup.string().required("Address line 2 is required"),
+
+        postalCode: Yup.string().required("Postal code is required"),
+      }),
     }),
-
-    address: Yup.object().shape({
-      city: Yup.string().required("City is required"),
-
-      addressLine1: Yup.string().required("Address line 1 is required"),
-
-      addressLine2: Yup.string().required("Address line 2 is required"),
-
-      postalCode: Yup.string().required("Postal code is required"),
-    }),
+    relationshipWithSupplier: Yup.object().shape({}),
   }),
 });
 
