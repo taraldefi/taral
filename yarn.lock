@@ -6144,10 +6144,10 @@
   dependencies:
     web3 "*"
 
-"@types/wif@^2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@types/wif/-/wif-2.0.2.tgz#5bd845e29406bc7d49acca6d2a6c3230f3b53d3c"
-  integrity sha512-IiIuBeJzlh4LWJ7kVTrX0nwB60OG0vvGTaWC/SgSbVFw7uYUTF6gEuvDZ1goWkeirekJDD58Y8g7NljQh2fNkA==
+"@types/wif@^2.0.4":
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/@types/wif/-/wif-2.0.4.tgz#399c5386ef04668d5ce5d689831119338c454ccc"
+  integrity sha512-vvbRuvd8QZ5cCzG+Wqqzlf2PoZV7N3r5pKuXQcFINh/X/EPg6YZurqMXepk6uT1W3K7mLPOoc5sBKptnM+NM7w==
   dependencies:
     "@types/node" "*"
 
