@@ -31,26 +31,9 @@ interface Address {
   addressLine2: string;
   postalCode: string;
 }
+
 interface CreateBuyerInformationForBuyerApplication {
   company: Company;
-}
-
-interface CreateSupplierInformationForBuyerApplication {
-  supplierInformation: {
-    company: Company;
-  };
-  relationshipWithSupplier: {
-    shareHoldingRelationship: string;
-    influence: string;
-    paymentExperience: {
-      description: string;
-      length: string;
-      noOfDeals: string;
-      avgBusinessVol: string;
-      history: string;
-      delays: string;
-    };
-  };
 }
 
 interface GetBuyerInfoResponse {
@@ -68,7 +51,6 @@ export {
   CreateApplication,
   CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
-  CreateSupplierInformationForBuyerApplication,
   GetBuyerInfoResponse,
   Address,
   Company,

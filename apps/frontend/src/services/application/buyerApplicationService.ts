@@ -10,6 +10,10 @@ import {
   GetBuyerInfoResponse,
 } from "src/types";
 import { ApplicationService } from "./applicationService";
+import {
+  CreateSupplierInformationForBuyerApplication,
+  GetSupplierInfoResponse,
+} from "src/types/supplier_info_for_buyer";
 
 class BuyerApplicationService extends ApplicationService {
   /**
@@ -75,6 +79,83 @@ class BuyerApplicationService extends ApplicationService {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
           JSON.stringify(buyerInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  /**
+   * function to get an application by ID
+   * @param id
+   */
+
+  getSupplierInfo(applicationId: string): Promise<GetSupplierInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
+          axiosConfig
+        );
+
+        const { data } = response;
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  /**
+   * Create Application Function
+   * @param application
+   */
+  createSupplierInfo(
+    applicationId: string,
+    supplierInfo: CreateSupplierInformationForBuyerApplication
+  ): Promise<GetSupplierInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
+          JSON.stringify(supplierInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  updateSupplierInfo(
+    applicationId: string,
+    supplierInfo: CreateSupplierInformationForBuyerApplication
+  ): Promise<GetSupplierInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.patch(
+          `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
+          JSON.stringify(supplierInfo),
           axiosConfig
         );
         const { data } = response;

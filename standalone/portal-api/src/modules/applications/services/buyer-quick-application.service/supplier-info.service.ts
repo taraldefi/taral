@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RelationshipService } from 'src/modules/relationship/services/relationship.service';
 import { SupplierService } from 'src/modules/supplier/services/supplier.service';
@@ -57,7 +57,6 @@ export class BuyerQuickApplicationSupplierInformationService extends BaseService
     data: CreateSupplierInformationRequest,
     applicationId: string,
   ): Promise<SupplierInformationResponse> {
-
     this.setupTransactionHooks();
 
     //TODO: check for application so that isolated supplier creation is prevented
@@ -74,6 +73,12 @@ export class BuyerQuickApplicationSupplierInformationService extends BaseService
         ],
       },
     );
+    if (application.supplierInformation) {
+      throw new HttpException(
+        'Supplier information already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
     const savedSupplier = await this.supplierService.createEntity(
       data.supplierInformation,
@@ -105,7 +110,6 @@ export class BuyerQuickApplicationSupplierInformationService extends BaseService
     applicationId: string,
     data: UpdateSupplierInformationRequest,
   ): Promise<void> {
-
     this.setupTransactionHooks();
 
     const application = await this.buyerApplicationRepository.findOne(
