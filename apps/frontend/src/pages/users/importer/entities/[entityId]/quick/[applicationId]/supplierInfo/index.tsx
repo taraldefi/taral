@@ -1,282 +1,28 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
-import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
+import { yupResolver } from "@hookform/resolvers/yup";
+import useSupplierInformationForm from "@hooks/buyerApplication/useSupplierInformation";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import "react-international-phone/style.css";
-import { Controller, set, useForm } from "react-hook-form";
-import * as Yup from "yup";
-import { yupResolver } from "@hookform/resolvers/yup";
-import buyerApplicationService from "@services/application/buyerApplicationService";
-import { toast } from "sonner";
-import convertDate from "@utils/lib/convertDate";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import debounce from "just-debounce-it";
+import { Controller, useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
-
-const schemaValidation = Yup.object({
-  supplierInformation: Yup.object({
-    company: Yup.object({
-      companyName: Yup.string().required("Company name is required"),
-
-      dateEstablished: Yup.string().required("Establishment date is required"),
-
-      phoneNumber: Yup.string().required("Phone number is required"),
-
-      registrationNumbers: Yup.string().required(
-        "Registration numbers are required"
-      ),
-
-      address: Yup.object({
-        city: Yup.string().required("City is required"),
-
-        addressLine1: Yup.string().required("Address line 1 is required"),
-
-        addressLine2: Yup.string().required("Address line 2 is required"),
-
-        postalCode: Yup.string().required("Postal code is required"),
-      }),
-    }),
-  }),
-  relationshipWithSupplier: Yup.object({
-    shareHoldingRelationship: Yup.string().nullable(),
-    influence: Yup.string().nullable(),
-    paymentExperience: Yup.object({
-      description: Yup.string().nullable(),
-      length: Yup.string().nullable(),
-      noOfDeals: Yup.string().nullable(),
-      avgBusinessVol: Yup.string().nullable(),
-      history: Yup.string().nullable(),
-      delays: Yup.string().nullable(),
-    }),
-  }),
-});
+import "react-international-phone/style.css";
+import { toast } from "sonner";
+import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
+import * as Yup from "yup";
 
 function Index({ ...props }) {
   const { query } = props;
   // const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
   // const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
   //   setSelectedRadioBtn(e.currentTarget.value);
-  const [updateMode, setUpdateMode] = React.useState(false);
 
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
-
-  const getInitialData = async () => {
-    console.log("applicationID", applicationID);
-    const initialData: CreateSupplierInformationForBuyerApplication = {
-      supplierInformation: {
-        company: {
-          companyName: "",
-          dateEstablished: "",
-          phoneNumber: "",
-          registrationNumbers: "",
-          address: {
-            city: "",
-            addressLine1: "",
-            addressLine2: "",
-            postalCode: "",
-          },
-        },
-      },
-      relationshipWithSupplier: {
-        shareHoldingRelationship: null,
-        influence: null,
-        paymentExperience: {
-          description: null,
-          length: null,
-          noOfDeals: null,
-          avgBusinessVol: null,
-          history: null,
-          delays: null,
-        },
-      },
-    };
-
-    try {
-      // Attempt to fetch buyer info from the backend
-      const response = await buyerApplicationService.getSupplierInfo(
-        applicationID as string
-      );
-      if (response && response.id) {
-        setUpdateMode(true);
-      }
-      const responseData: CreateSupplierInformationForBuyerApplication = {
-        supplierInformation: {
-          company: {
-            companyName: response.supplier.companyName,
-            dateEstablished: convertDate(response.supplier.dateEstablished),
-            phoneNumber: response.supplier.phoneNumber,
-            registrationNumbers: response.supplier.registrationNumbers,
-            address: {
-              city: response.supplier.address.city,
-              addressLine1: response.supplier.address.addressLine1,
-              addressLine2: response.supplier.address.addressLine2,
-              postalCode: response.supplier.address.postalCode,
-            },
-          },
-        },
-        relationshipWithSupplier: {
-          shareHoldingRelationship:
-            response.relationshipWithSupplier.shareHoldingRelationship ?? null,
-          influence: response.relationshipWithSupplier.influence ?? null,
-          paymentExperience: {
-            description:
-              response.relationshipWithSupplier.paymentExperience.description ??
-              null,
-            length:
-              response.relationshipWithSupplier.paymentExperience.length ??
-              null,
-            noOfDeals:
-              response.relationshipWithSupplier.paymentExperience.noOfDeals ??
-              null,
-            avgBusinessVol:
-              response.relationshipWithSupplier.paymentExperience
-                .avgBusinessVol ?? null,
-            history:
-              response.relationshipWithSupplier.paymentExperience.history ??
-              null,
-            delays:
-              response.relationshipWithSupplier.paymentExperience.delays ??
-              null,
-          },
-        },
-      };
-
-      // If successful, use the fetched data for the form
-      return responseData;
-    } catch (error) {
-      return initialData; // or return some default data if needed
-    }
-  };
-
-  const saveChangeToDatabase = async (
-    args: CreateSupplierInformationForBuyerApplication
-  ) => {
-    console.count("payload for patch:" + JSON.stringify(args));
-    if (!updateMode) {
-      const createSupplierInfo = buyerApplicationService.createSupplierInfo(
-        applicationID as string,
-        args
-      );
-      toast.promise(createSupplierInfo, {
-        loading: "Loading...",
-        success: (data) => {
-          setUpdateMode(true);
-          return `supplier information created`;
-        },
-        error: (err) => {
-          return `${err}`;
-        },
-      });
-      const response = await createSupplierInfo;
-      const responseData: CreateSupplierInformationForBuyerApplication = {
-        supplierInformation: {
-          company: {
-            companyName: response.supplier.companyName,
-            dateEstablished: convertDate(response.supplier.dateEstablished),
-            phoneNumber: response.supplier.phoneNumber,
-            registrationNumbers: response.supplier.registrationNumbers,
-            address: {
-              city: response.supplier.address.city,
-              addressLine1: response.supplier.address.addressLine1,
-              addressLine2: response.supplier.address.addressLine2,
-              postalCode: response.supplier.address.postalCode,
-            },
-          },
-        },
-        relationshipWithSupplier: {
-          shareHoldingRelationship:
-            response.relationshipWithSupplier.shareHoldingRelationship ?? null,
-          influence: response.relationshipWithSupplier.influence ?? null,
-          paymentExperience: {
-            description:
-              response.relationshipWithSupplier.paymentExperience.description ??
-              null,
-            length:
-              response.relationshipWithSupplier.paymentExperience.length ??
-              null,
-            noOfDeals:
-              response.relationshipWithSupplier.paymentExperience.noOfDeals ??
-              null,
-            avgBusinessVol:
-              response.relationshipWithSupplier.paymentExperience
-                .avgBusinessVol ?? null,
-            history:
-              response.relationshipWithSupplier.paymentExperience.history ??
-              null,
-            delays:
-              response.relationshipWithSupplier.paymentExperience.delays ??
-              null,
-          },
-        },
-      };
-
-      return responseData;
-    } else {
-      const updateSupplierInfo = buyerApplicationService.updateSupplierInfo(
-        applicationID as string,
-        args
-      );
-
-      toast.promise(updateSupplierInfo, {
-        loading: "Loading...",
-        success: (data) => {
-          return `supplier information updated`;
-        },
-        error: (err) => {
-          return `${err}`;
-        },
-      });
-      const response = await updateSupplierInfo;
-      console.log("response:", response);
-      const responseData: CreateSupplierInformationForBuyerApplication = {
-        supplierInformation: {
-          company: {
-            companyName: response.supplier.companyName,
-            dateEstablished: convertDate(response.supplier.dateEstablished),
-            phoneNumber: response.supplier.phoneNumber,
-            registrationNumbers: response.supplier.registrationNumbers,
-            address: {
-              city: response.supplier.address.city,
-              addressLine1: response.supplier.address.addressLine1,
-              addressLine2: response.supplier.address.addressLine2,
-              postalCode: response.supplier.address.postalCode,
-            },
-          },
-        },
-        relationshipWithSupplier: {
-          shareHoldingRelationship:
-            response.relationshipWithSupplier.shareHoldingRelationship ?? null,
-          influence: response.relationshipWithSupplier.influence ?? null,
-          paymentExperience: {
-            description:
-              response.relationshipWithSupplier.paymentExperience.description ??
-              null,
-            length:
-              response.relationshipWithSupplier.paymentExperience.length ??
-              null,
-            noOfDeals:
-              response.relationshipWithSupplier.paymentExperience.noOfDeals ??
-              null,
-            avgBusinessVol:
-              response.relationshipWithSupplier.paymentExperience
-                .avgBusinessVol ?? null,
-            history:
-              response.relationshipWithSupplier.paymentExperience.history ??
-              null,
-            delays:
-              response.relationshipWithSupplier.paymentExperience.delays ??
-              null,
-          },
-        },
-      };
-
-      return responseData;
-    }
-  };
+  const { schemaValidation, handleDebouncedChange, queryResult } =
+    useSupplierInformationForm(applicationID);
 
   const {
     register,
@@ -294,28 +40,8 @@ function Index({ ...props }) {
     ),
   });
 
-  const queryResult = useQuery({
-    queryKey: ["supplierInfo"],
-    queryFn: getInitialData,
-  });
-  const mutationResult = useMutation({
-    mutationFn: saveChangeToDatabase,
-    onSuccess: (dataTosave: CreateSupplierInformationForBuyerApplication) => {
-      console.count("success mutating: " + JSON.stringify(dataTosave));
-    },
-  });
-
   const { errors } = formState;
-  const { mutateAsync } = mutationResult;
 
-  const handleDebouncedChange = React.useMemo(
-    () =>
-      debounce((data: CreateSupplierInformationForBuyerApplication) => {
-        console.log(data);
-        mutateAsync(data);
-      }, 500),
-    [mutateAsync]
-  );
   const onChange = async () => {
     const data = getValues();
 
@@ -336,13 +62,18 @@ function Index({ ...props }) {
     // setProgress(parseInt(progress));
   }, [queryResult.data]);
 
-  const onSubmit = (data: any) => {
-    console.log("data:", data);
-    router.push(
-      `/users/${
-        router.asPath.split("/")[2]
-      }/entities/${entityID}/quick/${applicationID}/orderDetails`
-    );
+  const onSubmit = async () => {
+    const data = getValues();
+    try {
+      await schemaValidation.validate(data);
+      router.push(
+        `/users/${
+          router.asPath.split("/")[2]
+        }/entities/${entityID}/quick/${applicationID}/orderDetails`
+      );
+    } catch (error) {
+      toast.error("Please fill all the required fields to continue");
+    }
   };
 
   const onBack = () => {
@@ -365,11 +96,17 @@ function Index({ ...props }) {
               </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Company name..."
-                {...register("supplierInformation.company.companyName", {
-                  required: true,
-                })}
+                className={
+                  errors.supplierInformation?.company?.companyName
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
+                placeholder={
+                  errors.supplierInformation?.company?.companyName
+                    ? `${errors.supplierInformation?.company?.companyName.message}`
+                    : "company name"
+                }
+                {...register("supplierInformation.company.companyName")}
               />
             </div>
             <div
@@ -484,13 +221,18 @@ function Index({ ...props }) {
               </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Address line 1..."
+                className={
+                  errors.supplierInformation?.company?.address?.addressLine1
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
+                placeholder={
+                  errors.supplierInformation?.company?.address?.addressLine1
+                    ? `${errors.supplierInformation?.company?.address?.addressLine1.message}`
+                    : "address line 1"
+                }
                 {...register(
-                  "supplierInformation.company.address.addressLine1",
-                  {
-                    required: true,
-                  }
+                  "supplierInformation.company.address.addressLine1"
                 )}
               />
             </div>
@@ -500,13 +242,18 @@ function Index({ ...props }) {
               </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Address line 2..."
+                className={
+                  errors.supplierInformation?.company?.address?.addressLine2
+                    ? "inputs inputRed"
+                    : "inputs"
+                }
+                placeholder={
+                  errors.supplierInformation?.company?.address?.addressLine2
+                    ? `${errors.supplierInformation?.company?.address?.addressLine2.message}`
+                    : "address line 2"
+                }
                 {...register(
-                  "supplierInformation.company.address.addressLine2",
-                  {
-                    required: true,
-                  }
+                  "supplierInformation.company.address.addressLine2"
                 )}
               />
             </div>
@@ -552,7 +299,7 @@ function Index({ ...props }) {
                   }
                   placeholder={
                     errors.supplierInformation?.company?.address?.postalCode
-                      ? `${errors.supplierInformation?.company.address.postalCode}`
+                      ? `${errors.supplierInformation?.company.address.postalCode.message}`
                       : "postal code"
                   }
                   {...register(
@@ -650,25 +397,29 @@ function Index({ ...props }) {
                     "relationshipWithSupplier.paymentExperience.history"
                   )}
                 >
-                  <option value="">Select type...</option>
+                  <option value={""}>Select type...</option>
                   <option value="ON_TIME">On time</option>
                   <option value="DELAYS">Delays</option>
                 </select>
               </div>
             </>
+
             {Object.keys(errors).length != 0 && (
-              <span className="errorMessage">
-                Please fill all the required fields to continue
-              </span>
+              <>
+                {/* <span className="errorMessage">
+                  Please fill all the required fields to continue
+                </span>
+                <br /> */}
+                <span className="errorMessage">
+                  <b style={{ color: "#f84141" }}>*</b> Required fields
+                </span>
+              </>
             )}
           </div>
 
           <div className="otherInfo"></div>
         </form>
-        <BottomBar
-          onSubmit={handleSubmit(onSubmit)}
-          onBack={onBack}
-        ></BottomBar>
+        <BottomBar onSubmit={onSubmit} onBack={onBack}></BottomBar>
       </ApplicationLayout>
     </div>
   );

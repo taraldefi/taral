@@ -8,6 +8,7 @@ import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
+import { toast } from "sonner";
 import { CreateBuyerInformationForBuyerApplication } from "src/types";
 
 function Index({ ...props }) {
@@ -61,14 +62,18 @@ function Index({ ...props }) {
     }
   };
 
-  const onSubmit = () => {
-    console.log(errors);
-    if (errors.company) return;
-    router.push(
-      `/users/${
-        router.asPath.split("/")[2]
-      }/entities/${entityID}/quick/${applicationID}/supplierInfo`
-    );
+  const onSubmit = async () => {
+    const data = getValues();
+    try {
+      await schemaValidation.validate(data);
+      router.push(
+        `/users/${
+          router.asPath.split("/")[2]
+        }/entities/${entityID}/quick/${applicationID}/supplierInfo`
+      );
+    } catch (error) {
+      toast.error("Please fill all the required fields to continue");
+    }
   };
 
   const onBack = () => {
@@ -262,7 +267,7 @@ function Index({ ...props }) {
                   }
                   placeholder={
                     errors.company?.address?.city
-                      ? `${errors.company.address.city}`
+                      ? `${errors.company.address.city.message}`
                       : "city"
                   }
                   {...register("company.address.city")}
@@ -281,7 +286,7 @@ function Index({ ...props }) {
                   }
                   placeholder={
                     errors.company?.address?.postalCode
-                      ? `${errors.company.address.postalCode}`
+                      ? `${errors.company.address.postalCode.message}`
                       : "postal code"
                   }
                   {...register("company.address.postalCode")}
@@ -357,10 +362,10 @@ function Index({ ...props }) {
 
             {Object.keys(errors).length != 0 && (
               <>
-                <span className="errorMessage">
+                {/* <span className="errorMessage">
                   Please fill all the required fields to continue
                 </span>
-                <br />
+                <br /> */}
                 <span className="errorMessage">
                   <b style={{ color: "#f84141" }}>*</b> Required fields
                 </span>
