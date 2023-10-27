@@ -294,8 +294,12 @@ function Index({ ...props }) {
     ),
   });
 
-  const queryResult = useQuery(["supplierInfo"], getInitialData);
-  const mutationResult = useMutation(saveChangeToDatabase, {
+  const queryResult = useQuery({
+    queryKey: ["supplierInfo"],
+    queryFn: getInitialData,
+  });
+  const mutationResult = useMutation({
+    mutationFn: saveChangeToDatabase,
     onSuccess: (dataTosave: CreateSupplierInformationForBuyerApplication) => {
       console.count("success mutating: " + JSON.stringify(dataTosave));
     },

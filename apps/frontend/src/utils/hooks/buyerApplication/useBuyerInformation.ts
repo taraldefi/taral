@@ -181,8 +181,12 @@ const useBuyerInformationForm = (applicationID: string) => {
       return responseData;
     }
   };
-  const queryResult = useQuery(["importerInfo"], getInitialData);
-  const mutationResult = useMutation(saveChangeToDatabase, {
+  const queryResult = useQuery({
+    queryKey: ["importerInfo"],
+    queryFn: getInitialData,
+  });
+  const mutationResult = useMutation({
+    mutationFn: saveChangeToDatabase,
     onSuccess: (dataTosave: CreateBuyerInformationForBuyerApplication) => {
       console.count("success mutating: " + JSON.stringify(dataTosave));
     },
