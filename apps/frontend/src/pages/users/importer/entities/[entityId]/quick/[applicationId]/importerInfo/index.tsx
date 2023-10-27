@@ -1,11 +1,7 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import { yupResolver } from "@hookform/resolvers/yup";
-import useBuyerInformation from "@hooks/buyerApplication/useBuyerInformation";
-import { applicationProgressAtom } from "@store/applicationStore";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { useAtom } from "jotai";
-import debounce from "just-debounce-it";
+import useBuyerInformationForm from "@hooks/buyerApplication/useBuyerInformation";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import React from "react";
@@ -13,7 +9,6 @@ import { Controller, useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { CreateBuyerInformationForBuyerApplication } from "src/types";
-import * as Yup from "yup";
 
 function Index({ ...props }) {
   const router = useRouter();
@@ -22,26 +17,18 @@ function Index({ ...props }) {
   const applicationID = query.applicationId;
   const entityID = query.entityId;
 
-  const [, setProgress] = useAtom(applicationProgressAtom);
-  const { getInitialData, saveChangeToDatabase, schemaValidation } =
-    useBuyerInformation(applicationID);
+  // const [, setProgress] = useAtom(applicationProgressAtom);
+  const { queryResult, handleDebouncedChange, schemaValidation } =
+    useBuyerInformationForm(applicationID);
 
-  const { register, getValues, control, watch, reset, formState } =
+  const { register, getValues, control, reset, formState } =
     useForm<CreateBuyerInformationForBuyerApplication>({
       mode: "all",
       criteriaMode: "all",
       resolver: yupResolver(schemaValidation),
     });
 
-  const queryResult = useQuery(["importerInfo"], getInitialData);
-  const mutationResult = useMutation(saveChangeToDatabase, {
-    onSuccess: (dataTosave: CreateBuyerInformationForBuyerApplication) => {
-      console.count("success mutating: " + JSON.stringify(dataTosave));
-    },
-  });
-
   const { errors } = formState;
-  const { mutateAsync } = mutationResult;
 
   // const calculateProgress = () => {
   //   const stringifiedJson = JSON.stringify(dirtyFields);
@@ -62,15 +49,6 @@ function Index({ ...props }) {
     // const progress = calculateProgress();
     // setProgress(parseInt(progress));
   }, [queryResult.data]);
-
-  const handleDebouncedChange = React.useMemo(
-    () =>
-      debounce((data: CreateBuyerInformationForBuyerApplication) => {
-        console.log(data);
-        mutateAsync(data);
-      }, 500),
-    [mutateAsync]
-  );
 
   const onChange = async () => {
     const data = getValues();

@@ -1,11 +1,13 @@
 import buyerApplicationService from "@services/application/buyerApplicationService";
 import { CreateBuyerInformationForBuyerApplication } from "src/types";
 import convertDate from "@utils/lib/convertDate";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import * as Yup from "yup";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import debounce from "just-debounce-it";
 
-const useBuyerInformation = (applicationID: string) => {
+const useBuyerInformationForm = (applicationID: string) => {
   const [updateMode, setUpdateMode] = useState(false);
   const schemaValidation = Yup.object().shape({
     company: Yup.object().shape({
@@ -179,8 +181,31 @@ const useBuyerInformation = (applicationID: string) => {
       return responseData;
     }
   };
+  const queryResult = useQuery(["importerInfo"], getInitialData);
+  const mutationResult = useMutation(saveChangeToDatabase, {
+    onSuccess: (dataTosave: CreateBuyerInformationForBuyerApplication) => {
+      console.count("success mutating: " + JSON.stringify(dataTosave));
+    },
+  });
+  const { mutateAsync } = mutationResult;
+  const handleDebouncedChange = useMemo(
+    () =>
+      debounce((data: CreateBuyerInformationForBuyerApplication) => {
+        console.log(data);
+        mutateAsync(data);
+      }, 500),
+    [mutateAsync]
+  );
 
-  return { updateMode, getInitialData, saveChangeToDatabase, schemaValidation };
+  return {
+    updateMode,
+    getInitialData,
+    saveChangeToDatabase,
+    schemaValidation,
+    queryResult,
+    mutationResult,
+    handleDebouncedChange,
+  };
 };
 
-export default useBuyerInformation;
+export default useBuyerInformationForm;
