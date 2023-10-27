@@ -11,6 +11,7 @@ import { BuyerQuickApplicationMappingService } from './mapping.service';
 import { SupplierInformationResponse } from '../../dto/response/get-supplier-information-response.dto';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 
 @Injectable()
 export class BuyerQuickApplicationSupplierInformationService extends BaseService {
@@ -109,7 +110,7 @@ export class BuyerQuickApplicationSupplierInformationService extends BaseService
   public async updateSupplierInformation(
     applicationId: string,
     data: UpdateSupplierInformationRequest,
-  ): Promise<void> {
+  ): Promise<SupplierInformationResponse> {
     this.setupTransactionHooks();
 
     const application = await this.buyerApplicationRepository.findOne(
@@ -127,20 +128,21 @@ export class BuyerQuickApplicationSupplierInformationService extends BaseService
       application.supplierInformation.id,
     );
 
-    if (data.supplierInformation) {
-      await this.supplierService.updateEntity(
-        application.supplierInformation.id,
-        data.supplierInformation,
-      );
-    }
+    const updatedSupplier = await this.supplierService.updateEntity(
+      application.supplierInformation.id,
+      data.supplierInformation,
+    );
 
-    if (data.relationshipWithSupplier) {
-      await this.relationshipService.updateEntity(
-        data.relationshipWithSupplier,
-        buyer.relationshipWithSuppliers[0].id,
-        application.buyerInformation.id,
-        supplier.id,
-      );
-    }
+    const updatedRelationship = await this.relationshipService.updateEntity(
+      data.relationshipWithSupplier,
+      buyer.relationshipWithSuppliers[0].id,
+      application.buyerInformation.id,
+      supplier.id,
+    );
+
+    return this.mappingService.mapSupplierInformationForImporterApplication(
+      updatedSupplier,
+      updatedRelationship,
+    );
   }
 }

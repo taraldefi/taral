@@ -14,6 +14,7 @@ import {
   CreateSupplierInformationForBuyerApplication,
   GetSupplierInfoResponse,
 } from "src/types/supplier_info_for_buyer";
+import { GetOrderDetailsResponse, OrderDetails } from "src/types/order_details";
 
 class BuyerApplicationService extends ApplicationService {
   /**
@@ -159,6 +160,82 @@ class BuyerApplicationService extends ApplicationService {
           axiosConfig
         );
         const { data } = response;
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+  getOrderDetailInfo(applicationId: string): Promise<GetOrderDetailsResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.APPLICATION}/${applicationId}/order-details`,
+          axiosConfig
+        );
+
+        const { data } = response;
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+  /**
+   * Create Application Function
+   * @param application
+   */
+  createOrderInfo(
+    applicationId: string,
+    orderInfo: OrderDetails
+  ): Promise<GetOrderDetailsResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/order-details`,
+          JSON.stringify(orderInfo),
+          axiosConfig
+        );
+        const { data } = response;
+
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  /**
+   * Create Application Function
+   * @param application
+   */
+  updateOrderInfo(
+    applicationId: string,
+    orderInfo: OrderDetails
+  ): Promise<GetOrderDetailsResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/order-details`,
+          JSON.stringify(orderInfo),
+          axiosConfig
+        );
+        const { data } = response;
+
         console.log(response);
 
         if (response.status === 200) {

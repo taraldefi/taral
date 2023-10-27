@@ -3,30 +3,32 @@ import { Column } from 'typeorm';
 import { PaymentHistory } from '../enums/payment.experience.history.entity';
 
 export class PaymentExperience {
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   description: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   length: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   noOfDeals: number;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   avgBusinessVol: string;
 
   @Column({
     type: 'enum',
     enum: PaymentHistory,
+    nullable: true,
+    default: null,
   })
   @Allow()
   History: string; // should be an enum of delays | on-time
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   Delays?: string; // explanation if there was a delay in payment
 }

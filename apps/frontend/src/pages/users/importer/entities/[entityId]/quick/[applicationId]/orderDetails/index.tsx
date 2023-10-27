@@ -5,23 +5,108 @@ import React from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { X } from "react-feather";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next/types";
+import * as Yup from "yup";
+import { CreateOrderDetail } from "src/types/order_details";
+import buyerApplicationService from "@services/application/buyerApplicationService";
+import { toast } from "sonner";
 
-function Index() {
+const schemaValidation = Yup.object().shape({
+  exportPort: Yup.string().required("Required"),
+  importPort: Yup.string().required("Required"),
+  products: Yup.array()
+    .of(
+      Yup.object().shape({
+        name: Yup.string().required("Required"),
+        quantity: Yup.number().required("Required"),
+        unitPrice: Yup.number().required("Required"),
+      })
+    )
+    .min(1),
+});
+
+function Index({ ...props }) {
   const router = useRouter();
-  const entityID = router.query.entityId;
-  const applicationID = router.query.applicationId;
+  const entityID = props.query.entityId;
+  const applicationID = props.query.applicationId;
+  const [updateMode, setUpdateMode] = React.useState(false);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({
+  } = useForm<CreateOrderDetail>({
     defaultValues: {
       exportPort: "",
       importPort: "",
       products: [{ name: "", quantity: 0, unitPrice: 0 }],
     },
   });
+
+  const getInitialData = async () => {
+    console.log("applicationID", applicationID);
+    const initialData: CreateOrderDetail = {
+      exportPort: "",
+      importPort: "",
+      products: [{ name: "", quantity: 0, unitPrice: 0 }],
+    };
+
+    try {
+      // Attempt to fetch buyer info from the backend
+      const response = await buyerApplicationService.getOrderDetailInfo(
+        applicationID as string
+      );
+      if (response && response.id) {
+        setUpdateMode(true);
+      }
+
+      // If successful, use the fetched data for the form
+      return response;
+    } catch (error) {
+      return initialData; // or return some default data if needed
+    }
+  };
+
+  const saveChangeToDatabase = async (args: CreateOrderDetail) => {
+    console.count("payload for patch:" + JSON.stringify(args));
+    if (!updateMode) {
+      const createOrderInfo = buyerApplicationService.createOrderInfo(
+        applicationID as string,
+        args
+      );
+      toast.promise(createOrderInfo, {
+        loading: "Loading...",
+        success: (data) => {
+          setUpdateMode(true);
+          return `buyer information created`;
+        },
+        error: (err) => {
+          return `${err}`;
+        },
+      });
+      const response = await createOrderInfo;
+
+      return response;
+    } else {
+      const createOrderInfo = buyerApplicationService.updateOrderInfo(
+        applicationID as string,
+        args
+      );
+      toast.promise(createOrderInfo, {
+        loading: "Loading...",
+        success: (data) => {
+          return `buyer information updated`;
+        },
+        error: (err) => {
+          return `${err}`;
+        },
+      });
+      const response = await createOrderInfo;
+
+      return response;
+    }
+  };
+
   console.log("errors", errors);
   const { fields, append, remove } = useFieldArray({
     rules: { minLength: 1 },
@@ -133,5 +218,8 @@ function Index() {
     </ApplicationLayout>
   );
 }
-
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
+}
 export default Index;

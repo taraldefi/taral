@@ -4,7 +4,8 @@ import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import { useForm } from "react-hook-form";
+import "react-international-phone/style.css";
+import { Controller, set, useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import buyerApplicationService from "@services/application/buyerApplicationService";
@@ -12,50 +13,51 @@ import { toast } from "sonner";
 import convertDate from "@utils/lib/convertDate";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import debounce from "just-debounce-it";
+import { PhoneInput } from "react-international-phone";
 
-// const schemaValidation = Yup.object({
-//   supplierInformation: Yup.object({
-//     company: Yup.object({
-//       companyName: Yup.string().required("Company name is required"),
+const schemaValidation = Yup.object({
+  supplierInformation: Yup.object({
+    company: Yup.object({
+      companyName: Yup.string().required("Company name is required"),
 
-//       dateEstablished: Yup.string().required("Establishment date is required"),
+      dateEstablished: Yup.string().required("Establishment date is required"),
 
-//       phoneNumber: Yup.string().required("Phone number is required"),
+      phoneNumber: Yup.string().required("Phone number is required"),
 
-//       registrationNumbers: Yup.string().required(
-//         "Registration numbers are required"
-//       ),
+      registrationNumbers: Yup.string().required(
+        "Registration numbers are required"
+      ),
 
-//       address: Yup.object({
-//         city: Yup.string().required("City is required"),
+      address: Yup.object({
+        city: Yup.string().required("City is required"),
 
-//         addressLine1: Yup.string().required("Address line 1 is required"),
+        addressLine1: Yup.string().required("Address line 1 is required"),
 
-//         addressLine2: Yup.string().required("Address line 2 is required"),
+        addressLine2: Yup.string().required("Address line 2 is required"),
 
-//         postalCode: Yup.string().required("Postal code is required"),
-//       }),
-//     }),
-//   }),
-//   relationshipWithSupplier: Yup.object({
-//     shareHoldingRelationship: Yup.string().nullable(),
-//     influence: Yup.string().nullable(),
-//     paymentExperience: Yup.object({
-//       description: Yup.string().nullable(),
-//       length: Yup.string().nullable(),
-//       noOfDeals: Yup.string().nullable(),
-//       avgBusinessVol: Yup.string().nullable(),
-//       history: Yup.string().nullable(),
-//       delays: Yup.string().nullable(),
-//     }),
-//   }),
-// });
+        postalCode: Yup.string().required("Postal code is required"),
+      }),
+    }),
+  }),
+  relationshipWithSupplier: Yup.object({
+    shareHoldingRelationship: Yup.string().nullable(),
+    influence: Yup.string().nullable(),
+    paymentExperience: Yup.object({
+      description: Yup.string().nullable(),
+      length: Yup.string().nullable(),
+      noOfDeals: Yup.string().nullable(),
+      avgBusinessVol: Yup.string().nullable(),
+      history: Yup.string().nullable(),
+      delays: Yup.string().nullable(),
+    }),
+  }),
+});
 
 function Index({ ...props }) {
   const { query } = props;
-  const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setSelectedRadioBtn(e.currentTarget.value);
+  // const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
+  // const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
+  //   setSelectedRadioBtn(e.currentTarget.value);
   const [updateMode, setUpdateMode] = React.useState(false);
 
   const router = useRouter();
@@ -105,7 +107,7 @@ function Index({ ...props }) {
         supplierInformation: {
           company: {
             companyName: response.supplier.companyName,
-            dateEstablished: response.supplier.dateEstablished,
+            dateEstablished: convertDate(response.supplier.dateEstablished),
             phoneNumber: response.supplier.phoneNumber,
             registrationNumbers: response.supplier.registrationNumbers,
             address: {
@@ -211,6 +213,7 @@ function Index({ ...props }) {
           },
         },
       };
+
       return responseData;
     } else {
       const updateSupplierInfo = buyerApplicationService.updateSupplierInfo(
@@ -275,11 +278,21 @@ function Index({ ...props }) {
     }
   };
 
-  const { register, handleSubmit, formState, reset, getValues } =
-    useForm<CreateSupplierInformationForBuyerApplication>({
-      mode: "all",
-      criteriaMode: "all",
-    });
+  const {
+    register,
+    handleSubmit,
+    formState,
+    reset,
+    getValues,
+    control,
+    setValue,
+  } = useForm<CreateSupplierInformationForBuyerApplication>({
+    mode: "all",
+    criteriaMode: "all",
+    resolver: yupResolver(
+      schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
+    ),
+  });
 
   const queryResult = useQuery(["supplierInfo"], getInitialData);
   const mutationResult = useMutation(saveChangeToDatabase, {
@@ -301,20 +314,15 @@ function Index({ ...props }) {
   );
   const onChange = async () => {
     const data = getValues();
-    data.relationshipWithSupplier.shareHoldingRelationship = null;
-    data.relationshipWithSupplier.influence = null;
-    data.relationshipWithSupplier.paymentExperience.delays = null;
-    console.log(data);
+
     try {
-      // const validated = await schemaValidation.validate(data);
-      // console.log("valdiations:", validated);
-      if (Object.keys(errors).length === 0) {
-        handleDebouncedChange(data);
-      } else {
-        console.log("errors:", errors);
-      }
-    } catch (e) {
-      console.log(e);
+      const validated = await schemaValidation.validate(data);
+      console.log("valdiations:", validated);
+      handleDebouncedChange(
+        validated as CreateSupplierInformationForBuyerApplication
+      );
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -347,7 +355,10 @@ function Index({ ...props }) {
           <div className="generalInfo">
             <div className="maintitle">GENERAL INFO</div>
             <div className="form-item">
-              <span>Supplier&apos;s company name</span>
+              <span>
+                Supplier&apos;s company name{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className="inputs"
@@ -357,44 +368,116 @@ function Index({ ...props }) {
                 })}
               />
             </div>
-            <div>
-              <span>Phone Number</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="Contact number..."
-                {...register("supplierInformation.company.phoneNumber", {
-                  required: true,
-                })}
-              />
-            </div>
-            <div>
-              <span>Date</span>
-              <input
-                type="date"
-                className="inputs"
-                placeholder="Contact number..."
-                {...register("supplierInformation.company.dateEstablished", {
-                  required: true,
-                })}
-              />
-            </div>
-            <div>
-              <span>Registration Number</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="Contact number..."
-                {...register(
-                  "supplierInformation.company.registrationNumbers",
-                  {
-                    required: true,
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                alignContent: "center",
+                gap: "15px",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>
+                  Establishment Date <b style={{ color: "#f84141" }}>*</b>
+                </span>
+                <input
+                  type="date"
+                  id="calendar"
+                  className={
+                    errors.supplierInformation?.company?.dateEstablished
+                      ? "inputs inputRed"
+                      : "inputs"
                   }
+                  placeholder={
+                    errors.supplierInformation?.company?.dateEstablished
+                      ? `${errors.supplierInformation?.company?.dateEstablished.message}`
+                      : "date established"
+                  }
+                  {...register("supplierInformation.company.dateEstablished")}
+                />
+              </div>
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>
+                  Registration Number <b style={{ color: "#f84141" }}>*</b>
+                </span>
+                <input
+                  type="text"
+                  className={
+                    errors.supplierInformation?.company?.registrationNumbers
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.supplierInformation?.company?.registrationNumbers
+                      ? `${errors.supplierInformation?.company?.registrationNumbers.message}`
+                      : "registration number"
+                  }
+                  {...register(
+                    "supplierInformation.company.registrationNumbers"
+                  )}
+                />
+              </div>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                paddingBottom: "10px",
+                color: "#475569",
+                fontSize: "14px",
+                fontStyle: "normal",
+                gap: "10px",
+                width: "100%",
+              }}
+            >
+              <span>
+                Phone Number <b style={{ color: "#f84141" }}>*</b>
+              </span>
+              {/* <input
+                type="text"
+                className={
+                  errors.company?.companyName ? "inputs inputRed" : "inputs"
+                }
+                placeholder="Contact number..."
+                {...register("company.phoneNumber")}
+              /> */}
+              <Controller
+                control={control}
+                name="supplierInformation.company.phoneNumber"
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <PhoneInput
+                    inputStyle={
+                      errors.supplierInformation?.company?.phoneNumber
+                        ? {
+                            width: "100%",
+                            height: "44px",
+                            border: "1.5px solid red",
+                          }
+                        : {
+                            width: "100%",
+                            height: "44px",
+                            border: `1.5px solid #cbd5e1`,
+                          }
+                    }
+                    placeholder={
+                      errors.supplierInformation?.company?.phoneNumber
+                        ? `${errors.supplierInformation?.company?.phoneNumber.message}`
+                        : "phone number"
+                    }
+                    defaultCountry="us"
+                    value={value}
+                    onChange={onChange}
+                  />
                 )}
               />
             </div>
-            <div>
-              <span>Address</span>
+
+            <div className="form-item">
+              <span>
+                Address Line 1 <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className="inputs"
@@ -407,8 +490,10 @@ function Index({ ...props }) {
                 )}
               />
             </div>
-            <div>
-              <span>Address Line 2</span>
+            <div className="form-item">
+              <span>
+                Address Line 2 <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
                 className="inputs"
@@ -421,27 +506,56 @@ function Index({ ...props }) {
                 )}
               />
             </div>
-            <div>
-              <span>City</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="city"
-                {...register("supplierInformation.company.address.city", {
-                  required: true,
-                })}
-              />
-            </div>
-            <div>
-              <span>Company Post Code</span>
-              <input
-                type="text"
-                className="inputs"
-                placeholder="Post code..."
-                {...register("supplierInformation.company.address.postalCode", {
-                  required: true,
-                })}
-              />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                alignContent: "center",
+                gap: "15px",
+                justifyContent: "space-between",
+              }}
+            >
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>
+                  City <b style={{ color: "#f84141" }}>*</b>
+                </span>
+                <input
+                  type="text"
+                  className={
+                    errors.supplierInformation?.company?.address?.city
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.supplierInformation?.company?.address?.city
+                      ? `${errors.supplierInformation?.company?.address?.city.message}`
+                      : "city"
+                  }
+                  {...register("supplierInformation.company.address.city")}
+                />
+              </div>
+              <div style={{ flexGrow: 1 }} className="form-item">
+                <span>
+                  Company Post Code <b style={{ color: "#f84141" }}>*</b>
+                </span>
+                <input
+                  type="text"
+                  className={
+                    errors.supplierInformation?.company?.address?.postalCode
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.supplierInformation?.company?.address?.postalCode
+                      ? `${errors.supplierInformation?.company.address.postalCode}`
+                      : "postal code"
+                  }
+                  {...register(
+                    "supplierInformation.company.address.postalCode"
+                  )}
+                />
+              </div>
             </div>
             <div></div>
           </div>
@@ -449,7 +563,7 @@ function Index({ ...props }) {
           <div className="taxAndRevenue">
             <div className="maintitle">RELATIONSHIP WITH SUPPLIER</div>
 
-            <div className="radioBack">
+            {/* <div className="radioBack">
               <span>
                 Do you have previous payment experience with the Supplier?
               </span>
@@ -477,74 +591,67 @@ function Index({ ...props }) {
                   <label htmlFor="In-house">NO</label>
                 </div>
               </div>
-            </div>
-            {selectedRadioBtn == "Yes" && (
-              <>
-                <div>
-                  <span>Describe your previous payment experience.</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Desciption..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.description",
-                      { required: selectedRadioBtn == "Yes" }
-                    )}
-                  />
-                </div>
-                <div>
-                  <span>Length of payment experience</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Payment length..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.length",
-                      { required: selectedRadioBtn == "Yes" }
-                    )}
-                  />
-                </div>
-                <div>
-                  <span>Number of deals</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Number of deals..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.noOfDeals",
-                      { required: selectedRadioBtn == "Yes" }
-                    )}
-                  />
-                </div>
-                <div>
-                  <span>Average volume of business with your customer</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Business volume..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.avgBusinessVol",
-                      { required: selectedRadioBtn == "Yes" }
-                    )}
-                  />
-                </div>
-                <div>
-                  <span>Payment history with Supplier</span>
-                  <select
-                    className="inputs"
-                    id="greyed"
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.history",
-                      { required: selectedRadioBtn == "Yes" }
-                    )}
-                  >
-                    <option value="">Select type...</option>
-                    <option value="ON_TIME">On time</option>
-                    <option value="DELAYS">Delays</option>
-                  </select>
-                </div>
-              </>
-            )}
+            </div> */}
+            <>
+              <div>
+                <span>Describe your previous payment experience.</span>
+                <input
+                  className="inputs"
+                  id="greyed"
+                  placeholder="Desciption..."
+                  {...register(
+                    "relationshipWithSupplier.paymentExperience.description"
+                  )}
+                />
+              </div>
+              <div>
+                <span>Length of payment experience</span>
+                <input
+                  className="inputs"
+                  id="greyed"
+                  placeholder="Payment length..."
+                  {...register(
+                    "relationshipWithSupplier.paymentExperience.length"
+                  )}
+                />
+              </div>
+              <div>
+                <span>Number of deals</span>
+                <input
+                  className="inputs"
+                  id="greyed"
+                  placeholder="Number of deals..."
+                  {...register(
+                    "relationshipWithSupplier.paymentExperience.noOfDeals"
+                  )}
+                />
+              </div>
+              <div>
+                <span>Average volume of business with your customer</span>
+                <input
+                  className="inputs"
+                  id="greyed"
+                  placeholder="Business volume..."
+                  {...register(
+                    "relationshipWithSupplier.paymentExperience.avgBusinessVol"
+                  )}
+                />
+              </div>
+              <div>
+                <span>Payment history with Supplier</span>
+                <select
+                  className="inputs"
+                  id="greyed"
+                  {...register(
+                    "relationshipWithSupplier.paymentExperience.history"
+                  )}
+                >
+                  <option value="">Select type...</option>
+                  <option value="ON_TIME">On time</option>
+                  <option value="DELAYS">Delays</option>
+                </select>
+              </div>
+            </>
             {Object.keys(errors).length != 0 && (
               <span className="errorMessage">
                 Please fill all the required fields to continue

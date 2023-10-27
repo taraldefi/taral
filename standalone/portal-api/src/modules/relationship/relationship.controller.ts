@@ -27,35 +27,35 @@ export class RelationshipController {
     );
   }
 
-  @Put('/:id/:buyerId/:supplierId')
-  async updateEntity(
-    @Param('id') id: string,
-    @Param('buyerId') buyerId: string,
-    @Param('supplierId') supplierId: string,
-    @Body() entity: UpdateRelationshipRequest,
-  ): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.updateEntity(
-      entity,
-      id,
-      buyerId,
-      supplierId,
-    );
-  }
+  // @Put('/:id/:buyerId/:supplierId')
+  // async updateEntity(
+  //   @Param('id') id: string,
+  //   @Param('buyerId') buyerId: string,
+  //   @Param('supplierId') supplierId: string,
+  //   @Body() entity: UpdateRelationshipRequest,
+  // ): Promise<GetRelationshipResponse> {
+  //   return await this.relationshipService.updateEntity(
+  //     entity,
+  //     id,
+  //     buyerId,
+  //     supplierId,
+  //   );
+  // }
 
-  @Patch('/:id/:buyerId/:supplierId')
-  async patchEntity(
-    @Param('id') id: string,
-    @Param('buyerId') buyerId: string,
-    @Param('supplierId') supplierId: string,
-    @Body() entity: UpdateRelationshipRequest,
-  ): Promise<GetRelationshipResponse> {
-    return await this.relationshipService.updateEntity(
-      entity,
-      id,
-      buyerId,
-      supplierId,
-    );
-  }
+  // @Patch('/:id/:buyerId/:supplierId')
+  // async patchEntity(
+  //   @Param('id') id: string,
+  //   @Param('buyerId') buyerId: string,
+  //   @Param('supplierId') supplierId: string,
+  //   @Body() entity: UpdateRelationshipRequest,
+  // ): Promise<GetRelationshipResponse> {
+  //   return await this.relationshipService.updateEntity(
+  //     entity,
+  //     id,
+  //     buyerId,
+  //     supplierId,
+  //   );
+  // }
 
   // @Get('/:id')
   // async getEntity(@Param('id') id: string): Promise<GetRelationshipResponse> {
