@@ -45,6 +45,7 @@ function Index({ ...props }) {
   //   return progressScore.toFixed(0);
   // };
 
+  // reset form values with prefetched data using custom hook functions
   React.useEffect(() => {
     reset(queryResult.data);
     // const progress = calculateProgress();
@@ -298,7 +299,7 @@ function Index({ ...props }) {
           <div className="vLine"></div>
           <div className="taxAndRevenue">
             <div className="maintitle">TAX AND REVENUE</div>
-            <div>
+            <div className="form-item">
               <span>
                 Last fiscal year? <b style={{ color: "#f84141" }}>*</b>
               </span>
@@ -318,7 +319,7 @@ function Index({ ...props }) {
                 {...register("company.taxAndRevenue.lastFiscalYear")}
               />
             </div>
-            <div>
+            <div className="form-item">
               <span>
                 Total revenue last fiscal year?{" "}
                 <b style={{ color: "#f84141" }}>*</b>
@@ -338,7 +339,7 @@ function Index({ ...props }) {
                 {...register("company.taxAndRevenue.totalRevenue")}
               />
             </div>
-            <div>
+            <div className="form-item">
               <span>
                 What % of revenue was comprised by exports?{" "}
                 <b style={{ color: "#f84141" }}>*</b>

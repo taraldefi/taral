@@ -90,24 +90,14 @@
       padding-bottom: 13px;
     }
 
-    :nth-child(n + 2) {
+    .form-item {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      padding-bottom: 10px;
       color: #475569;
       font-size: 14px;
       font-weight: normal;
-      display: flex;
-      gap: 6px;
-      flex-direction: column;
-      padding-bottom: 13px;
-
-      .inputs {
-        width: 100%;
-        #calendar {
-          // z-index: 0;
-          background-image: url(/assets/svg/calendar.svg);
-          background-repeat: no-repeat;
-          background-position: 193px 10px;
-        }
-      }
     }
     .errorMessage {
       display: flex;
@@ -214,13 +204,14 @@
   input[type="tel"] {
     // height: 44px !important;
     color: #475569;
+    height: 44px;
     font-family: inter;
     font-size: 14px;
     //  padding-top: 100px !important;
   }
   input[type="date"] {
     // height: 44px !important;
-    height: auto;
+    height: 44px;
     flex-direction: row !important;
     //  padding-top: 100px !important;
   }

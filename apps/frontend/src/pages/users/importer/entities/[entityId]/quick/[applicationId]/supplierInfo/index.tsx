@@ -24,21 +24,14 @@ function Index({ ...props }) {
   const { schemaValidation, handleDebouncedChange, queryResult } =
     useSupplierInformationForm(applicationID);
 
-  const {
-    register,
-    handleSubmit,
-    formState,
-    reset,
-    getValues,
-    control,
-    setValue,
-  } = useForm<CreateSupplierInformationForBuyerApplication>({
-    mode: "all",
-    criteriaMode: "all",
-    resolver: yupResolver(
-      schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
-    ),
-  });
+  const { register, formState, reset, getValues, control } =
+    useForm<CreateSupplierInformationForBuyerApplication>({
+      mode: "all",
+      criteriaMode: "all",
+      resolver: yupResolver(
+        schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
+      ),
+    });
 
   const { errors } = formState;
 
@@ -344,7 +337,7 @@ function Index({ ...props }) {
               </div>
             </div> */}
             <>
-              <div>
+              <div className="form-item">
                 <span>Describe your previous payment experience.</span>
                 <input
                   className="inputs"
@@ -355,7 +348,7 @@ function Index({ ...props }) {
                   )}
                 />
               </div>
-              <div>
+              <div className="form-item">
                 <span>Length of payment experience</span>
                 <input
                   className="inputs"
@@ -366,7 +359,7 @@ function Index({ ...props }) {
                   )}
                 />
               </div>
-              <div>
+              <div className="form-item">
                 <span>Number of deals</span>
                 <input
                   className="inputs"
@@ -377,7 +370,7 @@ function Index({ ...props }) {
                   )}
                 />
               </div>
-              <div>
+              <div className="form-item">
                 <span>Average volume of business with your customer</span>
                 <input
                   className="inputs"
@@ -388,7 +381,7 @@ function Index({ ...props }) {
                   )}
                 />
               </div>
-              <div>
+              <div className="form-item">
                 <span>Payment history with Supplier</span>
                 <select
                   className="inputs"

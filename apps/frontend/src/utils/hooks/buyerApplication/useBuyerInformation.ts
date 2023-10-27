@@ -7,63 +7,75 @@ import * as Yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import debounce from "just-debounce-it";
 
+const initialData: CreateBuyerInformationForBuyerApplication = {
+  company: {
+    companyName: "",
+    dateEstablished: "",
+    phoneNumber: "",
+    registrationNumbers: "",
+    taxAndRevenue: {
+      lastFiscalYear: "",
+      totalRevenue: "",
+      exportRevenuePercentage: "",
+    },
+    address: {
+      city: "",
+      addressLine1: "",
+      addressLine2: "",
+      postalCode: "",
+    },
+  },
+};
+
+/**
+ * @description Validation schema for buyer information
+ */
+
+const schemaValidation = Yup.object().shape({
+  company: Yup.object().shape({
+    companyName: Yup.string().required("Company name is required"),
+
+    dateEstablished: Yup.string().required("Establishment date is required"),
+
+    phoneNumber: Yup.string().required("Phone number is required"),
+
+    registrationNumbers: Yup.string().required(
+      "Registration numbers are required"
+    ),
+
+    taxAndRevenue: Yup.object().shape({
+      lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+
+      totalRevenue: Yup.string().required("Total revenue is required"),
+
+      exportRevenuePercentage: Yup.string()
+        .required("Export revenue percentage is required")
+        .min(0, "Export revenue percentage must be at least 0")
+        .max(100, "Export revenue percentage cannot exceed 100"),
+    }),
+
+    address: Yup.object().shape({
+      city: Yup.string().required("City is required"),
+
+      addressLine1: Yup.string().required("Address line 1 is required"),
+
+      addressLine2: Yup.string().required("Address line 2 is required"),
+
+      postalCode: Yup.string().required("Postal code is required"),
+    }),
+  }),
+});
+
 const useBuyerInformationForm = (applicationID: string) => {
   const [updateMode, setUpdateMode] = useState(false);
-  const schemaValidation = Yup.object().shape({
-    company: Yup.object().shape({
-      companyName: Yup.string().required("Company name is required"),
 
-      dateEstablished: Yup.string().required("Establishment date is required"),
-
-      phoneNumber: Yup.string().required("Phone number is required"),
-
-      registrationNumbers: Yup.string().required(
-        "Registration numbers are required"
-      ),
-
-      taxAndRevenue: Yup.object().shape({
-        lastFiscalYear: Yup.string().required("Last fiscal year is required"),
-
-        totalRevenue: Yup.string().required("Total revenue is required"),
-
-        exportRevenuePercentage: Yup.string()
-          .required("Export revenue percentage is required")
-          .min(0, "Export revenue percentage must be at least 0")
-          .max(100, "Export revenue percentage cannot exceed 100"),
-      }),
-
-      address: Yup.object().shape({
-        city: Yup.string().required("City is required"),
-
-        addressLine1: Yup.string().required("Address line 1 is required"),
-
-        addressLine2: Yup.string().required("Address line 2 is required"),
-
-        postalCode: Yup.string().required("Postal code is required"),
-      }),
-    }),
-  });
+  /**
+   * @description fetch initial form data from the backend
+   * if data exists in backend switch to update mode or
+   * else return default data to the form and switch to create mode
+   */
   const getInitialData = async () => {
     console.log("applicationID", applicationID);
-    const initialData: CreateBuyerInformationForBuyerApplication = {
-      company: {
-        companyName: "",
-        dateEstablished: "",
-        phoneNumber: "",
-        registrationNumbers: "",
-        taxAndRevenue: {
-          lastFiscalYear: "",
-          totalRevenue: "",
-          exportRevenuePercentage: "",
-        },
-        address: {
-          city: "",
-          addressLine1: "",
-          addressLine2: "",
-          postalCode: "",
-        },
-      },
-    };
 
     try {
       // Attempt to fetch buyer info from the backend
@@ -71,8 +83,11 @@ const useBuyerInformationForm = (applicationID: string) => {
         applicationID as string
       );
       if (response && response.id) {
+        //switching to update mode
         setUpdateMode(true);
       }
+
+      // restructuring the response data to match form schema for react hook forms to function properly
       const responseData: CreateBuyerInformationForBuyerApplication = {
         company: {
           companyName: response.companyName,
@@ -97,14 +112,16 @@ const useBuyerInformationForm = (applicationID: string) => {
       // If successful, use the fetched data for the form
       return responseData;
     } catch (error) {
-      return initialData; // or return some default data if needed
+      return initialData; // or return some default data
     }
   };
 
+  // function to auto save data to backend
   const saveChangeToDatabase = async (
     args: CreateBuyerInformationForBuyerApplication
   ) => {
     console.count("payload for patch:" + JSON.stringify(args));
+    //check for update mode, if on create mode call the hpost api else call the patch api
     if (!updateMode) {
       const createBuyerInfo = buyerApplicationService.createBuyerInfo(
         applicationID as string,
@@ -120,34 +137,12 @@ const useBuyerInformationForm = (applicationID: string) => {
           return `${err}`;
         },
       });
-      const response = await createBuyerInfo;
-      const responseData: CreateBuyerInformationForBuyerApplication = {
-        company: {
-          companyName: response.companyName,
-          dateEstablished: convertDate(response.dateEstablished),
-          phoneNumber: response.phoneNumber,
-          registrationNumbers: response.registrationNumbers,
-          taxAndRevenue: {
-            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
-            totalRevenue: response.taxAndRevenue.totalRevenue,
-            exportRevenuePercentage:
-              response.taxAndRevenue.exportRevenuePercentage,
-          },
-          address: {
-            city: response.address.city,
-            addressLine1: response.address.addressLine1,
-            addressLine2: response.address.addressLine2,
-            postalCode: response.address.postalCode,
-          },
-        },
-      };
-      return responseData;
     } else {
-      const createBuyerInfo = buyerApplicationService.updateBuyerInfo(
+      const updateBuyerInfo = buyerApplicationService.updateBuyerInfo(
         applicationID as string,
         args
       );
-      toast.promise(createBuyerInfo, {
+      toast.promise(updateBuyerInfo, {
         loading: "Loading...",
         success: (data) => {
           return `buyer information updated`;
@@ -156,42 +151,21 @@ const useBuyerInformationForm = (applicationID: string) => {
           return `${err}`;
         },
       });
-      const response = await createBuyerInfo;
-      const responseData: CreateBuyerInformationForBuyerApplication = {
-        company: {
-          companyName: response.companyName,
-          dateEstablished: convertDate(response.dateEstablished),
-          phoneNumber: response.phoneNumber,
-          registrationNumbers: response.registrationNumbers,
-          taxAndRevenue: {
-            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
-            totalRevenue: response.taxAndRevenue.totalRevenue,
-            exportRevenuePercentage:
-              response.taxAndRevenue.exportRevenuePercentage,
-          },
-          address: {
-            city: response.address.city,
-            addressLine1: response.address.addressLine1,
-            addressLine2: response.address.addressLine2,
-            postalCode: response.address.postalCode,
-          },
-        },
-      };
-
-      return responseData;
     }
   };
+
+  // react query utlity functions
   const queryResult = useQuery({
     queryKey: ["importerInfo"],
     queryFn: getInitialData,
   });
-  const mutationResult = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: saveChangeToDatabase,
-    onSuccess: (dataTosave: CreateBuyerInformationForBuyerApplication) => {
-      console.count("success mutating: " + JSON.stringify(dataTosave));
-    },
   });
-  const { mutateAsync } = mutationResult;
+
+  /* debounce function to prevent too many api calls to the backend, 
+  current rate of call is 1 call per 500ms of user interaction
+   */
   const handleDebouncedChange = useMemo(
     () =>
       debounce((data: CreateBuyerInformationForBuyerApplication) => {
@@ -201,13 +175,11 @@ const useBuyerInformationForm = (applicationID: string) => {
     [mutateAsync]
   );
 
+  // export all the hook utilities to be consumed by the parent form
   return {
-    updateMode,
-    getInitialData,
-    saveChangeToDatabase,
     schemaValidation,
     queryResult,
-    mutationResult,
+    setUpdateMode,
     handleDebouncedChange,
   };
 };

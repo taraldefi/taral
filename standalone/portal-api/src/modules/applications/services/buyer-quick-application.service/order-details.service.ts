@@ -86,7 +86,6 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
     data: CreateOrderProductDto,
     applicationId: string,
   ): Promise<GetOrderProductResponse> {
-
     this.setupTransactionHooks();
 
     const application = await this.buyerApplicationRepository.findOne(

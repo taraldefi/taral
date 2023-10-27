@@ -1,24 +1,25 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
-import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
 import {
-  CreateApplication,
-  CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
-  EntityResponse,
   GetBuyerInfoResponse,
 } from "src/types";
-import { ApplicationService } from "./applicationService";
+import {
+  CreateProduct,
+  GetOrderDetailsResponse,
+  OrderDetails,
+  Product,
+} from "src/types/order_details";
 import {
   CreateSupplierInformationForBuyerApplication,
   GetSupplierInfoResponse,
 } from "src/types/supplier_info_for_buyer";
-import { GetOrderDetailsResponse, OrderDetails } from "src/types/order_details";
+import { ApplicationService } from "./applicationService";
 
 class BuyerApplicationService extends ApplicationService {
   /**
-   * function to get an application by ID
+   * function to get buyer information of an application by application ID
    * @param id
    */
 
@@ -43,8 +44,9 @@ class BuyerApplicationService extends ApplicationService {
   }
 
   /**
-   * Create Application Function
-   * @param application
+   * function to create buyer information of an application by application ID
+   * @param applicationId
+   * @param buyerInfo
    */
   createBuyerInfo(
     applicationId: string,
@@ -94,11 +96,6 @@ class BuyerApplicationService extends ApplicationService {
     });
   }
 
-  /**
-   * function to get an application by ID
-   * @param id
-   */
-
   getSupplierInfo(applicationId: string): Promise<GetSupplierInfoResponse> {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "GET" });
@@ -119,10 +116,6 @@ class BuyerApplicationService extends ApplicationService {
     });
   }
 
-  /**
-   * Create Application Function
-   * @param application
-   */
   createSupplierInfo(
     applicationId: string,
     supplierInfo: CreateSupplierInformationForBuyerApplication
@@ -170,6 +163,7 @@ class BuyerApplicationService extends ApplicationService {
       }
     });
   }
+
   getOrderDetailInfo(applicationId: string): Promise<GetOrderDetailsResponse> {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "GET" });
@@ -189,10 +183,7 @@ class BuyerApplicationService extends ApplicationService {
       }
     });
   }
-  /**
-   * Create Application Function
-   * @param application
-   */
+
   createOrderInfo(
     applicationId: string,
     orderInfo: OrderDetails
@@ -218,10 +209,6 @@ class BuyerApplicationService extends ApplicationService {
     });
   }
 
-  /**
-   * Create Application Function
-   * @param application
-   */
   updateOrderInfo(
     applicationId: string,
     orderInfo: OrderDetails
@@ -229,9 +216,83 @@ class BuyerApplicationService extends ApplicationService {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "PATCH" });
       try {
-        const response = await axios.post(
+        const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/order-details`,
           JSON.stringify(orderInfo),
+          axiosConfig
+        );
+        const { data } = response;
+
+        console.log(response);
+
+        if (response.status === 200) {
+          console.log("DEBUG", response);
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  createProductInfo(
+    applicationId: string,
+    productInfo: CreateProduct
+  ): Promise<Product> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/order-products`,
+          JSON.stringify(productInfo),
+          axiosConfig
+        );
+        const { data } = response;
+
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  updateProductInfo(
+    applicationId: string,
+    productId: string,
+    productInfo: CreateProduct
+  ): Promise<Product> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.patch(
+          `${apiUrls.APPLICATION}/${applicationId}/${productId}/order-products`,
+          JSON.stringify(productInfo),
+          axiosConfig
+        );
+        const { data } = response;
+
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  deleteProductInfo(applicationId: string, productId: string): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "DELETE" });
+      try {
+        const response = await axios.delete(
+          `${apiUrls.APPLICATION}/${applicationId}/${productId}/order-products`,
+
           axiosConfig
         );
         const { data } = response;
