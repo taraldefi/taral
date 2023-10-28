@@ -24,7 +24,7 @@ function Index({ ...props }) {
   const { schemaValidation, handleDebouncedChange, queryResult } =
     useSupplierInformationForm(applicationID);
 
-  const { register, formState, reset, getValues, control } =
+  const { register, formState, reset, getValues, control, trigger } =
     useForm<CreateSupplierInformationForBuyerApplication>({
       mode: "all",
       criteriaMode: "all",
@@ -56,6 +56,7 @@ function Index({ ...props }) {
   }, [queryResult.data]);
 
   const onSubmit = async () => {
+    await trigger();
     const data = getValues();
     try {
       await schemaValidation.validate(data);

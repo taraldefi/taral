@@ -30,6 +30,7 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
     register,
     reset,
     getValues,
+    trigger,
     formState: { errors },
   } = useForm<ProductForm>({
     mode: "all",
@@ -40,8 +41,9 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
     control,
     name: "products",
   });
-  const handleSendDataToParent = () => {
+  const handleSendDataToParent = async () => {
     const data = getValues();
+    await trigger();
     sendProductData(data); // Call the parent component's callback function to send data to the parent
   };
 

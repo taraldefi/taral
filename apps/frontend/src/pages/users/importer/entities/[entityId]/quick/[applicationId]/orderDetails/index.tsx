@@ -34,6 +34,7 @@ function Index({ ...props }) {
     formState: { errors },
     getValues,
     reset,
+    trigger,
   } = useForm<OrderDetails>({
     mode: "all",
     criteriaMode: "all",
@@ -69,6 +70,7 @@ function Index({ ...props }) {
 
   const onSubmit = async () => {
     const data = getValues();
+    await trigger();
     try {
       await schemaValidation.validate(data);
       // validate products as a whole

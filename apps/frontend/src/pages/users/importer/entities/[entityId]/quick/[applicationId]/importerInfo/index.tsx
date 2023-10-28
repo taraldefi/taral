@@ -22,7 +22,7 @@ function Index({ ...props }) {
   const { queryResult, handleDebouncedChange, schemaValidation } =
     useBuyerInformationForm(applicationID);
 
-  const { register, getValues, control, reset, formState } =
+  const { register, getValues, control, reset, formState, trigger } =
     useForm<CreateBuyerInformationForBuyerApplication>({
       mode: "all",
       criteriaMode: "all",
@@ -65,6 +65,7 @@ function Index({ ...props }) {
 
   const onSubmit = async () => {
     const data = getValues();
+    await trigger();
     try {
       await schemaValidation.validate(data);
       router.push(
