@@ -8,6 +8,14 @@
   display: flex;
   font-size: 14px;
   height: fit-content;
+  .inputRed::placeholder {
+    color: #f84141;
+    opacity: 1; /* Firefox */
+  }
+
+  .inputRed {
+    border: 1px solid #f84141;
+  }
   .inputContainer {
     padding-top: 10px;
     display: flex;

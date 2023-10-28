@@ -3,14 +3,19 @@ import React from "react";
 import { X } from "react-feather";
 import { useFieldArray, useForm } from "react-hook-form";
 import { Button } from "taral-ui";
-
+import * as Yup from "yup";
 import useOrderDetailForm from "@hooks/buyerApplication/useOrderDetails";
 import buyerApplicationService from "@services/application/buyerApplicationService";
 import { toast } from "sonner";
+import { Product } from "src/types/order_details";
 
 type Props = {
   applicationId: string;
   sendProductData: (data: any) => void;
+};
+
+type ProductForm = {
+  products?: Product[];
 };
 
 const ProductsForm = ({ applicationId, sendProductData }: Props) => {
@@ -26,7 +31,9 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
     reset,
     getValues,
     formState: { errors },
-  } = useForm({
+  } = useForm<ProductForm>({
+    mode: "all",
+    criteriaMode: "all",
     resolver: yupResolver(productSchemaValidation),
   });
   const { fields, append, remove } = useFieldArray({
@@ -102,7 +109,7 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
     );
     try {
       // validate products as a whole
-      await productSchemaValidation.validate(data);
+      //await productSchemaValidation.validate(data);
       // validate the individual product user edited
       const validated = await singleProductSchemaValidation.validate(
         data.products?.find((item) => item.id === id)
@@ -112,6 +119,7 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
       // send products data to parent component for validation check after editing a product
       handleSendDataToParent();
     } catch (e) {
+      toast.error(`${e}`);
       console.log(e);
     }
   };
@@ -153,26 +161,56 @@ const ProductsForm = ({ applicationId, sendProductData }: Props) => {
 
             <div className="rowBox">
               <div className="inputContainer">
-                <span>Product Name</span>
+                <span style={{ display: "flex", flexDirection: "row" }}>
+                  Product Name <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
-                  className="inputs"
-                  placeholder="Product name..."
+                  className={
+                    errors.products?.[index]?.name
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.products?.[index]?.name
+                      ? errors?.products?.[index]?.name?.message
+                      : "name"
+                  }
                   {...register(`products.${index}.name`)}
                 />
               </div>
               <div className="inputContainer">
-                <span>Quantity</span>
+                <span style={{ display: "flex", flexDirection: "row" }}>
+                  Quantity <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
-                  className="inputs"
-                  placeholder="Quantity..."
+                  className={
+                    errors.products?.[index]?.quantity
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.products?.[index]?.quantity
+                      ? "quantity required"
+                      : "quantity"
+                  }
                   {...register(`products.${index}.quantity`)}
                 />
               </div>
               <div className="inputContainer">
-                <span>Unit Price</span>
+                <span style={{ display: "flex", flexDirection: "row" }}>
+                  Unit Price <b style={{ color: "#f84141" }}>*</b>
+                </span>
                 <input
-                  className="inputs"
-                  placeholder="Price..."
+                  className={
+                    errors.products?.[index]?.unitPrice
+                      ? "inputs inputRed"
+                      : "inputs"
+                  }
+                  placeholder={
+                    errors.products?.[index]?.unitPrice
+                      ? "price required"
+                      : "price"
+                  }
                   {...register(`products.${index}.unitPrice`)}
                 />
               </div>

@@ -8,6 +8,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { OrderDetails, Product } from "src/types/order_details";
 import ProductsForm from "./products";
+import { toast } from "sonner";
 
 function Index({ ...props }) {
   const router = useRouter();
@@ -79,6 +80,7 @@ function Index({ ...props }) {
         }/entities/${entityID}/quick/${applicationID}/paymentTerms`
       );
     } catch (e) {
+      toast.error(`${e}`);
       console.log(e);
     }
   };
@@ -94,29 +96,47 @@ function Index({ ...props }) {
         <form onChange={onChange} className="portContainer">
           <div className="maintitle">PORTS</div>
           <div className="inputContainer">
-            <span>Port of Export</span>
+            <span>
+              Port of Export <b style={{ color: "#f84141" }}>*</b>
+            </span>
             <input
               type="text"
-              className="inputs"
-              placeholder="Search ports..."
+              className={errors.exportPort ? "inputs inputRed" : "inputs"}
+              placeholder={
+                errors.exportPort?.message
+                  ? errors.exportPort?.message
+                  : "Search ports..."
+              }
               {...register(`exportPort`)}
             />
           </div>
           <div className="inputContainer">
-            <span>Port of Import</span>
+            <span>
+              Port of Import <b style={{ color: "#f84141" }}>*</b>
+            </span>
             <input
               type="text"
-              className="inputs"
-              placeholder="Search ports..."
+              className={errors.importPort ? "inputs inputRed" : "inputs"}
+              placeholder={
+                errors.importPort?.message
+                  ? errors.importPort?.message
+                  : "Search ports..."
+              }
               {...register(`importPort`)}
             />
           </div>
           <br />
           <br />
           {Object.keys(errors).length != 0 && (
-            <span className="errorMessage">
-              Please fill all the required fields to continue
-            </span>
+            <>
+              {/* <span className="errorMessage">
+                  Please fill all the required fields to continue
+                </span>
+                <br /> */}
+              <span className="errorMessage">
+                <b style={{ color: "#f84141" }}>*</b> Required fields
+              </span>
+            </>
           )}
         </form>
       </div>

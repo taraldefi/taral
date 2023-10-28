@@ -19,20 +19,24 @@ const productInitialData = {
 
 // schema validation for order details
 const schemaValidation = Yup.object().shape({
-  exportPort: Yup.string().required("Required"),
-  importPort: Yup.string().required("Required"),
+  exportPort: Yup.string().required("export port required"),
+  importPort: Yup.string().required("import port required"),
 });
 
 // schema validation for individual product
 const singleProductSchemaValidation = Yup.object().shape({
   id: Yup.string().required("id is required"),
   name: Yup.string().required("name is required"),
-  quantity: Yup.number().required("quantity is required"),
-  unitPrice: Yup.number().required("unit price is required"),
+  quantity: Yup.number()
+    .required("quantity is required")
+    .typeError("quantity must be a number"),
+  unitPrice: Yup.number()
+    .required("unit price is required")
+    .typeError("unit price must be a number"),
 });
 
 // schema validation for products
-const productSchemaValidation = Yup.object().shape({
+const productSchemaValidation = Yup.object({
   products: Yup.array().of(singleProductSchemaValidation).min(1),
 });
 

@@ -60,7 +60,7 @@ const schemaValidation = Yup.object({
         postalCode: Yup.string().required("Postal code is required"),
       }),
     }),
-  }),
+  }).required(),
   relationshipWithSupplier: Yup.object({
     shareHoldingRelationship: Yup.string().nullable(),
     influence: Yup.string().nullable(),
@@ -72,7 +72,7 @@ const schemaValidation = Yup.object({
       history: Yup.string().nullable(),
       delays: Yup.string().nullable(),
     }),
-  }),
+  }).optional(),
 });
 
 const useSupplierInformationForm = (applicationID: string) => {
