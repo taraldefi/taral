@@ -29,7 +29,7 @@
     "@stacks/wallet-sdk": "^4.2.0",
     "@types/crypto-js": "^4.1.1",
     "@types/json-schema": "^7.0.14",
-    "@types/wif": "^2.0.2",
+    "@types/wif": "^2.0.4",
     "ajv": "^8.12.0",
     "bip32": "^4.0.0",
     "bip39": "^3.1.0",

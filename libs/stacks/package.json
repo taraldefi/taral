@@ -29,7 +29,7 @@
     "@stacks/stacks-blockchain-api-types": "^7.3.2",
     "@stacks/transactions": "^6.5.4",
     "@types/crypto-js": "^4.1.1",
-    "@types/wif": "^2.0.2",
+    "@types/wif": "^2.0.4",
     "ajv": "^8.12.0",
     "bip32": "^4.0.0",
     "bip39": "^3.1.0",
