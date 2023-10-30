@@ -35,6 +35,16 @@ const singleProductSchemaValidation = Yup.object().shape({
     .typeError("unit price must be a number"),
 });
 
+const createProductSchemaValidation = Yup.object().shape({
+  name: Yup.string().required("name is required"),
+  quantity: Yup.number()
+    .required("quantity is required")
+    .typeError("quantity must be a number"),
+  unitPrice: Yup.number()
+    .required("unit price is required")
+    .typeError("unit price must be a number"),
+});
+
 // schema validation for products
 const productSchemaValidation = Yup.object({
   products: Yup.array().of(singleProductSchemaValidation).min(1),
@@ -192,6 +202,7 @@ const useOrderDetailForm = (applicationID: string) => {
     handleDebouncedProductChange,
     productQueryResult,
     singleProductSchemaValidation,
+    createProductSchemaValidation,
   };
 };
 
