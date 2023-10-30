@@ -1,5 +1,5 @@
 .exporterInfoContainer {
-  position: fixed;
+  position: absolute;
   top: 127px;
   left: 20vw;
   display: flex;
@@ -110,8 +110,11 @@
     }
 
     .radioBack {
-      padding: 16px 54px 16px 16px;
+      padding: 16px 24px 16px 16px;
       display: flex;
+      font-size: 14px;
+      gap: 6px;
+      color: #475569;
       background-color: #9797970f;
       flex-direction: column;
       margin-bottom: 15px;

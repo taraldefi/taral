@@ -5,58 +5,106 @@ import useSupplierInformationForm from "@hooks/buyerApplication/useSupplierInfor
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Control, Controller, UseFormSetValue, useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
 import { toast } from "sonner";
 import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
 import * as Yup from "yup";
 
+type CustomRadioProps = {
+  control: Control<CreateSupplierInformationForBuyerApplication, any>;
+  name: "relationshipWithSupplier.paymentExperience.exists";
+  setValue: UseFormSetValue<CreateSupplierInformationForBuyerApplication>;
+};
+function CustomBooleanInput({ control, name, setValue }: CustomRadioProps) {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field: { onChange, onBlur, value, ref } }) => (
+        <div>
+          <div>
+            <input
+              type="radio"
+              onBlur={onBlur} // notify when input is touched
+              onChange={() => onChange(true)} // send value to hook form
+              checked={value === true}
+              ref={ref}
+            />
+            <label htmlFor="Audited">YES</label>
+          </div>
+          <div>
+            <input
+              type="radio"
+              onBlur={onBlur} // notify when input is touched
+              onChange={() => {
+                onChange(false);
+                {
+                  // if user chooses no, nullify all the fields
+                  setValue(
+                    "relationshipWithSupplier.paymentExperience.description",
+                    null
+                  );
+                  setValue(
+                    "relationshipWithSupplier.paymentExperience.length",
+                    null
+                  );
+                  setValue(
+                    "relationshipWithSupplier.paymentExperience.noOfDeals",
+                    null
+                  );
+                  setValue(
+                    "relationshipWithSupplier.paymentExperience.avgBusinessVol",
+                    null
+                  );
+                  setValue(
+                    "relationshipWithSupplier.paymentExperience.history",
+                    null
+                  );
+                }
+              }} // send value to hook form
+              checked={value === false}
+              ref={ref}
+            />
+            <label htmlFor="In-house">NO</label>
+          </div>
+        </div>
+      )}
+    />
+  );
+}
+
 function Index({ ...props }) {
   const { query } = props;
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
+  const { schemaValidation, handleDebouncedChange, queryResult } =
+    useSupplierInformationForm(applicationID);
+
   const {
-    schemaValidation,
-    handleDebouncedChange,
-    queryResult,
-    setSelectedRadioBtn,
-    selectedRadioBtn,
-  } = useSupplierInformationForm(applicationID);
-
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {
-    setSelectedRadioBtn(e.currentTarget.value);
-    setValue(
-      "relationshipWithSupplier.paymentExperience.exists",
-      e.currentTarget.value === "Yes" ? true : false
-    );
-    if (e.currentTarget.value === "No") {
-      setValue("relationshipWithSupplier.paymentExperience.description", null);
-      setValue("relationshipWithSupplier.paymentExperience.length", null);
-      setValue("relationshipWithSupplier.paymentExperience.noOfDeals", null);
-      setValue(
-        "relationshipWithSupplier.paymentExperience.avgBusinessVol",
-        null
-      );
-      setValue("relationshipWithSupplier.paymentExperience.history", null);
-    }
-  };
-
-  const { register, formState, reset, getValues, control, trigger, setValue } =
-    useForm<CreateSupplierInformationForBuyerApplication>({
-      mode: "all",
-      criteriaMode: "all",
-      resolver: yupResolver(
-        schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
-      ),
-    });
+    register,
+    formState,
+    reset,
+    getValues,
+    control,
+    trigger,
+    setValue,
+    watch,
+  } = useForm<CreateSupplierInformationForBuyerApplication>({
+    mode: "all",
+    criteriaMode: "all",
+    resolver: yupResolver(
+      schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
+    ),
+  });
+  console.log(queryResult.data);
 
   const { errors } = formState;
 
   const onChange = async () => {
     const data = getValues();
-    console.log("data for validation", data);
 
     try {
       const validated = await schemaValidation.validate(data);
@@ -333,99 +381,137 @@ function Index({ ...props }) {
               <span>
                 Do you have previous payment experience with the Supplier?
               </span>
-              <div>
-                <div>
-                  <input
-                    type="radio"
-                    id="Audited"
-                    name="financials"
-                    value="Yes"
-                    checked={selectedRadioBtn == "Yes"}
-                    onChange={handleRadioClick}
-                  />
-                  <label htmlFor="Audited">YES</label>
-                </div>
-                <div>
-                  <input
-                    type="radio"
-                    id="In-house"
-                    name="financials"
-                    value="No"
-                    checked={selectedRadioBtn == "No"}
-                    onChange={handleRadioClick}
-                  />
-                  <label htmlFor="In-house">NO</label>
-                </div>
-              </div>
+              <CustomBooleanInput
+                control={control}
+                name={"relationshipWithSupplier.paymentExperience.exists"}
+                setValue={setValue}
+              />
+              {watch("relationshipWithSupplier.paymentExperience.exists") && (
+                <>
+                  <div className="form-item">
+                    <span>
+                      Describe your previous payment experience.{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <input
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.description
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      id="greyed"
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.description
+                          ? errors.relationshipWithSupplier?.paymentExperience
+                              ?.description?.message
+                          : "description"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.description"
+                      )}
+                    />
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      Length of payment experience{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <input
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.length
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      id="greyed"
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.length
+                          ? errors.relationshipWithSupplier?.paymentExperience
+                              ?.length?.message
+                          : "length of payment experience"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.length"
+                      )}
+                    />
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      Number of deals <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <input
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.noOfDeals
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      id="greyed"
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.noOfDeals
+                          ? errors.relationshipWithSupplier?.paymentExperience
+                              ?.noOfDeals?.message
+                          : "number of deals"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.noOfDeals"
+                      )}
+                    />
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      Avg. volume of business with your customer{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <input
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.avgBusinessVol
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      id="greyed"
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.avgBusinessVol
+                          ? errors.relationshipWithSupplier?.paymentExperience
+                              ?.avgBusinessVol?.message
+                          : "average volume of business"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.avgBusinessVol"
+                      )}
+                    />
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      Payment history with Supplier{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <select
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.history
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      id="greyed"
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.history"
+                      )}
+                    >
+                      <option value={""}>Select type...</option>
+                      <option value="ON_TIME">On time</option>
+                      <option value="DELAYS">Delays</option>
+                    </select>
+                  </div>
+                </>
+              )}
             </div>
-            {selectedRadioBtn == "Yes" && (
-              <>
-                <div className="form-item">
-                  <span>Describe your previous payment experience.</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder={
-                      errors.relationshipWithSupplier?.paymentExperience
-                        ?.description
-                        ? errors.relationshipWithSupplier?.paymentExperience
-                            ?.description?.message
-                        : "description"
-                    }
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.description"
-                    )}
-                  />
-                </div>
-                <div className="form-item">
-                  <span>Length of payment experience</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Payment length..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.length"
-                    )}
-                  />
-                </div>
-                <div className="form-item">
-                  <span>Number of deals</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Number of deals..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.noOfDeals"
-                    )}
-                  />
-                </div>
-                <div className="form-item">
-                  <span>Average volume of business with your customer</span>
-                  <input
-                    className="inputs"
-                    id="greyed"
-                    placeholder="Business volume..."
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.avgBusinessVol"
-                    )}
-                  />
-                </div>
-                <div className="form-item">
-                  <span>Payment history with Supplier</span>
-                  <select
-                    className="inputs"
-                    id="greyed"
-                    {...register(
-                      "relationshipWithSupplier.paymentExperience.history"
-                    )}
-                  >
-                    <option value={""}>Select type...</option>
-                    <option value="ON_TIME">On time</option>
-                    <option value="DELAYS">Delays</option>
-                  </select>
-                </div>
-              </>
-            )}
 
             {/* {Object.keys(errors).length != 0 && (
               <>

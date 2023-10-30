@@ -29,7 +29,7 @@ export interface PaymentExperience {
   exists: boolean;
   description: string | null;
   length: string | null;
-  noOfDeals: string | null;
+  noOfDeals: number | null;
   avgBusinessVol: string | null;
   history: string | null;
   delays: string | null;

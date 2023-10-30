@@ -1,6 +1,7 @@
 import buyerApplicationService from "@services/application/buyerApplicationService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import convertDate from "@utils/lib/convertDate";
+import { useAtom } from "jotai";
 import debounce from "just-debounce-it";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -71,27 +72,28 @@ const schemaValidation = Yup.object({
       exists: Yup.boolean().required(),
       description: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required("description required"),
+        then: () => Yup.string().required("required"),
         otherwise: () => Yup.string().nullable(),
       }),
       length: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required(),
+        then: () => Yup.string().required("required"),
         otherwise: () => Yup.string().nullable(),
       }),
-      noOfDeals: Yup.string().when("exists", {
+      noOfDeals: Yup.number().when("exists", {
         is: true,
-        then: () => Yup.string().required(),
-        otherwise: () => Yup.string().nullable(),
+        then: () =>
+          Yup.number().typeError("must be a number").required("required"),
+        otherwise: () => Yup.number().nullable(),
       }),
       avgBusinessVol: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required(),
+        then: () => Yup.string().required("required"),
         otherwise: () => Yup.string().nullable(),
       }),
       history: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required(),
+        then: () => Yup.string().required("required"),
         otherwise: () => Yup.string().nullable(),
       }),
       delays: Yup.string().nullable(),
@@ -101,7 +103,6 @@ const schemaValidation = Yup.object({
 
 const useSupplierInformationForm = (applicationID: string) => {
   const [updateMode, setUpdateMode] = useState(false);
-  const [selectedRadioBtn, setSelectedRadioBtn] = useState("No");
 
   const getInitialData = async () => {
     console.log("applicationID", applicationID);
@@ -112,9 +113,6 @@ const useSupplierInformationForm = (applicationID: string) => {
       );
       if (response && response.id) {
         setUpdateMode(true);
-        if (response.relationshipWithSupplier.paymentExperience.exists) {
-          setSelectedRadioBtn("Yes");
-        }
       }
       const responseData: CreateSupplierInformationForBuyerApplication = {
         supplierInformation: {
@@ -137,7 +135,7 @@ const useSupplierInformationForm = (applicationID: string) => {
             response.relationshipWithSupplier.shareHoldingRelationship ?? null,
           influence: response.relationshipWithSupplier.influence ?? null,
           paymentExperience: {
-            exists: response.relationshipExists,
+            exists: response.relationshipWithSupplier.paymentExperience.exists,
             description:
               response.relationshipWithSupplier.paymentExperience.description ??
               null,
@@ -223,8 +221,6 @@ const useSupplierInformationForm = (applicationID: string) => {
     schemaValidation,
     queryResult,
     handleDebouncedChange,
-    selectedRadioBtn,
-    setSelectedRadioBtn,
   };
 };
 
