@@ -135,7 +135,7 @@ function Index({ ...props }) {
         }/entities/${entityID}/quick/${applicationID}/orderDetails`
       );
     } catch (error) {
-      toast.error("Please fill all the required fields to continue");
+      toast.error(`${error}`);
     }
   };
 
