@@ -1,5 +1,7 @@
 import buyerApplicationService from "@services/application/buyerApplicationService";
+import { orderUpdateModeAtom } from "@store/applicationStore";
 import { useMutation, useQuery } from "@tanstack/react-query";
+import { useAtom } from "jotai";
 import debounce from "just-debounce-it";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -51,7 +53,7 @@ const productSchemaValidation = Yup.object({
 });
 
 const useOrderDetailForm = (applicationID: string) => {
-  const [updateMode, setUpdateMode] = useState(false);
+  const [orderUpdateMode, setOrderUpdateMode] = useAtom(orderUpdateModeAtom);
 
   // initial fetch function similar to buyer information
   const getProductsInitialData = async () => {
@@ -60,9 +62,7 @@ const useOrderDetailForm = (applicationID: string) => {
       const response = await buyerApplicationService.getOrderDetailInfo(
         applicationID as string
       );
-      if (response && response.id) {
-        setUpdateMode(true);
-      }
+
       const responseData = {
         products: response.products,
       };
@@ -83,7 +83,7 @@ const useOrderDetailForm = (applicationID: string) => {
         applicationID as string
       );
       if (response && response.id) {
-        setUpdateMode(true);
+        setOrderUpdateMode(true);
       }
       const responseData: OrderDetails = {
         importPort: response.importPort,
@@ -91,6 +91,7 @@ const useOrderDetailForm = (applicationID: string) => {
       };
 
       // If successful, use the fetched data for the form
+      console.log("responseData", responseData, orderUpdateMode);
       return responseData;
     } catch (error) {
       return initialData; // or return some default data if needed
@@ -127,7 +128,8 @@ const useOrderDetailForm = (applicationID: string) => {
   // function to auto save order information data to backend
   const saveChangeToDatabase = async (args: OrderDetails) => {
     console.count("payload for patch:" + JSON.stringify(args));
-    if (!updateMode) {
+    console.log("update mode", orderUpdateMode);
+    if (!orderUpdateMode) {
       const createOrderInfo = buyerApplicationService.createOrderInfo(
         applicationID as string,
         args
@@ -135,7 +137,7 @@ const useOrderDetailForm = (applicationID: string) => {
       toast.promise(createOrderInfo, {
         loading: "Loading...",
         success: (data) => {
-          setUpdateMode(true);
+          setOrderUpdateMode(true);
           return `order created`;
         },
         error: (err) => {

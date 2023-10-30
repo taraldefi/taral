@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
@@ -45,13 +45,22 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
   ): Promise<GetOrderDetailsResponse> {
     this.setupTransactionHooks();
 
-    const savedOrder = await this.orderDetailsService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
         relations: ['orderDetails'],
       },
     );
+
+    if (application.orderDetails) {
+      throw new HttpException(
+        'order details already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const savedOrder = await this.orderDetailsService.create(data);
+
     application.orderDetails = savedOrder;
     application.save();
 

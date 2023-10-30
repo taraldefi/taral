@@ -38,6 +38,12 @@ export class BuyerQuickApplicationMappingService {
     response.supplier.address.city = entity.company.address.city;
     response.supplier.address.postalCode = entity.company.address.postalCode;
 
+    response.relationshipExists = false;
+
+    if (relationshipEntity.paymentExperience.description) {
+      response.relationshipExists = true;
+    }
+
     response.relationshipWithSupplier =
       this.relationshipMappingService.mapEntityDetails(relationshipEntity);
 
