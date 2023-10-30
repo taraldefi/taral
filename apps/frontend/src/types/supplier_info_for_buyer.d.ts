@@ -12,6 +12,7 @@ export interface GetSupplierInfoResponse {
     registrationNumbers: string;
     phoneNumber: string;
   };
+  relationshipExists: boolean;
   relationshipWithSupplier: RelationshpWithSupplierResponse;
 }
 type RelationshpWithSupplierResponse = RelationshipWithSupplier & {
@@ -25,6 +26,7 @@ export interface RelationshipWithSupplier {
 }
 
 export interface PaymentExperience {
+  exists: boolean;
   description: string | null;
   length: string | null;
   noOfDeals: string | null;

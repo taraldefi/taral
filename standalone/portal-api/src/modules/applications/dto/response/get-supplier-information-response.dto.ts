@@ -13,8 +13,6 @@ export class SupplierInformationResponse {
   @Type(() => GetSupplierResponse)
   supplier: GetSupplierResponse;
 
-  relationshipExists: boolean;
-
   @ApiProperty()
   @ValidateNested()
   @Type(() => GetRelationshipResponse)

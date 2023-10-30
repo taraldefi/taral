@@ -14,17 +14,36 @@ import * as Yup from "yup";
 
 function Index({ ...props }) {
   const { query } = props;
-  // const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
-  // const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
-  //   setSelectedRadioBtn(e.currentTarget.value);
-
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
-  const { schemaValidation, handleDebouncedChange, queryResult } =
-    useSupplierInformationForm(applicationID);
+  const {
+    schemaValidation,
+    handleDebouncedChange,
+    queryResult,
+    setSelectedRadioBtn,
+    selectedRadioBtn,
+  } = useSupplierInformationForm(applicationID);
 
-  const { register, formState, reset, getValues, control, trigger } =
+  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setSelectedRadioBtn(e.currentTarget.value);
+    setValue(
+      "relationshipWithSupplier.paymentExperience.exists",
+      e.currentTarget.value === "Yes" ? true : false
+    );
+    if (e.currentTarget.value === "No") {
+      setValue("relationshipWithSupplier.paymentExperience.description", null);
+      setValue("relationshipWithSupplier.paymentExperience.length", null);
+      setValue("relationshipWithSupplier.paymentExperience.noOfDeals", null);
+      setValue(
+        "relationshipWithSupplier.paymentExperience.avgBusinessVol",
+        null
+      );
+      setValue("relationshipWithSupplier.paymentExperience.history", null);
+    }
+  };
+
+  const { register, formState, reset, getValues, control, trigger, setValue } =
     useForm<CreateSupplierInformationForBuyerApplication>({
       mode: "all",
       criteriaMode: "all",
@@ -37,6 +56,7 @@ function Index({ ...props }) {
 
   const onChange = async () => {
     const data = getValues();
+    console.log("data for validation", data);
 
     try {
       const validated = await schemaValidation.validate(data);
@@ -58,6 +78,7 @@ function Index({ ...props }) {
   const onSubmit = async () => {
     await trigger();
     const data = getValues();
+
     try {
       await schemaValidation.validate(data);
       router.push(
@@ -308,7 +329,7 @@ function Index({ ...props }) {
           <div className="taxAndRevenue">
             <div className="maintitle">RELATIONSHIP WITH SUPPLIER</div>
 
-            {/* <div className="radioBack">
+            <div className="radioBack">
               <span>
                 Do you have previous payment experience with the Supplier?
               </span>
@@ -336,79 +357,87 @@ function Index({ ...props }) {
                   <label htmlFor="In-house">NO</label>
                 </div>
               </div>
-            </div> */}
-            <>
-              <div className="form-item">
-                <span>Describe your previous payment experience.</span>
-                <input
-                  className="inputs"
-                  id="greyed"
-                  placeholder="Desciption..."
-                  {...register(
-                    "relationshipWithSupplier.paymentExperience.description"
-                  )}
-                />
-              </div>
-              <div className="form-item">
-                <span>Length of payment experience</span>
-                <input
-                  className="inputs"
-                  id="greyed"
-                  placeholder="Payment length..."
-                  {...register(
-                    "relationshipWithSupplier.paymentExperience.length"
-                  )}
-                />
-              </div>
-              <div className="form-item">
-                <span>Number of deals</span>
-                <input
-                  className="inputs"
-                  id="greyed"
-                  placeholder="Number of deals..."
-                  {...register(
-                    "relationshipWithSupplier.paymentExperience.noOfDeals"
-                  )}
-                />
-              </div>
-              <div className="form-item">
-                <span>Average volume of business with your customer</span>
-                <input
-                  className="inputs"
-                  id="greyed"
-                  placeholder="Business volume..."
-                  {...register(
-                    "relationshipWithSupplier.paymentExperience.avgBusinessVol"
-                  )}
-                />
-              </div>
-              <div className="form-item">
-                <span>Payment history with Supplier</span>
-                <select
-                  className="inputs"
-                  id="greyed"
-                  {...register(
-                    "relationshipWithSupplier.paymentExperience.history"
-                  )}
-                >
-                  <option value={""}>Select type...</option>
-                  <option value="ON_TIME">On time</option>
-                  <option value="DELAYS">Delays</option>
-                </select>
-              </div>
-            </>
-
-            {Object.keys(errors).length != 0 && (
+            </div>
+            {selectedRadioBtn == "Yes" && (
               <>
-                {/* <span className="errorMessage">
+                <div className="form-item">
+                  <span>Describe your previous payment experience.</span>
+                  <input
+                    className="inputs"
+                    id="greyed"
+                    placeholder={
+                      errors.relationshipWithSupplier?.paymentExperience
+                        ?.description
+                        ? errors.relationshipWithSupplier?.paymentExperience
+                            ?.description?.message
+                        : "description"
+                    }
+                    {...register(
+                      "relationshipWithSupplier.paymentExperience.description"
+                    )}
+                  />
+                </div>
+                <div className="form-item">
+                  <span>Length of payment experience</span>
+                  <input
+                    className="inputs"
+                    id="greyed"
+                    placeholder="Payment length..."
+                    {...register(
+                      "relationshipWithSupplier.paymentExperience.length"
+                    )}
+                  />
+                </div>
+                <div className="form-item">
+                  <span>Number of deals</span>
+                  <input
+                    className="inputs"
+                    id="greyed"
+                    placeholder="Number of deals..."
+                    {...register(
+                      "relationshipWithSupplier.paymentExperience.noOfDeals"
+                    )}
+                  />
+                </div>
+                <div className="form-item">
+                  <span>Average volume of business with your customer</span>
+                  <input
+                    className="inputs"
+                    id="greyed"
+                    placeholder="Business volume..."
+                    {...register(
+                      "relationshipWithSupplier.paymentExperience.avgBusinessVol"
+                    )}
+                  />
+                </div>
+                <div className="form-item">
+                  <span>Payment history with Supplier</span>
+                  <select
+                    className="inputs"
+                    id="greyed"
+                    {...register(
+                      "relationshipWithSupplier.paymentExperience.history"
+                    )}
+                  >
+                    <option value={""}>Select type...</option>
+                    <option value="ON_TIME">On time</option>
+                    <option value="DELAYS">Delays</option>
+                  </select>
+                </div>
+              </>
+            )}
+
+            {/* {Object.keys(errors).length != 0 && (
+              <>
+                <span className="errorMessage">
                   Please fill all the required fields to continue
                 </span>
-                <br /> */}
+                <br />
                 <span className="errorMessage">
                   <b style={{ color: "#f84141" }}>*</b> Required fields
                 </span>
               </>
-            )}
+            )} */}
           </div>
 
           <div className="otherInfo"></div>

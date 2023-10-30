@@ -8,6 +8,8 @@ import {
 } from 'class-validator';
 
 export class CreatePaymentExperienceRequest {
+  exists: boolean;
+
   @ApiProperty({ example: 'Provider' })
   @IsOptional()
   description: string;

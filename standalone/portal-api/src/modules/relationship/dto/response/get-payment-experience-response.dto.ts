@@ -1,21 +1,22 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty } from '@nestjs/swagger';
 
 export class GetPaymentExperienceResponse {
-    @ApiProperty({ example: 'Provider' })
-    description: string;
-  
-    @ApiProperty({ example: 'Years' })
-    length: string;
+  exists: boolean;
+  @ApiProperty({ example: 'Provider' })
+  description: string;
 
-    @ApiProperty({ example: '12' })
-    noOfDeals: number;
+  @ApiProperty({ example: 'Years' })
+  length: string;
 
-    @ApiProperty({ example: '1000000' })
-    avgBusinessVol: string;
+  @ApiProperty({ example: '12' })
+  noOfDeals: number;
 
-    @ApiProperty({ example: 'ON_TIME' })
-    history: string;
+  @ApiProperty({ example: '1000000' })
+  avgBusinessVol: string;
 
-    @ApiProperty({ example: 'Explanation if there were delays in payment' })
-    delays: string;
+  @ApiProperty({ example: 'ON_TIME' })
+  history: string;
+
+  @ApiProperty({ example: 'Explanation if there were delays in payment' })
+  delays: string;
 }

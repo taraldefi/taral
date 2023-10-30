@@ -23,10 +23,12 @@ const initialData: CreateSupplierInformationForBuyerApplication = {
       },
     },
   },
+
   relationshipWithSupplier: {
     shareHoldingRelationship: null,
     influence: null,
     paymentExperience: {
+      exists: false,
       description: null,
       length: null,
       noOfDeals: null,
@@ -61,22 +63,45 @@ const schemaValidation = Yup.object({
       }),
     }),
   }).required(),
+
   relationshipWithSupplier: Yup.object({
     shareHoldingRelationship: Yup.string().nullable(),
     influence: Yup.string().nullable(),
     paymentExperience: Yup.object({
-      description: Yup.string().nullable(),
-      length: Yup.string().nullable(),
-      noOfDeals: Yup.string().nullable(),
-      avgBusinessVol: Yup.string().nullable(),
-      history: Yup.string().nullable(),
+      exists: Yup.boolean().required(),
+      description: Yup.string().when("exists", {
+        is: true,
+        then: () => Yup.string().required("description required"),
+        otherwise: () => Yup.string().nullable(),
+      }),
+      length: Yup.string().when("exists", {
+        is: true,
+        then: () => Yup.string().required(),
+        otherwise: () => Yup.string().nullable(),
+      }),
+      noOfDeals: Yup.string().when("exists", {
+        is: true,
+        then: () => Yup.string().required(),
+        otherwise: () => Yup.string().nullable(),
+      }),
+      avgBusinessVol: Yup.string().when("exists", {
+        is: true,
+        then: () => Yup.string().required(),
+        otherwise: () => Yup.string().nullable(),
+      }),
+      history: Yup.string().when("exists", {
+        is: true,
+        then: () => Yup.string().required(),
+        otherwise: () => Yup.string().nullable(),
+      }),
       delays: Yup.string().nullable(),
     }),
-  }).optional(),
+  }),
 });
 
 const useSupplierInformationForm = (applicationID: string) => {
   const [updateMode, setUpdateMode] = useState(false);
+  const [selectedRadioBtn, setSelectedRadioBtn] = useState("No");
 
   const getInitialData = async () => {
     console.log("applicationID", applicationID);
@@ -87,6 +112,9 @@ const useSupplierInformationForm = (applicationID: string) => {
       );
       if (response && response.id) {
         setUpdateMode(true);
+        if (response.relationshipWithSupplier.paymentExperience.exists) {
+          setSelectedRadioBtn("Yes");
+        }
       }
       const responseData: CreateSupplierInformationForBuyerApplication = {
         supplierInformation: {
@@ -103,11 +131,13 @@ const useSupplierInformationForm = (applicationID: string) => {
             },
           },
         },
+
         relationshipWithSupplier: {
           shareHoldingRelationship:
             response.relationshipWithSupplier.shareHoldingRelationship ?? null,
           influence: response.relationshipWithSupplier.influence ?? null,
           paymentExperience: {
+            exists: response.relationshipExists,
             description:
               response.relationshipWithSupplier.paymentExperience.description ??
               null,
@@ -193,6 +223,8 @@ const useSupplierInformationForm = (applicationID: string) => {
     schemaValidation,
     queryResult,
     handleDebouncedChange,
+    selectedRadioBtn,
+    setSelectedRadioBtn,
   };
 };
 
