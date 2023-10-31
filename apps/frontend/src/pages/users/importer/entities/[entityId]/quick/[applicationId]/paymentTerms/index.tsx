@@ -40,7 +40,10 @@ function InterestRadio({ control, name, setValue }: CustomRadioProps) {
             <input
               type="radio"
               onBlur={onBlur} // notify when input is touched
-              onChange={() => onChange(true)} // send value to hook form
+              onChange={() => {
+                onChange(true);
+                setValue("interestType", InterestType.FIXED);
+              }} // send value to hook form
               checked={value === true}
               ref={ref}
             />
@@ -56,7 +59,7 @@ function InterestRadio({ control, name, setValue }: CustomRadioProps) {
                   // if user chooses no, nullify all the fields
                   setValue("interestCurrency", null);
                   setValue("interestPercentage", null);
-                  setValue("interestType", InterestType.FIXED);
+                  setValue("interestType", InterestType.NONE);
                   setValue("interestFixedRate", null);
                   setValue("interestDegressiveRate", null);
                 }
