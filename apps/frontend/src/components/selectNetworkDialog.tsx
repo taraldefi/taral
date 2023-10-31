@@ -69,7 +69,7 @@ const NetworkListItem = ({
       console.log(e);
     }
   };
-  if (anyStatus.status === "loading")
+  if (anyStatus.isLoading)
     return (
       <div>
         <p style={{ fontSize: "14px", fontWeight: "bold", color: "#5cdd23" }}>

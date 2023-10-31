@@ -16,6 +16,10 @@ import {
   GetSupplierInfoResponse,
 } from "src/types/supplier_info_for_buyer";
 import { ApplicationService } from "./applicationService";
+import {
+  CreatePaymentTerm,
+  GetPaymentTermResponse,
+} from "@types/payment_terms_types";
 
 class BuyerApplicationService extends ApplicationService {
   /**
@@ -297,6 +301,74 @@ class BuyerApplicationService extends ApplicationService {
         );
         const { data } = response;
 
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  getPaymentTerms(applicationId: string): Promise<GetPaymentTermResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
+          axiosConfig
+        );
+
+        const { data } = response;
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  createPaymentTerms(
+    applicationId: string,
+    paymentTermInfo: CreatePaymentTerm
+  ): Promise<GetSupplierInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
+          JSON.stringify(paymentTermInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
+  updatePaymentTerms(
+    applicationId: string,
+    paymentTermInfo: CreatePaymentTerm
+  ): Promise<GetSupplierInfoResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.patch(
+          `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
+          JSON.stringify(paymentTermInfo),
+          axiosConfig
+        );
+        const { data } = response;
         console.log(response);
 
         if (response.status === 200) {

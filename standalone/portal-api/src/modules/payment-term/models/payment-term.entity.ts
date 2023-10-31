@@ -17,21 +17,39 @@ export class PaymentTermEntity extends EntityHelper {
   @Allow()
   partialRefinancing: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   interestCurrency: string;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0.0,
+    nullable: true,
+  })
   @Allow()
   interestPercentage: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0.0,
+    nullable: true,
+  })
   @Allow()
   interestFixedRate: number;
 
-  @Column({ type: 'decimal', precision: 10, scale: 2, default: 0.0 })
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0.0,
+    nullable: true,
+  })
   @Allow()
-  interestRegressiveRate: number;
+  interestDegressiveRate: number;
 
   @Column({ type: 'enum', enum: paymentTypes })
   @Allow()

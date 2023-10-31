@@ -1,6 +1,8 @@
 import { atom } from "jotai";
 
 export const orderUpdateModeAtom = atom<boolean>(false);
+
+//TODO: remove these state variables after setting up exporter side
 export const previousPaymentRadioButtonAtom = atom<string | null>(null);
 export const interestRadioButtonAtom = atom<string | null>(null);
 export const fixedInterestRadioButtonAtom = atom<string | null>(null);

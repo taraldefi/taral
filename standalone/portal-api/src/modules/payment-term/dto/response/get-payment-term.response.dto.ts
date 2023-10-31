@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDecimal, IsString } from 'class-validator';
+import { IsBoolean, IsDecimal, IsString } from 'class-validator';
 
 export class GetPaymentTermResponse {
   @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
@@ -15,6 +15,9 @@ export class GetPaymentTermResponse {
   })
   partialRefinancing: boolean;
 
+  @IsBoolean()
+  interestExists: boolean;
+
   @ApiProperty({
     example: 'EUR',
   })
@@ -27,6 +30,9 @@ export class GetPaymentTermResponse {
   @IsDecimal()
   interestPercentage: number;
 
+  @IsString()
+  interestType: string;
+
   @ApiProperty({
     example: 6.8,
   })
@@ -37,7 +43,7 @@ export class GetPaymentTermResponse {
     example: 4,
   })
   @IsDecimal()
-  interestRegressiveRate: number;
+  interestDegressiveRate: number;
 
   @ApiProperty({
     example: 'annuity',

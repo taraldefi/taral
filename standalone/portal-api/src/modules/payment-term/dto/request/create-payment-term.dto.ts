@@ -20,22 +20,31 @@ export class CreatePaymentTermDto {
   @IsBoolean()
   partialRefinancing: boolean;
 
+  @IsBoolean()
+  interestExists: boolean;
+
   @ApiProperty({
     example: 'EUR',
   })
   @IsString()
+  @IsOptional()
   interestCurrency?: string;
 
   @ApiProperty({
     example: 5,
   })
   @IsDecimal()
+  @IsOptional()
   interestPercentage?: number;
+
+  @IsString()
+  interestType: string;
 
   @ApiProperty({
     example: 6.8,
   })
   @IsDecimal()
+  @IsOptional()
   interestFixedRate?: number;
 
   @ApiProperty({
@@ -43,7 +52,7 @@ export class CreatePaymentTermDto {
   })
   @IsDecimal()
   @IsOptional()
-  interestRegressiveRate?: number;
+  interestDegressiveRate?: number;
 
   @ApiProperty({
     example: 'annuity',

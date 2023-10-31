@@ -20,12 +20,12 @@ import { UpdatePaymentTermDto } from './dto/request/update-payment-term.dto';
 })
 export class PaymentTermController {
   constructor(private readonly paymentTermService: PaymentTermService) {}
-  @Post()
-  async create(
-    @Body() paymentTerm: CreatePaymentTermDto,
-  ): Promise<GetPaymentTermResponse> {
-    return await this.paymentTermService.create(paymentTerm);
-  }
+  // @Post()
+  // async create(
+  //   @Body() paymentTerm: CreatePaymentTermDto,
+  // ): Promise<GetPaymentTermResponse> {
+  //   return await this.paymentTermService.create(paymentTerm);
+  // }
 
   @Get('/:id')
   async get(@Param('id') id: string) {

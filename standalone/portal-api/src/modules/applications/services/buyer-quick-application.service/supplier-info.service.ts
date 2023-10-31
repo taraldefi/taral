@@ -11,7 +11,6 @@ import { BuyerQuickApplicationMappingService } from './mapping.service';
 import { SupplierInformationResponse } from '../../dto/response/get-supplier-information-response.dto';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 
 @Injectable()
 export class BuyerQuickApplicationSupplierInformationService extends BaseService {
