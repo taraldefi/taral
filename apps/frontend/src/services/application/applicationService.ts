@@ -70,27 +70,22 @@ export class ApplicationService {
    * @param id
    */
 
-  async submitApplication(id: string) {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.get(
-        `${apiUrls.APPLICATION}/${id}/submit`,
-        axiosConfig
-      );
+  async submitApplication(id: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${id}/submit`,
+          axiosConfig
+        );
 
-      const { data } = response;
-
-      if (response.status === 200) {
-        return data;
+        if (response.status === 201) {
+          resolve(true);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Submitting Application failed.");
+    });
   }
 }
 

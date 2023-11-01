@@ -25,8 +25,10 @@ export class CollateralService {
     collateral.requestedTenure = data.requestedTenure;
     collateral.requestedPurpose = data.requestedPurpose;
     collateral.repaymentSource = data.repaymentSource;
-    collateral.collateralProviderExperience = data.collateralProviderExperience;
-    collateral.collateralProviderInfluence = data.collateralProviderInfluence;
+    collateral.collateralProviderExperience =
+      data.collateralProviderExperience ?? null;
+    collateral.collateralProviderInfluence =
+      data.collateralProviderInfluence ?? null;
 
     const savedCollateral = await this.collateralRepository.save(collateral);
 
@@ -72,12 +74,17 @@ export class CollateralService {
     if (data.repaymentSource) {
       collateral.repaymentSource = data.repaymentSource;
     }
+    console.log('TEST =========>', data.collateralProviderExperience);
     if (data.collateralProviderExperience) {
       collateral.collateralProviderExperience =
         data.collateralProviderExperience;
+    } else {
+      collateral.collateralProviderExperience = null;
     }
     if (data.collateralProviderInfluence) {
       collateral.collateralProviderInfluence = data.collateralProviderInfluence;
+    } else {
+      collateral.collateralProviderInfluence = null;
     }
 
     const updatedCollateral = await this.collateralRepository.save(collateral);

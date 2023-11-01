@@ -19,7 +19,11 @@ import { ApplicationService } from "./applicationService";
 import {
   CreatePaymentTerm,
   GetPaymentTermResponse,
-} from "@types/payment_terms_types";
+} from "src/types/payment_terms";
+import {
+  CreateCollateralInformation,
+  GetCollateralResponse,
+} from "src/types/collateral_info";
 
 class BuyerApplicationService extends ApplicationService {
   /**
@@ -335,7 +339,7 @@ class BuyerApplicationService extends ApplicationService {
   createPaymentTerms(
     applicationId: string,
     paymentTermInfo: CreatePaymentTerm
-  ): Promise<GetSupplierInfoResponse> {
+  ): Promise<GetPaymentTermResponse> {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "POST" });
       try {
@@ -359,7 +363,7 @@ class BuyerApplicationService extends ApplicationService {
   updatePaymentTerms(
     applicationId: string,
     paymentTermInfo: CreatePaymentTerm
-  ): Promise<GetSupplierInfoResponse> {
+  ): Promise<GetPaymentTermResponse> {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "PATCH" });
       try {
@@ -380,32 +384,72 @@ class BuyerApplicationService extends ApplicationService {
     });
   }
 
-  /**
-   * function to submit an application by ID
-   * @param id
-   */
+  getCollateralInfo(applicationId: string): Promise<GetCollateralResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.APPLICATION}/${applicationId}/security`,
+          axiosConfig
+        );
 
-  async submitApplication(id: string) {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.get(
-        `${apiUrls.APPLICATION}/${id}/submit`,
-        axiosConfig
-      );
+        const { data } = response;
 
-      const { data } = response;
-
-      if (response.status === 200) {
-        return data;
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
+    });
+  }
+
+  createCollateralInfo(
+    applicationId: string,
+    collateralInfo: CreateCollateralInformation
+  ): Promise<GetCollateralResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${applicationId}/security`,
+          JSON.stringify(collateralInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
       }
-    }
-    throw new Error("Submitting Application failed.");
+    });
+  }
+
+  updateCollateralInfo(
+    applicationId: string,
+    collateralInfo: CreateCollateralInformation
+  ): Promise<GetCollateralResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      try {
+        const response = await axios.patch(
+          `${apiUrls.APPLICATION}/${applicationId}/security`,
+          JSON.stringify(collateralInfo),
+          axiosConfig
+        );
+        const { data } = response;
+        console.log(response);
+
+        if (response.status === 200) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
   }
 }
 

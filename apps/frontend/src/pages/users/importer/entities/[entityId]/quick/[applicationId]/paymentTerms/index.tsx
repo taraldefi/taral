@@ -13,6 +13,7 @@ import usePaymentTermForm from "@hooks/buyerApplication/usePaymentTerms";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as Yup from "yup";
 import { toast } from "sonner";
+import { CURRENCIES } from "@utils/lib/constants";
 
 type CustomRadioProps = {
   control: Control<CreatePaymentTerm, any>;
@@ -255,12 +256,24 @@ function Index({ ...props }) {
                     <span>
                       Which currency is the interest/premium charged in?
                     </span>
-                    <input
-                      type="text"
-                      className="inputs"
+                    <select
+                      className={
+                        errors.interestCurrency ? "inputs inputRed" : "inputs"
+                      }
                       {...register("interestCurrency")}
-                      placeholder="Currency"
-                    />
+                      placeholder={
+                        errors.interestCurrency
+                          ? errors.interestCurrency.message
+                          : "Currency"
+                      }
+                    >
+                      <option value="">Select Currency</option>
+                      {CURRENCIES.map((currency) => (
+                        <option key={currency.cc} value={currency.cc}>
+                          {currency.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                   <div className="inputContainer">
                     <span>
@@ -269,8 +282,14 @@ function Index({ ...props }) {
                     <input
                       type="text"
                       id="percentage"
-                      placeholder="Percentage..."
-                      className="inputs"
+                      placeholder={
+                        errors.interestPercentage
+                          ? errors.interestPercentage.message
+                          : "interest percentage"
+                      }
+                      className={
+                        errors.interestPercentage ? "inputs inputRed" : "inputs"
+                      }
                       {...register("interestPercentage")}
                     />
                   </div>
@@ -292,9 +311,17 @@ function Index({ ...props }) {
                         <input
                           {...register("interestFixedRate")}
                           type="text"
-                          className="inputs"
+                          placeholder={
+                            errors.interestFixedRate
+                              ? errors.interestFixedRate.message
+                              : "fixed interest rate"
+                          }
+                          className={
+                            errors.interestFixedRate
+                              ? "inputs inputRed"
+                              : "inputs"
+                          }
                           id="percentage"
-                          placeholder="Percentage..."
                         />
                       </div>
                     )
@@ -307,13 +334,22 @@ function Index({ ...props }) {
                         <input
                           {...register("interestDegressiveRate")}
                           type="text"
-                          className="inputs"
                           id="percentage"
-                          placeholder="Degressive interest rate description"
+                          placeholder={
+                            errors.interestDegressiveRate
+                              ? errors.interestDegressiveRate.message
+                              : "fixed interest rate"
+                          }
+                          className={
+                            errors.interestDegressiveRate
+                              ? "inputs inputRed"
+                              : "inputs"
+                          }
                         />
                       </div>
                     )
                   }
+
                   {/* <div className="radioBack">
                     <span>Is the interest rate/premium fixed?</span>
                     <div>
@@ -398,7 +434,10 @@ function Index({ ...props }) {
               <div></div>
               <div className="inputContainer">
                 <span>Payment Type</span>
-                <select className="inputs" {...register("paymentType")}>
+                <select
+                  className={errors.paymentType ? "inputs inputRed" : "inputs"}
+                  {...register("paymentType")}
+                >
                   <option value={PaymentTypes.SHORT}>Short</option>
                   <option value={PaymentTypes.SHORT_MEDIUM}>
                     Short Medium
@@ -412,8 +451,14 @@ function Index({ ...props }) {
               <input
                 {...register("paymentDuration")}
                 type="text"
-                className="inputs"
-                placeholder="Payment duration..."
+                className={
+                  errors.paymentDuration ? "inputs inputRed" : "inputs"
+                }
+                placeholder={
+                  errors.paymentDuration
+                    ? errors.paymentDuration.message
+                    : "Payment Duration in days"
+                }
               />
             </div>
           </div>

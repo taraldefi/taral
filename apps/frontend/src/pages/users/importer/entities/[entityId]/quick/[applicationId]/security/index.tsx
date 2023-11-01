@@ -1,53 +1,174 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
+import useCollateralForm from "@hooks/buyerApplication/useCollateral";
+import usePaymentTermForm from "@hooks/buyerApplication/usePaymentTerms";
+import { CreateCollateralInformation } from "src/types/collateral_info";
+import { useRouter } from "next/router";
+import { NextPageContext } from "next/types";
 import React from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
-function Index() {
-  const [selectedRadioBtn, setSelectedRadioBtn] = React.useState("No");
-  const handleRadioClick = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setSelectedRadioBtn(e.currentTarget.value);
-  const [selectedRadioBtn1, setSelectedRadioBtn1] = React.useState("No");
-  const handleRadioClick1 = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setSelectedRadioBtn1(e.currentTarget.value);
-  const [selectedRadioBtn2, setSelectedRadioBtn2] = React.useState("No");
-  const handleRadioClick2 = (e: React.ChangeEvent<HTMLInputElement>): void =>
-    setSelectedRadioBtn2(e.currentTarget.value);
+function Index({ ...props }) {
+  const { query } = props;
+  const router = useRouter();
+  const entityID = query.entityId;
+  const applicationID = query.applicationId;
+  const {
+    queryResult,
+    handleDebouncedChange,
+    collateralInfluenceBtn,
+    collateralPaymentExperienceBtn,
+    collateralRadioBtn,
+    setCollateralInfluenceBtn,
+    setCollateralPaymentExperienceBtn,
+    setCollateralRadioBtn,
+    schemaValidation,
+  } = useCollateralForm(applicationID as string);
+
+  const {
+    register,
+    setValue,
+    reset,
+    control,
+    handleSubmit,
+    trigger,
+    watch,
+    getValues,
+    formState: { errors },
+  } = useForm<CreateCollateralInformation>({
+    mode: "all",
+    criteriaMode: "all",
+  });
+
+  React.useEffect(() => {
+    reset(queryResult.data);
+  }, [queryResult.data]);
+  const handleCollateralClick = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    if (e.currentTarget.value == "NO") {
+      setValue("collateralProviderInfluence", null);
+      setValue("collateralProviderExperience", null);
+    }
+    setCollateralRadioBtn(e.currentTarget.value);
+  };
+
+  const handleCollateralInfluenceClick = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    if (e.currentTarget.value == "NO") {
+      setValue("collateralProviderInfluence", null);
+    }
+    setCollateralInfluenceBtn(e.currentTarget.value);
+  };
+
+  const handleCollateralPaymentExperienceClick = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    if (e.currentTarget.value == "NO") {
+      setValue("collateralProviderExperience", null);
+    }
+    setCollateralPaymentExperienceBtn(e.currentTarget.value);
+  };
+
+  const onChange = async () => {
+    const data = getValues();
+    try {
+      // validate data
+      const validated = await schemaValidation.validate(data);
+      handleDebouncedChange(validated as CreateCollateralInformation);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const onBack = () => {
+    router.push(
+      `/users/${
+        router.asPath.split("/")[2]
+      }/entities/${entityID}/quick/${applicationID}/paymentTerms`
+    );
+  };
+
+  const onSubmit = async () => {
+    await trigger();
+    try {
+      router.push(
+        `/users/${
+          router.asPath.split("/")[2]
+        }/entities/${entityID}/quick/${applicationID}/transactionDocs`
+      );
+    } catch (e) {
+      toast.error(`${e}`);
+      console.log(e);
+    }
+  };
 
   return (
     <ApplicationLayout>
       <div className="securityContainer">
-        <div className="securityContent">
+        <form onChange={onChange} className="securityContent">
           <div className="facility">
             <div className="maintitle">FACILITY</div>
             <div>
               <span>Requested Facility Type</span>
-              <select name="" id="" className="inputs">
-                <option value="" disabled selected hidden>
+              <select
+                id=""
+                className="inputs"
+                {...register("facilityType", { required: true })}
+              >
+                <option value="" disabled>
                   Select Type...
                 </option>
-                <option value=""></option>
-                <option value=""></option>
+                <option value="IMPORTER_FINANCING">Importer Financing</option>
+                <option value="EXPORTER_FINANCING">Exporter Financing</option>
               </select>
             </div>
             <div>
               <span>Requested Financing Ratio</span>
-              <input type="text" className="inputs" placeholder="Ratio..." />
+              <input
+                type="text"
+                className="inputs"
+                placeholder="Ratio..."
+                {...register("financingRatio", { required: true })}
+              />
             </div>
             <div>
               <span>Please enter the requested facility amount</span>
-              <input type="text" className="inputs" placeholder="Amount..." />
+              <input
+                type="text"
+                className="inputs"
+                placeholder="Amount..."
+                {...register("facilityAmount", { required: true })}
+              />
             </div>
             <div>
               <span>Please enter the requested tenure</span>
-              <input type="date" className="inputs" id="calendar" />
+              <input
+                type="date"
+                className="inputs"
+                id="calendar"
+                {...register("requestedTenure", { required: true })}
+              />
             </div>
             <div>
               <span>Please enter the requested purpose</span>
-              <input type="text" className="inputs" placeholder="Purpose..." />
+              <input
+                type="text"
+                className="inputs"
+                placeholder="Purpose..."
+                {...register("requestedPurpose", { required: true })}
+              />
             </div>
             <div>
               <span>Please enter the requested Source of Repayment</span>
-              <input type="text" className="inputs" placeholder="Sources..." />
+              <input
+                type="text"
+                className="inputs"
+                placeholder="Sources..."
+                {...register("repaymentSource", { required: true })}
+              />
             </div>
           </div>
           <div className="vLine"></div>
@@ -62,26 +183,27 @@ function Index() {
                     type="radio"
                     id="ECACoverYes"
                     name="otherInfoRadio"
-                    value="Yes"
-                    onChange={handleRadioClick}
+                    value="YES"
+                    checked={collateralRadioBtn == "YES"}
+                    onChange={handleCollateralClick}
                   />
-                  <label htmlFor="ECACoverYes">Yes</label>
+                  <label htmlFor="ECACoverYes">YES</label>
                 </div>
                 <div>
                   <input
                     type="radio"
                     id="ECACoverNO"
                     name="otherInfoRadio"
-                    value="No"
-                    onChange={handleRadioClick}
+                    value="NO"
+                    checked={collateralRadioBtn == "NO"}
+                    onChange={handleCollateralClick}
                   />
-                  <label htmlFor="ECACoverNO">No</label>
+                  <label htmlFor="ECACoverNO">NO</label>
                 </div>
               </div>
-              {selectedRadioBtn == "Yes" ? <></> : <></>}
             </div>
 
-            {selectedRadioBtn == "Yes" ? (
+            {collateralRadioBtn == "YES" && (
               <div className="radioBack">
                 <span>
                   Do you have significant influence on security/collateral
@@ -93,8 +215,9 @@ function Index() {
                       type="radio"
                       id="ECRYes"
                       name="otherInfoRadio1"
-                      value="Yes"
-                      onChange={handleRadioClick1}
+                      value="YES"
+                      checked={collateralInfluenceBtn == "YES"}
+                      onChange={handleCollateralInfluenceClick}
                     />
                     <label htmlFor="ECRYes">YES</label>
                   </div>
@@ -103,29 +226,29 @@ function Index() {
                       type="radio"
                       id="ECRNO"
                       name="otherInfoRadio1"
-                      value="No"
-                      onChange={handleRadioClick1}
+                      value="NO"
+                      checked={collateralInfluenceBtn == "NO"}
+                      onChange={handleCollateralInfluenceClick}
                     />
                     <label htmlFor="ECRNO">NO</label>
                   </div>
                 </div>
-                {selectedRadioBtn1 == "Yes" ? (
+                {collateralInfluenceBtn == "YES" && (
                   <div className="radioBackIn">
                     <span>Please explain</span>
                     <input
                       type="text"
                       className="inputs"
                       placeholder="Description"
+                      {...register("collateralProviderInfluence", {
+                        required: collateralInfluenceBtn == "YES",
+                      })}
                     />
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
-            ) : (
-              <></>
             )}
-            {selectedRadioBtn == "Yes" ? (
+            {collateralRadioBtn == "YES" && (
               <div className="radioBack">
                 <span>
                   Do you have payment experience with security/collateral
@@ -136,9 +259,9 @@ function Index() {
                     <input
                       type="radio"
                       id="ECRYes"
-                      name="otherInfoRadio2"
-                      value="Yes"
-                      onChange={handleRadioClick2}
+                      value="YES"
+                      checked={collateralPaymentExperienceBtn == "YES"}
+                      onChange={handleCollateralPaymentExperienceClick}
                     />
                     <label htmlFor="ECRYes1">YES</label>
                   </div>
@@ -147,34 +270,38 @@ function Index() {
                       type="radio"
                       id="ECRNO"
                       name="otherInfoRadio2"
-                      value="No"
-                      onChange={handleRadioClick2}
+                      value="NO"
+                      checked={collateralPaymentExperienceBtn == "NO"}
+                      onChange={handleCollateralPaymentExperienceClick}
                     />
                     <label htmlFor="ECRNO1">NO</label>
                   </div>
                 </div>
-                {selectedRadioBtn2 == "Yes" ? (
+                {collateralPaymentExperienceBtn == "YES" && (
                   <div className="radioBackIn">
                     <span>Please explain</span>
                     <input
                       type="text"
                       className="inputs"
                       placeholder="Description"
+                      {...register("collateralProviderExperience", {
+                        required: collateralPaymentExperienceBtn == "YES",
+                      })}
                     />
                   </div>
-                ) : (
-                  <></>
                 )}
               </div>
-            ) : (
-              <></>
             )}
           </div>
-        </div>
+        </form>
       </div>
-      {/* <BottomBar></BottomBar> */}
+      <BottomBar onBack={onBack} onSubmit={handleSubmit(onSubmit)}></BottomBar>
     </ApplicationLayout>
   );
 }
 
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
+}
 export default Index;
