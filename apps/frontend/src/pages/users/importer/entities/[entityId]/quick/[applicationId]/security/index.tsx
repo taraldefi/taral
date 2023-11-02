@@ -112,61 +112,82 @@ function Index({ ...props }) {
           <div className="facility">
             <div className="maintitle">FACILITY</div>
             <div>
-              <span>Requested Facility Type</span>
+              <span>
+                Requested Facility Type <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <select
                 id=""
                 className="inputs"
                 {...register("facilityType", { required: true })}
               >
-                <option value="" disabled>
-                  Select Type...
-                </option>
                 <option value="IMPORTER_FINANCING">Importer Financing</option>
                 <option value="EXPORTER_FINANCING">Exporter Financing</option>
               </select>
             </div>
             <div>
-              <span>Requested Financing Ratio</span>
+              <span>
+                Requested Financing Ratio <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Ratio..."
+                className={errors.financingRatio ? "inputs inputRed" : "inputs"}
+                placeholder={errors.financingRatio ? "required" : "Ratio..."}
                 {...register("financingRatio", { required: true })}
               />
             </div>
             <div>
-              <span>Please enter the requested facility amount</span>
+              <span>
+                Please enter the requested facility amount{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Amount..."
+                className={errors.facilityAmount ? "inputs inputRed" : "inputs"}
+                placeholder={errors.facilityAmount ? "required" : "Amount..."}
                 {...register("facilityAmount", { required: true })}
               />
             </div>
             <div>
-              <span>Please enter the requested tenure</span>
+              <span>
+                Please enter the requested tenure{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="date"
-                className="inputs"
+                className={
+                  errors.requestedTenure ? "inputs inputRed" : "inputs"
+                }
                 id="calendar"
                 {...register("requestedTenure", { required: true })}
               />
             </div>
             <div>
-              <span>Please enter the requested purpose</span>
+              <span>
+                Please enter the requested purpose{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Purpose..."
+                className={
+                  errors.requestedPurpose ? "inputs inputRed" : "inputs"
+                }
+                placeholder={errors.requestedPurpose ? "required" : "purpose"}
                 {...register("requestedPurpose", { required: true })}
               />
             </div>
             <div>
-              <span>Please enter the requested Source of Repayment</span>
+              <span>
+                Please enter the requested Source of Repayment{" "}
+                <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 type="text"
-                className="inputs"
-                placeholder="Sources..."
+                className={
+                  errors.repaymentSource ? "inputs inputRed" : "inputs"
+                }
+                placeholder={
+                  errors.repaymentSource ? "required" : "repayment source"
+                }
                 {...register("repaymentSource", { required: true })}
               />
             </div>
@@ -176,7 +197,7 @@ function Index({ ...props }) {
             <div className="maintitle">INTEREST</div>
 
             <div className="radioBack">
-              <span>Will any collateral be provided?</span>
+              <span>Will any collateral be provided? </span>
               <div>
                 <div>
                   <input
@@ -207,7 +228,6 @@ function Index({ ...props }) {
               <div className="radioBack">
                 <span>
                   Do you have significant influence on security/collateral
-                  provider?
                 </span>
                 <div>
                   <div>
@@ -235,11 +255,21 @@ function Index({ ...props }) {
                 </div>
                 {collateralInfluenceBtn == "YES" && (
                   <div className="radioBackIn">
-                    <span>Please explain</span>
+                    <span style={{ display: "flex", flexDirection: "row" }}>
+                      Please explain <b style={{ color: "#f84141" }}>*</b>
+                    </span>
                     <input
                       type="text"
-                      className="inputs"
-                      placeholder="Description"
+                      className={
+                        errors.collateralProviderInfluence
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      placeholder={
+                        errors.collateralProviderInfluence
+                          ? "required"
+                          : "description"
+                      }
                       {...register("collateralProviderInfluence", {
                         required: collateralInfluenceBtn == "YES",
                       })}
@@ -279,11 +309,21 @@ function Index({ ...props }) {
                 </div>
                 {collateralPaymentExperienceBtn == "YES" && (
                   <div className="radioBackIn">
-                    <span>Please explain</span>
+                    <span style={{ display: "flex", flexDirection: "row" }}>
+                      Please explain <b style={{ color: "#f84141" }}>*</b>
+                    </span>
                     <input
                       type="text"
-                      className="inputs"
-                      placeholder="Description"
+                      className={
+                        errors.collateralProviderExperience
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      placeholder={
+                        errors.collateralProviderExperience
+                          ? "required"
+                          : "description"
+                      }
                       {...register("collateralProviderExperience", {
                         required: collateralPaymentExperienceBtn == "YES",
                       })}

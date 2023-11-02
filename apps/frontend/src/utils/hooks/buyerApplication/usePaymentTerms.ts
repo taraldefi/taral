@@ -12,12 +12,12 @@ import { toast } from "sonner";
 import * as Yup from "yup";
 
 const initialData: CreatePaymentTerm = {
-  isConcluded: false,
-  partialRefinancing: false,
-  interestExists: false,
+  isConcluded: true,
+  partialRefinancing: true,
+  interestExists: true,
   interestPercentage: null,
   interestCurrency: null,
-  interestType: InterestType.NONE,
+  interestType: InterestType.FIXED,
   interestFixedRate: null,
   interestDegressiveRate: null,
   paymentType: PaymentTypes.SHORT,

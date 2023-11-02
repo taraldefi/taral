@@ -33,6 +33,12 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
         relations: ['orderDetails'],
       },
     );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.orderDetailsService.get(application.orderDetails.id);
   }
 
@@ -103,6 +109,12 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
         relations: ['orderDetails'],
       },
     );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return await this.orderProductService.create(
       data,
       application.orderDetails.id,

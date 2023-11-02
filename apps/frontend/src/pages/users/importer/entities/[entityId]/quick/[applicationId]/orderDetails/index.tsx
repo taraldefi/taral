@@ -90,11 +90,6 @@ function Index({ ...props }) {
   return (
     <ApplicationLayout>
       <div className="ptContainer">
-        <ProductsForm
-          applicationId={applicationID}
-          sendProductData={handleChildData}
-        />
-        <div className="vLine"></div>
         <form onChange={onChange} className="portContainer">
           <div className="maintitle">PORTS</div>
           <div className="inputContainer">
@@ -141,6 +136,12 @@ function Index({ ...props }) {
             </>
           )}
         </form>
+
+        <div className="vLine"></div>
+        <ProductsForm
+          applicationId={applicationID}
+          sendProductData={handleChildData}
+        />
       </div>
       <BottomBar onBack={onBack} onSubmit={onSubmit}></BottomBar>
     </ApplicationLayout>

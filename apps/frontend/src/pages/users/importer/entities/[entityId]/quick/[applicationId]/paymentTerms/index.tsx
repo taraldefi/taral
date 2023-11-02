@@ -223,14 +223,14 @@ function Index({ ...props }) {
           <div className="ptDetails">
             <div className="maintitle">DETAILS</div>
             <div className="radioBack">
-              <span>Have payment terms already been concluded?</span>
+              <span>Have payment terms already been concluded? </span>
               <PaymentTermsConclusionRadio
                 control={control}
                 name={"isConcluded"}
               />
             </div>
             <div className="radioBack">
-              <span>Would you accept a partial refinancing?</span>
+              <span>Would you accept a partial refinancing? </span>
               <PartialFinancingRadio
                 control={control}
                 name={"partialRefinancing"}
@@ -243,7 +243,7 @@ function Index({ ...props }) {
             <div className="radioBack">
               <span>
                 Is your supplier charging you interest/have you agreed a premium
-                for extended payment terms?
+                for extended payment terms?{" "}
               </span>
               <InterestRadio
                 control={control}
@@ -254,7 +254,8 @@ function Index({ ...props }) {
                 <>
                   <div className="inputContainer">
                     <span>
-                      Which currency is the interest/premium charged in?
+                      Which currency is the interest/premium charged in?{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <select
                       className={
@@ -277,7 +278,8 @@ function Index({ ...props }) {
                   </div>
                   <div className="inputContainer">
                     <span>
-                      What is the total value of the interest/premium?
+                      What is the total value of the interest/premium?{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <input
                       type="text"
@@ -294,7 +296,10 @@ function Index({ ...props }) {
                     />
                   </div>
                   <div className="inputContainer">
-                    <span>Interest Type (Fixed or Degressive)</span>
+                    <span>
+                      Interest Type (Fixed or Degressive){" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
 
                     <select className="inputs" {...register("interestType")}>
                       <option value={InterestType.FIXED}>Fixed</option>
@@ -307,7 +312,10 @@ function Index({ ...props }) {
                     // if interest type is fixed
                     watch("interestType") === InterestType.FIXED && (
                       <div className="inputContainer">
-                        <span>Fixed interest rate </span>
+                        <span>
+                          Fixed interest rate{" "}
+                          <b style={{ color: "#f84141" }}>*</b>
+                        </span>
                         <input
                           {...register("interestFixedRate")}
                           type="text"
@@ -330,7 +338,10 @@ function Index({ ...props }) {
                     // if interest type is degressive
                     watch("interestType") === InterestType.DEGRESSIVE && (
                       <div className="inputContainer">
-                        <span>Degressive interest rate</span>
+                        <span>
+                          Degressive interest rate{" "}
+                          <b style={{ color: "#f84141" }}>*</b>
+                        </span>
                         <input
                           {...register("interestDegressiveRate")}
                           type="text"
@@ -338,7 +349,7 @@ function Index({ ...props }) {
                           placeholder={
                             errors.interestDegressiveRate
                               ? errors.interestDegressiveRate.message
-                              : "fixed interest rate"
+                              : "degressive interest rate"
                           }
                           className={
                             errors.interestDegressiveRate
@@ -429,7 +440,8 @@ function Index({ ...props }) {
             <div className="radioBack">
               <span>
                 What is the payment type agreed upon for this transaction?
-                (Short, Medium, or Short-Medium)
+                (Short, Medium, or Short-Medium){" "}
+                <b style={{ color: "#f84141" }}>*</b>
               </span>
               <div></div>
               <div className="inputContainer">
@@ -447,7 +459,9 @@ function Index({ ...props }) {
               </div>
             </div>
             <div className="inputContainer">
-              <span>Payment Duration in days</span>
+              <span>
+                Payment Duration in days <b style={{ color: "#f84141" }}>*</b>
+              </span>
               <input
                 {...register("paymentDuration")}
                 type="text"
