@@ -9,4 +9,6 @@ export class GetApplicationResponse {
 
   @ApiProperty({ example: '12-12-2022' })
   issuanceDate: Date;
+
+  status: string;
 }

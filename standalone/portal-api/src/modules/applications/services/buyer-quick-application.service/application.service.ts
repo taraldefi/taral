@@ -31,6 +31,26 @@ export class BuyerQuickApplicationService extends BaseService {
     super();
   }
 
+  public async getAllApplications(): Promise<GetApplicationResponse[]> {
+    const applications = await this.buyerApplicationRepository.find({
+      select: ['id', 'issuanceDate', 'title', 'status'],
+    });
+
+    var response = new Array<GetApplicationResponse>();
+
+    response = applications.map((application) => {
+      var applicationItem = new GetApplicationResponse();
+      applicationItem.id = application.id;
+      applicationItem.issuanceDate = application.issuanceDate;
+      applicationItem.title = application.title;
+      applicationItem.status = application.status;
+
+      return applicationItem;
+    });
+
+    return response;
+  }
+
   public async get(id: string): Promise<GetApplicationResponse> {
     const application = await this.buyerApplicationRepository.findOneOrFail(
       id,
@@ -101,7 +121,7 @@ export class BuyerQuickApplicationService extends BaseService {
     data: CreateQuickApplicationRequest,
     entity: LegalBuyerEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
-    await this.checkActiveApplicationExists();
+    await this.checkActiveApplicationExists(entity.id);
 
     this.setupTransactionHooks();
 
@@ -170,9 +190,9 @@ export class BuyerQuickApplicationService extends BaseService {
     return false;
   }
 
-  private async checkActiveApplicationExists(): Promise<void> {
+  private async checkActiveApplicationExists(entityId: string): Promise<void> {
     const activeApplication = await this.buyerApplicationRepository.findOne({
-      where: { status: 'ACTIVE' },
+      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
     });
 
     if (activeApplication && activeApplication.id) {

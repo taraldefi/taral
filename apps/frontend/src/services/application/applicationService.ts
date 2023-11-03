@@ -9,6 +9,25 @@ import {
 } from "src/types";
 
 export class ApplicationService {
+  async getAllApplications(id: string) {
+    const axiosConfig = getAxiosConfig({ method: "GET" });
+    try {
+      const response = await axios.get(`${apiUrls.APPLICATION}`, axiosConfig);
+
+      const { data } = response;
+
+      if (response.status === 200) {
+        return data;
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.status || error.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+    throw new Error("Fetch Application by ID failed.");
+  }
   /**
    * function to get an application by ID
    * @param id
