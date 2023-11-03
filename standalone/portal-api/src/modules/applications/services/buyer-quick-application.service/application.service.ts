@@ -31,9 +31,12 @@ export class BuyerQuickApplicationService extends BaseService {
     super();
   }
 
-  public async getAllApplications(): Promise<GetApplicationResponse[]> {
+  public async getAllApplications(
+    entityID: string,
+  ): Promise<GetApplicationResponse[]> {
     const applications = await this.buyerApplicationRepository.find({
       select: ['id', 'issuanceDate', 'title', 'status'],
+      where: { legalEntity: { id: entityID } },
     });
 
     var response = new Array<GetApplicationResponse>();

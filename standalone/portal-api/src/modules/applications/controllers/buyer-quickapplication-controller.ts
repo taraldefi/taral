@@ -51,9 +51,9 @@ export class QuickApplicationController {
 
   // Routes for operations related to applications
 
-  @Get()
-  async getAllApplications() {
-    return await this.buyerQuickApplicationService.getAllApplications();
+  @Get('/all-applications/:id')
+  async getAllApplications(@Param('id') entityId: string) {
+    return await this.buyerQuickApplicationService.getAllApplications(entityId);
   }
   // Get application by ID
   @Get('/:id')

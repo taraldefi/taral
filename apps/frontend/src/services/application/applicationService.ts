@@ -9,10 +9,13 @@ import {
 } from "src/types";
 
 export class ApplicationService {
-  async getAllApplications(id: string) {
+  async getAllApplications(entityId: string) {
     const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
-      const response = await axios.get(`${apiUrls.APPLICATION}`, axiosConfig);
+      const response = await axios.get(
+        `${apiUrls.APPLICATION}/all-applications/${entityId}`,
+        axiosConfig
+      );
 
       const { data } = response;
 
