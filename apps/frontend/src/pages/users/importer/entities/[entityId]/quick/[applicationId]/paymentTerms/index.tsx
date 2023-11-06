@@ -174,12 +174,34 @@ function Index({ ...props }) {
       schemaValidation as Yup.ObjectSchema<CreatePaymentTerm>
     ),
   });
-  const paymentDurationRef = useRef<HTMLInputElement | null>(null);
+  const lastFieldsRef = useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     reset(queryResult.data);
   }, [queryResult.data]);
 
+  React.useEffect(() => {
+    const {
+      downpaymentCurrency,
+      downpaymentAmount,
+      downpaymentDescription,
+      balanceAmount,
+    } = errors;
+
+    // Check if there are errors in the last 4 fields
+    if (
+      downpaymentCurrency ||
+      downpaymentAmount ||
+      downpaymentDescription ||
+      balanceAmount
+    ) {
+      // Scroll to the lastFieldsRef element
+
+      if (lastFieldsRef.current) {
+        lastFieldsRef.current.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [errors]);
   const onchange = async () => {
     const data = getValues();
     try {
@@ -537,7 +559,7 @@ function Index({ ...props }) {
               ))}
             </select>
           </div>
-          <div className="inputContainer">
+          <div className="inputContainer" ref={lastFieldsRef}>
             <span>
               How much is the balance amount?{" "}
               <b style={{ color: "#f84141" }}>*</b>
@@ -553,7 +575,7 @@ function Index({ ...props }) {
               }
             />
           </div>
-          <div className="inputContainer">
+          <div className="inputContainer" ref={lastFieldsRef}>
             <span>
               When will the balance be paid?{" "}
               <b style={{ color: "#f84141" }}>*</b>
@@ -572,7 +594,7 @@ function Index({ ...props }) {
               {...register("balancePaymentDeadline")}
             />
           </div>
-          <div className="inputContainer">
+          <div className="inputContainer" ref={lastFieldsRef}>
             <span>
               Please describe if a payment vehicle/SPV will be utilised?{" "}
               <b style={{ color: "#f84141" }}>*</b>
@@ -591,30 +613,19 @@ function Index({ ...props }) {
             />
           </div>
 
-          <div className="inputContainer">
+          <div className="inputContainer" ref={lastFieldsRef}>
             <span>
               Payment Duration in days <b style={{ color: "#f84141" }}>*</b>
             </span>
-            <Controller
-              control={control}
-              name={"paymentDuration"}
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <input
-                  ref={(e) => {
-                    ref(e);
-                    paymentDurationRef.current = e;
-                  }}
-                  type="text"
-                  className={
-                    errors.paymentDuration ? "inputs inputRed" : "inputs"
-                  }
-                  placeholder={
-                    errors.paymentDuration
-                      ? errors.paymentDuration.message
-                      : "Payment Duration in days"
-                  }
-                />
-              )}
+            <input
+              {...register("paymentDuration")}
+              type="text"
+              className={errors.paymentDuration ? "inputs inputRed" : "inputs"}
+              placeholder={
+                errors.paymentDuration
+                  ? errors.paymentDuration.message
+                  : "Payment Duration in days"
+              }
             />
           </div>
         </div>
