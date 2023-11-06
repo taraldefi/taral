@@ -29,7 +29,7 @@ const initialData: CreateSupplierInformationForBuyerApplication = {
     shareHoldingRelationship: null,
     influence: null,
     paymentExperience: {
-      exists: false,
+      exists: true,
       description: null,
       length: null,
       noOfDeals: null,

@@ -186,6 +186,9 @@ function Index({ ...props }) {
       downpaymentAmount,
       downpaymentDescription,
       balanceAmount,
+      balancePaymentDeadline,
+      balanceCurrency,
+      paymentVehicleDescription,
     } = errors;
 
     // Check if there are errors in the last 4 fields
@@ -193,7 +196,10 @@ function Index({ ...props }) {
       downpaymentCurrency ||
       downpaymentAmount ||
       downpaymentDescription ||
-      balanceAmount
+      balanceAmount ||
+      balancePaymentDeadline ||
+      balanceCurrency ||
+      paymentVehicleDescription
     ) {
       // Scroll to the lastFieldsRef element
 

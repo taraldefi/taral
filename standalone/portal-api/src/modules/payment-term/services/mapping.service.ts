@@ -31,6 +31,13 @@ export class PaymentTermMappingService {
     if (!paymentTerm.interestFixedRate && !paymentTerm.interestDegressiveRate) {
       response.interestType = interestTypes.NONE;
     }
+    response.downpaymentCurrency = paymentTerm.downpaymentCurrency;
+    response.downpaymentAmount = paymentTerm.downpaymentAmount;
+    response.downpaymentDescription = paymentTerm.downpaymentDescription;
+    response.balanceCurrency = paymentTerm.balanceCurrency;
+    response.balanceAmount = paymentTerm.balanceAmount;
+    response.balancePaymentDeadline = paymentTerm.balancePaymentDeadline;
+    response.paymentVehicleDescription = paymentTerm.paymentVehicleDescription;
     response.paymentType = paymentTerm.paymentType;
     response.paymentDuration = paymentTerm.paymentDuration;
 
