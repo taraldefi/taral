@@ -74,7 +74,6 @@ export class CollateralService {
     if (data.repaymentSource) {
       collateral.repaymentSource = data.repaymentSource;
     }
-    console.log('TEST =========>', data.collateralProviderExperience);
     if (data.collateralProviderExperience) {
       collateral.collateralProviderExperience =
         data.collateralProviderExperience;

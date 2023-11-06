@@ -28,6 +28,13 @@ export class PaymentTermService {
     paymentTerm.interestDegressiveRate = data.interestDegressiveRate ?? null;
     paymentTerm.paymentType = data.paymentType;
     paymentTerm.paymentDuration = data.paymentDuration;
+    paymentTerm.downpaymentAmount = data.downpaymentAmount;
+    paymentTerm.downpaymentCurrency = data.downpaymentCurrency;
+    paymentTerm.downpaymentDescription = data.downpaymentDescription;
+    paymentTerm.balanceAmount = data.balanceAmount;
+    paymentTerm.balanceCurrency = data.balanceCurrency;
+    paymentTerm.balancePaymentDeadline = data.balancePaymentDeadline;
+    paymentTerm.paymentVehicleDescription = data.paymentVehicleDescription;
 
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
 
@@ -78,6 +85,27 @@ export class PaymentTermService {
     }
     if (data.paymentType) {
       paymentTerm.paymentType = data.paymentType;
+    }
+    if (data.downpaymentAmount) {
+      paymentTerm.downpaymentAmount = data.downpaymentAmount;
+    }
+    if (data.downpaymentCurrency) {
+      paymentTerm.downpaymentCurrency = data.downpaymentCurrency;
+    }
+    if (data.downpaymentDescription) {
+      paymentTerm.downpaymentDescription = data.downpaymentDescription;
+    }
+    if (data.balanceAmount) {
+      paymentTerm.balanceAmount = data.balanceAmount;
+    }
+    if (data.balanceCurrency) {
+      paymentTerm.balanceCurrency = data.balanceCurrency;
+    }
+    if (data.balancePaymentDeadline) {
+      paymentTerm.balancePaymentDeadline = data.balancePaymentDeadline;
+    }
+    if (data.paymentVehicleDescription) {
+      paymentTerm.paymentVehicleDescription = data.paymentVehicleDescription;
     }
     if (data.paymentDuration) {
       paymentTerm.paymentDuration = data.paymentDuration;

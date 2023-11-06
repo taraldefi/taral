@@ -57,6 +57,34 @@ export class PaymentTermEntity extends EntityHelper {
 
   @Column()
   @Allow()
+  downpaymentCurrency: string;
+
+  @Column()
+  @Allow()
+  downpaymentAmount: string;
+
+  @Column()
+  @Allow()
+  downpaymentDescription: string;
+
+  @Column()
+  @Allow()
+  balanceCurrency: string;
+
+  @Column()
+  @Allow()
+  balanceAmount: string;
+
+  @Column()
+  @Allow()
+  balancePaymentDeadline: string;
+
+  @Column()
+  @Allow()
+  paymentVehicleDescription: string;
+
+  @Column()
+  @Allow()
   paymentDuration: string;
 
   @OneToOne(

@@ -5,7 +5,7 @@ import {
   InterestType,
   PaymentTypes,
 } from "src/types/payment_terms";
-import React from "react";
+import React, { useRef } from "react";
 import { Control, Controller, UseFormSetValue, useForm } from "react-hook-form";
 import { NextPageContext } from "next/types";
 import { useRouter } from "next/router";
@@ -174,6 +174,7 @@ function Index({ ...props }) {
       schemaValidation as Yup.ObjectSchema<CreatePaymentTerm>
     ),
   });
+  const paymentDurationRef = useRef<HTMLInputElement | null>(null);
 
   React.useEffect(() => {
     reset(queryResult.data);
@@ -218,150 +219,147 @@ function Index({ ...props }) {
 
   return (
     <ApplicationLayout>
-      <div className="ptContainer">
-        <form onChange={onchange} className="ptItemsContainer">
-          <div className="ptDetails">
-            <div className="maintitle">DETAILS</div>
-            <div className="radioBack">
-              <span>Have payment terms already been concluded? </span>
-              <PaymentTermsConclusionRadio
-                control={control}
-                name={"isConcluded"}
-              />
-            </div>
-            <div className="radioBack">
-              <span>Would you accept a partial refinancing? </span>
-              <PartialFinancingRadio
-                control={control}
-                name={"partialRefinancing"}
-              />
-            </div>
+      <form onChange={onchange} className="ptContainer">
+        <div className="ptDetails">
+          <div className="maintitle">DETAILS</div>
+          <div className="radioBack">
+            <span>Have payment terms already been concluded? </span>
+            <PaymentTermsConclusionRadio
+              control={control}
+              name={"isConcluded"}
+            />
           </div>
-          <div className="vLine"></div>
-          <div className="ptInterest">
-            <div className="maintitle">INTEREST</div>
-            <div className="radioBack">
-              <span>
-                Is your supplier charging you interest/have you agreed a premium
-                for extended payment terms?{" "}
-              </span>
-              <InterestRadio
-                control={control}
-                name={"interestExists"}
-                setValue={setValue}
-              />
-              {watch("interestExists") && (
-                <>
-                  <div className="inputContainer">
-                    <span>
-                      Which currency is the interest/premium charged in?{" "}
-                      <b style={{ color: "#f84141" }}>*</b>
-                    </span>
-                    <select
-                      className={
-                        errors.interestCurrency ? "inputs inputRed" : "inputs"
-                      }
-                      {...register("interestCurrency")}
-                      placeholder={
-                        errors.interestCurrency
-                          ? errors.interestCurrency.message
-                          : "Currency"
-                      }
-                    >
-                      <option value="">Select Currency</option>
-                      {CURRENCIES.map((currency) => (
-                        <option key={currency.cc} value={currency.cc}>
-                          {currency.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <div className="inputContainer">
-                    <span>
-                      What is the total value of the interest/premium?{" "}
-                      <b style={{ color: "#f84141" }}>*</b>
-                    </span>
-                    <input
-                      type="text"
-                      id="percentage"
-                      placeholder={
-                        errors.interestPercentage
-                          ? errors.interestPercentage.message
-                          : "interest percentage"
-                      }
-                      className={
-                        errors.interestPercentage ? "inputs inputRed" : "inputs"
-                      }
-                      {...register("interestPercentage")}
-                    />
-                  </div>
-                  <div className="inputContainer">
-                    <span>
-                      Interest Type (Fixed or Degressive){" "}
-                      <b style={{ color: "#f84141" }}>*</b>
-                    </span>
-
-                    <select className="inputs" {...register("interestType")}>
-                      <option value={InterestType.FIXED}>Fixed</option>
-                      <option value={InterestType.DEGRESSIVE}>
-                        Degressive
+          <div className="radioBack">
+            <span>Would you accept a partial refinancing? </span>
+            <PartialFinancingRadio
+              control={control}
+              name={"partialRefinancing"}
+            />
+          </div>
+        </div>
+        <div className="vLine"></div>
+        <div className="ptInterest">
+          <div className="maintitle">INTEREST</div>
+          <div className="radioBack">
+            <span>
+              Is your supplier charging you interest/have you agreed a premium
+              for extended payment terms?{" "}
+            </span>
+            <InterestRadio
+              control={control}
+              name={"interestExists"}
+              setValue={setValue}
+            />
+            {watch("interestExists") && (
+              <>
+                <div className="inputContainer">
+                  <span>
+                    Which currency is the interest/premium charged in?{" "}
+                    <b style={{ color: "#f84141" }}>*</b>
+                  </span>
+                  <select
+                    className={
+                      errors.interestCurrency ? "inputs inputRed" : "inputs"
+                    }
+                    {...register("interestCurrency")}
+                    placeholder={
+                      errors.interestCurrency
+                        ? errors.interestCurrency.message
+                        : "Currency"
+                    }
+                  >
+                    <option value="">Select Currency</option>
+                    {CURRENCIES.map((currency) => (
+                      <option key={currency.cc} value={currency.cc}>
+                        {currency.name}
                       </option>
-                    </select>
-                  </div>
-                  {
-                    // if interest type is fixed
-                    watch("interestType") === InterestType.FIXED && (
-                      <div className="inputContainer">
-                        <span>
-                          Fixed interest rate{" "}
-                          <b style={{ color: "#f84141" }}>*</b>
-                        </span>
-                        <input
-                          {...register("interestFixedRate")}
-                          type="text"
-                          placeholder={
-                            errors.interestFixedRate
-                              ? errors.interestFixedRate.message
-                              : "fixed interest rate"
-                          }
-                          className={
-                            errors.interestFixedRate
-                              ? "inputs inputRed"
-                              : "inputs"
-                          }
-                          id="percentage"
-                        />
-                      </div>
-                    )
-                  }
-                  {
-                    // if interest type is degressive
-                    watch("interestType") === InterestType.DEGRESSIVE && (
-                      <div className="inputContainer">
-                        <span>
-                          Degressive interest rate{" "}
-                          <b style={{ color: "#f84141" }}>*</b>
-                        </span>
-                        <input
-                          {...register("interestDegressiveRate")}
-                          type="text"
-                          id="percentage"
-                          placeholder={
-                            errors.interestDegressiveRate
-                              ? errors.interestDegressiveRate.message
-                              : "degressive interest rate"
-                          }
-                          className={
-                            errors.interestDegressiveRate
-                              ? "inputs inputRed"
-                              : "inputs"
-                          }
-                        />
-                      </div>
-                    )
-                  }
+                    ))}
+                  </select>
+                </div>
+                <div className="inputContainer">
+                  <span>
+                    What is the total value of the interest/premium?{" "}
+                    <b style={{ color: "#f84141" }}>*</b>
+                  </span>
+                  <input
+                    type="text"
+                    id="percentage"
+                    placeholder={
+                      errors.interestPercentage
+                        ? errors.interestPercentage.message
+                        : "interest percentage"
+                    }
+                    className={
+                      errors.interestPercentage ? "inputs inputRed" : "inputs"
+                    }
+                    {...register("interestPercentage")}
+                  />
+                </div>
+                <div className="inputContainer">
+                  <span>
+                    Interest Type (Fixed or Degressive){" "}
+                    <b style={{ color: "#f84141" }}>*</b>
+                  </span>
 
-                  {/* <div className="radioBack">
+                  <select className="inputs" {...register("interestType")}>
+                    <option value={InterestType.FIXED}>Fixed</option>
+                    <option value={InterestType.DEGRESSIVE}>Degressive</option>
+                  </select>
+                </div>
+                {
+                  // if interest type is fixed
+                  watch("interestType") === InterestType.FIXED && (
+                    <div className="inputContainer">
+                      <span>
+                        Fixed interest rate{" "}
+                        <b style={{ color: "#f84141" }}>*</b>
+                      </span>
+                      <input
+                        {...register("interestFixedRate")}
+                        type="text"
+                        placeholder={
+                          errors.interestFixedRate
+                            ? errors.interestFixedRate.message
+                            : "fixed interest rate"
+                        }
+                        className={
+                          errors.interestFixedRate
+                            ? "inputs inputRed"
+                            : "inputs"
+                        }
+                        id="percentage"
+                      />
+                    </div>
+                  )
+                }
+                {
+                  // if interest type is degressive
+                  watch("interestType") === InterestType.DEGRESSIVE && (
+                    <div className="inputContainer">
+                      <span>
+                        Degressive interest rate{" "}
+                        <b style={{ color: "#f84141" }}>*</b>
+                      </span>
+                      <input
+                        {...register("interestDegressiveRate")}
+                        type="text"
+                        id="percentage"
+                        placeholder={
+                          errors.interestDegressiveRate
+                            ? errors.interestDegressiveRate.message
+                            : "degressive interest rate"
+                        }
+                        className={
+                          errors.interestDegressiveRate
+                            ? "inputs inputRed"
+                            : "inputs"
+                        }
+                      />
+                    </div>
+                  )
+                }
+
+                {/* <div className="radioBack">
                     <span>Is the interest rate/premium fixed?</span>
                     <div>
                       <div>
@@ -430,54 +428,198 @@ function Index({ ...props }) {
                       )}
                     </div>
                   )} */}
-                </>
+              </>
+            )}
+          </div>
+        </div>
+        <div className="vLine"></div>
+        <div className="ptVID">
+          <div className="maintitle">PAYMENT TYPE</div>
+
+          <div></div>
+          <div className="inputContainer">
+            <span>
+              What is the payment type agreed upon for this transaction? (Short,
+              Medium, or Short-Medium) <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <select
+              className={errors.paymentType ? "inputs inputRed" : "inputs"}
+              {...register("paymentType")}
+            >
+              <option value={PaymentTypes.SHORT}>Short</option>
+              <option disabled value={PaymentTypes.SHORT_MEDIUM}>
+                Short Medium
+              </option>
+              <option disabled value={PaymentTypes.MEDIUM}>
+                Medium
+              </option>
+            </select>
+          </div>
+          <div className="inputContainer">
+            <span>
+              What is the currency agreed for the downpayment?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <select
+              className={
+                errors.downpaymentCurrency ? "inputs inputRed" : "inputs"
+              }
+              {...register("downpaymentCurrency")}
+              placeholder={
+                errors.downpaymentCurrency
+                  ? errors.downpaymentCurrency.message
+                  : "Currency"
+              }
+            >
+              <option value="">Select Currency</option>
+              {CURRENCIES.map((currency) => (
+                <option key={currency.cc} value={currency.cc}>
+                  {currency.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="inputContainer">
+            <span>
+              How much is the downpayment amount?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <input
+              {...register("downpaymentAmount")}
+              type="text"
+              className={
+                errors.downpaymentAmount ? "inputs inputRed" : "inputs"
+              }
+              placeholder={
+                errors.downpaymentAmount
+                  ? errors.downpaymentAmount.message
+                  : "downpayment amount"
+              }
+            />
+          </div>
+          <div className="inputContainer">
+            <span>
+              Description for the short term downpayment?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <input
+              {...register("downpaymentDescription")}
+              type="text"
+              className={
+                errors.downpaymentDescription ? "inputs inputRed" : "inputs"
+              }
+              placeholder={
+                errors.downpaymentDescription
+                  ? errors.downpaymentDescription.message
+                  : "downpayment description"
+              }
+            />
+          </div>
+          <div className="inputContainer">
+            <span>
+              What is the currency agreed for the balance?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <select
+              className={errors.balanceCurrency ? "inputs inputRed" : "inputs"}
+              {...register("balanceCurrency")}
+              placeholder={
+                errors.balanceCurrency
+                  ? errors.balanceCurrency.message
+                  : "Currency"
+              }
+            >
+              <option value="">Select Currency</option>
+              {CURRENCIES.map((currency) => (
+                <option key={currency.cc} value={currency.cc}>
+                  {currency.name}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="inputContainer">
+            <span>
+              How much is the balance amount?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <input
+              {...register("balanceAmount")}
+              type="text"
+              className={errors.balanceAmount ? "inputs inputRed" : "inputs"}
+              placeholder={
+                errors.balanceAmount
+                  ? errors.balanceAmount.message
+                  : "downpayment description"
+              }
+            />
+          </div>
+          <div className="inputContainer">
+            <span>
+              When will the balance be paid?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <input
+              type="date"
+              id="calendar"
+              className={
+                errors.balancePaymentDeadline ? "inputs inputRed" : "inputs"
+              }
+              placeholder={
+                errors.balancePaymentDeadline
+                  ? `${errors.balancePaymentDeadline.message}`
+                  : "deadline"
+              }
+              {...register("balancePaymentDeadline")}
+            />
+          </div>
+          <div className="inputContainer">
+            <span>
+              Please describe if a payment vehicle/SPV will be utilised?{" "}
+              <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <input
+              {...register("paymentVehicleDescription")}
+              type="text"
+              className={
+                errors.paymentVehicleDescription ? "inputs inputRed" : "inputs"
+              }
+              placeholder={
+                errors.paymentVehicleDescription
+                  ? errors.paymentVehicleDescription.message
+                  : "SPV description"
+              }
+            />
+          </div>
+
+          <div className="inputContainer">
+            <span>
+              Payment Duration in days <b style={{ color: "#f84141" }}>*</b>
+            </span>
+            <Controller
+              control={control}
+              name={"paymentDuration"}
+              render={({ field: { onChange, onBlur, value, ref } }) => (
+                <input
+                  ref={(e) => {
+                    ref(e);
+                    paymentDurationRef.current = e;
+                  }}
+                  type="text"
+                  className={
+                    errors.paymentDuration ? "inputs inputRed" : "inputs"
+                  }
+                  placeholder={
+                    errors.paymentDuration
+                      ? errors.paymentDuration.message
+                      : "Payment Duration in days"
+                  }
+                />
               )}
-            </div>
+            />
           </div>
-          <div className="vLine"></div>
-          <div className="ptVID">
-            <div className="maintitle">PAYMENT TYPE</div>
-            <div className="radioBack">
-              <span>
-                What is the payment type agreed upon for this transaction?
-                (Short, Medium, or Short-Medium){" "}
-                <b style={{ color: "#f84141" }}>*</b>
-              </span>
-              <div></div>
-              <div className="inputContainer">
-                <span>Payment Type</span>
-                <select
-                  className={errors.paymentType ? "inputs inputRed" : "inputs"}
-                  {...register("paymentType")}
-                >
-                  <option value={PaymentTypes.SHORT}>Short</option>
-                  <option value={PaymentTypes.SHORT_MEDIUM}>
-                    Short Medium
-                  </option>
-                  <option value={PaymentTypes.MEDIUM}>Medium</option>
-                </select>
-              </div>
-            </div>
-            <div className="inputContainer">
-              <span>
-                Payment Duration in days <b style={{ color: "#f84141" }}>*</b>
-              </span>
-              <input
-                {...register("paymentDuration")}
-                type="text"
-                className={
-                  errors.paymentDuration ? "inputs inputRed" : "inputs"
-                }
-                placeholder={
-                  errors.paymentDuration
-                    ? errors.paymentDuration.message
-                    : "Payment Duration in days"
-                }
-              />
-            </div>
-          </div>
-        </form>
-      </div>
+        </div>
+      </form>
+
       <BottomBar onBack={onBack} onSubmit={onSubmit}></BottomBar>
     </ApplicationLayout>
   );

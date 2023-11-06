@@ -8,6 +8,13 @@ export interface CreatePaymentTerm {
   interestFixedRate: string | null;
   interestDegressiveRate: string | null;
   paymentType: PaymentTypes;
+  downpaymentCurrency: string;
+  downpaymentAmount: string;
+  downpaymentDescription: string;
+  balanceCurrency: string;
+  balanceAmount: string;
+  balancePaymentDeadline: string;
+  paymentVehicleDescription: string;
   paymentDuration: string;
 }
 
@@ -22,6 +29,13 @@ export interface GetPaymentTermResponse {
   interestFixedRate: string | null;
   interestDegressiveRate: string | null;
   paymentType: PaymentTypes;
+  downpaymentCurrency: string;
+  downpaymentAmount: string;
+  downpaymentDescription: string;
+  balanceCurrency: string;
+  balanceAmount: string;
+  balancePaymentDeadline: string;
+  paymentVehicleDescription: string;
   paymentDuration: string;
 }
 

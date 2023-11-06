@@ -8,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreatePaymentTermDto } from './dto/request/create-payment-term.dto';
 import { GetPaymentTermResponse } from './dto/response/get-payment-term.response.dto';
 import { PaymentTermService } from './services/payment-term.service';
 import { UpdatePaymentTermDto } from './dto/request/update-payment-term.dto';

@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsBoolean,
-  IsDecimal,
-  IsNotEmpty,
-  IsString,
-  IsOptional,
-} from 'class-validator';
+import { IsBoolean, IsDecimal, IsString, IsOptional } from 'class-validator';
 
 export class CreatePaymentTermDto {
   @ApiProperty({
@@ -59,6 +53,48 @@ export class CreatePaymentTermDto {
   })
   @IsString()
   paymentType: string;
+
+  @ApiProperty({
+    example: 'USD',
+  })
+  @IsString()
+  downpaymentCurrency: string;
+
+  @ApiProperty({
+    example: '10000',
+  })
+  @IsString()
+  downpaymentAmount: string;
+
+  @ApiProperty({
+    example: 'downpayment amount for 100 chairs',
+  })
+  @IsString()
+  downpaymentDescription: string;
+
+  @ApiProperty({
+    example: 'USD',
+  })
+  @IsString()
+  balanceCurrency: string;
+
+  @ApiProperty({
+    example: '80000',
+  })
+  @IsString()
+  balanceAmount: string;
+
+  @ApiProperty({
+    example: '12-12-2022',
+  })
+  @IsString()
+  balancePaymentDeadline: string;
+
+  @ApiProperty({
+    example: '--',
+  })
+  @IsString()
+  paymentVehicleDescription: string;
 
   @ApiProperty({
     example: '60 days',

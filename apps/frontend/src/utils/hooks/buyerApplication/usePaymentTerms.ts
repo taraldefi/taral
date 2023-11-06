@@ -21,6 +21,13 @@ const initialData: CreatePaymentTerm = {
   interestFixedRate: null,
   interestDegressiveRate: null,
   paymentType: PaymentTypes.SHORT,
+  downpaymentCurrency: "",
+  downpaymentAmount: "",
+  downpaymentDescription: "",
+  balanceCurrency: "",
+  balanceAmount: "",
+  balancePaymentDeadline: "",
+  paymentVehicleDescription: "",
   paymentDuration: "",
 };
 
@@ -60,6 +67,13 @@ const schemaValidation = Yup.object({
     .default(PaymentTypes.SHORT)
     .required(" payment type required"),
   paymentDuration: Yup.string().required("required"),
+  downpaymentCurrency: Yup.string().required("required"),
+  downpaymentAmount: Yup.string().required("required"),
+  downpaymentDescription: Yup.string().required("required"),
+  balanceCurrency: Yup.string().required("required"),
+  balanceAmount: Yup.string().required("required"),
+  balancePaymentDeadline: Yup.string().required("required"),
+  paymentVehicleDescription: Yup.string().required("required"),
 });
 
 const usePaymentTermForm = (applicationID: string) => {
@@ -85,6 +99,13 @@ const usePaymentTermForm = (applicationID: string) => {
         interestFixedRate: response.interestFixedRate,
         interestDegressiveRate: response.interestDegressiveRate,
         paymentType: response.paymentType,
+        downpaymentCurrency: response.downpaymentCurrency,
+        downpaymentAmount: response.downpaymentAmount,
+        downpaymentDescription: response.downpaymentDescription,
+        balanceCurrency: response.balanceCurrency,
+        balanceAmount: response.balanceAmount,
+        balancePaymentDeadline: response.balancePaymentDeadline,
+        paymentVehicleDescription: response.paymentVehicleDescription,
         paymentDuration: response.paymentDuration,
       };
 
