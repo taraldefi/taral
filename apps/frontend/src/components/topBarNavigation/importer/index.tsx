@@ -11,12 +11,14 @@ import ApplicationTopNavRightComponent from "./applicationTopNav";
 import KycTopNavRightComponent from "./kycTopNav";
 import OverviewTopNavRightComponent from "./overviewTopNav";
 import RepaymentTopNavRightComponent from "./repaymentTopNav";
+import applicationService from "@services/application/applicationService";
 
 const ImporterTopNav = () => {
   const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const router = useRouter();
   const entityID = currentSelectedEntity;
   const [entities, setEntities] = useState<EntityCardResponse[]>([]);
+  const [applications, setApplications] = useState<any[]>([]);
   const [entityCreated] = useAtom(EntityCreatedAtom);
   const currentRightSideRoute = router.asPath.split("/").pop();
   console.log(currentRightSideRoute);
@@ -25,6 +27,10 @@ const ImporterTopNav = () => {
       try {
         const res = await entityService.getAllEntity();
         setEntities(res);
+        const applications = await applicationService.getAllApplications(
+          entityID
+        );
+        setApplications(applications);
       } catch (error) {
         console.error("Error fetching entity:", error);
       }
@@ -108,7 +114,9 @@ const ImporterTopNav = () => {
                 return <ApplicationTopNavRightComponent entities={entities} />;
 
               case "repayment":
-                return <RepaymentTopNavRightComponent applications={[]} />;
+                return (
+                  <RepaymentTopNavRightComponent applications={applications} />
+                );
 
               case "pay":
                 return <RepaymentTopNavRightComponent applications={[]} />;

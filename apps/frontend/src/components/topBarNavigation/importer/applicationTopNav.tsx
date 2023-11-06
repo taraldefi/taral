@@ -4,6 +4,7 @@ import { ApplicationModalAtom } from "@store/ModalStore";
 import { currentSelectedEntityAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
+import { NextPageContext } from "next/types";
 import { toast } from "sonner";
 import { EntityCardResponse } from "src/types";
 import { Button } from "taral-ui";
@@ -27,7 +28,7 @@ const ApplicationTopNavRightComponent = ({ entities }: Props) => {
             console.log(e.target.value);
             setCurrentSelectedEntity(e.target.value);
             router.replace({
-              pathname: `/users/importer/entities/${e.target.value}/overview`,
+              pathname: `/users/importer/entities/${e.target.value}/applications`,
             });
           }}
           name=""
