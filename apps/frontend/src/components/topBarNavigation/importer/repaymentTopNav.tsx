@@ -23,7 +23,7 @@ const RepaymentTopNavRightComponent = ({ applications }: Props) => {
             applications.map((item, index) => {
               return (
                 <option key={index} value={item.id}>
-                  {item.id}
+                  {item.applicationNumber}
                 </option>
               );
             })}

@@ -7,8 +7,17 @@ export class GetApplicationResponse {
   @ApiProperty({ example: 'Application Title' })
   title: string;
 
+  @ApiProperty()
+  exporterName: string;
+
+  @ApiProperty()
+  applicationNumber: string;
+
   @ApiProperty({ example: '12-12-2022' })
   issuanceDate: Date;
+
+  @ApiProperty({ example: '12-12-2022' })
+  endDate: Date;
 
   status: string;
 }

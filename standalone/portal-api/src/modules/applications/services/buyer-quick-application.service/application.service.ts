@@ -35,17 +35,30 @@ export class BuyerQuickApplicationService extends BaseService {
     entityID: string,
   ): Promise<GetApplicationResponse[]> {
     const applications = await this.buyerApplicationRepository.find({
-      select: ['id', 'issuanceDate', 'title', 'status'],
+      select: [
+        'id',
+        'supplierInformation',
+        'issuanceDate',
+        'title',
+        'status',
+        'applicationNumber',
+        'endDate',
+      ],
+      relations: ['supplierInformation'],
       where: { legalEntity: { id: entityID } },
     });
 
     var response = new Array<GetApplicationResponse>();
 
     response = applications.map((application) => {
+      console.log(application);
       var applicationItem = new GetApplicationResponse();
       applicationItem.id = application.id;
       applicationItem.issuanceDate = application.issuanceDate;
       applicationItem.title = application.title;
+      applicationItem.applicationNumber = application.applicationNumber;
+      applicationItem.exporterName = '--';
+      applicationItem.endDate = application.endDate;
       applicationItem.status = application.status;
 
       return applicationItem;
@@ -71,6 +84,9 @@ export class BuyerQuickApplicationService extends BaseService {
     var response = new GetBuyerQuickApplicationResponse();
     response.id = application.id;
     response.title = application.title;
+    response.applicationNumber = application.applicationNumber;
+    response.issuanceDate = application.issuanceDate;
+    response.endDate = application.endDate;
     response.status = application.status;
 
     const savedBuyerInformation =
@@ -87,7 +103,7 @@ export class BuyerQuickApplicationService extends BaseService {
     const savedCollateral = await this.collateralService.getCollateral(
       application.id,
     );
-
+    response.exporterName = savedSupplierInformation.supplier.companyName;
     response.buyerInformation = savedBuyerInformation;
     response.supplierInformation = savedSupplierInformation;
     response.orderDetails = savedOrderDetail;
@@ -130,8 +146,14 @@ export class BuyerQuickApplicationService extends BaseService {
 
     const application = new BuyerQuickApplicationEntity();
 
+    const applicationNumber = await this.generateApplicationNumber(entity.name);
+    // default enddate is 60 days from now
+    const endDate = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+
+    application.applicationNumber = applicationNumber;
     application.title = data.title;
     application.issuanceDate = new Date();
+    application.endDate = endDate;
     application.status = 'ACTIVE';
     application.createdAt = new Date();
 
@@ -204,5 +226,15 @@ export class BuyerQuickApplicationService extends BaseService {
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  private generateApplicationNumber(entityName: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const lastFourDigits = Date.now().toString().slice(-4);
+      const applicationNumber = `${entityName
+        .substring(0, 3)
+        .toUpperCase()}-${lastFourDigits}`;
+      resolve(applicationNumber);
+    });
   }
 }

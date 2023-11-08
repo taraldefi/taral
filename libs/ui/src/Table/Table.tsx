@@ -108,8 +108,8 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 						'Product',
 						'Date From',
 						'Date To',
-						'Importer ID',
-						'Importer Name',
+						// 'Importer ID',
+						'Exporter Name',
 						'Status',
 					].map((item, index) => {
 						return <th key={index}>{item}</th>;
@@ -117,15 +117,12 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 				</tr>
 				{applicationTableData.map((item, index) => {
 					return (
-						<tr
-							onClick={() => onClick(item.applicationId)}
-							key={index}
-						>
+						<tr onClick={() => onClick(item.id)} key={index}>
 							<td>{item.applicationId}</td>
 							<td>{item.product}</td>
 							<td>{item.dateFrom}</td>
 							<td>{item.dateTo}</td>
-							<td>{item.importerId}</td>
+							{/* <td>{item.importerId}</td> */}
 							<td>{item.importerName}</td>
 							<td>{item.status}</td>
 						</tr>

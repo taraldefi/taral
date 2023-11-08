@@ -119,10 +119,11 @@ const TableData = [
 function Index({ ...props }) {
   const router = useRouter();
 
-  const handleActiveApplicationClick = (id: number) => {
+  const handleActiveApplicationClick = (id: string) => {
     const currentApplication = props.applicationTableData.find(
-      (application: any) => application.applicationId === id
+      (application: any) => application.id === id
     );
+
     if (currentApplication.status != "ACTIVE") {
       return;
     }
@@ -154,14 +155,15 @@ export async function getServerSideProps(context: NextPageContext) {
     );
     const applications = res || [];
     let applicationTableData: applicationTableDataType[] = [];
+
     applicationTableData = applications.map((application: any) => {
       return {
-        applicationId: application.id,
-        product: "--",
+        id: application.id,
+        applicationId: application.applicationNumber,
+        product: "Importer financing",
         dateFrom: convertDate(application.issuanceDate),
-        dateTo: "--",
-        importerId: "FH-509",
-        importerName: "--",
+        dateTo: convertDate(application.endDate),
+        importerName: application.exporterName,
         status: application.status,
       };
     });

@@ -63,6 +63,11 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
 
     const savedPaymentTerm = await this.paymentTermService.create(data);
 
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
     application.paymentTerms = savedPaymentTerm;
     application.save();
 
@@ -84,11 +89,17 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
         relations: ['paymentTerms'],
       },
     );
-    const savedCollateral = await this.paymentTermService.update(
+    const savedPaymentTerm = await this.paymentTermService.update(
       application.paymentTerms.id,
       data,
     );
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
+    application.save();
 
-    return savedCollateral;
+    return savedPaymentTerm;
   }
 }

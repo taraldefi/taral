@@ -119,7 +119,9 @@ const ImporterTopNav = () => {
                 );
 
               case "pay":
-                return <RepaymentTopNavRightComponent applications={[]} />;
+                return (
+                  <RepaymentTopNavRightComponent applications={applications} />
+                );
 
               default:
                 return <KycTopNavRightComponent entities={entities} />;
