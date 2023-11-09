@@ -14,7 +14,7 @@
     "clarinet:chainhook:tests": "clarinet test --chainhooks ./chainhooks/marketplace.chainhook.yaml ./tests_chainhook/integration_test.ts",
     "test": "vitest run -- --manifest-path ./Clarinet.toml",
     "test:reports": "vitest run -- --coverage --costs",
-    "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\""
+    "test:watch": "chokidar \"unit-tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\""
   },
   
   "dependencies": {
