@@ -136,7 +136,7 @@ describe("test importer flows", () => {
     }),
 
     it("Ensure that next importer id available", () => {
-        let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
 
@@ -144,7 +144,7 @@ describe("test importer flows", () => {
             "taral-importer",
             "register",
             [
-                Cl.standardPrincipal(exporter_wallet),
+                Cl.standardPrincipal(importer_wallet),
                 Cl.stringUtf8(exporter_name),
                 Cl.stringUtf8(exporter_category),
             ],
@@ -168,5 +168,26 @@ describe("test importer flows", () => {
   
         //assert
         expect(receipt.result).toStrictEqual(Cl.uint(10002));
+    }),
+
+    it("Ensure order cannot be appended for an unregistered importer", () => {
+        let deployer = accounts.get("deployer")!;
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let new_order_id = 2001;
+
+        //act
+        const appendOrderResult = simnet.callPublicFn(
+            "taral-importer",
+            "append-order",
+            [Cl.uint(new_order_id), Cl.standardPrincipal(importer_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(appendOrderResult.result).toBeErr(Cl.uint(121)); // ERR-IMPORTER-NOT-REGISTERED
     })
 });
