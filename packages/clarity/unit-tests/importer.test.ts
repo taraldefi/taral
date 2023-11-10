@@ -25,7 +25,7 @@ describe("test importer flows", () => {
         );
 
         if (VERBOSE) {
-            console.log("Register Exporter Result:", JSON.stringify(registerImporterResult, null, 2));
+            console.log("Register importer Result:", JSON.stringify(registerImporterResult, null, 2));
         }
 
         // ERR-GENERIC
@@ -38,7 +38,7 @@ describe("test importer flows", () => {
         let importer_category = "Merchant";
 
         let registerImporterResult = simnet.callPublicFn(
-            "taral-exporter",
+            "taral-importer",
             "register",
             [
                 Cl.standardPrincipal(importer_wallet),
@@ -49,7 +49,7 @@ describe("test importer flows", () => {
         );
 
         registerImporterResult = simnet.callPublicFn(
-            "taral-exporter",
+            "taral-importer",
             "register",
             [
                 Cl.standardPrincipal(importer_wallet),
@@ -65,7 +65,7 @@ describe("test importer flows", () => {
         }
 
         // ERR-IMPORTER-ALREADY-REGISTERED
-        expect(registerImporterResult.result).toBeErr(Cl.uint(121));
+        expect(registerImporterResult.result).toBeErr(Cl.uint(102));
     }),
 
     it("Ensure that importer registration is a success", () => {
@@ -137,16 +137,16 @@ describe("test importer flows", () => {
 
     it("Ensure that next importer id available", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
-        let exporter_name = "ALPS Logistics";
-        let exporter_category = "Merchant";
+        let importer_name = "ALPS Logistics";
+        let importer_category = "Merchant";
 
         const registerImporterResult = simnet.callPublicFn(
             "taral-importer",
             "register",
             [
                 Cl.standardPrincipal(importer_wallet),
-                Cl.stringUtf8(exporter_name),
-                Cl.stringUtf8(exporter_category),
+                Cl.stringUtf8(importer_name),
+                Cl.stringUtf8(importer_category),
             ],
             DEPLOYER
         );
@@ -227,5 +227,60 @@ describe("test importer flows", () => {
         }
 
         expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+    }),
+
+    it("Ensure that order exists after registration", () => {
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let importer_name = "ALPS Logistics";
+        let importer_category = "Merchant";
+        let new_order_id = 2001;
+
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(importer_wallet),
+                Cl.stringUtf8(importer_name),
+                Cl.stringUtf8(importer_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Importer Result:", JSON.stringify(registerImporterResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(registerImporterResult.result).toBeOk(Cl.bool(true));
+
+        const appendOrderResult = simnet.callPublicFn(
+            "taral-importer",
+            "append-order",
+            [Cl.uint(new_order_id), Cl.standardPrincipal(importer_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+
+        const getimporterOrderResult = simnet.callReadOnlyFn(
+            "taral-importer",
+            "get-importer-order",
+            [Cl.uint(0), Cl.standardPrincipal(importer_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Get importer Order Result:", JSON.stringify(getimporterOrderResult.result, null, 2));
+        }
+
+        const expected = Cl.some(Cl.tuple({
+            orderId: Cl.uint(new_order_id),
+        }));
+
+        expect(getimporterOrderResult.result).toStrictEqual(expected);
     })
 });
