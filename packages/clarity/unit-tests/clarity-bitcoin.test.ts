@@ -1,11 +1,14 @@
-import { Cl } from "@stacks/transactions";
+import { Cl, TupleCV, tupleCV } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { hexStringToUint8Array } from "./helpers/helpers";
 import { parts } from "./fixtures";
 import { tx } from "@hirosystems/clarinet-sdk";
+import { parse } from "path";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
+
+const VERBOSE = false;
 
 describe("test clarity bitcoin", () => {
     it("Ensures that valid merkle proofs are validated", () => {
@@ -64,7 +67,9 @@ describe("test clarity bitcoin", () => {
 
       expect(verifyMerkleProofResult.result).toBeOk(Cl.bool(true));
 
-      console.log(JSON.stringify(verifyMerkleProofResult, null, 2));
+      if (VERBOSE) {    
+        console.log("Verify merkle proof result", JSON.stringify(verifyMerkleProofResult, null, 2));
+      }
 
 
        // verify pool tx
@@ -96,9 +101,11 @@ describe("test clarity bitcoin", () => {
 
         expect(verifyMerkleProofResult1.result).toBeOk(Cl.bool(true));
 
-        console.log(JSON.stringify(verifyMerkleProofResult1, null, 2));
+        if (VERBOSE) {    
+            console.log("Verify merkle proof result", JSON.stringify(verifyMerkleProofResult1, null, 2));
+        }
 
-         //     // concat-header
+        // concat-header
         const concatHeaderResult = simnet.callReadOnlyFn(
           "clarity-bitcoin",
           "concat-header",
@@ -120,7 +127,113 @@ describe("test clarity bitcoin", () => {
         
         expect(concatHeaderResult.result).toBeBuff(hexStringToUint8Array("0x00200020b9d30838796e6ea7ff4b441ca1d705c229f3492cfdddcd186b21000000000000ed853698ef70b79478b6c01e31efdfff6fac38606661e3aa7b30d1b6fe6bf65abec896600afd22196e2d6012"));
 
-        console.log(JSON.stringify(concatHeaderResult, null, 2));
+
+        if (VERBOSE) {    
+            console.log("Concat header result", JSON.stringify(concatHeaderResult, null, 2));
+        }
+
+        // parse-tx
+        var parseTransactionResult = simnet.callReadOnlyFn(
+          "clarity-bitcoin",
+          "parse-tx",
+          [
+            Cl.bufferFromHex("0100000001c8bd3502a21f810da7692e323cc46e0e9ec1def7a93cc610f6d65b60193174e2030000006a47304402204ffe267e6b5aab28350be80c1f4ea94424c483f3f44f175594bb6273000f80e8022042ebd5668420c8b29d2ec2791e2c8aa0d7784d8a6283f958fe581e0be129c61b0121037435c194e9b01b3d7f7a2802d6684a3af68d05bbf4ec8f17021980d777691f1dfdffffff040000000000000000536a4c5058365b13588072c8b4eca88a505db5c453123c5c91db98d90ac1cd124402dba596531ebf945361dbdbcb0a43e8d6984ab8eee14982d0341eab198fc74d2d917c6d95dc001e21c20008001e1fc2001d0210270000000000001976a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac10270000000000001976a9146c575e9f31715b180b22738136895876ade678cb88ac752f7c5c000000001976a914ba27f99e007c7f605a8305e318c1abde3cd220ac88ac00000000"),
+          ],
+          WALLET_1
+        );
+
+        if (VERBOSE) {    
+            console.log("Parse transaction result", JSON.stringify(parseTransactionResult, null, 2));
+        }
+
+        const insArray: TupleCV[] = [
+            Cl.tuple({
+                outpoint: Cl.tuple({
+                    hash: Cl.bufferFromHex("e2743119605bd6f610c63ca9f7dec19e0e6ec43c322e69a70d811fa20235bdc8"),
+                    index: Cl.uint(3)
+                }),
+                scriptSig: Cl.bufferFromHex("47304402204ffe267e6b5aab28350be80c1f4ea94424c483f3f44f175594bb6273000f80e8022042ebd5668420c8b29d2ec2791e2c8aa0d7784d8a6283f958fe581e0be129c61b0121037435c194e9b01b3d7f7a2802d6684a3af68d05bbf4ec8f17021980d777691f1d"),
+                sequence: Cl.uint(4294967293)
+            })
+        ];
+
+        const outsArray: TupleCV[] = [
+            Cl.tuple({
+                scriptPubKey: Cl.bufferFromHex("6a4c5058365b13588072c8b4eca88a505db5c453123c5c91db98d90ac1cd124402dba596531ebf945361dbdbcb0a43e8d6984ab8eee14982d0341eab198fc74d2d917c6d95dc001e21c20008001e1fc2001d02"),
+                value: Cl.uint(0)
+            }),
+            Cl.tuple({
+                scriptPubKey: Cl.bufferFromHex("76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac"),
+                value: Cl.uint(10000)
+            }),
+            Cl.tuple({
+                scriptPubKey: Cl.bufferFromHex("76a9146c575e9f31715b180b22738136895876ade678cb88ac"),
+                value: Cl.uint(10000)
+            }),
+            Cl.tuple({
+                scriptPubKey: Cl.bufferFromHex("76a914ba27f99e007c7f605a8305e318c1abde3cd220ac88ac"),
+                value: Cl.uint(1551642485)
+            })
+        ];
+
+        // this returns a tuple of the following structure
+        // {
+        //     "ins":[
+        //        {
+        //           "outpoint":{
+        //              "hash":0xe2743119605bd6f610c63ca9f7dec19e0e6ec43c322e69a70d811fa20235bdc8,
+        //              "index":u3
+        //           },
+        //           "scriptSig":0x47304402204ffe267e6b5aab28350be80c1f4ea94424c483f3f44f175594bb6273000f80e8022042ebd5668420c8b29d2ec2791e2c8aa0d7784d8a6283f958fe581e0be129c61b0121037435c194e9b01b3d7f7a2802d6684a3af68d05bbf4ec8f17021980d777691f1d,
+        //           "sequence":u4294967293
+        //        }
+        //     ],
+        //     "locktime":u0,
+        //     "outs":[
+        //        {
+        //           "scriptPubKey":0x6a4c5058365b13588072c8b4eca88a505db5c453123c5c91db98d90ac1cd124402dba596531ebf945361dbdbcb0a43e8d6984ab8eee14982d0341eab198fc74d2d917c6d95dc001e21c20008001e1fc2001d02,
+        //           "value":u0
+        //        },
+        //        {
+        //           "scriptPubKey":0x76a914c70e1ca5a5ef633fe5464821ca421c173997f38888ac,
+        //           "value":u10000
+        //        },
+        //        {
+        //           "scriptPubKey":0x76a9146c575e9f31715b180b22738136895876ade678cb88ac,
+        //           "value":u10000
+        //        },
+        //        {
+        //           "scriptPubKey":0x76a914ba27f99e007c7f605a8305e318c1abde3cd220ac88ac,
+        //           "value":u1551642485
+        //        }
+        //     ],
+        //     "version":u1
+        //  }
+
+        // block (3)
+        expect(parseTransactionResult.result).toBeOk(Cl.tuple({
+            ins: Cl.list(insArray),
+            locktime: Cl.uint(0),
+            outs: Cl.list(outsArray),
+            version: Cl.uint(1)
+        }));
+
+         //     // verify block header
+        const verifyBlockHeaderResult = simnet.callReadOnlyFn(
+          "clarity-bitcoin",
+          "verify-block-header",
+          [
+            Cl.bufferFromHex("00200020b9d30838796e6ea7ff4b441ca1d705c229f3492cfdddcd186b21000000000000ed853698ef70b79478b6c01e31efdfff6fac38606661e3aa7b30d1b6fe6bf65abec896600afd22196e2d6012"),
+            Cl.uint(11319),
+          ],
+          WALLET_1
+        );
+
+        if (VERBOSE) {    
+            console.log("Verify block header", JSON.stringify(verifyBlockHeaderResult, null, 2));
+        }
+
+        
 
       // values taken from
         // https://bitcoindev.network/calculating-the-merkle-root-for-a-block/
