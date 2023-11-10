@@ -189,5 +189,43 @@ describe("test importer flows", () => {
 
         // ERR-GENERIC
         expect(appendOrderResult.result).toBeErr(Cl.uint(121)); // ERR-IMPORTER-NOT-REGISTERED
+    }),
+
+    it("Ensure that adding order is a success", () => {
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let importer_name = "ALPS Logistics";
+        let importer_category = "Merchant";
+        let new_order_id = 2001;
+
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(importer_wallet),
+                Cl.stringUtf8(importer_name),
+                Cl.stringUtf8(importer_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Importer Result:", JSON.stringify(registerImporterResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(registerImporterResult.result).toBeOk(Cl.bool(true));
+
+        const appendOrderResult = simnet.callPublicFn(
+            "taral-importer",
+            "append-order",
+            [Cl.uint(new_order_id), Cl.standardPrincipal(importer_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
     })
 });
