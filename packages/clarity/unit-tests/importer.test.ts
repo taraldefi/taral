@@ -66,5 +66,28 @@ describe("test importer flows", () => {
 
         // ERR-IMPORTER-ALREADY-REGISTERED
         expect(registerImporterResult.result).toBeErr(Cl.uint(121));
+    }),
+
+    it("Ensure that importer registration is a success", () => {
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let importer_name = "ALPS Logistics";
+        let importer_category = "Merchant";
+
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(importer_wallet),
+                Cl.stringUtf8(importer_name),
+                Cl.stringUtf8(importer_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Importer Result:", JSON.stringify(registerImporterResult, null, 2));
+        }
+
+        expect(registerImporterResult.result).toBeOk(Cl.bool(true));
     })
 });
