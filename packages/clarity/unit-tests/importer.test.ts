@@ -133,5 +133,40 @@ describe("test importer flows", () => {
         }));
 
         expect(getImporterResult.result).toStrictEqual(expected);
+    }),
+
+    it("Ensure that next importer id available", () => {
+        let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let exporter_name = "ALPS Logistics";
+        let exporter_category = "Merchant";
+
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(exporter_wallet),
+                Cl.stringUtf8(exporter_name),
+                Cl.stringUtf8(exporter_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Importer Result:", JSON.stringify(registerImporterResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(registerImporterResult.result).toBeOk(Cl.bool(true));
+
+        //act
+        let receipt = simnet.callReadOnlyFn(
+            "taral-importer",
+            "get-next-importer-id",
+            [],
+            DEPLOYER
+        );
+  
+        //assert
+        expect(receipt.result).toStrictEqual(Cl.uint(10002));
     })
 });
