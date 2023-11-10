@@ -366,5 +366,148 @@ describe("test exporter flows", () => {
         }));
 
         expect(getExporterOrderResult.result).toStrictEqual(expected);
+    }),
+
+    it("Ensure that to get the orders list of specific exporters", () => {
+        const exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        const exporter1_name = "ALPS Logistics";
+        const exporter1_category = "Merchant";
+
+        const exporter2_wallet = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
+        const exporter2_name = "MX Roadways";
+        const exporter2_category = "PROJECT";
+
+        const new1_order_id = 2001;
+        const new2_order_id = 2002;
+        const new3_order_id = 2003;
+        const new4_order_id = 2004;
+
+        let exporter3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
+
+        let registerExporterResult = simnet.callPublicFn(
+            "taral-exporter",
+            "register",
+            [
+                Cl.standardPrincipal(exporter1_wallet),
+                Cl.stringUtf8(exporter1_name),
+                Cl.stringUtf8(exporter1_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Exporter Result:", JSON.stringify(registerExporterResult, null, 2));
+        }
+
+        expect(registerExporterResult.result).toBeOk(Cl.bool(true));
+
+        registerExporterResult = simnet.callPublicFn(
+            "taral-exporter",
+            "register",
+            [
+                Cl.standardPrincipal(exporter2_wallet),
+                Cl.stringUtf8(exporter2_name),
+                Cl.stringUtf8(exporter2_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Exporter Result:", JSON.stringify(registerExporterResult, null, 2));
+        }
+
+        expect(registerExporterResult.result).toBeOk(Cl.bool(true));
+
+        let appendOrderResult = simnet.callPublicFn(
+            "taral-exporter",
+            "append-order",
+            [Cl.uint(new1_order_id), Cl.standardPrincipal(exporter1_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+
+        appendOrderResult = simnet.callPublicFn(
+            "taral-exporter",
+            "append-order",
+            [Cl.uint(new2_order_id), Cl.standardPrincipal(exporter1_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+
+        appendOrderResult = simnet.callPublicFn(
+            "taral-exporter",
+            "append-order",
+            [Cl.uint(new3_order_id), Cl.standardPrincipal(exporter2_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+
+        appendOrderResult = simnet.callPublicFn(
+            "taral-exporter",
+            "append-order",
+            [Cl.uint(new4_order_id), Cl.standardPrincipal(exporter2_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeOk(Cl.bool(true));
+
+        //act
+        const exporterList = Cl.list([
+            Cl.standardPrincipal(exporter1_wallet),
+            Cl.standardPrincipal(exporter1_wallet),
+            Cl.standardPrincipal(exporter2_wallet),
+            Cl.standardPrincipal(exporter3_wallet),
+        ]);
+    
+        const orderList = Cl.list([
+            Cl.uint(0),
+            Cl.uint(1),
+            Cl.uint(0),
+            Cl.uint(0),
+        ]);
+
+        let receipt = simnet.callReadOnlyFn(
+            "taral-exporter",
+            "get-exporter-orders",
+            [orderList, exporterList],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Get Exporter Orders Result:", JSON.stringify(receipt.result, null, 2));
+        }
+
+        const expected = Cl.list([
+            Cl.some(Cl.tuple({
+                orderId: Cl.uint(new1_order_id),
+            })),
+            Cl.some(Cl.tuple({
+                orderId: Cl.uint(new2_order_id),
+            })),
+            Cl.some(Cl.tuple({
+                orderId: Cl.uint(new3_order_id),
+            })),
+        ]);
+
+        expect(receipt.result).toStrictEqual(expected);
     })
 });
