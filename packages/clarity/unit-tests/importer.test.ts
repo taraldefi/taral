@@ -89,5 +89,49 @@ describe("test importer flows", () => {
         }
 
         expect(registerImporterResult.result).toBeOk(Cl.bool(true));
+    }),
+
+    it("Ensure that importer exists after registration", () => {
+        let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let importer_name = "ALPS Logistics";
+        let importer_category = "Merchant";
+
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(importer_wallet),
+                Cl.stringUtf8(importer_name),
+                Cl.stringUtf8(importer_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Importer Result:", JSON.stringify(registerImporterResult, null, 2));
+        }
+
+        expect(registerImporterResult.result).toBeOk(Cl.bool(true));
+
+        const getImporterResult = simnet.callReadOnlyFn(
+            "taral-importer",
+            "get-importer-profile",
+            [
+                Cl.standardPrincipal(importer_wallet),
+            ],
+            WALLET_1
+        );
+
+        if (VERBOSE) {
+            console.log("Get Importer Result:", JSON.stringify(getImporterResult.result, null, 2));
+        }
+
+        const expected = Cl.some(Cl.tuple({
+            name: Cl.stringUtf8(importer_name),
+            category: Cl.stringUtf8(importer_category),
+            ordersNextAvailId: Cl.uint(0)
+        }));
+
+        expect(getImporterResult.result).toStrictEqual(expected);
     })
 });
