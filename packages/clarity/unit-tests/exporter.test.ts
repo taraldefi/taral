@@ -172,5 +172,87 @@ describe("test exporter flows", () => {
   
         //assert
         expect(receipt.result).toStrictEqual(Cl.uint(10002));
+    }),
+
+    it("Ensure that we can get the exporters profile", () => {
+        let exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let exporter1_name = "ALPS Logistics";
+        let exporter1_category = "Merchant";
+
+        let exporter2_wallet = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
+        let exporter2_name = "MX Roadways";
+        let exporter2_category = "PROJECT";
+
+        let registerExporterResult = simnet.callPublicFn(
+            "taral-exporter",
+            "register",
+            [
+                Cl.standardPrincipal(exporter1_wallet),
+                Cl.stringUtf8(exporter1_name),
+                Cl.stringUtf8(exporter1_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Exporter Result:", JSON.stringify(registerExporterResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(registerExporterResult.result).toBeOk(Cl.bool(true));
+
+
+        registerExporterResult = simnet.callPublicFn(
+            "taral-exporter",
+            "register",
+            [
+                Cl.standardPrincipal(exporter2_wallet),
+                Cl.stringUtf8(exporter2_name),
+                Cl.stringUtf8(exporter2_category),
+            ],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Register Exporter Result:", JSON.stringify(registerExporterResult, null, 2));
+        }
+
+        // ERR-GENERIC
+        expect(registerExporterResult.result).toBeOk(Cl.bool(true));
+
+        let exporter3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
+
+        const exporterList = Cl.list([
+            Cl.standardPrincipal(exporter1_wallet),
+            Cl.standardPrincipal(exporter2_wallet),
+            Cl.standardPrincipal(exporter3_wallet),
+        ]);
+
+        let receipt = simnet.callReadOnlyFn(
+            "taral-exporter",
+            "get-exporters",
+            [exporterList],
+            DEPLOYER
+        );
+
+        if (VERBOSE || true) {
+            console.log("Get Exporters Result:", JSON.stringify(receipt.result, null, 2));
+        }
+
+        const expected = Cl.list([
+            Cl.some(Cl.tuple({
+                name: Cl.stringUtf8(exporter1_name),
+                category: Cl.stringUtf8(exporter1_category),
+                ordersNextAvailId: Cl.uint(0)
+            })),
+            Cl.some(Cl.tuple({
+                name: Cl.stringUtf8(exporter2_name),
+                category: Cl.stringUtf8(exporter2_category),
+                ordersNextAvailId: Cl.uint(0)
+            })),
+            Cl.none() 
+        ]);
+
+        expect(receipt.result).toStrictEqual(expected);
     })
 });
