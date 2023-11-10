@@ -19,6 +19,8 @@
     (as-contract (stx-transfer? ustx tx-sender user))))
 
 ;; Anybody can pay into the contract. The amount will be accounted for the given cycle.
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (payin (ustx uint) (cycle uint))
   (begin
     (map-set vaults cycle (+ (default-to 0 (map-get? vaults cycle)) (to-int ustx)))
@@ -121,6 +123,8 @@
 
 
 ;; every user can delegate and stack their stacks
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (delegate-stx (amount-ustx uint) (stacker principal)
                   (until-burn-ht (optional uint))
                   (pox-addr (optional (tuple (hashbytes (buff 20)) (version (buff 1)))))
@@ -145,7 +149,11 @@
 
 
 ;; only one user can call this function
+
 (define-data-var delegation-enabler (optional principal) none)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (allow-contract-caller (this-contract principal))
   (match (var-get delegation-enabler)
     enabler (ok enabler)
@@ -156,6 +164,8 @@
       (ok enabler))))
 
 ;;submit reward btc transactions
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (submit-reward-tx (block { version: (buff 4), parent: (buff 32), merkle-root: (buff 32), timestamp: (buff 4), nbits: (buff 4), nonce: (buff 4), height: uint })
     (tx {version: (buff 4),
       ins: (list 8
@@ -170,6 +180,8 @@
       (ok success))
     error (err error)))
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (submit-unaudited-rewards (amount uint) (cycle uint))
   (begin
     (asserts! (> amount u0) err-non-positive-amount)

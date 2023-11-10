@@ -17,6 +17,39 @@
     )
 )
 
+(define-public (update-exporter-track-record (exporter-principal principal) (success bool))
+    (let (
+        (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter-principal ) ERR-EXPORTER-NOT-REGISTERED))
+        (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter-principal) exporter-storage-error))
+        (successful-transaction-count (get successful-transactions current-exporter ))
+        (failed-transaction-count (get failed-transactions current-exporter ))
+        )
+        
+        (if success
+            (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { successful-transactions: (+ u1 successful-transaction-count)})) exporter-storage-error)
+
+            (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { failed-transactions: (+ u1 failed-transaction-count)})) exporter-storage-error)
+        )
+        
+        (ok true)
+    )
+)
+
+;; (define-private (update-seller-track-record (seller-id principal) (success bool))
+;;     (let ((seller-data (unwrap! (map-get? sellers { id: seller-id }) (err "Seller not found"))))
+;;         (if success
+;;             (map-set sellers
+;;                 { id: seller-id }
+;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (+ (get successful-transactions seller-data) u1), failed-transactions: (get failed-transactions seller-data) }
+;;             )
+;;             (map-set sellers
+;;                 { id: seller-id }
+;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (get successful-transactions seller-data), failed-transactions: (+ (get failed-transactions seller-data) u1) }
+;;             )
+;;         )
+;;     )
+;; )
+
 ;; @Desc function to fetch or create an exporter ID, makes use of match function to check if exporter id exists
 ;; @Param exporter : principal of exporter
 (define-private (get-or-create-exporter-id (exporter principal))

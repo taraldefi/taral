@@ -141,6 +141,8 @@
 ;; source needs to be known and have a key
 ;; verify message was signed with source
 ;; verify timestamp is strictly higher than current one, we don't want to go back in time
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (add-price (source (string-ascii 16)) (msg (buff 256)) (sig (buff 65)))
   (if (verify-signature msg sig (get public-key (unwrap-panic (map-get? sources {source: source}))))
     (let ((timestamp (extract-timestamp msg)) (amount (extract-amount msg)) (symbol (extract-symbol msg)) (data-opt (map-get? oracle-data {source: source, symbol: symbol})))

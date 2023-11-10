@@ -11,5 +11,5 @@ export class BuyerCompanyEntity extends CompanyEntity {
     onDelete: 'CASCADE',
   })
   @Allow()
-  buyer: CompanyEntity;
+  buyer: BuyerEntity;
 }

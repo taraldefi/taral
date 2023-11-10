@@ -77,15 +77,20 @@
 )
 
 ;; Public functions
-
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-files-by-name (filename (string-ascii 128)) (participant principal) (hash (buff 256)) (file-id (string-utf8 36)))
     (ok (map-set files-by-name { name: filename, participant: participant, hash: hash } { id: file-id }))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (delete-files-by-name (filename (string-ascii 128)) (participant principal) (hash (buff 256)))
     (ok (map-delete files-by-name { name: filename, participant: participant, hash: hash }))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-files (file-id (string-utf8 36)) (filename (string-ascii 128)) (hash (buff 256)))
     (ok (map-set files { id: file-id } {
             name: filename,
@@ -96,6 +101,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-file-hash (file-id (string-utf8 36)) (hash (buff 256)) (filename (string-ascii 128)))
     (ok (map-set file-hash { id: file-id } {
             hash: hash,
@@ -104,6 +111,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-file-hash 
     (key-tuple {
         id: (string-utf8 36)
@@ -116,6 +125,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-file-versions (file-id (string-utf8 36)) (hash (buff 256)) (changed-by principal))
     (ok (map-set file-versions {
             id: file-id,
@@ -127,6 +138,8 @@
     )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-file-authorizations 
     (file-id (string-utf8 36)) 
     (participant principal)
@@ -142,10 +155,14 @@
         )
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (delete-file-authorizations (file-id (string-utf8 36)) (participant principal))
     (ok (map-delete file-authorizations { id: file-id, participant: participant }))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (update-file-authorizations 
     (key-tuple {
         id: (string-utf8 36),

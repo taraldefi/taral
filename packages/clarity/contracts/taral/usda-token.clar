@@ -35,6 +35,8 @@
   (ok (ft-get-balance usda account))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (set-token-uri (value (string-utf8 256)))
   (ok (var-set token-uri value))
 )
@@ -43,6 +45,8 @@
   (ok (some (var-get token-uri)))
 )
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (transfer (amount uint) (sender principal) (recipient principal) (memo (optional (buff 34))))
   (begin
     (asserts! (is-eq tx-sender sender) (err ERR-NOT-AUTHORIZED))

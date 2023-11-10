@@ -17,9 +17,9 @@
     "ts-jest": "^27.1.4",
     "ts-node": "^10.9.1",
     "@types/jest": "^27.4.1",
-    "@types/uuid": "^9.0.5",
+    "@types/uuid": "^9.0.6",
     "typescript": "^5.1.6",
-    "@babel/preset-typescript": "^7.21.0",
+    "@babel/preset-typescript": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
     "babel-jest": "^29.6.0"
   },

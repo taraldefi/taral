@@ -76,11 +76,15 @@
         price-2 price-2
         (get amount (print (var-get last-price)))))))
 
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (wrapped-oracle-get-price-stx-btc (height uint))
   (ok (oracle-get-price-stx-btc height)))
 
 ;; any user can submit a tx that contains payments into the pool's address
 ;; the value of the tx is added to the block
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
 (define-public (submit-reward-tx
     (block { version: (buff 4), parent: (buff 32), merkle-root: (buff 32), timestamp: (buff 4), nbits: (buff 4), nonce: (buff 4), height: uint })
     (tx {version: (buff 4),
