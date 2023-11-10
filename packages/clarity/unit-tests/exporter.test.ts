@@ -235,7 +235,7 @@ describe("test exporter flows", () => {
             DEPLOYER
         );
 
-        if (VERBOSE || true) {
+        if (VERBOSE) {
             console.log("Get Exporters Result:", JSON.stringify(receipt.result, null, 2));
         }
 
@@ -254,5 +254,26 @@ describe("test exporter flows", () => {
         ]);
 
         expect(receipt.result).toStrictEqual(expected);
+    }),
+
+    it("Ensure that order inputs are valid", () => {
+        let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
+        let new_order_id = 2001;
+
+        //act
+        const appendOrderResult = simnet.callPublicFn(
+            "taral-exporter",
+            "append-order",
+            [Cl.uint(new_order_id), Cl.standardPrincipal(exporter_wallet)],
+            DEPLOYER
+        );
+
+        if (VERBOSE) {
+            console.log("Append Order Result:", JSON.stringify(appendOrderResult, null, 2));
+        }
+
+        expect(appendOrderResult.result).toBeErr(Cl.uint(120)); // ERR-EXPORTER-NOT-REGISTERED
     })
+
+    
 });
