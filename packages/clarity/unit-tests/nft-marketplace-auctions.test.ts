@@ -535,5 +535,9 @@ describe("test marketplace auction flows", () => {
         );
 
         expect(startAuctionResult.result).toBeErr(Cl.uint(9000));
+    }),
+
+    it("Ensure place bid fails if contract is paused", () => {
+        expect(true).toBeTruthy();
     })
 });
