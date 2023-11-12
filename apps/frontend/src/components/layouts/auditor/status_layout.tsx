@@ -38,8 +38,8 @@ export default function StatusLayout({
     <DashBoardPageLayout
       showexport={showexport}
       sortBarData={SortbarData}
-      exporter={""}
-      importer={""}
+      exporter={"Exporter"}
+      importer={"Importer"}
       date={""}
     >
       {children}

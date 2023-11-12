@@ -51,6 +51,10 @@ export class QuickApplicationController {
 
   // Routes for operations related to applications
 
+  @Get('/all-applications/:id')
+  async getAllApplications(@Param('id') entityId: string) {
+    return await this.buyerQuickApplicationService.getAllApplications(entityId);
+  }
   // Get application by ID
   @Get('/:id')
   async getApplication(@Param('id') id: string) {
@@ -68,7 +72,6 @@ export class QuickApplicationController {
   // Create an application
   @Post()
   async create(@Body() applicationDto: CreateQuickApplicationRequest) {
-  
     let entity: LegalBuyerEntity = undefined;
 
     try {
@@ -78,11 +81,10 @@ export class QuickApplicationController {
     } catch (exception) {
       throw new EntityNotFoundError('LegalBuyerEntity', {
         where: {
-          id: applicationDto.entityId
-        }
+          id: applicationDto.entityId,
+        },
       });
     }
-
 
     const application = await this.buyerQuickApplicationService.create(
       applicationDto,

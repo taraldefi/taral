@@ -7,6 +7,7 @@ import { GetPaymentTermResponse } from '../dto/response/get-payment-term.respons
 import { PaymentTermMappingService } from './mapping.service';
 import { UpdatePaymentTermDto } from '../dto/request/update-payment-term.dto';
 import { triggerError } from 'src/common/trigger.error';
+import { interestTypes } from '../enums/payment-term-type.enum';
 
 @Injectable()
 export class PaymentTermService {
@@ -21,12 +22,19 @@ export class PaymentTermService {
 
     paymentTerm.isConcluded = data.isConcluded;
     paymentTerm.partialRefinancing = data.partialRefinancing;
-    paymentTerm.interestCurrency = data.interestCurrency;
-    paymentTerm.interestPercentage = data.interestPercentage;
-    paymentTerm.interestFixedRate = data.interestFixedRate;
-    paymentTerm.interestRegressiveRate = data.interestRegressiveRate;
+    paymentTerm.interestCurrency = data.interestCurrency ?? null;
+    paymentTerm.interestPercentage = data.interestPercentage ?? null;
+    paymentTerm.interestFixedRate = data.interestFixedRate ?? null;
+    paymentTerm.interestDegressiveRate = data.interestDegressiveRate ?? null;
     paymentTerm.paymentType = data.paymentType;
     paymentTerm.paymentDuration = data.paymentDuration;
+    paymentTerm.downpaymentAmount = data.downpaymentAmount;
+    paymentTerm.downpaymentCurrency = data.downpaymentCurrency;
+    paymentTerm.downpaymentDescription = data.downpaymentDescription;
+    paymentTerm.balanceAmount = data.balanceAmount;
+    paymentTerm.balanceCurrency = data.balanceCurrency;
+    paymentTerm.balancePaymentDeadline = data.balancePaymentDeadline;
+    paymentTerm.paymentVehicleDescription = data.paymentVehicleDescription;
 
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
 
@@ -57,21 +65,57 @@ export class PaymentTermService {
 
     if (data.interestCurrency) {
       paymentTerm.interestCurrency = data.interestCurrency;
+    } else {
+      paymentTerm.interestCurrency = null;
     }
     if (data.interestPercentage) {
       paymentTerm.interestPercentage = data.interestPercentage;
+    } else {
+      paymentTerm.interestPercentage = null;
     }
     if (data.interestFixedRate) {
       paymentTerm.interestFixedRate = data.interestFixedRate;
+    } else {
+      paymentTerm.interestFixedRate = null;
     }
-    if (data.interestRegressiveRate) {
-      paymentTerm.interestRegressiveRate = data.interestRegressiveRate;
+    if (data.interestDegressiveRate) {
+      paymentTerm.interestDegressiveRate = data.interestDegressiveRate;
+    } else {
+      paymentTerm.interestDegressiveRate = null;
     }
     if (data.paymentType) {
       paymentTerm.paymentType = data.paymentType;
     }
+    if (data.downpaymentAmount) {
+      paymentTerm.downpaymentAmount = data.downpaymentAmount;
+    }
+    if (data.downpaymentCurrency) {
+      paymentTerm.downpaymentCurrency = data.downpaymentCurrency;
+    }
+    if (data.downpaymentDescription) {
+      paymentTerm.downpaymentDescription = data.downpaymentDescription;
+    }
+    if (data.balanceAmount) {
+      paymentTerm.balanceAmount = data.balanceAmount;
+    }
+    if (data.balanceCurrency) {
+      paymentTerm.balanceCurrency = data.balanceCurrency;
+    }
+    if (data.balancePaymentDeadline) {
+      paymentTerm.balancePaymentDeadline = data.balancePaymentDeadline;
+    }
+    if (data.paymentVehicleDescription) {
+      paymentTerm.paymentVehicleDescription = data.paymentVehicleDescription;
+    }
     if (data.paymentDuration) {
       paymentTerm.paymentDuration = data.paymentDuration;
+    }
+
+    if (data.interestType === interestTypes.FIXED) {
+      paymentTerm.interestDegressiveRate = null;
+    }
+    if (data.interestType === interestTypes.DEGRESSIVE) {
+      paymentTerm.interestFixedRate = null;
     }
 
     const updatedPaymentTerm = await this.paymentTermRepository.save(

@@ -12,9 +12,7 @@ class MyDocument extends Document {
         </head>
         <body>
           <div id={"globalLoader"}>
-            <div className="loader">
-              <img src="/assets/images/logo-500.png" alt="" />
-            </div>
+            <div className="loader"></div>
           </div>
           <Main />
           <NextScript />

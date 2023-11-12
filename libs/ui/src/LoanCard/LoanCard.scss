@@ -1,116 +1,116 @@
 // Generated with util/create-component.js
 .small--loan--card {
-  align-items: center;
-  background-color: white;
-  width: auto;
-  height: 80px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 10px 50px 10px 50px;
-  gap: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+	align-items: center;
+	background-color: white;
+	width: auto;
+	height: 80px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding: 10px 50px 10px 50px;
+	gap: 20px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
 
-  span {
-    font-family: 'inter', sans-serif;
-    color: #65768d;
-  }
-  .left--container {
-    font-size: 20px;
-    font-weight: 600;
-  }
-  .right--container {
-    width: fit-content;
-    align-items: center;
-    display: flex;
-    gap: 5px;
-    flex-direction: column;
-    span:nth-child(2) {
-      color: #b6c1d0;
-      font-weight: 100;
-    }
-  }
+	span {
+		font-family: 'inter', sans-serif;
+		color: #65768d;
+	}
+	.left--container {
+		font-size: 20px;
+		font-weight: 600;
+	}
+	.right--container {
+		width: fit-content;
+		align-items: center;
+		display: flex;
+		gap: 5px;
+		flex-direction: column;
+		span:nth-child(2) {
+			color: #b6c1d0;
+			font-weight: 100;
+		}
+	}
 }
 
 .large--loan--card {
-  font-family: 'inter', sans-serif;
-  align-items: start;
-  background-color: white;
-  width: auto;
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 10px 50px 10px 50px;
-  gap: 10px;
-  border-radius: 10px;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  span {
-    color: #65768d;
-    font-size: 18px;
-  }
-  .loan--card--container {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: baseline;
-    span {
-      color: #003c6e;
-      font-size: 30px;
-      font-weight: 800;
-    }
-    p {
-      color: #b6c1d0;
-      font-size: 14px;
-    }
-  }
+	font-family: 'inter', sans-serif;
+	align-items: flex-start;
+	background-color: white;
+	width: auto;
+	height: 180px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 10px 50px 10px 50px;
+	gap: 10px;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+	span {
+		color: #65768d;
+		font-size: 18px;
+	}
+	.loan--card--container {
+		display: flex;
+		flex-direction: row;
+		gap: 5px;
+		align-items: baseline;
+		span {
+			color: #003c6e;
+			font-size: 30px;
+			font-weight: 800;
+		}
+		p {
+			color: #b6c1d0;
+			font-size: 14px;
+		}
+	}
 }
 
 .payment--success--card {
-  font-family: 'inter', sans-serif;
-  background-color: white;
-  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  padding: 5% 5%;
+	font-family: 'inter', sans-serif;
+	background-color: white;
+	box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+	border-radius: 20px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	width: 100%;
+	padding: 5% 5%;
 
-  .content--container {
-    padding-top: 30px;
-    display: flex;
-    flex-direction: row;
-    width: 60%;
-    gap: 20px;
-    align-items: center;
-    justify-content: center;
+	.content--container {
+		padding-top: 30px;
+		display: flex;
+		flex-direction: row;
+		width: 60%;
+		gap: 20px;
+		align-items: center;
+		justify-content: center;
 
-    .content--left {
-      gap: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-    }
-    .content--right {
-      gap: 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-    }
-  }
-  .two--button--container {
-    padding-top: 30px;
-    display: flex;
-    justify-content: center;
-    gap: 40px;
-    width: 100%;
-    flex-direction: row;
-    .button--container {
-      width: 100%;
-    }
-  }
+		.content--left {
+			gap: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+		.content--right {
+			gap: 20px;
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+		}
+	}
+	.two--button--container {
+		padding-top: 30px;
+		display: flex;
+		justify-content: center;
+		gap: 40px;
+		width: 100%;
+		flex-direction: row;
+		.button--container {
+			width: 100%;
+		}
+	}
 }

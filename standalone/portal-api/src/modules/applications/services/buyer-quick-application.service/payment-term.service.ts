@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/create-payment-term.dto';
 import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
@@ -38,10 +38,8 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
     data: CreatePaymentTermDto,
     applicationId: string,
   ): Promise<GetPaymentTermResponse> {
-
     this.setupTransactionHooks();
 
-    const savedPaymentTerm = await this.paymentTermService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
@@ -55,6 +53,21 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
         ],
       },
     );
+
+    if (application.paymentTerms) {
+      throw new HttpException(
+        'payment terms already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const savedPaymentTerm = await this.paymentTermService.create(data);
+
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
     application.paymentTerms = savedPaymentTerm;
     application.save();
 
@@ -68,7 +81,6 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
     data: UpdatePaymentTermDto,
     applicationId: string,
   ): Promise<GetPaymentTermResponse> {
-
     this.setupTransactionHooks();
 
     const application = await this.buyerApplicationRepository.findOne(
@@ -77,11 +89,17 @@ export class BuyerQuickApplicationPaymentTermService extends BaseService {
         relations: ['paymentTerms'],
       },
     );
-    const savedCollateral = await this.paymentTermService.update(
+    const savedPaymentTerm = await this.paymentTermService.update(
       application.paymentTerms.id,
       data,
     );
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
+    application.save();
 
-    return savedCollateral;
+    return savedPaymentTerm;
   }
 }

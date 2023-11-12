@@ -15,11 +15,18 @@ interface Config {
   EMAIL_TEMPLATE: string;
   ROLES: string;
   PERMISSIONS: string;
+
+  // entity routes
   ENTITY: string;
   ENTITYLOGO: string;
+
+  // file routes
   CREATE_FILE: string;
   UPDATE_FILE: string;
   REQUEST_FILE: string;
+
+  // application routes
+  APPLICATION: string;
 }
 
 const config: Config = {
@@ -43,6 +50,7 @@ const config: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/quick-applications`,
 };
 
 const localConfig: Config = {
@@ -66,6 +74,7 @@ const localConfig: Config = {
   CREATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/create-file`,
   UPDATE_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/update-file`,
   REQUEST_FILE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/files/request-file`,
+  APPLICATION: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/quick-applications`,
 };
 
 const urls = process.env.NODE_ENV === "production" ? config : localConfig;

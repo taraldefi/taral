@@ -1,34 +1,37 @@
-import { ApiProperty } from "@nestjs/swagger";
-import { IsEnum, IsNotEmpty, IsNumberString, IsString } from "class-validator";
+import { ApiProperty } from '@nestjs/swagger';
+import {
+  IsEnum,
+  IsNotEmpty,
+  IsNumberString,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreatePaymentExperienceRequest {
-    @ApiProperty({ example: 'Provider' })
-    @IsNotEmpty()
-    @IsString()
-    description: string;
-  
-    @ApiProperty({ example: 'Years' })
-    @IsNotEmpty()
-    @IsString()
-    length: string;
+  exists: boolean;
 
-    @ApiProperty({ example: '12' })
-    @IsNotEmpty()
-    @IsNumberString()
-    noOfDeals: number;
+  @ApiProperty({ example: 'Provider' })
+  @IsOptional()
+  description: string;
 
-    @ApiProperty({ example: '1000000' })
-    @IsNotEmpty()
-    @IsNumberString()
-    avgBusinessVol: string;
+  @ApiProperty({ example: 'Years' })
+  @IsOptional()
+  length: string;
 
-    @ApiProperty({ example: 'ON_TIME' })
-    @IsNotEmpty()
-    @IsEnum(['ON_TIME', 'DELAYS'])
-    history: string;
+  @ApiProperty({ example: '12' })
+  @IsOptional()
+  noOfDeals: number;
 
-    @ApiProperty({ example: 'Explanation if there were delays in payment' })
-    @IsNotEmpty()
-    @IsString()
-    delays: string;
+  @ApiProperty({ example: '1000000' })
+  @IsOptional()
+  avgBusinessVol: string;
+
+  @ApiProperty({ example: 'ON_TIME' })
+  @IsOptional()
+  @IsEnum(['ON_TIME', 'DELAYS'])
+  history: string;
+
+  @ApiProperty({ example: 'Explanation if there were delays in payment' })
+  @IsOptional()
+  delays: string;
 }

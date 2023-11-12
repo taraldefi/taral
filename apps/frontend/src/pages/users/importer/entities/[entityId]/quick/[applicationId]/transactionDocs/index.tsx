@@ -1,9 +1,42 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload from "@components/widgets/FileUpload";
+import applicationService from "@services/application/applicationService";
+import { useRouter } from "next/router";
+import { NextPageContext } from "next/types";
+import { toast } from "sonner";
 import { Button } from "taral-ui";
 
-function Index() {
+function Index({ ...props }) {
+  const { query } = props;
+  const router = useRouter();
+  const entityID = query.entityId;
+  const applicationID = query.applicationId;
+  const onBack = () => {
+    router.push(
+      `/users/${
+        router.asPath.split("/")[2]
+      }/entities/${entityID}/quick/${applicationID}/security`
+    );
+  };
+
+  const onSubmit = async () => {
+    const response = () => applicationService.submitApplication(applicationID);
+    toast.promise(response, {
+      loading: "Loading...",
+      success: () => {
+        router.push(
+          `/users/${
+            router.asPath.split("/")[2]
+          }/entities/${entityID}/applications`
+        );
+        return `Application Submitted Successfully`;
+      },
+      error: (err) => {
+        return `${err.message}`;
+      },
+    });
+  };
   return (
     <ApplicationLayout>
       <div className="txDocContainer">
@@ -54,9 +87,13 @@ function Index() {
           </div>
         </div>
       </div>
-      <BottomBar></BottomBar>
+      <BottomBar onBack={onBack} onSubmit={onSubmit}></BottomBar>
     </ApplicationLayout>
   );
+}
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
 }
 
 export default Index;

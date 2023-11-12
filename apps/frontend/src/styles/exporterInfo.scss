@@ -6,6 +6,7 @@
   width: 84%;
   padding: 40px 40px 40px 40px;
   height: 100vh;
+
   .vLine {
     width: 0.1px;
     height: initial;
@@ -17,6 +18,16 @@
   .generalInfo {
     flex: 1;
     width: 100%;
+
+    .form-item {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      padding-bottom: 10px;
+      color: #475569;
+      font-size: 14px;
+      font-weight: normal;
+    }
 
     .maintitle {
       font-size: 14px;
@@ -39,19 +50,19 @@
       }
     }
 
-    :nth-child(n + 2) {
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      gap: 6px;
-      flex-direction: column;
-      padding-bottom: 13px;
+    // :nth-child(n) {
+    //   display: flex;
+    //   gap: 2px;
+    //   flex-direction: column;
+    //   padding-bottom: 10px;
+    //   color: #475569;
+    //   font-size: 14px;
+    //   font-weight: normal;
 
-      .inputs {
-        width: 100%;
-      }
-    }
+    //   .inputs {
+    //     width: 100%;
+    //   }
+    // }
 
     .splitBox {
       display: flex;
@@ -79,20 +90,18 @@
       padding-bottom: 13px;
     }
 
-    :nth-child(n + 2) {
+    .form-item {
+      display: flex;
+      gap: 10px;
+      flex-direction: column;
+      padding-bottom: 10px;
       color: #475569;
       font-size: 14px;
       font-weight: normal;
-      display: flex;
-      gap: 6px;
-      flex-direction: column;
-      padding-bottom: 13px;
-
-      .inputs {
-        width: 100%;
-      }
     }
     .errorMessage {
+      display: flex;
+      flex-direction: row;
       background-color: #f9000023;
       color: #f84141;
       padding: 10px 8px 10px 8px;
@@ -101,8 +110,11 @@
     }
 
     .radioBack {
-      padding: 16px 54px 16px 16px;
+      padding: 16px 24px 16px 16px;
       display: flex;
+      font-size: 14px;
+      gap: 6px;
+      color: #475569;
       background-color: #9797970f;
       flex-direction: column;
       margin-bottom: 15px;
@@ -176,11 +188,33 @@
     }
   }
   .inputs {
+    font-family: inter;
+    padding: 10px;
     width: 100%;
+    height: 44px;
+    color: #475569;
+    border-radius: 4px;
+    border: 1.5px solid #cbd5e1;
+  }
+  .inputRed::placeholder {
+    color: #f84141;
+    opacity: 1; /* Firefox */
+  }
+
+  .inputRed {
+    border: 1px solid #f84141;
+  }
+  input[type="tel"] {
+    // height: 44px !important;
+    color: #475569;
+    height: 44px;
+    font-family: inter;
+    font-size: 14px;
+    //  padding-top: 100px !important;
   }
   input[type="date"] {
     // height: 44px !important;
-    height: auto;
+    height: 44px;
     flex-direction: row !important;
     //  padding-top: 100px !important;
   }

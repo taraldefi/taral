@@ -18,13 +18,25 @@ export class GetBuyerQuickApplicationResponse {
   @IsString()
   title: string;
 
+  @ApiProperty()
+  @IsString()
+  applicationNumber: string;
+
   @ApiProperty({ example: '12-12-2022' })
   @IsDateString()
   issuanceDate: Date;
 
+  @ApiProperty({ example: '12-12-2022' })
+  @IsDateString()
+  endDate: Date;
+
   @ApiProperty({ example: 'ACTIVE' })
   @IsString()
   status: string;
+
+  @ApiProperty()
+  @IsString()
+  exporterName: string;
 
   @ApiProperty()
   @ValidateNested()

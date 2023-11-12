@@ -1,6 +1,7 @@
 // Generated with util/create-component.js
 export interface applicationTableDataType {
-	applicationId: number;
+	id: string;
+	applicationId: string;
 	product: string;
 	dateFrom: string;
 	dateTo: string;
@@ -10,7 +11,7 @@ export interface applicationTableDataType {
 }
 export interface applicationTableType {
 	applicationTableData: applicationTableDataType[];
-	onClick?: (id: number) => void;
+	onClick?: (id: string) => void;
 }
 
 export interface entityTableDataType {

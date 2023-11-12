@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDecimal, IsString } from 'class-validator';
+import { IsBoolean, IsDecimal, IsString } from 'class-validator';
 
 export class GetPaymentTermResponse {
   @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
@@ -15,6 +15,9 @@ export class GetPaymentTermResponse {
   })
   partialRefinancing: boolean;
 
+  @IsBoolean()
+  interestExists: boolean;
+
   @ApiProperty({
     example: 'EUR',
   })
@@ -27,6 +30,9 @@ export class GetPaymentTermResponse {
   @IsDecimal()
   interestPercentage: number;
 
+  @IsString()
+  interestType: string;
+
   @ApiProperty({
     example: 6.8,
   })
@@ -37,13 +43,55 @@ export class GetPaymentTermResponse {
     example: 4,
   })
   @IsDecimal()
-  interestRegressiveRate: number;
+  interestDegressiveRate: number;
 
   @ApiProperty({
     example: 'annuity',
   })
   @IsString()
   paymentType: string;
+
+  @ApiProperty({
+    example: 'USD',
+  })
+  @IsString()
+  downpaymentCurrency: string;
+
+  @ApiProperty({
+    example: '10000',
+  })
+  @IsString()
+  downpaymentAmount: string;
+
+  @ApiProperty({
+    example: 'downpayment amount for 100 chairs',
+  })
+  @IsString()
+  downpaymentDescription: string;
+
+  @ApiProperty({
+    example: 'USD',
+  })
+  @IsString()
+  balanceCurrency: string;
+
+  @ApiProperty({
+    example: '80000',
+  })
+  @IsString()
+  balanceAmount: string;
+
+  @ApiProperty({
+    example: '12-12-2022',
+  })
+  @IsString()
+  balancePaymentDeadline: string;
+
+  @ApiProperty({
+    example: '--',
+  })
+  @IsString()
+  paymentVehicleDescription: string;
 
   @ApiProperty({
     example: '60 days',

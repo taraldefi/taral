@@ -2,6 +2,7 @@ import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
+import { resolve } from "path";
 import { EntityCardResponse, EntityResponse } from "src/types";
 
 class EntityService {
@@ -80,49 +81,48 @@ class EntityService {
    * Create Entity Function
    * @param entity
    */
-  async createEntity(entity: FormData): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
-      const { data } = response;
-      console.log(response);
+  createEntity(entity: FormData): Promise<EntityResponse> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({
+        method: "POST",
+        contentType: "multipart/form-data",
+      });
+      try {
+        const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
+        const data: EntityResponse = response.data;
 
-      if (response.status === 201) {
-        return data;
+        if (response.status === 201) {
+          resolve(data);
+        } else {
+          reject(new Error("Failed to create entity"));
+        }
+      } catch (error: any) {
+        reject(new Error(error.message));
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Creating entity failed.");
+    });
   }
 
   /**
    * Delete Entity Function
    * @param id
    */
-  async deleteEntity(id: string): Promise<boolean> {
-    const axiosConfig = getAxiosConfig({ method: "DELETE" });
-    try {
-      const response = await axios.delete(
-        `${apiUrls.ENTITY}/${id}`,
-        axiosConfig
-      );
+  deleteEntity(id: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "DELETE" });
 
-      if (response.status === 200) {
-        return true;
+      try {
+        const response = await axios.delete(
+          `${apiUrls.ENTITY}/${id}`,
+          axiosConfig
+        );
+
+        if (response.status === 200) {
+          resolve(true);
+        }
+      } catch (error: any) {
+        reject(new Error(error.message));
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Deleting Entity failed.");
+    });
   }
   /**
    * Update Entity Function
