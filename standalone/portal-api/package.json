@@ -72,7 +72,7 @@
     "amqplib": "^0.10.3",
     "append-field": "^1.0.0",
     "apple-signin-auth": "1.5.1",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "bcrypt": "5.0.1",
     "bull": "^4.10.4",
     "busboy": "^1.6.0",
