@@ -7,8 +7,8 @@ const DEPLOYER = accounts.get("deployer")!;
 
 const VERBOSE = false;
 
-describe("test importer flows", () => {
-    it("Ensure that inputs are valid", () => {
+describe("Should test importer flows", () => {
+    it("Should ensure that inputs are valid", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "";
@@ -32,7 +32,7 @@ describe("test importer flows", () => {
         expect(registerImporterResult.result).toBeErr(Cl.uint(100));
     }),
 
-    it("Ensure that importer can register only once with unique wallet id", () => {
+    it("Should ensure that importer can register only once with unique wallet id", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -68,7 +68,7 @@ describe("test importer flows", () => {
         expect(registerImporterResult.result).toBeErr(Cl.uint(102));
     }),
 
-    it("Ensure that importer registration is a success", () => {
+    it("Should ensure that importer registration is a success", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -91,7 +91,7 @@ describe("test importer flows", () => {
         expect(registerImporterResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure that importer exists after registration", () => {
+    it("Should ensure that importer exists after registration", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -135,7 +135,7 @@ describe("test importer flows", () => {
         expect(getImporterResult.result).toStrictEqual(expected);
     }),
 
-    it("Ensure that next importer id available", () => {
+    it("Should ensure that next importer id available", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -170,7 +170,7 @@ describe("test importer flows", () => {
         expect(receipt.result).toStrictEqual(Cl.uint(10002));
     }),
 
-    it("Ensure order cannot be appended for an unregistered importer", () => {
+    it("Should ensure order cannot be appended for an unregistered importer", () => {
         let deployer = accounts.get("deployer")!;
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let new_order_id = 2001;
@@ -191,7 +191,7 @@ describe("test importer flows", () => {
         expect(appendOrderResult.result).toBeErr(Cl.uint(121)); // ERR-IMPORTER-NOT-REGISTERED
     }),
 
-    it("Ensure that adding order is a success", () => {
+    it("Should ensure that adding order is a success", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -229,7 +229,7 @@ describe("test importer flows", () => {
         expect(appendOrderResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure that order exists after registration", () => {
+    it("Should ensure that order exists after registration", () => {
         let importer_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let importer_name = "ALPS Logistics";
         let importer_category = "Merchant";
@@ -284,7 +284,7 @@ describe("test importer flows", () => {
         expect(getimporterOrderResult.result).toStrictEqual(expected);
     }),
 
-    it("Ensure that to get the orders list of specific importers", () => {
+    it("Should ensure that to get the orders list of specific importers", () => {
         const importer1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         const importer1_name = "ALPS Logistics";
         const importer1_category = "Merchant";
