@@ -8,7 +8,7 @@ const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test taral purchase order flows", () => {
+describe("Should test taral purchase order flows", () => {
 
     it("Should check if a user holds TAL tokens", () => {
 
@@ -53,7 +53,7 @@ describe("test taral purchase order flows", () => {
         expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(false)); 
     }),
 
-    it("Should create-vault with sufficient collateral", () => {
+    it("Should ensure one is able to create a vault with sufficient collateral", () => {
         const createVaultResult = simnet.callPublicFn(
             "taral-purchase-order-v1",
             "create-vault",
@@ -69,7 +69,7 @@ describe("test taral purchase order flows", () => {
         expect(createVaultResult.result).toBeOk(Cl.uint(1));
     }),
 
-    it("Should not create vault with invalid loan amount", () => {
+    it("Should ensure one is not able to create a vault with an invalid loan amount", () => {
         const createVaultResult = simnet.callPublicFn(
             "taral-purchase-order-v1",
             "create-vault",
@@ -85,7 +85,7 @@ describe("test taral purchase order flows", () => {
         expect(createVaultResult.result).toBeErr(Cl.uint(404));
     }),
 
-    it("Should not create vault with invalid duration", () => {
+    it("Should ensure one is not able to create a vault with an invalid duration", () => {
         const createVaultResult = simnet.callPublicFn(
             "taral-purchase-order-v1",
             "create-vault",
@@ -101,7 +101,8 @@ describe("test taral purchase order flows", () => {
         expect(createVaultResult.result).toBeErr(Cl.uint(405));
     }),
 
-    it("liquidate-vault with overcollateralized vault", () => {
+    // TODO(Doru): check the validity of this test, not sure we test this properly
+    it("Should ensure one is not able to liquidate an overcollateralized vault with", () => {
         const createVaultResult = simnet.callPublicFn(
             "taral-purchase-order-v1",
             "create-vault",
