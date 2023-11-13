@@ -7,8 +7,8 @@ const DEPLOYER = accounts.get("deployer")!;
 
 const VERBOSE = false;
 
-describe("test exporter flows", () => {
-    it("Ensure that inputs are valid", () => {
+describe("Should test exporter flows", () => {
+    it("Should ensure that inputs are valid", () => {
 
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
@@ -33,7 +33,7 @@ describe("test exporter flows", () => {
         expect(registerExporterResult.result).toBeErr(Cl.uint(100));
     }),
 
-    it("Ensure that exporter can register only once with unique wallet id", () => {
+    it("Should ensure that exporter can register only once with unique wallet id", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -69,7 +69,7 @@ describe("test exporter flows", () => {
         expect(registerExporterResult.result).toBeErr(Cl.uint(121));
     }),
 
-    it("Ensure that exporter registration is a success", () => {
+    it("Should ensure that exporter registration is a success", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -93,7 +93,7 @@ describe("test exporter flows", () => {
         expect(registerExporterResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure that exporter exists after registration", () => {
+    it("Should ensure that exporter exists after registration", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -139,7 +139,7 @@ describe("test exporter flows", () => {
         
     }),
 
-    it("Ensure that next exporter id available", () => {
+    it("Should ensure that next exporter id available", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -174,7 +174,7 @@ describe("test exporter flows", () => {
         expect(receipt.result).toStrictEqual(Cl.uint(10002));
     }),
 
-    it("Ensure that we can get the exporters profile", () => {
+    it("Should ensure that we can get the exporters profile", () => {
         let exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter1_name = "ALPS Logistics";
         let exporter1_category = "Merchant";
@@ -256,7 +256,7 @@ describe("test exporter flows", () => {
         expect(receipt.result).toStrictEqual(expected);
     }),
 
-    it("Ensure that order inputs are valid", () => {
+    it("Should ensure that order inputs are valid", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let new_order_id = 2001;
 
@@ -275,7 +275,7 @@ describe("test exporter flows", () => {
         expect(appendOrderResult.result).toBeErr(Cl.uint(120)); // ERR-EXPORTER-NOT-REGISTERED
     })
 
-    it("Ensure that adding order is a success", () => {
+    it("Should ensure that adding order is a success", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -313,7 +313,7 @@ describe("test exporter flows", () => {
         expect(appendOrderResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure that order exists after registration", () => {
+    it("Should ensure that order exists after registration", () => {
         let exporter_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         let exporter_name = "ALPS Logistics";
         let exporter_category = "Merchant";
@@ -368,7 +368,7 @@ describe("test exporter flows", () => {
         expect(getExporterOrderResult.result).toStrictEqual(expected);
     }),
 
-    it("Ensure that to get the orders list of specific exporters", () => {
+    it("Should ensure that to get the orders list of specific exporters", () => {
         const exporter1_wallet = "ST1SJ3DTE5DN7X54YDH5D64R3BCB6A2AG2ZQ8YPD5";
         const exporter1_name = "ALPS Logistics";
         const exporter1_category = "Merchant";
