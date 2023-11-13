@@ -7,8 +7,8 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const WALLET_3 = accounts.get("wallet_3")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test marketplace auction flows", () => {
-    it("Ensure that we can start an auction", () => {
+describe("Should test marketplace auction flows", () => {
+    it("Should ensure that we can start an auction", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -57,7 +57,7 @@ describe("test marketplace auction flows", () => {
         expect(startAuctionResult.result).toBeOk(Cl.uint(0));
     }),
 
-    it("Ensure that a bid can be placed on an auction", () => {
+    it("Should ensure that a bid can be placed on an auction", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -122,7 +122,7 @@ describe("test marketplace auction flows", () => {
         expect(placeBidResult.result).toBeOk(Cl.bool(true));
     }), 
 
-    it("Ensure that an auction can be successfully ended", () => {
+    it("Should ensure that an auction can be successfully ended", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -245,7 +245,7 @@ describe("test marketplace auction flows", () => {
         expect(nftTransferEvent.value, 1 as any);
     }),
 
-    it("Ensure auction can be cancelled by the maker", () => {
+    it("Should ensure auction can be cancelled by the maker", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -397,7 +397,7 @@ describe("test marketplace auction flows", () => {
         expect(cancelAuctionResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure auction can be cancelled by the owner", () => {
+    it("Should ensure auction can be cancelled by the owner", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -549,7 +549,7 @@ describe("test marketplace auction flows", () => {
         expect(cancelAuctionResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure auction cannot be started if the contract is paused", () => {
+    it("Should ensure auction cannot be started if the contract is paused", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -607,7 +607,7 @@ describe("test marketplace auction flows", () => {
         expect(startAuctionResult.result).toBeErr(Cl.uint(9000));
     }),
 
-    it("Ensure place bid fails if contract is paused", () => {
+    it("Should ensure place bid fails if contract is paused", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -696,7 +696,7 @@ describe("test marketplace auction flows", () => {
         expect(placeBidResponse.result).toBeErr(Cl.uint(9000));
     }),
     
-    it("Ensure cancel auction fails if contract is paused", () => {
+    it("Should ensure cancel auction fails if contract is paused", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -823,7 +823,7 @@ describe("test marketplace auction flows", () => {
         expect(cancelAuctionResult.result).toBeErr(Cl.uint(9000));
     }),
 
-    it("Ensure cancel auction succeeds if contract is paused but the caller is the owner", () => {
+    it("Should ensure cancel auction succeeds if contract is paused but the caller is the owner", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -950,7 +950,7 @@ describe("test marketplace auction flows", () => {
         expect(cancelAuctionResult.result).toBeOk(Cl.bool(true));
     }),
 
-    it("Ensure that an auction cannot be successfully ended if the contract is paused", () => {
+    it("Should ensure that an auction cannot be successfully ended if the contract is paused", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -1057,7 +1057,7 @@ describe("test marketplace auction flows", () => {
         expect(endAuctionResult.result).toBeErr(Cl.uint(9000));
     }),
 
-    it("Ensure that an auction can be successfully ended if the contract is paused and tx-sender is admin", () => {
+    it("Should ensure that an auction can be successfully ended if the contract is paused and tx-sender is admin", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
