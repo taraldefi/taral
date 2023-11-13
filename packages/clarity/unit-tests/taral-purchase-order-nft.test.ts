@@ -111,5 +111,38 @@ describe("test purchase order nft flows", () => {
         );
 
         expect(getNewOwnerResult.result).toBeOk(Cl.some(Cl.standardPrincipal(WALLET_2)));
+    }),
+
+    it("should be able to burn NFT by providing the token ID", () => {
+        const mintResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "mint",
+            [
+                Cl.uint(1), 
+                Cl.standardPrincipal(WALLET_1)
+            ],
+            DEPLOYER
+        );
+
+        expect(mintResult.result).toBeOk(Cl.bool(true));
+
+        const burnResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "burn",
+            [
+                Cl.uint(1), 
+                Cl.standardPrincipal(WALLET_1)
+            ],
+            DEPLOYER
+        );
+
+        expect(burnResult.result).toBeOk(Cl.bool(true));
+
+        const nftBurnEvent = burnResult.events[0].data as any;
+
+        expect(nftBurnEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.taral-purchase-order-nft::purchase-order-nft`);
+
+        expect(nftBurnEvent.sender, `${DEPLOYER}`);
+        expect(nftBurnEvent.value, 1 as any);
     })
 });
