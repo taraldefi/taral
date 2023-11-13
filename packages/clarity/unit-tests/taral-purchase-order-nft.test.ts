@@ -28,5 +28,44 @@ describe("test purchase order nft flows", () => {
         );
 
         expect(tokenIdResult.result).toBeOk(Cl.uint(1));
+    }),
+
+    it("should be able to SET and GET token URIs", () => {
+        const mintResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "mint",
+            [
+                Cl.uint(1), 
+                Cl.standardPrincipal(WALLET_1)
+            ],
+            DEPLOYER
+        );
+
+        expect(mintResult.result).toBeOk(Cl.bool(true));
+
+        const uri = "ipfs://bafybeidntmydwppanpzvvz4clnp5ngbsyd6vd2aheppbnsuogh442s3kyu/";
+
+        const setTokenUriResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "set-token-uri",
+            [
+                Cl.uint(1), 
+                Cl.stringAscii(uri)
+            ],
+            DEPLOYER
+        );
+
+        expect(setTokenUriResult.result).toBeOk(Cl.bool(true));
+
+        const getTokenUriResult = simnet.callReadOnlyFn(
+            "taral-purchase-order-nft",
+            "get-token-uri",
+            [
+                Cl.uint(1)
+            ],
+            DEPLOYER
+        );
+
+        expect(getTokenUriResult.result).toBeOk(Cl.some(Cl.stringAscii(uri)));
     })
 });
