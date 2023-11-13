@@ -65,10 +65,10 @@ jobs:
         args: -c "cd packages/clarity && clarinet check"
 
     - name: "Execute Clarinet test suite"
-      uses: docker://hirosystems/clarinet:latest
+      # uses: docker://hirosystems/clarinet:latest
       with:
         entrypoint: "bash"
-        args: -c "cd packages/clarity && clarinet test"
+        args: -c "cd packages/clarity && yarn test:reports"
 
     # - name: Run unit tests
     #   run: yarn ci-unit-tests
