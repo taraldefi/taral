@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from 'src/database/typeorm-config.service';
-import { EntitiesModule } from 'src/modules/entity/entity.module';
+import { EntitiesModule } from 'src/modules/company/company.module';
 import { QuickApplicationController } from './controllers/buyer-quickapplication-controller';
 
 import { BuyerQuickApplicationEntity } from './models/buyer-quickapplication.entity';

@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { CompanyEntity } from './company.entity';
+import { CompanyInformationEntity } from './company.information.entity';
 
 @Entity({ name: 'CompanyAddresses' })
 export class CompanyAddressEntity extends EntityHelper {
@@ -24,10 +24,10 @@ export class CompanyAddressEntity extends EntityHelper {
   @Allow()
   postalCode: string;
 
-  @OneToOne(() => CompanyEntity, (company) => company.address, {
+  @OneToOne(() => CompanyInformationEntity, (company) => company.address, {
     eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })
-  company: CompanyEntity;
+  company: CompanyInformationEntity;
 }

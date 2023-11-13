@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PaymentExperience } from './payment.experience';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
-import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
+import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 
 @Entity({ name: 'CollaborationRelationships' })
 export class CollaborationRelationshipEntity extends EntityHelper {
@@ -29,7 +29,7 @@ export class CollaborationRelationshipEntity extends EntityHelper {
   paymentExperience: PaymentExperience;
 
   @ManyToOne(
-    () => SupplierEntity,
+    () => SupplierCompanyEntity,
     (supplier) => supplier.relationshipWithBuyers,
     {
       eager: true,
@@ -38,13 +38,17 @@ export class CollaborationRelationshipEntity extends EntityHelper {
     },
   )
   @JoinColumn()
-  supplier: SupplierEntity;
+  supplier: SupplierCompanyEntity;
 
-  @ManyToOne(() => BuyerEntity, (buyer) => buyer.relationshipWithSuppliers, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @ManyToOne(
+    () => BuyerCompanyEntity,
+    (buyer) => buyer.relationshipWithSuppliers,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
   @JoinColumn()
-  buyer: BuyerEntity;
+  buyer: BuyerCompanyEntity;
 }

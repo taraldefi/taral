@@ -1,10 +1,10 @@
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { SupplierCompanyRepository } from '../repositories/supplier.company.repository';
-import { SupplierCompanyEntity } from '../models/supplier.company.entity';
+import { SupplierCompanyInformationEntity } from '../models/supplier.company.information.entity';
 
 export const SupplierCompanyEntityRepositoryToken = getRepositoryToken(
-    SupplierCompanyEntity,
+  SupplierCompanyInformationEntity,
 );
 
 export const AuctionBidHistoryEntityRepositoryProvider = {

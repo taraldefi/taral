@@ -1,7 +1,7 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { CompanyEntity } from './company.entity';
+import { CompanyInformationEntity } from './company.information.entity';
 
 @Entity({ name: 'CompanyTaxAndRevenue' })
 export class CompanyTaxAndRevenueEntity extends EntityHelper {
@@ -37,11 +37,16 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   })
   @Allow()
   exportRevenuePercentage: number;
+  s;
 
-  @OneToOne(() => CompanyEntity, (company) => company.taxAndRevenue, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
-  company: CompanyEntity;
+  @OneToOne(
+    () => CompanyInformationEntity,
+    (company) => company.taxAndRevenue,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  company: CompanyInformationEntity;
 }

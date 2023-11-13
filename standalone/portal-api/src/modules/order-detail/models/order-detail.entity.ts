@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { OrderProductEntity } from '../models/order-product.entity';
-import { BuyerQuickApplicationEntity } from 'src/modules/applications/models/buyer-quickapplication.entity';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 
 @Entity({ name: 'order_details' })
 export class OrderDetailEntity extends EntityHelper {
@@ -27,8 +27,8 @@ export class OrderDetailEntity extends EntityHelper {
   products: OrderProductEntity[];
 
   @OneToOne(
-    () => BuyerQuickApplicationEntity,
+    () => QuickApplicationEntity,
     (application) => application.orderDetails,
   )
-  application: BuyerQuickApplicationEntity;
+  application: QuickApplicationEntity;
 }

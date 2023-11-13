@@ -1,15 +1,32 @@
-import { Allow } from 'class-validator';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
-import { ChildEntity, OneToOne } from 'typeorm';
+import { ChildEntity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
 import { CompanyEntity } from './company.entity';
+import { SupplierCompanyInformationEntity } from 'src/modules/company-information/models/supplier.company.information.entity';
+import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
+import { Allow } from 'class-validator';
 
 @ChildEntity()
 export class SupplierCompanyEntity extends CompanyEntity {
-  @OneToOne(() => SupplierEntity, (supplier) => supplier.company, {
-    eager: true,
-    cascade: true,
-    onDelete: 'CASCADE',
-  })
+  @OneToMany(
+    () => CollaborationRelationshipEntity,
+    (collaborationRelationship) => collaborationRelationship.supplier,
+  )
   @Allow()
-  supplier: SupplierEntity;
+  relationshipWithBuyers: CollaborationRelationshipEntity[];
+
+  @OneToOne(
+    () => SupplierCompanyInformationEntity,
+    (companyInformation) => companyInformation.supplier,
+  )
+  companyInformation: SupplierCompanyInformationEntity;
+  // @OneToMany(
+  //   () => LegalProductEntity,
+  //   (legalProduct) => legalProduct.legalEntity,
+  // )
+  // legalProducts: LegalProductEntity[];
+  // @OneToMany(
+  //   () => SupplierQuickApplicationEntity,
+  //   (LegalApplication) => LegalApplication.legalEntity,
+  // )
+  // @JoinColumn()
+  // legalApplications: SupplierQuickApplicationEntity[];
 }

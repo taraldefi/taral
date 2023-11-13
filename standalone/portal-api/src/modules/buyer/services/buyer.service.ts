@@ -8,14 +8,14 @@ import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { CreateBuyerRequest } from '../dto/request/create-buyer.dto';
 import { BaseService } from 'src/common/services/base.service';
-import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
-import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
+import { BuyerCompanyEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
+import { CompanyAddressEntity } from 'src/modules/company-information/models/companyinformation.address.entity';
 import { BuyerCompanyEntityRepository } from '../repositories/buyer-company.repository';
 import { SectorEntityRepository } from '../repositories/sector.repository';
 import { CompanyAddressEntityRepository } from '../repositories/company-address.repository';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { UpdateBuyerRequest } from '../dto/request/update-buyer.dto';
-import { CompanyTaxAndRevenueEntity } from 'src/modules/company/models/company.tax.and.revenue.entity';
+import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/models/company.information.tax.and.revenue.entity';
 import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
 
 @Injectable()

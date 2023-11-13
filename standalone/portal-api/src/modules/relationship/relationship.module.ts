@@ -4,7 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CollaborationRelationshipEntity } from './models/collaboration.relationship.entity';
 import { BuyersModule } from '../buyer/buyers.module';
 import { SuppliersModule } from '../supplier/suppliers.module';
-import { CompaniesModule } from '../company/company.module';
+import { CompaniesModule } from '../company-information/company.information.module';
 import { EntityMappingService } from './services/mapping.service';
 import { RelationshipService } from './services/relationship.service';
 import { RelationshipController } from './relationship.controller';

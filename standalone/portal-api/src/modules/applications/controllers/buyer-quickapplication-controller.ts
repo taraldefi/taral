@@ -11,7 +11,7 @@ import {
 import { ApiTags } from '@nestjs/swagger';
 import { CreateBuyerRequest } from 'src/modules/buyer/dto/request/create-buyer.dto';
 import { CreateCollateralDto } from 'src/modules/collateral/dto/request/create-collateral.dto';
-import { BuyerEntityService } from 'src/modules/entity/services/buyer-entity.service';
+import { BuyerEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
 import { CreateQuickApplicationRequest } from '../dto/request/create-quick-application.dto';
 
@@ -30,7 +30,7 @@ import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/updat
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
 import { UpdateOrderDetailDto } from 'src/modules/order-detail/dto/request/update-order-detail.dto';
 import { UpdateOrderProductDto } from 'src/modules/order-detail/dto/request/update-order-product.dto';
-import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
+import { LegalBuyerEntity } from 'src/modules/company/models/buyer.company.entity';
 import { EntityNotFoundError } from 'typeorm';
 
 @ApiTags('Applications')

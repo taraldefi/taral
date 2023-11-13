@@ -1,8 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { GetApplicationResponse } from 'src/modules/entity/dto/response/get-application-response.dto';
-import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
+import { GetApplicationResponse } from 'src/modules/company/dto/response/get-application-response.dto';
+import { LegalBuyerEntity } from 'src/modules/company/models/buyer.company.entity';
 import { CreateQuickApplicationRequest } from '../../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-buyer-application-response.dto';
 import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';

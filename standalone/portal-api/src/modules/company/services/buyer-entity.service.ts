@@ -11,7 +11,7 @@ import { triggerError } from '../../../common/trigger.error';
 import { CreateEntityDto } from '../dto/request/create-entity.dto';
 import { UpdateEntityDto } from '../dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
-import { LegalBuyerEntity } from '../models/legal-buyer-entity.entity';
+import { LegalBuyerEntity } from '../models/buyer.company.entity';
 import { LegalBuyerEntityRepository } from '../repositories/legal-buyer-entity.repository';
 import { EntityMappingService } from './mapping.service';
 

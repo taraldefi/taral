@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { GetApplicationResponse } from '../dto/response/get-application-response.dto';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
-import { LegalBuyerEntity } from '../models/legal-buyer-entity.entity';
+import { LegalBuyerEntity } from '../models/buyer.company.entity';
 
 @Injectable()
 export class EntityMappingService {
