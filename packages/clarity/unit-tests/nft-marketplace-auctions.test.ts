@@ -874,5 +874,112 @@ describe("test marketplace auction flows", () => {
         );
 
         expect(cancelAuctionResult.result).toBeOk(Cl.bool(true));
+    }),
+
+    it("Ensure that an auction cannot be successfully ended if the contract is paused", () => {
+        const setWhitelistedResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "set-whitelisted",
+            [
+                Cl.contractPrincipal(
+                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+                ),
+                Cl.bool(true),
+            ],
+            DEPLOYER
+        );
+
+        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
+
+        let mint = simnet.callPublicFn(
+            "sip009-nft",
+            "mint",
+            [Cl.standardPrincipal(WALLET_1)],
+            DEPLOYER
+        );
+
+        expect(mint.result).toBeOk(Cl.uint(1));
+
+        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+
+        expect(nftId.result).toBeOk(Cl.uint(1));
+
+        const startAuctionResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "start-auction",
+            [
+                Cl.contractPrincipal(
+                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+                ),
+                Cl.tuple({
+                    "token-id": Cl.uint(1),
+                    "start-block": Cl.uint(100),
+                    "end-block": Cl.uint(1000),
+                    "start-bid": Cl.uint(100),
+                    "reserve-price": Cl.uint(1000),
+                }),
+            ],
+            WALLET_1
+        );
+
+        var nftTransferEvent = startAuctionResult.events[0].data as any;
+
+        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+
+        expect(nftTransferEvent.sender, `${WALLET_1}`);
+        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+        expect(nftTransferEvent.value, 1 as any);
+
+        const getOwnerResult = simnet.callReadOnlyFn(
+            "sip009-nft",
+            "get-owner",
+            [Cl.uint(1)],
+            WALLET_1
+        );
+
+        expect(getOwnerResult.result).toBeOk(Cl.some(Cl.contractPrincipal(`${DEPLOYER}`, "nft-marketplace")));
+
+        for (let i = 0; i < 500; i++) {
+            simnet.mineEmptyBlock();
+        }
+
+        let placeBidResponse = simnet.callPublicFn(
+            "nft-marketplace",
+            "place-bid",
+            [
+              Cl.uint(0), // auction id
+              Cl.uint(1200), // bid amount
+            ],
+            WALLET_2
+        );
+
+        expect(placeBidResponse.result).toBeOk(Cl.bool(true));
+
+        for (let i = 0; i < 2000; i++) {
+            simnet.mineEmptyBlock();
+        }
+
+        const pauseContractResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "pause-contract",
+            [],
+            DEPLOYER
+        );
+
+        expect(pauseContractResult.result).toBeOk(Cl.bool(true));
+
+        const endAuctionResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "end-auction",
+            [
+                Cl.uint(0), // auction id
+                Cl.contractPrincipal(
+                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+                ),
+            ],
+            WALLET_1
+        );
+
+        expect(endAuctionResult.result).toBeErr(Cl.uint(9000));
     })
 });
