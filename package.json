@@ -18,7 +18,7 @@
     "coverage": "codecov",
     "lint": "eslint ./libs/**/* ./packages/unit-tests ./packages/integration-tests --fix",
     "clarinet:check": "yarn eol && yarn workspace taral-clarity clarinet:check",
-    "clarinet:tests": "yarn eol && yarn workspace taral-clarity clarinet:tests",
+    "test:reports": "yarn eol && yarn workspace taral-clarity test:reports",
     "clarinet:chainhook:tests": "yarn eol && yarn workspace taral-clarity clarinet:chainhook:tests",
     "unit-tests": "yarn workspace taral-unit-tests unit-tests",
     "ci-unit-tests": "yarn workspace taral-unit-tests eol && yarn workspace taral-unit-tests ci-unit-tests",
