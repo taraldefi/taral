@@ -6,9 +6,9 @@ const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test marketplace rbac flows", () => {
+describe("Should test marketplace rbac flows", () => {
 
-    it("Ensure blacklister cannot start an auction", () => {
+    it("Should ensure blacklister cannot start an auction", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -69,7 +69,7 @@ describe("test marketplace rbac flows", () => {
         expect(startAuctionResult.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure that a bid cannot be placed on an auction by a blacklister", () => {
+    it("Should ensure that a bid cannot be placed on an auction by a blacklister", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -146,7 +146,7 @@ describe("test marketplace rbac flows", () => {
         expect(placeBidResponse.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure that an auction cannot be successfully ended by a blacklister", () => {
+    it("Should ensure that an auction cannot be successfully ended by a blacklister", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -265,7 +265,7 @@ describe("test marketplace rbac flows", () => {
         expect(endAuctionResult.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure auction cannot be cancelled by maker if blacklisted", () => {
+    it("Should ensure auction cannot be cancelled by maker if blacklisted", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -383,7 +383,7 @@ describe("test marketplace rbac flows", () => {
         expect(cancelAuctionResult.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure that maker cannot list an nft for sale as a fixed listing if blacklisted", () => {
+    it("Should ensure that maker cannot list an nft for sale as a fixed listing if blacklisted", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -441,7 +441,7 @@ describe("test marketplace rbac flows", () => {
         expect(listFixedPriceResult.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure that maker cannot cancel a fixed listing if blacklisted", () => {
+    it("Should ensure that maker cannot cancel a fixed listing if blacklisted", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -521,7 +521,7 @@ describe("test marketplace rbac flows", () => {
         expect(cancelPriceListingResult.result).toBeErr(Cl.uint(5));
     }),
 
-    it("Ensure recipient cannot purchase a fixed listing if blacklisted", () => {
+    it("Should ensure recipient cannot purchase a fixed listing if blacklisted", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
