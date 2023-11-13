@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest";
 const accounts = simnet.getAccounts();
 const EXPORTER_WALLET = accounts.get("wallet_8")!;
 const EXPORTER_2_WALLET = accounts.get("wallet_9")!;
+const WALLET_1 = accounts.get("wallet_1")!;
 const DEPLOYER = accounts.get("deployer")!;
 
 describe("test taral purchase order flows", () => {
@@ -49,5 +50,21 @@ describe("test taral purchase order flows", () => {
         );
 
         expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(false)); 
+    }),
+
+    it("Should create-vault with sufficient collateral", () => {
+        const createVaultResult = simnet.callPublicFn(
+            "taral-purchase-order-v1",
+            "create-vault",
+            [
+                Cl.uint(600), 
+                Cl.uint(2500000), 
+                Cl.uint(400), 
+                Cl.uint(30)
+            ],
+            WALLET_1
+        );
+
+        expect(createVaultResult.result).toBeOk(Cl.uint(1));
     })
 });
