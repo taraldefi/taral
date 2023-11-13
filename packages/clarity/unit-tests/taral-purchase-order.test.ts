@@ -66,5 +66,21 @@ describe("test taral purchase order flows", () => {
         );
 
         expect(createVaultResult.result).toBeOk(Cl.uint(1));
+    }),
+
+    it("Should not create vault with invalid loan amount", () => {
+        const createVaultResult = simnet.callPublicFn(
+            "taral-purchase-order-v1",
+            "create-vault",
+            [
+                Cl.uint(500), 
+                Cl.uint(2500000), 
+                Cl.uint(0), 
+                Cl.uint(30)
+            ],
+            WALLET_1
+        );
+
+        expect(createVaultResult.result).toBeErr(Cl.uint(404));
     })
 });
