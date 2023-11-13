@@ -378,10 +378,9 @@ Clarinet.test({
 });
 
 Clarinet.test({
-  name: "Ensure that the deployer can cancel an invalid fixed listing",
+  name: "Ensure that the deployer can cancel a valid fixed listing",
   async fn(chain: Chain, accounts: Map<string, Account>) {
     let wallet_1 = accounts.get("wallet_1")!;
-    let wallet_2 = accounts.get("wallet_2")!;
     let deployer = accounts.get("deployer")!;
 
     // whitelist the contract

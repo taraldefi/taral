@@ -53,6 +53,8 @@ Clarinet.test({
       Tx.contractCall("sip009-nft", "get-last-token-id", [], deployer.address),
     ]);
 
+    nftId.receipts[0].result.expectOk().expectUint(1);
+
     let backlist = chain.mineBlock([
       Tx.contractCall(
         "nft-marketplace",
@@ -63,8 +65,6 @@ Clarinet.test({
     ]);
 
     backlist.receipts[0].result.expectOk();
-
-    nftId.receipts[0].result.expectOk().expectUint(1);
 
     let block = chain.mineBlock([
       Tx.contractCall(

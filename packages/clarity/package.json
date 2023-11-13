@@ -9,14 +9,21 @@
   },
   "scripts": {
     "eol": "npx eolConverter \"contracts/**/*.clar\"",
-    "clarinet:tests": "clarinet test",
     "clarinet:check": "clarinet check",
-    "clarinet:chainhook:tests": "clarinet test --chainhooks ./chainhooks/marketplace.chainhook.yaml ./tests_chainhook/integration_test.ts"
+    "clarinet:chainhook:tests": "clarinet test --chainhooks ./chainhooks/marketplace.chainhook.yaml ./tests_chainhook/integration_test.ts",
+    "test": "vitest run -- --manifest-path ./Clarinet.toml",
+    "test:reports": "vitest run -- --coverage --costs",
+    "test:watch": "chokidar \"unit-tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\""
   },
-  "devDependencies": {
-    "typescript": "^5.1.6"
-  },
+  
   "dependencies": {
-    "eol-converter-cli": "^1.0.8"
+    "eol-converter-cli": "^1.0.8",
+    "@hirosystems/clarinet-sdk": "^1.0.4",
+    "@stacks/transactions": "^6.8.1",
+    "chokidar-cli": "^3.0.0",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.9",
+    "vitest": "^0.34.4",
+    "vitest-environment-clarinet": "^1.0.2"
   }
 }
