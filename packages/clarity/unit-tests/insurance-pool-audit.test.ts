@@ -7,8 +7,8 @@ const WALLET_1 = accounts.get("wallet_1")!;
 
 const VERBOSE = false;
 
-describe("test insurance audit flows", () => {
-    it("Ensure that invalid txs are not accepted", () => {
+describe("Should test insurance audit flows", () => {
+    it("Should ensure that invalid txs are not accepted", () => {
         const submitRewardTx = simnet.callPublicFn(
             "insurance-pool-audit",
             "submit-reward-tx",
@@ -61,7 +61,7 @@ describe("test insurance audit flows", () => {
         expect(submitRewardTx.result).toBeErr(Cl.uint(1000));
     }),
 
-    it("Ensure that valid txs report the correct amount", () => {
+    it("Should ensure that valid txs report the correct amount", () => {
         // const parts = [
         //     "0x00200020",
         //     "0xb9d30838796e6ea7ff4b441ca1d705c229f3492cfdddcd186b21000000000000",
@@ -120,7 +120,7 @@ describe("test insurance audit flows", () => {
         expect(value.result).toBeOk(Cl.uint(10000));
     }),
 
-    it("Ensure that valid txs can be reported", () => {
+    it("Should ensure that valid txs can be reported", () => {
 
         const validTransactionModel = Cl.tuple({
             version: Cl.bufferFromHex("01000000"),
