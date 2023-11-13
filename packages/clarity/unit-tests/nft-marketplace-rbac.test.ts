@@ -519,5 +519,86 @@ describe("test marketplace rbac flows", () => {
         );
 
         expect(cancelPriceListingResult.result).toBeErr(Cl.uint(5));
+    }),
+
+    it("Ensure recipient cannot purchase a fixed listing if blacklisted", () => {
+        const setWhitelistedResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "set-whitelisted",
+            [
+                Cl.contractPrincipal(
+                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+                ),
+                Cl.bool(true),
+            ],
+            DEPLOYER
+        );
+
+        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
+
+        let mint = simnet.callPublicFn(
+            "sip009-nft",
+            "mint",
+            [Cl.standardPrincipal(WALLET_1)],
+            DEPLOYER
+        );
+
+        expect(mint.result).toBeOk(Cl.uint(1));
+
+        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+
+        expect(nftId.result).toBeOk(Cl.uint(1));
+
+        const listFixedPriceResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "list-fixed-price",
+            [
+              Cl.contractPrincipal(
+                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+              ),
+              Cl.tuple({
+                "token-id": Cl.uint(1),
+                price: Cl.uint(1000),
+              }),
+            ],
+            WALLET_1
+        );
+
+        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+
+        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
+
+        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+
+        expect(nftTransferEvent.sender, `${WALLET_1}`);
+        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+        expect(nftTransferEvent.value, 1 as any);
+
+        const updateBlacklisterResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "update-blacklisted",
+            [
+                Cl.standardPrincipal(WALLET_2), 
+                Cl.bool(true)
+            ],
+            DEPLOYER
+        );
+
+        expect(updateBlacklisterResult.result).toBeOk(Cl.bool(true));
+
+        const purchaseFixedPriceListingResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "purchase-fixed-price-listing",
+            [
+              Cl.uint(0), // valid listing id
+              Cl.standardPrincipal(WALLET_2),
+              Cl.contractPrincipal(
+                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+              ),
+            ],
+            WALLET_2
+        );
+
+        expect(purchaseFixedPriceListingResult.result).toBeErr(Cl.uint(5));
     })
 });
