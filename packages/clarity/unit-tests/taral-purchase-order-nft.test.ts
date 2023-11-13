@@ -67,5 +67,49 @@ describe("test purchase order nft flows", () => {
         );
 
         expect(getTokenUriResult.result).toBeOk(Cl.some(Cl.stringAscii(uri)));
+    }),
+
+    it("should be able to transfer NFT from one account to another", () => {
+        const mintResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "mint",
+            [
+                Cl.uint(1), 
+                Cl.standardPrincipal(WALLET_1)
+            ],
+            DEPLOYER
+        );
+
+        expect(mintResult.result).toBeOk(Cl.bool(true));
+
+        const transferNftResult = simnet.callPublicFn(
+            "taral-purchase-order-nft",
+            "transfer",
+            [
+              Cl.uint(1),
+              Cl.standardPrincipal(WALLET_1),
+              Cl.standardPrincipal(WALLET_2),
+            ],
+            WALLET_1
+        );
+
+        expect(transferNftResult.result).toBeOk(Cl.bool(true));
+
+        var nftTransferEvent = transferNftResult.events[0].data as any;
+
+        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.taral-purchase-order-nft::purchase-order-nft`);
+
+        expect(nftTransferEvent.sender, `${WALLET_1}`);
+        expect(nftTransferEvent.recipient, `${WALLET_2}`);
+        expect(nftTransferEvent.value, 1 as any);
+
+        const getNewOwnerResult = simnet.callReadOnlyFn(
+            "taral-purchase-order-nft",
+            "get-owner",
+            [Cl.uint(1)],
+            DEPLOYER
+        );
+
+        expect(getNewOwnerResult.result).toBeOk(Cl.some(Cl.standardPrincipal(WALLET_2)));
     })
 });
