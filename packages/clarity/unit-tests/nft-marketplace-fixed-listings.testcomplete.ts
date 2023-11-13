@@ -4,7 +4,6 @@ import { describe, expect, it } from "vitest";
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
-const WALLET_3 = accounts.get("wallet_3")!;
 const DEPLOYER = accounts.get("deployer")!;
 
 describe("test marketplace fixed listings flows", () => {
