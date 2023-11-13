@@ -6,8 +6,8 @@ const WALLET_1 = accounts.get("wallet_1")!;
 
 const VERBOSE = false;
 
-describe("test dummy oracle", () => {
-    it("Ensure that the prices are fetched", () => {
+describe("Should test dummy oracle", () => {
+    it("Should ensure that the prices are fetched", () => {
         const btcPriceResult = simnet.callReadOnlyFn(
             "dummy-oracle",
             "get-btc-price",
