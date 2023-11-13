@@ -11,6 +11,8 @@ import {
   currentSelectedEntityAtom,
 } from "@store/entityStore";
 import { useAtom } from "jotai";
+import { toast } from "sonner";
+import e from "express";
 
 type Props = {
   isOpen: boolean;
@@ -39,20 +41,27 @@ function FormModal({ isOpen, onClose }: Props) {
       }
     });
 
-    entityService.createEntity(formData).then((data) => {
-      if (data.id) {
-        console.log(data.id);
+    const response = () => entityService.createEntity(formData);
+
+    toast.promise(response, {
+      loading: "Loading...",
+      success: (data) => {
         setCurrentSelectedEntity(data.id);
-        onClose();
         setLoading(false);
         setSubmitSuccessful(true);
         setEntityCreated(data.id);
+        onClose();
         router.push(
           `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
         );
-      }
-      setLoading(false);
+        return `${data.name} entity has been created`;
+      },
+      error: (err) => {
+        return `${err.message}`;
+      },
     });
+
+    onClose();
   };
 
   // Clear field values on submission is successful
@@ -230,8 +239,8 @@ function FormModal({ isOpen, onClose }: Props) {
               </div>
             </div>
             <div>
-              <button disabled={isLoading} className="button" type="submit">
-                {isLoading ? <span>Creating Entity...</span> : "Create Entity"}
+              <button className="button" type="submit">
+                {"Create Entity"}
               </button>
             </div>
           </form>

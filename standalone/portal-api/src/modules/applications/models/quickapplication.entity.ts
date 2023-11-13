@@ -22,6 +22,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ unique: true })
+  @Allow()
+  applicationNumber: string;
+
   @Column()
   @Allow()
   title: string;
@@ -29,6 +33,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   issuanceDate: Date;
+
+  @Column({ type: 'timestamptz' }) // Recommended
+  @Allow()
+  endDate: Date;
 
   @Column({ type: 'enum', enum: ApplicationStatus })
   @Allow()

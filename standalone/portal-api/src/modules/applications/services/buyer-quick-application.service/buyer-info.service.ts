@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateBuyerRequest } from 'src/modules/buyer/dto/request/create-buyer.dto';
 import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
@@ -38,11 +38,9 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     return this.buyerMappingService.mapEntityDetails(buyer);
   }
 
-  @Transactional(
-    {
-      isolationLevel: IsolationLevel.READ_COMMITTED,
-    },
-  )
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async createBuyerInformation(
     data: CreateBuyerRequest,
     applicationId: string,
@@ -50,7 +48,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     this.setupTransactionHooks();
 
     let application: BuyerQuickApplicationEntity = undefined;
-    
+
     try {
       application = await this.buyerApplicationRepository.findOne(
         applicationId,
@@ -68,13 +66,17 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     } catch (exception) {
       throw new EntityNotFoundError('BuyerQuickApplicationEntity', {
         where: {
-          id: applicationId
-        }
+          id: applicationId,
+        },
       });
     }
 
-
-    // TODO: check if buyer already exists
+    if (application.buyerInformation) {
+      throw new HttpException(
+        'Buyer information already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     const savedBuyer = await this.buyerService.createEntity(data);
 
     application.buyerInformation = savedBuyer;
@@ -83,11 +85,9 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     return this.buyerMappingService.mapEntityDetails(savedBuyer);
   }
 
-  @Transactional(
-    {
-      isolationLevel: IsolationLevel.READ_COMMITTED,
-    },
-  )
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async updateBuyerInformation(
     data: UpdateBuyerRequest,
     applicationId: string,

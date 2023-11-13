@@ -24,7 +24,7 @@ import {
 	QuantitativeTable,
 	TxFinanceTable,
 } from './Table';
-import { DeleteModal, SelectNetworkModal } from './Modals';
+import { DeleteModal, SelectNetworkModal, IdleTimeOutModal } from './Modals';
 import { Entity } from './Entity';
 import { SmallLoanCard, LargeLoanCard, PaymentSuccessCard } from './LoanCard';
 import { ProfileAddressCard, ProfilePersonalCard } from './ProfileCard';
@@ -59,4 +59,5 @@ export {
 	DeleteModal,
 	SelectNetworkModal,
 	Activity,
+	IdleTimeOutModal,
 };

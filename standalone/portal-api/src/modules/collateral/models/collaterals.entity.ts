@@ -33,11 +33,11 @@ export class CollateralEntity extends EntityHelper {
   @Allow()
   repaymentSource: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   collateralProviderInfluence: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   collateralProviderExperience: string;
 

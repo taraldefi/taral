@@ -8,7 +8,6 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreatePaymentTermDto } from './dto/request/create-payment-term.dto';
 import { GetPaymentTermResponse } from './dto/response/get-payment-term.response.dto';
 import { PaymentTermService } from './services/payment-term.service';
 import { UpdatePaymentTermDto } from './dto/request/update-payment-term.dto';
@@ -20,12 +19,12 @@ import { UpdatePaymentTermDto } from './dto/request/update-payment-term.dto';
 })
 export class PaymentTermController {
   constructor(private readonly paymentTermService: PaymentTermService) {}
-  @Post()
-  async create(
-    @Body() paymentTerm: CreatePaymentTermDto,
-  ): Promise<GetPaymentTermResponse> {
-    return await this.paymentTermService.create(paymentTerm);
-  }
+  // @Post()
+  // async create(
+  //   @Body() paymentTerm: CreatePaymentTermDto,
+  // ): Promise<GetPaymentTermResponse> {
+  //   return await this.paymentTermService.create(paymentTerm);
+  // }
 
   @Get('/:id')
   async get(@Param('id') id: string) {

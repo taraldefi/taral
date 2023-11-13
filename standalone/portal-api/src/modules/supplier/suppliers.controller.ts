@@ -22,21 +22,21 @@ export class SuppliersEntityController {
     return await this.supplierService.createEntity(entity);
   }
 
-  @Put('/:id')
-  async updateEntity(
-    @Param('id') id: string,
-    @Body() entity: UpdateSupplierRequest,
-  ): Promise<GetSupplierResponse> {
-    return await this.supplierService.updateEntity(id, entity);
-  }
+  // @Put('/:id')
+  // async updateEntity(
+  //   @Param('id') id: string,
+  //   @Body() entity: UpdateSupplierRequest,
+  // ): Promise<GetSupplierResponse> {
+  //   return await this.supplierService.updateEntity(id, entity);
+  // }
 
-  @Patch('/:id')
-  async patchEntity(
-    @Param('id') id: string,
-    @Body() entity: UpdateSupplierRequest,
-  ): Promise<GetSupplierResponse> {
-    return await this.supplierService.updateEntity(id, entity);
-  }
+  // @Patch('/:id')
+  // async patchEntity(
+  //   @Param('id') id: string,
+  //   @Body() entity: UpdateSupplierRequest,
+  // ): Promise<GetSupplierResponse> {
+  //   return await this.supplierService.updateEntity(id, entity);
+  // }
 
   // @Get('/:id')
   // async getEntity(@Param('id') id: string): Promise<GetSupplierResponse> {

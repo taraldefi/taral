@@ -75,17 +75,21 @@ export class RelationshipService extends BaseService {
     relationship.paymentExperience = new PaymentExperience();
     relationship.buyer = buyer;
     relationship.supplier = supplier;
-    relationship.influence = entity.influence;
-    relationship.shareHoldingRelationship = entity.shareHoldingRelationship;
-    relationship.paymentExperience.Delays = entity.paymentExperience.delays;
+    relationship.influence = entity.influence ?? null;
+    relationship.shareHoldingRelationship =
+      entity.shareHoldingRelationship ?? null;
+    relationship.paymentExperience.Delays =
+      entity.paymentExperience.delays ?? null;
     relationship.paymentExperience.description =
-      entity.paymentExperience.description;
-    relationship.paymentExperience.History = entity.paymentExperience.history;
-    relationship.paymentExperience.length = entity.paymentExperience.length;
+      entity.paymentExperience.description ?? null;
+    relationship.paymentExperience.History =
+      entity.paymentExperience.history ?? null;
+    relationship.paymentExperience.length =
+      entity.paymentExperience.length ?? null;
     relationship.paymentExperience.noOfDeals =
-      entity.paymentExperience.noOfDeals;
+      entity.paymentExperience.noOfDeals ?? null;
     relationship.paymentExperience.avgBusinessVol =
-      entity.paymentExperience.avgBusinessVol;
+      entity.paymentExperience.avgBusinessVol ?? null;
 
     await this.relationshipRepository.save(relationship);
 
@@ -100,7 +104,7 @@ export class RelationshipService extends BaseService {
     relationshipId: string,
     buyerId: string,
     supplierId: string,
-  ): Promise<GetRelationshipResponse> {
+  ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
     const buyer = await this.buyerEntityRepository.findOneOrFail({
@@ -126,45 +130,63 @@ export class RelationshipService extends BaseService {
 
     if (entity.influence) {
       relationship.influence = entity.influence;
+    } else {
+      relationship.influence = null;
     }
 
     if (entity.shareHoldingRelationship) {
       relationship.shareHoldingRelationship = entity.shareHoldingRelationship;
+    } else {
+      relationship.shareHoldingRelationship = null;
     }
 
     if (entity.paymentExperience) {
       if (entity.paymentExperience.delays) {
         relationship.paymentExperience.Delays = entity.paymentExperience.delays;
+      } else {
+        relationship.paymentExperience.Delays = null;
       }
 
       if (entity.paymentExperience.description) {
         relationship.paymentExperience.description =
           entity.paymentExperience.description;
+      } else {
+        relationship.paymentExperience.description = null;
       }
 
       if (entity.paymentExperience.history) {
         relationship.paymentExperience.History =
           entity.paymentExperience.history;
+      } else {
+        relationship.paymentExperience.History = null;
       }
 
       if (entity.paymentExperience.length) {
         relationship.paymentExperience.length = entity.paymentExperience.length;
+      } else {
+        relationship.paymentExperience.length = null;
       }
 
       if (entity.paymentExperience.noOfDeals) {
         relationship.paymentExperience.noOfDeals =
           entity.paymentExperience.noOfDeals;
+      } else {
+        relationship.paymentExperience.noOfDeals = null;
       }
 
       if (entity.paymentExperience.avgBusinessVol) {
         relationship.paymentExperience.avgBusinessVol =
           entity.paymentExperience.avgBusinessVol;
+      } else {
+        relationship.paymentExperience.avgBusinessVol = null;
       }
     }
 
-    await this.relationshipRepository.save(relationship);
+    const updatedRelationship = await this.relationshipRepository.save(
+      relationship,
+    );
 
-    return this.mappingService.mapEntityDetails(relationship);
+    return updatedRelationship;
   }
 
   public async getEntity(

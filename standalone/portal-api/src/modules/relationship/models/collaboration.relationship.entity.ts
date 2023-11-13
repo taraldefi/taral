@@ -16,11 +16,11 @@ export class CollaborationRelationshipEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   shareHoldingRelationship?: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   influence?: string;
 

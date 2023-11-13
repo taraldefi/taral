@@ -1,5 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDecimal, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsDecimal,
+  IsEnum,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 import { FacilityType } from '../../enums/facility.enum';
 
 export class CreateCollateralDto {
@@ -55,15 +61,13 @@ export class CreateCollateralDto {
     description: 'Collateral provider influence',
     example: 'High',
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   collateralProviderInfluence: string;
 
   @ApiProperty({
     description: 'Collateral provider experience',
     example: 'High',
   })
-  @IsString()
-  @IsNotEmpty()
+  @IsOptional()
   collateralProviderExperience: string;
 }

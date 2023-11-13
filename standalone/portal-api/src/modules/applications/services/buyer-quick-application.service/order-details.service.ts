@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
@@ -33,6 +33,12 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
         relations: ['orderDetails'],
       },
     );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return this.orderDetailsService.get(application.orderDetails.id);
   }
 
@@ -45,13 +51,22 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
   ): Promise<GetOrderDetailsResponse> {
     this.setupTransactionHooks();
 
-    const savedOrder = await this.orderDetailsService.create(data);
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
         relations: ['orderDetails'],
       },
     );
+
+    if (application.orderDetails) {
+      throw new HttpException(
+        'order details already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const savedOrder = await this.orderDetailsService.create(data);
+
     application.orderDetails = savedOrder;
     application.save();
 
@@ -86,7 +101,6 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
     data: CreateOrderProductDto,
     applicationId: string,
   ): Promise<GetOrderProductResponse> {
-
     this.setupTransactionHooks();
 
     const application = await this.buyerApplicationRepository.findOne(
@@ -95,6 +109,12 @@ export class BuyerQuickApplicationOrderDetailService extends BaseService {
         relations: ['orderDetails'],
       },
     );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     return await this.orderProductService.create(
       data,
       application.orderDetails.id,

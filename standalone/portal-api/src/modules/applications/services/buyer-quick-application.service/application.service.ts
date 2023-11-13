@@ -17,7 +17,7 @@ import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class BuyerQuickApplicationService  extends BaseService {
+export class BuyerQuickApplicationService extends BaseService {
   constructor(
     @InjectRepository(BuyerQuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -29,6 +29,42 @@ export class BuyerQuickApplicationService  extends BaseService {
     private collateralService: BuyerQuickApplicationCollateralService,
   ) {
     super();
+  }
+
+  public async getAllApplications(
+    entityID: string,
+  ): Promise<GetApplicationResponse[]> {
+    const applications = await this.buyerApplicationRepository.find({
+      select: [
+        'id',
+        'supplierInformation',
+        'issuanceDate',
+        'title',
+        'status',
+        'applicationNumber',
+        'endDate',
+      ],
+      relations: ['supplierInformation'],
+      where: { legalEntity: { id: entityID } },
+    });
+
+    var response = new Array<GetApplicationResponse>();
+
+    response = applications.map((application) => {
+      console.log(application);
+      var applicationItem = new GetApplicationResponse();
+      applicationItem.id = application.id;
+      applicationItem.issuanceDate = application.issuanceDate;
+      applicationItem.title = application.title;
+      applicationItem.applicationNumber = application.applicationNumber;
+      applicationItem.exporterName = '--';
+      applicationItem.endDate = application.endDate;
+      applicationItem.status = application.status;
+
+      return applicationItem;
+    });
+
+    return response;
   }
 
   public async get(id: string): Promise<GetApplicationResponse> {
@@ -48,6 +84,9 @@ export class BuyerQuickApplicationService  extends BaseService {
     var response = new GetBuyerQuickApplicationResponse();
     response.id = application.id;
     response.title = application.title;
+    response.applicationNumber = application.applicationNumber;
+    response.issuanceDate = application.issuanceDate;
+    response.endDate = application.endDate;
     response.status = application.status;
 
     const savedBuyerInformation =
@@ -64,7 +103,7 @@ export class BuyerQuickApplicationService  extends BaseService {
     const savedCollateral = await this.collateralService.getCollateral(
       application.id,
     );
-
+    response.exporterName = savedSupplierInformation.supplier.companyName;
     response.buyerInformation = savedBuyerInformation;
     response.supplierInformation = savedSupplierInformation;
     response.orderDetails = savedOrderDetail;
@@ -94,7 +133,6 @@ export class BuyerQuickApplicationService  extends BaseService {
     return application;
   }
 
-
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
@@ -102,14 +140,20 @@ export class BuyerQuickApplicationService  extends BaseService {
     data: CreateQuickApplicationRequest,
     entity: LegalBuyerEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
-    await this.checkActiveApplicationExists();
+    await this.checkActiveApplicationExists(entity.id);
 
     this.setupTransactionHooks();
 
     const application = new BuyerQuickApplicationEntity();
 
+    const applicationNumber = await this.generateApplicationNumber(entity.name);
+    // default enddate is 60 days from now
+    const endDate = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+
+    application.applicationNumber = applicationNumber;
     application.title = data.title;
     application.issuanceDate = new Date();
+    application.endDate = endDate;
     application.status = 'ACTIVE';
     application.createdAt = new Date();
 
@@ -127,7 +171,6 @@ export class BuyerQuickApplicationService  extends BaseService {
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
   public async markAsComplete(id: string): Promise<void> {
-
     this.setupTransactionHooks();
 
     const application = await this.findApplicationById(id);
@@ -136,7 +179,10 @@ export class BuyerQuickApplicationService  extends BaseService {
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
     if (application.status == 'COMPLETED')
-      throw new HttpException('Application already submited', HttpStatus.BAD_REQUEST);
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
 
     application.status = 'COMPLETED';
     application.save();
@@ -169,16 +215,26 @@ export class BuyerQuickApplicationService  extends BaseService {
     return false;
   }
 
-  private async checkActiveApplicationExists(): Promise<void> {
+  private async checkActiveApplicationExists(entityId: string): Promise<void> {
     const activeApplication = await this.buyerApplicationRepository.findOne({
-      where: { status: 'ACTIVE' },
+      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
     });
-    console.log('activeApplication', activeApplication.id);
-    if (activeApplication.id) {
+
+    if (activeApplication && activeApplication.id) {
       throw new HttpException(
-        'ACTIVE application exists',
+        'An active application exists',
         HttpStatus.BAD_REQUEST,
       );
     }
+  }
+
+  private generateApplicationNumber(entityName: string): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const lastFourDigits = Date.now().toString().slice(-4);
+      const applicationNumber = `${entityName
+        .substring(0, 3)
+        .toUpperCase()}-${lastFourDigits}`;
+      resolve(applicationNumber);
+    });
   }
 }

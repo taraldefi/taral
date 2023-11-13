@@ -14,7 +14,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "axios": "1.5.1",
+    "axios": "1.6.0",
     "@types/axios": "0.14.0",
     "@stacks/blockchain-api-client": "^7.3.2",
     "@stacks/common": "^6.0.0",

@@ -181,7 +181,7 @@ export class SupplierService extends BaseService {
   public async updateEntity(
     id: string,
     data: UpdateSupplierRequest,
-  ): Promise<GetSupplierResponse> {
+  ): Promise<SupplierEntity> {
     this.setupTransactionHooks();
 
     const entity = await this.supplierRepository.findOneOrFail({
@@ -287,6 +287,11 @@ export class SupplierService extends BaseService {
       entity.company.registrationNumbers = data.company.registrationNumbers;
     }
 
+    if (data.company.phoneNumber) {
+      companyChanged = true;
+      entity.company.phoneNumber = data.company.phoneNumber;
+    }
+
     if (companyChanged) {
       await this.supplierCompanyRepository.save(entity.company);
     }
@@ -333,6 +338,6 @@ export class SupplierService extends BaseService {
 
     var updatedEntity = await this.supplierRepository.save(entity);
 
-    return this.mappingService.mapEntityDetails(updatedEntity);
+    return updatedEntity;
   }
 }

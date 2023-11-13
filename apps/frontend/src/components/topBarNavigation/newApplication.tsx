@@ -8,9 +8,12 @@ import { useRouter } from "next/router";
 const NewApplicationTopNav = () => {
   const [, setIndex] = useAtom(pageIndexAtom);
   const router = useRouter();
+  const entityId = router.query.entityId;
   const handleClick = () => {
     setIndex(0);
-    router.push(`/users/${router.asPath.split("/")[2]}/entities`);
+    router.push(
+      `/users/${router.asPath.split("/")[2]}/entities/${entityId}/applications`
+    );
   };
   return (
     <div>
@@ -19,7 +22,6 @@ const NewApplicationTopNav = () => {
           <div onClick={handleClick}>
             <FontAwesomeIcon
               icon={faArrowLeft}
-              onClick={() => alert("form changes wont be saved")}
               fontSize="24px"
               color="#003C6E"
             />

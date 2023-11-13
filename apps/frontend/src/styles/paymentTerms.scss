@@ -1,13 +1,23 @@
 .ptContainer {
-  position: absolute;
+  position: fixed;
   top: 127px;
   left: 20vw;
   display: flex;
   width: 80%;
+
   padding: 40px 40px 80px 40px;
   display: flex;
   font-size: 14px;
   height: fit-content;
+  max-height: calc(100vh - 127px);
+  .inputRed::placeholder {
+    color: #f84141;
+    opacity: 1; /* Firefox */
+  }
+
+  .inputRed {
+    border: 1px solid #f84141;
+  }
   .inputContainer {
     padding-top: 10px;
     display: flex;
@@ -125,74 +135,72 @@
     }
   }
 
-  .ptItemsContainer {
-    display: flex;
+  .ptShort {
+    flex: 1;
     width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .ptShort {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+  .ptDetails {
+    flex: 1;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .ptDetails {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+  .ptMedium {
+    flex: 1;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .ptMedium {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+  .ptInterest {
+    flex: 1;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .ptInterest {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+  .ptSM {
+    flex: 1;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
 
-    .ptSM {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+  .ptVID {
+    display: flex;
 
-    .ptVID {
-      flex: 1;
-      width: 100%;
-      color: #475569;
-      font-size: 14px;
-      font-weight: normal;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+    overflow-y: scroll;
+    flex: 1;
+    width: 100%;
+    color: #475569;
+    font-size: 14px;
+    font-weight: normal;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
   }
 }
