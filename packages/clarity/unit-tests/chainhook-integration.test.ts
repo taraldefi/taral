@@ -7,7 +7,7 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const WALLET_3 = accounts.get("wallet_3")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test marketplace chainhook [ value added only if ran with the chainhook backend ]", () => {
+describe("Should test marketplace chainhook [ value added only if ran with the chainhook backend ]", () => {
     it("Ensure we can run the chainhook integration", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",

@@ -8,8 +8,8 @@ const WALLET_1 = accounts.get("wallet_1")!;
 
 const VERBOSE = false;
 
-describe("test clarity bitcoin", () => {
-    it("Ensure that valid merkle proofs are validated - light", () => {
+describe("Should test clarity bitcoin", () => {
+    it("Should ensure that valid merkle proofs are validated - [light version]", () => {
 
         var parseTransactionResult = simnet.callReadOnlyFn(
             "clarity-bitcoin",
@@ -62,7 +62,7 @@ describe("test clarity bitcoin", () => {
         }));
     }),
 
-    it("Ensures that valid merkle proofs are validated", () => {
+    it("Should ensure that valid merkle proofs are validated", () => {
 
         // get some reverse value of buffers
 
