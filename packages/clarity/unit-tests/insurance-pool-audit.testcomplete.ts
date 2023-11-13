@@ -4,7 +4,6 @@ import { parts } from "./fixtures";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
-const DEPLOYER = accounts.get("deployer")!;
 
 const VERBOSE = false;
 
