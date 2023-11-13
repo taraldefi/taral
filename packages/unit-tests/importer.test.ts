@@ -154,7 +154,17 @@ describe("Taral Importer", () => {
       importer3_wallet,
     ]);
 
-    expect(response.length).toEqual(3);
+    expect(response).not.toEqual(null);
+
+    const responseNotNull = response as any as {
+      category: string;
+      created: bigint;
+      hash: Buffer;
+      name: string;
+      "orders-next-avail-id": bigint;
+    }[];
+
+    expect(responseNotNull.length).toEqual(3);
   }, 3000000);
 
   test("Ensure that order inputs are valid", async () => {
