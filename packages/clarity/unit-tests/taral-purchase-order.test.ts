@@ -5,6 +5,7 @@ const accounts = simnet.getAccounts();
 const EXPORTER_WALLET = accounts.get("wallet_8")!;
 const EXPORTER_2_WALLET = accounts.get("wallet_9")!;
 const WALLET_1 = accounts.get("wallet_1")!;
+const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
 describe("test taral purchase order flows", () => {
@@ -98,5 +99,32 @@ describe("test taral purchase order flows", () => {
         );
 
         expect(createVaultResult.result).toBeErr(Cl.uint(405));
+    }),
+
+    it("liquidate-vault with overcollateralized vault", () => {
+        const createVaultResult = simnet.callPublicFn(
+            "taral-purchase-order-v1",
+            "create-vault",
+            [
+                Cl.uint(500), 
+                Cl.uint(2500000), 
+                Cl.uint(400), 
+                Cl.uint(30)
+            ],
+            WALLET_1
+        );
+
+        expect(createVaultResult.result).toBeOk(Cl.uint(1));
+
+        const liquidateResult = simnet.callPublicFn(
+            "taral-purchase-order-v1",
+            "liquidate",
+            [
+                Cl.uint(1)
+            ],
+            WALLET_2
+        );
+
+        expect(liquidateResult.result).toBeErr(Cl.uint(406));
     })
 });
