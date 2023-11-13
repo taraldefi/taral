@@ -169,6 +169,80 @@ describe("test marketplace auction flows", () => {
         );
 
         expect(startAuctionResult.result).toBeOk(Cl.uint(0));
+
+        var nftTransferEvent = startAuctionResult.events[0].data as any;
+
+        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+
+        expect(nftTransferEvent.sender, `${WALLET_1}`);
+        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+        expect(nftTransferEvent.value, 1 as any);
+
+        const getOwnerResult = simnet.callReadOnlyFn(
+            "sip009-nft",
+            "get-owner",
+            [Cl.uint(1)],
+            WALLET_1
+        );
+
+        expect(getOwnerResult.result).toBeOk(Cl.some(Cl.contractPrincipal(`${DEPLOYER}`, "nft-marketplace")));
+
+        for (let i = 0; i < 500; i++) {
+            simnet.mineEmptyBlock();
+        }
+
+        let placeBidResponse = simnet.callPublicFn(
+            "nft-marketplace",
+            "place-bid",
+            [
+              Cl.uint(0), // auction id
+              Cl.uint(1200), // bid amount
+            ],
+            WALLET_2
+        );
+
+        expect(placeBidResponse.result).toBeOk(Cl.bool(true));
+
+        var stxTransferEvent = startAuctionResult.events[0].data as any;
+
+        expect(stxTransferEvent.sender, `${WALLET_2}`);
+        expect(stxTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+        expect(stxTransferEvent.amount, 1200 as any);
+
+        for(let i = 0; i < 2000; i++) {
+            simnet.mineEmptyBlock();
+        }
+
+        const endAuctionResult = simnet.callPublicFn(
+            "nft-marketplace",
+            "end-auction",
+            [
+                Cl.uint(0), // auction id
+                Cl.contractPrincipal(
+                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
+                ),
+            ],
+            WALLET_1
+        );
+
+        expect(endAuctionResult.result).toBeOk(Cl.tuple({
+            "auction-id": Cl.uint(0),
+            "reserve-price-met": Cl.bool(true),
+          }));
+
+        var stxTransferEvent = endAuctionResult.events[1].data as any;
+
+        expect(stxTransferEvent.sender, `${WALLET_2}`);
+        expect(stxTransferEvent.recipient, `${WALLET_1}`);
+        expect(stxTransferEvent.amount, 1200 as any);
+
+        nftTransferEvent = endAuctionResult.events[0].data as any;
+
+        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+
+        expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
+        expect(nftTransferEvent.recipient, `${WALLET_2}`);
+        expect(nftTransferEvent.value, 1 as any);
     }),
 
     it("Ensure auction can be cancelled by the maker", () => {
