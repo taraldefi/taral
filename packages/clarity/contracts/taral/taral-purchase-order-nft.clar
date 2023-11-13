@@ -70,7 +70,7 @@
 ;; #[allow(unchecked_data)]
 (define-public (burn (token-id uint) (sender principal)) 
     (begin
-        ;;(asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
+        (asserts! (is-eq tx-sender contract-owner) ERR-OWNER-ONLY)
         (try! (nft-burn? purchase-order-nft token-id sender))
         (ok true)
     )
