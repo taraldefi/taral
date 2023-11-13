@@ -6,8 +6,8 @@ const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test purchase order nft flows", () => {
-    it("Should be able to MINT and get last token ID", () => {
+describe("Should test purchase order nft flows", () => {
+    it("Should ensure one is able to MINT and get last token ID", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
@@ -30,7 +30,7 @@ describe("test purchase order nft flows", () => {
         expect(tokenIdResult.result).toBeOk(Cl.uint(1));
     }),
 
-    it("should be able to SET and GET token URIs", () => {
+    it("Should ensure one is able to SET and GET token URIs", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
@@ -69,7 +69,7 @@ describe("test purchase order nft flows", () => {
         expect(getTokenUriResult.result).toBeOk(Cl.some(Cl.stringAscii(uri)));
     }),
 
-    it("should be able to transfer NFT from one account to another", () => {
+    it("Should ensure one is able to transfer NFT from one account to another", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
@@ -113,7 +113,7 @@ describe("test purchase order nft flows", () => {
         expect(getNewOwnerResult.result).toBeOk(Cl.some(Cl.standardPrincipal(WALLET_2)));
     }),
 
-    it("should be able to burn NFT by providing the token ID", () => {
+    it("Should ensure one is able to burn NFT by providing the token ID", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
@@ -146,7 +146,7 @@ describe("test purchase order nft flows", () => {
         expect(nftBurnEvent.value, 1 as any);
     }),
 
-    it("should not be able to burn NFT if not admin", () => {
+    it("Should ensure one is not able to burn NFT if not admin", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
@@ -172,7 +172,7 @@ describe("test purchase order nft flows", () => {
         expect(burnResult.result).toBeErr(Cl.uint(100));
     }),
     
-    it("should not be able to burn NFT if owner", () => {
+    it("Should ensure one is not able to burn NFT if owner", () => {
         const mintResult = simnet.callPublicFn(
             "taral-purchase-order-nft",
             "mint",
