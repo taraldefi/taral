@@ -6,9 +6,9 @@ const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("test marketplace fixed listings flows", () => {
+describe("Should test marketplace fixed listings flows", () => {
 
-    it("Ensure that we can list an nft for sale as a fixed listing", () => {
+    it("Should ensure that we can list an nft for sale as a fixed listing", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -63,7 +63,7 @@ describe("test marketplace fixed listings flows", () => {
 
     }),
 
-    it("Ensure that we can cancel a fixed listing", () => {
+    it("Should ensure that we can cancel a fixed listing", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -139,7 +139,7 @@ describe("test marketplace fixed listings flows", () => {
         expect(nftTransferEvent.value, 1 as any);
     }),
 
-    it("Ensure that we cannot cancel an invalid fixed listing", () => {
+    it("Should ensure that we cannot cancel an invalid fixed listing", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -207,7 +207,7 @@ describe("test marketplace fixed listings flows", () => {
         expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2000));
     }),
 
-    it("Ensure that only the maker can cancel a fixed listing", () => {
+    it("Should ensure that only the maker can cancel a fixed listing", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -275,7 +275,7 @@ describe("test marketplace fixed listings flows", () => {
         expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2001));
     }),
 
-    it("Ensure that the deployer can cancel a valid fixed listing", () => {
+    it("Should ensure that the deployer can cancel a valid fixed listing", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
@@ -351,7 +351,7 @@ describe("test marketplace fixed listings flows", () => {
         expect(nftTransferEvent.value, 1 as any);
     }),
 
-    it("Ensure that valid fixed listing can be purchased", () => {
+    it("Should ensure that valid fixed listing can be purchased", () => {
         const setWhitelistedResult = simnet.callPublicFn(
             "nft-marketplace",
             "set-whitelisted",
