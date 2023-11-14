@@ -35,42 +35,17 @@
     )
 )
 
-;; (define-private (update-seller-track-record (seller-id principal) (success bool))
-;;     (let ((seller-data (unwrap! (map-get? sellers { id: seller-id }) (err "Seller not found"))))
-;;         (if success
-;;             (map-set sellers
-;;                 { id: seller-id }
-;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (+ (get successful-transactions seller-data) u1), failed-transactions: (get failed-transactions seller-data) }
-;;             )
-;;             (map-set sellers
-;;                 { id: seller-id }
-;;                 { name: (get name seller-data), description: (get description seller-data), country: (get country seller-data), successful-transactions: (get successful-transactions seller-data), failed-transactions: (+ (get failed-transactions seller-data) u1) }
-;;             )
-;;         )
-;;     )
-;; )
-
 ;; @Desc function to fetch or create an exporter ID, makes use of match function to check if exporter id exists
 ;; @Param exporter : principal of exporter
 (define-private (get-or-create-exporter-id (exporter principal))
-    ;; (let (
-    ;;     (exporter-info (contract-call? .exporter-storage get-exporter-by-principal exporter))
-    ;;     (exporter-id (contract-call? .exporter-storage get-exporter-id-nonce))
-    ;; ) 
-    ;; (match exporter-info
-    ;; matched-exporter-id (ok matched-exporter-id)
-    ;; (begin
-    ;;     (unwrap! (contract-call? .exporter-storage add-exporter exporter exporter-id) exporter-storage-error)
-    ;;     (unwrap! (contract-call? .exporter-storage increment-exporter-id-nonce) exporter-storage-error)
-    ;;     (ok exporter-id)))
-    ;; )
-
     (match (contract-call? .exporter-storage get-exporter-by-principal exporter) 
           matched-exporter-id (ok matched-exporter-id)  
-          (let ((exporter-id (contract-call? .exporter-storage get-exporter-id-nonce)))  
-            (unwrap! (contract-call? .exporter-storage add-exporter exporter exporter-id) exporter-storage-error)
-            (unwrap! (contract-call? .exporter-storage increment-exporter-id-nonce) exporter-storage-error)
-            (ok exporter-id)
+        (
+            let (
+                (exporter-id (contract-call? .exporter-storage get-exporter-id-nonce)))  
+                (unwrap! (contract-call? .exporter-storage add-exporter exporter exporter-id) exporter-storage-error)
+                (unwrap! (contract-call? .exporter-storage increment-exporter-id-nonce) exporter-storage-error)
+                (ok exporter-id)
             )
     )
 )
@@ -89,13 +64,18 @@
         (asserts! (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter)) ERR-EXPORTER-ALREADY-REGISTERED)
         (asserts! (> (len exporter-name) u0) ERR-GENERIC)
         (asserts! (> (len exporter-category) u0) ERR-GENERIC) 
+
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
             
-        (let ((exporter-id (unwrap! (get-or-create-exporter-id exporter) ERR-GENERIC)))
-        (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id exporter-name hash exporter-category) exporter-storage-error)
-        (print {action: "register", exporter: exporter, exporter-name: exporter-name, exporter-category: exporter-category })
-        (ok true)
+        (
+            let (
+                (exporter-id (unwrap! (get-or-create-exporter-id exporter) ERR-GENERIC))
+            )
+            
+            (unwrap! (contract-call? .exporter-storage add-exporter-profile exporter-id exporter-name hash exporter-category) exporter-storage-error)
+            (print {action: "register", exporter-id: exporter-id, exporter: exporter, exporter-name: exporter-name, exporter-category: exporter-category })
+            (ok exporter-id)
         )
     ) 
 )
@@ -107,19 +87,19 @@
     (new-order-id uint) 
     (exporter principal) 
 )
-    (let (
-        (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter ) ERR-EXPORTER-NOT-REGISTERED))
-        (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter) exporter-storage-error))
-        (new-id (contract-call? .exporter-storage get-orders-next-avail-id current-exporter))
+    (
+        let (
+            (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter ) ERR-EXPORTER-NOT-REGISTERED))
+            (current-exporter (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter) exporter-storage-error))
+            (new-id (contract-call? .exporter-storage get-orders-next-avail-id current-exporter))
         )
+
         (asserts! (not (is-none (contract-call? .exporter-storage get-exporter-by-principal exporter))) ERR-EXPORTER-NOT-REGISTERED)
         (unwrap! (contract-call? .exporter-storage update-exporter-profile {exporter-id: exporter-id} (merge current-exporter { orders-next-avail-id: (+ u1 new-id)})) exporter-storage-error)
         (unwrap! (contract-call? .exporter-storage add-order new-id exporter-id new-order-id) exporter-storage-error)
         (print {action: "append-order", exporter: exporter, new-order-id: new-order-id  })
-        (ok true)
-            
+        (ok new-id)
     )
-    
 )
 
 (define-read-only (get-info)
