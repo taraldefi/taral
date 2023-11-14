@@ -24,7 +24,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "mint",
         [types.uint(1), types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -35,7 +35,7 @@ Clarinet.test({
       "taral-purchase-order-nft",
       "get-last-token-id",
       [],
-      deployer.address
+      deployer.address,
     );
     assertEquals(lastTokenId.result, "(ok u1)");
   },
@@ -54,7 +54,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "mint",
         [types.uint(1), types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     assertEquals(mintTx.receipts[0].result, "(ok true)");
@@ -67,7 +67,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "set-token-uri",
         [types.uint(1), types.ascii(uri)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     assertEquals(setUriTx.receipts[0].result, "(ok true)");
@@ -77,7 +77,7 @@ Clarinet.test({
       "taral-purchase-order-nft",
       "get-token-uri",
       [types.uint(1)],
-      deployer.address
+      deployer.address,
     );
     assertEquals(tokenUri.result, `(ok (some "${uri}"))`);
   },
@@ -96,7 +96,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "mint",
         [types.uint(1), types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     assertEquals(mintTx.receipts[0].result, "(ok true)");
@@ -111,7 +111,7 @@ Clarinet.test({
           types.principal(wallet_1.address),
           types.principal(wallet_2.address),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     assertEquals(transferTx.receipts[0].result, "(ok true)");
@@ -121,7 +121,7 @@ Clarinet.test({
       "taral-purchase-order-nft",
       "get-owner",
       [types.uint(1)],
-      deployer.address
+      deployer.address,
     );
     assertEquals(newOwner.result, `(ok (some ${wallet_2.address}))`);
   },
@@ -139,7 +139,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "mint",
         [types.uint(1), types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     //Burn the minted token
@@ -149,7 +149,7 @@ Clarinet.test({
         "taral-purchase-order-nft",
         "burn",
         [types.uint(1), types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     assertEquals(burnToken.receipts[0].result, "(ok true)");

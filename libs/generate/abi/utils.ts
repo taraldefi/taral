@@ -29,7 +29,7 @@ export const cvFromType = (val: ClarityAbiType) => {
       return "ClarityTypes.NoneCV";
     } else {
       throw new Error(
-        `Unexpected Clarity ABI type primitive: ${JSON.stringify(val)}`
+        `Unexpected Clarity ABI type primitive: ${JSON.stringify(val)}`,
       );
     }
   } else if (isClarityAbiBuffer(val)) {
@@ -53,7 +53,7 @@ export const cvFromType = (val: ClarityAbiType) => {
 
 export const jsTypeFromAbiType = (
   val: ClarityAbiType,
-  isArgument = false
+  isArgument = false,
 ): string => {
   if (isClarityAbiPrimitive(val)) {
     if (val === "uint128") {
@@ -72,7 +72,7 @@ export const jsTypeFromAbiType = (
       return "string";
     } else {
       throw new Error(
-        `Unexpected Clarity ABI type primitive: ${JSON.stringify(val)}`
+        `Unexpected Clarity ABI type primitive: ${JSON.stringify(val)}`,
       );
     }
   } else if (isClarityAbiBuffer(val)) {
@@ -124,7 +124,7 @@ export const makeTypes = (abi: ClarityAbi) => {
     const args = func.args.map((arg) => {
       return `${generateArgName(arg.name)}: ${jsTypeFromAbiType(
         arg.type,
-        true
+        true,
       )}`;
     });
 
@@ -147,7 +147,7 @@ export const makeTypes = (abi: ClarityAbi) => {
   abi.variables.forEach((variable) => {
     const jsType = jsTypeFromAbiType(variable.type);
     const functionLine = `${toCamelCase(
-      variable.name
+      variable.name,
     )}: () => Promise<${jsType}>;`;
     typings.push(functionLine);
   });

@@ -3,7 +3,7 @@ import { parseToCV } from "lib-shared";
 
 export function formatArguments(
   func: ClarityAbiFunction,
-  args: any[]
+  args: any[],
 ): ClarityValue[] {
   const formatted = args.map((arg, index) => {
     const { type } = func.args[index];

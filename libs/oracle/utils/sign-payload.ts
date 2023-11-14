@@ -23,7 +23,7 @@ export function signPayload(request: ISignPayloadRequest) {
   const hash = web3.utils.keccak256(`0x${request.payload.toString("hex")}`);
   const signed = web3.eth.accounts.sign(
     hash,
-    `0x${request.secretKey.slice(0, 64)}`
+    `0x${request.secretKey.slice(0, 64)}`,
   ); // remove compression byte
 
   const r_buffer = Buffer.from(signed.r.slice(2), "hex");

@@ -3,7 +3,7 @@ import * as utils from "./utils";
 export function blackjack(
   utxos: string | any[],
   outputs: any[],
-  feeRate: number
+  feeRate: number,
 ): any {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
 

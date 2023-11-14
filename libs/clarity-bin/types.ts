@@ -110,7 +110,7 @@ export interface Provider {
 
   launchContract(
     contractName: string,
-    contractFilePath: string
+    contractFilePath: string,
   ): Promise<Receipt>;
 
   execute(
@@ -124,7 +124,7 @@ export interface Provider {
     contractName: string,
     evalStatement: string,
     includeDebugOutput?: boolean,
-    atChaintip?: boolean
+    atChaintip?: boolean,
   ): Promise<Receipt>;
 
   evalRaw(evalStatement: string): Promise<Receipt>;
@@ -146,7 +146,7 @@ export class ExecutionError extends Error {
     message: string,
     code: number,
     commandOutput: string,
-    errorOutput: string
+    errorOutput: string,
   ) {
     super(message);
     this.message = message;

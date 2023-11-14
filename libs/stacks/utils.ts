@@ -10,7 +10,7 @@ export async function timeout(ms: number) {
 
 export async function getTransactionById(
   txId: string,
-  network: StacksNetwork
+  network: StacksNetwork,
 ): Promise<any> {
   const url = getTransactionUrl(txId, network);
   const result = await fetch(url);
@@ -107,6 +107,6 @@ export function getPublicKeyFromPrivate(privateKey: string | Buffer) {
   const privateKeyBuffer = privateKeyToBuffer(privateKey);
   // for backwards compatibility we always return a compressed public key, regardless of private key mode
   return Buffer.from(
-    nobleGetPublicKey(privateKeyBuffer.slice(0, 32), true)
+    nobleGetPublicKey(privateKeyBuffer.slice(0, 32), true),
   ).toString("hex");
 }

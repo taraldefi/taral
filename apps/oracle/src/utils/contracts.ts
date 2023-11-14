@@ -28,7 +28,7 @@ export async function getOracleContract(): Promise<IOracleContractInfo> {
     {
       secretKey: deployer.privateKey,
       stacksAddress: deployer.address,
-    }
+    },
   );
 
   Logger.debug("get-oracle", "Getting oracle contract from private testnet");

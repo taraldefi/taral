@@ -40,11 +40,11 @@ async function deployMany<T extends NodeContracts<M>, M>(contracts: T) {
       contract,
       deployer.privateKey,
       deployer.address,
-      index
+      index,
     );
     Logger.debug(
       NAME,
-      `Contract deployed: ${contractName} with result ${result}`
+      `Contract deployed: ${contractName} with result ${result}`,
     );
   }
 }
@@ -53,13 +53,13 @@ async function deployContract<T extends NodeContracts<M>, M>(
   contract: T[Extract<keyof T, string>],
   senderKey: string,
   senderAddress: string,
-  index: number
+  index: number,
 ) {
   const contractName = getContractNameFromPath(contract.contractFile);
   const normalizedPath = normalize(getRootDirectory()).replace(/\\/g, "/");
   const fullContractFilePath = resolve(
     normalizedPath,
-    contract.contractFile
+    contract.contractFile,
   ).replace(/\\/g, "/");
 
   Logger.debug(NAME, `Reading contract from ${fullContractFilePath}`);

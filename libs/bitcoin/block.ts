@@ -4,7 +4,7 @@ import { Block } from ".";
 
 export async function getBlockByHash(
   rpcClient: RPCClient,
-  blockHash: string
+  blockHash: string,
 ): Promise<Block> {
   const blockByHash = await rpcClient.getblock({
     blockhash: blockHash,
@@ -18,7 +18,7 @@ export async function getBlockByHash(
 
 export async function getBlockHeader(
   rpcClient: RPCClient,
-  blockHash: string
+  blockHash: string,
 ): Promise<string> {
   const blockHeader = await rpcClient.getblockheader({
     blockhash: blockHash,

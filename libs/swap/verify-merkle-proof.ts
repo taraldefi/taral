@@ -63,7 +63,7 @@ export async function verifyMerkleProof2({
     await contract.verifyMerkleProof(
       reversedTxIdBuffer,
       merkleRootBuffer,
-      proofCV
+      proofCV,
     )
   )._unsafeUnwrap();
 

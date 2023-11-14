@@ -15,12 +15,12 @@ export function privateKeyToWIF(
   private_key_hex:
     | WithImplicitCoercion<string>
     | { [Symbol.toPrimitive](hint: "string"): string },
-  mainnet: boolean
+  mainnet: boolean,
 ): string {
   return wif.encode(
     mainnet ? 0x80 : 0xef,
     Buffer.from(private_key_hex, "hex"),
-    true
+    true,
   );
 }
 
@@ -38,7 +38,7 @@ function deriveStxAddressChain() {
     const childKey = rootNode.derivePath(networkDerivationPath);
     if (!childKey.privateKey) {
       throw new Error(
-        "Unable to derive private key from `rootNode`, bip32 master keychain"
+        "Unable to derive private key from `rootNode`, bip32 master keychain",
       );
     }
     const txVersion = TransactionVersion.Testnet;

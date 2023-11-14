@@ -10,7 +10,7 @@ export async function deployContractOnStacks(
   contractName: string,
   contractPath: string,
   network: StacksNetwork,
-  secretDeployKey: string
+  secretDeployKey: string,
 ) {
   Logger.debug(NAME, `preparing to deploy contract ${contractName} ......`);
 

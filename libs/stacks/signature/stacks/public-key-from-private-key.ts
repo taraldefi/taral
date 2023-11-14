@@ -6,12 +6,12 @@ import { StacksPublicKey } from "./types";
 import { createStacksPublicKey } from "./utils";
 
 export function publicKeyFromPrivKey(
-  privateKey: string | Uint8Array
+  privateKey: string | Uint8Array,
 ): StacksPublicKey {
   const privKey = createStacksPrivateKey(privateKey);
   const publicKey = nobleGetPublicKey(
     privKey.data.slice(0, 32),
-    privKey.compressed
+    privKey.compressed,
   );
   return createStacksPublicKey(bytesToHex(publicKey));
 }
@@ -21,7 +21,7 @@ export function ecPrivateKey(privateKey: string | Buffer) {
   const ec = new EC("secp256k1");
   const keyPair = ec.keyFromPrivate(
     bytesToHex(privKey.data).slice(0, 64),
-    "hex"
+    "hex",
   );
 
   const ecPrivateKey = keyPair.getPrivate().toString("hex");

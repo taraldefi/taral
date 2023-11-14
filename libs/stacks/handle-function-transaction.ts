@@ -15,7 +15,7 @@ export async function handleFunctionTransaction(
   transaction: StacksTransaction,
   network: StacksNetwork,
   functionName: string,
-  contractName: string
+  contractName: string,
 ): Promise<TxBroadcastResult> {
   const result = await broadcastTransaction(transaction, network);
   if ((result as TxBroadcastResultRejected).error) {
@@ -26,7 +26,7 @@ export async function handleFunctionTransaction(
     network,
     result.txid,
     functionName,
-    contractName
+    contractName,
   );
 
   if (!processed) {
@@ -41,14 +41,14 @@ async function functionProcessing(
   tx: string,
   functionName: string,
   contractName: string,
-  count = 0
+  count = 0,
 ): Promise<boolean> {
   return functionProcessingWithSidecar(
     tx,
     count,
     network,
     functionName,
-    contractName
+    contractName,
   );
 }
 
@@ -57,7 +57,7 @@ async function functionProcessingWithSidecar(
   count = 0,
   network: StacksNetwork,
   functionName: string,
-  contractName: string
+  contractName: string,
 ): Promise<boolean> {
   const url = `${network.coreApiUrl}/extended/v1/tx/${tx}`;
   const result = await fetch(url);
@@ -67,7 +67,7 @@ async function functionProcessingWithSidecar(
     Logger.debug(
       NAME,
       `Success calling transaction ${tx} on ${contractName}::${functionName} after ${count} tries`,
-      value
+      value,
     );
 
     return true;
@@ -77,7 +77,7 @@ async function functionProcessingWithSidecar(
     Logger.error(
       NAME,
       `Failed calling transaction ${tx} on ${contractName}::${functionName} after 60 retries`,
-      value
+      value,
     );
     return false;
   }

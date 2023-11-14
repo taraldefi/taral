@@ -51,7 +51,7 @@ export class ApiProvider implements BaseProvider {
   constructor(
     network: StacksNetwork,
     deployerAccount: DeployerAccount,
-    contractName: string
+    contractName: string,
   ) {
     this.network = network;
     this.deployerAccount = deployerAccount;
@@ -75,7 +75,7 @@ export class ApiProvider implements BaseProvider {
   async callReadOnly(request: INodeProviderRequest): Promise<any> {
     const formattedArguments: ClarityValue[] = formatArguments(
       request.function,
-      request.arguments
+      request.arguments,
     );
 
     const options: ReadOnlyFunctionOptions = {
@@ -105,7 +105,7 @@ export class ApiProvider implements BaseProvider {
         NAME,
         `Error calling readonly function ${request.function.name} with arguments `,
         options,
-        error
+        error,
       );
       return err(undefined);
     }
@@ -114,12 +114,12 @@ export class ApiProvider implements BaseProvider {
   callPublic(request: INodeProviderRequest): Transaction<any, any> {
     const formattedArguments: ClarityValue[] = formatArguments(
       request.function,
-      request.arguments
+      request.arguments,
     );
 
     Logger.debug(
       NAME,
-      `Calling public method ${request.function.name} on contract ${this.contractName}`
+      `Calling public method ${request.function.name} on contract ${this.contractName}`,
     );
 
     const submit: Submitter<any, any> = async () => {
@@ -133,7 +133,7 @@ export class ApiProvider implements BaseProvider {
           request.function.name,
           request.caller.privateKey,
           request.caller.address,
-          formattedArguments
+          formattedArguments,
         );
 
       const success = this.isBroadcastSuccessful(rawFunctionCallResult);
@@ -142,7 +142,7 @@ export class ApiProvider implements BaseProvider {
         if (success) {
           const sct: SmartContractTransaction = await getTransactionById(
             rawFunctionCallResult.txid,
-            this.network
+            this.network,
           );
 
           const resultCV = deserializeCV(sct.tx_result.hex);
@@ -178,7 +178,7 @@ export class ApiProvider implements BaseProvider {
     deploy: boolean,
     contracts: T,
     network: StacksNetwork,
-    account: DeployerAccount
+    account: DeployerAccount,
   ): Promise<NodeContractInstances<T, M>> {
     const instances = {} as NodeContractInstances<T, M>;
     for (const k in contracts) {
@@ -234,7 +234,7 @@ export class ApiProvider implements BaseProvider {
         contractIdentifier,
         contractFilePath,
         network,
-        account.secretKey
+        account.secretKey,
       );
     }
 
@@ -254,7 +254,7 @@ export class ApiProvider implements BaseProvider {
     functionName: string,
     sender: string,
     senderAddress: string,
-    args: ClarityValue[]
+    args: ClarityValue[],
   ) {
     const nonce = await getNonce(senderAddress, NETWORK);
 
@@ -280,7 +280,7 @@ export class ApiProvider implements BaseProvider {
       transaction,
       this.network,
       functionName,
-      contractName
+      contractName,
     );
   }
 }

@@ -5,17 +5,17 @@ import { hexToBigInt, parseRecoverableSignature } from "./utils";
 export function publicKeyFromSignatureRsv(
   message: string,
   messageSignature: MessageSignature,
-  pubKeyEncoding = PubKeyEncoding.Compressed
+  pubKeyEncoding = PubKeyEncoding.Compressed,
 ): string {
   const parsedSignature = parseRecoverableSignature(messageSignature.data);
   const signature = new Signature(
     hexToBigInt(parsedSignature.r),
-    hexToBigInt(parsedSignature.s)
+    hexToBigInt(parsedSignature.s),
   );
   const point = Point.fromSignature(
     message,
     signature,
-    parsedSignature.recoveryParam
+    parsedSignature.recoveryParam,
   );
   const compressed = pubKeyEncoding === PubKeyEncoding.Compressed;
   return point.toHex(compressed);

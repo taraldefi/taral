@@ -26,11 +26,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -43,7 +43,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -61,7 +61,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -71,7 +71,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -94,11 +94,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -113,7 +113,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -131,7 +131,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -142,7 +142,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -158,7 +158,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -181,11 +181,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -197,7 +197,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -215,7 +215,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -226,7 +226,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -234,12 +234,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -248,7 +248,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -256,7 +256,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -270,7 +270,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -281,7 +281,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -296,10 +296,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -314,18 +314,18 @@ Clarinet.test({
 
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(
       nftTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.recipient, `${wallet_2.address}`);
     assertEquals(nftTransferEvent.value, types.uint(1));
 
     assertEquals(
       stxTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.recipient, `${wallet_1.address}`);
     assertEquals(stxTransferEvent.amount, "1200");
@@ -348,11 +348,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -364,7 +364,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -382,7 +382,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -393,7 +393,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -401,12 +401,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -415,7 +415,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -423,7 +423,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -437,7 +437,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -448,7 +448,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -461,7 +461,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(5000), // bid amount
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -472,13 +472,13 @@ Clarinet.test({
     assertEquals(highestBidTransferEvent.sender, `${wallet_3.address}`);
     assertEquals(
       highestBidTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(highestBidTransferEvent.amount, "5000");
 
     assertEquals(
       previousBidTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(previousBidTransferEvent.recipient, `${wallet_2.address}`);
     assertEquals(previousBidTransferEvent.amount, "1200");
@@ -492,10 +492,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -508,10 +508,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -524,10 +524,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -551,11 +551,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -567,7 +567,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -585,7 +585,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -596,7 +596,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -604,12 +604,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -618,7 +618,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -626,7 +626,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -640,7 +640,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -651,7 +651,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -664,7 +664,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(5000), // bid amount
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -675,13 +675,13 @@ Clarinet.test({
     assertEquals(highestBidTransferEvent.sender, `${wallet_3.address}`);
     assertEquals(
       highestBidTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(highestBidTransferEvent.amount, "5000");
 
     assertEquals(
       previousBidTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(previousBidTransferEvent.recipient, `${wallet_2.address}`);
     assertEquals(previousBidTransferEvent.amount, "1200");
@@ -695,10 +695,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -711,10 +711,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -727,10 +727,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -752,11 +752,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -768,7 +768,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -786,7 +786,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -798,7 +798,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -809,7 +809,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectErr();
@@ -832,11 +832,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -848,7 +848,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -866,7 +866,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -877,7 +877,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -885,12 +885,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -899,7 +899,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -907,7 +907,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -918,7 +918,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -933,7 +933,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -957,11 +957,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -973,7 +973,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -991,7 +991,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -1002,7 +1002,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -1010,12 +1010,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -1024,7 +1024,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1032,7 +1032,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -1046,7 +1046,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -1057,7 +1057,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -1070,7 +1070,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(5000), // bid amount
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -1081,13 +1081,13 @@ Clarinet.test({
     assertEquals(highestBidTransferEvent.sender, `${wallet_3.address}`);
     assertEquals(
       highestBidTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(highestBidTransferEvent.amount, "5000");
 
     assertEquals(
       previousBidTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(previousBidTransferEvent.recipient, `${wallet_2.address}`);
     assertEquals(previousBidTransferEvent.amount, "1200");
@@ -1100,7 +1100,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1113,10 +1113,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1140,11 +1140,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1156,7 +1156,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1174,7 +1174,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -1185,7 +1185,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -1193,12 +1193,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -1207,7 +1207,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1215,7 +1215,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -1229,7 +1229,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -1240,7 +1240,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -1253,7 +1253,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(5000), // bid amount
         ],
-        wallet_3.address
+        wallet_3.address,
       ),
     ]);
 
@@ -1264,13 +1264,13 @@ Clarinet.test({
     assertEquals(highestBidTransferEvent.sender, `${wallet_3.address}`);
     assertEquals(
       highestBidTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(highestBidTransferEvent.amount, "5000");
 
     assertEquals(
       previousBidTransferEvent.sender,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(previousBidTransferEvent.recipient, `${wallet_2.address}`);
     assertEquals(previousBidTransferEvent.amount, "1200");
@@ -1283,7 +1283,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1296,10 +1296,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1322,11 +1322,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1338,7 +1338,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1356,7 +1356,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -1367,7 +1367,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -1375,12 +1375,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -1389,7 +1389,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1397,7 +1397,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -1411,7 +1411,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -1422,7 +1422,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -1435,7 +1435,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1449,10 +1449,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1475,11 +1475,11 @@ Clarinet.test({
         "set-whitelisted",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.bool(true),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1491,7 +1491,7 @@ Clarinet.test({
         "sip009-nft",
         "mint",
         [types.principal(wallet_1.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1509,7 +1509,7 @@ Clarinet.test({
         "start-auction",
         [
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
           types.tuple({
             "token-id": types.uint(1),
@@ -1520,7 +1520,7 @@ Clarinet.test({
             "reserve-price": types.uint(1000),
           }),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectOk();
@@ -1528,12 +1528,12 @@ Clarinet.test({
     var nftTransferEvent = block.receipts[0].events[0].nft_transfer_event;
     assertEquals(
       nftTransferEvent.asset_identifier,
-      `${deployer.address}.sip009-nft::sip009-nft`
+      `${deployer.address}.sip009-nft::sip009-nft`,
     );
     assertEquals(nftTransferEvent.sender, `${wallet_1.address}`);
     assertEquals(
       nftTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(nftTransferEvent.value, types.uint(1));
 
@@ -1542,7 +1542,7 @@ Clarinet.test({
         "sip009-nft",
         "get-owner",
         [types.uint(1)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -1550,7 +1550,7 @@ Clarinet.test({
 
     assertEquals(
       checkOwner.receipts[0].result,
-      `(ok (some ${deployer.address}.nft-marketplace))`
+      `(ok (some ${deployer.address}.nft-marketplace))`,
     );
 
     chain.mineEmptyBlockUntil(500);
@@ -1564,7 +1564,7 @@ Clarinet.test({
           types.uint(0), // auction id
           types.uint(1200), // bid amount
         ],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 
@@ -1575,7 +1575,7 @@ Clarinet.test({
     assertEquals(stxTransferEvent.sender, `${wallet_2.address}`);
     assertEquals(
       stxTransferEvent.recipient,
-      `${deployer.address}.nft-marketplace`
+      `${deployer.address}.nft-marketplace`,
     );
     assertEquals(stxTransferEvent.amount, "1200");
 
@@ -1588,7 +1588,7 @@ Clarinet.test({
         "nft-marketplace",
         "pause-contract",
         [],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -1602,10 +1602,10 @@ Clarinet.test({
         [
           types.uint(0), // auction id
           types.principal(
-            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft"
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.sip009-nft",
           ),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 

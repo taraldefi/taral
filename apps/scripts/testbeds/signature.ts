@@ -50,13 +50,13 @@ export function signature() {
   const compressedPubKeyFromSig = publicKeyFromSignatureVrs(
     messageHex,
     signature,
-    PubKeyEncoding.Compressed
+    PubKeyEncoding.Compressed,
   );
 
   console.log("Compressed public key from signature ", compressedPubKeyFromSig);
   console.log(
     "Equality between keys",
-    compressedPubKeyFromSig === publicKey.data.toString("hex")
+    compressedPubKeyFromSig === publicKey.data.toString("hex"),
   );
 
   const result = verifyMessageSignatureRsv({
@@ -70,7 +70,7 @@ export function signature() {
 
   const nobleSignature: Signature = new Signature(
     hexToBigInt(r),
-    hexToBigInt(s)
+    hexToBigInt(s),
   );
 
   const nobleVerify = verify(
@@ -79,12 +79,12 @@ export function signature() {
     compressedPubKeyFromSig,
     {
       strict: true,
-    }
+    },
   );
 
   const addressFromPublicKey = getAddressFromPublicKey(
     compressedPubKeyFromSig,
-    TransactionVersion.Testnet
+    TransactionVersion.Testnet,
   );
 
   // const simpleSignatureBuffer = signMessageForVerification(

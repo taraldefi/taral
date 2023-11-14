@@ -90,7 +90,7 @@ export type SubmitOptions =
   | NodeSignerOptions;
 
 export type Submitter<Ok, Err> = (
-  options: SubmitOptions
+  options: SubmitOptions,
 ) => Promise<TransactionReceipt<Ok, Err>>;
 
 interface ResponseOk<Ok> {

@@ -15,7 +15,7 @@ import { getNormalizedContractFilePath, getTempFilePath } from "./utils";
 export async function executeCommand(
   command: string,
   args: string[],
-  opts?: ExecuteOptions
+  opts?: ExecuteOptions,
 ): Promise<ExecutionResult> {
   const spawnOpts: SpawnOptions = {};
   if (opts) {
@@ -86,12 +86,12 @@ export class NativeClarityBinProvider {
   static async create(
     allocations: InitialAllocation[],
     dbFilePath: string,
-    clarityBinPath: string
+    clarityBinPath: string,
   ): Promise<NativeClarityBinProvider> {
     const executor = new NativeClarityBinProvider(
       allocations,
       dbFilePath,
-      clarityBinPath
+      clarityBinPath,
     );
     await executor.initialize();
     return executor;
@@ -106,7 +106,7 @@ export class NativeClarityBinProvider {
    */
   static async createEphemeral(
     allocations: InitialAllocation[],
-    clarityBinPath: string
+    clarityBinPath: string,
   ): Promise<Provider> {
     const tempDbPath = getTempFilePath("blockstack-local-{uniqueID}.db");
     const instance = await this.create(allocations, tempDbPath, clarityBinPath);
@@ -123,7 +123,7 @@ export class NativeClarityBinProvider {
   constructor(
     allocations: InitialAllocation[],
     dbFilePath: string,
-    clarityBinPath: string
+    clarityBinPath: string,
   ) {
     this.dbFilePath = dbFilePath;
     this.clarityBinPath = clarityBinPath;
@@ -147,7 +147,7 @@ export class NativeClarityBinProvider {
         `Initialize failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     if (result.stdout.indexOf("Database created.") < 0) {
@@ -155,7 +155,7 @@ export class NativeClarityBinProvider {
         `Initialize failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
   }
@@ -207,7 +207,7 @@ export class NativeClarityBinProvider {
 
   async launchContract(
     contractName: string,
-    contractFilePath: string
+    contractFilePath: string,
   ): Promise<Receipt> {
     const filePath = getNormalizedContractFilePath(contractFilePath);
 
@@ -223,7 +223,7 @@ export class NativeClarityBinProvider {
         `Launch contract failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     if (result.stdout !== "Contract initialized!") {
@@ -231,7 +231,7 @@ export class NativeClarityBinProvider {
         `Launch contract failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     return {
@@ -259,11 +259,11 @@ export class NativeClarityBinProvider {
         `Execute expression on contract failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     const executed = result.stdout.startsWith(
-      "Transaction executed and committed."
+      "Transaction executed and committed.",
     );
     const didReturnErr = result.stdout.includes(" Returned: (err");
     if (!executed || didReturnErr) {
@@ -271,7 +271,7 @@ export class NativeClarityBinProvider {
         `Execute expression on contract failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     return {
@@ -290,20 +290,20 @@ export class NativeClarityBinProvider {
         `Eval raw expression failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Check and trim success prefix line.
     const successPrefix =
       /(Program executed successfully! Output: (\r\n|\r|\n))/.exec(
-        result.stdout
+        result.stdout,
       );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Eval raw expression failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Get the output string with the prefix message and last EOL trimmed.
@@ -319,7 +319,7 @@ export class NativeClarityBinProvider {
     contractName: string,
     evalStatement: string,
     includeDebugOutput?: boolean,
-    atChaintip = true
+    atChaintip = true,
   ): Promise<Receipt> {
     const result = await this.runCommand(
       [
@@ -329,7 +329,7 @@ export class NativeClarityBinProvider {
       ],
       {
         stdin: evalStatement,
-      }
+      },
     );
     if (result.exitCode !== 0) {
       throw new ExecutionError(
@@ -337,20 +337,20 @@ export class NativeClarityBinProvider {
         `Eval expression on contract failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Check and trim success prefix line.
     const successPrefix =
       /(Program executed successfully! Output: (\r\n|\r|\n))/.exec(
-        result.stdout
+        result.stdout,
       );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Eval expression on contract failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Get the output string with the prefix message and last EOL trimmed.
@@ -381,7 +381,7 @@ export class NativeClarityBinProvider {
         `Mine block failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     if (result.stdout !== "Simulated block mine!") {
@@ -389,7 +389,7 @@ export class NativeClarityBinProvider {
         `Mine block failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
   }
@@ -406,7 +406,7 @@ export class NativeClarityBinProvider {
         `Mine blocks failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     if (result.stdout !== "Simulated block mine!") {
@@ -414,7 +414,7 @@ export class NativeClarityBinProvider {
         `Mine blocks failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
   }
@@ -427,19 +427,19 @@ export class NativeClarityBinProvider {
         `Get block height failed with bad exit code ${result.exitCode}: ${result.stderr}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Check and trim success prefix line.
     const successPrefix = /(Simulated block height: (\r\n|\r|\n))/.exec(
-      result.stdout
+      result.stdout,
     );
     if (!successPrefix || successPrefix.length < 1) {
       throw new ExecutionError(
         `Get block height failed with bad output: ${result.stdout}`,
         result.exitCode,
         result.stdout,
-        result.stderr
+        result.stderr,
       );
     }
     // Get the output string with the prefix message and last EOL trimmed.

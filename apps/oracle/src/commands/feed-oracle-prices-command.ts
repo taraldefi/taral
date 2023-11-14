@@ -23,7 +23,7 @@ const LOGGER_CATEGORY = "feed-prices-command";
 export async function getNonce() {
   console.log("getNonce for", ORACLE_STX);
   const result = await fetch(
-    `${STACKS_API_URL}/v2/accounts/${ORACLE_STX}?proof=0`
+    `${STACKS_API_URL}/v2/accounts/${ORACLE_STX}?proof=0`,
   );
   const value = await result.json();
   // console.log("value", value)
@@ -39,7 +39,7 @@ export async function feedOraclePricesCommand() {
   console.log("nonce", nonce, "past_data.nonce", past_data.nonce);
   Logger.info(
     LOGGER_CATEGORY,
-    `Nonce processing: (nonce: ${nonce} | past_data.nonce: ${past_data.nonce})`
+    `Nonce processing: (nonce: ${nonce} | past_data.nonce: ${past_data.nonce})`,
   );
 
   while (nonce < past_data.nonce) {
@@ -67,7 +67,7 @@ export async function feedOraclePricesCommand() {
     });
 
     const feed: IOraclePriceFeed[] = coinbase_oracle_feed.concat(
-      okcoin_oracle_feed.concat(binance_feed.concat(okcoin_feed))
+      okcoin_oracle_feed.concat(binance_feed.concat(okcoin_feed)),
     );
 
     console.log("feed", feed.length);
@@ -79,8 +79,8 @@ export async function feedOraclePricesCommand() {
           nonce: nonce + 1,
         },
         null,
-        2
-      )
+        2,
+      ),
     );
 
     let next_nonce = await getNonce();

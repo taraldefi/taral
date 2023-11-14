@@ -15,7 +15,6 @@
     "test:reports": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"unit-tests/**/*.ts\" \"contracts/**/*.clar\" -c \"npm t\""
   },
-  
   "dependencies": {
     "eol-converter-cli": "^1.0.8",
     "@hirosystems/clarinet-sdk": "^1.0.4",

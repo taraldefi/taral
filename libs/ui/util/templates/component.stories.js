@@ -11,5 +11,5 @@ export const WithBar = () => <${componentName} foo="bar" />;
 
 export const WithBaz = () => <${componentName} foo="baz" />;
 `,
-  extension: `.stories.tsx`
+  extension: `.stories.tsx`,
 });

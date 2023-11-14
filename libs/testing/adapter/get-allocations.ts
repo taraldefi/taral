@@ -1,7 +1,7 @@
 import { Allocation, AllocationOrAccounts } from "lib-infra";
 
 export default function getAllocations(
-  allocations?: AllocationOrAccounts
+  allocations?: AllocationOrAccounts,
 ): Allocation[] {
   if (!allocations) return [];
   if ("deployer" in allocations) {

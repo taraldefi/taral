@@ -31,7 +31,7 @@ export function hashSha256Sync(data: Buffer) {
  */
 export function signECDSA(
   privateKey: string,
-  content: string | Buffer
+  content: string | Buffer,
 ): {
   publicKey: string;
   signature: string;
@@ -62,7 +62,7 @@ export async function hmacSha256(key: Buffer, content: Buffer) {
 export async function aes256CbcDecrypt(
   iv: Buffer,
   key: Buffer,
-  ciphertext: Buffer
+  ciphertext: Buffer,
 ): Promise<Buffer> {
   const cipher = await createCipher();
   const result = await cipher.decrypt("aes-256-cbc", key, iv, ciphertext);
@@ -141,7 +141,7 @@ export function equalConstTime(b1: Buffer, b2: Buffer) {
 export async function aes256CbcEncrypt(
   iv: Buffer,
   key: Buffer,
-  plaintext: Buffer
+  plaintext: Buffer,
 ): Promise<Buffer> {
   const cipher = await createCipher();
   const result = await cipher.encrypt("aes-256-cbc", key, iv, plaintext);

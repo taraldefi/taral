@@ -3,7 +3,7 @@ import { hasStdErr, NativeClarityBinProvider } from "lib-clarity-bin";
 export async function deployContract(
   contractIdentifier: string,
   tmpContractFilePath: string,
-  provider: NativeClarityBinProvider
+  provider: NativeClarityBinProvider,
 ) {
   const receipt = await provider.runCommand([
     "launch",

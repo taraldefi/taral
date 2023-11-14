@@ -2,7 +2,7 @@ import crypto from "crypto";
 import { ICoinbaseSignatureGenerationRequest } from "./types";
 
 export function generateSignature(
-  request: ICoinbaseSignatureGenerationRequest
+  request: ICoinbaseSignatureGenerationRequest,
 ) {
   const timestamp = Math.floor(Date.now() / 1000);
   const message =

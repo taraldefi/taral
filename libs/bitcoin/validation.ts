@@ -2,7 +2,7 @@ import * as btc from "bitcoinjs-lib";
 
 export function isValidBtcAddress(
   network: btc.Network,
-  address: string
+  address: string,
 ): boolean {
   try {
     btc.address.toOutputScript(address, network);

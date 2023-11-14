@@ -8,10 +8,10 @@ import {
 import { IStorageFileUpdate } from "./types";
 
 export async function updateFile(
-  request: IStorageFileUpdate
+  request: IStorageFileUpdate,
 ): Promise<boolean> {
   const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(
-    request.privateKey
+    request.privateKey,
   );
 
   const signature = signMessageHashRsv({
@@ -23,7 +23,7 @@ export async function updateFile(
   const buffer = Buffer.from(utf8ToBytes(request.fileHash));
 
   const response = await txOk(
-    request.contract.updateFile(request.fileId, buffer, signatureBuffer)
+    request.contract.updateFile(request.fileId, buffer, signatureBuffer),
   );
 
   Logger.debug("update-file", "Received result ", response);

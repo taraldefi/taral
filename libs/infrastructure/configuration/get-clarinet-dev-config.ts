@@ -10,7 +10,7 @@ export function getClarinetDevConfig(folder: string): ClarinetDevConfig {
     configContents,
     1.0,
     "\n",
-    false
+    false,
   ) as unknown as ClarinetDevConfig;
   return config;
 }

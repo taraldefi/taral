@@ -7,7 +7,7 @@ export function signRequest(
   body: string,
   coinbaseKey: string,
   coinbasePassPhrase: string,
-  coinbaseSecret: string
+  coinbaseSecret: string,
 ): ICoinbaseSignRequest {
   const timestamp = Date.now() / 1000;
   const what = timestamp + method.toUpperCase() + path + body;

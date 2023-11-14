@@ -10,14 +10,14 @@ export interface AesCipher {
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer>;
 
   decrypt(
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer>;
 }
 
@@ -28,7 +28,7 @@ export class NodeCryptoAesCipher implements AesCipher {
 
   constructor(
     createCipher: NodeCryptoCreateCipher,
-    createDecipher: NodeCryptoCreateDecipher
+    createDecipher: NodeCryptoCreateDecipher,
   ) {
     this.createCipher = createCipher;
     this.createDecipher = createDecipher;
@@ -38,7 +38,7 @@ export class NodeCryptoAesCipher implements AesCipher {
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer> {
     if (algorithm !== "aes-128-cbc" && algorithm !== "aes-256-cbc") {
       throw new Error(`Unsupported cipher algorithm "${algorithm}"`);
@@ -52,7 +52,7 @@ export class NodeCryptoAesCipher implements AesCipher {
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer> {
     if (algorithm !== "aes-128-cbc" && algorithm !== "aes-256-cbc") {
       throw new Error(`Unsupported cipher algorithm "${algorithm}"`);
@@ -74,7 +74,7 @@ export class WebCryptoAesCipher implements AesCipher {
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer> {
     let algo: string;
     let length: number;
@@ -92,12 +92,12 @@ export class WebCryptoAesCipher implements AesCipher {
       key,
       { name: algo, length },
       false,
-      ["encrypt"]
+      ["encrypt"],
     );
     const result = await this.subtleCrypto.encrypt(
       { name: algo, iv },
       cryptoKey,
-      data
+      data,
     );
     return Buffer.from(result);
   }
@@ -106,7 +106,7 @@ export class WebCryptoAesCipher implements AesCipher {
     algorithm: CipherAlgorithm,
     key: Buffer,
     iv: Buffer,
-    data: Buffer
+    data: Buffer,
   ): Promise<Buffer> {
     let algo: string;
     let length: number;
@@ -124,12 +124,12 @@ export class WebCryptoAesCipher implements AesCipher {
       key,
       { name: algo, length },
       false,
-      ["decrypt"]
+      ["decrypt"],
     );
     const result = await this.subtleCrypto.decrypt(
       { name: algo, iv },
       cryptoKey,
-      data
+      data,
     );
     return Buffer.from(result);
   }
@@ -142,7 +142,7 @@ export async function createCipher(): Promise<AesCipher> {
   } else {
     return new NodeCryptoAesCipher(
       cryptoLib.lib.createCipheriv,
-      cryptoLib.lib.createDecipheriv
+      cryptoLib.lib.createDecipheriv,
     );
   }
 }

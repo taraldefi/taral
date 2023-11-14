@@ -22,7 +22,7 @@ export function atomsWithQuery<
   TError = unknown,
   TData = TQueryFnData,
   TQueryData = TQueryFnData,
-  TQueryKey extends QueryKey = QueryKey
+  TQueryKey extends QueryKey = QueryKey,
 >(
   getOptions: (
     get: Getter
@@ -38,7 +38,7 @@ export function atomsWithQuery<
     QueryObserverResult<TData, TError>,
     [Action],
     Promise<QueryObserverResult<TData, TError>> | undefined
-  >
+  >,
 ] {
   return createAtoms(
     getOptions,

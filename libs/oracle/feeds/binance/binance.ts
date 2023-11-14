@@ -10,7 +10,7 @@ import { BINANCE_FILTER } from "./filter";
 const binance = new Binance().options();
 
 export async function retrieveBinanceFeed(
-  request: IBinanceFeedRequest
+  request: IBinanceFeedRequest,
 ): Promise<IOraclePriceFeed[]> {
   const ticker = await binance.prices();
   // console.log(ticker)
@@ -26,7 +26,7 @@ export async function retrieveBinanceFeed(
     const msg = buildPayload(
       timestamp,
       filterItem.symbol,
-      Math.floor(parseFloat(ticker[key]) * filterItem.decimals)
+      Math.floor(parseFloat(ticker[key]) * filterItem.decimals),
     );
     // console.log("msg", msg.toString('hex'))
     const sig = signPayload({

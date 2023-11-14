@@ -18,7 +18,10 @@ import {
 } from "lib-stacks";
 
 export class StorageApiClient {
-  constructor(private baseUrl: string, private privateKey: string) {
+  constructor(
+    private baseUrl: string,
+    private privateKey: string,
+  ) {
     axios.defaults.validateStatus = function () {
       return true;
     };
@@ -27,12 +30,12 @@ export class StorageApiClient {
   public async updateFile(
     fileId: string,
     fileStream: fs.ReadStream,
-    fileSizeInBytes: number
+    fileSizeInBytes: number,
   ): Promise<StorageApiBaseResponse<UpdateFileResponse>> {
     const requestOptions = this.createUpdateFilePayload(
       fileId,
       fileStream,
-      fileSizeInBytes
+      fileSizeInBytes,
     );
 
     const config = {
@@ -45,7 +48,7 @@ export class StorageApiClient {
       const { data, status } = await axios.post(
         this.getUpdateFileUrl(),
         requestOptions,
-        config
+        config,
       );
 
       if (status == 200 || status == 201) {
@@ -80,12 +83,12 @@ export class StorageApiClient {
   public async createFile(
     fileName: string,
     fileStream: fs.ReadStream,
-    fileSizeInBytes: number
+    fileSizeInBytes: number,
   ): Promise<StorageApiBaseResponse<CreateFileResponse>> {
     const requestOptions = this.createRegisterFilePayload(
       fileName,
       fileStream,
-      fileSizeInBytes
+      fileSizeInBytes,
     );
 
     const config = {
@@ -98,7 +101,7 @@ export class StorageApiClient {
       const { data, status } = await axios.post(
         this.getCreateFileUrl(),
         requestOptions,
-        config
+        config,
       );
 
       if (status == 200 || status == 201) {
@@ -131,7 +134,7 @@ export class StorageApiClient {
   }
 
   public async requestFile(
-    id: string
+    id: string,
   ): Promise<StorageApiBaseResponse<RequestFileResponse>> {
     const signature = this.sign();
 
@@ -151,7 +154,7 @@ export class StorageApiClient {
       const { data, status, headers } = await axios.post(
         this.getRequestFileUrl(),
         JSON.stringify(body),
-        config
+        config,
       );
 
       if (status == 200 || status == 201) {
@@ -211,7 +214,7 @@ export class StorageApiClient {
   private createRegisterFilePayload(
     fileName: string,
     fileStream: fs.ReadStream,
-    fileSizeInBytes: number
+    fileSizeInBytes: number,
   ) {
     const signature = this.sign();
 
@@ -232,7 +235,7 @@ export class StorageApiClient {
   private createUpdateFilePayload(
     fileId: string,
     fileStream: fs.ReadStream,
-    fileSizeInBytes: number
+    fileSizeInBytes: number,
   ) {
     const signature = this.sign();
 
@@ -253,7 +256,7 @@ export class StorageApiClient {
   private sign(): [string, string] {
     const message = "Hello";
     const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(
-      this.privateKey
+      this.privateKey,
     );
 
     const signature = signMessageHashRsv({

@@ -2,7 +2,7 @@ import { AddressHashMode, AddressVersion, TransactionVersion } from "./types";
 
 export function addressHashModeToVersion(
   hashMode: AddressHashMode,
-  txVersion: TransactionVersion
+  txVersion: TransactionVersion,
 ): AddressVersion {
   switch (hashMode) {
     case AddressHashMode.SerializeP2PKH:
@@ -14,8 +14,8 @@ export function addressHashModeToVersion(
         default:
           throw new Error(
             `Unexpected txVersion ${JSON.stringify(
-              txVersion
-            )} for hashMode ${hashMode}`
+              txVersion,
+            )} for hashMode ${hashMode}`,
           );
       }
     case AddressHashMode.SerializeP2SH:
@@ -29,8 +29,8 @@ export function addressHashModeToVersion(
         default:
           throw new Error(
             `Unexpected txVersion ${JSON.stringify(
-              txVersion
-            )} for hashMode ${hashMode}`
+              txVersion,
+            )} for hashMode ${hashMode}`,
           );
       }
     default:

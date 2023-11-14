@@ -13,24 +13,24 @@ const jsonSchema = {
 
 const uuidv4 = deprecate(
   (): string => v4(),
-  "uuidv4() is deprecated. Use v4() from the uuid module instead."
+  "uuidv4() is deprecated. Use v4() from the uuid module instead.",
 );
 
 const isUuid = deprecate(
   (value: string): boolean =>
     validate(value) && (version(value) === 4 || version(value) === 5),
-  "isUuid() is deprecated. Use validate() from the uuid module instead."
+  "isUuid() is deprecated. Use validate() from the uuid module instead.",
 );
 
 const empty = deprecate(
   (): string => nil,
-  "empty() is deprecated. Use NIL from the uuid module instead."
+  "empty() is deprecated. Use NIL from the uuid module instead.",
 );
 
 const fromString = deprecate(
   (text: string, namespace = "bb5d0ffa-9a4c-4d7c-8fc2-0a7d2220ba45"): string =>
     v5(text, namespace),
-  "fromString() is deprecated. Use v5() from the uuid module instead."
+  "fromString() is deprecated. Use v5() from the uuid module instead.",
 );
 
 export { uuidv4 as uuid, regex, isUuid, empty, fromString, jsonSchema };

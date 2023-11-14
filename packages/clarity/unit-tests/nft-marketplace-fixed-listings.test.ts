@@ -7,439 +7,500 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
 describe("Should test marketplace fixed listings flows", () => {
+  it("Should ensure that we can list an nft for sale as a fixed listing", () => {
+    const setWhitelistedResult = simnet.callPublicFn(
+      "nft-marketplace",
+      "set-whitelisted",
+      [
+        Cl.contractPrincipal(
+          "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+          "sip009-nft",
+        ),
+        Cl.bool(true),
+      ],
+      DEPLOYER,
+    );
 
-    it("Should ensure that we can list an nft for sale as a fixed listing", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
+    expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
+    let mint = simnet.callPublicFn(
+      "sip009-nft",
+      "mint",
+      [Cl.standardPrincipal(WALLET_1)],
+      DEPLOYER,
+    );
 
-        let mint = simnet.callPublicFn(
-            "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+    expect(mint.result).toBeOk(Cl.uint(1));
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+    const nftId = simnet.callReadOnlyFn(
+      "sip009-nft",
+      "get-last-token-id",
+      [],
+      DEPLOYER,
+    );
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+    expect(nftId.result).toBeOk(Cl.uint(1));
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+    const listFixedPriceResult = simnet.callPublicFn(
+      "nft-marketplace",
+      "list-fixed-price",
+      [
+        Cl.contractPrincipal(
+          "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+          "sip009-nft",
+        ),
+        Cl.tuple({
+          "token-id": Cl.uint(1),
+          price: Cl.uint(1000),
+        }),
+      ],
+      WALLET_1,
+    );
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+    expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+    var nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        var nftTransferEvent = listFixedPriceResult.events[0].data as any;
+    expect(nftTransferEvent.asset_identifier).toStrictEqual(
+      `${DEPLOYER}.sip009-nft::sip009-nft`,
+    );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
-
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
-
-    }),
-
+    expect(nftTransferEvent.sender, `${WALLET_1}`);
+    expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+    expect(nftTransferEvent.value, 1 as any);
+  }),
     it("Should ensure that we can cancel a fixed listing", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
-
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
-
-        let mint = simnet.callPublicFn(
+      const setWhitelistedResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "set-whitelisted",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+          ),
+          Cl.bool(true),
+        ],
+        DEPLOYER,
+      );
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+      expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+      let mint = simnet.callPublicFn(
+        "sip009-nft",
+        "mint",
+        [Cl.standardPrincipal(WALLET_1)],
+        DEPLOYER,
+      );
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+      expect(mint.result).toBeOk(Cl.uint(1));
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+      const nftId = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-last-token-id",
+        [],
+        DEPLOYER,
+      );
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+      expect(nftId.result).toBeOk(Cl.uint(1));
 
-        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const listFixedPriceResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "list-fixed-price",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+          Cl.tuple({
+            "token-id": Cl.uint(1),
+            price: Cl.uint(1000),
+          }),
+        ],
+        WALLET_1,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
+      let nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        const cancelPriceListingResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "cancel-fixed-price-listing",
-            [
-              Cl.uint(0),
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-            ],
-            WALLET_1
-        );
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
 
-        expect(cancelPriceListingResult.result).toBeOk(Cl.bool(true));
+      expect(nftTransferEvent.sender, `${WALLET_1}`);
+      expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.value, 1 as any);
 
-        nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const cancelPriceListingResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "cancel-fixed-price-listing",
+        [
+          Cl.uint(0),
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+        ],
+        WALLET_1,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(cancelPriceListingResult.result).toBeOk(Cl.bool(true));
 
-        expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.recipient, `${WALLET_1}`);
-        expect(nftTransferEvent.value, 1 as any);
+      nftTransferEvent = listFixedPriceResult.events[0].data as any;
+
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
+
+      expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.recipient, `${WALLET_1}`);
+      expect(nftTransferEvent.value, 1 as any);
     }),
-
     it("Should ensure that we cannot cancel an invalid fixed listing", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
-
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
-
-        let mint = simnet.callPublicFn(
+      const setWhitelistedResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "set-whitelisted",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+          ),
+          Cl.bool(true),
+        ],
+        DEPLOYER,
+      );
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+      expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+      let mint = simnet.callPublicFn(
+        "sip009-nft",
+        "mint",
+        [Cl.standardPrincipal(WALLET_1)],
+        DEPLOYER,
+      );
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+      expect(mint.result).toBeOk(Cl.uint(1));
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+      const nftId = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-last-token-id",
+        [],
+        DEPLOYER,
+      );
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+      expect(nftId.result).toBeOk(Cl.uint(1));
 
-        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const listFixedPriceResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "list-fixed-price",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+          Cl.tuple({
+            "token-id": Cl.uint(1),
+            price: Cl.uint(1000),
+          }),
+        ],
+        WALLET_1,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
+      let nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        const cancelPriceListingResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "cancel-fixed-price-listing",
-            [
-              Cl.uint(10),
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-            ],
-            WALLET_1
-        );
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
 
-        expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2000));
+      expect(nftTransferEvent.sender, `${WALLET_1}`);
+      expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.value, 1 as any);
+
+      const cancelPriceListingResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "cancel-fixed-price-listing",
+        [
+          Cl.uint(10),
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+        ],
+        WALLET_1,
+      );
+
+      expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2000));
     }),
-
     it("Should ensure that only the maker can cancel a fixed listing", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
-
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
-
-        let mint = simnet.callPublicFn(
+      const setWhitelistedResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "set-whitelisted",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+          ),
+          Cl.bool(true),
+        ],
+        DEPLOYER,
+      );
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+      expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+      let mint = simnet.callPublicFn(
+        "sip009-nft",
+        "mint",
+        [Cl.standardPrincipal(WALLET_1)],
+        DEPLOYER,
+      );
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+      expect(mint.result).toBeOk(Cl.uint(1));
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+      const nftId = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-last-token-id",
+        [],
+        DEPLOYER,
+      );
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+      expect(nftId.result).toBeOk(Cl.uint(1));
 
-        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const listFixedPriceResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "list-fixed-price",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+          Cl.tuple({
+            "token-id": Cl.uint(1),
+            price: Cl.uint(1000),
+          }),
+        ],
+        WALLET_1,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
+      let nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        const cancelPriceListingResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "cancel-fixed-price-listing",
-            [
-              Cl.uint(0),
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-            ],
-            WALLET_2
-        );
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
 
-        expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2001));
+      expect(nftTransferEvent.sender, `${WALLET_1}`);
+      expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.value, 1 as any);
+
+      const cancelPriceListingResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "cancel-fixed-price-listing",
+        [
+          Cl.uint(0),
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+        ],
+        WALLET_2,
+      );
+
+      expect(cancelPriceListingResult.result).toBeErr(Cl.uint(2001));
     }),
-
     it("Should ensure that the deployer can cancel a valid fixed listing", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
-
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
-
-        let mint = simnet.callPublicFn(
+      const setWhitelistedResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "set-whitelisted",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+          ),
+          Cl.bool(true),
+        ],
+        DEPLOYER,
+      );
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+      expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+      let mint = simnet.callPublicFn(
+        "sip009-nft",
+        "mint",
+        [Cl.standardPrincipal(WALLET_1)],
+        DEPLOYER,
+      );
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+      expect(mint.result).toBeOk(Cl.uint(1));
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+      const nftId = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-last-token-id",
+        [],
+        DEPLOYER,
+      );
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+      expect(nftId.result).toBeOk(Cl.uint(1));
 
-        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const listFixedPriceResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "list-fixed-price",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+          Cl.tuple({
+            "token-id": Cl.uint(1),
+            price: Cl.uint(1000),
+          }),
+        ],
+        WALLET_1,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
+      let nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        const cancelPriceListingResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "cancel-fixed-price-listing",
-            [
-              Cl.uint(0),
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-            ],
-            DEPLOYER
-        );
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
 
-        expect(cancelPriceListingResult.result).toBeOk(Cl.bool(true));
+      expect(nftTransferEvent.sender, `${WALLET_1}`);
+      expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.value, 1 as any);
 
-        nftTransferEvent = listFixedPriceResult.events[0].data as any;
+      const cancelPriceListingResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "cancel-fixed-price-listing",
+        [
+          Cl.uint(0),
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+        ],
+        DEPLOYER,
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      expect(cancelPriceListingResult.result).toBeOk(Cl.bool(true));
 
-        expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.recipient, `${WALLET_1}`);
-        expect(nftTransferEvent.value, 1 as any);
+      nftTransferEvent = listFixedPriceResult.events[0].data as any;
+
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
+
+      expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.recipient, `${WALLET_1}`);
+      expect(nftTransferEvent.value, 1 as any);
     }),
-
     it("Should ensure that valid fixed listing can be purchased", () => {
-        const setWhitelistedResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "set-whitelisted",
-            [
-                Cl.contractPrincipal(
-                    "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-                ),
-                Cl.bool(true),
-            ],
-            DEPLOYER
-        );
-
-        expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
-
-        let mint = simnet.callPublicFn(
+      const setWhitelistedResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "set-whitelisted",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "mint",
-            [Cl.standardPrincipal(WALLET_1)],
-            DEPLOYER
-        );
+          ),
+          Cl.bool(true),
+        ],
+        DEPLOYER,
+      );
 
-        expect(mint.result).toBeOk(Cl.uint(1));
+      expect(setWhitelistedResult.result).toBeOk(Cl.bool(true));
 
-        const nftId = simnet.callReadOnlyFn("sip009-nft", "get-last-token-id", [], DEPLOYER);
+      let mint = simnet.callPublicFn(
+        "sip009-nft",
+        "mint",
+        [Cl.standardPrincipal(WALLET_1)],
+        DEPLOYER,
+      );
 
-        expect(nftId.result).toBeOk(Cl.uint(1));
+      expect(mint.result).toBeOk(Cl.uint(1));
 
-        const listFixedPriceResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "list-fixed-price",
-            [
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-              Cl.tuple({
-                "token-id": Cl.uint(1),
-                price: Cl.uint(1000),
-              }),
-            ],
-            WALLET_1
-        );
+      const nftId = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-last-token-id",
+        [],
+        DEPLOYER,
+      );
 
-        expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
+      expect(nftId.result).toBeOk(Cl.uint(1));
 
-        let nftTransferEvent = listFixedPriceResult.events[0].data as any;
-
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
-
-        expect(nftTransferEvent.sender, `${WALLET_1}`);
-        expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.value, 1 as any);
-
-        const getOwnerResult = simnet.callReadOnlyFn(
+      const listFixedPriceResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "list-fixed-price",
+        [
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
             "sip009-nft",
-            "get-owner",
-            [Cl.uint(1)],
-            WALLET_2
-        );
+          ),
+          Cl.tuple({
+            "token-id": Cl.uint(1),
+            price: Cl.uint(1000),
+          }),
+        ],
+        WALLET_1,
+      );
 
-        expect(getOwnerResult.result).toBeOk(Cl.some(Cl.contractPrincipal(`${DEPLOYER}`, "nft-marketplace")));
+      expect(listFixedPriceResult.result).toBeOk(Cl.uint(0));
 
-        const purchaseFixedPriceListingResult = simnet.callPublicFn(
-            "nft-marketplace",
-            "purchase-fixed-price-listing",
-            [
-              Cl.uint(0), // valid listing id
-              Cl.standardPrincipal(WALLET_2),
-              Cl.contractPrincipal(
-                "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM", "sip009-nft"
-              ),
-            ],
-            WALLET_2
-        );
+      let nftTransferEvent = listFixedPriceResult.events[0].data as any;
 
-        expect(purchaseFixedPriceListingResult.result).toBeOk(Cl.bool(true));
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
 
-        var stxTransferEvent = purchaseFixedPriceListingResult.events[0].data as any;
+      expect(nftTransferEvent.sender, `${WALLET_1}`);
+      expect(nftTransferEvent.recipient, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.value, 1 as any);
 
-        expect(stxTransferEvent.sender, `${WALLET_2}`);
-        expect(stxTransferEvent.recipient, `${WALLET_1}`);
-        expect(stxTransferEvent.amount, 1000 as any);
+      const getOwnerResult = simnet.callReadOnlyFn(
+        "sip009-nft",
+        "get-owner",
+        [Cl.uint(1)],
+        WALLET_2,
+      );
 
-        nftTransferEvent = purchaseFixedPriceListingResult.events[1].data as any;
+      expect(getOwnerResult.result).toBeOk(
+        Cl.some(Cl.contractPrincipal(`${DEPLOYER}`, "nft-marketplace")),
+      );
 
-        expect(nftTransferEvent.asset_identifier).toStrictEqual(`${DEPLOYER}.sip009-nft::sip009-nft`);
+      const purchaseFixedPriceListingResult = simnet.callPublicFn(
+        "nft-marketplace",
+        "purchase-fixed-price-listing",
+        [
+          Cl.uint(0), // valid listing id
+          Cl.standardPrincipal(WALLET_2),
+          Cl.contractPrincipal(
+            "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM",
+            "sip009-nft",
+          ),
+        ],
+        WALLET_2,
+      );
 
-        expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
-        expect(nftTransferEvent.recipient, `${WALLET_2}`);
-        expect(nftTransferEvent.value, 1 as any);
-    })
+      expect(purchaseFixedPriceListingResult.result).toBeOk(Cl.bool(true));
+
+      var stxTransferEvent = purchaseFixedPriceListingResult.events[0]
+        .data as any;
+
+      expect(stxTransferEvent.sender, `${WALLET_2}`);
+      expect(stxTransferEvent.recipient, `${WALLET_1}`);
+      expect(stxTransferEvent.amount, 1000 as any);
+
+      nftTransferEvent = purchaseFixedPriceListingResult.events[1].data as any;
+
+      expect(nftTransferEvent.asset_identifier).toStrictEqual(
+        `${DEPLOYER}.sip009-nft::sip009-nft`,
+      );
+
+      expect(nftTransferEvent.sender, `${DEPLOYER}.nft-marketplace`);
+      expect(nftTransferEvent.recipient, `${WALLET_2}`);
+      expect(nftTransferEvent.value, 1 as any);
+    });
 });

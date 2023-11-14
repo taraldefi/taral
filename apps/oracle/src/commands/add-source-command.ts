@@ -9,7 +9,7 @@ export async function addSourceCommand() {
     source: "test1",
     publicKey: Buffer.from(
       "0x032ac03dbc2d291023459f14b1f94324bd072baf5d3914a83d81edd655dcc2b2ed",
-      "hex"
+      "hex",
     ),
   });
 
@@ -18,7 +18,7 @@ export async function addSourceCommand() {
     contract: contract,
     publicKey: Buffer.from(
       "0x032ac03dbc2d291023459f14b1f94324bd072baf5d3914a83d81edd655dcc2b2ed",
-      "hex"
+      "hex",
     ),
   });
 }

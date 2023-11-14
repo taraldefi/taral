@@ -3,7 +3,7 @@ import { StorageServiceContract } from "taral-contracts";
 
 export async function getFileHash(
   fileId: string,
-  contract: StorageServiceContract
+  contract: StorageServiceContract,
 ): Promise<string | undefined> {
   const response = await contract.getHash(fileId);
   Logger.debug("get-file-hash", "Received result ", response);

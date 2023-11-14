@@ -10,7 +10,7 @@ export async function addPrice({
   priceFeed: IOraclePriceFeed;
 }): Promise<boolean> {
   const response = await txOk(
-    contract.addPrice(priceFeed.source, priceFeed.payload, priceFeed.signature)
+    contract.addPrice(priceFeed.source, priceFeed.payload, priceFeed.signature),
   );
 
   Logger.debug("add-price", "Received result ", response);
