@@ -5,11 +5,11 @@ import { FinancialInformationEntity } from './financial.info.entity';
 
 @ChildEntity()
 export class SupplierFinancialInformationEntity extends FinancialInformationEntity {
-  // @OneToOne(() => SupplierCompanyEntity, (supplier) => supplier.financials, {
-  //   eager: true,
-  //   cascade: true,
-  //   onDelete: 'CASCADE',
-  // })
-  // @Allow()
-  // supplier: SupplierCompanyEntity;
+  @OneToOne(() => SupplierCompanyEntity, (supplier) => supplier.financials, {
+    eager: true,
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  @Allow()
+  supplier: SupplierCompanyEntity;
 }

@@ -45,15 +45,15 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   status: string;
 
-  @OneToOne(() => BuyerCompanyInformationEntity)
+  @OneToOne(() => BuyerCompanyEntity)
   @JoinColumn()
   @Allow()
-  buyerInformation: BuyerCompanyInformationEntity;
+  buyerInformation: BuyerCompanyEntity;
 
-  @OneToOne(() => SupplierCompanyInformationEntity)
+  @OneToOne(() => SupplierCompanyEntity)
   @JoinColumn()
   @Allow()
-  supplierInformation: SupplierCompanyInformationEntity;
+  supplierInformation: SupplierCompanyEntity;
 
   @OneToOne(() => PaymentTermEntity, (paymentTerm) => paymentTerm.application)
   @JoinColumn()

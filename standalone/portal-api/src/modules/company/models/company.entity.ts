@@ -1,14 +1,7 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  TableInheritance,
-} from 'typeorm';
+import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'Companies' })
-@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class CompanyEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;

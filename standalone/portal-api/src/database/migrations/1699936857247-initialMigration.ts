@@ -1,17 +1,24 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initialMigration1699888662680 implements MigrationInterface {
-    name = 'initialMigration1699888662680'
+export class initialMigration1699936857247 implements MigrationInterface {
+    name = 'initialMigration1699936857247'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.query(`CREATE TABLE "Companies" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "beneficialOwner" character varying NOT NULL, "abbreviation" character varying NOT NULL, "nationality" character varying NOT NULL, "headquarters" character varying NOT NULL, "industryType" character varying NOT NULL, "coreBusiness" character varying NOT NULL, "incorporationDate" TIMESTAMP WITH TIME ZONE NOT NULL, "legalForm" character varying NOT NULL, "logo" character varying, "type" character varying NOT NULL, CONSTRAINT "PK_999ff985663bc48d13b08bce475" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "IDX_abd3a77683d5179383b9d4d64a" ON "Companies" ("type") `);
         await queryRunner.query(`CREATE TABLE "CompanyAddresses" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "city" character varying NOT NULL, "addressLine1" character varying NOT NULL, "addressLine2" character varying NOT NULL, "postalCode" character varying NOT NULL, CONSTRAINT "PK_0313dfd6528659ba1917a92d5d8" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "CompanyTaxAndRevenue" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "taxNumber" character varying, "lastFiscalYear" TIMESTAMP WITH TIME ZONE NOT NULL, "totalRevenue" character varying NOT NULL, "exportValue" integer, "audited" boolean, "exportRevenuePercentage" numeric(10,2) DEFAULT '0', CONSTRAINT "PK_0100eb1d34631e67d26b67efa7a" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "CompanyInformation" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "phoneNumber" character varying NOT NULL, "employeeCount" integer, "registrationNumbers" character varying NOT NULL, "type" character varying NOT NULL, "taxAndRevenueId" uuid, "addressId" uuid, CONSTRAINT "REL_8474368ba299743e60e908cd2a" UNIQUE ("taxAndRevenueId"), CONSTRAINT "REL_d4269c155a69922cd29f7eca09" UNIQUE ("addressId"), CONSTRAINT "PK_66bb02343b9cdb0a0729de4138d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_f8183f26c3767e444b13c71279" ON "CompanyInformation" ("type") `);
+        await queryRunner.query(`CREATE TABLE "FinancialInformations" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "turnover" numeric(10,2) NOT NULL DEFAULT '0', "balanceSheetTotal" numeric(10,2) NOT NULL DEFAULT '0', "type" character varying NOT NULL, CONSTRAINT "PK_1bcb62b7d7160ecbeb13ccca57d" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_add7fce755d3af211905a03b39" ON "FinancialInformations" ("type") `);
+        await queryRunner.query(`CREATE TABLE "ExternalRatings" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "rating" numeric(10,2) NOT NULL DEFAULT '0', "agencyName" character varying NOT NULL, "issuanceDate" TIMESTAMP WITH TIME ZONE NOT NULL, "type" character varying NOT NULL, CONSTRAINT "PK_ed46faaa474dff253119c20bc64" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE INDEX "IDX_6aa5a39bde5e98cafe1e6a04bc" ON "ExternalRatings" ("type") `);
+        await queryRunner.query(`CREATE TABLE "SupplierCompanies" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "beneficialOwner" character varying NOT NULL, "abbreviation" character varying NOT NULL, "nationality" character varying NOT NULL, "headquarters" character varying NOT NULL, "industryType" character varying NOT NULL, "coreBusiness" character varying NOT NULL, "incorporationDate" TIMESTAMP WITH TIME ZONE NOT NULL, "legalForm" character varying NOT NULL, "logo" character varying, "financialsId" uuid, "ratingId" uuid, CONSTRAINT "REL_528e78318d2b1007fda27291a7" UNIQUE ("financialsId"), CONSTRAINT "REL_4d60a8cd8f9d65dc5f0374b32f" UNIQUE ("ratingId"), CONSTRAINT "PK_2e491cc0ac8484134538ad7eef9" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."CollaborationRelationships_paymentexperiencehistory_enum" AS ENUM('ON_TIME', 'DELAYS')`);
         await queryRunner.query(`CREATE TABLE "CollaborationRelationships" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "shareHoldingRelationship" character varying, "influence" character varying, "supplierId" uuid, "buyerId" uuid, "paymentExperienceDescription" character varying, "paymentExperienceLength" character varying, "paymentExperienceNoofdeals" integer, "paymentExperienceAvgbusinessvol" character varying, "paymentExperienceHistory" "public"."CollaborationRelationships_paymentexperiencehistory_enum", "paymentExperienceDelays" character varying, CONSTRAINT "PK_8b5a77158ca83fd4dfc36245f34" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TYPE "public"."Sectors_type_enum" AS ENUM('unknown', 'public', 'private')`);
+        await queryRunner.query(`CREATE TYPE "public"."Sectors_status_enum" AS ENUM('unknown', 'subsidiary', 'independent')`);
+        await queryRunner.query(`CREATE TABLE "Sectors" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "industryType" character varying NOT NULL, "type" "public"."Sectors_type_enum" NOT NULL DEFAULT 'unknown', "status" "public"."Sectors_status_enum" NOT NULL DEFAULT 'unknown', CONSTRAINT "PK_ad2730b7f1790d06da70779326c" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "BuyerCompanies" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "beneficialOwner" character varying NOT NULL, "abbreviation" character varying NOT NULL, "nationality" character varying NOT NULL, "headquarters" character varying NOT NULL, "industryType" character varying NOT NULL, "coreBusiness" character varying NOT NULL, "incorporationDate" TIMESTAMP WITH TIME ZONE NOT NULL, "legalForm" character varying NOT NULL, "logo" character varying, "sectorId" uuid, CONSTRAINT "REL_6c3070b3bc2f295ddc24b4ad92" UNIQUE ("sectorId"), CONSTRAINT "PK_788566f542e6013706e371f236f" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."Collaterals_facilitytype_enum" AS ENUM('IMPORTER_FINANCING', 'EXPORTER_FINANCING')`);
         await queryRunner.query(`CREATE TABLE "Collaterals" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "facilityType" "public"."Collaterals_facilitytype_enum" NOT NULL, "financingRatio" numeric(2,2) NOT NULL DEFAULT '0', "facilityAmount" numeric(10,2) NOT NULL DEFAULT '0', "requestedTenure" TIMESTAMP WITH TIME ZONE NOT NULL, "requestedPurpose" character varying NOT NULL, "repaymentSource" character varying NOT NULL, "collateralProviderInfluence" character varying, "collateralProviderExperience" character varying, CONSTRAINT "PK_76a2cc571bfa3f4926c61200af2" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."PaymentTerms_paymenttype_enum" AS ENUM('SHORT', 'MEDIUM', 'SHORT_MEDIUM')`);
@@ -38,14 +45,7 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "Transactions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "goodsAndServicesId" uuid, "contractId" uuid, CONSTRAINT "REL_6a3743deaf73e36a0defcec115" UNIQUE ("goodsAndServicesId"), CONSTRAINT "REL_e1accc56c67658990c6a1bfed8" UNIQUE ("contractId"), CONSTRAINT "PK_7761bf9766670b894ff2fdb3700" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "Contracts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "conoclusion" TIMESTAMP WITH TIME ZONE NOT NULL, "isSigned" boolean NOT NULL, CONSTRAINT "PK_4f88addbb8b532d6e46459c8755" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "email_templates" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "title" character varying NOT NULL, "slug" character varying NOT NULL, "sender" character varying NOT NULL, "subject" character varying NOT NULL, "body" character varying NOT NULL, "isDefault" boolean NOT NULL, CONSTRAINT "UQ_4d77a74e85c275da60f4badf831" UNIQUE ("title"), CONSTRAINT "PK_06c564c515d8cdb40b6f3bfbbb4" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "FinancialInformations" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "turnover" numeric(10,2) NOT NULL DEFAULT '0', "balanceSheetTotal" numeric(10,2) NOT NULL DEFAULT '0', "type" character varying NOT NULL, CONSTRAINT "PK_1bcb62b7d7160ecbeb13ccca57d" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "IDX_add7fce755d3af211905a03b39" ON "FinancialInformations" ("type") `);
-        await queryRunner.query(`CREATE TABLE "ExternalRatings" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "rating" numeric(10,2) NOT NULL DEFAULT '0', "agencyName" character varying NOT NULL, "issuanceDate" TIMESTAMP WITH TIME ZONE NOT NULL, "type" character varying NOT NULL, CONSTRAINT "PK_ed46faaa474dff253119c20bc64" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE INDEX "IDX_6aa5a39bde5e98cafe1e6a04bc" ON "ExternalRatings" ("type") `);
         await queryRunner.query(`CREATE TABLE "refresh_token" ("id" SERIAL NOT NULL, "userId" integer NOT NULL, "ip" character varying NOT NULL, "userAgent" character varying NOT NULL, "browser" character varying, "os" character varying, "isRevoked" boolean NOT NULL, "expires" TIMESTAMP NOT NULL, CONSTRAINT "PK_b575dd3c21fb0831013c909e7fe" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TYPE "public"."Sectors_type_enum" AS ENUM('unknown', 'public', 'private')`);
-        await queryRunner.query(`CREATE TYPE "public"."Sectors_status_enum" AS ENUM('unknown', 'subsidiary', 'independent')`);
-        await queryRunner.query(`CREATE TABLE "Sectors" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "industryType" character varying NOT NULL, "type" "public"."Sectors_type_enum" NOT NULL DEFAULT 'unknown', "status" "public"."Sectors_status_enum" NOT NULL DEFAULT 'unknown', CONSTRAINT "PK_ad2730b7f1790d06da70779326c" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "file_participants_files_file" ("fileParticipantsId" uuid NOT NULL, "fileId" uuid NOT NULL, CONSTRAINT "PK_025fe43f19a4e1862c8f4112e2c" PRIMARY KEY ("fileParticipantsId", "fileId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_1d7cb3ff06675dbb97386e18af" ON "file_participants_files_file" ("fileParticipantsId") `);
@@ -55,8 +55,11 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_72e80be86cab0e93e67ed1a7a9" ON "role_permission" ("permissionId") `);
         await queryRunner.query(`ALTER TABLE "CompanyInformation" ADD CONSTRAINT "FK_8474368ba299743e60e908cd2ad" FOREIGN KEY ("taxAndRevenueId") REFERENCES "CompanyTaxAndRevenue"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "CompanyInformation" ADD CONSTRAINT "FK_d4269c155a69922cd29f7eca09e" FOREIGN KEY ("addressId") REFERENCES "CompanyAddresses"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "CollaborationRelationships" ADD CONSTRAINT "FK_b3ea6eb6940a5cd0ad6ce70c126" FOREIGN KEY ("supplierId") REFERENCES "Companies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "CollaborationRelationships" ADD CONSTRAINT "FK_d0b33148e450c41053a3597d3b1" FOREIGN KEY ("buyerId") REFERENCES "Companies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "SupplierCompanies" ADD CONSTRAINT "FK_528e78318d2b1007fda27291a7b" FOREIGN KEY ("financialsId") REFERENCES "FinancialInformations"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "SupplierCompanies" ADD CONSTRAINT "FK_4d60a8cd8f9d65dc5f0374b32f7" FOREIGN KEY ("ratingId") REFERENCES "ExternalRatings"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "CollaborationRelationships" ADD CONSTRAINT "FK_b3ea6eb6940a5cd0ad6ce70c126" FOREIGN KEY ("supplierId") REFERENCES "SupplierCompanies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "CollaborationRelationships" ADD CONSTRAINT "FK_d0b33148e450c41053a3597d3b1" FOREIGN KEY ("buyerId") REFERENCES "BuyerCompanies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "BuyerCompanies" ADD CONSTRAINT "FK_6c3070b3bc2f295ddc24b4ad929" FOREIGN KEY ("sectorId") REFERENCES "Sectors"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "file_versions" ADD CONSTRAINT "FK_5b2975bbaeb5c5db8c57ac438f4" FOREIGN KEY ("fileId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "file" ADD CONSTRAINT "FK_88977868473a43cee536dd81126" FOREIGN KEY ("transactionDocumentsId") REFERENCES "TransactionDocuments"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order_products" ADD CONSTRAINT "FK_28b66449cf7cd76444378ad4e92" FOREIGN KEY ("orderId") REFERENCES "order_details"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
@@ -66,7 +69,7 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_54b2691a3c6b076b9340a824102" FOREIGN KEY ("orderDetailsId") REFERENCES "order_details"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_829b128211c2b717b0063b623ab" FOREIGN KEY ("securityId") REFERENCES "Collaterals"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_98f086756c6c954445d0bb8b4d1" FOREIGN KEY ("transactionDocumentsId") REFERENCES "TransactionDocuments"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_22d2d3e0ad7f4e7c7cda638c114" FOREIGN KEY ("companyId") REFERENCES "Companies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_22d2d3e0ad7f4e7c7cda638c114" FOREIGN KEY ("companyId") REFERENCES "BuyerCompanies"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Bids" ADD CONSTRAINT "FK_ed42474e4bfeee3269835924ff3" FOREIGN KEY ("auctionId") REFERENCES "Auctions"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "users" ADD CONSTRAINT "FK_368e146b785b574f42ae9e53d5e" FOREIGN KEY ("roleId") REFERENCES "rolea"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Transactions" ADD CONSTRAINT "FK_6a3743deaf73e36a0defcec1158" FOREIGN KEY ("goodsAndServicesId") REFERENCES "Services"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -96,8 +99,11 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "order_products" DROP CONSTRAINT "FK_28b66449cf7cd76444378ad4e92"`);
         await queryRunner.query(`ALTER TABLE "file" DROP CONSTRAINT "FK_88977868473a43cee536dd81126"`);
         await queryRunner.query(`ALTER TABLE "file_versions" DROP CONSTRAINT "FK_5b2975bbaeb5c5db8c57ac438f4"`);
+        await queryRunner.query(`ALTER TABLE "BuyerCompanies" DROP CONSTRAINT "FK_6c3070b3bc2f295ddc24b4ad929"`);
         await queryRunner.query(`ALTER TABLE "CollaborationRelationships" DROP CONSTRAINT "FK_d0b33148e450c41053a3597d3b1"`);
         await queryRunner.query(`ALTER TABLE "CollaborationRelationships" DROP CONSTRAINT "FK_b3ea6eb6940a5cd0ad6ce70c126"`);
+        await queryRunner.query(`ALTER TABLE "SupplierCompanies" DROP CONSTRAINT "FK_4d60a8cd8f9d65dc5f0374b32f7"`);
+        await queryRunner.query(`ALTER TABLE "SupplierCompanies" DROP CONSTRAINT "FK_528e78318d2b1007fda27291a7b"`);
         await queryRunner.query(`ALTER TABLE "CompanyInformation" DROP CONSTRAINT "FK_d4269c155a69922cd29f7eca09e"`);
         await queryRunner.query(`ALTER TABLE "CompanyInformation" DROP CONSTRAINT "FK_8474368ba299743e60e908cd2ad"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_72e80be86cab0e93e67ed1a7a9"`);
@@ -107,14 +113,7 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_1d7cb3ff06675dbb97386e18af"`);
         await queryRunner.query(`DROP TABLE "file_participants_files_file"`);
         await queryRunner.query(`DROP TABLE "status"`);
-        await queryRunner.query(`DROP TABLE "Sectors"`);
-        await queryRunner.query(`DROP TYPE "public"."Sectors_status_enum"`);
-        await queryRunner.query(`DROP TYPE "public"."Sectors_type_enum"`);
         await queryRunner.query(`DROP TABLE "refresh_token"`);
-        await queryRunner.query(`DROP INDEX "public"."IDX_6aa5a39bde5e98cafe1e6a04bc"`);
-        await queryRunner.query(`DROP TABLE "ExternalRatings"`);
-        await queryRunner.query(`DROP INDEX "public"."IDX_add7fce755d3af211905a03b39"`);
-        await queryRunner.query(`DROP TABLE "FinancialInformations"`);
         await queryRunner.query(`DROP TABLE "email_templates"`);
         await queryRunner.query(`DROP TABLE "Contracts"`);
         await queryRunner.query(`DROP TABLE "Transactions"`);
@@ -141,14 +140,21 @@ export class initialMigration1699888662680 implements MigrationInterface {
         await queryRunner.query(`DROP TYPE "public"."PaymentTerms_paymenttype_enum"`);
         await queryRunner.query(`DROP TABLE "Collaterals"`);
         await queryRunner.query(`DROP TYPE "public"."Collaterals_facilitytype_enum"`);
+        await queryRunner.query(`DROP TABLE "BuyerCompanies"`);
+        await queryRunner.query(`DROP TABLE "Sectors"`);
+        await queryRunner.query(`DROP TYPE "public"."Sectors_status_enum"`);
+        await queryRunner.query(`DROP TYPE "public"."Sectors_type_enum"`);
         await queryRunner.query(`DROP TABLE "CollaborationRelationships"`);
         await queryRunner.query(`DROP TYPE "public"."CollaborationRelationships_paymentexperiencehistory_enum"`);
+        await queryRunner.query(`DROP TABLE "SupplierCompanies"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_6aa5a39bde5e98cafe1e6a04bc"`);
+        await queryRunner.query(`DROP TABLE "ExternalRatings"`);
+        await queryRunner.query(`DROP INDEX "public"."IDX_add7fce755d3af211905a03b39"`);
+        await queryRunner.query(`DROP TABLE "FinancialInformations"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_f8183f26c3767e444b13c71279"`);
         await queryRunner.query(`DROP TABLE "CompanyInformation"`);
         await queryRunner.query(`DROP TABLE "CompanyTaxAndRevenue"`);
         await queryRunner.query(`DROP TABLE "CompanyAddresses"`);
-        await queryRunner.query(`DROP INDEX "public"."IDX_abd3a77683d5179383b9d4d64a"`);
-        await queryRunner.query(`DROP TABLE "Companies"`);
     }
 
 }
