@@ -22,7 +22,7 @@ export class CommonExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const statusCode = exception.getStatus();
 
-    console.log(JSON.stringify(exception, null,2));
+    console.log(JSON.stringify(exception, null, 2));
 
     let message = exception.getResponse() as {
       key: string;
@@ -51,9 +51,12 @@ export class CommonExceptionFilter implements ExceptionFilter {
     } else {
       const simpleException = exception as any;
 
-      let message = "Http Error";
+      let message = 'Http Error';
 
-      if (simpleException.response.errors && simpleException.response.errors.message) {
+      if (
+        simpleException.response.errors &&
+        simpleException.response.errors.message
+      ) {
         message = simpleException.response.errors.message;
       } else if (simpleException.message) {
         message = simpleException.message;
@@ -61,7 +64,7 @@ export class CommonExceptionFilter implements ExceptionFilter {
 
       response.status(simpleException.status).json({
         statusCode: simpleException.status,
-        message
+        message,
       });
     }
   }

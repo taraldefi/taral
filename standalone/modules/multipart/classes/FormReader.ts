@@ -15,7 +15,10 @@ export class FormReader {
 
   private files: StoredFile[] = [];
 
-  constructor(protected req: any, protected config: FormDataInterceptorConfig) {
+  constructor(
+    protected req: any,
+    protected config: FormDataInterceptorConfig,
+  ) {
     this.busboy = busboy({
       headers: req.headers,
       limits: config && config.limits ? config.limits : {},
@@ -29,23 +32,23 @@ export class FormReader {
 
     this.busboy.on("partsLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of parts is ${config.limits.parts}`
-      )
+        `Maximum number of parts is ${config.limits.parts}`,
+      ),
     );
     this.busboy.on("filesLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of files is ${config.limits.files}`
-      )
+        `Maximum number of files is ${config.limits.files}`,
+      ),
     );
     this.busboy.on("fieldsLimit", () =>
       this.rejectWithBadRequest(
-        `Maximum number of fields is ${config.limits.fields}`
-      )
+        `Maximum number of fields is ${config.limits.fields}`,
+      ),
     );
     this.busboy.on("fileSize", () =>
       this.rejectWithBadRequest(
-        `Maximum file size is ${config.limits.fileSize}`
-      )
+        `Maximum file size is ${config.limits.fileSize}`,
+      ),
     );
     this.busboy.on("finish", this.proceedFinish.bind(this));
   }
@@ -66,7 +69,7 @@ export class FormReader {
     fieldName: string,
     value,
     fieldNameTruncated: boolean,
-    valueTruncated: boolean
+    valueTruncated: boolean,
   ): void {
     appendField(this.result, fieldName, value);
   }
@@ -74,7 +77,7 @@ export class FormReader {
   private proceedFile(
     fieldName: string,
     fileStream: NodeJS.ReadableStream,
-    info: any
+    info: any,
   ): void {
     const { filename, encoding, mimeType } = info;
 
@@ -87,7 +90,7 @@ export class FormReader {
       filename,
       encoding,
       mimeType,
-      fileStream
+      fileStream,
     )
       .then((f) => {
         if ((fileStream as any).truncated) {
@@ -135,14 +138,14 @@ export class FormReader {
     originalName: string,
     encoding: string,
     mimetype: string,
-    stream: NodeJS.ReadableStream
+    stream: NodeJS.ReadableStream,
   ): Promise<StoredFile> {
     return await (this.config["storage"] as any).create(
       originalName,
       encoding,
       mimetype,
       stream,
-      this.config
+      this.config,
     );
   }
 }

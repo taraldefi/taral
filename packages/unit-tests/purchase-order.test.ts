@@ -30,35 +30,35 @@ describe("Taral Purchase Order", () => {
       {
         taralExporterInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const ExporterStorageContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralExporterStorageInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const ImporterContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralImporterInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const PurchaseOrderContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralPurchaseOrderInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const TaralCoinContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralCoinInfo,
       },
-      clarityBin
+      clarityBin,
     );
 
     const ExporterContract = ExporterContractInfo.taralExporterInfo.contract;
@@ -84,15 +84,15 @@ describe("Taral Purchase Order", () => {
     const exporter_wallet = clarinetAccounts.wallet_6.address;
     const exporter2_wallet = clarinetAccounts.wallet_7.address;
     const block_1 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet),
     );
 
     const block_2 = await tx(taral_coin.mint(exporter_wallet, 10));
     const block_3 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet),
     );
     const block_4 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter2_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter2_wallet),
     );
     expect(block_1.value).toEqual(false);
     expect(block_2.value).toEqual(true);
@@ -117,8 +117,8 @@ describe("Taral Purchase Order", () => {
         exporter_wallet,
         exporter_name,
         exporter_buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
 
     expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
@@ -136,8 +136,8 @@ describe("Taral Purchase Order", () => {
         importer_wallet,
         importer_name,
         importer_buffer,
-        importer_category
-      )
+        importer_category,
+      ),
     );
 
     expect(block_2.value).toEqual(true); //REGISTERED SUCCESSFULLY
@@ -162,8 +162,8 @@ describe("Taral Purchase Order", () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        deliveryTerm
-      )
+        deliveryTerm,
+      ),
     );
     expect(result.value).toEqual(100n);
   }, 3000000);
@@ -191,14 +191,14 @@ describe("Taral Purchase Order", () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        deliveryTerm
-      )
+        deliveryTerm,
+      ),
     );
     expect(result.value).toEqual(true); // INITIALIZED SUCCESSFULLY
 
     const appended_order = await taral_exporter_storage.getExporterOrder(
       0n,
-      exporter_wallet
+      exporter_wallet,
     );
     expect(appended_order?.["order-id"]).toEqual(10001n);
   }, 3000000);

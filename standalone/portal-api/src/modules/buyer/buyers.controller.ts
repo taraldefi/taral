@@ -1,10 +1,10 @@
-import { ApiTags } from "@nestjs/swagger";
-import { BuyerService } from "./services/buyer.service";
-import { Body, Controller, Get, Param, Patch, Post, Put } from "@nestjs/common";
-import { GetBuyerResponse } from "./dto/response/get-buyer-response.dto";
-import { CreateBuyerRequest } from "./dto/request/create-buyer.dto";
-import { UpdateBuyerRequest } from "./dto/request/update-buyer.dto";
-import { EntityMappingService } from "./services/mapping.service";
+import { ApiTags } from '@nestjs/swagger';
+import { BuyerService } from './services/buyer.service';
+import { Body, Controller, Get, Param, Patch, Post, Put } from '@nestjs/common';
+import { GetBuyerResponse } from './dto/response/get-buyer-response.dto';
+import { CreateBuyerRequest } from './dto/request/create-buyer.dto';
+import { UpdateBuyerRequest } from './dto/request/update-buyer.dto';
+import { EntityMappingService } from './services/mapping.service';
 
 @ApiTags('Buyers')
 @Controller({
@@ -12,9 +12,10 @@ import { EntityMappingService } from "./services/mapping.service";
   version: '1',
 })
 export class BuyersEntityController {
-  constructor(private readonly buyerService: BuyerService, private readonly mappingService: EntityMappingService) {
-
-  }
+  constructor(
+    private readonly buyerService: BuyerService,
+    private readonly mappingService: EntityMappingService,
+  ) {}
 
   @Post()
   async createEntity(

@@ -8,7 +8,7 @@ import { isFile } from "./is-file.validator";
 
 export function MaxFileSize(
   maxSizeBytes: number,
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return ValidateBy(
     {
@@ -30,6 +30,6 @@ export function MaxFileSize(
         },
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

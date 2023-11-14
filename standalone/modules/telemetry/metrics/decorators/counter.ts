@@ -8,7 +8,7 @@ export const OtelCounter = createParamDecorator(
       throw new Error("OtelCounter need a name argument");
     }
     return getOrCreateCounter(name, options);
-  }
+  },
 );
 
 export const OtelUpDownCounter = createParamDecorator(
@@ -17,5 +17,5 @@ export const OtelUpDownCounter = createParamDecorator(
       throw new Error("OtelUpDownCounter need a name argument");
     }
     return getOrCreateCounter(name, options);
-  }
+  },
 );

@@ -39,7 +39,7 @@ async function bootstrap() {
 
   app.useGlobalFilters(
     new CommonExceptionFilter(logger, i18n),
-    new UnprocessableExceptionFilter(logger), 
+    new UnprocessableExceptionFilter(logger),
     new EntityNotFoundFilter(logger),
   );
 

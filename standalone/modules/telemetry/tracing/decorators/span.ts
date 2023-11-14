@@ -10,7 +10,7 @@ export function Span(name?: string) {
   return (
     target: any,
     propertyKey: string,
-    propertyDescriptor: PropertyDescriptor
+    propertyDescriptor: PropertyDescriptor,
   ) => {
     const originalFunction = propertyDescriptor.value;
     const wrappedFunction = function PropertyDescriptor(...args: any[]) {

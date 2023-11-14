@@ -42,7 +42,7 @@ beforeAll(async () => {
   const deployed = await TestProvider.fromContracts(
     true,
     nodeTaralContracts,
-    clarityBin
+    clarityBin,
   );
 
   talToken = deployed.nodeTaralCoin.contract;

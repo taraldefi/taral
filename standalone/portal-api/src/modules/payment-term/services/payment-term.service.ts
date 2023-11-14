@@ -118,9 +118,8 @@ export class PaymentTermService {
       paymentTerm.interestFixedRate = null;
     }
 
-    const updatedPaymentTerm = await this.paymentTermRepository.save(
-      paymentTerm,
-    );
+    const updatedPaymentTerm =
+      await this.paymentTermRepository.save(paymentTerm);
     return this.paymentTermMappingService.mapPaymentTermDetails(
       updatedPaymentTerm,
     );

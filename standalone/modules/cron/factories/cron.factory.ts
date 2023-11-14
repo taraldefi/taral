@@ -2,7 +2,7 @@ import Agenda, { AgendaConfig } from "agenda";
 
 export function cronFactory(
   queueConfig: AgendaConfig,
-  rootConfig: AgendaConfig
+  rootConfig: AgendaConfig,
 ) {
   const agendaConfig = {
     ...rootConfig,

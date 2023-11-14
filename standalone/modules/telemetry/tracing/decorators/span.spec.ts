@@ -53,7 +53,7 @@ describe("Span", () => {
 
   it("should maintain reflect metadataa", async () => {
     expect(Reflect.getMetadata("some-metadata", instance.metadata)).toEqual(
-      true
+      true,
     );
   });
 

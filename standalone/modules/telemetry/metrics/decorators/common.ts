@@ -38,7 +38,7 @@ export const OtelMethodCounter =
   (
     target: Object,
     propertyKey: string | symbol,
-    descriptor: TypedPropertyDescriptor<(...args: any[]) => any>
+    descriptor: TypedPropertyDescriptor<(...args: any[]) => any>,
   ) => {
     const className = target.constructor.name;
     const name = `app_${className}_${propertyKey.toString()}_calls_total`;

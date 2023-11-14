@@ -12,7 +12,7 @@ export abstract class StoredFile implements ParticleStoredFile {
     encoding,
     mimetype,
     stream: NodeJS.ReadableStream,
-    config: FormDataInterceptorConfig
+    config: FormDataInterceptorConfig,
   ): Promise<StoredFile> {
     throw new Error(`Static method create must be implemented`);
   }

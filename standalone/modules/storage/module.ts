@@ -35,7 +35,7 @@ export class StorageModule {
   }
 
   private static createStorageOptionsProvider(
-    options: StorageAsyncOptions
+    options: StorageAsyncOptions,
   ): Provider {
     if (options.useFactory) {
       return {

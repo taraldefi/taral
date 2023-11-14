@@ -34,7 +34,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
 
   constructor(
     @Inject(OPENTELEMETRY_MODULE_OPTIONS)
-    private readonly options: OpenTelemetryModuleOptions = {}
+    private readonly options: OpenTelemetryModuleOptions = {},
   ) {}
 
   /**
@@ -121,7 +121,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
    * @param options Options for the asynchrnous OpenTelemetry module
    */
   private static createAsyncOptionsProvider(
-    options: OpenTelemetryModuleAsyncOptions
+    options: OpenTelemetryModuleAsyncOptions,
   ): Provider {
     if (options.useFactory) {
       return {
@@ -154,7 +154,7 @@ export class OpenTelemetryCoreModule implements OnApplicationBootstrap {
    * @param options Options for the asynchrnous OpenTelemetry module
    */
   private static createAsyncProviders(
-    options: OpenTelemetryModuleAsyncOptions
+    options: OpenTelemetryModuleAsyncOptions,
   ): Provider[] {
     if (options.useFactory || options.useExisting) {
       return [this.createAsyncOptionsProvider(options)];

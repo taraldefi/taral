@@ -29,7 +29,7 @@ export class StorageService {
   static newDriver(disk: string): StorageDriver {
     return StorageService.driverManager.getDriver(
       disk,
-      StorageService.options.disks[disk]
+      StorageService.options.disks[disk],
     );
   }
 }

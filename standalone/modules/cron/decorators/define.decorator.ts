@@ -8,7 +8,7 @@ type NameAndDefineOptions = DefineOptions & Record<"name", string>;
 export function Define(name?: string): MethodDecorator;
 export function Define(options?: NameAndDefineOptions): MethodDecorator;
 export function Define(
-  nameOrOptions?: string | NameAndDefineOptions
+  nameOrOptions?: string | NameAndDefineOptions,
 ): MethodDecorator {
   let options = {};
 
@@ -21,6 +21,6 @@ export function Define(
 
   return applyDecorators(
     SetMetadata(CRON_JOB_OPTIONS, options),
-    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.DEFINE)
+    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.DEFINE),
   );
 }

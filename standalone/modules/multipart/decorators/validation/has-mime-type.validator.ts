@@ -8,7 +8,7 @@ import { isFile } from "./is-file.validator";
 
 export function HasMimeType(
   allowedMimeTypes: string[],
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return ValidateBy(
     {
@@ -29,11 +29,11 @@ export function HasMimeType(
           const allowedMimeTypes: string[] =
             validationArguments.constraints[0] || [];
           return `File must be of one of the types ${allowedMimeTypes.join(
-            ", "
+            ", ",
           )}`;
         },
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

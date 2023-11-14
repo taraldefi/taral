@@ -14,7 +14,7 @@ export function createLogger(configService: ConfigService) {
         tag: 'my.app',
         host: 'localhost',
         port: 24224,
-      })
+      }),
     );
   }
 
