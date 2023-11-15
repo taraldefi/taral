@@ -8,7 +8,7 @@ import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-b
 import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';
 import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
-import { BuyerQuickApplicationBuyerInformationService } from './buyer-info.service';
+import { BuyerQuickApplicationBuyerInformationService } from './buyer-information.service';
 import { BuyerQuickApplicationCollateralService } from './collaterals.service';
 import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';

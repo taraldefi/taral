@@ -9,7 +9,7 @@ import { GetOrderProductResponse } from 'src/modules/order-detail/dto/response/g
 import { OrderDetailMappingService } from 'src/modules/order-detail/services/mapping.service';
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
-import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
+import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
@@ -17,7 +17,7 @@ import { IsolationLevel, Transactional } from 'src/common/transaction';
 @Injectable()
 export class BuyerQuickApplicationOrderDetailService extends BaseService {
   constructor(
-    @InjectRepository(BuyerQuickApplicationEntity)
+    @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly orderDetailsService: OrderDetailService,
     private readonly orderProductService: OrderProductService,

@@ -17,7 +17,6 @@ import {
 import { ApplicationStatus } from '../enums/status.enum';
 import { OrderDetailEntity } from 'src/modules/order-detail/models/order-detail.entity';
 import { BuyerCompanyInformationEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
-import { SupplierCompanyInformationEntity } from 'src/modules/company-information/models/supplier.company.information.entity';
 
 @Entity({ name: 'Quick_Applications' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -45,10 +44,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   status: string;
 
-  @OneToOne(() => BuyerCompanyEntity)
+  @OneToOne(() => BuyerCompanyInformationEntity)
   @JoinColumn()
   @Allow()
-  buyerInformation: BuyerCompanyEntity;
+  buyerInformation: BuyerCompanyInformationEntity;
 
   @OneToOne(() => SupplierCompanyEntity)
   @JoinColumn()

@@ -11,24 +11,24 @@ import { triggerError } from '../../../common/trigger.error';
 import { CreateEntityDto } from '../dto/request/create-entity.dto';
 import { UpdateEntityDto } from '../dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
-import { LegalBuyerEntity } from '../models/buyer.company.entity';
-import { LegalBuyerEntityRepository } from '../repositories/legal-buyer-entity.repository';
+import { BuyerCompanyEntity } from '../models/buyer.company.entity';
+import { BuyerCompanyEntityRepository } from '../repositories/buyer.company.repository';
 import { EntityMappingService } from './mapping.service';
 
 @Injectable()
-export class BuyerEntityService {
+export class BuyerCompanyEntityService {
   constructor(
-    @InjectRepository(LegalBuyerEntity)
-    private buyerEntityRepository: LegalBuyerEntityRepository,
+    @InjectRepository(BuyerCompanyEntity)
+    private buyerEntityRepository: BuyerCompanyEntityRepository,
 
     private mappingService: EntityMappingService,
   ) {}
 
-  public async findBuyerEntityById(id: string): Promise<LegalBuyerEntity> {
+  public async findBuyerEntityById(id: string): Promise<BuyerCompanyEntity> {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne(id, {
-      relations: ['legalApplications'],
+      relations: ['applications'],
     });
 
     if (!entity) throw triggerError('entity-not-found');
@@ -40,7 +40,7 @@ export class BuyerEntityService {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['legalApplications'],
+      relations: ['applications'],
       where: { id: id },
     });
 
@@ -53,7 +53,7 @@ export class BuyerEntityService {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne({
-      relations: ['legalApplications'],
+      relations: ['applications'],
       where: { id: id },
     });
 
@@ -61,9 +61,9 @@ export class BuyerEntityService {
 
     return this.mappingService.mapEntityDetails(entity);
   }
-  public async getAllBuyerEntity(): Promise<LegalBuyerEntity[]> {
+  public async getAllBuyerEntity(): Promise<BuyerCompanyEntity[]> {
     return await this.buyerEntityRepository.find({
-      relations: ['legalApplications'],
+      relations: ['applications'],
       select: ['id', 'name', 'abbreviation', 'logo'],
     });
   }
@@ -92,7 +92,7 @@ export class BuyerEntityService {
     }
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['legalApplications'],
+      relations: ['applications'],
       where: { id: id },
     });
 
@@ -165,7 +165,7 @@ export class BuyerEntityService {
 
     // const entityProducts = await this.createProducts();
 
-    const entity = new LegalBuyerEntity();
+    const entity = new BuyerCompanyEntity();
     entity.abbreviation = data.abbreviation;
     entity.name = data.name;
     entity.beneficialOwner = data.beneficialOwner;
@@ -183,7 +183,7 @@ export class BuyerEntityService {
     // entityProducts.forEach((product) => (product.legalEntity = entity));
 
     // entity.legalProducts = [...entityProducts];
-    entity.legalApplications = [];
+    entity.applications = [];
 
     var result = await this.buyerEntityRepository.save(entity);
 

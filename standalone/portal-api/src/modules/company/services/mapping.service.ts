@@ -1,11 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { GetApplicationResponse } from '../dto/response/get-application-response.dto';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
-import { LegalBuyerEntity } from '../models/buyer.company.entity';
+import { BuyerCompanyEntity } from '../models/buyer.company.entity';
 
 @Injectable()
 export class EntityMappingService {
-  public mapEntityDetails(entity: LegalBuyerEntity): GetEntityDetailsResponse {
+  public mapEntityDetails(
+    entity: BuyerCompanyEntity,
+  ): GetEntityDetailsResponse {
     var response = new GetEntityDetailsResponse();
 
     response.abbreviation = entity.abbreviation;
@@ -35,7 +37,7 @@ export class EntityMappingService {
     //   return entityItem;
     // });
 
-    response.applications = entity.legalApplications.map((application) => {
+    response.applications = entity.applications.map((application) => {
       var applicationItem = new GetApplicationResponse();
 
       applicationItem.id = application.id;

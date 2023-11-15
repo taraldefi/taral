@@ -7,7 +7,7 @@ import { EntityController } from './legal-entities.controller';
 
 import { BuyerCompanyEntity } from './models/buyer.company.entity';
 import { SupplierCompanyEntity } from './models/supplier.company.entity';
-import { BuyerEntityService } from './services/buyer-entity.service';
+import { BuyerCompanyEntityService } from './services/buyer-entity.service';
 import { LogoService } from './services/logo.service';
 import { EntityMappingService } from './services/mapping.service';
 
@@ -20,10 +20,10 @@ import { EntityMappingService } from './services/mapping.service';
   providers: [
     ConfigModule,
     ConfigService,
-    BuyerEntityService,
+    BuyerCompanyEntityService,
     EntityMappingService,
     LogoService,
   ],
-  exports: [BuyerEntityService],
+  exports: [BuyerCompanyEntityService],
 })
 export class EntitiesModule {}

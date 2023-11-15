@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { RelationshipService } from 'src/modules/relationship/services/relationship.service';
 import { SupplierService } from 'src/modules/supplier/services/supplier.service';
-import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
+import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { CreateSupplierInformationRequest } from '../../dto/request/create-supplier-info.dto';
 import { UpdateSupplierInformationRequest } from '../../dto/request/update-supplier-info.dto';
@@ -15,7 +15,7 @@ import { IsolationLevel, Transactional } from 'src/common/transaction';
 @Injectable()
 export class BuyerQuickApplicationSupplierInformationService extends BaseService {
   constructor(
-    @InjectRepository(BuyerQuickApplicationEntity)
+    @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
     private readonly mappingService: BuyerQuickApplicationMappingService,
     private readonly supplierService: SupplierService,

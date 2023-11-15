@@ -32,13 +32,6 @@ export class FileEntity extends EntityHelper {
   @Allow()
   last_updated: Date;
 
-  @ManyToOne(
-    () => TransactionDocumentEntity,
-    (transaction) => transaction.documents,
-  )
-  @JoinColumn()
-  transactionDocuments: TransactionDocumentEntity;
-
   @OneToMany(() => FileVersionEntity, (fileVersion) => fileVersion.file)
   versions: FileVersionEntity[];
 

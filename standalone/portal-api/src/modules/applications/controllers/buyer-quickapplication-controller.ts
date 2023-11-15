@@ -18,7 +18,7 @@ import { CreateQuickApplicationRequest } from '../dto/request/create-quick-appli
 import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/create-payment-term.dto';
 import { CreateSupplierInformationRequest } from '../dto/request/create-supplier-info.dto';
 import { BuyerQuickApplicationService } from '../services/buyer-quick-application.service/application.service';
-import { BuyerQuickApplicationBuyerInformationService } from '../services/buyer-quick-application.service/buyer-info.service';
+import { BuyerQuickApplicationBuyerInformationService } from '../services/buyer-quick-application.service/buyer-information.service';
 import { BuyerQuickApplicationCollateralService } from '../services/buyer-quick-application.service/collaterals.service';
 import { BuyerQuickApplicationOrderDetailService } from '../services/buyer-quick-application.service/order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from '../services/buyer-quick-application.service/payment-term.service';

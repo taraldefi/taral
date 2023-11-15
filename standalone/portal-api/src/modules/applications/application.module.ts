@@ -15,7 +15,7 @@ import { SuppliersModule } from '../supplier/suppliers.module';
 import { RelationshipModule } from '../relationship/relationship.module';
 import { PaymentTermModule } from '../payment-term/payment-term.module';
 import { BuyerQuickApplicationService } from './services/buyer-quick-application.service/application.service';
-import { BuyerQuickApplicationBuyerInformationService } from './services/buyer-quick-application.service/buyer-info.service';
+import { BuyerQuickApplicationBuyerInformationService } from './services/buyer-quick-application.service/buyer-information.service';
 import { BuyerQuickApplicationSupplierInformationService } from './services/buyer-quick-application.service/supplier-info.service';
 import { BuyerQuickApplicationOrderDetailService } from './services/buyer-quick-application.service/order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './services/buyer-quick-application.service/payment-term.service';
