@@ -24,6 +24,9 @@ import { EntityMappingService } from './services/mapping.service';
     EntityMappingService,
     LogoService,
   ],
-  exports: [BuyerCompanyEntityService],
+  exports: [
+    BuyerCompanyEntityService,
+    TypeOrmModule.forFeature([BuyerCompanyEntity]),
+  ],
 })
-export class EntitiesModule {}
+export class CompaniesModule {}

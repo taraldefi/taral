@@ -7,16 +7,16 @@ import { HomeModule } from './modules/home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
 import { LoggerModule } from 'nestjs-pino';
-import { EntitiesModule } from './modules/company/company.module';
-import { CompaniesModule } from './modules/company-information/company.information.module';
+import { CompaniesModule } from './modules/company/company.module';
+import { CompanyInformationModule } from './modules/company-information/company.information.module';
 import { FinancialsModule } from './modules/financial/financials.module';
 import { AuthModule } from './modules/auth/auth.module';
 import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
-import { SuppliersModule } from './modules/supplier/suppliers.module';
-import { BuyersModule } from './modules/buyer/buyers.module';
+// import { SuppliersModule } from './modules/supplier/suppliers.module';
+// import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
@@ -138,15 +138,15 @@ export class AppModule {
       StorageModule,
       LoggerModule,
       WinstonLoggerModule,
-      EntitiesModule,
-      ApplicationModule,
       CompaniesModule,
+      ApplicationModule,
+      CompanyInformationModule,
       FinancialsModule,
       FilesModule,
       RatingsModule,
       SectorsModule,
-      SuppliersModule,
-      BuyersModule,
+      // SuppliersModule,
+      // BuyersModule,
       TransactionsModule,
       GoodsAndServicesModule,
       ContractsModule,

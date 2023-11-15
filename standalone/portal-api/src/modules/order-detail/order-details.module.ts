@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { BuyerQuickApplicationEntity } from '../applications/models/buyer-quickapplication.entity';
+import { QuickApplicationEntity } from '../applications/models/quickapplication.entity';
 import { OrderDetailEntity } from './models/order-detail.entity';
 import { OrderProductEntity } from './models/order-product.entity';
 import { OrderDetailsController } from './order-details.controller';
@@ -13,7 +13,7 @@ import { OrderProductService } from './services/order-product.service';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
-      BuyerQuickApplicationEntity,
+      QuickApplicationEntity,
       OrderDetailEntity,
       OrderProductEntity,
     ]),

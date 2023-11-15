@@ -43,10 +43,10 @@ export class GetBuyerQuickApplicationResponse {
   @Type(() => GetBuyerResponse)
   buyerInformation: GetBuyerResponse;
 
-  @ApiProperty()
-  @ValidateNested()
-  @Type(() => SupplierInformationResponse)
-  supplierInformation: SupplierInformationResponse;
+  // @ApiProperty()
+  // @ValidateNested()
+  // @Type(() => SupplierInformationResponse)
+  // supplierInformation: SupplierInformationResponse;
 
   @ApiProperty()
   @ValidateNested()

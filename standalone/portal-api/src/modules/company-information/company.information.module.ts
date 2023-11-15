@@ -6,6 +6,7 @@ import { CompanyAddressEntity } from './models/company.information.address.entit
 import { CompanyInformationEntity } from './models/company.information.entity';
 import { SupplierCompanyInformationEntity } from './models/supplier.company.information.entity';
 import { CompanyTaxAndRevenueEntity } from './models/company.information.tax.and.revenue.entity';
+import { EntityMappingService } from './services/mapping.service';
 
 @Module({
   imports: [
@@ -18,8 +19,9 @@ import { CompanyTaxAndRevenueEntity } from './models/company.information.tax.and
     ]),
   ],
   controllers: [],
-  providers: [ConfigModule, ConfigService],
+  providers: [ConfigModule, ConfigService, EntityMappingService],
   exports: [
+    EntityMappingService,
     TypeOrmModule.forFeature([
       CompanyInformationEntity,
       CompanyAddressEntity,
@@ -29,4 +31,4 @@ import { CompanyTaxAndRevenueEntity } from './models/company.information.tax.and
     ]),
   ],
 })
-export class CompaniesModule {}
+export class CompanyInformationModule {}

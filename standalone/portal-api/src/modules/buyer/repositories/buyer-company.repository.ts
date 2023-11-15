@@ -1,6 +1,6 @@
-import { BaseRepository } from 'src/common/transaction/BaseRepository';
-import { EntityRepository } from 'typeorm';
-import { BuyerCompanyEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
+// import { BaseRepository } from 'src/common/transaction/BaseRepository';
+// import { EntityRepository } from 'typeorm';
+// import { BuyerCompanyEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
 
-@EntityRepository(BuyerCompanyEntity)
-export class BuyerCompanyEntityRepository extends BaseRepository<BuyerCompanyEntity> {}
+// @EntityRepository(BuyerCompanyEntity)
+// export class BuyerCompanyEntityRepository extends BaseRepository<BuyerCompanyEntity> {}
