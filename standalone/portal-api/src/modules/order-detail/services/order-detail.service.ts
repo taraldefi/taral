@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreateOrderDetailDto } from '../dto/request/create-order-detail.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { OrderDetailEntity } from '../models/order-detail.entity';
@@ -7,14 +7,23 @@ import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-respon
 import { OrderDetailMappingService } from './mapping.service';
 import { UpdateOrderDetailDto } from '../dto/request/update-order-detail.dto';
 import { triggerError } from 'src/common/trigger.error';
+import { BaseService } from 'src/common/services/base.service';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class OrderDetailService {
+export class OrderDetailService extends BaseService {
   constructor(
     @InjectRepository(OrderDetailEntity)
     private orderDetailsRepository: OrderDetailsRepository,
     private orderDetailMappingService: OrderDetailMappingService,
-  ) {}
+
+    @InjectRepository(QuickApplicationEntity)
+    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+  ) {
+    super();
+  }
 
   public async findOrderById(id: string): Promise<OrderDetailEntity> {
     if (!id) throw triggerError('missing-entity-id');
@@ -28,7 +37,29 @@ export class OrderDetailService {
     return order;
   }
 
-  public async create(data: CreateOrderDetailDto): Promise<OrderDetailEntity> {
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async create(
+    data: CreateOrderDetailDto,
+    applicationId: string,
+  ): Promise<GetOrderDetailsResponse> {
+    this.setupTransactionHooks();
+
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['orderDetails'],
+      },
+    );
+
+    if (application.orderDetails) {
+      throw new HttpException(
+        'order details already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const order = new OrderDetailEntity();
 
     order.importPort = data.importPort;
@@ -37,30 +68,62 @@ export class OrderDetailService {
     order.products = [];
 
     const savedOrder = await this.orderDetailsRepository.save(order);
+    application.orderDetails = savedOrder;
+    application.save();
 
-    return savedOrder;
+    return this.orderDetailMappingService.mapOrderDetails(savedOrder);
   }
 
-  public async get(id: string): Promise<GetOrderDetailsResponse> {
-    if (!id) throw triggerError('missing-entity-id');
+  public async get(applicationId: string): Promise<GetOrderDetailsResponse> {
+    if (!applicationId) throw triggerError('missing-entity-id');
 
-    const order = await this.orderDetailsRepository.findOne(id, {
-      relations: ['products'],
-    });
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['orderDetails'],
+      },
+    );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const order = await this.orderDetailsRepository.findOne(
+      application.orderDetails.id,
+      {
+        relations: ['products'],
+      },
+    );
     if (!order) throw triggerError('entity-not-found');
 
     return this.orderDetailMappingService.mapOrderDetails(order);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async update(
-    id: string,
+    applicationId: string,
     data: UpdateOrderDetailDto,
   ): Promise<GetOrderDetailsResponse> {
-    if (!id) throw triggerError('missing-entity-id');
+    this.setupTransactionHooks();
 
-    const order = await this.orderDetailsRepository.findOne(id, {
-      relations: ['products'],
-    });
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['orderDetails'],
+      },
+    );
+    if (!applicationId) throw triggerError('missing-entity-id');
+
+    const order = await this.orderDetailsRepository.findOne(
+      application.orderDetails.id,
+      {
+        relations: ['products'],
+      },
+    );
 
     if (!order) throw triggerError('entity-not-found');
 

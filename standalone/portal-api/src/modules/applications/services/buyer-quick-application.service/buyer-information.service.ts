@@ -18,6 +18,7 @@ import { BuyerCompanyInformationRepository } from 'src/modules/company-informati
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { SectorEntityRepository } from 'src/modules/company/repositories/sector.repository';
 import { EntityMappingService } from 'src/modules/company-information/services/mapping.service';
+import { triggerError } from 'src/common/trigger.error';
 
 @Injectable()
 export class BuyerQuickApplicationBuyerInformationService extends BaseService {
@@ -161,25 +162,143 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     return this.buyerInformationMappingService.mapEntityDetails(entity);
   }
 
-  // @Transactional({
-  //   isolationLevel: IsolationLevel.READ_COMMITTED,
-  // })
-  // public async updateBuyerInformation(
-  //   data: UpdateBuyerRequest,
-  //   applicationId: string,
-  // ): Promise<GetBuyerResponse> {
-  //   this.setupTransactionHooks();
-  //   const application = await this.buyerApplicationRepository.findOne(
-  //     applicationId,
-  //     {
-  //       relations: ['buyerInformation'],
-  //     },
-  //   );
-  //   const savedBuyer = await this.buyerService.updateEntity(
-  //     application.buyerInformation.id,
-  //     data,
-  //   );
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async updateBuyerInformation(
+    data: UpdateBuyerRequest,
+    applicationId: string,
+  ): Promise<GetBuyerResponse> {
+    this.setupTransactionHooks();
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['buyerInformation'],
+      },
+    );
+    const entity = await this.buyerCompanyService.findBuyerEntityById(
+      application.company.id,
+    );
 
-  //   return this.buyerMappingService.mapEntityDetails(savedBuyer);
-  // }
+    if (!entity) throw triggerError('entity-not-found');
+
+    let companyAddressChanged = false;
+
+    if (data.company.address.addressLine1) {
+      companyAddressChanged = true;
+      entity.companyInformation.address.addressLine1 =
+        data.company.address.addressLine1;
+    }
+
+    if (data.company.address.addressLine2) {
+      companyAddressChanged = true;
+      entity.companyInformation.address.addressLine2 =
+        data.company.address.addressLine2;
+    }
+
+    if (data.company.address.city) {
+      companyAddressChanged = true;
+      entity.companyInformation.address.city = data.company.address.city;
+    }
+
+    if (data.company.address.postalCode) {
+      companyAddressChanged = true;
+      entity.companyInformation.address.postalCode =
+        data.company.address.postalCode;
+    }
+
+    if (companyAddressChanged) {
+      var addressSavedResult = await this.companyAddressRepository.save(
+        entity.companyInformation.address,
+      );
+      entity.companyInformation.address = addressSavedResult;
+    }
+
+    let taxAndRevenueChanged = false;
+    if (data.company.taxAndRevenue.taxNumber) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.taxNumber =
+        data.company.taxAndRevenue.taxNumber;
+    }
+    if (data.company.taxAndRevenue.audited) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.audited =
+        data.company.taxAndRevenue.audited;
+    }
+    if (data.company.taxAndRevenue.exportRevenuePercentage) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.exportRevenuePercentage =
+        data.company.taxAndRevenue.exportRevenuePercentage;
+    }
+    if (data.company.taxAndRevenue.exportValue) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.exportValue =
+        data.company.taxAndRevenue.exportValue;
+    }
+    if (data.company.taxAndRevenue.lastFiscalYear) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.lastFiscalYear =
+        data.company.taxAndRevenue.lastFiscalYear;
+    }
+    if (data.company.taxAndRevenue.totalRevenue) {
+      taxAndRevenueChanged = true;
+      entity.companyInformation.taxAndRevenue.totalRevenue =
+        data.company.taxAndRevenue.totalRevenue;
+    }
+    if (taxAndRevenueChanged) {
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(
+          entity.companyInformation.taxAndRevenue,
+        );
+      entity.companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+    }
+
+    let companyChanged = false;
+
+    if (data.company.employeeCount) {
+      companyChanged = true;
+      entity.companyInformation.employeeCount = data.company.employeeCount;
+    }
+
+    if (data.company.phoneNumber) {
+      companyChanged = true;
+      entity.companyInformation.phoneNumber = data.company.phoneNumber;
+    }
+    if (data.company.registrationNumbers) {
+      companyChanged = true;
+      entity.companyInformation.registrationNumbers =
+        data.company.registrationNumbers;
+    }
+
+    if (companyChanged) {
+      var companySavedResult =
+        await this.buyerCompanyInformationRepository.save(
+          entity.companyInformation,
+        );
+      entity.companyInformation = companySavedResult;
+    }
+
+    let sectorChanged = false;
+    if (data.sector) {
+      if (data.sector.industryType) {
+        sectorChanged = true;
+        entity.sector.industryType = data.sector.industryType;
+      }
+
+      if (data.sector.status) {
+        sectorChanged = true;
+        entity.sector.status = data.sector.status;
+      }
+    }
+
+    if (sectorChanged) {
+      var sectorSavedResult = await this.sectorEntityRepository.save(
+        entity.sector,
+      );
+      entity.sector = sectorSavedResult;
+    }
+    entity.save();
+
+    return this.buyerInformationMappingService.mapEntityDetails(entity);
+  }
 }

@@ -8,13 +8,14 @@ import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-q
 import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { BuyerQuickApplicationBuyerInformationService } from './buyer-information.service';
-import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
-import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';
 // import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { CollateralService } from 'src/modules/collateral/services/collateral.service';
+import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
+import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
+import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -24,8 +25,9 @@ export class BuyerQuickApplicationService extends BaseService {
 
     private buyerInfoService: BuyerQuickApplicationBuyerInformationService,
     // private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
-    private paymentTermService: BuyerQuickApplicationPaymentTermService,
-    private orderDetailService: BuyerQuickApplicationOrderDetailService,
+    private paymentTermService: PaymentTermService,
+    private orderDetailService: OrderDetailService,
+    private orderDetailProductService: OrderProductService,
     private collateralService: CollateralService,
   ) {
     super();
@@ -94,12 +96,8 @@ export class BuyerQuickApplicationService extends BaseService {
     // const savedSupplierInformation =
     //   await this.supplierInfoService.getSupplierInformation(application.id);
 
-    const savedPaymentTerm = await this.paymentTermService.getPaymentTerm(
-      application.id,
-    );
-    const savedOrderDetail = await this.orderDetailService.getOrderDetails(
-      application.id,
-    );
+    const savedPaymentTerm = await this.paymentTermService.get(application.id);
+    const savedOrderDetail = await this.orderDetailService.get(application.id);
     const savedCollateral = await this.collateralService.get(application.id);
     // response.exporterName = savedSupplierInformation.supplier.companyName;
     response.exporterName = '--';

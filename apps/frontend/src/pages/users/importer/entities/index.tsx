@@ -172,6 +172,7 @@ export async function getServerSideProps() {
   try {
     const res = await entityService.getAllEntity();
     const entities = res || [];
+    console.log("entities", entities);
 
     return {
       props: { entities },

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { CreatePaymentTermDto } from '../dto/request/create-payment-term.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentTermEntity } from '../models/payment-term.entity';
@@ -8,16 +8,53 @@ import { PaymentTermMappingService } from './mapping.service';
 import { UpdatePaymentTermDto } from '../dto/request/update-payment-term.dto';
 import { triggerError } from 'src/common/trigger.error';
 import { interestTypes } from '../enums/payment-term-type.enum';
+import { BaseService } from 'src/common/services/base.service';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 
 @Injectable()
-export class PaymentTermService {
+export class PaymentTermService extends BaseService {
   constructor(
     @InjectRepository(PaymentTermEntity)
     private paymentTermRepository: PaymentTermRepository,
     private paymentTermMappingService: PaymentTermMappingService,
-  ) {}
+    @InjectRepository(QuickApplicationEntity)
+    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+  ) {
+    super();
+  }
 
-  public async create(data: CreatePaymentTermDto): Promise<PaymentTermEntity> {
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async create(
+    data: CreatePaymentTermDto,
+    applicationId: string,
+  ): Promise<GetPaymentTermResponse> {
+    this.setupTransactionHooks();
+
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'supplierInformation',
+          'paymentTerms',
+          'orderDetails',
+          'security',
+          'transactionDocuments',
+        ],
+      },
+    );
+
+    if (application.paymentTerms) {
+      throw new HttpException(
+        'payment terms already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const paymentTerm = new PaymentTermEntity();
 
     paymentTerm.isConcluded = data.isConcluded;
@@ -38,25 +75,56 @@ export class PaymentTermService {
 
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
 
-    return savedPaymentTerm;
-  }
-  public async get(id: string): Promise<GetPaymentTermResponse> {
-    if (!id) throw triggerError('missing-entity-id');
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
+    application.paymentTerms = savedPaymentTerm;
+    application.save();
 
-    const paymentTerm = await this.paymentTermRepository.findOne(id);
+    return this.paymentTermMappingService.mapPaymentTermDetails(
+      savedPaymentTerm,
+    );
+  }
+  public async get(applicationId: string): Promise<GetPaymentTermResponse> {
+    if (!applicationId) throw triggerError('missing-entity-id');
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['paymentTerms'],
+      },
+    );
+
+    const paymentTerm = await this.paymentTermRepository.findOne(
+      application.paymentTerms.id,
+    );
 
     if (!paymentTerm) throw triggerError('entity-not-found');
 
     return this.paymentTermMappingService.mapPaymentTermDetails(paymentTerm);
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async update(
-    id: string,
+    applicationId: string,
     data: UpdatePaymentTermDto,
   ): Promise<GetPaymentTermResponse> {
-    if (!id) throw triggerError('missing-entity-id');
+    this.setupTransactionHooks();
+    if (!applicationId) throw triggerError('missing-entity-id');
 
-    const paymentTerm = await this.paymentTermRepository.findOne(id);
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['paymentTerms'],
+      },
+    );
+
+    const paymentTerm = await this.paymentTermRepository.findOne(
+      application.paymentTerms.id,
+    );
 
     if (!paymentTerm) throw triggerError('entity-not-found');
 
@@ -121,6 +189,12 @@ export class PaymentTermService {
     const updatedPaymentTerm = await this.paymentTermRepository.save(
       paymentTerm,
     );
+    const newEndDate = new Date(
+      application.issuanceDate.getMilliseconds() +
+        parseInt(updatedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
+    );
+    application.endDate = newEndDate;
+    application.save();
     return this.paymentTermMappingService.mapPaymentTermDetails(
       updatedPaymentTerm,
     );

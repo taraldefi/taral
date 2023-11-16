@@ -19,8 +19,6 @@ import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/creat
 import { CreateSupplierInformationRequest } from '../dto/request/create-supplier-info.dto';
 import { BuyerQuickApplicationService } from '../services/buyer-quick-application.service/application.service';
 import { BuyerQuickApplicationBuyerInformationService } from '../services/buyer-quick-application.service/buyer-information.service';
-import { BuyerQuickApplicationOrderDetailService } from '../services/buyer-quick-application.service/order-details.service';
-import { BuyerQuickApplicationPaymentTermService } from '../services/buyer-quick-application.service/payment-term.service';
 // import { BuyerQuickApplicationSupplierInformationService } from '../services/buyer-quick-application.service/supplier-info.service';
 import { UpdateBuyerRequest } from 'src/modules/buyer/dto/request/update-buyer.dto';
 import { UpdateCollateralDto } from 'src/modules/collateral/dto/request/update-collateral.dto';
@@ -32,6 +30,9 @@ import { UpdateOrderProductDto } from 'src/modules/order-detail/dto/request/upda
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { EntityNotFoundError } from 'typeorm';
 import { CollateralService } from 'src/modules/collateral/services/collateral.service';
+import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
+import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
+import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
 
 @ApiTags('Applications')
 @Controller({
@@ -45,8 +46,9 @@ export class QuickApplicationController {
     private readonly collateralService: CollateralService,
     private readonly buyerQuickApplicationBuyerInformationService: BuyerQuickApplicationBuyerInformationService,
     // private readonly buyerQuickApplicationSupplierInformationService: BuyerQuickApplicationSupplierInformationService,
-    private readonly buyerQuickApplicationOrderDetailsService: BuyerQuickApplicationOrderDetailService,
-    private readonly buyerQuickApplicationpaymentTermService: BuyerQuickApplicationPaymentTermService,
+    private readonly orderDetailService: OrderDetailService,
+    private readonly orderProductService: OrderProductService,
+    private readonly paymentTermService: PaymentTermService,
   ) {}
 
   // Routes for operations related to applications
@@ -125,19 +127,19 @@ export class QuickApplicationController {
     return buyerInformation;
   }
 
-  // Update buyer information for an application
-  // @Patch('/:id/buyer-info')
-  // async updateBuyerInfo(
-  //   @Param('id') applicationId: string,
-  //   @Body() buyerInfo: UpdateBuyerRequest,
-  // ) {
-  //   const buyerInformation =
-  //     await this.buyerQuickApplicationBuyerInformationService.updateBuyerInformation(
-  //       buyerInfo,
-  //       applicationId,
-  //     );
-  //   return buyerInformation;
-  // }
+  //Update buyer information for an application
+  @Patch('/:id/buyer-info')
+  async updateBuyerInfo(
+    @Param('id') applicationId: string,
+    @Body() buyerInfo: UpdateBuyerRequest,
+  ) {
+    const buyerInformation =
+      await this.buyerQuickApplicationBuyerInformationService.updateBuyerInformation(
+        buyerInfo,
+        applicationId,
+      );
+    return buyerInformation;
+  }
 
   // Routes for operations related to application's supplier information
 
@@ -182,9 +184,7 @@ export class QuickApplicationController {
   // Get order details of an application by ID
   @Get('/:id/order-details')
   async getOrderDetails(@Param('id') id: string) {
-    return await this.buyerQuickApplicationOrderDetailsService.getOrderDetails(
-      id,
-    );
+    return await this.orderDetailService.get(id);
   }
   // Create order details for an application
   @Post('/:id/order-details')
@@ -192,11 +192,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() orderDetailDto: CreateOrderDetailDto,
   ) {
-    const orderDetail =
-      await this.buyerQuickApplicationOrderDetailsService.createOrderDetail(
-        orderDetailDto,
-        applicationId,
-      );
+    const orderDetail = await this.orderDetailService.create(
+      orderDetailDto,
+      applicationId,
+    );
     return orderDetail;
   }
 
@@ -206,11 +205,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() orderDetailDto: UpdateOrderDetailDto,
   ) {
-    const orderDetail =
-      await this.buyerQuickApplicationOrderDetailsService.updateOrderDetail(
-        orderDetailDto,
-        applicationId,
-      );
+    const orderDetail = await this.orderDetailService.update(
+      applicationId,
+      orderDetailDto,
+    );
     return orderDetail;
   }
 
@@ -220,11 +218,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() orderProductDto: CreateOrderProductDto,
   ) {
-    const orderProduct =
-      await this.buyerQuickApplicationOrderDetailsService.addProductsToOrderDetail(
-        orderProductDto,
-        applicationId,
-      );
+    const orderProduct = await this.orderProductService.create(
+      orderProductDto,
+      applicationId,
+    );
     return orderProduct;
   }
 
@@ -235,12 +232,10 @@ export class QuickApplicationController {
     @Param('productId') productId: string,
     @Body() orderProductDto: UpdateOrderProductDto,
   ) {
-    const orderProduct =
-      await this.buyerQuickApplicationOrderDetailsService.updateProductsToOrderDetail(
-        orderProductDto,
-        applicationId,
-        productId,
-      );
+    const orderProduct = await this.orderProductService.update(
+      productId,
+      orderProductDto,
+    );
     return orderProduct;
   }
 
@@ -250,11 +245,7 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Param('productId') productId: string,
   ) {
-    const orderProduct =
-      await this.buyerQuickApplicationOrderDetailsService.deleteProductsToOrderDetail(
-        applicationId,
-        productId,
-      );
+    const orderProduct = await this.orderProductService.delete(productId);
     return orderProduct;
   }
 
@@ -297,9 +288,7 @@ export class QuickApplicationController {
   // Get payment terms of an application by ID
   @Get('/:id/payment-terms')
   async getPaymentTerm(@Param('id') id: string) {
-    return await this.buyerQuickApplicationpaymentTermService.getPaymentTerm(
-      id,
-    );
+    return await this.paymentTermService.get(id);
   }
 
   // Create payment terms for an application
@@ -308,11 +297,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() paymentTermInfo: CreatePaymentTermDto,
   ) {
-    const paymentTerm =
-      await this.buyerQuickApplicationpaymentTermService.createPaymentTerm(
-        paymentTermInfo,
-        applicationId,
-      );
+    const paymentTerm = await this.paymentTermService.create(
+      paymentTermInfo,
+      applicationId,
+    );
     return paymentTerm;
   }
 
@@ -321,11 +309,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() paymentTermInfo: UpdatePaymentTermDto,
   ) {
-    const paymentTerm =
-      await this.buyerQuickApplicationpaymentTermService.updatePaymentTerm(
-        paymentTermInfo,
-        applicationId,
-      );
+    const paymentTerm = await this.paymentTermService.update(
+      applicationId,
+      paymentTermInfo,
+    );
     return paymentTerm;
   }
 }

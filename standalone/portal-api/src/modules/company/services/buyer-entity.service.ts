@@ -68,7 +68,6 @@ export class BuyerCompanyEntityService {
   }
   public async getAllBuyerEntity(): Promise<BuyerCompanyEntity[]> {
     return await this.buyerEntityRepository.find({
-      relations: ['applications'],
       select: ['id', 'name', 'abbreviation', 'logo'],
     });
   }
