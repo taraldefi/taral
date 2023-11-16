@@ -33,7 +33,10 @@ interface Address {
 }
 
 interface CreateBuyerInformationForBuyerApplication {
-  company: Company;
+  address: Address;
+  taxAndRevenue: TaxAndRevenue;
+  phoneNumber: string;
+  registrationNumbers: string;
 }
 
 interface GetBuyerInfoResponse {

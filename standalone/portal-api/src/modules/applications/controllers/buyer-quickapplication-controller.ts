@@ -33,6 +33,8 @@ import { CollateralService } from 'src/modules/collateral/services/collateral.se
 import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
+import { CreateBuyerCompanyRequest } from '../dto/request/buyer-information/create-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from 'src/modules/buyer/dto/request/update-buyer-company.dto';
 
 @ApiTags('Applications')
 @Controller({
@@ -117,7 +119,7 @@ export class QuickApplicationController {
   @Post('/:id/buyer-info')
   async createBuyerInfo(
     @Param('id') applicationId: string,
-    @Body() buyerInfo: CreateBuyerRequest,
+    @Body() buyerInfo: CreateBuyerCompanyRequest,
   ) {
     const buyerInformation =
       await this.buyerQuickApplicationBuyerInformationService.createBuyerInformation(
@@ -131,7 +133,7 @@ export class QuickApplicationController {
   @Patch('/:id/buyer-info')
   async updateBuyerInfo(
     @Param('id') applicationId: string,
-    @Body() buyerInfo: UpdateBuyerRequest,
+    @Body() buyerInfo: UpdateBuyerCompanyRequest,
   ) {
     const buyerInformation =
       await this.buyerQuickApplicationBuyerInformationService.updateBuyerInformation(

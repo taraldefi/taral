@@ -50,6 +50,7 @@ function Index({ ...props }) {
     reset(queryResult.data);
     // const progress = calculateProgress();
     // setProgress(parseInt(progress));
+    console.log("queryResult.data", queryResult.data);
   }, [queryResult.data]);
 
   const onChange = async () => {
@@ -90,20 +91,12 @@ function Index({ ...props }) {
           <div className="generalInfo">
             <div className="maintitle">GENERAL INFO</div>
             <div className="form-item">
-              <span>
-                What is your company name? <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>What is your company name?</span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.company?.companyName ? "inputs inputRed" : "inputs"
-                }
-                placeholder={
-                  errors.company?.companyName
-                    ? `${errors.company.companyName.message}`
-                    : "company name"
-                }
-                {...register("company.companyName")}
+                className={"inputs"}
+                defaultValue={queryResult.data?.companyName}
               />
             </div>
             <div
@@ -117,23 +110,13 @@ function Index({ ...props }) {
               }}
             >
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>
-                  Establishment Date <b style={{ color: "#f84141" }}>*</b>
-                </span>
+                <span>Establishment Date</span>
                 <input
+                  disabled
                   type="date"
                   id="calendar"
-                  className={
-                    errors.company?.dateEstablished
-                      ? "inputs inputRed"
-                      : "inputs"
-                  }
-                  placeholder={
-                    errors.company?.dateEstablished
-                      ? `${errors.company.dateEstablished.message}`
-                      : "date established"
-                  }
-                  {...register("company.dateEstablished")}
+                  className={"inputs"}
+                  defaultValue={queryResult.data?.dateEstablished}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
@@ -143,16 +126,14 @@ function Index({ ...props }) {
                 <input
                   type="text"
                   className={
-                    errors.company?.registrationNumbers
-                      ? "inputs inputRed"
-                      : "inputs"
+                    errors.registrationNumbers ? "inputs inputRed" : "inputs"
                   }
                   placeholder={
-                    errors.company?.registrationNumbers
-                      ? `${errors.company.registrationNumbers.message}`
+                    errors.registrationNumbers
+                      ? `${errors.registrationNumbers.message}`
                       : "registration number"
                   }
-                  {...register("company.registrationNumbers")}
+                  {...register("registrationNumbers")}
                 />
               </div>
             </div>
@@ -181,11 +162,11 @@ function Index({ ...props }) {
               /> */}
               <Controller
                 control={control}
-                name="company.phoneNumber"
+                name="phoneNumber"
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <PhoneInput
                     inputStyle={
-                      errors.company?.phoneNumber
+                      errors.phoneNumber
                         ? {
                             width: "100%",
                             height: "44px",
@@ -198,8 +179,8 @@ function Index({ ...props }) {
                           }
                     }
                     placeholder={
-                      errors.company?.phoneNumber
-                        ? `${errors.company.phoneNumber.message}`
+                      errors.phoneNumber
+                        ? `${errors.phoneNumber.message}`
                         : "phone number"
                     }
                     defaultCountry="us"
@@ -217,16 +198,14 @@ function Index({ ...props }) {
               <input
                 type="text"
                 className={
-                  errors.company?.address?.addressLine1
-                    ? "inputs inputRed"
-                    : "inputs"
+                  errors.address?.addressLine1 ? "inputs inputRed" : "inputs"
                 }
                 placeholder={
-                  errors.company?.address?.addressLine1
-                    ? `${errors.company?.address?.addressLine1?.message}`
+                  errors.address?.addressLine1
+                    ? `${errors.address?.addressLine1?.message}`
                     : "Address line 1"
                 }
-                {...register("company.address.addressLine1")}
+                {...register("address.addressLine1")}
               />
             </div>
             <div className="form-item">
@@ -236,16 +215,14 @@ function Index({ ...props }) {
               <input
                 type="text"
                 className={
-                  errors.company?.address?.addressLine2
-                    ? "inputs inputRed"
-                    : "inputs"
+                  errors.address?.addressLine2 ? "inputs inputRed" : "inputs"
                 }
                 placeholder={
-                  errors.company?.address?.addressLine2
-                    ? `${errors.company?.address?.addressLine2?.message}`
+                  errors.address?.addressLine2
+                    ? `${errors.address?.addressLine2?.message}`
                     : "Address line 2"
                 }
-                {...register("company.address.addressLine2")}
+                {...register("address.addressLine2")}
               />
             </div>
             <div
@@ -265,14 +242,14 @@ function Index({ ...props }) {
                 <input
                   type="text"
                   className={
-                    errors.company?.address?.city ? "inputs inputRed" : "inputs"
+                    errors.address?.city ? "inputs inputRed" : "inputs"
                   }
                   placeholder={
-                    errors.company?.address?.city
-                      ? `${errors.company.address.city.message}`
+                    errors.address?.city
+                      ? `${errors.address.city.message}`
                       : "city"
                   }
-                  {...register("company.address.city")}
+                  {...register("address.city")}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
@@ -282,16 +259,14 @@ function Index({ ...props }) {
                 <input
                   type="text"
                   className={
-                    errors.company?.address?.postalCode
-                      ? "inputs inputRed"
-                      : "inputs"
+                    errors.address?.postalCode ? "inputs inputRed" : "inputs"
                   }
                   placeholder={
-                    errors.company?.address?.postalCode
-                      ? `${errors.company.address.postalCode.message}`
+                    errors.address?.postalCode
+                      ? `${errors.address.postalCode.message}`
                       : "postal code"
                   }
-                  {...register("company.address.postalCode")}
+                  {...register("address.postalCode")}
                 />
               </div>
             </div>
@@ -307,17 +282,17 @@ function Index({ ...props }) {
               <input
                 type="date"
                 className={
-                  errors.company?.taxAndRevenue?.lastFiscalYear
+                  errors.taxAndRevenue?.lastFiscalYear
                     ? "inputs inputRed"
                     : "inputs"
                 }
                 id="calendar"
                 placeholder={
-                  errors.company?.taxAndRevenue?.lastFiscalYear
-                    ? `${errors.company?.taxAndRevenue?.lastFiscalYear?.message}`
+                  errors.taxAndRevenue?.lastFiscalYear
+                    ? `${errors.taxAndRevenue?.lastFiscalYear?.message}`
                     : "last fiscal year"
                 }
-                {...register("company.taxAndRevenue.lastFiscalYear")}
+                {...register("taxAndRevenue.lastFiscalYear")}
               />
             </div>
             <div className="form-item">
@@ -328,16 +303,16 @@ function Index({ ...props }) {
               <input
                 type="text"
                 className={
-                  errors.company?.taxAndRevenue?.totalRevenue
+                  errors.taxAndRevenue?.totalRevenue
                     ? "inputs inputRed"
                     : "inputs"
                 }
                 placeholder={
-                  errors.company?.taxAndRevenue?.totalRevenue
-                    ? `${errors.company?.taxAndRevenue?.totalRevenue?.message}`
+                  errors.taxAndRevenue?.totalRevenue
+                    ? `${errors.taxAndRevenue?.totalRevenue?.message}`
                     : "total revenue"
                 }
-                {...register("company.taxAndRevenue.totalRevenue")}
+                {...register("taxAndRevenue.totalRevenue")}
               />
             </div>
             <div className="form-item">
@@ -348,17 +323,17 @@ function Index({ ...props }) {
               <input
                 type="text"
                 className={
-                  errors.company?.taxAndRevenue?.exportRevenuePercentage
+                  errors.taxAndRevenue?.exportRevenuePercentage
                     ? "inputs inputRed"
                     : "inputs"
                 }
                 placeholder={
-                  errors.company?.taxAndRevenue?.exportRevenuePercentage
-                    ? `${errors.company?.taxAndRevenue?.exportRevenuePercentage?.message}`
+                  errors.taxAndRevenue?.exportRevenuePercentage
+                    ? `${errors.taxAndRevenue?.exportRevenuePercentage?.message}`
                     : "revenue percentage"
                 }
                 id="percentage"
-                {...register("company.taxAndRevenue.exportRevenuePercentage")}
+                {...register("taxAndRevenue.exportRevenuePercentage")}
               />
             </div>
 

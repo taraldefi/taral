@@ -19,6 +19,8 @@ import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { SectorEntityRepository } from 'src/modules/company/repositories/sector.repository';
 import { EntityMappingService } from 'src/modules/company-information/services/mapping.service';
 import { triggerError } from 'src/common/trigger.error';
+import { CreateBuyerCompanyRequest } from '../../dto/request/buyer-information/create-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from 'src/modules/buyer/dto/request/update-buyer-company.dto';
 
 @Injectable()
 export class BuyerQuickApplicationBuyerInformationService extends BaseService {
@@ -64,7 +66,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
   public async createBuyerInformation(
-    data: CreateBuyerRequest,
+    data: CreateBuyerCompanyRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {
     this.setupTransactionHooks();
@@ -112,30 +114,27 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     companyInformation.address = address;
     entity.companyInformation = companyInformation;
 
-    entity.companyInformation.address.addressLine1 =
-      data.company.address.addressLine1;
-    entity.companyInformation.address.addressLine2 =
-      data.company.address.addressLine2;
-    entity.companyInformation.address.city = data.company.address.city;
-    entity.companyInformation.address.postalCode =
-      data.company.address.postalCode;
+    entity.companyInformation.address.addressLine1 = data.address.addressLine1;
+    entity.companyInformation.address.addressLine2 = data.address.addressLine2;
+    entity.companyInformation.address.city = data.address.city;
+    entity.companyInformation.address.postalCode = data.address.postalCode;
 
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
     companyInformation.address = addressSavedResult;
-    companyInformation.phoneNumber = data.company.phoneNumber;
-    companyInformation.employeeCount = data.company.employeeCount;
-    companyInformation.registrationNumbers = data.company.registrationNumbers;
+    companyInformation.phoneNumber = data.phoneNumber;
+    companyInformation.employeeCount = data.employeeCount;
+    companyInformation.registrationNumbers = data.registrationNumbers;
 
-    if (data.company.taxAndRevenue) {
+    if (data.taxAndRevenue) {
       const taxAndRevenue = new CompanyTaxAndRevenueEntity();
-      taxAndRevenue.audited = data.company.taxAndRevenue.audited;
-      taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
+      taxAndRevenue.audited = data.taxAndRevenue.audited;
+      taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
       taxAndRevenue.exportRevenuePercentage =
-        data.company.taxAndRevenue.exportRevenuePercentage;
-      taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
-      taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
-      taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
+        data.taxAndRevenue.exportRevenuePercentage;
+      taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+      taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
+      taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
       var taxAndRevenueSavedResult =
         await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
@@ -146,14 +145,14 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
       companyInformation,
     );
     entity.companyInformation = companySavedResult;
-    if (data.sector) {
-      const sector = new SectorEntity();
-      sector.industryType = data.sector.industryType;
-      sector.status = data.sector.status;
+    // if (data.sector) {
+    //   const sector = new SectorEntity();
+    //   sector.industryType = data.sector.industryType;
+    //   sector.status = data.sector.status;
 
-      var sectorSavedResult = await this.sectorEntityRepository.save(sector);
-      entity.sector = sectorSavedResult;
-    }
+    //   var sectorSavedResult = await this.sectorEntityRepository.save(sector);
+    //   entity.sector = sectorSavedResult;
+    // }
     entity.save();
     application.buyerInformation = entity.companyInformation;
 
@@ -166,7 +165,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
   public async updateBuyerInformation(
-    data: UpdateBuyerRequest,
+    data: UpdateBuyerCompanyRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {
     this.setupTransactionHooks();
@@ -184,27 +183,26 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
 
     let companyAddressChanged = false;
 
-    if (data.company.address.addressLine1) {
+    if (data.address.addressLine1) {
       companyAddressChanged = true;
       entity.companyInformation.address.addressLine1 =
-        data.company.address.addressLine1;
+        data.address.addressLine1;
     }
 
-    if (data.company.address.addressLine2) {
+    if (data.address.addressLine2) {
       companyAddressChanged = true;
       entity.companyInformation.address.addressLine2 =
-        data.company.address.addressLine2;
+        data.address.addressLine2;
     }
 
-    if (data.company.address.city) {
+    if (data.address.city) {
       companyAddressChanged = true;
-      entity.companyInformation.address.city = data.company.address.city;
+      entity.companyInformation.address.city = data.address.city;
     }
 
-    if (data.company.address.postalCode) {
+    if (data.address.postalCode) {
       companyAddressChanged = true;
-      entity.companyInformation.address.postalCode =
-        data.company.address.postalCode;
+      entity.companyInformation.address.postalCode = data.address.postalCode;
     }
 
     if (companyAddressChanged) {
@@ -215,35 +213,35 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     }
 
     let taxAndRevenueChanged = false;
-    if (data.company.taxAndRevenue.taxNumber) {
+    if (data.taxAndRevenue.taxNumber) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.taxNumber =
-        data.company.taxAndRevenue.taxNumber;
+        data.taxAndRevenue.taxNumber;
     }
-    if (data.company.taxAndRevenue.audited) {
+    if (data.taxAndRevenue.audited) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.audited =
-        data.company.taxAndRevenue.audited;
+        data.taxAndRevenue.audited;
     }
-    if (data.company.taxAndRevenue.exportRevenuePercentage) {
+    if (data.taxAndRevenue.exportRevenuePercentage) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.exportRevenuePercentage =
-        data.company.taxAndRevenue.exportRevenuePercentage;
+        data.taxAndRevenue.exportRevenuePercentage;
     }
-    if (data.company.taxAndRevenue.exportValue) {
+    if (data.taxAndRevenue.exportValue) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.exportValue =
-        data.company.taxAndRevenue.exportValue;
+        data.taxAndRevenue.exportValue;
     }
-    if (data.company.taxAndRevenue.lastFiscalYear) {
+    if (data.taxAndRevenue.lastFiscalYear) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.lastFiscalYear =
-        data.company.taxAndRevenue.lastFiscalYear;
+        data.taxAndRevenue.lastFiscalYear;
     }
-    if (data.company.taxAndRevenue.totalRevenue) {
+    if (data.taxAndRevenue.totalRevenue) {
       taxAndRevenueChanged = true;
       entity.companyInformation.taxAndRevenue.totalRevenue =
-        data.company.taxAndRevenue.totalRevenue;
+        data.taxAndRevenue.totalRevenue;
     }
     if (taxAndRevenueChanged) {
       var taxAndRevenueSavedResult =
@@ -255,19 +253,18 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
 
     let companyChanged = false;
 
-    if (data.company.employeeCount) {
+    if (data.employeeCount) {
       companyChanged = true;
-      entity.companyInformation.employeeCount = data.company.employeeCount;
+      entity.companyInformation.employeeCount = data.employeeCount;
     }
 
-    if (data.company.phoneNumber) {
+    if (data.phoneNumber) {
       companyChanged = true;
-      entity.companyInformation.phoneNumber = data.company.phoneNumber;
+      entity.companyInformation.phoneNumber = data.phoneNumber;
     }
-    if (data.company.registrationNumbers) {
+    if (data.registrationNumbers) {
       companyChanged = true;
-      entity.companyInformation.registrationNumbers =
-        data.company.registrationNumbers;
+      entity.companyInformation.registrationNumbers = data.registrationNumbers;
     }
 
     if (companyChanged) {
@@ -278,25 +275,25 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
       entity.companyInformation = companySavedResult;
     }
 
-    let sectorChanged = false;
-    if (data.sector) {
-      if (data.sector.industryType) {
-        sectorChanged = true;
-        entity.sector.industryType = data.sector.industryType;
-      }
+    // let sectorChanged = false;
+    // if (data.sector) {
+    //   if (data.sector.industryType) {
+    //     sectorChanged = true;
+    //     entity.sector.industryType = data.sector.industryType;
+    //   }
 
-      if (data.sector.status) {
-        sectorChanged = true;
-        entity.sector.status = data.sector.status;
-      }
-    }
+    //   if (data.sector.status) {
+    //     sectorChanged = true;
+    //     entity.sector.status = data.sector.status;
+    //   }
+    // }
 
-    if (sectorChanged) {
-      var sectorSavedResult = await this.sectorEntityRepository.save(
-        entity.sector,
-      );
-      entity.sector = sectorSavedResult;
-    }
+    // if (sectorChanged) {
+    //   var sectorSavedResult = await this.sectorEntityRepository.save(
+    //     entity.sector,
+    //   );
+    //   entity.sector = sectorSavedResult;
+    // }
     entity.save();
 
     return this.buyerInformationMappingService.mapEntityDetails(entity);
