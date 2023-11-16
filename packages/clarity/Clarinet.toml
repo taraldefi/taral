@@ -105,12 +105,6 @@ depends_on=["importer-storage", "importer-trait"]
 path = "contracts/taral/taral-exporter-v1.clar"
 depends_on=["exporter-storage", "exporter-trait"]
 
-[contracts.taral-importer]
-path = "contracts/taral/taral-importer.clar"
-
-[contracts.taral-exporter]
-path = "contracts/taral/taral-exporter.clar"
-
 [contracts.taral-purchase-order]
 path = "contracts/taral/taral-purchase-order.clar"
 
