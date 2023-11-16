@@ -29,7 +29,6 @@
         "taral-exporter-v1",
         "taral-importer-v1",
         "taral-oracle-v1",
-        "taral-purchase-order",
         "taral-purchase-order-trait",
         "purchase-order-storage",
         "taral-purchase-order-nft",
