@@ -77,7 +77,7 @@ describe("Taral Exporter", () => {
       ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
   }, 3000000);
 
   test("Ensure that exporter hash getter function works", async () => {
@@ -114,7 +114,7 @@ describe("Taral Exporter", () => {
       ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10002n); //REGISTERED SUCCESSFULLY
 
     const block_2 = await tx(
       taral_exporter.register(
@@ -191,7 +191,7 @@ describe("Taral Exporter", () => {
       taral_exporter.appendOrder(new_order_id, exporter_wallet),
     );
 
-    expect(response.value).toEqual(true); // Succesfully added order
+    expect(response.value).toEqual(0n); // Succesfully added order
   }, 3000000);
 
   test("Ensure that order exists after registration", async () => {

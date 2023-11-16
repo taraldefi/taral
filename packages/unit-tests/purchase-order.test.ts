@@ -121,7 +121,7 @@ describe("Taral Purchase Order", () => {
       ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
 
     const importer_message = "This is the data containing importer details";
     const importer_messageHex = hashStacksMessage({
@@ -140,7 +140,7 @@ describe("Taral Purchase Order", () => {
       ),
     );
 
-    expect(block_2.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_2.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
 
     const order =
       '{deliveryCountry: "Germany","dispathMethod: "air",shipmentType:"LCL"}';
@@ -169,6 +169,14 @@ describe("Taral Purchase Order", () => {
   }, 3000000);
 
   test("Ensure the initialization works", async () => {
+
+    const exporter_message = "This is the data containing exporter details";
+    const exporter_messageHex = hashStacksMessage({
+      message: exporter_message,
+    });
+    const exporter_name = "ALPS Logistics";
+    const exporter_category = "Merchant";
+    const exporter_buffer = Buffer.from(utf8ToBytes(exporter_messageHex));
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const importer_wallet = clarinetAccounts.wallet_2.address;
     const order =
@@ -177,6 +185,36 @@ describe("Taral Purchase Order", () => {
       '{shippingRoute: ["Loading Port", "Discharge Port"],"items: ["item1", "item2"]}';
     const orderHex = hashStacksMessage({ message: order });
     const orderDetailsHex = hashStacksMessage({ message: orderDetails });
+
+    const block_1 = await tx(
+      taral_exporter.register(
+        exporter_wallet,
+        exporter_name,
+        exporter_buffer,
+        exporter_category,
+      ),
+    );
+
+    // expect(block_1.value).toEqual(105n); //REGISTERED SUCCESSFULLY
+
+    const importer_message = "This is the data containing importer details";
+    const importer_messageHex = hashStacksMessage({
+      message: importer_message,
+    });
+    const importer_name = "XYZ Company";
+    const importer_category = "Merchant";
+    const importer_buffer = Buffer.from(utf8ToBytes(importer_messageHex));
+
+    const block_2 = await tx(
+      taral_importer.register(
+        importer_wallet,
+        importer_name,
+        importer_buffer,
+        importer_category,
+      ),
+    );
+
+    // expect(block_2.value).toEqual(true); //REGISTERED SUCCESSFULLY
 
     const paymentTerm = "60 Days";
     const amount = 10000;
@@ -200,6 +238,7 @@ describe("Taral Purchase Order", () => {
       0n,
       exporter_wallet,
     );
+
     expect(appended_order?.["order-id"]).toEqual(10001n);
   }, 3000000);
 });

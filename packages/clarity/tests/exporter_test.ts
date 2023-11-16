@@ -109,7 +109,7 @@ Clarinet.test({
     let [receipt] = block.receipts;
 
     // Assert
-    receipt.result.expectOk().expectBool(true);
+    receipt.result.expectOk().expectUint(10001);
   },
 });
 
