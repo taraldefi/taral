@@ -3,7 +3,7 @@ import { BaseNodeProvider } from "../providers";
 import { BaseContract } from "./types";
 
 export type NodeContractBuilder<T> = (
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ) => (account: ClarinetAccount) => T;
 
 export interface NodeContract<T> extends BaseContract {

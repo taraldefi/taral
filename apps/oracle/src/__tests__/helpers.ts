@@ -18,7 +18,7 @@ type SpawnOptions = RunOptions & {
 type SpawnFunction<T> = (
   execPath: string,
   args: string[],
-  options: SpawnOptions
+  options: SpawnOptions,
 ) => T;
 
 /**
@@ -29,7 +29,7 @@ export function runCLI(
   args?: string[],
   options: RunOptions = {
     expectedFailure: false,
-  }
+  },
 ): execa.ExecaSyncReturnValue {
   return spawnScript(process.execPath, [TEST_CLI_PATH, ...(args || [])], {
     ...options,
@@ -40,7 +40,7 @@ export function runCLI(
 export const spawnScript: SpawnFunction<execa.ExecaSyncReturnValue> = (
   execPath,
   args,
-  options
+  options,
 ) => {
   const result = execa.sync(execPath, args, getExecaOptions(options));
 
@@ -75,7 +75,7 @@ function handleTestFailure(
   cmd: string,
   options: SpawnOptions,
   result: Record<string, any>,
-  args: string[] | undefined
+  args: string[] | undefined,
 ) {
   if (!options.expectedFailure && result.code !== 0) {
     console.log(`Running ${cmd} command failed for unexpected reason. Here's more info:

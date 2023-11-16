@@ -44,7 +44,7 @@ export async function verifyBlockHeader({
   //
   const response = await contract.verifyBlockHeader(
     headerPartsBuffer,
-    stacksBlockHeight
+    stacksBlockHeight,
   );
 
   const result = response;
@@ -64,7 +64,7 @@ export async function verifyBlockHeader2({
   //
   const response = await contract.verifyBlockHeader(
     blockCV["header"],
-    blockCV["height"]
+    blockCV["height"],
   );
 
   const result = response;

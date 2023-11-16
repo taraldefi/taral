@@ -32,7 +32,7 @@ export async function updatePricesCommand() {
   });
 
   const feed: IOraclePriceFeed[] = coinbase_oracle_feed.concat(
-    okcoin_oracle_feed.concat(binance_feed.concat(okcoin_feed))
+    okcoin_oracle_feed.concat(binance_feed.concat(okcoin_feed)),
   );
 
   console.log("feed", feed.length);

@@ -34,7 +34,7 @@ test("Signature verification successful", () => {
   const compressedPubKeyFromSig = publicKeyFromSignatureVrs(
     messageHex,
     signature,
-    PubKeyEncoding.Compressed
+    PubKeyEncoding.Compressed,
   );
 
   expect(compressedPubKeyFromSig).toEqual(publicKey.data.toString("hex"));
@@ -51,7 +51,7 @@ test("Signature verification successful", () => {
 
   const nobleSignature: Signature = new Signature(
     hexToBigInt(r),
-    hexToBigInt(s)
+    hexToBigInt(s),
   );
 
   const nobleSignatureVerificationResult = verify(
@@ -60,14 +60,14 @@ test("Signature verification successful", () => {
     compressedPubKeyFromSig,
     {
       strict: true,
-    }
+    },
   );
 
   expect(nobleSignatureVerificationResult).toBeTruthy();
 
   const addressFromPublicKey = getAddressFromPublicKey(
     compressedPubKeyFromSig,
-    TransactionVersion.Testnet
+    TransactionVersion.Testnet,
   );
 
   expect(addressFromPublicKey).toEqual(clarinetAccounts.deployer.address);

@@ -13,7 +13,7 @@ import { isValidBtcAddress } from "./validation";
 
 export async function getAccountFromMnemonic(
   network: btc.Network,
-  mnemonic: string
+  mnemonic: string,
 ): Promise<{ key: ecPair.ECPairInterface; address: string }> {
   const keys = await stacksgen.generateKeys(mnemonic);
   const key = ECPair.fromWIF(keys.wif, network);
@@ -25,7 +25,7 @@ export async function makePayment(
   address: string,
   payerMnemonic: string,
   /** Amount to send in BTC */
-  amount: number
+  amount: number,
 ): Promise<PaymentResponse> {
   if (!isValidBtcAddress(network, address)) {
     throw new Error(`Invalid BTC regtest address: ${address}`);
@@ -39,11 +39,11 @@ export async function makePayment(
   const spendableUtxos = await getSpendableUtxos(client, bobsWallet.address);
   const totalSpendableAmount = spendableUtxos.reduce(
     (amount, utxo) => amount + utxo.amount,
-    0
+    0,
   );
   if (totalSpendableAmount < amount) {
     throw new Error(
-      `not enough total amount in utxo set: ${totalSpendableAmount}`
+      `not enough total amount in utxo set: ${totalSpendableAmount}`,
     );
   }
 
@@ -59,7 +59,7 @@ export async function makePayment(
   const coinSelectResult = coinSelect(
     candidateInputs,
     [{ address: address, value: satsAmount }],
-    REGTEST_FEE_RATE
+    REGTEST_FEE_RATE,
   );
 
   const psbt = new btc.Psbt({ network: network });
@@ -87,7 +87,7 @@ export async function makePayment(
       (pubkey: Buffer, msghash: Buffer, signature: Buffer) => {
         const keypair = ECPair.fromPublicKey(pubkey);
         return keypair.verify(msghash, signature);
-      }
+      },
     )
   ) {
     throw new Error("invalid psbt signature");
@@ -102,8 +102,8 @@ export async function makePayment(
     (ms) =>
       Logger.debug(
         "make-bitcoin-payment",
-        `sendrawtransaction took ${ms} milliseconds`
-      )
+        `sendrawtransaction took ${ms} milliseconds`,
+      ),
   );
 
   if (sendTxResult !== txId) {

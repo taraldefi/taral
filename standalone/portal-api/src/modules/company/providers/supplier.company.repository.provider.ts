@@ -4,7 +4,7 @@ import { SupplierCompanyRepository } from '../repositories/supplier.company.repo
 import { SupplierCompanyEntity } from '../models/supplier.company.entity';
 
 export const SupplierCompanyEntityRepositoryToken = getRepositoryToken(
-    SupplierCompanyEntity,
+  SupplierCompanyEntity,
 );
 
 export const AuctionBidHistoryEntityRepositoryProvider = {

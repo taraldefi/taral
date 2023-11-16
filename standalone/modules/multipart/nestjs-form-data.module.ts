@@ -41,7 +41,7 @@ export class NestjsFormDataModule {
   }
 
   private static createAsyncProviders(
-    options: NestjsFormDataAsyncOptions
+    options: NestjsFormDataAsyncOptions,
   ): Provider[] {
     if (options.useExisting || options.useFactory) {
       return [this.createAsyncOptionsProvider(options)];

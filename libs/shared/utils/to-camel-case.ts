@@ -1,6 +1,6 @@
 export const toCamelCase = (
   input: string | number | symbol,
-  titleCase?: boolean
+  titleCase?: boolean,
 ) => {
   const inputStr = typeof input === "string" ? input : String(input);
   const [first, ...parts] = inputStr

@@ -38,7 +38,6 @@ export class BuyerQuickApplicationCollateralService extends BaseService {
     data: CreateCollateralDto,
     applicationId: string,
   ): Promise<GetCollateralResponse> {
-
     this.setupTransactionHooks();
 
     const savedCollateral = await this.collateralService.create(data);

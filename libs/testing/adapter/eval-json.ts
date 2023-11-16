@@ -32,7 +32,7 @@ export const evalWithCode = async ({
     ["eval_at_chaintip", "--costs", contractAddress, provider.dbFilePath],
     {
       stdin: evalCode,
-    }
+    },
   );
   const response = JSON.parse(receipt.stdout);
   if (receipt.stderr) {

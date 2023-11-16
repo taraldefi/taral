@@ -1,12 +1,12 @@
 // Generated with util/create-component.js
-import React from 'react';
+import React from "react";
 
 import {
   ProfileAddressCardProps,
   ProfilePersonalCardProps,
-} from './ProfileCard.types';
+} from "./ProfileCard.types";
 
-import './ProfileCard.scss';
+import "./ProfileCard.scss";
 
 export const ProfileAddressCard: React.FC<ProfileAddressCardProps> = ({
   country,

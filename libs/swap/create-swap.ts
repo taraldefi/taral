@@ -37,8 +37,8 @@ export async function createBtcFtSwap({
       makeBuffer(ftSellerAddressScript),
       ftAmount,
       ftBuyerStacksAddress,
-      ftContract
-    )
+      ftContract,
+    ),
   );
 
   Logger.debug("create-btc-ft-swap", "Received result ", response);

@@ -42,14 +42,14 @@ interface IContractGroup {
 async function submitTestContractForAnalysis(
   testGroups: IContractGroup[],
   provider: NativeClarityBinProvider,
-  deployerAddress: string
+  deployerAddress: string,
 ): Promise<void> {
   for (const group of testGroups) {
     for (const contract of group.contracts) {
       await submitAnalisysForContract({
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
           contract,
-          group.subFolder
+          group.subFolder,
         ),
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
@@ -66,14 +66,14 @@ async function generateTestContractAbis(
   testGroups: IContractGroup[],
   provider: NativeClarityBinProvider,
   deployerAddress: string,
-  outputFolder: string
+  outputFolder: string,
 ) {
   for (const group of testGroups) {
     for (const contract of group.contracts) {
       await submitAnalisysForContract({
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
           contract,
-          group.subFolder
+          group.subFolder,
         ),
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractAddress: deployerAddress,
@@ -90,7 +90,7 @@ async function generateAbis(
   groups: IContractGroup[],
   provider: NativeClarityBinProvider,
   deployerAddress: string,
-  outputFolder: string
+  outputFolder: string,
 ): Promise<void> {
   for (const group of groups) {
     for (const contract of group.contracts) {
@@ -98,7 +98,7 @@ async function generateAbis(
         contractFile: contractWithSubDirectory(contract, group.subFolder),
         contractRelativeFilePath: contractWithSubDirectoryRelativeFilePath(
           contract,
-          group.subFolder
+          group.subFolder,
         ),
         outputFolder: outputFolder,
         contractAddress: deployerAddress,
@@ -111,7 +111,7 @@ async function generateAbis(
 
 async function generateProjectIndexFile(
   groups: IContractGroup[],
-  outputFolder: string
+  outputFolder: string,
 ): Promise<void> {
   for (const group of groups) {
     const imports: string[] = [];
@@ -181,7 +181,7 @@ function groupProject(project: IProject): IContractGroup[] {
         contracts: configuration.contracts,
         subFolder: configuration.subfolder,
       };
-    }
+    },
   );
 
   return contractGroups;
@@ -192,11 +192,11 @@ async function generate(regenerateMockContracts: boolean) {
   const contracts = await getClarinetAccounts(root);
 
   const projectPath = resolve(
-    normalize(`${getRootRelativeContractsFolder()}/contracts.json`)
+    normalize(`${getRootRelativeContractsFolder()}/contracts.json`),
   ).replace(/\\/g, "/");
 
   const testProjectPath = resolve(
-    normalize(`${getRootRelativeContractsFolder()}/test-contracts.json`)
+    normalize(`${getRootRelativeContractsFolder()}/test-contracts.json`),
   ).replace(/\\/g, "/");
 
   const project: IProject = getProject(projectPath);
@@ -211,7 +211,7 @@ async function generate(regenerateMockContracts: boolean) {
 
   Logger.debug(
     "Contracts generate tool",
-    `Generating interfaces with deployment contract ${contracts.deployer.address}`
+    `Generating interfaces with deployment contract ${contracts.deployer.address}`,
   );
 
   const provider: NativeClarityBinProvider = await createDefaultTestProvider();
@@ -224,18 +224,18 @@ async function generate(regenerateMockContracts: boolean) {
       testContractGroups,
       provider,
       contracts.deployer.address,
-      testProjectOutputDirectory
+      testProjectOutputDirectory,
     );
 
     await generateProjectIndexFile(
       testContractGroups,
-      testProjectOutputDirectory
+      testProjectOutputDirectory,
     );
   } else {
     await submitTestContractForAnalysis(
       testContractGroups,
       provider,
-      contracts.deployer.address
+      contracts.deployer.address,
     );
   }
 
@@ -243,7 +243,7 @@ async function generate(regenerateMockContracts: boolean) {
     contractGroups,
     provider,
     contracts.deployer.address,
-    projectOutputDirectory
+    projectOutputDirectory,
   );
 
   await generateProjectIndexFile(contractGroups, projectOutputDirectory);

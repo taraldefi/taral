@@ -59,7 +59,7 @@ export function getTempFilePath(fileNameTemplate = "temp-{uniqueID}-file") {
 }
 
 export function getNormalizedContractFilePath(
-  contractFilePath: string
+  contractFilePath: string,
 ): string {
   const filePath = getContractFilePath(contractFilePath);
   const contractSource = fs
@@ -91,11 +91,11 @@ export function getDefaultBinaryFilePath({
     thisPkgDir,
     ".native-bin",
     versionTag,
-    binFileName
+    binFileName,
   );
   if (checkExists && !fs.existsSync(binFilePath)) {
     throw new Error(
-      `Native binary does not appear to be installed at ${binFilePath}`
+      `Native binary does not appear to be installed at ${binFilePath}`,
     );
   }
   return binFilePath;
@@ -123,7 +123,7 @@ export function getExecutableFileName(file: string) {
  */
 export function getThisWorkspaceDir(): string {
   const packagePath = path.dirname(
-    `${normalize(getRootDirectory()).replace(/\\/g, "/")}/package.json`
+    `${normalize(getRootDirectory()).replace(/\\/g, "/")}/package.json`,
   );
   return packagePath;
 }

@@ -7,24 +7,24 @@ export interface AttemptContext {
 
 export type AttemptFunction<T> = (
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ) => Promise<T>;
 export type BeforeAttempt<T> = (
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ) => void;
 export type CalculateDelay<T> = (
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ) => number;
 export type HandleError<T> = (
   err: any,
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ) => void;
 export type HandleTimeout<T> = (
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ) => Promise<T>;
 
 export interface AttemptOptions<T> {
@@ -47,7 +47,7 @@ export type PartialAttemptOptions<T> = {
 };
 
 function applyDefaults<T>(
-  options?: PartialAttemptOptions<T>
+  options?: PartialAttemptOptions<T>,
 ): AttemptOptions<T> {
   if (!options) {
     options = {};
@@ -80,7 +80,7 @@ export async function sleep(delay: number) {
 
 export function defaultCalculateDelay<T>(
   context: AttemptContext,
-  options: AttemptOptions<T>
+  options: AttemptOptions<T>,
 ): number {
   let delay = options.delay;
 
@@ -112,7 +112,7 @@ export function defaultCalculateDelay<T>(
 
 export async function retry<T>(
   attemptFunc: AttemptFunction<T>,
-  attemptOptions?: PartialAttemptOptions<T>
+  attemptOptions?: PartialAttemptOptions<T>,
 ): Promise<T> {
   const options = applyDefaults(attemptOptions);
 
@@ -128,20 +128,20 @@ export async function retry<T>(
 
     if (!Number.isInteger(value) || value < 0) {
       throw new Error(
-        `Value for ${prop} must be an integer greater than or equal to 0`
+        `Value for ${prop} must be an integer greater than or equal to 0`,
       );
     }
   }
 
   if (options.factor.constructor !== Number || options.factor < 0) {
     throw new Error(
-      "Value for factor must be a number greater than or equal to 0"
+      "Value for factor must be a number greater than or equal to 0",
     );
   }
 
   if (options.delay < options.minDelay) {
     throw new Error(
-      `delay cannot be less than minDelay (delay: ${options.delay}, minDelay: ${options.minDelay}`
+      `delay cannot be less than minDelay (delay: ${options.delay}, minDelay: ${options.minDelay}`,
     );
   }
 
@@ -204,7 +204,7 @@ export async function retry<T>(
             }
           } else {
             const err: any = new Error(
-              `Retry timeout (attemptNum: ${context.attemptNum}, timeout: ${options.timeout})`
+              `Retry timeout (attemptNum: ${context.attemptNum}, timeout: ${options.timeout})`,
             );
             err.code = "ATTEMPT_TIMEOUT";
             reject(err);

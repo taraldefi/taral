@@ -76,7 +76,7 @@ function isDistAvailable():
       if (!isMacArm()) {
         Logger.error(
           NAME,
-          `System arch "${detectedArch}" not supported. Must build from source.`
+          `System arch "${detectedArch}" not supported. Must build from source.`,
         );
       }
       return false;
@@ -101,7 +101,7 @@ function isDistAvailable():
     default:
       Logger.error(
         NAME,
-        `System platform "${os.platform()}" not supported. Must build from source.`
+        `System platform "${os.platform()}" not supported. Must build from source.`,
       );
       return false;
   }
@@ -148,7 +148,7 @@ async function fetchDistributable(opts: {
   if (!httpResponse.ok) {
     Logger.error(
       NAME,
-      `Bad http response ${httpResponse.status} ${httpResponse.statusText}`
+      `Bad http response ${httpResponse.status} ${httpResponse.statusText}`,
     );
     return false;
   }
@@ -182,13 +182,13 @@ async function downloadMacArm(outputFilePath: string) {
     if (!httpResponse.ok) {
       Logger.error(
         NAME,
-        `Bad http response ${httpResponse.status} ${httpResponse.statusText}`
+        `Bad http response ${httpResponse.status} ${httpResponse.statusText}`,
       );
       return false;
     }
     await pipelineAsync(
       httpResponse.body,
-      fs.createWriteStream(outputFilePath)
+      fs.createWriteStream(outputFilePath),
     );
     fs.chmodSync(outputFilePath, 0o775);
     return true;
@@ -209,7 +209,7 @@ function makeUniqueTempDir() {
  */
 function verifyOutputFile(
   overwriteExisting: boolean,
-  outputFilePath: string
+  outputFilePath: string,
 ): boolean {
   const fullFilePath = path.resolve(outputFilePath);
   const outputDirectory = path.dirname(fullFilePath);
@@ -220,18 +220,18 @@ function verifyOutputFile(
       if (!stat.isFile()) {
         Logger.error(
           NAME,
-          `The specified output file path exists and is not a file: ${fullFilePath}`
+          `The specified output file path exists and is not a file: ${fullFilePath}`,
         );
         return false;
       }
       if (!overwriteExisting) {
         Logger.error(
           NAME,
-          `The specified output file path already exists: ${fullFilePath}`
+          `The specified output file path already exists: ${fullFilePath}`,
         );
         Logger.error(
           NAME,
-          "Specify the overwrite option to ignore this error."
+          "Specify the overwrite option to ignore this error.",
         );
         return false;
       }
@@ -329,7 +329,7 @@ function detectArch(): string {
   } catch (error) {
     Logger.error(
       NAME,
-      `Unexpected error trying to detect system architecture: ${error}`
+      `Unexpected error trying to detect system architecture: ${error}`,
     );
   }
 

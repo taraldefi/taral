@@ -157,9 +157,8 @@ export class BuyerQuickApplicationService extends BaseService {
     application.status = 'ACTIVE';
     application.createdAt = new Date();
 
-    const savedApplication = await this.buyerApplicationRepository.save(
-      application,
-    );
+    const savedApplication =
+      await this.buyerApplicationRepository.save(application);
 
     entity.legalApplications = [...entity.legalApplications, savedApplication];
     await entity.save();

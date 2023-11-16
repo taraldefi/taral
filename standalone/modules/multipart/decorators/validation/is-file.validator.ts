@@ -10,7 +10,7 @@ export function isFile(value: any): boolean {
 }
 
 export function IsFile(
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return ValidateBy(
     {
@@ -26,6 +26,6 @@ export function IsFile(
         },
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

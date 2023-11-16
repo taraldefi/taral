@@ -25,7 +25,7 @@ export let talToken: (account: ClarinetAccount) => TaralCoinContract;
 export let taralStorage: (account: ClarinetAccount) => StorageServiceContract;
 
 export let clarityBitcoinContract: (
-  account: ClarinetAccount
+  account: ClarinetAccount,
 ) => ClarityBitcoinContract;
 export let btcFtSwapContract: (account: ClarinetAccount) => BtcFtSwapContract;
 export let clarinetAccounts: ClarinetAccounts;
@@ -56,7 +56,7 @@ beforeAll(async () => {
     {
       secretKey: deployer.privateKey,
       stacksAddress: deployer.address,
-    }
+    },
   );
 
   Logger.debug("jest-setup", "Deployed contracts to priv. testnet");

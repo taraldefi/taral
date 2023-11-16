@@ -102,9 +102,8 @@ describe('AuthService', () => {
 
     authService = await module.get<AuthService>(AuthService);
     userRepository = await module.get(getRepositoryToken(UserEntity));
-    refreshTokenService = await module.get<RefreshTokenService>(
-      RefreshTokenService,
-    );
+    refreshTokenService =
+      await module.get<RefreshTokenService>(RefreshTokenService);
     mailService = await module.get<MailService>(MailService);
     throttleService = await module.get<'LOGIN_THROTTLE'>('LOGIN_THROTTLE');
     jwtService = await module.get<JwtService>(JwtService);
@@ -287,7 +286,9 @@ describe('AuthService', () => {
 
     it('login user successfully', async () => {
       throttleService.get.mockResolvedValue(null);
-      jest.spyOn(authService, 'buildResponsePayload').mockReturnValue(['result']);
+      jest
+        .spyOn(authService, 'buildResponsePayload')
+        .mockReturnValue(['result']);
       userRepository.login.mockResolvedValue([user, null]);
       jest
         .spyOn(refreshTokenService, 'generateAccessToken')
@@ -331,9 +332,9 @@ describe('AuthService', () => {
         userRepository.countEntityByCondition.mockResolvedValue(1);
 
         userRepository.get.mockResolvedValue(mockUser);
-        await expect(authService.update(user, updateUserDto)).rejects.toThrowError(
-          UnprocessableEntityException,
-        );
+        await expect(
+          authService.update(user, updateUserDto),
+        ).rejects.toThrowError(UnprocessableEntityException);
         expect(userRepository.countEntityByCondition).toHaveBeenCalledTimes(2);
       });
 

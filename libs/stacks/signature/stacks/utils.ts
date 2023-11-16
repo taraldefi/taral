@@ -18,7 +18,7 @@ import { Address, StacksMessageType, StacksPublicKey } from "./types";
 // The above copyright notice and this permission notice shall be included in
 // all copies or substantial portions of the Software.
 const hexes = Array.from({ length: 256 }, (_, i) =>
-  i.toString(16).padStart(2, "0")
+  i.toString(16).padStart(2, "0"),
 );
 
 export const hexStringToInt = (hexString: string): number =>
@@ -68,7 +68,7 @@ export function parseRecoverableSignature(signature: string) {
   const r = signature.substr(2, coordinateValueBytes * 2);
   const s = signature.substr(
     2 + coordinateValueBytes * 2,
-    coordinateValueBytes * 2
+    coordinateValueBytes * 2,
   );
   return {
     recoveryParam: hexToInt(recoveryParamHex),

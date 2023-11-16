@@ -32,7 +32,7 @@ export interface InsurancePoolAuditContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Transaction<boolean, bigint>;
   submitRewardTx: (
     block: {
@@ -64,7 +64,7 @@ export interface InsurancePoolAuditContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Transaction<
     {
       "out-value": bigint;
@@ -73,7 +73,7 @@ export interface InsurancePoolAuditContract {
     bigint
   >;
   wrappedOracleGetPriceStxBtc: (
-    height: number | bigint
+    height: number | bigint,
   ) => Transaction<bigint, null>;
   burnHeightToRewardCycle: (height: number | bigint) => Promise<bigint>;
   getOutsForPool: (tx: {

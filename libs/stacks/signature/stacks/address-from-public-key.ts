@@ -6,17 +6,17 @@ import { addressToString, hashP2PKH } from "./utils";
 export function getAddressFromPublicKey(
   /** Public key buffer or hex string */
   publicKey: string | Buffer,
-  transactionVersion = TransactionVersion.Mainnet
+  transactionVersion = TransactionVersion.Mainnet,
 ): string {
   publicKey =
     typeof publicKey === "string" ? publicKey : publicKey.toString("hex");
   const addrVer = addressHashModeToVersion(
     AddressHashMode.SerializeP2PKH,
-    transactionVersion
+    transactionVersion,
   );
   const addr = addressFromVersionHash(
     addrVer,
-    hashP2PKH(Buffer.from(publicKey, "hex"))
+    hashP2PKH(Buffer.from(publicKey, "hex")),
   );
   const addrString = addressToString(addr);
   return addrString;

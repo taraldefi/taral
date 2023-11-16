@@ -7,7 +7,7 @@ import { EventMetadata } from "./metadata";
 export class EventExplorer {
   constructor(
     private readonly discovery: DiscoveryService,
-    private readonly metadataScanner: MetadataScanner
+    private readonly metadataScanner: MetadataScanner,
   ) {}
 
   onModuleInit() {
@@ -24,7 +24,7 @@ export class EventExplorer {
       this.metadataScanner.scanFromPrototype(
         instance,
         Object.getPrototypeOf(instance),
-        (key: string) => this.lookupListeners(instance, key)
+        (key: string) => this.lookupListeners(instance, key),
       );
     });
   }

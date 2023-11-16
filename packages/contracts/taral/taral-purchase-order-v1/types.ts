@@ -7,7 +7,7 @@ export interface TaralPurchaseOrderV1Contract {
     collateralStx: number | bigint,
     collateralBtc: number | bigint,
     loanAmount: number | bigint,
-    duration: number | bigint
+    duration: number | bigint,
   ) => Transaction<bigint, bigint>;
   initialize: (
     exporter: string,
@@ -16,12 +16,12 @@ export interface TaralPurchaseOrderV1Contract {
     orderDetailHash: Buffer,
     paymentTerm: string,
     amount: number | bigint,
-    deliveryTerm: string
+    deliveryTerm: string,
   ) => Transaction<boolean, bigint>;
   liquidate: (vaultId: number | bigint) => Transaction<bigint, bigint>;
   repayLoan: (
     vaultId: number | bigint,
-    repaymentAmount: number | bigint
+    repaymentAmount: number | bigint,
   ) => Transaction<bigint, bigint>;
   getInfo: () => Promise<
     ClarityTypes.Response<

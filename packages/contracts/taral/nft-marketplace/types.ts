@@ -4,19 +4,19 @@ import { ClarityTypes } from "lib-shared";
 export interface NftMarketplaceContract {
   addPrincipalToRole: (
     roleToAdd: number | bigint,
-    principalToAdd: string
+    principalToAdd: string,
   ) => Transaction<boolean, bigint>;
   cancelAuction: (
     auctionId: number | bigint,
-    nftAssetContract: string
+    nftAssetContract: string,
   ) => Transaction<boolean, bigint>;
   cancelFixedPriceListing: (
     listingId: number | bigint,
-    nftAssetContract: string
+    nftAssetContract: string,
   ) => Transaction<boolean, bigint>;
   endAuction: (
     auctionId: number | bigint,
-    nftAssetContract: string
+    nftAssetContract: string,
   ) => Transaction<
     {
       "auction-id": bigint;
@@ -28,34 +28,34 @@ export interface NftMarketplaceContract {
     nameToSet: string,
     symbolToSet: string,
     decimalsToSet: number | bigint,
-    initialOwner: string
+    initialOwner: string,
   ) => Transaction<boolean, bigint>;
   listFixedPrice: (
     nftAssetContract: string,
     nftAsset: {
       price: bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<bigint, bigint>;
   pauseContract: () => Transaction<boolean, bigint>;
   placeBid: (
     auctionId: number | bigint,
-    bid: number | bigint
+    bid: number | bigint,
   ) => Transaction<boolean, bigint>;
   purchaseFixedPriceListing: (
     listingId: number | bigint,
     recipient: string,
-    nftAssetContract: string
+    nftAssetContract: string,
   ) => Transaction<boolean, bigint>;
   removePrincipalFromRole: (
     roleToRemove: number | bigint,
-    principalToRemove: string
+    principalToRemove: string,
   ) => Transaction<boolean, bigint>;
   resumeContract: () => Transaction<boolean, bigint>;
   setOwner: (newOwner: string) => Transaction<boolean, bigint>;
   setWhitelisted: (
     assetContract: string,
-    whitelisted: boolean
+    whitelisted: boolean,
   ) => Transaction<boolean, bigint>;
   startAuction: (
     nftAssetContract: string,
@@ -65,14 +65,14 @@ export interface NftMarketplaceContract {
       "start-bid": bigint;
       "start-block": bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<bigint, bigint>;
   updateBlacklisted: (
     principalToUpdate: string,
-    setBlacklisted: boolean
+    setBlacklisted: boolean,
   ) => Transaction<boolean, bigint>;
   detectRestriction: (
-    participant: string
+    participant: string,
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getInfo: () => Promise<
     ClarityTypes.Response<
@@ -85,7 +85,7 @@ export interface NftMarketplaceContract {
   getVersion: () => Promise<string>;
   hasRole: (
     roleToCheck: number | bigint,
-    principalToCheck: string
+    principalToCheck: string,
   ) => Promise<boolean>;
   isBlacklisted: (principalToCheck: string) => Promise<boolean>;
   BLACKLISTER_ROLE: () => Promise<bigint>;

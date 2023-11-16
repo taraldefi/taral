@@ -18,7 +18,7 @@ export async function submitSwap({
   contract: BtcFtSwapContract;
 }): Promise<boolean> {
   const result = await txOk(
-    contract.submitSwap(swapId, headerPartsCv, txPartsCv, proofCv, ftContract)
+    contract.submitSwap(swapId, headerPartsCv, txPartsCv, proofCv, ftContract),
   );
 
   Logger.debug("submit-swap", "Received result ", result);

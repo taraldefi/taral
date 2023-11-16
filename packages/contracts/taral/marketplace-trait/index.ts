@@ -13,7 +13,7 @@ export type { MarketplaceTraitContract } from "./types";
 export const nodeMarketplaceTraitContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<MarketplaceTraitContract>(
     MarketplaceTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -28,7 +28,7 @@ export const nodeMarketplaceTraitInfo: NodeContract<MarketplaceTraitContract> =
 export const webMarketplaceTraitContract = (provider: BaseWebProvider) => {
   const contract = webProxy<MarketplaceTraitContract>(
     MarketplaceTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

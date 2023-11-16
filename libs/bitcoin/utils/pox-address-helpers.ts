@@ -87,7 +87,7 @@ export function poxCVToBtcAddress(poxAddrCV: TupleCV) {
   return address.toBase58Check(
     (poxAddrCV.data.hashbytes as BufferCV).buffer,
     addressHashModeToBtcVersion(
-      (poxAddrCV.data.version as BufferCV).buffer.valueOf()[0]
-    )
+      (poxAddrCV.data.version as BufferCV).buffer.valueOf()[0],
+    ),
   );
 }

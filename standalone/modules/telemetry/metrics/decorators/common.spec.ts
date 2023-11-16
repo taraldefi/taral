@@ -21,7 +21,7 @@ describe("OtelInstanceCounter", () => {
 
   it("should maintain reflect metadata", async () => {
     expect(Reflect.getMetadata("some-metadata", instance.constructor)).toEqual(
-      true
+      true,
     );
   });
 });

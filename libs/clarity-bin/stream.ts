@@ -18,7 +18,7 @@ export class MemoryStream extends Writable {
   _write(
     chunk: any,
     encoding: string,
-    callback: (error?: Error | null) => void
+    callback: (error?: Error | null) => void,
   ): void {
     if (chunk instanceof Buffer) {
       this.buffers.push(chunk);
@@ -38,7 +38,7 @@ export class MemoryStream extends Writable {
 export async function readStream(
   stream: Readable,
   ignoreErrors = false,
-  monitorCallback?: (data: string) => void
+  monitorCallback?: (data: string) => void,
 ): Promise<Buffer> {
   const memStream = new MemoryStream();
   async function startReadInternal() {

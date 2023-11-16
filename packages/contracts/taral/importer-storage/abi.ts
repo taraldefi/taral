@@ -160,6 +160,10 @@ export const ImporterStorageInterface: ClarityAbi = {
                 type: "uint128",
               },
               {
+                name: "failed-transactions",
+                type: "uint128",
+              },
+              {
                 name: "hash",
                 type: {
                   buffer: {
@@ -177,6 +181,10 @@ export const ImporterStorageInterface: ClarityAbi = {
               },
               {
                 name: "orders-next-avail-id",
+                type: "uint128",
+              },
+              {
+                name: "successful-transactions",
                 type: "uint128",
               },
             ],
@@ -309,6 +317,10 @@ export const ImporterStorageInterface: ClarityAbi = {
                 type: "uint128",
               },
               {
+                name: "failed-transactions",
+                type: "uint128",
+              },
+              {
                 name: "hash",
                 type: {
                   buffer: {
@@ -326,6 +338,10 @@ export const ImporterStorageInterface: ClarityAbi = {
               },
               {
                 name: "orders-next-avail-id",
+                type: "uint128",
+              },
+              {
+                name: "successful-transactions",
                 type: "uint128",
               },
             ],
@@ -367,6 +383,10 @@ export const ImporterStorageInterface: ClarityAbi = {
                     type: "uint128",
                   },
                   {
+                    name: "failed-transactions",
+                    type: "uint128",
+                  },
+                  {
                     name: "hash",
                     type: {
                       buffer: {
@@ -384,6 +404,10 @@ export const ImporterStorageInterface: ClarityAbi = {
                   },
                   {
                     name: "orders-next-avail-id",
+                    type: "uint128",
+                  },
+                  {
+                    name: "successful-transactions",
                     type: "uint128",
                   },
                 ],
@@ -413,6 +437,10 @@ export const ImporterStorageInterface: ClarityAbi = {
                 type: "uint128",
               },
               {
+                name: "failed-transactions",
+                type: "uint128",
+              },
+              {
                 name: "hash",
                 type: {
                   buffer: {
@@ -430,6 +458,10 @@ export const ImporterStorageInterface: ClarityAbi = {
               },
               {
                 name: "orders-next-avail-id",
+                type: "uint128",
+              },
+              {
+                name: "successful-transactions",
                 type: "uint128",
               },
             ],
@@ -474,6 +506,10 @@ export const ImporterStorageInterface: ClarityAbi = {
             type: "uint128",
           },
           {
+            name: "failed-transactions",
+            type: "uint128",
+          },
+          {
             name: "hash",
             type: {
               buffer: {
@@ -491,6 +527,10 @@ export const ImporterStorageInterface: ClarityAbi = {
           },
           {
             name: "orders-next-avail-id",
+            type: "uint128",
+          },
+          {
+            name: "successful-transactions",
             type: "uint128",
           },
         ],

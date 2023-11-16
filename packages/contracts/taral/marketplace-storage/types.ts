@@ -14,14 +14,14 @@ export interface MarketplaceStorageContract {
       "start-bid": bigint;
       "start-block": bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addBid: (
     key: {
       "auction-id": bigint;
       bidder: string;
     },
-    amount: number | bigint
+    amount: number | bigint,
   ) => Transaction<boolean, null>;
   addCancelledAuction: (
     auctionId: number | bigint,
@@ -35,7 +35,7 @@ export interface MarketplaceStorageContract {
       "start-bid": bigint;
       "start-block": bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addCancelledFixedPriceListing: (
     listingId: number | bigint,
@@ -44,7 +44,7 @@ export interface MarketplaceStorageContract {
       "nft-asset-contract": string;
       price: bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addCompletedAuction: (
     auctionId: number | bigint,
@@ -58,7 +58,7 @@ export interface MarketplaceStorageContract {
       "start-bid": bigint;
       "start-block": bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addCompletedFixedPriceListing: (
     listingId: number | bigint,
@@ -67,7 +67,7 @@ export interface MarketplaceStorageContract {
       "nft-asset-contract": string;
       price: bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addFixedPriceListing: (
     listingId: number | bigint,
@@ -76,14 +76,14 @@ export interface MarketplaceStorageContract {
       "nft-asset-contract": string;
       price: bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   addWithdrawnBid: (
     key: {
       "auction-id": bigint;
       bidder: string;
     },
-    amount: number | bigint
+    amount: number | bigint,
   ) => Transaction<boolean, null>;
   deleteAuction: (auctionId: number | bigint) => Transaction<boolean, null>;
   deleteBid: (key: {
@@ -93,12 +93,12 @@ export interface MarketplaceStorageContract {
   incrementAuctionNonce: () => Transaction<boolean, null>;
   incrementFixedPriceNonce: () => Transaction<boolean, null>;
   removeFixedPriceListing: (
-    listingId: number | bigint
+    listingId: number | bigint,
   ) => Transaction<boolean, null>;
   setOwner: (newOwner: string) => Transaction<boolean, null>;
   setWhitelisted: (
     assetContract: string,
-    whitelisted: boolean
+    whitelisted: boolean,
   ) => Transaction<boolean, null>;
   updateAuction: (
     auctionId: number | bigint,
@@ -112,7 +112,7 @@ export interface MarketplaceStorageContract {
       "start-bid": bigint;
       "start-block": bigint;
       "token-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   getAuction: (auctionId: number | bigint) => Promise<{
     "end-block": bigint;
@@ -146,11 +146,11 @@ export interface MarketplaceStorageContract {
   getFixedPriceListingNonce: () => Promise<bigint>;
   getPreviousBid: (
     auctionId: number | bigint,
-    bidder: string
+    bidder: string,
   ) => Promise<bigint>;
   getWithdrawnBid: (
     auctionId: number | bigint,
-    bidder: string
+    bidder: string,
   ) => Promise<bigint | null>;
   isWhitelisted: (assetContract: string) => Promise<boolean>;
   auctionNonce: () => Promise<bigint>;

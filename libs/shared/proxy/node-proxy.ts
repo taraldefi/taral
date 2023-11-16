@@ -6,7 +6,7 @@ import { toCamelCase } from "../utils";
 
 const makeNodeHandler = (
   provider: BaseNodeProvider,
-  caller: ClarinetAccount
+  caller: ClarinetAccount,
 ) => {
   const handler: ProxyHandler<ClarityAbi> = {
     get: (contract, property) => {
@@ -62,7 +62,7 @@ declare const Proxy: ProxyConstructor;
 
 export const nodeProxy = <T extends object>(
   target: ClarityAbi,
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ): ((account: ClarinetAccount) => T) => {
   return (account: ClarinetAccount) =>
     new Proxy<T, ClarityAbi>(target, makeNodeHandler(provider, account));

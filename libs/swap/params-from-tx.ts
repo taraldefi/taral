@@ -141,7 +141,7 @@ export async function paramsFromTx({
 
     locktime: Buffer.from(
       rawTransaction.hex.substr(rawTransaction.hex.length - 8),
-      "hex"
+      "hex",
     ),
   };
 
@@ -154,14 +154,14 @@ export async function paramsFromTx({
     Logger.debug(
       NAME,
       "Got the transaction hex back from calling concat-tx function",
-      txHexResponse
+      txHexResponse,
     );
 
     Logger.error(
       NAME,
       `Failed to match tx hex: ${toJSON(txHexResponse)} against ${
         rawTransaction.hex
-      }`
+      }`,
     );
 
     return getFailureResponse(ERR_DIFFERENT_HEX);
@@ -169,12 +169,12 @@ export async function paramsFromTx({
 
   const block = await getBlockByHash(
     bitcoinRpcClient,
-    rawTransaction.blockhash
+    rawTransaction.blockhash,
   );
 
   const blockHeader = await getBlockHeader(
     bitcoinRpcClient,
-    rawTransaction.blockhash
+    rawTransaction.blockhash,
   );
 
   let height: bigint;
@@ -188,7 +188,7 @@ export async function paramsFromTx({
     height = BigInt(stacksBlock.height);
   } else {
     const stacksBlockResponse = await fetch(
-      `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${stxHeight}`
+      `${NETWORK.coreApiUrl}/extended/v1/block/by_height/${stxHeight}`,
     );
 
     stacksBlock = await stacksBlockResponse.json();
@@ -197,7 +197,7 @@ export async function paramsFromTx({
 
   const txIds = block.tx.map((transaction) => transaction.txid);
   const transactionIndex = block.tx.findIndex(
-    (transaction) => transaction.txid == btcTxId
+    (transaction) => transaction.txid == btcTxId,
   );
   const tree = new MerkleTree(txIds, SHA256, { isBitcoinTree: true });
   const treeDepth = tree.getDepth();

@@ -14,11 +14,11 @@ import {
 
 export class TestUtilsProvider {
   private readonly _testContract: (
-    caller: ClarinetAccount
+    caller: ClarinetAccount,
   ) => TestUtilsContract;
   private readonly _bnsContract: (caller: ClarinetAccount) => BnsContract;
   private readonly _costVotingContract: (
-    caller: ClarinetAccount
+    caller: ClarinetAccount,
   ) => CostVotingContract;
   private readonly _costsContract: (caller: ClarinetAccount) => CostsContract;
   private readonly _lockupContract: (caller: ClarinetAccount) => LockupContract;
@@ -29,7 +29,7 @@ export class TestUtilsProvider {
     costVoting: (caller: ClarinetAccount) => CostVotingContract,
     costs: (caller: ClarinetAccount) => CostsContract,
     lockup: (caller: ClarinetAccount) => LockupContract,
-    pox: (caller: ClarinetAccount) => PoxContract
+    pox: (caller: ClarinetAccount) => PoxContract,
   ) {
     this._testContract = testContract;
     this._bnsContract = bns;
@@ -42,7 +42,7 @@ export class TestUtilsProvider {
     return this._bnsContract;
   }
   public getCostVotingContract(): (
-    caller: ClarinetAccount
+    caller: ClarinetAccount,
   ) => CostVotingContract {
     return this._costVotingContract;
   }
@@ -60,17 +60,17 @@ export class TestUtilsProvider {
   }
 
   public static async ensureTestContracts(
-    clarityBin: NativeClarityBinProvider
+    clarityBin: NativeClarityBinProvider,
   ): Promise<TestUtilsProvider> {
     const deployedTestUtils = await TestProvider.fromContracts(
       true,
       nodeTestUtilsContracts,
-      clarityBin
+      clarityBin,
     );
     const deployedBootUtils = await TestProvider.fromContracts(
       true,
       nodeBootContracts,
-      clarityBin
+      clarityBin,
     );
     return new TestUtilsProvider(
       deployedTestUtils.nodeTestUtils.contract,
@@ -78,7 +78,7 @@ export class TestUtilsProvider {
       deployedBootUtils.nodeCostVoting.contract,
       deployedBootUtils.nodeCosts.contract,
       deployedBootUtils.nodeLockup.contract,
-      deployedBootUtils.nodePox.contract
+      deployedBootUtils.nodePox.contract,
     );
   }
 }

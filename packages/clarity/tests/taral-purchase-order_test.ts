@@ -26,7 +26,7 @@ Clarinet.test({
         "taral-coin",
         "mint",
         [types.principal(exporter_wallet.address), types.uint(10)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let block = chain.mineBlock([
@@ -34,7 +34,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "check-if-user-holds-tal-token",
         [types.principal(exporter_wallet.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let block2 = chain.mineBlock([
@@ -42,7 +42,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "check-if-user-holds-tal-token",
         [types.principal(exporter2_wallet.address)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -62,7 +62,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "create-vault",
         [types.uint(600), types.uint(2500000), types.uint(400), types.uint(30)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -96,7 +96,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(0), types.uint(30)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
     block.receipts[0].result.expectErr().expectUint(404);
@@ -117,7 +117,7 @@ Clarinet.test({
           types.uint(400),
           types.uint(100),
         ],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -241,7 +241,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)],
-        wallet_1.address
+        wallet_1.address,
       ),
     ]);
 
@@ -250,7 +250,7 @@ Clarinet.test({
         "taral-purchase-order-v1",
         "liquidate",
         [types.uint(1)],
-        wallet_2.address
+        wallet_2.address,
       ),
     ]);
 

@@ -22,12 +22,12 @@ test("Oracle tests", async () => {
 
   const bobsPrivateKey = Buffer.from(
     `0x${publicKeyFromPrivKey(bob.privateKey).data.toString("hex")}`,
-    "hex"
+    "hex",
   );
 
   const zoesPrivateKey = Buffer.from(
     `0x${publicKeyFromPrivKey(zoe.privateKey).data.toString("hex")}`,
-    "hex"
+    "hex",
   );
 
   await txOk(oracleZoe.addSource("source1", zoesPrivateKey));
@@ -57,7 +57,7 @@ test("Oracle tests", async () => {
   });
 
   const feed: IOraclePriceFeed[] = okcoin_oracle_feed.concat(
-    binance_feed.concat(okcoin_feed)
+    binance_feed.concat(okcoin_feed),
   );
 
   const priceAddResult = await addPrices({

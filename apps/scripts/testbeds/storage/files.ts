@@ -18,7 +18,7 @@ export function readTestFile(fileName: string): File {
 export function syncWriteFileWithEncoding(
   filename: string,
   data: any,
-  encoding: BufferEncoding
+  encoding: BufferEncoding,
 ) {
   /**
    * flags:
@@ -46,7 +46,7 @@ export function readUnencryptedFileWithEncoding(filename: string): string {
 
 export function readEncryptedFileWithEncoding(
   filename: string,
-  encoding: BufferEncoding
+  encoding: BufferEncoding,
 ): string {
   const filePath = path.join(__dirname, `../../storage/${filename}`);
 

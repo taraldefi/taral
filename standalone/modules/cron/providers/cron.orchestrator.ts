@@ -42,7 +42,7 @@ export class AgendaOrchestrator
 
   constructor(
     private readonly moduleRef: ModuleRef,
-    private readonly database: DatabaseService
+    private readonly database: DatabaseService,
   ) {}
 
   async onApplicationBootstrap() {
@@ -94,7 +94,7 @@ export class AgendaOrchestrator
     processor: Processor<any> & Record<"_name", string>,
     options: AgendaModuleJobOptions,
     type: JobProcessorType,
-    useCallback: boolean
+    useCallback: boolean,
   ) {
     const jobName = options.name || processor._name;
 
@@ -110,7 +110,7 @@ export class AgendaOrchestrator
     queueToken: string,
     listener: EventListener,
     eventName: string,
-    jobName?: string
+    jobName?: string,
   ) {
     const key = jobName ? `${eventName}:${jobName}` : eventName;
 
@@ -130,12 +130,12 @@ export class AgendaOrchestrator
 
         if (useCallback) {
           agenda.define(jobName, options, (job: Job, done: () => void) =>
-            handler(job, done)
+            handler(job, done),
           );
         } else {
           agenda.define(jobName, options, handler);
         }
-      }
+      },
     );
   }
 
@@ -150,13 +150,13 @@ export class AgendaOrchestrator
           (options as RepeatableJobOptions).interval,
           jobName,
           {},
-          options
+          options,
         );
       } else if (type === JobProcessorType.SCHEDULE) {
         await agenda.schedule(
           (options as NonRepeatableJobOptions).when,
           jobName,
-          {}
+          {},
         );
       } else if (type === JobProcessorType.NOW) {
         await agenda.now(jobName, {});

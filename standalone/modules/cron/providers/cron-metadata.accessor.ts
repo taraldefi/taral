@@ -43,7 +43,7 @@ export class CronMetadataAccessor {
   }
 
   getJobProcessorMetadata(
-    target: Type<any> | Function
+    target: Type<any> | Function,
   ): AgendaModuleJobOptions {
     return this.reflector.get(CRON_JOB_OPTIONS, target);
   }

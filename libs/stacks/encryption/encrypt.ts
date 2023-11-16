@@ -28,14 +28,14 @@ import {
  */
 export async function encryptContent(
   content: string | Buffer,
-  options?: EncryptContentOptions
+  options?: EncryptContentOptions,
 ): Promise<string> {
   const opts = Object.assign({}, options);
   let privateKey: string | undefined;
   if (!opts.publicKey) {
     if (!opts.privateKey) {
       throw new Error(
-        "Either public key or private key must be supplied for encryption."
+        "Either public key or private key must be supplied for encryption.",
       );
     }
     opts.publicKey = getPublicKeyFromPrivate(opts.privateKey);
@@ -52,7 +52,7 @@ export async function encryptContent(
     opts.publicKey,
     contentBuffer,
     wasString,
-    opts.cipherTextEncoding
+    opts.cipherTextEncoding,
   );
   let cipherPayload = JSON.stringify(cipherObject);
   if (opts.sign) {
@@ -89,7 +89,7 @@ async function encryptECIES(
   publicKey: string,
   content: Buffer,
   wasString: boolean,
-  cipherTextEncoding?: CipherTextEncoding
+  cipherTextEncoding?: CipherTextEncoding,
 ): Promise<CipherObject> {
   const validity = isValidPublicKey(publicKey);
   if (!validity.result) {
@@ -106,13 +106,13 @@ async function encryptECIES(
   const cipherText = await aes256CbcEncrypt(
     Buffer.from(initializationVector),
     sharedKeys.encryptionKey,
-    content
+    content,
   );
 
   const macData = concatBytes(
     initializationVector,
     ephemeralPublicKey,
-    cipherText
+    cipherText,
   );
   const mac = await hmacSha256(sharedKeys.hmacKey, Buffer.from(macData));
 

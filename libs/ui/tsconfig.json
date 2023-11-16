@@ -1,6 +1,5 @@
 {
   "compilerOptions": {
-
     "declaration": true,
     "declarationDir": "build",
     "module": "esnext",
@@ -21,5 +20,3 @@
     "src/**/*.test.tsx"
   ]
 }
-
-

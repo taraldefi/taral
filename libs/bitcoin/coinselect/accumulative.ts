@@ -3,7 +3,7 @@ import * as utils from "./utils";
 export function accumulative(
   utxos: string | any[],
   outputs: any[],
-  feeRate: number
+  feeRate: number,
 ) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
   let bytesAccum = utils.transactionBytes([], outputs);

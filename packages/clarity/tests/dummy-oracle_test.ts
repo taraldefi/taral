@@ -13,13 +13,13 @@ Clarinet.test({
       "dummy-oracle",
       "get-btc-price",
       [],
-      wallet_1.address
+      wallet_1.address,
     );
     const stxPriceCall = Tx.contractCall(
       "dummy-oracle",
       "get-stx-price",
       [],
-      wallet_1.address
+      wallet_1.address,
     );
 
     const block = chain.mineBlock([btcPriceCall, stxPriceCall]);

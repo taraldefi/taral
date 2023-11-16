@@ -6,40 +6,40 @@ export interface BnsContract {
     namespace: Buffer,
     name: Buffer,
     beneficiary: string,
-    zonefileHash: Buffer
+    zonefileHash: Buffer,
   ) => Transaction<boolean, bigint>;
   namePreorder: (
     hashedSaltedFqn: Buffer,
-    stxToBurn: number | bigint
+    stxToBurn: number | bigint,
   ) => Transaction<bigint, bigint>;
   nameRegister: (
     namespace: Buffer,
     name: Buffer,
     salt: Buffer,
-    zonefileHash: Buffer
+    zonefileHash: Buffer,
   ) => Transaction<boolean, bigint>;
   nameRenewal: (
     namespace: Buffer,
     name: Buffer,
     stxToBurn: number | bigint,
     newOwner: string | null,
-    zonefileHash: Buffer | null
+    zonefileHash: Buffer | null,
   ) => Transaction<boolean, bigint>;
   nameRevoke: (namespace: Buffer, name: Buffer) => Transaction<boolean, bigint>;
   nameTransfer: (
     namespace: Buffer,
     name: Buffer,
     newOwner: string,
-    zonefileHash: Buffer | null
+    zonefileHash: Buffer | null,
   ) => Transaction<boolean, bigint>;
   nameUpdate: (
     namespace: Buffer,
     name: Buffer,
-    zonefileHash: Buffer
+    zonefileHash: Buffer,
   ) => Transaction<boolean, bigint>;
   namespacePreorder: (
     hashedSaltedNamespace: Buffer,
-    stxToBurn: number | bigint
+    stxToBurn: number | bigint,
   ) => Transaction<bigint, bigint>;
   namespaceReady: (namespace: Buffer) => Transaction<boolean, bigint>;
   namespaceReveal: (
@@ -66,10 +66,10 @@ export interface BnsContract {
     pFuncNonAlphaDiscount: number | bigint,
     pFuncNoVowelDiscount: number | bigint,
     lifetime: number | bigint,
-    namespaceImport: string
+    namespaceImport: string,
   ) => Transaction<boolean, bigint>;
   namespaceRevokeFunctionPriceEdition: (
-    namespace: Buffer
+    namespace: Buffer,
   ) => Transaction<boolean, bigint>;
   namespaceUpdateFunctionPrice: (
     namespace: Buffer,
@@ -92,21 +92,21 @@ export interface BnsContract {
     pFuncB15: number | bigint,
     pFuncB16: number | bigint,
     pFuncNonAlphaDiscount: number | bigint,
-    pFuncNoVowelDiscount: number | bigint
+    pFuncNoVowelDiscount: number | bigint,
   ) => Transaction<boolean, bigint>;
   canNameBeRegistered: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   canNamespaceBeRegistered: (
-    namespace: Buffer
+    namespace: Buffer,
   ) => Promise<ClarityTypes.Response<boolean, null>>;
   canReceiveName: (
-    owner: string
+    owner: string,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   checkNameOpsPreconditions: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<
     ClarityTypes.Response<
       {
@@ -137,10 +137,10 @@ export interface BnsContract {
   >;
   getNamePrice: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getNamespacePrice: (
-    namespace: Buffer
+    namespace: Buffer,
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getNamespaceProperties: (namespace: Buffer) => Promise<
     ClarityTypes.Response<
@@ -166,15 +166,15 @@ export interface BnsContract {
   >;
   isNameInGracePeriod: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   isNameLeaseExpired: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   nameResolve: (
     namespace: Buffer,
-    name: Buffer
+    name: Buffer,
   ) => Promise<
     ClarityTypes.Response<
       {

@@ -4,40 +4,40 @@ import { ClarityTypes } from "lib-shared";
 export interface TaralFileStorageContract {
   deleteFileAuthorizations: (
     fileId: string,
-    participant: string
+    participant: string,
   ) => Transaction<boolean, null>;
   deleteFilesByName: (
     filename: string,
     participant: string,
-    hash: Buffer
+    hash: Buffer,
   ) => Transaction<boolean, null>;
   setFileAuthorizations: (
     fileId: string,
     participant: string,
     owns: boolean,
     canWrite: boolean,
-    canRead: boolean
+    canRead: boolean,
   ) => Transaction<boolean, null>;
   setFileHash: (
     fileId: string,
     hash: Buffer,
-    filename: string
+    filename: string,
   ) => Transaction<boolean, null>;
   setFileVersions: (
     fileId: string,
     hash: Buffer,
-    changedBy: string
+    changedBy: string,
   ) => Transaction<boolean, null>;
   setFiles: (
     fileId: string,
     filename: string,
-    hash: Buffer
+    hash: Buffer,
   ) => Transaction<boolean, null>;
   setFilesByName: (
     filename: string,
     participant: string,
     hash: Buffer,
-    fileId: string
+    fileId: string,
   ) => Transaction<boolean, null>;
   updateFileAuthorizations: (
     keyTuple: {
@@ -48,7 +48,7 @@ export interface TaralFileStorageContract {
       "can-read": boolean;
       "can-write": boolean;
       owns: boolean;
-    }
+    },
   ) => Transaction<boolean, null>;
   updateFileHash: (
     keyTuple: {
@@ -57,11 +57,11 @@ export interface TaralFileStorageContract {
     valueTuple: {
       hash: Buffer;
       name: string;
-    }
+    },
   ) => Transaction<boolean, null>;
   getFileAuthorizations: (
     fileId: string,
-    participant: string
+    participant: string,
   ) => Promise<{
     "can-read": boolean;
     "can-write": boolean;
@@ -80,7 +80,7 @@ export interface TaralFileStorageContract {
   getFilesByName: (
     filename: string,
     participant: string,
-    hash: Buffer
+    hash: Buffer,
   ) => Promise<{
     id: string;
   } | null>;

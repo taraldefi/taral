@@ -3,10 +3,10 @@ import { applyDecorators } from "@nestjs/common";
 import { IsFile } from "./is-file.validator";
 
 export function IsFiles(
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return applyDecorators(
     IsArray(validationOptions),
-    IsFile(Object.assign(validationOptions || {}, { each: true }))
+    IsFile(Object.assign(validationOptions || {}, { each: true })),
   );
 }

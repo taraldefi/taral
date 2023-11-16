@@ -39,7 +39,7 @@ export class CronModule {
   }
 
   static forRootAsync(
-    config: CronModuleAsyncConfig<CronModuleConfig>
+    config: CronModuleAsyncConfig<CronModuleConfig>,
   ): DynamicModule {
     const providers = this.createAsyncProviders<CronModuleConfig>(config);
 
@@ -61,7 +61,7 @@ export class CronModule {
 
   static registerQueue(
     name: string,
-    config: CronQueueConfig = {}
+    config: CronQueueConfig = {},
   ): DynamicModule {
     const queueToken = getQueueToken(name);
 
@@ -91,7 +91,7 @@ export class CronModule {
   }
 
   private static createAsyncProviders<T>(
-    config: CronModuleAsyncConfig<T>
+    config: CronModuleAsyncConfig<T>,
   ): Provider[] {
     if (config.useExisting || config.useFactory) {
       return [this.createAsyncOptionsProvider(config)];
@@ -109,7 +109,7 @@ export class CronModule {
   }
 
   private static createAsyncOptionsProvider<T>(
-    config: CronModuleAsyncConfig<T>
+    config: CronModuleAsyncConfig<T>,
   ): Provider {
     if (config.useFactory) {
       return {

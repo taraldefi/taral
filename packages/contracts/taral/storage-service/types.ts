@@ -4,54 +4,54 @@ import { ClarityTypes } from "lib-shared";
 export interface StorageServiceContract {
   addPrincipalToRole: (
     roleToAdd: number | bigint,
-    principalToAdd: string
+    principalToAdd: string,
   ) => Transaction<boolean, bigint>;
   grantAccess: (
     participant: string,
     fileId: string,
     canRead: boolean,
-    canWrite: boolean
+    canWrite: boolean,
   ) => Transaction<boolean, bigint>;
   initialize: (initialOwner: string) => Transaction<boolean, bigint>;
   registerFile: (
     fileId: string,
     filename: string,
     hash: Buffer,
-    signature: Buffer
+    signature: Buffer,
   ) => Transaction<string, bigint>;
   removePrincipalFromRole: (
     roleToRemove: number | bigint,
-    principalToRemove: string
+    principalToRemove: string,
   ) => Transaction<boolean, bigint>;
   revokeAccess: (
     fileId: string,
-    participant: string
+    participant: string,
   ) => Transaction<boolean, bigint>;
   updateAccess: (
     participant: string,
     fileId: string,
     canRead: boolean,
-    canWrite: boolean
+    canWrite: boolean,
   ) => Transaction<boolean, bigint>;
   updateBlacklisted: (
     principalToUpdate: string,
-    setBlacklisted: boolean
+    setBlacklisted: boolean,
   ) => Transaction<boolean, bigint>;
   updateFile: (
     fileId: string,
     hash: Buffer,
-    signature: Buffer
+    signature: Buffer,
   ) => Transaction<boolean, bigint>;
   canReadFile: (
     participant: string,
-    fileId: string
+    fileId: string,
   ) => Promise<ClarityTypes.Response<boolean, null>>;
   canWriteFile: (
     participant: string,
-    fileId: string
+    fileId: string,
   ) => Promise<ClarityTypes.Response<boolean, null>>;
   detectRestriction: (
-    participant: string
+    participant: string,
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getHash: (fileId: string) => Promise<ClarityTypes.Response<Buffer, bigint>>;
   getInfo: () => Promise<
@@ -65,14 +65,14 @@ export interface StorageServiceContract {
   getVersion: () => Promise<string>;
   hasRole: (
     roleToCheck: number | bigint,
-    principalToCheck: string
+    principalToCheck: string,
   ) => Promise<boolean>;
   hashMessage: (message: Buffer) => Promise<Buffer>;
   isBlacklisted: (principalToCheck: string) => Promise<boolean>;
   validateSignature: (
     hash: Buffer,
     signature: Buffer,
-    signer: string
+    signer: string,
   ) => Promise<boolean>;
   BLACKLISTER_ROLE: () => Promise<bigint>;
   ERRCONTRACTCALL: () => Promise<ClarityTypes.Response<null, bigint>>;

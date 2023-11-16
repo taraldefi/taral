@@ -43,15 +43,19 @@
 )
     (begin
         (asserts! (is-none (contract-call? .importer-storage get-importer-by-principal importer)) ERR-IMPORTER-ALREADY-REGISTERED)
+
         (asserts! (> (len importer-name) u0) ERR-GENERIC)
+        
         (asserts! (> (len importer-category) u0) ERR-GENERIC) 
+        
         ;; check that the hash is not empty
         (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
             
-        (let ((importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
-        (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name hash importer-category) importer-storage-error)
-        (print {action: "register", importer: importer, importer-name: importer-name, importer-category: importer-category })
-        (ok true)
+        (let (
+            (importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
+            (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name hash importer-category) importer-storage-error)
+            (print {action: "register", importer-id: importer-id, importer: importer, importer-name: importer-name, importer-category: importer-category })
+            (ok importer-id)
         )
     ) 
 )
@@ -81,19 +85,19 @@
     (new-order-id uint) 
     (importer principal) 
 )
-    (let (
-        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
-        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
-        (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
+    (
+        let (
+            (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
+            (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
+            (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
         )
+
         (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
         (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
         (unwrap! (contract-call? .importer-storage add-order new-id importer-id new-order-id) importer-storage-error)
         (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
-        (ok true)
-            
+        (ok new-id) 
     )
-    
 )
 
 (define-read-only (get-info)

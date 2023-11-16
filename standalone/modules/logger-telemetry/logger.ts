@@ -29,5 +29,5 @@ export const loggerOptions: LoggerOptions = {
 
 export const logger: Logger = Pino(
   loggerOptions,
-  destination(process.env.LOG_FILE_NAME)
+  destination(process.env.LOG_FILE_NAME),
 );

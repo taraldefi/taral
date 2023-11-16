@@ -79,7 +79,7 @@ export function utf8ToBytes(content: string) {
  */
 export function parseToCVInternal(
   input: string,
-  type: ClarityAbiType
+  type: ClarityAbiType,
 ): ClarityValue {
   const typeString = getTypeString(type);
   if (isClarityAbiPrimitive(type)) {
@@ -104,36 +104,36 @@ export function parseToCVInternal(
       }
     } else {
       throw new Error(
-        `Contract function contains unsupported Clarity ABI type: ${typeString}`
+        `Contract function contains unsupported Clarity ABI type: ${typeString}`,
       );
     }
   } else if (isClarityAbiBuffer(type)) {
     const inputLength = Buffer.from(input).byteLength;
     if (inputLength > type.buffer.length) {
       throw new Error(
-        `Input exceeds specified buffer length limit of ${type.buffer.length}`
+        `Input exceeds specified buffer length limit of ${type.buffer.length}`,
       );
     }
     return bufferCVFromString(input);
   } else if (isClarityAbiResponse(type)) {
     throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`,
     );
   } else if (isClarityAbiOptional(type)) {
     throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`,
     );
   } else if (isClarityAbiTuple(type)) {
     throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`,
     );
   } else if (isClarityAbiList(type)) {
     throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`,
     );
   } else {
     throw new Error(
-      `Contract function contains unsupported Clarity ABI type: ${typeString}`
+      `Contract function contains unsupported Clarity ABI type: ${typeString}`,
     );
   }
 }

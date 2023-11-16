@@ -39,7 +39,7 @@ export const TaralImporterV1Interface: ClarityAbi = {
         type: {
           response: {
             error: "uint128",
-            ok: "bool",
+            ok: "uint128",
           },
         },
       },
@@ -77,6 +77,28 @@ export const TaralImporterV1Interface: ClarityAbi = {
         },
       ],
       name: "register",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "importer-principal",
+          type: "principal",
+        },
+        {
+          name: "success",
+          type: "bool",
+        },
+      ],
+      name: "update-importer-track-record",
       outputs: {
         type: {
           response: {

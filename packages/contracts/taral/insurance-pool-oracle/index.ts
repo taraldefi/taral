@@ -13,7 +13,7 @@ export type { InsurancePoolOracleContract } from "./types";
 export const nodeInsurancePoolOracleContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<InsurancePoolOracleContract>(
     InsurancePoolOracleInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -28,7 +28,7 @@ export const nodeInsurancePoolOracleInfo: NodeContract<InsurancePoolOracleContra
 export const webInsurancePoolOracleContract = (provider: BaseWebProvider) => {
   const contract = webProxy<InsurancePoolOracleContract>(
     InsurancePoolOracleInterface,
-    provider
+    provider,
   );
   return contract;
 };

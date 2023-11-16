@@ -9,123 +9,88 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
 describe("Should test taral purchase order flows", () => {
+  it("Should check if a user holds TAL tokens", () => {
+    const mintTalResult = simnet.callPublicFn(
+      "taral-coin",
+      "mint",
+      [Cl.standardPrincipal(EXPORTER_WALLET), Cl.uint(10)],
+      DEPLOYER,
+    );
 
-    it("Should check if a user holds TAL tokens", () => {
+    expect(mintTalResult.result).toBeOk(Cl.bool(true));
 
-        const mintTalResult = simnet.callPublicFn(
-            "taral-coin",
-            "mint",
-            [
-                Cl.standardPrincipal(EXPORTER_WALLET), 
-                Cl.uint(10)
-            ],
-            DEPLOYER
-        );
+    const ftMintEvent = mintTalResult.events[0].data as any;
 
-        expect(mintTalResult.result).toBeOk(Cl.bool(true));
+    expect(ftMintEvent.recipient, `${EXPORTER_WALLET}`);
+    expect(ftMintEvent.asset_identifier, `${DEPLOYER}.taral-coin::taral-coin`);
+    expect(ftMintEvent.amount, 10 as any);
 
-        const ftMintEvent = mintTalResult.events[0].data as any;
+    let checkIfUserHoldsTalToken = simnet.callPublicFn(
+      "taral-purchase-order-v1",
+      "check-if-user-holds-tal-token",
+      [Cl.standardPrincipal(EXPORTER_WALLET)],
+      DEPLOYER,
+    );
 
-        expect(ftMintEvent.recipient, `${EXPORTER_WALLET}`);
-        expect(ftMintEvent.asset_identifier, `${DEPLOYER}.taral-coin::taral-coin`);
-        expect(ftMintEvent.amount, 10 as any);
+    expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(true));
 
-        let checkIfUserHoldsTalToken = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "check-if-user-holds-tal-token",
-            [
-                Cl.standardPrincipal(EXPORTER_WALLET)
-            ],
-            DEPLOYER
-        );
+    checkIfUserHoldsTalToken = simnet.callPublicFn(
+      "taral-purchase-order-v1",
+      "check-if-user-holds-tal-token",
+      [Cl.standardPrincipal(EXPORTER_2_WALLET)],
+      DEPLOYER,
+    );
 
-        expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(true)); 
-
-        checkIfUserHoldsTalToken = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "check-if-user-holds-tal-token",
-            [
-                Cl.standardPrincipal(EXPORTER_2_WALLET)
-            ],
-            DEPLOYER
-        );
-
-        expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(false)); 
-    }),
-
+    expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(false));
+  }),
     it("Should ensure one is able to create a vault with sufficient collateral", () => {
-        const createVaultResult = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "create-vault",
-            [
-                Cl.uint(600), 
-                Cl.uint(2500000), 
-                Cl.uint(400), 
-                Cl.uint(30)
-            ],
-            WALLET_1
-        );
+      const createVaultResult = simnet.callPublicFn(
+        "taral-purchase-order-v1",
+        "create-vault",
+        [Cl.uint(600), Cl.uint(2500000), Cl.uint(400), Cl.uint(30)],
+        WALLET_1,
+      );
 
-        expect(createVaultResult.result).toBeOk(Cl.uint(1));
+      expect(createVaultResult.result).toBeOk(Cl.uint(1));
     }),
-
     it("Should ensure one is not able to create a vault with an invalid loan amount", () => {
-        const createVaultResult = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "create-vault",
-            [
-                Cl.uint(500), 
-                Cl.uint(2500000), 
-                Cl.uint(0), 
-                Cl.uint(30)
-            ],
-            WALLET_1
-        );
+      const createVaultResult = simnet.callPublicFn(
+        "taral-purchase-order-v1",
+        "create-vault",
+        [Cl.uint(500), Cl.uint(2500000), Cl.uint(0), Cl.uint(30)],
+        WALLET_1,
+      );
 
-        expect(createVaultResult.result).toBeErr(Cl.uint(404));
+      expect(createVaultResult.result).toBeErr(Cl.uint(404));
     }),
-
     it("Should ensure one is not able to create a vault with an invalid duration", () => {
-        const createVaultResult = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "create-vault",
-            [
-                Cl.uint(500), 
-                Cl.uint(2500000), 
-                Cl.uint(400), 
-                Cl.uint(100)
-            ],
-            WALLET_1
-        );
+      const createVaultResult = simnet.callPublicFn(
+        "taral-purchase-order-v1",
+        "create-vault",
+        [Cl.uint(500), Cl.uint(2500000), Cl.uint(400), Cl.uint(100)],
+        WALLET_1,
+      );
 
-        expect(createVaultResult.result).toBeErr(Cl.uint(405));
+      expect(createVaultResult.result).toBeErr(Cl.uint(405));
     }),
-
     // TODO(Doru): check the validity of this test, not sure we test this properly
     it("Should ensure one is not able to liquidate an overcollateralized vault with", () => {
-        const createVaultResult = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "create-vault",
-            [
-                Cl.uint(500), 
-                Cl.uint(2500000), 
-                Cl.uint(400), 
-                Cl.uint(30)
-            ],
-            WALLET_1
-        );
+      const createVaultResult = simnet.callPublicFn(
+        "taral-purchase-order-v1",
+        "create-vault",
+        [Cl.uint(500), Cl.uint(2500000), Cl.uint(400), Cl.uint(30)],
+        WALLET_1,
+      );
 
-        expect(createVaultResult.result).toBeOk(Cl.uint(1));
+      expect(createVaultResult.result).toBeOk(Cl.uint(1));
 
-        const liquidateResult = simnet.callPublicFn(
-            "taral-purchase-order-v1",
-            "liquidate",
-            [
-                Cl.uint(1)
-            ],
-            WALLET_2
-        );
+      const liquidateResult = simnet.callPublicFn(
+        "taral-purchase-order-v1",
+        "liquidate",
+        [Cl.uint(1)],
+        WALLET_2,
+      );
 
-        expect(liquidateResult.result).toBeErr(Cl.uint(406));
-    })
+      expect(liquidateResult.result).toBeErr(Cl.uint(406));
+    });
 });

@@ -35,7 +35,7 @@ export const executeJson = async ({
 
   if (response && "error" in response) {
     throw new Error(
-      `Transaction error: ${JSON.stringify(response.error, null, 2)}`
+      `Transaction error: ${JSON.stringify(response.error, null, 2)}`,
     );
   }
   if (result.exitCode !== 0) {

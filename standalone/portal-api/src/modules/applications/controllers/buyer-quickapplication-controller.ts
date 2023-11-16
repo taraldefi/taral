@@ -96,9 +96,8 @@ export class QuickApplicationController {
   // Submit a valid application
   @Post('/:id/submit')
   async submitApplication(@Param('id') applicationId: string) {
-    const application = await this.buyerQuickApplicationService.markAsComplete(
-      applicationId,
-    );
+    const application =
+      await this.buyerQuickApplicationService.markAsComplete(applicationId);
     return application;
   }
 

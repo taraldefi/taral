@@ -22,9 +22,8 @@ describe('User Repository', () => {
     const module = await Test.createTestingModule({
       providers: [UserEntityRepository],
     }).compile();
-    userRepository = await module.get<UserEntityRepository>(
-      UserEntityRepository,
-    );
+    userRepository =
+      await module.get<UserEntityRepository>(UserEntityRepository);
   });
 
   describe('store', () => {

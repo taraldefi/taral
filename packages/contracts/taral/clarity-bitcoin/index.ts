@@ -13,7 +13,7 @@ export type { ClarityBitcoinContract } from "./types";
 export const nodeClarityBitcoinContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<ClarityBitcoinContract>(
     ClarityBitcoinInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeClarityBitcoinInfo: NodeContract<ClarityBitcoinContract> = {
 export const webClarityBitcoinContract = (provider: BaseWebProvider) => {
   const contract = webProxy<ClarityBitcoinContract>(
     ClarityBitcoinInterface,
-    provider
+    provider,
   );
   return contract;
 };

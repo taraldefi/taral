@@ -21,12 +21,12 @@ export class FormDataInterceptor implements NestInterceptor {
 
   constructor(
     @Inject(GLOBAL_CONFIG_INJECT_TOKEN)
-    private globalConfig: FormDataInterceptorConfig
+    private globalConfig: FormDataInterceptorConfig,
   ) {}
 
   async intercept(
     context: ExecutionContext,
-    next: CallHandler<any>
+    next: CallHandler<any>,
   ): Promise<any> {
     const req = context.switchToHttp().getRequest();
     const res = context.switchToHttp().getResponse();
@@ -38,9 +38,9 @@ export class FormDataInterceptor implements NestInterceptor {
     const config: FormDataInterceptorConfig = checkConfig(
       this.reflector.get(
         FORM_DATA_REQUEST_METADATA_KEY,
-        context.getHandler()
+        context.getHandler(),
       ) || {},
-      this.globalConfig
+      this.globalConfig,
     );
 
     const formReader: FormReader = new FormReader(req, config);
@@ -64,7 +64,7 @@ export class FormDataInterceptor implements NestInterceptor {
 
       tap((res) => {
         if (config.autoDeleteFile) formReader.deleteFiles();
-      })
+      }),
     );
   }
 }

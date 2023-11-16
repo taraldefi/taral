@@ -8,7 +8,7 @@ const makeWebHandler = (
   provider: BaseWebProvider,
   caller?: string,
   onFinish?: Noop,
-  onCancel?: Noop
+  onCancel?: Noop,
 ) => {
   const noop: Noop = () => {};
   const handler: ProxyHandler<ClarityAbi> = {
@@ -72,11 +72,11 @@ declare const Proxy: ProxyConstructor;
 
 export const webProxy = <T extends object>(
   target: ClarityAbi,
-  provider: BaseWebProvider
+  provider: BaseWebProvider,
 ): ((caller?: string, onFinish?: Noop, onCancel?: Noop) => T) => {
   return (caller?: string, onFinish?: Noop, onCancel?: Noop) =>
     new Proxy<T, ClarityAbi>(
       target,
-      makeWebHandler(provider, caller, onFinish, onCancel)
+      makeWebHandler(provider, caller, onFinish, onCancel),
     );
 };

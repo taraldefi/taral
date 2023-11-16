@@ -31,7 +31,7 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let [receipt] = block.receipts;
@@ -60,7 +60,7 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -73,7 +73,7 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -102,14 +102,14 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
     let [receipt] = block.receipts;
 
     // Assert
-    receipt.result.expectOk().expectBool(true);
+    receipt.result.expectOk().expectUint(10001);
   },
 });
 
@@ -132,7 +132,7 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -141,7 +141,7 @@ Clarinet.test({
       "taral-exporter",
       "get-exporter-profile",
       [types.principal(exporter_wallet)],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -168,7 +168,7 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -177,7 +177,7 @@ Clarinet.test({
       "taral-exporter",
       "get-next-exporter-id",
       [],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -204,7 +204,7 @@ Clarinet.test({
           types.utf8(exporter1_name),
           types.utf8(exporter1_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -221,7 +221,7 @@ Clarinet.test({
           types.utf8(exporter2_name),
           types.utf8(exporter2_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let exporter3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
@@ -237,7 +237,7 @@ Clarinet.test({
       "taral-exporter",
       "get-exporters",
       [exporterList],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -271,7 +271,7 @@ Clarinet.test({
         "taral-exporter",
         "append-order",
         [types.uint(new_order_id), types.principal(exporter_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     // console.log(block.receipts)
@@ -367,13 +367,13 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
       Tx.contractCall(
         "taral-exporter",
         "append-order",
         [types.uint(new_order_id), types.principal(exporter_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let receipt = block.receipts[1];
@@ -402,13 +402,13 @@ Clarinet.test({
           types.utf8(exporter_name),
           types.utf8(exporter_category),
         ],
-        deployer.address
+        deployer.address,
       ),
       Tx.contractCall(
         "taral-exporter",
         "append-order",
         [types.uint(new_order_id), types.principal(exporter_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -417,7 +417,7 @@ Clarinet.test({
       "taral-exporter",
       "get-exporter-order",
       [types.uint(0), types.principal(exporter_wallet)],
-      deployer.address
+      deployer.address,
     );
     // Assert
     receipt.result.expectSome();
@@ -441,7 +441,7 @@ Clarinet.test({
           types.utf8(exporter1_name),
           types.utf8(exporter1_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -457,7 +457,7 @@ Clarinet.test({
           types.utf8(exporter2_name),
           types.utf8(exporter2_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -468,7 +468,7 @@ Clarinet.test({
         "taral-exporter",
         "append-order",
         [types.uint(new1_order_id), types.principal(exporter1_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -478,7 +478,7 @@ Clarinet.test({
         "taral-exporter",
         "append-order",
         [types.uint(new2_order_id), types.principal(exporter1_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -488,7 +488,7 @@ Clarinet.test({
         "taral-exporter",
         "append-order",
         [types.uint(new3_order_id), types.principal(exporter2_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -498,7 +498,7 @@ Clarinet.test({
         "taral-exporter",
         "append-order",
         [types.uint(new4_order_id), types.principal(exporter2_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -521,7 +521,7 @@ Clarinet.test({
       "taral-exporter",
       "get-exporter-orders",
       [orderList, exporterList],
-      deployer.address
+      deployer.address,
     );
 
     // Assert

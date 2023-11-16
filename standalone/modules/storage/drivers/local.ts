@@ -9,7 +9,10 @@ import { join } from "path";
 import * as fs from "fs-extra";
 
 export class Local implements StorageDriver {
-  constructor(private disk: string, private config: DiskOptions) {}
+  constructor(
+    private disk: string,
+    private config: DiskOptions,
+  ) {}
 
   /**
    * Put file content to the path specified.
@@ -19,11 +22,11 @@ export class Local implements StorageDriver {
    */
   async put(
     filePath: string,
-    fileContent: any
+    fileContent: any,
   ): Promise<StorageDriver$PutFileResponse> {
     const res = await fs.outputFile(
       join(this.config.basePath || "", filePath),
-      fileContent
+      fileContent,
     );
     return { path: join(this.config.basePath || "", filePath), url: "" };
   }
@@ -112,12 +115,12 @@ export class Local implements StorageDriver {
    */
   async copy(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse> {
     const res = await fs.copy(
       join(this.config.basePath || "", path),
       join(this.config.basePath || "", newPath),
-      { overwrite: true }
+      { overwrite: true },
     );
     return {
       path: join(this.config.basePath || "", newPath),
@@ -133,7 +136,7 @@ export class Local implements StorageDriver {
    */
   async move(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse> {
     await this.copy(path, newPath);
     await this.delete(path);

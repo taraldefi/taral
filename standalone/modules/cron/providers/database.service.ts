@@ -9,14 +9,14 @@ export class DatabaseService {
   private client?: MongoClient;
 
   constructor(
-    @Inject(CRON_MODULE_CONFIG) private readonly config: AgendaConfig
+    @Inject(CRON_MODULE_CONFIG) private readonly config: AgendaConfig,
   ) {
     if (config.mongo) {
       this.connection = config.mongo;
     } else {
       this.client = new MongoClient(
         config.db?.address as string,
-        config.db?.options
+        config.db?.options,
       );
     }
   }
@@ -25,7 +25,7 @@ export class DatabaseService {
     if (!this.connection) {
       this.client = new MongoClient(
         this.config.db?.address as string,
-        this.config.db?.options
+        this.config.db?.options,
       );
 
       await this.client.connect();

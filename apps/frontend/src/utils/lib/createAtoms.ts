@@ -16,7 +16,7 @@ export const createAtoms = <
     subscribe(callback: (result: Result) => void): () => void;
   },
   Action,
-  ActionResult
+  ActionResult,
 >(
   getOptions: (get: Getter) => Options,
   getQueryClient: (get: Getter) => QueryClient,

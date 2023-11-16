@@ -13,7 +13,7 @@ export type { DummyOracleContract } from "./types";
 export const nodeDummyOracleContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<DummyOracleContract>(
     DummyOracleInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeDummyOracleInfo: NodeContract<DummyOracleContract> = {
 export const webDummyOracleContract = (provider: BaseWebProvider) => {
   const contract = webProxy<DummyOracleContract>(
     DummyOracleInterface,
-    provider
+    provider,
   );
   return contract;
 };

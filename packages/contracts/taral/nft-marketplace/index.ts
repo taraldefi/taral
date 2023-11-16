@@ -13,7 +13,7 @@ export type { NftMarketplaceContract } from "./types";
 export const nodeNftMarketplaceContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<NftMarketplaceContract>(
     NftMarketplaceInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeNftMarketplaceInfo: NodeContract<NftMarketplaceContract> = {
 export const webNftMarketplaceContract = (provider: BaseWebProvider) => {
   const contract = webProxy<NftMarketplaceContract>(
     NftMarketplaceInterface,
-    provider
+    provider,
   );
   return contract;
 };

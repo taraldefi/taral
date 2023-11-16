@@ -4,7 +4,7 @@ import { ClarityTypes } from "lib-shared";
 export interface InsurancePoolOracleContract {
   getPrice: (
     source: string,
-    symbol: string
+    symbol: string,
   ) => Promise<{
     amount: bigint;
     height: bigint;

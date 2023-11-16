@@ -8,5 +8,5 @@ export const OtelHistogram = createParamDecorator(
       throw new Error("OtelHistogram need a name argument");
     }
     return getOrCreateHistogram(name, options);
-  }
+  },
 );

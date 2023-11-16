@@ -15,13 +15,13 @@ export class Client {
   callReadOnlyFn(
     method: string,
     args: Array<any> = [],
-    sender: Account = this.deployer
+    sender: Account = this.deployer,
   ): ReadOnlyFn {
     const result = this.chain.callReadOnlyFn(
       this.contractName,
       method,
       args,
-      sender?.address
+      sender?.address,
     );
 
     return result;

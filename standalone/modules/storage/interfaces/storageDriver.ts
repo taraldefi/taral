@@ -70,7 +70,7 @@ export interface StorageDriver {
    */
   copy(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse>;
 
   /**
@@ -81,7 +81,7 @@ export interface StorageDriver {
    */
   move(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse>;
 
   // /**

@@ -13,7 +13,7 @@ const EMPTY_BUFFER =
 export function buildPayload(
   timestamp: number,
   symbol: string,
-  price: number
+  price: number,
 ): Buffer {
   // prefill as much, and add timestamp, price and symbol
   const timestamp_offset = 64 - 8; // 64 bits?

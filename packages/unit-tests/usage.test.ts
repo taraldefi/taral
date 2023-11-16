@@ -9,7 +9,7 @@ test("Test that we can access the token without deploying", async () => {
     {
       taralCoinInfo,
     },
-    clarityBin
+    clarityBin,
   );
 
   const contract = contractInfo.taralCoinInfo.contract;

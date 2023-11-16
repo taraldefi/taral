@@ -4,7 +4,7 @@ import { makeTypes } from "./utils";
 function generateTypesFileInternal(
   abi: ClarityAbi,
   contractName: string,
-  imports: string
+  imports: string,
 ) {
   const name = toCamelCase(contractName, true);
   const typings = makeTypes(abi);
@@ -28,7 +28,7 @@ export const generateTypesFile = (abi: ClarityAbi, contractName: string) => {
 
 export const generateMockTypesFile = (
   abi: ClarityAbi,
-  contractName: string
+  contractName: string,
 ) => {
   const imports = `
   import { Transaction } from 'lib-shared';

@@ -4,7 +4,7 @@ import { ClarityTypes } from "lib-shared";
 export interface PoxContract {
   allowContractCaller: (
     caller: string,
-    untilBurnHt: bigint | null
+    untilBurnHt: bigint | null,
   ) => Transaction<boolean, bigint>;
   delegateStackStx: (
     stacker: string,
@@ -14,7 +14,7 @@ export interface PoxContract {
       version: Buffer;
     },
     startBurnHt: number | bigint,
-    lockPeriod: number | bigint
+    lockPeriod: number | bigint,
   ) => Transaction<
     {
       "lock-amount": bigint;
@@ -30,7 +30,7 @@ export interface PoxContract {
     poxAddr: {
       hashbytes: Buffer;
       version: Buffer;
-    } | null
+    } | null,
   ) => Transaction<boolean, bigint>;
   disallowContractCaller: (caller: string) => Transaction<boolean, bigint>;
   rejectPox: () => Transaction<boolean, bigint>;
@@ -39,14 +39,14 @@ export interface PoxContract {
     firstBurnHeight: number | bigint,
     prepareCycleLength: number | bigint,
     rewardCycleLength: number | bigint,
-    rejectionFraction: number | bigint
+    rejectionFraction: number | bigint,
   ) => Transaction<boolean, bigint>;
   stackAggregationCommit: (
     poxAddr: {
       hashbytes: Buffer;
       version: Buffer;
     },
-    rewardCycle: number | bigint
+    rewardCycle: number | bigint,
   ) => Transaction<boolean, bigint>;
   stackStx: (
     amountUstx: number | bigint,
@@ -55,7 +55,7 @@ export interface PoxContract {
       version: Buffer;
     },
     startBurnHt: number | bigint,
-    lockPeriod: number | bigint
+    lockPeriod: number | bigint,
   ) => Transaction<
     {
       "lock-amount": bigint;
@@ -71,7 +71,7 @@ export interface PoxContract {
     },
     amountUstx: number | bigint,
     firstRewardCycle: number | bigint,
-    numCycles: number | bigint
+    numCycles: number | bigint,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   getPoxInfo: () => Promise<
     ClarityTypes.Response<
@@ -90,13 +90,13 @@ export interface PoxContract {
   >;
   getPoxRejection: (
     stacker: string,
-    rewardCycle: number | bigint
+    rewardCycle: number | bigint,
   ) => Promise<{
     amount: bigint;
   } | null>;
   getRewardSetPoxAddress: (
     rewardCycle: number | bigint,
-    index: number | bigint
+    index: number | bigint,
   ) => Promise<{
     "pox-addr": {
       hashbytes: Buffer;
@@ -124,7 +124,7 @@ export interface PoxContract {
     },
     amountUstx: number | bigint,
     firstRewardCycle: number | bigint,
-    numCycles: number | bigint
+    numCycles: number | bigint,
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   ADDRESS_VERSION_P2PKH: () => Promise<Buffer>;
   ADDRESS_VERSION_P2SH: () => Promise<Buffer>;
