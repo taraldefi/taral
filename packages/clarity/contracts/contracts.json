@@ -27,8 +27,6 @@
         "storage-service",
         "taral-coin",
         "taral-exporter-v1",
-        "taral-exporter",
-        "taral-importer",
         "taral-importer-v1",
         "taral-oracle-v1",
         "taral-purchase-order",
