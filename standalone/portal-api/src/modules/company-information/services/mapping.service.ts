@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
-import { GetBuyerResponse } from 'src/modules/applications/dto/response/buyer-information/get-buyer-response.dto';
-import { GetBuyerCompanyAddressRequest } from 'src/modules/applications/dto/response/buyer-information/get-buyer-company-address-response.dto';
-import { GetBuyerCompanyTaxAndRevenueRequest } from 'src/modules/applications/dto/response/buyer-information/get-buyer-company-tax-and-revenue.response.dto';
+import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
+import { GetBuyerCompanyAddressRequest } from '../dto/response/get-buyer-company-address-response.dto';
+import { GetBuyerCompanyTaxAndRevenueRequest } from '../dto/response/get-buyer-company-tax-and-revenue.response.dto';
 
 @Injectable()
 export class EntityMappingService {

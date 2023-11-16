@@ -1,29 +1,27 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateBuyerRequest } from '../../dto/request/buyer-information/create-buyer.dto';
-import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
-import { QuickApplicationEntity } from '../../models/quickapplication.entity';
-import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
-import { GetBuyerResponse } from 'src/modules/buyer/dto/response/get-buyer-response.dto';
-import { UpdateBuyerRequest } from 'src/modules/buyer/dto/request/update-buyer.dto';
-import { CompanyAddressRepository } from 'src/modules/company-information/repositories/company.information.address.repository';
 import { BaseService } from 'src/common/services/base.service';
-import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { EntityNotFoundError } from 'typeorm';
-import { CompanyAddressEntity } from 'src/modules/company-information/models/company.information.address.entity';
-import { BuyerCompanyInformationEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
-import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/models/company.information.tax.and.revenue.entity';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
+import { CompanyAddressEntity } from '../models/company.information.address.entity';
+import { CompanyAddressRepository } from '../repositories/company.information.address.repository';
+import { CompanyTaxAndRevenueEntity } from '../models/company.information.tax.and.revenue.entity';
 import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
-import { BuyerCompanyInformationRepository } from 'src/modules/company-information/repositories/buyer.company.information.repository';
+import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
+import { BuyerCompanyInformationRepository } from '../repositories/buyer.company.information.repository';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
-import { SectorEntityRepository } from 'src/modules/company/repositories/sector.repository';
-import { EntityMappingService } from 'src/modules/company-information/services/mapping.service';
+import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { EntityMappingService } from './mapping.service';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { CreateBuyerCompanyRequest } from '../dto/request/create-buyer-company.dto';
+import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
+import { EntityNotFoundError } from 'typeorm';
 import { triggerError } from 'src/common/trigger.error';
-import { CreateBuyerCompanyRequest } from '../../dto/request/buyer-information/create-buyer-company.dto';
-import { UpdateBuyerCompanyRequest } from 'src/modules/buyer/dto/request/update-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from '../dto/request/update-buyer-company.dto';
+import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
 
 @Injectable()
-export class BuyerQuickApplicationBuyerInformationService extends BaseService {
+export class BuyerInformationService extends BaseService {
   constructor(
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -38,7 +36,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     private buyerCompanyInformationRepository: BuyerCompanyInformationRepository,
 
     @InjectRepository(SectorEntity)
-    private sectorEntityRepository: SectorEntityRepository,
+    private sectorEntityRepository: SectorsRepository,
 
     private readonly buyerCompanyService: BuyerCompanyEntityService,
     private readonly buyerInformationMappingService: EntityMappingService,
@@ -46,14 +44,13 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
     super();
   }
 
-  public async getBuyerInformation(applicationId: string) {
+  public async get(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
         relations: ['buyerInformation'],
       },
     );
-    console.log('APPLICATION=----->', application);
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
@@ -65,7 +62,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
-  public async createBuyerInformation(
+  public async create(
     data: CreateBuyerCompanyRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {
@@ -164,7 +161,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
-  public async updateBuyerInformation(
+  public async update(
     data: UpdateBuyerCompanyRequest,
     applicationId: string,
   ): Promise<GetBuyerResponse> {

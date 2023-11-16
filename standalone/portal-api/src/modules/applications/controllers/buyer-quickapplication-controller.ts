@@ -9,7 +9,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateBuyerRequest } from '../dto/request/buyer-information/create-buyer.dto';
+
 import { CreateCollateralDto } from 'src/modules/collateral/dto/request/create-collateral.dto';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/create-order-detail.dto';
@@ -18,9 +18,7 @@ import { CreateQuickApplicationRequest } from '../dto/request/create-quick-appli
 import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/create-payment-term.dto';
 import { CreateSupplierInformationRequest } from '../dto/request/create-supplier-info.dto';
 import { BuyerQuickApplicationService } from '../services/buyer-quick-application.service/application.service';
-import { BuyerQuickApplicationBuyerInformationService } from '../services/buyer-quick-application.service/buyer-information.service';
 // import { BuyerQuickApplicationSupplierInformationService } from '../services/buyer-quick-application.service/supplier-info.service';
-import { UpdateBuyerRequest } from 'src/modules/buyer/dto/request/update-buyer.dto';
 import { UpdateCollateralDto } from 'src/modules/collateral/dto/request/update-collateral.dto';
 import { UpdateSupplierInformationRequest } from '../dto/request/update-supplier-info.dto';
 import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/update-payment-term.dto';
@@ -33,8 +31,10 @@ import { CollateralService } from 'src/modules/collateral/services/collateral.se
 import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
-import { CreateBuyerCompanyRequest } from '../dto/request/buyer-information/create-buyer-company.dto';
-import { UpdateBuyerCompanyRequest } from 'src/modules/buyer/dto/request/update-buyer-company.dto';
+
+import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
+import { CreateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/create-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/update-buyer-company.dto';
 
 @ApiTags('Applications')
 @Controller({
@@ -46,7 +46,7 @@ export class QuickApplicationController {
     private readonly buyerQuickApplicationService: BuyerQuickApplicationService,
     private readonly entityService: BuyerCompanyEntityService,
     private readonly collateralService: CollateralService,
-    private readonly buyerQuickApplicationBuyerInformationService: BuyerQuickApplicationBuyerInformationService,
+    private readonly buyerInformationService: BuyerInformationService,
     // private readonly buyerQuickApplicationSupplierInformationService: BuyerQuickApplicationSupplierInformationService,
     private readonly orderDetailService: OrderDetailService,
     private readonly orderProductService: OrderProductService,
@@ -110,9 +110,7 @@ export class QuickApplicationController {
 
   @Get('/:id/buyer-info')
   async getBuyerInfo(@Param('id') id: string) {
-    return await this.buyerQuickApplicationBuyerInformationService.getBuyerInformation(
-      id,
-    );
+    return await this.buyerInformationService.get(id);
   }
 
   // Create buyer information for an application
@@ -121,11 +119,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() buyerInfo: CreateBuyerCompanyRequest,
   ) {
-    const buyerInformation =
-      await this.buyerQuickApplicationBuyerInformationService.createBuyerInformation(
-        buyerInfo,
-        applicationId,
-      );
+    const buyerInformation = await this.buyerInformationService.create(
+      buyerInfo,
+      applicationId,
+    );
     return buyerInformation;
   }
 
@@ -135,11 +132,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() buyerInfo: UpdateBuyerCompanyRequest,
   ) {
-    const buyerInformation =
-      await this.buyerQuickApplicationBuyerInformationService.updateBuyerInformation(
-        buyerInfo,
-        applicationId,
-      );
+    const buyerInformation = await this.buyerInformationService.update(
+      buyerInfo,
+      applicationId,
+    );
     return buyerInformation;
   }
 

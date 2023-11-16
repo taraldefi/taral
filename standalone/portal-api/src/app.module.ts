@@ -16,7 +16,6 @@ import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
 // import { SuppliersModule } from './modules/supplier/suppliers.module';
-// import { BuyersModule } from './modules/buyer/buyers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
@@ -146,7 +145,6 @@ export class AppModule {
       RatingsModule,
       SectorsModule,
       // SuppliersModule,
-      // BuyersModule,
       TransactionsModule,
       GoodsAndServicesModule,
       ContractsModule,

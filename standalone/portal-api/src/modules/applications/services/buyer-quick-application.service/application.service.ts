@@ -7,7 +7,7 @@ import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-b
 import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';
 import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
-import { BuyerQuickApplicationBuyerInformationService } from './buyer-information.service';
+
 // import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
@@ -16,6 +16,7 @@ import { CollateralService } from 'src/modules/collateral/services/collateral.se
 import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
+import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -23,11 +24,10 @@ export class BuyerQuickApplicationService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
-    private buyerInfoService: BuyerQuickApplicationBuyerInformationService,
+    private buyerInformationService: BuyerInformationService,
     // private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
-    private orderDetailProductService: OrderProductService,
     private collateralService: CollateralService,
   ) {
     super();
@@ -91,8 +91,9 @@ export class BuyerQuickApplicationService extends BaseService {
     response.endDate = application.endDate;
     response.status = application.status;
 
-    const savedBuyerInformation =
-      await this.buyerInfoService.getBuyerInformation(application.id);
+    const savedBuyerInformation = await this.buyerInformationService.get(
+      application.id,
+    );
     // const savedSupplierInformation =
     //   await this.supplierInfoService.getSupplierInformation(application.id);
 

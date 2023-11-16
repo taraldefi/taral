@@ -10,7 +10,7 @@ import {
 import { OrderProductEntity } from '../models/order-product.entity';
 import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 
-@Entity({ name: 'order_details' })
+@Entity({ name: 'orderDetails' })
 export class OrderDetailEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
