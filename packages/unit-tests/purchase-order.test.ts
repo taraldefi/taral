@@ -169,7 +169,6 @@ describe("Taral Purchase Order", () => {
   }, 3000000);
 
   test("Ensure the initialization works", async () => {
-
     const exporter_message = "This is the data containing exporter details";
     const exporter_messageHex = hashStacksMessage({
       message: exporter_message,
