@@ -19,7 +19,6 @@ import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/creat
 import { CreateSupplierInformationRequest } from '../dto/request/create-supplier-info.dto';
 import { BuyerQuickApplicationService } from '../services/buyer-quick-application.service/application.service';
 import { BuyerQuickApplicationBuyerInformationService } from '../services/buyer-quick-application.service/buyer-information.service';
-import { BuyerQuickApplicationCollateralService } from '../services/buyer-quick-application.service/collaterals.service';
 import { BuyerQuickApplicationOrderDetailService } from '../services/buyer-quick-application.service/order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from '../services/buyer-quick-application.service/payment-term.service';
 // import { BuyerQuickApplicationSupplierInformationService } from '../services/buyer-quick-application.service/supplier-info.service';
@@ -32,6 +31,7 @@ import { UpdateOrderDetailDto } from 'src/modules/order-detail/dto/request/updat
 import { UpdateOrderProductDto } from 'src/modules/order-detail/dto/request/update-order-product.dto';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { EntityNotFoundError } from 'typeorm';
+import { CollateralService } from 'src/modules/collateral/services/collateral.service';
 
 @ApiTags('Applications')
 @Controller({
@@ -42,10 +42,10 @@ export class QuickApplicationController {
   constructor(
     private readonly buyerQuickApplicationService: BuyerQuickApplicationService,
     private readonly entityService: BuyerCompanyEntityService,
+    private readonly collateralService: CollateralService,
     private readonly buyerQuickApplicationBuyerInformationService: BuyerQuickApplicationBuyerInformationService,
     // private readonly buyerQuickApplicationSupplierInformationService: BuyerQuickApplicationSupplierInformationService,
     private readonly buyerQuickApplicationOrderDetailsService: BuyerQuickApplicationOrderDetailService,
-    private readonly buyerQuickApplicationCollateralService: BuyerQuickApplicationCollateralService,
     private readonly buyerQuickApplicationpaymentTermService: BuyerQuickApplicationPaymentTermService,
   ) {}
 
@@ -263,7 +263,7 @@ export class QuickApplicationController {
   // Get collateral of an application by ID
   @Get('/:id/security')
   async getSecurity(@Param('id') id: string) {
-    return await this.buyerQuickApplicationCollateralService.getCollateral(id);
+    return await this.collateralService.get(id);
   }
 
   // Create collateral for an application
@@ -272,11 +272,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() securityInfo: CreateCollateralDto,
   ) {
-    const collateral =
-      await this.buyerQuickApplicationCollateralService.createCollateral(
-        securityInfo,
-        applicationId,
-      );
+    const collateral = await this.collateralService.create(
+      securityInfo,
+      applicationId,
+    );
     return collateral;
   }
 
@@ -286,11 +285,10 @@ export class QuickApplicationController {
     @Param('id') applicationId: string,
     @Body() securityInfo: UpdateCollateralDto,
   ) {
-    const collateral =
-      await this.buyerQuickApplicationCollateralService.updateCollateral(
-        securityInfo,
-        applicationId,
-      );
+    const collateral = await this.collateralService.update(
+      securityInfo,
+      applicationId,
+    );
     return collateral;
   }
 

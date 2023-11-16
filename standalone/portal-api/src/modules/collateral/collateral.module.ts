@@ -3,12 +3,14 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CollateralEntity } from './models/collaterals.entity';
 import { CollateralService } from './services/collateral.service';
-import { CollateralController } from './collateral.controller';
 import { CollateralMappingService } from './services/mapping.service';
+import { QuickApplicationEntity } from '../applications/models/quickapplication.entity';
+import { ApplicationModule } from '../applications/application.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([CollateralEntity])],
-  controllers: [CollateralController],
+  imports: [
+    TypeOrmModule.forFeature([CollateralEntity, QuickApplicationEntity]),
+  ],
   providers: [
     ConfigModule,
     ConfigService,

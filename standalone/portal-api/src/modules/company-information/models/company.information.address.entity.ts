@@ -25,7 +25,6 @@ export class CompanyAddressEntity extends EntityHelper {
   postalCode: string;
 
   @OneToOne(() => CompanyInformationEntity, (company) => company.address, {
-    eager: true,
     cascade: true,
     onDelete: 'CASCADE',
   })

@@ -1,11 +1,11 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class initialMigration1700027668459 implements MigrationInterface {
-    name = 'initialMigration1700027668459'
+export class initialMigration1700116267016 implements MigrationInterface {
+    name = 'initialMigration1700116267016'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "CompanyAddresses" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "city" character varying NOT NULL, "addressLine1" character varying NOT NULL, "addressLine2" character varying NOT NULL, "postalCode" character varying NOT NULL, CONSTRAINT "PK_0313dfd6528659ba1917a92d5d8" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "CompanyTaxAndRevenue" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "taxNumber" character varying, "lastFiscalYear" TIMESTAMP WITH TIME ZONE NOT NULL, "totalRevenue" character varying NOT NULL, "exportValue" integer, "audited" boolean, "exportRevenuePercentage" numeric(10,2) DEFAULT '0', CONSTRAINT "PK_0100eb1d34631e67d26b67efa7a" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "TaxAndRevenue" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "taxNumber" character varying, "lastFiscalYear" TIMESTAMP WITH TIME ZONE NOT NULL, "totalRevenue" character varying NOT NULL, "exportValue" integer, "audited" boolean, "exportRevenuePercentage" numeric(10,2) DEFAULT '0', CONSTRAINT "PK_2be7e0740a6231261a5cc7883b6" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "CompanyInformation" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "phoneNumber" character varying NOT NULL, "employeeCount" integer, "registrationNumbers" character varying NOT NULL, "type" character varying NOT NULL, "taxAndRevenueId" uuid, "addressId" uuid, CONSTRAINT "REL_8474368ba299743e60e908cd2a" UNIQUE ("taxAndRevenueId"), CONSTRAINT "REL_d4269c155a69922cd29f7eca09" UNIQUE ("addressId"), CONSTRAINT "PK_66bb02343b9cdb0a0729de4138d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_f8183f26c3767e444b13c71279" ON "CompanyInformation" ("type") `);
         await queryRunner.query(`CREATE TABLE "FinancialInformations" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "turnover" numeric(10,2) NOT NULL DEFAULT '0', "balanceSheetTotal" numeric(10,2) NOT NULL DEFAULT '0', "type" character varying NOT NULL, CONSTRAINT "PK_1bcb62b7d7160ecbeb13ccca57d" PRIMARY KEY ("id"))`);
@@ -26,7 +26,7 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "file_participants" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "wallet" character varying NOT NULL, "publicKey" character varying NOT NULL, "created" TIMESTAMP WITH TIME ZONE NOT NULL, CONSTRAINT "PK_9ed1cee80af226663d3c53f2264" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "file_versions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "hash" character varying NOT NULL, "path" character varying NOT NULL, "created" TIMESTAMP WITH TIME ZONE NOT NULL, "on_disk_name" character varying NOT NULL, "fileId" uuid, CONSTRAINT "PK_caca394bb05012a3d17c1d8b336" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "file" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "original_name" character varying NOT NULL, "created" TIMESTAMP WITH TIME ZONE NOT NULL, "last_updated" TIMESTAMP WITH TIME ZONE NOT NULL, CONSTRAINT "PK_36b46d232307066b3a2c9ea3a1d" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "TransactionDocuments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), CONSTRAINT "PK_8488f8e87bde7dacf065cec4cbb" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "TransactionDocuments" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "confirmationDocumentId" uuid, "additionalDocumentId" uuid, CONSTRAINT "REL_28b67dacf951ddf4cc2f7b59c4" UNIQUE ("confirmationDocumentId"), CONSTRAINT "REL_5d723345616c1f9325704d0372" UNIQUE ("additionalDocumentId"), CONSTRAINT "PK_8488f8e87bde7dacf065cec4cbb" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "order_products" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "name" character varying NOT NULL, "quantity" integer NOT NULL, "unitPrice" integer NOT NULL, "orderId" uuid, CONSTRAINT "PK_3e59f094c2dc3310d585216a813" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "order_details" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "importPort" character varying NOT NULL, "exportPort" character varying NOT NULL, CONSTRAINT "PK_278a6e0f21c9db1653e6f406801" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."Quick_Applications_status_enum" AS ENUM('ACTIVE', 'COMPLETED', 'ON_REVIEW', 'APPROVED')`);
@@ -35,9 +35,9 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "auction_bids_history" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "action" character varying NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "changes" json NOT NULL DEFAULT '{}', "hash" character(64) NOT NULL, "auctionId" integer NOT NULL, "amount" numeric(10,2) NOT NULL DEFAULT '0', "bidder" character varying NOT NULL, CONSTRAINT "CHK_6c4e750761fe8516e09a77b04e" CHECK ("action" IN ('insert', 'update', 'delete')), CONSTRAINT "PK_d8cefa4fe1dd8bf6fe48d2c70de" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."auctions_history_status_enum" AS ENUM('FINALIZED', 'OPEN', 'CLOSED', 'CANCELLED')`);
         await queryRunner.query(`CREATE TABLE "auctions_history" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "action" character varying NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "changes" json NOT NULL DEFAULT '{}', "hash" character(64) NOT NULL, "auctionId" integer NOT NULL, "endBlock" character varying NOT NULL, "highestBid" character varying, "maker" character varying NOT NULL, "nftAsset" character varying NOT NULL, "highestBidder" character varying, "status" "public"."auctions_history_status_enum" NOT NULL DEFAULT 'OPEN', CONSTRAINT "CHK_058da0f8f89bebc2b50711eb2c" CHECK ("action" IN ('insert', 'update', 'delete')), CONSTRAINT "PK_1d0cde049207d87cc40487680fb" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "Bids" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "hash" character(64) NOT NULL, "amount" numeric(10,2) NOT NULL DEFAULT '0', "bidder" character varying NOT NULL, "auctionId" integer, CONSTRAINT "PK_c883ef5b8fbd0d953d39c3b7a7d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TYPE "public"."Auctions_status_enum" AS ENUM('FINALIZED', 'OPEN', 'CLOSED', 'CANCELLED')`);
         await queryRunner.query(`CREATE TABLE "Auctions" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "hash" character(64) NOT NULL, "auctionId" integer NOT NULL, "endBlock" character varying NOT NULL, "highestBid" character varying, "maker" character varying NOT NULL, "nftAsset" character varying NOT NULL, "highestBidder" character varying, "status" "public"."Auctions_status_enum" NOT NULL DEFAULT 'OPEN', CONSTRAINT "PK_cb157335b3d35a7144c48d123e6" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "Bids" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "hash" character(64) NOT NULL, "amount" numeric(10,2) NOT NULL DEFAULT '0', "bidder" character varying NOT NULL, "auctionId" integer, CONSTRAINT "PK_c883ef5b8fbd0d953d39c3b7a7d" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "permission" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "resource" character varying(100) NOT NULL, "description" character varying NOT NULL, "path" character varying NOT NULL, "method" character varying(20) NOT NULL DEFAULT 'get', "isDefault" boolean NOT NULL, CONSTRAINT "UQ_b690135d86d59cc689d465ac952" UNIQUE ("description"), CONSTRAINT "PK_3b8b97af9d9d8807e41e6f48362" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "rolea" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "name" text NOT NULL, "description" text NOT NULL, CONSTRAINT "UQ_e7a191b2b5a62281445d665cc51" UNIQUE ("name"), CONSTRAINT "PK_90194187649484d907469c5e923" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "users" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "username" character varying NOT NULL, "email" character varying NOT NULL, "password" character varying NOT NULL, "name" character varying NOT NULL, "address" character varying, "contact" character varying, "avatar" character varying, "status" character varying NOT NULL, "token" character varying, "tokenValidityDate" TIMESTAMP NOT NULL DEFAULT now(), "salt" character varying NOT NULL, "twoFASecret" character varying, "twoFAThrottleTime" TIMESTAMP NOT NULL DEFAULT now(), "isTwoFAEnabled" boolean NOT NULL DEFAULT false, "roleId" integer NOT NULL, CONSTRAINT "UQ_fe0bb3f6520ee0469504521e710" UNIQUE ("username"), CONSTRAINT "UQ_97672ac88f789774dd47f7c8be3" UNIQUE ("email"), CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY ("id"))`);
@@ -45,15 +45,15 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`CREATE TABLE "Transactions" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "goodsAndServicesId" uuid, "contractId" uuid, CONSTRAINT "REL_6a3743deaf73e36a0defcec115" UNIQUE ("goodsAndServicesId"), CONSTRAINT "REL_e1accc56c67658990c6a1bfed8" UNIQUE ("contractId"), CONSTRAINT "PK_7761bf9766670b894ff2fdb3700" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "Contracts" ("id" uuid NOT NULL DEFAULT uuid_generate_v4(), "conoclusion" TIMESTAMP WITH TIME ZONE NOT NULL, "isSigned" boolean NOT NULL, CONSTRAINT "PK_4f88addbb8b532d6e46459c8755" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "email_templates" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT ('now'::text)::timestamp(3) with time zone, "title" character varying NOT NULL, "slug" character varying NOT NULL, "sender" character varying NOT NULL, "subject" character varying NOT NULL, "body" character varying NOT NULL, "isDefault" boolean NOT NULL, CONSTRAINT "UQ_4d77a74e85c275da60f4badf831" UNIQUE ("title"), CONSTRAINT "PK_06c564c515d8cdb40b6f3bfbbb4" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "refresh_token" ("id" SERIAL NOT NULL, "userId" integer NOT NULL, "ip" character varying NOT NULL, "userAgent" character varying NOT NULL, "browser" character varying, "os" character varying, "isRevoked" boolean NOT NULL, "expires" TIMESTAMP NOT NULL, CONSTRAINT "PK_b575dd3c21fb0831013c909e7fe" PRIMARY KEY ("id"))`);
+        await queryRunner.query(`CREATE TABLE "status" ("id" integer NOT NULL, "name" character varying NOT NULL, CONSTRAINT "PK_e12743a7086ec826733f54e1d95" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "file_participants_files_file" ("fileParticipantsId" uuid NOT NULL, "fileId" uuid NOT NULL, CONSTRAINT "PK_025fe43f19a4e1862c8f4112e2c" PRIMARY KEY ("fileParticipantsId", "fileId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_1d7cb3ff06675dbb97386e18af" ON "file_participants_files_file" ("fileParticipantsId") `);
         await queryRunner.query(`CREATE INDEX "IDX_011dad0a532b96fb1e70387bf5" ON "file_participants_files_file" ("fileId") `);
         await queryRunner.query(`CREATE TABLE "role_permission" ("roleId" integer NOT NULL, "permissionId" integer NOT NULL, CONSTRAINT "PK_b42bbacb8402c353df822432544" PRIMARY KEY ("roleId", "permissionId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_e3130a39c1e4a740d044e68573" ON "role_permission" ("roleId") `);
         await queryRunner.query(`CREATE INDEX "IDX_72e80be86cab0e93e67ed1a7a9" ON "role_permission" ("permissionId") `);
-        await queryRunner.query(`ALTER TABLE "CompanyInformation" ADD CONSTRAINT "FK_8474368ba299743e60e908cd2ad" FOREIGN KEY ("taxAndRevenueId") REFERENCES "CompanyTaxAndRevenue"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "CompanyInformation" ADD CONSTRAINT "FK_8474368ba299743e60e908cd2ad" FOREIGN KEY ("taxAndRevenueId") REFERENCES "TaxAndRevenue"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "CompanyInformation" ADD CONSTRAINT "FK_d4269c155a69922cd29f7eca09e" FOREIGN KEY ("addressId") REFERENCES "CompanyAddresses"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "SupplierCompanies" ADD CONSTRAINT "FK_528e78318d2b1007fda27291a7b" FOREIGN KEY ("financialsId") REFERENCES "FinancialInformations"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "SupplierCompanies" ADD CONSTRAINT "FK_4d60a8cd8f9d65dc5f0374b32f7" FOREIGN KEY ("ratingId") REFERENCES "ExternalRatings"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -63,8 +63,10 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "BuyerCompanies" ADD CONSTRAINT "FK_6c3070b3bc2f295ddc24b4ad929" FOREIGN KEY ("sectorId") REFERENCES "Sectors"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "BuyerCompanies" ADD CONSTRAINT "FK_3f842c6b8708da37970bd70a14f" FOREIGN KEY ("companyInformationId") REFERENCES "CompanyInformation"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "file_versions" ADD CONSTRAINT "FK_5b2975bbaeb5c5db8c57ac438f4" FOREIGN KEY ("fileId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "TransactionDocuments" ADD CONSTRAINT "FK_28b67dacf951ddf4cc2f7b59c46" FOREIGN KEY ("confirmationDocumentId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "TransactionDocuments" ADD CONSTRAINT "FK_5d723345616c1f9325704d03727" FOREIGN KEY ("additionalDocumentId") REFERENCES "file"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "order_products" ADD CONSTRAINT "FK_28b66449cf7cd76444378ad4e92" FOREIGN KEY ("orderId") REFERENCES "order_details"("id") ON DELETE CASCADE ON UPDATE NO ACTION`);
-        await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_c880a46a81d871b000f044e2f14" FOREIGN KEY ("buyerInformationId") REFERENCES "BuyerCompanies"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
+        await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_c880a46a81d871b000f044e2f14" FOREIGN KEY ("buyerInformationId") REFERENCES "CompanyInformation"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_bc9a4014f3ada292b2409b17620" FOREIGN KEY ("supplierInformationId") REFERENCES "SupplierCompanies"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_120c41277d35a0b906898f42033" FOREIGN KEY ("paymentTermsId") REFERENCES "PaymentTerms"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" ADD CONSTRAINT "FK_54b2691a3c6b076b9340a824102" FOREIGN KEY ("orderDetailsId") REFERENCES "order_details"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`);
@@ -98,6 +100,8 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`ALTER TABLE "Quick_Applications" DROP CONSTRAINT "FK_bc9a4014f3ada292b2409b17620"`);
         await queryRunner.query(`ALTER TABLE "Quick_Applications" DROP CONSTRAINT "FK_c880a46a81d871b000f044e2f14"`);
         await queryRunner.query(`ALTER TABLE "order_products" DROP CONSTRAINT "FK_28b66449cf7cd76444378ad4e92"`);
+        await queryRunner.query(`ALTER TABLE "TransactionDocuments" DROP CONSTRAINT "FK_5d723345616c1f9325704d03727"`);
+        await queryRunner.query(`ALTER TABLE "TransactionDocuments" DROP CONSTRAINT "FK_28b67dacf951ddf4cc2f7b59c46"`);
         await queryRunner.query(`ALTER TABLE "file_versions" DROP CONSTRAINT "FK_5b2975bbaeb5c5db8c57ac438f4"`);
         await queryRunner.query(`ALTER TABLE "BuyerCompanies" DROP CONSTRAINT "FK_3f842c6b8708da37970bd70a14f"`);
         await queryRunner.query(`ALTER TABLE "BuyerCompanies" DROP CONSTRAINT "FK_6c3070b3bc2f295ddc24b4ad929"`);
@@ -114,8 +118,8 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`DROP INDEX "public"."IDX_011dad0a532b96fb1e70387bf5"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_1d7cb3ff06675dbb97386e18af"`);
         await queryRunner.query(`DROP TABLE "file_participants_files_file"`);
-        await queryRunner.query(`DROP TABLE "refresh_token"`);
         await queryRunner.query(`DROP TABLE "status"`);
+        await queryRunner.query(`DROP TABLE "refresh_token"`);
         await queryRunner.query(`DROP TABLE "email_templates"`);
         await queryRunner.query(`DROP TABLE "Contracts"`);
         await queryRunner.query(`DROP TABLE "Transactions"`);
@@ -123,9 +127,9 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "users"`);
         await queryRunner.query(`DROP TABLE "rolea"`);
         await queryRunner.query(`DROP TABLE "permission"`);
+        await queryRunner.query(`DROP TABLE "Bids"`);
         await queryRunner.query(`DROP TABLE "Auctions"`);
         await queryRunner.query(`DROP TYPE "public"."Auctions_status_enum"`);
-        await queryRunner.query(`DROP TABLE "Bids"`);
         await queryRunner.query(`DROP TABLE "auctions_history"`);
         await queryRunner.query(`DROP TYPE "public"."auctions_history_status_enum"`);
         await queryRunner.query(`DROP TABLE "auction_bids_history"`);
@@ -155,7 +159,7 @@ export class initialMigration1700027668459 implements MigrationInterface {
         await queryRunner.query(`DROP TABLE "FinancialInformations"`);
         await queryRunner.query(`DROP INDEX "public"."IDX_f8183f26c3767e444b13c71279"`);
         await queryRunner.query(`DROP TABLE "CompanyInformation"`);
-        await queryRunner.query(`DROP TABLE "CompanyTaxAndRevenue"`);
+        await queryRunner.query(`DROP TABLE "TaxAndRevenue"`);
         await queryRunner.query(`DROP TABLE "CompanyAddresses"`);
     }
 

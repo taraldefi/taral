@@ -9,7 +9,6 @@ export class SupplierCompanyInformationEntity extends CompanyInformationEntity {
     () => SupplierCompanyEntity,
     (supplier) => supplier.companyInformation,
     {
-      eager: true,
       cascade: true,
       onDelete: 'CASCADE',
     },

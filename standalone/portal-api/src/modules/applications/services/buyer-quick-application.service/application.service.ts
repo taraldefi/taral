@@ -8,13 +8,13 @@ import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-q
 import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
 import { BuyerQuickApplicationBuyerInformationService } from './buyer-information.service';
-import { BuyerQuickApplicationCollateralService } from './collaterals.service';
 import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';
 // import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { CollateralService } from 'src/modules/collateral/services/collateral.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -26,7 +26,7 @@ export class BuyerQuickApplicationService extends BaseService {
     // private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
     private paymentTermService: BuyerQuickApplicationPaymentTermService,
     private orderDetailService: BuyerQuickApplicationOrderDetailService,
-    private collateralService: BuyerQuickApplicationCollateralService,
+    private collateralService: CollateralService,
   ) {
     super();
   }
@@ -45,7 +45,7 @@ export class BuyerQuickApplicationService extends BaseService {
         'endDate',
       ],
       relations: ['supplierInformation'],
-      where: { legalEntity: { id: entityID } },
+      where: { company: { id: entityID } },
     });
 
     var response = new Array<GetApplicationResponse>();
@@ -100,9 +100,7 @@ export class BuyerQuickApplicationService extends BaseService {
     const savedOrderDetail = await this.orderDetailService.getOrderDetails(
       application.id,
     );
-    const savedCollateral = await this.collateralService.getCollateral(
-      application.id,
-    );
+    const savedCollateral = await this.collateralService.get(application.id);
     // response.exporterName = savedSupplierInformation.supplier.companyName;
     response.exporterName = '--';
     response.buyerInformation = savedBuyerInformation;
@@ -193,7 +191,7 @@ export class BuyerQuickApplicationService extends BaseService {
     entityId: string,
   ): Promise<QuickApplicationEntity> {
     const application = await this.buyerApplicationRepository.findOneOrFail({
-      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
+      where: { status: 'ACTIVE', company: { id: entityId } },
     });
 
     return application;
@@ -218,7 +216,7 @@ export class BuyerQuickApplicationService extends BaseService {
 
   private async checkActiveApplicationExists(entityId: string): Promise<void> {
     const activeApplication = await this.buyerApplicationRepository.findOne({
-      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
+      where: { status: 'ACTIVE', company: { id: entityId } },
     });
 
     if (activeApplication && activeApplication.id) {

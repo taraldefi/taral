@@ -50,6 +50,7 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
         relations: ['buyerInformation'],
       },
     );
+    console.log('APPLICATION=----->', application);
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
@@ -97,9 +98,11 @@ export class BuyerQuickApplicationBuyerInformationService extends BaseService {
         HttpStatus.BAD_REQUEST,
       );
     }
-
+    console.log(application);
     // get the buyer company to fill in the buyer company information
-    const entity = await this.buyerCompanyService.findBuyerEntityById(data.id);
+    const entity = await this.buyerCompanyService.findBuyerEntityById(
+      application.company.id,
+    );
 
     // create a new instance of the buyer company information
     const companyInformation = new BuyerCompanyInformationEntity();

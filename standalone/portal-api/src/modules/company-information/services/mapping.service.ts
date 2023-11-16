@@ -24,41 +24,44 @@ export class EntityMappingService {
     response.id = entity.id;
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
-    response.employeeCount = entity.companyInformation.employeeCount;
-    response.phoneNumber = entity.companyInformation.phoneNumber;
-    response.registrationNumbers =
-      entity.companyInformation.registrationNumbers;
+    if (entity.companyInformation) {
+      response.employeeCount = entity.companyInformation.employeeCount;
+      response.phoneNumber = entity.companyInformation.phoneNumber;
+      response.registrationNumbers =
+        entity.companyInformation.registrationNumbers;
 
-    response.address.addressLine1 =
-      entity.companyInformation.address.addressLine1;
-    response.address.addressLine2 =
-      entity.companyInformation.address.addressLine2;
-    response.address.city = entity.companyInformation.address.city;
-    response.address.postalCode = entity.companyInformation.address.postalCode;
+      response.address.addressLine1 =
+        entity.companyInformation.address.addressLine1;
+      response.address.addressLine2 =
+        entity.companyInformation.address.addressLine2;
+      response.address.city = entity.companyInformation.address.city;
+      response.address.postalCode =
+        entity.companyInformation.address.postalCode;
 
-    if (entity.companyInformation.taxAndRevenue.taxNumber) {
-      response.taxAndRevenue.taxNumber =
-        entity.companyInformation.taxAndRevenue.taxNumber;
-    }
-    if (entity.companyInformation.taxAndRevenue.audited) {
-      response.taxAndRevenue.audited =
-        entity.companyInformation.taxAndRevenue.audited;
-    }
-    if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
-      response.taxAndRevenue.exportRevenuePercentage =
-        entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
-    }
-    if (entity.companyInformation.taxAndRevenue.exportValue) {
-      response.taxAndRevenue.exportValue =
-        entity.companyInformation.taxAndRevenue.exportValue;
-    }
-    if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
-      response.taxAndRevenue.lastFiscalYear =
-        entity.companyInformation.taxAndRevenue.lastFiscalYear;
-    }
-    if (entity.companyInformation.taxAndRevenue.totalRevenue) {
-      response.taxAndRevenue.totalRevenue =
-        entity.companyInformation.taxAndRevenue.totalRevenue;
+      if (entity.companyInformation.taxAndRevenue.taxNumber) {
+        response.taxAndRevenue.taxNumber =
+          entity.companyInformation.taxAndRevenue.taxNumber;
+      }
+      if (entity.companyInformation.taxAndRevenue.audited) {
+        response.taxAndRevenue.audited =
+          entity.companyInformation.taxAndRevenue.audited;
+      }
+      if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
+        response.taxAndRevenue.exportRevenuePercentage =
+          entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
+      }
+      if (entity.companyInformation.taxAndRevenue.exportValue) {
+        response.taxAndRevenue.exportValue =
+          entity.companyInformation.taxAndRevenue.exportValue;
+      }
+      if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
+        response.taxAndRevenue.lastFiscalYear =
+          entity.companyInformation.taxAndRevenue.lastFiscalYear;
+      }
+      if (entity.companyInformation.taxAndRevenue.totalRevenue) {
+        response.taxAndRevenue.totalRevenue =
+          entity.companyInformation.taxAndRevenue.totalRevenue;
+      }
     }
 
     return response;

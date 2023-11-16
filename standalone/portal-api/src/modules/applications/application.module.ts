@@ -14,7 +14,6 @@ import { BuyerQuickApplicationBuyerInformationService } from './services/buyer-q
 // import { BuyerQuickApplicationSupplierInformationService } from './services/buyer-quick-application.service/supplier-info.service';
 import { BuyerQuickApplicationOrderDetailService } from './services/buyer-quick-application.service/order-details.service';
 import { BuyerQuickApplicationPaymentTermService } from './services/buyer-quick-application.service/payment-term.service';
-import { BuyerQuickApplicationCollateralService } from './services/buyer-quick-application.service/collaterals.service';
 import { BuyerQuickApplicationMappingService } from './services/buyer-quick-application.service/mapping.service';
 import { CompanyInformationModule } from '../company-information/company.information.module';
 import { SectorsModule } from '../sectors/sectors.module';
@@ -39,9 +38,11 @@ import { SectorsModule } from '../sectors/sectors.module';
     // BuyerQuickApplicationSupplierInformationService,
     BuyerQuickApplicationOrderDetailService,
     BuyerQuickApplicationPaymentTermService,
-    BuyerQuickApplicationCollateralService,
     BuyerQuickApplicationMappingService,
   ],
-  exports: [BuyerQuickApplicationService],
+  exports: [
+    BuyerQuickApplicationService,
+    TypeOrmModule.forFeature([QuickApplicationEntity]),
+  ],
 })
 export class ApplicationModule {}

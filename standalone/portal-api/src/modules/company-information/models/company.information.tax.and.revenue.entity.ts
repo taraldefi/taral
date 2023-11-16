@@ -3,7 +3,7 @@ import { EntityHelper } from 'src/utils/entity-helper';
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { CompanyInformationEntity } from './company.information.entity';
 
-@Entity({ name: 'CompanyTaxAndRevenue' })
+@Entity({ name: 'TaxAndRevenue' })
 export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -37,13 +37,11 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   })
   @Allow()
   exportRevenuePercentage: number;
-  s;
 
   @OneToOne(
     () => CompanyInformationEntity,
     (company) => company.taxAndRevenue,
     {
-      eager: true,
       cascade: true,
       onDelete: 'CASCADE',
     },

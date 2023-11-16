@@ -11,10 +11,6 @@ export class CreateBuyerRequest {
   company: CreateBuyerCompanyRequest;
 
   @ApiProperty()
-  @IsString()
-  id: string;
-
-  @ApiProperty()
   @ValidateNested()
   @Type(() => CreateBuyerSectorRequest)
   sector?: CreateBuyerSectorRequest;

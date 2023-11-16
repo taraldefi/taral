@@ -28,9 +28,14 @@ export class BuyerCompanyEntityService {
     if (!id) throw triggerError('missing-entity-id');
 
     const entity = await this.buyerEntityRepository.findOne(id, {
-      relations: ['applications'],
+      relations: [
+        'applications',
+        'companyInformation',
+        'companyInformation.address',
+        'companyInformation.taxAndRevenue',
+      ],
     });
-
+    console.log('entity', entity);
     if (!entity) throw triggerError('entity-not-found');
 
     return entity;
