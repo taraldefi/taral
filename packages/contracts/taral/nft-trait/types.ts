@@ -1,4 +1,8 @@
-import { Transaction } from "lib-shared";
-import { ClarityTypes } from "lib-shared";
 
-export interface NftTraitContract {}
+  
+  import { Transaction } from 'lib-shared';
+  import { ClarityTypes } from 'lib-shared'
+
+  export interface NftTraitContract {
+    
+  }
