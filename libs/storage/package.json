@@ -16,7 +16,7 @@
   "dependencies": {
     "axios": "1.6.0",
     "@types/axios": "0.14.0",
-    "@stacks/blockchain-api-client": "^7.3.2",
+    "@stacks/blockchain-api-client": "^7.3.4",
     "@stacks/common": "^6.0.0",
     "@stacks/network": "^6.0.0",
     "@stacks/stacks-blockchain-api-types": "^7.3.2",
