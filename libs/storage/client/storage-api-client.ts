@@ -160,7 +160,7 @@ export class StorageApiClient {
       if (status == 200 || status == 201) {
         const header = headers["content-disposition"];
 
-        const parts = header!.split(";");
+        const parts = header.split(";");
         const fileName = parts[1].split("=")[1];
 
         const encryptedFile = data as EncryptedFileResponse;
