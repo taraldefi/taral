@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { TestProvider } from "lib-testing";
 import {
-  TaralExporterV1Contract,
-  TaralImporterV1Contract,
-  TaralPurchaseOrderV1Contract,
+  TaralExporterContract,
+  TaralImporterContract,
+  TaralPurchaseOrderContract,
   ExporterStorageContract,
   TaralCoinContract,
   nodeTaralContracts,
@@ -14,16 +14,16 @@ import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 import { tx } from "lib-shared";
 
 describe("Taral Purchase Order", () => {
-  let taral_exporter: TaralExporterV1Contract;
-  let taral_importer: TaralImporterV1Contract;
-  let taral_purchase_order: TaralPurchaseOrderV1Contract;
+  let taral_exporter: TaralExporterContract;
+  let taral_importer: TaralImporterContract;
+  let taral_purchase_order: TaralPurchaseOrderContract;
   let taral_coin: TaralCoinContract;
   let taral_exporter_storage: ExporterStorageContract;
   beforeAll(async () => {
-    const taralExporterInfo = nodeTaralContracts.nodeTaralExporterV1;
+    const taralExporterInfo = nodeTaralContracts.nodeTaralExporter;
     const taralExporterStorageInfo = nodeTaralContracts.nodeExporterStorage;
-    const taralImporterInfo = nodeTaralContracts.nodeTaralImporterV1;
-    const taralPurchaseOrderInfo = nodeTaralContracts.nodeTaralPurchaseOrderV1;
+    const taralImporterInfo = nodeTaralContracts.nodeTaralImporter;
+    const taralPurchaseOrderInfo = nodeTaralContracts.nodeTaralPurchaseOrder;
     const taralCoinInfo = nodeTaralContracts.nodeTaralCoin;
     const ExporterContractInfo = await TestProvider.fromContracts(
       false,

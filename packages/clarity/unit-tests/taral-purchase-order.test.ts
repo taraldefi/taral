@@ -26,7 +26,7 @@ describe("Should test taral purchase order flows", () => {
     expect(ftMintEvent.amount, 10 as any);
 
     let checkIfUserHoldsTalToken = simnet.callPublicFn(
-      "taral-purchase-order-v1",
+      "taral-purchase-order",
       "check-if-user-holds-tal-token",
       [Cl.standardPrincipal(EXPORTER_WALLET)],
       DEPLOYER,
@@ -35,7 +35,7 @@ describe("Should test taral purchase order flows", () => {
     expect(checkIfUserHoldsTalToken.result).toBeOk(Cl.bool(true));
 
     checkIfUserHoldsTalToken = simnet.callPublicFn(
-      "taral-purchase-order-v1",
+      "taral-purchase-order",
       "check-if-user-holds-tal-token",
       [Cl.standardPrincipal(EXPORTER_2_WALLET)],
       DEPLOYER,
@@ -45,7 +45,7 @@ describe("Should test taral purchase order flows", () => {
   }),
     it("Should ensure one is able to create a vault with sufficient collateral", () => {
       const createVaultResult = simnet.callPublicFn(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [Cl.uint(600), Cl.uint(2500000), Cl.uint(400), Cl.uint(30)],
         WALLET_1,
@@ -55,7 +55,7 @@ describe("Should test taral purchase order flows", () => {
     }),
     it("Should ensure one is not able to create a vault with an invalid loan amount", () => {
       const createVaultResult = simnet.callPublicFn(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [Cl.uint(500), Cl.uint(2500000), Cl.uint(0), Cl.uint(30)],
         WALLET_1,
@@ -65,7 +65,7 @@ describe("Should test taral purchase order flows", () => {
     }),
     it("Should ensure one is not able to create a vault with an invalid duration", () => {
       const createVaultResult = simnet.callPublicFn(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [Cl.uint(500), Cl.uint(2500000), Cl.uint(400), Cl.uint(100)],
         WALLET_1,
@@ -76,7 +76,7 @@ describe("Should test taral purchase order flows", () => {
     // TODO(Doru): check the validity of this test, not sure we test this properly
     it("Should ensure one is not able to liquidate an overcollateralized vault with", () => {
       const createVaultResult = simnet.callPublicFn(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [Cl.uint(500), Cl.uint(2500000), Cl.uint(400), Cl.uint(30)],
         WALLET_1,
@@ -85,7 +85,7 @@ describe("Should test taral purchase order flows", () => {
       expect(createVaultResult.result).toBeOk(Cl.uint(1));
 
       const liquidateResult = simnet.callPublicFn(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "liquidate",
         [Cl.uint(1)],
         WALLET_2,

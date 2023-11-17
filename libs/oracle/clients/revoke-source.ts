@@ -1,12 +1,12 @@
 import { Logger, txOk } from "lib-shared";
-import { TaralOracleV1Contract } from "taral-contracts";
+import { TaralOracleContract } from "taral-contracts";
 
 export async function revokeSource({
   source,
   contract,
 }: {
   source: string;
-  contract: TaralOracleV1Contract;
+  contract: TaralOracleContract;
 }): Promise<boolean> {
   const response = await txOk(contract.revokeSource(source));
 

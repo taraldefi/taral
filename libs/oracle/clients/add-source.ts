@@ -1,5 +1,5 @@
 import { Logger, txOk } from "lib-shared";
-import { TaralOracleV1Contract } from "taral-contracts";
+import { TaralOracleContract } from "taral-contracts";
 
 export async function addSource({
   source,
@@ -8,7 +8,7 @@ export async function addSource({
 }: {
   source: string;
   publicKey: Buffer;
-  contract: TaralOracleV1Contract;
+  contract: TaralOracleContract;
 }): Promise<boolean> {
   const response = await txOk(contract.addSource(source, publicKey));
 

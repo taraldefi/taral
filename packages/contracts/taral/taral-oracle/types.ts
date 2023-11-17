@@ -1,7 +1,7 @@
 import { Transaction } from "lib-shared";
 import { ClarityTypes } from "lib-shared";
 
-export interface TaralOracleV1Contract {
+export interface TaralOracleContract {
   addPrice: (
     source: string,
     msg: Buffer,

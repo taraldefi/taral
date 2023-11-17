@@ -1,23 +1,23 @@
 import { Transaction } from "lib-shared";
 import { ClarityTypes } from "lib-shared";
 
-export interface TaralExporterV1Contract {
+export interface TaralImporterContract {
   appendOrder: (
     newOrderId: number | bigint,
-    exporter: string,
+    importer: string,
   ) => Transaction<bigint, bigint>;
   register: (
-    exporter: string,
-    exporterName: string,
+    importer: string,
+    importerName: string,
     hash: Buffer,
-    exporterCategory: string,
+    importerCategory: string,
   ) => Transaction<bigint, bigint>;
-  updateExporterTrackRecord: (
-    exporterPrincipal: string,
+  updateImporterTrackRecord: (
+    importerPrincipal: string,
     success: boolean,
   ) => Transaction<boolean, bigint>;
-  getExporterHash: (
-    exporter: string,
+  getImporterHash: (
+    importer: string,
   ) => Promise<ClarityTypes.Response<Buffer, bigint>>;
   getInfo: () => Promise<
     ClarityTypes.Response<
@@ -28,14 +28,14 @@ export interface TaralExporterV1Contract {
     >
   >;
   getVersion: () => Promise<string>;
-  ERREXPORTERALREADYREGISTERED: () => Promise<
+  ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRIMPORTERALREADYREGISTERED: () => Promise<
     ClarityTypes.Response<null, bigint>
   >;
-  ERREXPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
-  ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERRIMPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERR_EMPTY_HASH: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERR_EMPTY_SIGNATURE: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERR_INVALID_SIGNATURE: () => Promise<ClarityTypes.Response<null, bigint>>;
   VERSION: () => Promise<string>;
-  exporterStorageError: () => Promise<ClarityTypes.Response<null, bigint>>;
+  importerStorageError: () => Promise<ClarityTypes.Response<null, bigint>>;
 }

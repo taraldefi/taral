@@ -1,6 +1,6 @@
 import { ClarityAbi } from "lib-shared";
 
-export const TaralImporterV1Interface: ClarityAbi = {
+export const TaralImporterInterface: ClarityAbi = {
   clarity_version: "Clarity2",
   epoch: "Epoch21",
   functions: [

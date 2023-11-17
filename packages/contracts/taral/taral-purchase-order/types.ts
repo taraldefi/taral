@@ -1,7 +1,7 @@
 import { Transaction } from "lib-shared";
 import { ClarityTypes } from "lib-shared";
 
-export interface TaralPurchaseOrderV1Contract {
+export interface TaralPurchaseOrderContract {
   checkIfUserHoldsTalToken: (user: string) => Transaction<boolean, null>;
   createVault: (
     collateralStx: number | bigint,
