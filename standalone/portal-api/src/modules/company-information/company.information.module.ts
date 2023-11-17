@@ -12,11 +12,16 @@ import { BuyerInformationService } from './services/buyer-information.service';
 import { SectorEntity } from '../sectors/models/sector.entity';
 import { BuyerCompanyEntity } from '../company/models/buyer.company.entity';
 import { CompaniesModule } from '../company/company.module';
+import { RelationshipModule } from '../relationship/relationship.module';
+import { CollaborationRelationshipEntity } from '../relationship/models/collaboration.relationship.entity';
+import { SupplierInformationService } from './services/supplier-information.service';
 
 @Module({
   imports: [
     CompaniesModule,
+    RelationshipModule,
     TypeOrmModule.forFeature([
+      CollaborationRelationshipEntity,
       BuyerCompanyEntity,
       SectorEntity,
       CompanyInformationEntity,
@@ -33,10 +38,12 @@ import { CompaniesModule } from '../company/company.module';
     ConfigService,
     EntityMappingService,
     BuyerInformationService,
+    SupplierInformationService,
   ],
   exports: [
     EntityMappingService,
     BuyerInformationService,
+    SupplierInformationService,
     TypeOrmModule.forFeature([
       CompanyInformationEntity,
       CompanyAddressEntity,

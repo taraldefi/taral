@@ -50,10 +50,30 @@ interface GetBuyerInfoResponse {
   registrationNumbers: string;
 }
 
+interface SupplierEntityResponse {
+  id: string;
+  logo: string;
+  name: string;
+  beneficialOwner: string;
+  abbreviation: string;
+  nationality: string;
+  headquarters: string;
+  industryType: string;
+  coreBusiness: string;
+  incorporationDate: string;
+  legalForm: string;
+  phoneNumber: string;
+  employeeCount: number | null;
+  registrationNumbers: string;
+  address: Address;
+  taxAndRevenue: TaxAndRevenue;
+}
+
 export {
   CreateApplication,
   CreateApplicationResponse,
   CreateBuyerInformationForBuyerApplication,
+  SupplierEntityResponse,
   GetBuyerInfoResponse,
   Address,
   Company,

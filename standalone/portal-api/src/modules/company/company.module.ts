@@ -43,6 +43,7 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
   ],
   exports: [
     BuyerCompanyEntityService,
+    SupplierCompanyEntityService,
     TypeOrmModule.forFeature([BuyerCompanyEntity]),
   ],
 })

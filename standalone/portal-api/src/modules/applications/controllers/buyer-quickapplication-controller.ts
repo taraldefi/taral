@@ -16,11 +16,10 @@ import { CreateOrderDetailDto } from 'src/modules/order-detail/dto/request/creat
 import { CreateQuickApplicationRequest } from '../dto/request/create-quick-application.dto';
 
 import { CreatePaymentTermDto } from 'src/modules/payment-term/dto/request/create-payment-term.dto';
-import { CreateSupplierInformationRequest } from '../dto/request/create-supplier-info.dto';
+
 import { BuyerQuickApplicationService } from '../services/buyer-quick-application.service/application.service';
-// import { BuyerQuickApplicationSupplierInformationService } from '../services/buyer-quick-application.service/supplier-info.service';
 import { UpdateCollateralDto } from 'src/modules/collateral/dto/request/update-collateral.dto';
-import { UpdateSupplierInformationRequest } from '../dto/request/update-supplier-info.dto';
+
 import { UpdatePaymentTermDto } from 'src/modules/payment-term/dto/request/update-payment-term.dto';
 import { CreateOrderProductDto } from 'src/modules/order-detail/dto/request/create-order-product.dto';
 import { UpdateOrderDetailDto } from 'src/modules/order-detail/dto/request/update-order-detail.dto';
@@ -35,6 +34,9 @@ import { OrderProductService } from 'src/modules/order-detail/services/order-pro
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { CreateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/buyer/create-buyer-company.dto';
 import { UpdateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/buyer/update-buyer-company.dto';
+import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
+import { CreateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/create-supplier-company.dto';
+import { UpdateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/update-supplier-company.dto';
 
 @ApiTags('Applications')
 @Controller({
@@ -47,7 +49,7 @@ export class QuickApplicationController {
     private readonly entityService: BuyerCompanyEntityService,
     private readonly collateralService: CollateralService,
     private readonly buyerInformationService: BuyerInformationService,
-    // private readonly buyerQuickApplicationSupplierInformationService: BuyerQuickApplicationSupplierInformationService,
+    private readonly SupplierInformationService: SupplierInformationService,
     private readonly orderDetailService: OrderDetailService,
     private readonly orderProductService: OrderProductService,
     private readonly paymentTermService: PaymentTermService,
@@ -141,41 +143,39 @@ export class QuickApplicationController {
 
   // Routes for operations related to application's supplier information
 
-  // Get supplier info of an application by ID
-  // @Get('/:id/supplier-info')
-  // async getSupplierInfo(@Param('id') id: string) {
-  //   return await this.buyerQuickApplicationSupplierInformationService.getSupplierInformation(
-  //     id,
-  //   );
-  // }
+  //Get supplier info of an application by ID
+  @Get('/:id/supplier-info')
+  async getSupplierInfo(@Param('id') id: string) {
+    return await this.SupplierInformationService.getSupplierInformation(id);
+  }
 
-  // // Create supplier information for an application
-  // @Post('/:id/supplier-info')
-  // async createSupplierInfo(
-  //   @Param('id') applicationId: string,
-  //   @Body() supplierInfo: CreateSupplierInformationRequest,
-  // ) {
-  //   const supplierInformation =
-  //     await this.buyerQuickApplicationSupplierInformationService.createSupplierInformation(
-  //       supplierInfo,
-  //       applicationId,
-  //     );
-  //   return supplierInformation;
-  // }
+  // Create supplier information for an application
+  @Post('/:id/supplier-info')
+  async createSupplierInfo(
+    @Param('id') applicationId: string,
+    @Body() supplierInfo: CreateSupplierInformationRequest,
+  ) {
+    const supplierInformation =
+      await this.SupplierInformationService.createSupplierInformation(
+        supplierInfo,
+        applicationId,
+      );
+    return supplierInformation;
+  }
 
-  // // Update supplier information for an application
-  // @Patch('/:id/supplier-info')
-  // async updateSupplierInfo(
-  //   @Param('id') applicationId: string,
-  //   @Body() supplierInfo: UpdateSupplierInformationRequest,
-  // ) {
-  //   const supplierInformation =
-  //     await this.buyerQuickApplicationSupplierInformationService.updateSupplierInformation(
-  //       applicationId,
-  //       supplierInfo,
-  //     );
-  //   return supplierInformation;
-  // }
+  // Update supplier information for an application
+  @Patch('/:id/supplier-info')
+  async updateSupplierInfo(
+    @Param('id') applicationId: string,
+    @Body() supplierInfo: UpdateSupplierInformationRequest,
+  ) {
+    const supplierInformation =
+      await this.SupplierInformationService.updateSupplierInformation(
+        applicationId,
+        supplierInfo,
+      );
+    return supplierInformation;
+  }
 
   // Routes for operations related to application's order details
 

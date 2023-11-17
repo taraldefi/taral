@@ -25,12 +25,12 @@ export class EntityMappingService {
 
     response.id = entity.id;
 
-    response.influence = entity.influence;
+    // response.influence = entity.influence;
     response.paymentExperience.exists = true;
     if (entity.paymentExperience.description == null) {
       response.paymentExperience.exists = false;
     }
-    response.shareHoldingRelationship = entity.shareHoldingRelationship;
+    // response.shareHoldingRelationship = entity.shareHoldingRelationship;
     response.paymentExperience.avgBusinessVol =
       entity.paymentExperience.avgBusinessVol;
     response.paymentExperience.delays = entity.paymentExperience.Delays;

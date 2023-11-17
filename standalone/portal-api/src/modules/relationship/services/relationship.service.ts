@@ -14,15 +14,14 @@ import { CollaborationRelationshipsRepository } from '../repositories/collaborat
 import { EntityMappingService } from './mapping.service';
 import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { SupplierCompanyEntityService } from 'src/modules/company/services/supplier-entity.service';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
-    @InjectRepository(BuyerCompanyEntity)
     private buyerCompanyService: BuyerCompanyEntityService,
 
-    @InjectRepository(SupplierCompanyEntity)
-    private supplierCompanyRepository: SupplierCompanyEntityRepository,
+    private supplierCompanyService: SupplierCompanyEntityService,
 
     @InjectRepository(CollaborationRelationshipEntity)
     private relationshipRepository: CollaborationRelationshipsRepository,
@@ -61,10 +60,9 @@ export class RelationshipService extends BaseService {
 
     if (!buyer) throw triggerError('entity-not-found');
 
-    const supplier = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['relationshipWithBuyers'],
-      where: { id: supplierId },
-    });
+    const supplier = await this.supplierCompanyService.findSupplierEntityById(
+      supplierId,
+    );
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -108,10 +106,9 @@ export class RelationshipService extends BaseService {
 
     if (!buyer) throw triggerError('entity-not-found');
 
-    const supplier = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['relationshipWithBuyers'],
-      where: { id: supplierId },
-    });
+    const supplier = await this.supplierCompanyService.findSupplierEntityById(
+      supplierId,
+    );
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -121,6 +118,9 @@ export class RelationshipService extends BaseService {
     });
 
     if (!relationship) throw triggerError('entity-not-found');
+
+    relationship.buyer = buyer;
+    relationship.supplier = supplier;
 
     if (entity.influence) {
       relationship.influence = entity.influence;
