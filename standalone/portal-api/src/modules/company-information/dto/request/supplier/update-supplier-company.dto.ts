@@ -1,46 +1,16 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsDateString,
-  IsNotEmpty,
-  IsNumber,
-  IsOptional,
-  IsString,
-  ValidateNested,
-} from 'class-validator';
-import { CreateSupplierCompanyTaxAndRevenueRequest } from './create-supplier-company-tax-and-revenue.dto';
-import { CreateSupplierCompanyAddressRequest } from './create-supplier-company-address.dto';
 import { Type } from 'class-transformer';
+import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import { UpdateRelationshipRequest } from 'src/modules/relationship/dto/request/update-relationship.dto';
 
-export class UpdateSupplierCompanyRequest {
-  @ApiProperty({ example: 'Engelbrecht Ltd' })
+export class UpdateSupplierInformationRequest {
+  @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
   @IsNotEmpty()
   @IsString()
-  companyName: string;
+  supplierId: string;
 
-  @ApiProperty({ example: '1234567891' })
-  @IsString()
-  phoneNumber: string;
-
-  @ApiProperty({ example: '12-12-2022' })
-  @IsNotEmpty()
-  @IsDateString()
-  dateEstablished: Date;
-
-  @ApiProperty({ example: '1' })
-  @IsOptional()
-  @IsNumber()
-  employeeCount?: number;
-
-  @ApiProperty({ example: '123456789' })
-  @IsNotEmpty()
-  @IsString()
-  registrationNumbers: string;
-
+  @ApiProperty()
   @ValidateNested()
-  @Type(() => CreateSupplierCompanyTaxAndRevenueRequest)
-  taxAndRevenue: CreateSupplierCompanyTaxAndRevenueRequest;
-
-  @ValidateNested()
-  @Type(() => CreateSupplierCompanyAddressRequest)
-  address: CreateSupplierCompanyAddressRequest;
+  @Type(() => UpdateRelationshipRequest)
+  relationshipWithSupplier: UpdateRelationshipRequest;
 }

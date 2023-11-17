@@ -2,6 +2,8 @@ import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useSupplierInformationForm from "@hooks/buyerApplication/useSupplierInformation";
+import supplierEntityService from "@services/supplierEntityService";
+import { Company, SupplierEntityResponse } from "src/types";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import React from "react";
@@ -11,6 +13,7 @@ import "react-international-phone/style.css";
 import { toast } from "sonner";
 import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
 import * as Yup from "yup";
+import convertDate from "@utils/lib/convertDate";
 
 type CustomRadioProps = {
   control: Control<CreateSupplierInformationForBuyerApplication, any>;
@@ -76,12 +79,17 @@ function CustomBooleanInput({ control, name, setValue }: CustomRadioProps) {
 }
 
 function Index({ ...props }) {
-  const { query } = props;
+  const { query, entities } = props;
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
-  const { schemaValidation, handleDebouncedChange, queryResult } =
-    useSupplierInformationForm(applicationID);
+  const {
+    schemaValidation,
+    handleDebouncedChange,
+    queryResult,
+    companyInformation,
+    setCompanyInformation,
+  } = useSupplierInformationForm(applicationID);
 
   const {
     register,
@@ -99,12 +107,14 @@ function Index({ ...props }) {
       schemaValidation as Yup.ObjectSchema<CreateSupplierInformationForBuyerApplication>
     ),
   });
+
   console.log(queryResult.data);
 
   const { errors } = formState;
 
   const onChange = async () => {
     const data = getValues();
+    console.log("data", data);
 
     try {
       const validated = await schemaValidation.validate(data);
@@ -146,6 +156,35 @@ function Index({ ...props }) {
       }/entities/${entityID}/quick/${applicationID}/importerInfo`
     );
   };
+
+  const onSupplierChange = async (supplierId: string) => {
+    if (!supplierId) return;
+    const companyData = await supplierEntityService.getEntity(supplierId);
+    setCompanyInformation({
+      dateEstablished: convertDate(companyData.incorporationDate),
+      phoneNumber: companyData.phoneNumber,
+      registrationNumbers: companyData.registrationNumbers,
+      address: companyData.address,
+    });
+
+    // toast.promise(companyData, {
+    //   loading: "fetching supplier information...",
+    //   success: async (data) => {
+    //     console.log(data);
+    //     setCompanyInformation({
+    //       dateEstablished: convertDate(data.incorporationDate),
+    //       phoneNumber: data.phoneNumber,
+    //       registrationNumbers: data.registrationNumbers,
+    //       address: data.address,
+    //     });
+
+    //     return `supplier information fetched`;
+    //   },
+    //   error: (err) => {
+    //     return `${err}`;
+    //   },
+    // });
+  };
   return (
     <div>
       <ApplicationLayout>
@@ -154,23 +193,25 @@ function Index({ ...props }) {
             <div className="maintitle">GENERAL INFO</div>
             <div className="form-item">
               <span>
-                Supplier&apos;s company name{" "}
-                <b style={{ color: "#f84141" }}>*</b>
+                Choose your supplier <b style={{ color: "#f84141" }}>*</b>
               </span>
-              <input
-                type="text"
-                className={
-                  errors.supplierInformation?.company?.companyName
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
+
+              <select
+                className={errors.supplierId ? "inputs inputRed" : "inputs"}
                 placeholder={
-                  errors.supplierInformation?.company?.companyName
-                    ? `${errors.supplierInformation?.company?.companyName.message}`
-                    : "company name"
+                  errors.supplierId ? `${errors.supplierId}` : "company name"
                 }
-                {...register("supplierInformation.company.companyName")}
-              />
+                {...register("supplierId")}
+              >
+                <option value="">Select Supplier</option>
+                {entities.map((item: SupplierEntityResponse) => {
+                  return (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  );
+                })}
+              </select>
             </div>
             <div
               style={{
@@ -183,44 +224,22 @@ function Index({ ...props }) {
               }}
             >
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>
-                  Establishment Date <b style={{ color: "#f84141" }}>*</b>
-                </span>
+                <span>Establishment Date</span>
                 <input
                   type="date"
                   id="calendar"
-                  className={
-                    errors.supplierInformation?.company?.dateEstablished
-                      ? "inputs inputRed"
-                      : "inputs"
-                  }
-                  placeholder={
-                    errors.supplierInformation?.company?.dateEstablished
-                      ? `${errors.supplierInformation?.company?.dateEstablished.message}`
-                      : "date established"
-                  }
-                  {...register("supplierInformation.company.dateEstablished")}
+                  className={"inputs"}
+                  disabled
+                  defaultValue={companyInformation?.dateEstablished}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>
-                  Registration Number <b style={{ color: "#f84141" }}>*</b>
-                </span>
+                <span>Registration Number</span>
                 <input
                   type="text"
-                  className={
-                    errors.supplierInformation?.company?.registrationNumbers
-                      ? "inputs inputRed"
-                      : "inputs"
-                  }
-                  placeholder={
-                    errors.supplierInformation?.company?.registrationNumbers
-                      ? `${errors.supplierInformation?.company?.registrationNumbers.message}`
-                      : "registration number"
-                  }
-                  {...register(
-                    "supplierInformation.company.registrationNumbers"
-                  )}
+                  className={"inputs"}
+                  disabled
+                  defaultValue={companyInformation?.registrationNumbers}
                 />
               </div>
             </div>
@@ -236,9 +255,7 @@ function Index({ ...props }) {
                 width: "100%",
               }}
             >
-              <span>
-                Phone Number <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Phone Number</span>
               {/* <input
                 type="text"
                 className={
@@ -247,77 +264,34 @@ function Index({ ...props }) {
                 placeholder="Contact number..."
                 {...register("company.phoneNumber")}
               /> */}
-              <Controller
-                control={control}
-                name="supplierInformation.company.phoneNumber"
-                render={({ field: { onChange, onBlur, value, ref } }) => (
-                  <PhoneInput
-                    inputStyle={
-                      errors.supplierInformation?.company?.phoneNumber
-                        ? {
-                            width: "100%",
-                            height: "44px",
-                            border: "1.5px solid red",
-                          }
-                        : {
-                            width: "100%",
-                            height: "44px",
-                            border: `1.5px solid #cbd5e1`,
-                          }
-                    }
-                    placeholder={
-                      errors.supplierInformation?.company?.phoneNumber
-                        ? `${errors.supplierInformation?.company?.phoneNumber.message}`
-                        : "phone number"
-                    }
-                    defaultCountry="us"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+              <PhoneInput
+                inputStyle={{
+                  width: "100%",
+                  height: "44px",
+                  border: `1.5px solid #cbd5e1`,
+                }}
+                disabled
+                defaultCountry="us"
+                value={companyInformation?.phoneNumber}
               />
             </div>
 
             <div className="form-item">
-              <span>
-                Address Line 1 <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Address Line 1</span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.supplierInformation?.company?.address?.addressLine1
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.supplierInformation?.company?.address?.addressLine1
-                    ? `${errors.supplierInformation?.company?.address?.addressLine1.message}`
-                    : "address line 1"
-                }
-                {...register(
-                  "supplierInformation.company.address.addressLine1"
-                )}
+                className={"inputs"}
+                defaultValue={companyInformation?.address.addressLine1}
               />
             </div>
             <div className="form-item">
-              <span>
-                Address Line 2 <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Address Line 2</span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.supplierInformation?.company?.address?.addressLine2
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.supplierInformation?.company?.address?.addressLine2
-                    ? `${errors.supplierInformation?.company?.address?.addressLine2.message}`
-                    : "address line 2"
-                }
-                {...register(
-                  "supplierInformation.company.address.addressLine2"
-                )}
+                className={"inputs"}
+                defaultValue={companyInformation?.address.addressLine2}
               />
             </div>
             <div
@@ -331,43 +305,21 @@ function Index({ ...props }) {
               }}
             >
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>
-                  City <b style={{ color: "#f84141" }}>*</b>
-                </span>
+                <span>City</span>
                 <input
+                  disabled
                   type="text"
-                  className={
-                    errors.supplierInformation?.company?.address?.city
-                      ? "inputs inputRed"
-                      : "inputs"
-                  }
-                  placeholder={
-                    errors.supplierInformation?.company?.address?.city
-                      ? `${errors.supplierInformation?.company?.address?.city.message}`
-                      : "city"
-                  }
-                  {...register("supplierInformation.company.address.city")}
+                  className={"inputs"}
+                  defaultValue={companyInformation?.address.city}
                 />
               </div>
               <div style={{ flexGrow: 1 }} className="form-item">
-                <span>
-                  Company Post Code <b style={{ color: "#f84141" }}>*</b>
-                </span>
+                <span>Company Post Code</span>
                 <input
+                  disabled
                   type="text"
-                  className={
-                    errors.supplierInformation?.company?.address?.postalCode
-                      ? "inputs inputRed"
-                      : "inputs"
-                  }
-                  placeholder={
-                    errors.supplierInformation?.company?.address?.postalCode
-                      ? `${errors.supplierInformation?.company.address.postalCode.message}`
-                      : "postal code"
-                  }
-                  {...register(
-                    "supplierInformation.company.address.postalCode"
-                  )}
+                  className={"inputs"}
+                  defaultValue={companyInformation?.address.postalCode}
                 />
               </div>
             </div>
@@ -536,7 +488,10 @@ function Index({ ...props }) {
 
 export async function getServerSideProps(context: NextPageContext) {
   const { query } = context;
-  return { props: { query } };
+  const res = await supplierEntityService.getAllEntity();
+  const entities = res || [];
+  console.log("entities", entities);
+  return { props: { query, entities: entities } };
 }
 
 export default Index;

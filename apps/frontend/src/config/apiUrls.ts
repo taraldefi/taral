@@ -18,6 +18,7 @@ interface Config {
 
   // entity routes
   ENTITY: string;
+  SUPPLIER_ENTITY: string;
   ENTITYLOGO: string;
 
   // file routes
@@ -43,6 +44,7 @@ const config: Config = {
   USER_TOGGLE_2FA: `${process.env.NEXT_PUBLIC_BASE_URL}/twofa`,
   USER: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
   ENTITY: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/entities`,
+  SUPPLIER_ENTITY: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/supplier-entities`,
   ENTITYLOGO: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/logo`,
   EMAIL_TEMPLATE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/email-templates`,
   ROLES: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/roles`,
@@ -67,6 +69,7 @@ const localConfig: Config = {
   USER_TOGGLE_2FA: `${process.env.NEXT_PUBLIC_BASE_URL}/twofa`,
   USER: `${process.env.NEXT_PUBLIC_BASE_URL}/users`,
   ENTITY: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/entities`,
+  SUPPLIER_ENTITY: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/supplier-entities`,
   ENTITYLOGO: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/logo`,
   EMAIL_TEMPLATE: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/email-templates`,
   ROLES: `${process.env.NEXT_PUBLIC_BASE_URL}/v1/roles`,

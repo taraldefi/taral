@@ -1,5 +1,6 @@
 import Modal from "@components/modal/entityModal";
 import { Button, Entity } from "taral-ui";
+
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";
@@ -15,105 +16,84 @@ import {
   FormModalAtom,
   NotificationModalAtom,
   SettingsModalAtom,
+  selectedEntityModalAtom,
 } from "@store/ModalStore";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import entityService from "@services/entityService";
+import {
+  EntityCreatedAtom,
+  EntityDeletedAtom,
+  EntityEditedAtom,
+} from "@store/entityStore";
+import { useAtom } from "jotai";
+import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
+import { useRouter } from "next/router";
+import { toast } from "sonner";
+import supplierEntityService from "@services/supplierEntityService";
 
-const data = [
-  {
-    id: "1",
-    logo: "/assets/images/entity.png",
-    name: "Lange Wiegand GmbH & Co. KG	",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "2",
-    logo: "https://figmage.com/images/Br5KdMfZ_LWxQKCYBNuRq.png",
-    name: "Ullrich Weigel OHG mbH",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  ,
-  {
-    id: "3",
-    logo: "https://figmage.com/images/9ca-5Ncq_01BTg1sDOTS6.png",
-    name: "Lohmann Kuhn AG	",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  ,
-  {
-    id: "4",
-    logo: "https://figmage.com/images/FcXtuf9MpbZqLQZLQIi_i.png",
-    name: "Market Kovačić",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "5",
-    logo: "https://figmage.com/images/Br5KdMfZ_LWxQKCYBNuRq.png",
-    name: "Engelbrecht Ltd",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "6",
-    logo: "https://figmage.com/images/qqgzoDF6kdfYFjw81RCW7.png",
-    name: "Ullrich Weigel",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "7",
-    logo: "https://figmage.com/images/kjwPXyAc7JYESBaAsvYcl.png",
-    name: "Veum Inc",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "8",
-    logo: "https://figmage.com/images/z5o_OyEUvsa9sLodviQ4k.png",
-    name: "Kovačić d.o.o.",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-  {
-    id: "9",
-    logo: "https://figmage.com/images/PaCl_9GDyqUzXDJq-Wtti.png",
-    name: "Renaud S.A.",
-    abbreviation: "",
-    registrationNo: 1,
-    products: 25,
-    applications: 25,
-  },
-];
-
-function Index() {
-  const [searchInput, setSearchInput] = React.useState("");
+function Index({ ...props }) {
+  const [searchInput, setSearchInput] = useState("");
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
   const applicationModal = useModal(ApplicationModalAtom);
   const newEntityModal = useModal(FormModalAtom);
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+  const [entityEdited] = useAtom(EntityEditedAtom);
+  const [entityDeleted, setEntityDeleted] = useAtom(EntityDeletedAtom);
+  const [entityCreated] = useAtom(EntityCreatedAtom);
+  const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
+  const router = useRouter();
+
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
+
   const searchItems = (searchValue: string) => {
     setSearchInput(searchValue);
+  };
+
+  useEffect(() => {
+    refreshData();
+  }, [entityEdited, entityDeleted, entityCreated]);
+
+  const handleDelete = async (entityIdToDelete: string) => {
+    const response = () => entityService.deleteEntity(entityIdToDelete);
+    toast.promise(response, {
+      loading: "Loading...",
+      success: () => {
+        // Update the state to remove the deleted entity
+        setEntityDeleted(entityIdToDelete);
+        // Clear the modal entity ID state so that the Modal components doesn't fetch a deleted entity
+        setSelectedEntity("");
+        deleteModal.close();
+        return `entity deleted`;
+      },
+      error: (err) => {
+        return `${err.message}`;
+      },
+    });
+  };
+
+  const EntityBody = () => {
+    return (
+      <div className="entityContainer">
+        {props.entities
+          .filter(function (item: any) {
+            return item!.name.toLowerCase().includes(searchInput.toLowerCase());
+          })
+          .map((item: any, index: any) => {
+            return (
+              <Entity
+                fetchLogo={fetchEntityLogo}
+                key={index}
+                entityData={item!}
+                modal={<Modal entityID={item!.id}></Modal>}
+              ></Entity>
+            );
+          })}
+      </div>
+    );
   };
   return (
     <div>
@@ -147,25 +127,28 @@ function Index() {
       {/* {<BottomBar></BottomBar>} */}
       <div className="mainBody">
         {" "}
-        <div className="entityContainer">
-          {data
-            .filter(function (item) {
-              return item!.name.toLowerCase().includes(searchInput);
-            })
-            .map((item, index) => {
-              return (
-                <Entity
-                  key={index}
-                  entityData={item!}
-                  modal={<Modal entityID={item!.id}></Modal>}
-                ></Entity>
-              );
-            })}
-        </div>
+        {props.entities.length ? (
+          <EntityBody></EntityBody>
+        ) : (
+          <div
+            style={{
+              width: "100vw",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              fontSize: "24px",
+              fontWeight: "400",
+            }}
+          >
+            <div>No entities registered</div>
+          </div>
+        )}
       </div>
       <DeleteModal
         title="Delete Entity"
-        onDelete={() => {}}
+        onDelete={async () => {
+          if (deleteModal.entityId) handleDelete(deleteModal.entityId);
+        }}
         isOpen={deleteModal.isOpen}
         onClose={() => deleteModal.close()}
       ></DeleteModal>
@@ -185,6 +168,23 @@ function Index() {
       <NotificationModal isOpen={notificationModal.isOpen}></NotificationModal>
     </div>
   );
+}
+export async function getServerSideProps() {
+  try {
+    const res = await supplierEntityService.getAllEntity();
+    const entities = res || [];
+    console.log("entities", entities);
+
+    return {
+      props: { entities },
+    };
+  } catch (error) {
+    //TODO: Handle error
+    console.error("Error fetching entity:", error);
+    return {
+      props: { entities: [] },
+    };
+  }
 }
 
 export default Index;
