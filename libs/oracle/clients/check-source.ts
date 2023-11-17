@@ -1,5 +1,5 @@
 import { Logger } from "lib-shared";
-import { TaralOracleV1Contract } from "taral-contracts";
+import { TaralOracleContract } from "taral-contracts";
 import { IOracleSource } from "./types";
 
 export async function checkSource({
@@ -7,7 +7,7 @@ export async function checkSource({
   contract,
 }: {
   source: string;
-  contract: TaralOracleV1Contract;
+  contract: TaralOracleContract;
 }): Promise<IOracleSource | null> {
   const response = await contract.checkSource(source);
 
