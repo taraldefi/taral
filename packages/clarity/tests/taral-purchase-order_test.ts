@@ -31,7 +31,7 @@ Clarinet.test({
     ]);
     let block = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "check-if-user-holds-tal-token",
         [types.principal(exporter_wallet.address)],
         deployer.address,
@@ -39,7 +39,7 @@ Clarinet.test({
     ]);
     let block2 = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "check-if-user-holds-tal-token",
         [types.principal(exporter2_wallet.address)],
         deployer.address,
@@ -59,7 +59,7 @@ Clarinet.test({
     const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [types.uint(600), types.uint(2500000), types.uint(400), types.uint(30)],
         wallet_1.address,
@@ -76,7 +76,7 @@ Clarinet.test({
 //     const wallet_1 = accounts.get('wallet_1')!;
 //     const block = chain.mineBlock([
 //       Tx.contractCall(
-//         'taral-purchase-order-v1',
+//         'taral-purchase-order',
 //         'create-vault',
 //         [types.uint(10), types.uint(10000), types.uint(400), types.uint(30)],
 //         wallet_1.address
@@ -93,7 +93,7 @@ Clarinet.test({
     const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(0), types.uint(30)],
         wallet_1.address,
@@ -109,7 +109,7 @@ Clarinet.test({
     const wallet_1 = accounts.get("wallet_1")!;
     const block = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [
           types.uint(500),
@@ -132,7 +132,7 @@ Clarinet.test({
 
 //     let block = chain.mineBlock([
 //       Tx.contractCall(
-//         'taral-purchase-order-v1',
+//         'taral-purchase-order',
 //         'create-vault',
 //         [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)],
 //         wallet_1.address
@@ -144,7 +144,7 @@ Clarinet.test({
 
 //     block = chain.mineBlock([
 //       Tx.contractCall(
-//         'taral-purchase-order-v1',
+//         'taral-purchase-order',
 //         'repay-loan',
 //         [types.uint(1), types.uint(450)],
 //         wallet_1.address
@@ -161,11 +161,11 @@ Clarinet.test({
 //     const wallet_1 = accounts.get("wallet_1")!;
 
 //     chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "create-vault", [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)], wallet_1.address),
+//       Tx.contractCall("taral-purchase-order", "create-vault", [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)], wallet_1.address),
 //     ]);
 
 //     const block = chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "repay-loan", [types.uint(1), types.uint(100)], wallet_1.address),
+//       Tx.contractCall("taral-purchase-order", "repay-loan", [types.uint(1), types.uint(100)], wallet_1.address),
 //     ]);
 
 //     block.receipts[0].result.expectErr().expectUint(401);
@@ -178,7 +178,7 @@ Clarinet.test({
 //     const wallet_1 = accounts.get("wallet_1")!;
 
 //     const block = chain.mineBlock([
-//       Tx.contractCall("taral-purchase-order-v1", "repay-loan", [types.uint(2), types.uint(200)], wallet_1.address),
+//       Tx.contractCall("taral-purchase-order", "repay-loan", [types.uint(2), types.uint(200)], wallet_1.address),
 //     ]);
 
 //     block.receipts[0].result.expectErr().expectUint(1003);
@@ -194,7 +194,7 @@ Clarinet.test({
 
 //     chain.mineBlock([
 //       Tx.contractCall(
-//         'taral-purchase-order-v1',
+//         'taral-purchase-order',
 //         'create-vault',
 //         [types.uint(10), types.uint(100000), types.uint(67400), types.uint(30)],
 //         wallet_1.address
@@ -219,7 +219,7 @@ Clarinet.test({
 
 //     const block = chain.mineBlock([
 //       Tx.contractCall(
-//         'taral-purchase-order-v1',
+//         'taral-purchase-order',
 //         'liquidate',
 //         [types.uint(1)],
 //         wallet_2.address
@@ -238,7 +238,7 @@ Clarinet.test({
 
     chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "create-vault",
         [types.uint(500), types.uint(2500000), types.uint(400), types.uint(30)],
         wallet_1.address,
@@ -247,7 +247,7 @@ Clarinet.test({
 
     const block = chain.mineBlock([
       Tx.contractCall(
-        "taral-purchase-order-v1",
+        "taral-purchase-order",
         "liquidate",
         [types.uint(1)],
         wallet_2.address,
