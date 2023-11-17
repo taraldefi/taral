@@ -195,8 +195,8 @@
                 )
                 ;; Update lender's track record.
                 (let ((lender-principal (unwrap! (get lender-id po) ERR_NO_LENDER_FOR_PURCHASE_ORDER)))
-                    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record (get borrower-id po) false) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
-                    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record (get seller-id po) false) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
+                    (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
+                    (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
                     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
 
 
@@ -491,8 +491,8 @@
     ;; Verify that the outstanding amount is fully paid
     (asserts! (<= (get outstanding-amount po) u0) ERR_PURCHASE_ORDER_NOT_FULLY_PAID)
 
-    (unwrap! (contract-call? .taral-importer-v1 update-importer-track-record borrower-id true) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
-    (unwrap! (contract-call? .taral-exporter-v1 update-exporter-track-record seller-id true) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id true) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id true) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
 
     ;; Mark purchase order as completed successfully

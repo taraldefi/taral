@@ -118,8 +118,8 @@
         (unwrap! (contract-call? .purchase-order-storage add-order-details order-detail-hash) ERR_PURCHASE_ORDER_STORAGE)
         
         ;; Appends the order to importer and exporter data
-        (unwrap! (contract-call? .taral-exporter-v1 append-order order-id exporter) ERR_CONTRACT_CALL)
-        (unwrap! (contract-call? .taral-importer-v1 append-order order-id importer) ERR_CONTRACT_CALL) 
+        (unwrap! (contract-call? .taral-exporter append-order order-id exporter) ERR_CONTRACT_CALL)
+        (unwrap! (contract-call? .taral-importer append-order order-id importer) ERR_CONTRACT_CALL) 
         ;; Logs the action
         (print {action: "initialize purchase order", exporter: exporter, order-id: order-id })
         ;; Increments the order id nonce value by 1
