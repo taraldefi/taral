@@ -1,6 +1,6 @@
 import { TestProvider } from "lib-testing";
 import {
-  TaralImporterV1Contract,
+  TaralImporterContract,
   nodeTaralContracts,
   ImporterStorageContract,
 } from "taral-contracts";
@@ -9,10 +9,10 @@ import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 import { tx } from "lib-shared";
 
 describe("Taral Importer", () => {
-  let taral_importer: TaralImporterV1Contract;
+  let taral_importer: TaralImporterContract;
   let taral_importer_storage: ImporterStorageContract;
   beforeAll(async () => {
-    const taralImporterInfo = nodeTaralContracts.nodeTaralImporterV1;
+    const taralImporterInfo = nodeTaralContracts.nodeTaralImporter;
     const ImporterStorageInfo = nodeTaralContracts.nodeImporterStorage;
     const ImporterContractInfo = await TestProvider.fromContracts(
       false,
