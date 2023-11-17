@@ -13,11 +13,11 @@ import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { CreateBuyerCompanyRequest } from '../dto/request/create-buyer-company.dto';
-import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
+import { CreateBuyerCompanyRequest } from '../dto/request/buyer/create-buyer-company.dto';
+import { GetBuyerResponse } from '../dto/response/buyer/get-buyer-response.dto';
 import { EntityNotFoundError } from 'typeorm';
 import { triggerError } from 'src/common/trigger.error';
-import { UpdateBuyerCompanyRequest } from '../dto/request/update-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-company.dto';
 import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
 
 @Injectable()

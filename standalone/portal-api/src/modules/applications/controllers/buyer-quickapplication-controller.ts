@@ -33,8 +33,8 @@ import { OrderDetailService } from 'src/modules/order-detail/services/order-deta
 import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
 
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
-import { CreateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/create-buyer-company.dto';
-import { UpdateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/update-buyer-company.dto';
+import { CreateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/buyer/create-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from 'src/modules/company-information/dto/request/buyer/update-buyer-company.dto';
 
 @ApiTags('Applications')
 @Controller({

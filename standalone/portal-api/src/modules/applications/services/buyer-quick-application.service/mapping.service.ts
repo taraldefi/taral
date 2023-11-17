@@ -6,7 +6,7 @@ import { EntityMappingService } from 'src/modules/relationship/services/mapping.
 import { GetSupplierResponse } from 'src/modules/supplier/dto/response/get-supplier-response.dto';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierInformationResponse } from '../../dto/response/get-supplier-information-response.dto';
-import { GetBuyerCompanyAddressRequest } from 'src/modules/company-information/dto/response/get-buyer-company-address-response.dto';
+import { GetBuyerCompanyAddressRequest } from 'src/modules/company-information/dto/response/buyer/get-buyer-company-address-response.dto';
 
 @Injectable()
 export class BuyerQuickApplicationMappingService {
