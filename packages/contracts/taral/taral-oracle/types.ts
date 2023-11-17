@@ -1,29 +1,43 @@
+import { Transaction } from "lib-shared";
+import { ClarityTypes } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface TaralOracleContract {
-      addPrice: (source: string, msg: Buffer, sig: Buffer) => Transaction<boolean, bigint>;
-  addPrices: (prices: {
-  "msg": Buffer;
-  "sig": Buffer;
-  "src": string
-    }[]) => Transaction<boolean, null>;
-  addSource: (source: string, publicKey: Buffer) => Transaction<boolean, bigint>;
+export interface TaralOracleContract {
+  addPrice: (
+    source: string,
+    msg: Buffer,
+    sig: Buffer,
+  ) => Transaction<boolean, bigint>;
+  addPrices: (
+    prices: {
+      msg: Buffer;
+      sig: Buffer;
+      src: string;
+    }[],
+  ) => Transaction<boolean, null>;
+  addSource: (
+    source: string,
+    publicKey: Buffer,
+  ) => Transaction<boolean, bigint>;
   revokeSource: (source: string) => Transaction<boolean, bigint>;
   checkSource: (source: string) => Promise<{
-  "public-key": Buffer
-    } | null>;
+    "public-key": Buffer;
+  } | null>;
   extractAmount: (msg: Buffer) => Promise<bigint>;
   extractSymbol: (msg: Buffer) => Promise<string>;
   extractTimestamp: (msg: Buffer) => Promise<bigint>;
-  getPrice: (source: string, symbol: string) => Promise<{
-  "amount": bigint;
-  "height": bigint;
-  "timestamp": bigint
-    } | null>;
-  verifySignature: (msg: Buffer, signature: Buffer, publicKey: Buffer) => Promise<boolean>;
+  getPrice: (
+    source: string,
+    symbol: string,
+  ) => Promise<{
+    amount: bigint;
+    height: bigint;
+    timestamp: bigint;
+  } | null>;
+  verifySignature: (
+    msg: Buffer,
+    signature: Buffer,
+    publicKey: Buffer,
+  ) => Promise<boolean>;
   BUFF_TO_UINT8: () => Promise<Buffer[]>;
   UINT8_TO_ASCII: () => Promise<string[]>;
   contractOwner: () => Promise<string>;
@@ -36,17 +50,12 @@
   offsetsSymbolLength: () => Promise<bigint[]>;
   offsetsSymbolOffset: () => Promise<bigint[]>;
   offsetsTimestamp: () => Promise<bigint[]>;
-  oracleData: (key: {
-  "source": string;
-  "symbol": string
-    }) => Promise<{
-  "amount": bigint;
-  "height": bigint;
-  "timestamp": bigint
-    } | null>;
-  sources: (key: {
-  "source": string
-    }) => Promise<{
-  "public-key": Buffer
-    } | null>;
-  }
+  oracleData: (key: { source: string; symbol: string }) => Promise<{
+    amount: bigint;
+    height: bigint;
+    timestamp: bigint;
+  } | null>;
+  sources: (key: { source: string }) => Promise<{
+    "public-key": Buffer;
+  } | null>;
+}

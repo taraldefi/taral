@@ -1,30 +1,42 @@
+import { Transaction } from "lib-shared";
+import { ClarityTypes } from "lib-shared";
 
-  
-  import { Transaction } from 'lib-shared';
-  import { ClarityTypes } from 'lib-shared'
-
-  export interface CostVotingContract {
-      confirmMiners: (proposalId: number | bigint) => Transaction<boolean, bigint>;
+export interface CostVotingContract {
+  confirmMiners: (proposalId: number | bigint) => Transaction<boolean, bigint>;
   confirmVotes: (proposalId: number | bigint) => Transaction<boolean, bigint>;
-  submitProposal: (functionContract: string, functionName: string, costFunctionContract: string, costFunctionName: string) => Transaction<bigint, null>;
+  submitProposal: (
+    functionContract: string,
+    functionName: string,
+    costFunctionContract: string,
+    costFunctionName: string,
+  ) => Transaction<bigint, null>;
   veto: (proposalId: number | bigint) => Transaction<boolean, bigint>;
-  voteProposal: (proposalId: number | bigint, amount: number | bigint) => Transaction<boolean, bigint>;
-  withdrawVotes: (proposalId: number | bigint, amount: number | bigint) => Transaction<boolean, bigint>;
+  voteProposal: (
+    proposalId: number | bigint,
+    amount: number | bigint,
+  ) => Transaction<boolean, bigint>;
+  withdrawVotes: (
+    proposalId: number | bigint,
+    amount: number | bigint,
+  ) => Transaction<boolean, bigint>;
   getConfirmedProposal: (confirmedId: number | bigint) => Promise<{
-  "confirmed-height": bigint;
-  "cost-function-contract": string;
-  "cost-function-name": string;
-  "function-contract": string;
-  "function-name": string
-    } | null>;
-  getPrincipalVotes: (address: string, proposalId: number | bigint) => Promise<bigint | null>;
+    "confirmed-height": bigint;
+    "cost-function-contract": string;
+    "cost-function-name": string;
+    "function-contract": string;
+    "function-name": string;
+  } | null>;
+  getPrincipalVotes: (
+    address: string,
+    proposalId: number | bigint,
+  ) => Promise<bigint | null>;
   getProposal: (proposalId: number | bigint) => Promise<{
-  "cost-function-contract": string;
-  "cost-function-name": string;
-  "expiration-block-height": bigint;
-  "function-contract": string;
-  "function-name": string
-    } | null>;
+    "cost-function-contract": string;
+    "cost-function-name": string;
+    "expiration-block-height": bigint;
+    "function-contract": string;
+    "function-name": string;
+  } | null>;
   getProposalVetos: (proposalId: number | bigint) => Promise<bigint | null>;
   getProposalVotes: (proposalId: number | bigint) => Promise<bigint | null>;
   ERR_ALREADY_VETOED: () => Promise<bigint>;
@@ -53,60 +65,48 @@
   confirmedProposalCount: () => Promise<bigint>;
   proposalCount: () => Promise<bigint>;
   confirmedCountAtBlock: (key: bigint) => Promise<bigint | null>;
-  confirmedProposals: (key: {
-  "confirmed-id": bigint
-    }) => Promise<{
-  "confirmed-height": bigint;
-  "cost-function-contract": string;
-  "cost-function-name": string;
-  "function-contract": string;
-  "function-name": string
-    } | null>;
+  confirmedProposals: (key: { "confirmed-id": bigint }) => Promise<{
+    "confirmed-height": bigint;
+    "cost-function-contract": string;
+    "cost-function-name": string;
+    "function-contract": string;
+    "function-name": string;
+  } | null>;
   exercisedVeto: (key: {
-  "proposal-id": bigint;
-  "veto-height": bigint
-    }) => Promise<{
-  "vetoed": boolean
-    } | null>;
+    "proposal-id": bigint;
+    "veto-height": bigint;
+  }) => Promise<{
+    vetoed: boolean;
+  } | null>;
   functionsToConfirmedIds: (key: {
-  "function-contract": string;
-  "function-name": string
-    }) => Promise<{
-  "proposal-id": bigint
-    } | null>;
+    "function-contract": string;
+    "function-name": string;
+  }) => Promise<{
+    "proposal-id": bigint;
+  } | null>;
   principalProposalVotes: (key: {
-  "address": string;
-  "proposal-id": bigint
-    }) => Promise<{
-  "votes": bigint
-    } | null>;
-  proposalConfirmedId: (key: {
-  "proposal-id": bigint
-    }) => Promise<{
-  "confirmed-id": bigint
-    } | null>;
-  proposalVetos: (key: {
-  "proposal-id": bigint
-    }) => Promise<{
-  "vetos": bigint
-    } | null>;
-  proposalVotes: (key: {
-  "proposal-id": bigint
-    }) => Promise<{
-  "votes": bigint
-    } | null>;
-  proposals: (key: {
-  "proposal-id": bigint
-    }) => Promise<{
-  "cost-function-contract": string;
-  "cost-function-name": string;
-  "expiration-block-height": bigint;
-  "function-contract": string;
-  "function-name": string
-    } | null>;
-  voteConfirmedProposals: (key: {
-  "proposal-id": bigint
-    }) => Promise<{
-  "expiration-block-height": bigint
-    } | null>;
-  }
+    address: string;
+    "proposal-id": bigint;
+  }) => Promise<{
+    votes: bigint;
+  } | null>;
+  proposalConfirmedId: (key: { "proposal-id": bigint }) => Promise<{
+    "confirmed-id": bigint;
+  } | null>;
+  proposalVetos: (key: { "proposal-id": bigint }) => Promise<{
+    vetos: bigint;
+  } | null>;
+  proposalVotes: (key: { "proposal-id": bigint }) => Promise<{
+    votes: bigint;
+  } | null>;
+  proposals: (key: { "proposal-id": bigint }) => Promise<{
+    "cost-function-contract": string;
+    "cost-function-name": string;
+    "expiration-block-height": bigint;
+    "function-contract": string;
+    "function-name": string;
+  } | null>;
+  voteConfirmedProposals: (key: { "proposal-id": bigint }) => Promise<{
+    "expiration-block-height": bigint;
+  } | null>;
+}
