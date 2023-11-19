@@ -115,6 +115,17 @@ function Index({ ...props }) {
   const onChange = async () => {
     const data = getValues();
     console.log("data", data);
+    if (data.supplierId) {
+      const companyData = await supplierEntityService.getEntity(
+        data.supplierId
+      );
+      setCompanyInformation({
+        dateEstablished: convertDate(companyData.incorporationDate),
+        phoneNumber: companyData.phoneNumber,
+        registrationNumbers: companyData.registrationNumbers,
+        address: companyData.address,
+      });
+    }
 
     try {
       const validated = await schemaValidation.validate(data);
@@ -157,34 +168,6 @@ function Index({ ...props }) {
     );
   };
 
-  const onSupplierChange = async (supplierId: string) => {
-    if (!supplierId) return;
-    const companyData = await supplierEntityService.getEntity(supplierId);
-    setCompanyInformation({
-      dateEstablished: convertDate(companyData.incorporationDate),
-      phoneNumber: companyData.phoneNumber,
-      registrationNumbers: companyData.registrationNumbers,
-      address: companyData.address,
-    });
-
-    // toast.promise(companyData, {
-    //   loading: "fetching supplier information...",
-    //   success: async (data) => {
-    //     console.log(data);
-    //     setCompanyInformation({
-    //       dateEstablished: convertDate(data.incorporationDate),
-    //       phoneNumber: data.phoneNumber,
-    //       registrationNumbers: data.registrationNumbers,
-    //       address: data.address,
-    //     });
-
-    //     return `supplier information fetched`;
-    //   },
-    //   error: (err) => {
-    //     return `${err}`;
-    //   },
-    // });
-  };
   return (
     <div>
       <ApplicationLayout>
