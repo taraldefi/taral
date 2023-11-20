@@ -1,32 +1,34 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { GetApplicationResponse } from 'src/modules/entity/dto/response/get-application-response.dto';
-import { LegalBuyerEntity } from 'src/modules/entity/models/legal-buyer-entity.entity';
+import { GetApplicationResponse } from 'src/modules/company/dto/response/get-application-response.dto';
 import { CreateQuickApplicationRequest } from '../../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-buyer-application-response.dto';
 import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';
-import { BuyerQuickApplicationEntity } from '../../models/buyer-quickapplication.entity';
+import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
-import { BuyerQuickApplicationBuyerInformationService } from './buyer-info.service';
-import { BuyerQuickApplicationCollateralService } from './collaterals.service';
-import { BuyerQuickApplicationOrderDetailService } from './order-details.service';
-import { BuyerQuickApplicationPaymentTermService } from './payment-term.service';
-import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
+
+// import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { CollateralService } from 'src/modules/collateral/services/collateral.service';
+import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
+import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
+import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
+import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
   constructor(
-    @InjectRepository(BuyerQuickApplicationEntity)
+    @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
-    private buyerInfoService: BuyerQuickApplicationBuyerInformationService,
-    private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
-    private paymentTermService: BuyerQuickApplicationPaymentTermService,
-    private orderDetailService: BuyerQuickApplicationOrderDetailService,
-    private collateralService: BuyerQuickApplicationCollateralService,
+    private buyerInformationService: BuyerInformationService,
+    // private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
+    private paymentTermService: PaymentTermService,
+    private orderDetailService: OrderDetailService,
+    private collateralService: CollateralService,
   ) {
     super();
   }
@@ -45,7 +47,7 @@ export class BuyerQuickApplicationService extends BaseService {
         'endDate',
       ],
       relations: ['supplierInformation'],
-      where: { legalEntity: { id: entityID } },
+      where: { company: { id: entityID } },
     });
 
     var response = new Array<GetApplicationResponse>();
@@ -89,23 +91,19 @@ export class BuyerQuickApplicationService extends BaseService {
     response.endDate = application.endDate;
     response.status = application.status;
 
-    const savedBuyerInformation =
-      await this.buyerInfoService.getBuyerInformation(application.id);
-    const savedSupplierInformation =
-      await this.supplierInfoService.getSupplierInformation(application.id);
+    const savedBuyerInformation = await this.buyerInformationService.get(
+      application.id,
+    );
+    // const savedSupplierInformation =
+    //   await this.supplierInfoService.getSupplierInformation(application.id);
 
-    const savedPaymentTerm = await this.paymentTermService.getPaymentTerm(
-      application.id,
-    );
-    const savedOrderDetail = await this.orderDetailService.getOrderDetails(
-      application.id,
-    );
-    const savedCollateral = await this.collateralService.getCollateral(
-      application.id,
-    );
-    response.exporterName = savedSupplierInformation.supplier.companyName;
+    const savedPaymentTerm = await this.paymentTermService.get(application.id);
+    const savedOrderDetail = await this.orderDetailService.get(application.id);
+    const savedCollateral = await this.collateralService.get(application.id);
+    // response.exporterName = savedSupplierInformation.supplier.companyName;
+    response.exporterName = '--';
     response.buyerInformation = savedBuyerInformation;
-    response.supplierInformation = savedSupplierInformation;
+    // response.supplierInformation = savedSupplierInformation;
     response.orderDetails = savedOrderDetail;
     response.security = savedCollateral;
     response.paymentTerms = savedPaymentTerm;
@@ -115,7 +113,7 @@ export class BuyerQuickApplicationService extends BaseService {
 
   public async findApplicationById(
     id: string,
-  ): Promise<BuyerQuickApplicationEntity> {
+  ): Promise<QuickApplicationEntity> {
     const application = await this.buyerApplicationRepository.findOneOrFail(
       id,
       {
@@ -138,13 +136,13 @@ export class BuyerQuickApplicationService extends BaseService {
   })
   public async create(
     data: CreateQuickApplicationRequest,
-    entity: LegalBuyerEntity,
+    entity: BuyerCompanyEntity,
   ): Promise<CreateBuyerQuickApplicationResponse> {
     await this.checkActiveApplicationExists(entity.id);
 
     this.setupTransactionHooks();
 
-    const application = new BuyerQuickApplicationEntity();
+    const application = new QuickApplicationEntity();
 
     const applicationNumber = await this.generateApplicationNumber(entity.name);
     // default enddate is 60 days from now
@@ -160,7 +158,7 @@ export class BuyerQuickApplicationService extends BaseService {
     const savedApplication =
       await this.buyerApplicationRepository.save(application);
 
-    entity.legalApplications = [...entity.legalApplications, savedApplication];
+    entity.applications = [...entity.applications, savedApplication];
     await entity.save();
 
     return savedApplication;
@@ -189,16 +187,16 @@ export class BuyerQuickApplicationService extends BaseService {
 
   public async getActiveApplicationId(
     entityId: string,
-  ): Promise<BuyerQuickApplicationEntity> {
+  ): Promise<QuickApplicationEntity> {
     const application = await this.buyerApplicationRepository.findOneOrFail({
-      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
+      where: { status: 'ACTIVE', company: { id: entityId } },
     });
 
     return application;
   }
 
   private async checkIfApplicationIsComplete(
-    application: BuyerQuickApplicationEntity,
+    application: QuickApplicationEntity,
   ): Promise<boolean> {
     if (
       application.buyerInformation &&
@@ -216,7 +214,7 @@ export class BuyerQuickApplicationService extends BaseService {
 
   private async checkActiveApplicationExists(entityId: string): Promise<void> {
     const activeApplication = await this.buyerApplicationRepository.findOne({
-      where: { status: 'ACTIVE', legalEntity: { id: entityId } },
+      where: { status: 'ACTIVE', company: { id: entityId } },
     });
 
     if (activeApplication && activeApplication.id) {

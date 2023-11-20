@@ -1,22 +1,24 @@
 import { Allow } from 'class-validator';
-import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { CollateralEntity } from 'src/modules/collateral/models/collaterals.entity';
-
+import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { PaymentTermEntity } from 'src/modules/payment-term/models/payment-term.entity';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
 import { TransactionDocumentEntity } from 'src/modules/transaction-documents/models/transaction-documents.entity';
 import { EntityHelper } from 'src/utils/entity-helper';
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
   TableInheritance,
 } from 'typeorm';
 import { ApplicationStatus } from '../enums/status.enum';
+import { OrderDetailEntity } from 'src/modules/order-detail/models/order-detail.entity';
+import { BuyerCompanyInformationEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
 
-@Entity({ name: 'Quick_Applications' })
+@Entity({ name: 'QuickApplications' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class QuickApplicationEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
@@ -42,20 +44,25 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   status: string;
 
-  @OneToOne(() => BuyerEntity, (buyer) => buyer.application)
+  @OneToOne(() => BuyerCompanyInformationEntity)
   @JoinColumn()
   @Allow()
-  buyerInformation: BuyerEntity;
+  buyerInformation: BuyerCompanyInformationEntity;
 
-  @OneToOne(() => SupplierEntity, (supplier) => supplier.application)
+  @OneToOne(() => SupplierCompanyEntity)
   @JoinColumn()
   @Allow()
-  supplierInformation: SupplierEntity;
+  supplierInformation: SupplierCompanyEntity;
 
   @OneToOne(() => PaymentTermEntity, (paymentTerm) => paymentTerm.application)
   @JoinColumn()
   @Allow()
   paymentTerms: PaymentTermEntity;
+
+  @OneToOne(() => OrderDetailEntity, (orderDetail) => orderDetail.application)
+  @JoinColumn()
+  @Allow()
+  orderDetails: OrderDetailEntity;
 
   @OneToOne(() => CollateralEntity, (collateral) => collateral.application)
   @JoinColumn()
@@ -73,4 +80,16 @@ export class QuickApplicationEntity extends EntityHelper {
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   createdAt: Date;
+
+  @ManyToOne(
+    () => BuyerCompanyEntity,
+    (buyerCompany) => buyerCompany.applications,
+    {
+      eager: true,
+      cascade: true,
+      onDelete: 'CASCADE',
+    },
+  )
+  @JoinColumn()
+  company: BuyerCompanyEntity;
 }

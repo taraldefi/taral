@@ -1,32 +1,32 @@
+import { MemoryStoredFile, NestjsFormDataModule } from '@modules/multipart';
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { EntityLogoController } from './entity-logo.controller';
+import { EntityController } from './legal-entities.controller';
+
 import { BuyerCompanyEntity } from './models/buyer.company.entity';
-import { CompanyAddressEntity } from './models/company.address.entity';
-import { CompanyEntity } from './models/company.entity';
 import { SupplierCompanyEntity } from './models/supplier.company.entity';
-import { CompanyTaxAndRevenueEntity } from './models/company.tax.and.revenue.entity';
+import { BuyerCompanyEntityService } from './services/buyer-entity.service';
+import { LogoService } from './services/logo.service';
+import { EntityMappingService } from './services/mapping.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([
-      CompanyEntity,
-      CompanyAddressEntity,
-      SupplierCompanyEntity,
-      BuyerCompanyEntity,
-      CompanyTaxAndRevenueEntity,
-    ]),
+    TypeOrmModule.forFeature([BuyerCompanyEntity, SupplierCompanyEntity]),
+    NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
-  controllers: [],
-  providers: [ConfigModule, ConfigService],
+  controllers: [EntityController, EntityLogoController],
+  providers: [
+    ConfigModule,
+    ConfigService,
+    BuyerCompanyEntityService,
+    EntityMappingService,
+    LogoService,
+  ],
   exports: [
-    TypeOrmModule.forFeature([
-      CompanyEntity,
-      CompanyAddressEntity,
-      SupplierCompanyEntity,
-      BuyerCompanyEntity,
-      CompanyTaxAndRevenueEntity,
-    ]),
+    BuyerCompanyEntityService,
+    TypeOrmModule.forFeature([BuyerCompanyEntity]),
   ],
 })
 export class CompaniesModule {}

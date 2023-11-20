@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderProductDto } from '../dto/request/create-order-product.dto';
 import { OrderProductEntity } from '../models/order-product.entity';
@@ -8,15 +8,25 @@ import { UpdateOrderProductDto } from '../dto/request/update-order-product.dto';
 import { OrderDetailMappingService } from './mapping.service';
 import { triggerError } from 'src/common/trigger.error';
 import { OrderDetailService } from './order-detail.service';
+import { BaseService } from 'src/common/services/base.service';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { GetOrderProductResponse } from '../dto/response/get-order-product-response.dto';
 
 @Injectable()
-export class OrderProductService {
+export class OrderProductService extends BaseService {
   constructor(
     @InjectRepository(OrderProductEntity)
     private orderProductsRepository: OrderProductsRepository,
     private readonly orderDetailMappingService: OrderDetailMappingService,
     private readonly orderDetailService: OrderDetailService,
-  ) {}
+
+    @InjectRepository(QuickApplicationEntity)
+    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+  ) {
+    super();
+  }
 
   public async get(id: string) {
     if (!id) throw triggerError('missing-entity-id');
@@ -28,8 +38,30 @@ export class OrderProductService {
     return this.orderDetailMappingService.mapOrderProductDetails(product);
   }
 
-  public async create(product: CreateOrderProductDto, orderId: string) {
-    const order = await this.orderDetailService.findOrderById(orderId);
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async create(
+    product: CreateOrderProductDto,
+    applicationId: string,
+  ): Promise<GetOrderProductResponse> {
+    this.setupTransactionHooks();
+
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['orderDetails'],
+      },
+    );
+    if (!application.orderDetails) {
+      throw new HttpException(
+        'order details not found, create an order first',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+    const order = await this.orderDetailService.findOrderById(
+      application.orderDetails.id,
+    );
 
     const newProduct = await this.orderProductsRepository.save(product);
 
@@ -39,7 +71,10 @@ export class OrderProductService {
     return this.orderDetailMappingService.mapOrderProductDetails(newProduct);
   }
 
-  public async update(id: string, productData: UpdateOrderProductDto) {
+  public async update(
+    id: string,
+    productData: UpdateOrderProductDto,
+  ): Promise<GetOrderProductResponse> {
     if (!id) throw triggerError('missing-entity-id');
 
     const product = await this.orderProductsRepository.findOne(id);

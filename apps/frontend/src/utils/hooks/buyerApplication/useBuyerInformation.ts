@@ -1,5 +1,8 @@
 import buyerApplicationService from "@services/application/buyerApplicationService";
-import { CreateBuyerInformationForBuyerApplication } from "src/types";
+import {
+  CreateBuyerInformationForBuyerApplication,
+  GetBuyerInfoResponse,
+} from "src/types";
 import convertDate from "@utils/lib/convertDate";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -7,23 +10,23 @@ import * as Yup from "yup";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import debounce from "just-debounce-it";
 
-const initialData: CreateBuyerInformationForBuyerApplication = {
-  company: {
-    companyName: "",
-    dateEstablished: "",
-    phoneNumber: "",
-    registrationNumbers: "",
-    taxAndRevenue: {
-      lastFiscalYear: "",
-      totalRevenue: "",
-      exportRevenuePercentage: "",
-    },
-    address: {
-      city: "",
-      addressLine1: "",
-      addressLine2: "",
-      postalCode: "",
-    },
+const initialData: GetBuyerInfoResponse = {
+  id: "",
+  companyName: "",
+  dateEstablished: "",
+  phoneNumber: "",
+  registrationNumbers: "",
+  employeeCount: null,
+  taxAndRevenue: {
+    lastFiscalYear: "",
+    totalRevenue: "",
+    exportRevenuePercentage: "",
+  },
+  address: {
+    city: "",
+    addressLine1: "",
+    addressLine2: "",
+    postalCode: "",
   },
 };
 
@@ -32,37 +35,31 @@ const initialData: CreateBuyerInformationForBuyerApplication = {
  */
 
 const schemaValidation = Yup.object().shape({
-  company: Yup.object().shape({
-    companyName: Yup.string().required("Company name is required"),
+  phoneNumber: Yup.string().required("Phone number is required"),
 
-    dateEstablished: Yup.string().required("Establishment date is required"),
+  registrationNumbers: Yup.string().required(
+    "Registration numbers are required"
+  ),
 
-    phoneNumber: Yup.string().required("Phone number is required"),
+  taxAndRevenue: Yup.object().shape({
+    lastFiscalYear: Yup.string().required("Last fiscal year is required"),
 
-    registrationNumbers: Yup.string().required(
-      "Registration numbers are required"
-    ),
+    totalRevenue: Yup.string().required("Total revenue is required"),
 
-    taxAndRevenue: Yup.object().shape({
-      lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+    exportRevenuePercentage: Yup.string()
+      .required("Export revenue percentage is required")
+      .min(0, "Export revenue percentage must be at least 0")
+      .max(100, "Export revenue percentage cannot exceed 100"),
+  }),
 
-      totalRevenue: Yup.string().required("Total revenue is required"),
+  address: Yup.object().shape({
+    city: Yup.string().required("City is required"),
 
-      exportRevenuePercentage: Yup.string()
-        .required("Export revenue percentage is required")
-        .min(0, "Export revenue percentage must be at least 0")
-        .max(100, "Export revenue percentage cannot exceed 100"),
-    }),
+    addressLine1: Yup.string().required("Address line 1 is required"),
 
-    address: Yup.object().shape({
-      city: Yup.string().required("City is required"),
+    addressLine2: Yup.string().required("Address line 2 is required"),
 
-      addressLine1: Yup.string().required("Address line 1 is required"),
-
-      addressLine2: Yup.string().required("Address line 2 is required"),
-
-      postalCode: Yup.string().required("Postal code is required"),
-    }),
+    postalCode: Yup.string().required("Postal code is required"),
   }),
 });
 
@@ -82,30 +79,31 @@ const useBuyerInformationForm = (applicationID: string) => {
       const response = await buyerApplicationService.getBuyerInfo(
         applicationID as string
       );
-      if (response && response.id) {
+      console.log("response", response);
+      if (response && response.address.city) {
         //switching to update mode
         setUpdateMode(true);
       }
 
       // restructuring the response data to match form schema for react hook forms to function properly
-      const responseData: CreateBuyerInformationForBuyerApplication = {
-        company: {
-          companyName: response.companyName,
-          dateEstablished: convertDate(response.dateEstablished),
-          phoneNumber: response.phoneNumber,
-          registrationNumbers: response.registrationNumbers,
-          taxAndRevenue: {
-            lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
-            totalRevenue: response.taxAndRevenue.totalRevenue,
-            exportRevenuePercentage:
-              response.taxAndRevenue.exportRevenuePercentage,
-          },
-          address: {
-            city: response.address.city,
-            addressLine1: response.address.addressLine1,
-            addressLine2: response.address.addressLine2,
-            postalCode: response.address.postalCode,
-          },
+      const responseData: GetBuyerInfoResponse = {
+        id: response.id,
+        companyName: response.companyName,
+        dateEstablished: convertDate(response.dateEstablished),
+        employeeCount: response.employeeCount ?? 0,
+        phoneNumber: response.phoneNumber,
+        registrationNumbers: response.registrationNumbers,
+        taxAndRevenue: {
+          lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
+          totalRevenue: response.taxAndRevenue.totalRevenue,
+          exportRevenuePercentage:
+            response.taxAndRevenue.exportRevenuePercentage,
+        },
+        address: {
+          city: response.address.city,
+          addressLine1: response.address.addressLine1,
+          addressLine2: response.address.addressLine2,
+          postalCode: response.address.postalCode,
         },
       };
 

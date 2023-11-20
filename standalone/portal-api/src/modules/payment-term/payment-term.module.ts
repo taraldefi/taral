@@ -4,11 +4,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PaymentTermEntity } from './models/payment-term.entity';
 import { PaymentTermService } from './services/payment-term.service';
 import { PaymentTermMappingService } from './services/mapping.service';
-import { PaymentTermController } from './payment-term.controller';
+import { QuickApplicationEntity } from '../applications/models/quickapplication.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PaymentTermEntity])],
-  controllers: [PaymentTermController],
+  imports: [
+    TypeOrmModule.forFeature([PaymentTermEntity, QuickApplicationEntity]),
+  ],
+
   providers: [
     ConfigModule,
     ConfigService,

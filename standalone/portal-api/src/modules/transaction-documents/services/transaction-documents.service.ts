@@ -16,7 +16,9 @@ export class TransactionDocumentService {
     private authenticationService: AuthenticationService,
   ) {}
 
-  public async create(data: CreateFileDataDto): Promise<CreateFileResponse> {
+  public async createConfirmationDocument(
+    data: CreateFileDataDto,
+  ): Promise<CreateFileResponse> {
     const documentSignatureResult = this.authenticationService.guard(
       data.signature,
       data.signedMessage,
@@ -25,8 +27,6 @@ export class TransactionDocumentService {
       await this.fileService.createFile(data, documentSignatureResult);
 
     const transactionDocument = new TransactionDocumentEntity();
-
-    (transactionDocument.documents || []).push(savedDocumentEntity);
 
     await this.transactionDocumentRepository.save(transactionDocument);
 

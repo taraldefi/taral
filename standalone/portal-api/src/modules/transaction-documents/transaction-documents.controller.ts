@@ -35,7 +35,8 @@ export class TransactionDocumentController {
       throw triggerError('no-file');
     }
 
-    const response = await this.transactionDocumentService.create(data);
+    const response =
+      await this.transactionDocumentService.createConfirmationDocument(data);
 
     return response;
   }

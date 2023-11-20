@@ -3,10 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { triggerError } from 'src/common/trigger.error';
 import { BaseService } from 'src/common/services/base.service';
-import { BuyerEntity } from 'src/modules/buyer/models/buyer.entity';
-import { BuyerEntityRepository } from 'src/modules/buyer/repositories/buyer.repository';
-import { SupplierEntity } from 'src/modules/supplier/models/supplier.entity';
-import { SupplierRepository } from 'src/modules/supplier/repositories/supplier.repository';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { CreateRelationshipRequest } from '../dto/request/create-relationship.dto';
 import { UpdateRelationshipRequest } from '../dto/request/update-relationship.dto';
 import { GetRelationshipResponse } from '../dto/response/get-relationship-response.dto';
@@ -14,15 +12,17 @@ import { CollaborationRelationshipEntity } from '../models/collaboration.relatio
 import { PaymentExperience } from '../models/payment.experience';
 import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
 import { EntityMappingService } from './mapping.service';
+import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
+import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
-    @InjectRepository(BuyerEntity)
-    private buyerEntityRepository: BuyerEntityRepository,
+    @InjectRepository(BuyerCompanyEntity)
+    private buyerCompanyService: BuyerCompanyEntityService,
 
-    @InjectRepository(SupplierEntity)
-    private supplierEntityRepository: SupplierRepository,
+    @InjectRepository(SupplierCompanyEntity)
+    private supplierCompanyRepository: SupplierCompanyEntityRepository,
 
     @InjectRepository(CollaborationRelationshipEntity)
     private relationshipRepository: CollaborationRelationshipsRepository,
@@ -57,14 +57,11 @@ export class RelationshipService extends BaseService {
 
     if (!entity) throw triggerError('missing-entity-id');
 
-    const buyer = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['relationshipWithSuppliers'],
-      where: { id: buyerId },
-    });
+    const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
 
-    const supplier = await this.supplierEntityRepository.findOneOrFail({
+    const supplier = await this.supplierCompanyRepository.findOneOrFail({
       relations: ['relationshipWithBuyers'],
       where: { id: supplierId },
     });
@@ -107,14 +104,11 @@ export class RelationshipService extends BaseService {
   ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
-    const buyer = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['relationshipWithSuppliers'],
-      where: { id: buyerId },
-    });
+    const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
 
-    const supplier = await this.supplierEntityRepository.findOneOrFail({
+    const supplier = await this.supplierCompanyRepository.findOneOrFail({
       relations: ['relationshipWithBuyers'],
       where: { id: supplierId },
     });

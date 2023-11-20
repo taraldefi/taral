@@ -1,343 +1,343 @@
-import { Injectable } from '@nestjs/common';
-import { BaseService } from 'src/common/services/base.service';
-import { SupplierRepository } from '../repositories/supplier.repository';
-import { InjectRepository } from '@nestjs/typeorm';
-import { SupplierCompanyEntityRepository } from '../repositories/supplier-company.repository';
-import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
-import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
-import { SupplierFinancialInformationEntityRepository } from '../repositories/supplier-financial-information.repository';
-import { CompanyTaxAndRevenueEntity } from 'src/modules/company/models/company.tax.and.revenue.entity';
-import { CompanyTaxAndRevenueEntityRepository } from '../repositories/supplier-company-tax-and-revenue.repository';
-import { SupplierRatingEntityRepository } from '../repositories/supplier-rating.repository';
-import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
-import { EntityMappingService } from './mapping.service';
-import { triggerError } from 'src/common/trigger.error';
-import { GetSupplierResponse } from '../dto/response/get-supplier-response.dto';
-import { CreateSupplierRequest } from '../dto/request/create-supplier.dto';
-import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { SupplierEntity } from '../models/supplier.entity';
-import { CompanyAddressEntity } from 'src/modules/company/models/company.address.entity';
-import { CompanyAddressEntityRepository } from 'src/modules/buyer/repositories/company-address.repository';
-import { UpdateSupplierRequest } from '../dto/request/update-supplier.dto';
+// import { Injectable } from '@nestjs/common';
+// import { BaseService } from 'src/common/services/base.service';
+// import { SupplierRepository } from '../repositories/supplier.repository';
+// import { InjectRepository } from '@nestjs/typeorm';
+// import { SupplierCompanyEntityRepository } from '../repositories/supplier-company.repository';
+// import { SupplierCompanyEntity } from 'src/modules/company-information/models/supplier.company.information.entity';
+// import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
+// import { SupplierFinancialInformationEntityRepository } from '../repositories/supplier-financial-information.repository';
+// import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/models/company.information.tax.and.revenue.entity';
+// import { CompanyTaxAndRevenueEntityRepository } from '../repositories/supplier-company-tax-and-revenue.repository';
+// import { SupplierRatingEntityRepository } from '../repositories/supplier-rating.repository';
+// import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
+// import { EntityMappingService } from './mapping.service';
+// import { triggerError } from 'src/common/trigger.error';
+// import { GetSupplierResponse } from '../dto/response/get-supplier-response.dto';
+// import { CreateSupplierRequest } from '../dto/request/create-supplier.dto';
+// import { IsolationLevel, Transactional } from 'src/common/transaction';
+// import { SupplierEntity } from '../models/supplier.entity';
+// import { CompanyAddressEntity } from 'src/modules/company-information/models/companyinformation.address.entity';
+// import { CompanyAddressEntityRepository } from 'src/modules/buyer/repositories/company-address.repository';
+// import { UpdateSupplierRequest } from '../dto/request/update-supplier.dto';
 
-@Injectable()
-export class SupplierService extends BaseService {
-  constructor(
-    @InjectRepository(SupplierEntity)
-    private supplierRepository: SupplierRepository,
+// @Injectable()
+// export class SupplierService extends BaseService {
+//   constructor(
+//     @InjectRepository(SupplierEntity)
+//     private supplierRepository: SupplierRepository,
 
-    @InjectRepository(SupplierCompanyEntity)
-    private supplierCompanyRepository: SupplierCompanyEntityRepository,
+//     @InjectRepository(SupplierCompanyEntity)
+//     private supplierCompanyRepository: SupplierCompanyEntityRepository,
 
-    @InjectRepository(SupplierFinancialInformationEntity)
-    private supplierFinancialInformationRepository: SupplierFinancialInformationEntityRepository,
+//     @InjectRepository(SupplierFinancialInformationEntity)
+//     private supplierFinancialInformationRepository: SupplierFinancialInformationEntityRepository,
 
-    @InjectRepository(CompanyTaxAndRevenueEntity)
-    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
+//     @InjectRepository(CompanyTaxAndRevenueEntity)
+//     private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
 
-    @InjectRepository(SupplierRatingEntity)
-    private supplierRatingRepository: SupplierRatingEntityRepository,
+//     @InjectRepository(SupplierRatingEntity)
+//     private supplierRatingRepository: SupplierRatingEntityRepository,
 
-    @InjectRepository(CompanyAddressEntity)
-    private companyAddressRepository: CompanyAddressEntityRepository,
+//     @InjectRepository(CompanyAddressEntity)
+//     private companyAddressRepository: CompanyAddressEntityRepository,
 
-    private mappingService: EntityMappingService,
-  ) {
-    super();
-  }
+//     private mappingService: EntityMappingService,
+//   ) {
+//     super();
+//   }
 
-  public async deleteSupplier(id: string): Promise<void> {
-    if (!id) throw triggerError('missing-entity-id');
+//   public async deleteSupplier(id: string): Promise<void> {
+//     if (!id) throw triggerError('missing-entity-id');
 
-    const entity = await this.supplierRepository.findOneOrFail({
-      relations: [
-        'relationshipWithBuyers',
-        'company',
-        'company.address',
-        'financials',
-        'rating',
-      ],
-      where: { id: id },
-    });
+//     const entity = await this.supplierRepository.findOneOrFail({
+//       relations: [
+//         'relationshipWithBuyers',
+//         'company',
+//         'company.address',
+//         'financials',
+//         'rating',
+//       ],
+//       where: { id: id },
+//     });
 
-    if (!entity) throw triggerError('entity-not-found');
+//     if (!entity) throw triggerError('entity-not-found');
 
-    await this.supplierRepository.delete({ id: id });
-  }
+//     await this.supplierRepository.delete({ id: id });
+//   }
 
-  public async getAll(): Promise<GetSupplierResponse[]> {
-    const entities = await this.supplierRepository.find({
-      relations: [
-        'relationshipWithBuyers',
-        'company',
-        'company.address',
-        'financials',
-        'rating',
-      ],
-    });
+//   public async getAll(): Promise<GetSupplierResponse[]> {
+//     const entities = await this.supplierRepository.find({
+//       relations: [
+//         'relationshipWithBuyers',
+//         'company',
+//         'company.address',
+//         'financials',
+//         'rating',
+//       ],
+//     });
 
-    return this.mappingService.mapManyEntities(entities);
-  }
+//     return this.mappingService.mapManyEntities(entities);
+//   }
 
-  public async getEntity(id: string): Promise<SupplierEntity> {
-    if (!id) throw triggerError('missing-entity-id');
+//   public async getEntity(id: string): Promise<SupplierEntity> {
+//     if (!id) throw triggerError('missing-entity-id');
 
-    const entity = await this.supplierRepository.findOne({
-      relations: [
-        'relationshipWithBuyers',
-        'company',
-        'company.address',
-        'financials',
-        'rating',
-      ],
-      where: { id: id },
-    });
+//     const entity = await this.supplierRepository.findOne({
+//       relations: [
+//         'relationshipWithBuyers',
+//         'company',
+//         'company.address',
+//         'financials',
+//         'rating',
+//       ],
+//       where: { id: id },
+//     });
 
-    if (!entity) throw triggerError('entity-not-found');
+//     if (!entity) throw triggerError('entity-not-found');
 
-    return entity;
-  }
+//     return entity;
+//   }
 
-  @Transactional({
-    isolationLevel: IsolationLevel.READ_COMMITTED,
-  })
-  public async createEntity(data: CreateSupplierRequest) {
-    const entity = new SupplierEntity();
+//   @Transactional({
+//     isolationLevel: IsolationLevel.READ_COMMITTED,
+//   })
+//   public async createEntity(data: CreateSupplierRequest) {
+//     const entity = new SupplierEntity();
 
-    const company = new SupplierCompanyEntity();
+//     const company = new SupplierCompanyEntity();
 
-    const address = new CompanyAddressEntity();
+//     const address = new CompanyAddressEntity();
 
-    company.address = address;
-    entity.company = company;
+//     company.address = address;
+//     entity.company = company;
 
-    console.log(JSON.stringify(data, null, 2));
+//     console.log(JSON.stringify(data, null, 2));
 
-    entity.company.address.addressLine1 = data.company.address.addressLine1;
-    entity.company.address.addressLine2 = data.company.address.addressLine2;
-    entity.company.address.city = data.company.address.city;
-    entity.company.address.postalCode = data.company.address.postalCode;
+//     entity.company.address.addressLine1 = data.company.address.addressLine1;
+//     entity.company.address.addressLine2 = data.company.address.addressLine2;
+//     entity.company.address.city = data.company.address.city;
+//     entity.company.address.postalCode = data.company.address.postalCode;
 
-    var addressSavedResult = await this.companyAddressRepository.save(address);
+//     var addressSavedResult = await this.companyAddressRepository.save(address);
 
-    company.address = addressSavedResult;
-    company.companyName = data.company.companyName;
-    company.phoneNumber = data.company.phoneNumber;
-    company.dateEstablished = data.company.dateEstablished;
-    company.employeeCount = data.company.employeeCount;
-    company.registrationNumbers = data.company.registrationNumbers;
-    // this is a hack to make tax and revenue optional
-    if (data.company.taxAndRevenue) {
-      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
-      taxAndRevenue.audited = data.company.taxAndRevenue.audited;
-      taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
-      taxAndRevenue.exportRevenuePercentage =
-        data.company.taxAndRevenue.exportRevenuePercentage;
-      taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
-      taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
-      taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
-      var taxAndRevenueSavedResult =
-        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+//     company.address = addressSavedResult;
+//     company.companyName = data.company.companyName;
+//     company.phoneNumber = data.company.phoneNumber;
+//     company.dateEstablished = data.company.dateEstablished;
+//     company.employeeCount = data.company.employeeCount;
+//     company.registrationNumbers = data.company.registrationNumbers;
+//     // this is a hack to make tax and revenue optional
+//     if (data.company.taxAndRevenue) {
+//       const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+//       taxAndRevenue.audited = data.company.taxAndRevenue.audited;
+//       taxAndRevenue.taxNumber = data.company.taxAndRevenue.taxNumber;
+//       taxAndRevenue.exportRevenuePercentage =
+//         data.company.taxAndRevenue.exportRevenuePercentage;
+//       taxAndRevenue.exportValue = data.company.taxAndRevenue.exportValue;
+//       taxAndRevenue.lastFiscalYear = data.company.taxAndRevenue.lastFiscalYear;
+//       taxAndRevenue.totalRevenue = data.company.taxAndRevenue.totalRevenue;
+//       var taxAndRevenueSavedResult =
+//         await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-      company.taxAndRevenue = taxAndRevenueSavedResult;
-    }
+//       company.taxAndRevenue = taxAndRevenueSavedResult;
+//     }
 
-    var companySavedResult = await this.supplierCompanyRepository.save(company);
+//     var companySavedResult = await this.supplierCompanyRepository.save(company);
 
-    entity.company = companySavedResult;
+//     entity.company = companySavedResult;
 
-    if (data.financialInformation) {
-      const financials = new SupplierFinancialInformationEntity();
+//     if (data.financialInformation) {
+//       const financials = new SupplierFinancialInformationEntity();
 
-      financials.turnover = data.financialInformation.turnover;
-      financials.balanceSheetTotal =
-        data.financialInformation.balanceSheetTotal;
+//       financials.turnover = data.financialInformation.turnover;
+//       financials.balanceSheetTotal =
+//         data.financialInformation.balanceSheetTotal;
 
-      var financialsSavedResult =
-        await this.supplierFinancialInformationRepository.save(financials);
+//       var financialsSavedResult =
+//         await this.supplierFinancialInformationRepository.save(financials);
 
-      entity.financials = financialsSavedResult;
-    }
+//       entity.financials = financialsSavedResult;
+//     }
 
-    if (data.rating) {
-      const rating = new SupplierRatingEntity();
-      rating.agencyName = data.rating.agencyName;
-      rating.rating = data.rating.rating;
-      rating.issuanceDate = data.rating.issuanceDate;
+//     if (data.rating) {
+//       const rating = new SupplierRatingEntity();
+//       rating.agencyName = data.rating.agencyName;
+//       rating.rating = data.rating.rating;
+//       rating.issuanceDate = data.rating.issuanceDate;
 
-      var ratingSavedResult = await this.supplierRatingRepository.save(rating);
+//       var ratingSavedResult = await this.supplierRatingRepository.save(rating);
 
-      entity.rating = ratingSavedResult;
-    }
+//       entity.rating = ratingSavedResult;
+//     }
 
-    var entitySavedResult = await this.supplierRepository.save(entity);
+//     var entitySavedResult = await this.supplierRepository.save(entity);
 
-    return entitySavedResult;
-  }
+//     return entitySavedResult;
+//   }
 
-  @Transactional({
-    isolationLevel: IsolationLevel.READ_COMMITTED,
-  })
-  public async updateEntity(
-    id: string,
-    data: UpdateSupplierRequest,
-  ): Promise<SupplierEntity> {
-    this.setupTransactionHooks();
+//   @Transactional({
+//     isolationLevel: IsolationLevel.READ_COMMITTED,
+//   })
+//   public async updateEntity(
+//     id: string,
+//     data: UpdateSupplierRequest,
+//   ): Promise<SupplierEntity> {
+//     this.setupTransactionHooks();
 
-    const entity = await this.supplierRepository.findOneOrFail({
-      relations: [
-        'relationshipWithBuyers',
-        'company',
-        'company.address',
-        'company.taxAndRevenue',
-        'financials',
-        'rating',
-      ],
-      where: { id: id },
-      loadEagerRelations: true,
-    });
+//     const entity = await this.supplierRepository.findOneOrFail({
+//       relations: [
+//         'relationshipWithBuyers',
+//         'company',
+//         'company.address',
+//         'company.taxAndRevenue',
+//         'financials',
+//         'rating',
+//       ],
+//       where: { id: id },
+//       loadEagerRelations: true,
+//     });
 
-    let companyAddressChanged = false;
+//     let companyAddressChanged = false;
 
-    if (data.company.address.addressLine1) {
-      companyAddressChanged = true;
-      entity.company.address.addressLine1 = data.company.address.addressLine1;
-    }
+//     if (data.company.address.addressLine1) {
+//       companyAddressChanged = true;
+//       entity.company.address.addressLine1 = data.company.address.addressLine1;
+//     }
 
-    if (data.company.address.addressLine2) {
-      companyAddressChanged = true;
-      entity.company.address.addressLine2 = data.company.address.addressLine2;
-    }
+//     if (data.company.address.addressLine2) {
+//       companyAddressChanged = true;
+//       entity.company.address.addressLine2 = data.company.address.addressLine2;
+//     }
 
-    if (data.company.address.city) {
-      companyAddressChanged = true;
-      entity.company.address.city = data.company.address.city;
-    }
+//     if (data.company.address.city) {
+//       companyAddressChanged = true;
+//       entity.company.address.city = data.company.address.city;
+//     }
 
-    if (data.company.address.postalCode) {
-      companyAddressChanged = true;
-      entity.company.address.postalCode = data.company.address.postalCode;
-    }
+//     if (data.company.address.postalCode) {
+//       companyAddressChanged = true;
+//       entity.company.address.postalCode = data.company.address.postalCode;
+//     }
 
-    if (companyAddressChanged) {
-      await this.companyAddressRepository.save(entity.company.address);
-    }
+//     if (companyAddressChanged) {
+//       await this.companyAddressRepository.save(entity.company.address);
+//     }
 
-    let taxAndRevenueChanged = false;
+//     let taxAndRevenueChanged = false;
 
-    if (data.company.taxAndRevenue) {
-      if (data.company.taxAndRevenue.taxNumber) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.taxNumber =
-          data.company.taxAndRevenue.taxNumber;
-      }
-      if (data.company.taxAndRevenue.audited) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.audited =
-          data.company.taxAndRevenue.audited;
-      }
-      if (data.company.taxAndRevenue.exportRevenuePercentage) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.exportRevenuePercentage =
-          data.company.taxAndRevenue.exportRevenuePercentage;
-      }
-      if (data.company.taxAndRevenue.exportValue) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.exportValue =
-          data.company.taxAndRevenue.exportValue;
-      }
-      if (data.company.taxAndRevenue.lastFiscalYear) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.lastFiscalYear =
-          data.company.taxAndRevenue.lastFiscalYear;
-      }
-      if (data.company.taxAndRevenue.totalRevenue) {
-        taxAndRevenueChanged = true;
-        entity.company.taxAndRevenue.totalRevenue =
-          data.company.taxAndRevenue.totalRevenue;
-      }
-    }
-    if (taxAndRevenueChanged) {
-      var taxAndRevenueSavedResult =
-        await this.companyTaxAndRevenueRepository.save(
-          entity.company.taxAndRevenue,
-        );
-      entity.company.taxAndRevenue = taxAndRevenueSavedResult;
-    }
+//     if (data.company.taxAndRevenue) {
+//       if (data.company.taxAndRevenue.taxNumber) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.taxNumber =
+//           data.company.taxAndRevenue.taxNumber;
+//       }
+//       if (data.company.taxAndRevenue.audited) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.audited =
+//           data.company.taxAndRevenue.audited;
+//       }
+//       if (data.company.taxAndRevenue.exportRevenuePercentage) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.exportRevenuePercentage =
+//           data.company.taxAndRevenue.exportRevenuePercentage;
+//       }
+//       if (data.company.taxAndRevenue.exportValue) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.exportValue =
+//           data.company.taxAndRevenue.exportValue;
+//       }
+//       if (data.company.taxAndRevenue.lastFiscalYear) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.lastFiscalYear =
+//           data.company.taxAndRevenue.lastFiscalYear;
+//       }
+//       if (data.company.taxAndRevenue.totalRevenue) {
+//         taxAndRevenueChanged = true;
+//         entity.company.taxAndRevenue.totalRevenue =
+//           data.company.taxAndRevenue.totalRevenue;
+//       }
+//     }
+//     if (taxAndRevenueChanged) {
+//       var taxAndRevenueSavedResult =
+//         await this.companyTaxAndRevenueRepository.save(
+//           entity.company.taxAndRevenue,
+//         );
+//       entity.company.taxAndRevenue = taxAndRevenueSavedResult;
+//     }
 
-    let companyChanged = false;
+//     let companyChanged = false;
 
-    if (data.company.companyName) {
-      companyChanged = true;
-      entity.company.companyName = data.company.companyName;
-    }
+//     if (data.company.companyName) {
+//       companyChanged = true;
+//       entity.company.companyName = data.company.companyName;
+//     }
 
-    if (data.company.dateEstablished) {
-      companyChanged = true;
-      entity.company.dateEstablished = data.company.dateEstablished;
-    }
+//     if (data.company.dateEstablished) {
+//       companyChanged = true;
+//       entity.company.dateEstablished = data.company.dateEstablished;
+//     }
 
-    if (data.company.employeeCount) {
-      companyChanged = true;
-      entity.company.employeeCount = data.company.employeeCount;
-    }
+//     if (data.company.employeeCount) {
+//       companyChanged = true;
+//       entity.company.employeeCount = data.company.employeeCount;
+//     }
 
-    if (data.company.registrationNumbers) {
-      companyChanged = true;
-      entity.company.registrationNumbers = data.company.registrationNumbers;
-    }
+//     if (data.company.registrationNumbers) {
+//       companyChanged = true;
+//       entity.company.registrationNumbers = data.company.registrationNumbers;
+//     }
 
-    if (data.company.phoneNumber) {
-      companyChanged = true;
-      entity.company.phoneNumber = data.company.phoneNumber;
-    }
+//     if (data.company.phoneNumber) {
+//       companyChanged = true;
+//       entity.company.phoneNumber = data.company.phoneNumber;
+//     }
 
-    if (companyChanged) {
-      await this.supplierCompanyRepository.save(entity.company);
-    }
+//     if (companyChanged) {
+//       await this.supplierCompanyRepository.save(entity.company);
+//     }
 
-    let financialInformationChanged = false;
+//     let financialInformationChanged = false;
 
-    if (data.financialInformation) {
-      if (data.financialInformation.turnover) {
-        financialInformationChanged = true;
-        entity.financials.turnover = data.financialInformation.turnover;
-      }
+//     if (data.financialInformation) {
+//       if (data.financialInformation.turnover) {
+//         financialInformationChanged = true;
+//         entity.financials.turnover = data.financialInformation.turnover;
+//       }
 
-      if (data.financialInformation.balanceSheetTotal) {
-        financialInformationChanged = true;
-        entity.financials.balanceSheetTotal =
-          data.financialInformation.balanceSheetTotal;
-      }
-    }
+//       if (data.financialInformation.balanceSheetTotal) {
+//         financialInformationChanged = true;
+//         entity.financials.balanceSheetTotal =
+//           data.financialInformation.balanceSheetTotal;
+//       }
+//     }
 
-    if (financialInformationChanged) {
-      await this.supplierFinancialInformationRepository.save(entity.financials);
-    }
-    let ratingChanged = false;
-    if (data.rating) {
-      if (data.rating.agencyName) {
-        ratingChanged = true;
-        entity.rating.agencyName = data.rating.agencyName;
-      }
+//     if (financialInformationChanged) {
+//       await this.supplierFinancialInformationRepository.save(entity.financials);
+//     }
+//     let ratingChanged = false;
+//     if (data.rating) {
+//       if (data.rating.agencyName) {
+//         ratingChanged = true;
+//         entity.rating.agencyName = data.rating.agencyName;
+//       }
 
-      if (data.rating.rating) {
-        ratingChanged = true;
-        entity.rating.rating = data.rating.rating;
-      }
+//       if (data.rating.rating) {
+//         ratingChanged = true;
+//         entity.rating.rating = data.rating.rating;
+//       }
 
-      if (data.rating.issuanceDate) {
-        ratingChanged = true;
-        entity.rating.issuanceDate = data.rating.issuanceDate;
-      }
-    }
+//       if (data.rating.issuanceDate) {
+//         ratingChanged = true;
+//         entity.rating.issuanceDate = data.rating.issuanceDate;
+//       }
+//     }
 
-    if (ratingChanged) {
-      await this.supplierRatingRepository.save(entity.rating);
-    }
+//     if (ratingChanged) {
+//       await this.supplierRatingRepository.save(entity.rating);
+//     }
 
-    var updatedEntity = await this.supplierRepository.save(entity);
+//     var updatedEntity = await this.supplierRepository.save(entity);
 
-    return updatedEntity;
-  }
-}
+//     return updatedEntity;
+//   }
+// }

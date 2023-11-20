@@ -1,50 +1,48 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  TableInheritance,
-} from 'typeorm';
-import { CompanyAddressEntity } from './company.address.entity';
-import { CompanyTaxAndRevenueEntity } from './company.tax.and.revenue.entity';
+import { Column, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity({ name: 'Companies' })
-@TableInheritance({ column: { type: 'varchar', name: 'type' } })
 export class CompanyEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
   @Allow()
-  companyName: string;
+  name: string;
+
+  @Column()
+  @Allow()
+  beneficialOwner: string;
+
+  @Column()
+  @Allow()
+  abbreviation: string;
+
+  @Column()
+  @Allow()
+  nationality: string;
+
+  @Column()
+  @Allow()
+  headquarters: string;
+
+  @Column()
+  @Allow()
+  industryType: string;
+
+  @Column()
+  @Allow()
+  coreBusiness: string;
 
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
-  dateEstablished: Date;
+  incorporationDate: Date;
 
   @Column()
   @Allow()
-  phoneNumber: string;
+  legalForm: string;
 
   @Column({ nullable: true })
   @Allow()
-  employeeCount?: number;
-
-  @Column()
-  @Allow()
-  registrationNumbers: string;
-
-  @OneToOne(
-    () => CompanyTaxAndRevenueEntity,
-    (taxAndRevenue) => taxAndRevenue.company,
-  )
-  @JoinColumn()
-  taxAndRevenue?: CompanyTaxAndRevenueEntity;
-
-  @OneToOne(() => CompanyAddressEntity, (address) => address.company)
-  @JoinColumn()
-  address: CompanyAddressEntity;
+  logo: string;
 }
