@@ -4181,10 +4181,10 @@
     schema-inspector "^2.0.2"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^7.3.2":
-  version "7.3.2"
-  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-7.3.2.tgz#33838e96312c2be1df93dce1c76e6d584b966a39"
-  integrity sha512-1r0+eqEWOOo7UYrFq9HGbc02DVME3NVCW/45sNKPN31PkOMMaK59DHragPJ2QbxPFiutVDUCS924+48+o3+0Tw==
+"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^7.3.4":
+  version "7.3.4"
+  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-7.3.4.tgz#6f9c0c17d8d91bc98073faac7d0401ae109c80ae"
+  integrity sha512-4IU1Hk0q5Ab3fI6pp527kG1GMmqVp8n5DgiBJ31uJxc9rtPo8zgFWXUAho/Nj+3gTflsbse0IhEU+/ZECpYYMQ==
 
 "@stacks/storage@^4.3.8":
   version "4.3.8"
