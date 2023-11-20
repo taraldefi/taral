@@ -4074,39 +4074,20 @@
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
 
-"@stacks/connect-ui@6.1.1":
-  version "6.1.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.1.1.tgz#2a35b78fcf37679b42a0f263750225e3c4188431"
-  integrity sha512-iSo57djIynmqt0jGlFkRFu2nHY/Nk0LmXKdRf/Whw1w/YbZD+CQJweHRh77XQOtAVbXZ1+e/klszxABevcPtPg==
+"@stacks/connect-ui@6.1.3":
+  version "6.1.3"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.1.3.tgz#9442fedb711d9385ca9560f17becbff088cc43ee"
+  integrity sha512-eArTt8y6EIhmwol2cfgWkn6kQoT2i0L/tDeaZQ2hYrRuAd2lsOnL8DRxBlIT6kQ1vKFIl0u/dVHsaxjXYx4JeA==
   dependencies:
     "@stencil/core" "^2.17.1"
 
-"@stacks/connect-ui@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.1.2.tgz#a762d25ab9db6d6ce0f1fff0fcca1363345be218"
-  integrity sha512-V4gUINXRDB2MO6YHk/JZZeApSnANrMFvIRv9qLBaJPamKsgeiCOBkiC88T7ucLVCz+NvCmS93Ntg4wytDIqdOg==
-  dependencies:
-    "@stencil/core" "^2.17.1"
-
-"@stacks/connect@7.3.1":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.3.1.tgz#0e011ade67bee023430ee095b915228f971ce4ca"
-  integrity sha512-A2G6kVqx+noCaVl5n9HW+jJtZzxdDRTb93VvtONUl76ZMUhjcYl5b42rZiEQ3kGLBnBUp38R1WrFEUQ57AaXCA==
+"@stacks/connect@7.4.2", "@stacks/connect@^7.4.2":
+  version "7.4.2"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.4.2.tgz#aa4cf19ed2a0df2b99b1886c8f3a49090e62aabb"
+  integrity sha512-6P41jvjykV5R2C9OLWA0Q432qgILLfSNzZr0icatNWeK//GSI34S+/CVWCkOKBzqYZtZ8Rpk3zmA1RZOlBVfMA==
   dependencies:
     "@stacks/auth" "^6.1.1"
-    "@stacks/connect-ui" "6.1.1"
-    "@stacks/network" "^6.1.1"
-    "@stacks/profile" "^6.1.1"
-    "@stacks/transactions" "^6.1.1"
-    jsontokens "^4.0.1"
-
-"@stacks/connect@^7.3.1":
-  version "7.4.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.4.1.tgz#c34a6180f9c9dfa3e5c90a919e0ef34ed5606d6e"
-  integrity sha512-kvF7Fnx8oMHNi/9At6UI6kThey+gYlYlbtsxhNL2VqflReXI8z3EndaMJ1WrD55ePIOoydAzV/Fx0rdNFjd4rQ==
-  dependencies:
-    "@stacks/auth" "^6.1.1"
-    "@stacks/connect-ui" "6.1.2"
+    "@stacks/connect-ui" "6.1.3"
     "@stacks/network" "^6.1.1"
     "@stacks/profile" "^6.1.1"
     "@stacks/transactions" "^6.1.1"
@@ -14010,12 +13991,12 @@ jotai-tanstack-query@^0.7.2:
   resolved "https://registry.yarnpkg.com/jotai-tanstack-query/-/jotai-tanstack-query-0.7.2.tgz#076441e3795f050b3ef0955d510efd3e938b45d1"
   integrity sha512-acwJJf4HKgs4c0mtgRJEvdL7jqQnKcT0ARvs33weGysLpQ8L1S3SqPPoMeHuLDz6vREcocsVFRZ5RsB7rJJHZQ==
 
-jotai@^2.5.1, jotai@latest:
+jotai@^2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.5.1.tgz#eed05a32a4ac1264c531a77e86478f7ad3197ca3"
   integrity sha512-vanPCCSuHczUXNbVh/iUunuMfrWRL4FdBtAbTRmrfqezJcKb8ybBTg8iivyYuUHapjcDETyJe1E4inlo26bVHA==
 
-"jotai@npm:jotai@1.3.8":
+jotai@latest, "jotai@npm:jotai@1.3.8":
   version "1.3.8"
   resolved "https://registry.yarnpkg.com/jotai/-/jotai-1.3.8.tgz#e227bc62fa81eed23cc7e362df4f4359c7285902"
   integrity sha512-gXSPlrpt/9TljK1sduK/ms2/q1iW6O4WS3/Ds1Aqbffs9UOFwIR6IUPHxXLRzVr5HXy8gbimeKmaYmYHMy212Q==
