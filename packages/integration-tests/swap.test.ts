@@ -57,14 +57,14 @@ test("make btc transaction", async () => {
 
   const sellerDerivedBtcInfo = await getAccountFromMnemonic(
     btc.networks.regtest,
-    sellerWallet.mnemonic
+    sellerWallet.mnemonic,
   );
 
   Logger.debug(NAME, `Seller address ${sellerDerivedBtcInfo.address}`);
 
   const buyerDerivedBtcInfo = await getAccountFromMnemonic(
     btc.networks.regtest,
-    buyerWallet.mnemonic
+    buyerWallet.mnemonic,
   );
 
   Logger.debug(NAME, `Buyer address ${buyerDerivedBtcInfo.address}`);
@@ -81,7 +81,7 @@ test("make btc transaction", async () => {
     async function () {
       const btcBalance = await getBtcBalance(
         regtest,
-        buyerDerivedBtcInfo.address
+        buyerDerivedBtcInfo.address,
       );
       expect(btcBalance).toBeTruthy();
       Logger.debug(NAME, `Account balance is: ${btcBalance}`);
@@ -91,7 +91,7 @@ test("make btc transaction", async () => {
       delay: 1000,
       maxAttempts: 50,
       timeout: 80000,
-    }
+    },
   );
 
   Logger.debug(NAME, `Buyer account balance (BTC) is: ${buyerBalance}`);
@@ -122,7 +122,7 @@ test("make btc transaction", async () => {
         regtest,
         sellerDerivedBtcInfo.address,
         buyerWallet.mnemonic,
-        btcSwapAmount
+        btcSwapAmount,
       );
       return paymentResponse;
     },
@@ -130,7 +130,7 @@ test("make btc transaction", async () => {
       delay: 1000,
       maxAttempts: 50,
       timeout: 80000,
-    }
+    },
   );
 
   Logger.debug(NAME, "Bitcoin payment details: ");
@@ -140,7 +140,7 @@ test("make btc transaction", async () => {
     async function () {
       const btcBalance = await getBtcBalance(
         regtest,
-        sellerDerivedBtcInfo.address
+        sellerDerivedBtcInfo.address,
       );
       expect(btcBalance).toBeTruthy();
       return btcBalance;
@@ -149,7 +149,7 @@ test("make btc transaction", async () => {
       delay: 1000,
       maxAttempts: 50,
       timeout: 80000,
-    }
+    },
   );
 
   Logger.debug(NAME, `Seller account balance (BTC) is: ${sellerBalance}`);
@@ -164,7 +164,7 @@ test("make btc transaction", async () => {
     boolean,
     boolean,
     HeaderPartsType,
-    boolean
+    boolean,
   ];
 
   const validationResults: transactionChecks = await retry<transactionChecks>(
@@ -239,7 +239,7 @@ test("make btc transaction", async () => {
       delay: 6000,
       maxAttempts: 50,
       timeout: 80000,
-    }
+    },
   );
 
   const paramsFromTransaction: ParamsFromTxResponse = validationResults[0];

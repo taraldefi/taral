@@ -19,7 +19,7 @@ export function decryptContent(
   content: string,
   options?: {
     privateKey?: string;
-  }
+  },
 ): Promise<string | Buffer> {
   const opts = Object.assign({}, options);
   if (!opts.privateKey) {
@@ -33,7 +33,7 @@ export function decryptContent(
     if (err instanceof SyntaxError) {
       throw new Error(
         "Failed to parse encrypted content JSON. The content may not " +
-          "be encrypted. If using getFile, try passing { decrypt: false }."
+          "be encrypted. If using getFile, try passing { decrypt: false }.",
       );
     } else {
       throw err;
@@ -55,12 +55,12 @@ export function decryptContent(
  */
 export async function decryptECIES(
   privateKey: string,
-  cipherObject: CipherObject
+  cipherObject: CipherObject,
 ): Promise<Buffer | string> {
   if (!cipherObject.ephemeralPK) {
     throw new FailedDecryptionError(
       "Unable to get public key from cipher object. " +
-        "You might be trying to decrypt an unencrypted object."
+        "You might be trying to decrypt an unencrypted object.",
     );
   }
   const ephemeralPK = cipherObject.ephemeralPK;
@@ -81,14 +81,14 @@ export async function decryptECIES(
     cipherTextBuffer = Buffer.from(cipherObject.cipherText, "base64");
   } else {
     throw new Error(
-      `Unexpected cipherTextEncoding "${cipherObject.cipherText}"`
+      `Unexpected cipherTextEncoding "${cipherObject.cipherText}"`,
     );
   }
 
   const macData = concatBytes(
     ivBuffer,
     hexToBytes(ephemeralPK),
-    cipherTextBuffer
+    cipherTextBuffer,
   );
   const actualMac = await hmacSha256(sharedKeys.hmacKey, Buffer.from(macData));
   const expectedMac = hexToBytes(cipherObject.mac);
@@ -99,7 +99,7 @@ export async function decryptECIES(
   const plainText = await aes256CbcDecrypt(
     Buffer.from(ivBuffer),
     sharedKeys.encryptionKey,
-    cipherTextBuffer
+    cipherTextBuffer,
   );
 
   if (cipherObject.wasString) {
@@ -123,7 +123,7 @@ async function hmacSha256(key: Buffer, content: Buffer) {
 async function aes256CbcDecrypt(
   iv: Buffer,
   key: Buffer,
-  ciphertext: Buffer
+  ciphertext: Buffer,
 ): Promise<Buffer> {
   const cipher = await createCipher();
   const result = await cipher.decrypt("aes-256-cbc", key, iv, ciphertext);

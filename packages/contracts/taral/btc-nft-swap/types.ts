@@ -8,7 +8,7 @@ export interface BtcNftSwapContract {
     btcReceiver: Buffer,
     nftId: number | bigint,
     nftReceiver: string,
-    nft: string
+    nft: string,
   ) => Transaction<bigint, bigint>;
   getOutValue: (
     tx: {
@@ -27,7 +27,7 @@ export interface BtcNftSwapContract {
       }[];
       version: Buffer;
     },
-    pubscriptkey: Buffer
+    pubscriptkey: Buffer,
   ) => Transaction<
     {
       out: {
@@ -70,7 +70,7 @@ export interface BtcNftSwapContract {
       "tree-depth": bigint;
       "tx-index": bigint;
     },
-    nft: string
+    nft: string,
   ) => Transaction<boolean, bigint>;
   ERR_ALREADY_DONE: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERR_FAILED_TO_PARSE_TX: () => Promise<ClarityTypes.Response<null, bigint>>;

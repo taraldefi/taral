@@ -8,7 +8,7 @@ import { isFile } from "./is-file.validator";
 
 export function MinFileSize(
   minSizeBytes: number,
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ) {
   return ValidateBy(
     {
@@ -30,6 +30,6 @@ export function MinFileSize(
         },
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

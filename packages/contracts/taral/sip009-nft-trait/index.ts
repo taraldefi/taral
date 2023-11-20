@@ -13,7 +13,7 @@ export type { Sip009NftTraitContract } from "./types";
 export const nodeSip009NftTraitContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<Sip009NftTraitContract>(
     Sip009NftTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeSip009NftTraitInfo: NodeContract<Sip009NftTraitContract> = {
 export const webSip009NftTraitContract = (provider: BaseWebProvider) => {
   const contract = webProxy<Sip009NftTraitContract>(
     Sip009NftTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

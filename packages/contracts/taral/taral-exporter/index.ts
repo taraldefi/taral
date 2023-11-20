@@ -13,7 +13,7 @@ export type { TaralExporterContract } from "./types";
 export const nodeTaralExporterContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<TaralExporterContract>(
     TaralExporterInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeTaralExporterInfo: NodeContract<TaralExporterContract> = {
 export const webTaralExporterContract = (provider: BaseWebProvider) => {
   const contract = webProxy<TaralExporterContract>(
     TaralExporterInterface,
-    provider
+    provider,
   );
   return contract;
 };

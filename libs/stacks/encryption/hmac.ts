@@ -26,13 +26,13 @@ export class WebCryptoHmacSha256 implements Hmac {
       key,
       { name: "HMAC", hash: "SHA-256" },
       true,
-      ["sign"]
+      ["sign"],
     );
     const sig = await this.subtleCrypto.sign(
       // The `hash` is only specified for non-compliant browsers like Edge.
       { name: "HMAC", hash: "SHA-256" },
       cryptoKey,
-      data
+      data,
     );
     return Buffer.from(sig);
   }

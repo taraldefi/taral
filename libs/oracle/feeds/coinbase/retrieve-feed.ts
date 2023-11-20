@@ -9,7 +9,7 @@ import { signRequest } from "./sign-request";
 const NAME = "coinbase-feed";
 
 export async function retrieveCoinbaseOracleFeed(
-  request: IOracleFeedRequest
+  request: IOracleFeedRequest,
 ): Promise<IOraclePriceFeed[]> {
   const path = "/oracle";
   const method = "GET";
@@ -21,7 +21,7 @@ export async function retrieveCoinbaseOracleFeed(
     body,
     request.coinbaseKey,
     request.coinbasePassPhrase,
-    request.coinbaseSecretKey
+    request.coinbaseSecretKey,
   );
 
   // add signature and nonce to the header

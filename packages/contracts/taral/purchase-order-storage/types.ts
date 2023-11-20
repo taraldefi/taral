@@ -8,7 +8,7 @@ export interface PurchaseOrderStorageContract {
     orderHash: Buffer,
     paymentTerm: string,
     amount: number | bigint,
-    deliveryTerm: string
+    deliveryTerm: string,
   ) => Transaction<boolean, null>;
   addOrderDetails: (orderDetailHash: Buffer) => Transaction<boolean, null>;
   deleteVault: (vaultId: number | bigint) => Transaction<boolean, null>;
@@ -24,7 +24,7 @@ export interface PurchaseOrderStorageContract {
       debt: bigint;
       "last-repayment-date": bigint;
       "nft-id": bigint;
-    }
+    },
   ) => Transaction<boolean, null>;
   getNextVaultId: () => Promise<bigint>;
   getOrderIdNonce: () => Promise<bigint>;

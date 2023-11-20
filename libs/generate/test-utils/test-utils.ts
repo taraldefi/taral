@@ -21,7 +21,7 @@ export async function getBlockHeight(provider: NativeClarityBinProvider) {
 
 export async function getStxBalance(
   provider: NativeClarityBinProvider,
-  account: string
+  account: string,
 ) {
   const { output_serialized } = await evalJson({
     contractAddress: UTIL_CONTRACT_ID,
@@ -46,7 +46,7 @@ export async function mineBlock(provider: NativeClarityBinProvider) {
 
 export async function mineBlocks(
   blocks: number,
-  provider: NativeClarityBinProvider
+  provider: NativeClarityBinProvider,
 ) {
   for (let index = 0; index < blocks; index++) {
     await mineBlock(provider);

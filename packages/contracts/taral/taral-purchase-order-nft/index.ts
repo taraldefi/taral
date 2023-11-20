@@ -11,11 +11,11 @@ import { TaralPurchaseOrderNftInterface } from "./abi";
 export type { TaralPurchaseOrderNftContract } from "./types";
 
 export const nodeTaralPurchaseOrderNftContract = (
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ) => {
   const contract = nodeProxy<TaralPurchaseOrderNftContract>(
     TaralPurchaseOrderNftInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -31,7 +31,7 @@ export const nodeTaralPurchaseOrderNftInfo: NodeContract<TaralPurchaseOrderNftCo
 export const webTaralPurchaseOrderNftContract = (provider: BaseWebProvider) => {
   const contract = webProxy<TaralPurchaseOrderNftContract>(
     TaralPurchaseOrderNftInterface,
-    provider
+    provider,
   );
   return contract;
 };

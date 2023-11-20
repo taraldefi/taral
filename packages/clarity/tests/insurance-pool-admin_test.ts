@@ -17,7 +17,7 @@ function poxAllowContractCaller(deployer: Account, wallet: Account) {
     "ST000000000000000000002AMW42H.pox",
     "allow-contract-caller",
     [types.principal(deployer.address + ".insurance-pool-admin"), types.none()],
-    wallet.address
+    wallet.address,
   );
 }
 
@@ -26,7 +26,7 @@ function poolAllowContractCaller(deployer: Account, wallet: Account) {
     "insurance-pool-admin",
     "allow-contract-caller",
     [types.principal(deployer.address + ".insurance-pool-admin")],
-    wallet.address
+    wallet.address,
   );
 }
 
@@ -39,7 +39,7 @@ Clarinet.test({
         "insurance-pool-admin",
         "payin",
         [types.uint(1000000), types.uint(1)],
-        walletOne.address
+        walletOne.address,
       ),
     ]);
 

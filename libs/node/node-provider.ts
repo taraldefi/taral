@@ -62,7 +62,7 @@ export class NodeProvider implements BaseProvider {
 
   static fromContracts<T extends NodeContracts<M>, M>(
     contracts: T,
-    config: NodeConfig
+    config: NodeConfig,
   ): NodeContractInstances<T, M> {
     const instances = {} as NodeContractInstances<T, M>;
     for (const k in contracts) {
@@ -113,7 +113,7 @@ export class NodeProvider implements BaseProvider {
       throw new Error("Error calling read-only function");
     }
     const resultCV = deserializeCV(
-      Buffer.from(response.result.replace(/^0x/, ""), "hex")
+      Buffer.from(response.result.replace(/^0x/, ""), "hex"),
     );
     const value = cvToValue(resultCV);
     switch (resultCV.type) {
@@ -145,7 +145,7 @@ export class NodeProvider implements BaseProvider {
 
   makeTx(payload: TxPayload): NodeTransaction<any, any> {
     const submit: Submitter<any, any> = async (
-      options: SubmitOptions
+      options: SubmitOptions,
     ): Promise<WebTransactionReceipt<any, any>> => {
       if ("sender" in options) {
         throw new Error("Cannot use test options");
@@ -170,12 +170,12 @@ export class NodeProvider implements BaseProvider {
       const tx = await makeContractCall(contractOptions);
       const broadcastResponse: TxBroadcastResult = await broadcastTransaction(
         tx,
-        payload.network
+        payload.network,
       );
 
       if (broadcastResponse.error) {
         throw new Error(
-          `Error broadcasting transaction: ${broadcastResponse.error} - ${broadcastResponse.reason}`
+          `Error broadcasting transaction: ${broadcastResponse.error} - ${broadcastResponse.reason}`,
         );
       }
 
@@ -188,11 +188,11 @@ export class NodeProvider implements BaseProvider {
           if (success) {
             const successfulFunctionCallResult = await getTransactionById(
               broadcastResponse.txid,
-              this.network
+              this.network,
             );
 
             const resultCV = deserializeCV(
-              Buffer.from(successfulFunctionCallResult)
+              Buffer.from(successfulFunctionCallResult),
             );
 
             const result = cvToValue(resultCV);

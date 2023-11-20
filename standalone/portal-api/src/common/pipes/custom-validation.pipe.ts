@@ -24,22 +24,24 @@ export class CustomValidationPipe implements PipeTransform<any> {
 
   transformErrors(errors: ValidationError[]): any[] {
     const transformedErrors: any[] = [];
-  
+
     function extractErrors(error: ValidationError, prefix = ''): void {
       if (error.constraints) {
         for (const key in error.constraints) {
           transformedErrors.push({
             name: prefix + error.property,
-            errors: [error.constraints[key]]
+            errors: [error.constraints[key]],
           });
         }
       }
       if (error.children) {
-        error.children.forEach(child => extractErrors(child, prefix + error.property + '.'));
+        error.children.forEach((child) =>
+          extractErrors(child, prefix + error.property + '.'),
+        );
       }
     }
-  
-    errors.forEach(error => extractErrors(error));
+
+    errors.forEach((error) => extractErrors(error));
     return transformedErrors;
   }
 

@@ -12,7 +12,7 @@ export const OtelObservableGauge = createParamDecorator(
       throw new Error("OtelObservableGauge need a name argument");
     }
     return getOrCreateObservableGauge(name, options);
-  }
+  },
 );
 
 export const OtelObservableCounter = createParamDecorator(
@@ -21,7 +21,7 @@ export const OtelObservableCounter = createParamDecorator(
       throw new Error("OtelObservableCounter need a name argument");
     }
     return getOrCreateObservableCounter(name, options);
-  }
+  },
 );
 
 export const OtelObservableUpDownCounter = createParamDecorator(
@@ -30,5 +30,5 @@ export const OtelObservableUpDownCounter = createParamDecorator(
       throw new Error("OtelObservableUpDownCounter need a name argument");
     }
     return getOrCreateObservableUpDownCounter(name, options);
-  }
+  },
 );

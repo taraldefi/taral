@@ -13,7 +13,7 @@ export type { TaralFileStorageContract } from "./types";
 export const nodeTaralFileStorageContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<TaralFileStorageContract>(
     TaralFileStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -28,7 +28,7 @@ export const nodeTaralFileStorageInfo: NodeContract<TaralFileStorageContract> =
 export const webTaralFileStorageContract = (provider: BaseWebProvider) => {
   const contract = webProxy<TaralFileStorageContract>(
     TaralFileStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };

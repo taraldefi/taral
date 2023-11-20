@@ -16,7 +16,7 @@ export interface InsurancePoolAdminContract {
       hashbytes: Buffer;
       version: Buffer;
     },
-    lockingPeriod: number | bigint
+    lockingPeriod: number | bigint,
   ) => Transaction<
     {
       "lock-amount": bigint;
@@ -27,10 +27,10 @@ export interface InsurancePoolAdminContract {
   >;
   payin: (
     ustx: number | bigint,
-    cycle: number | bigint
+    cycle: number | bigint,
   ) => Transaction<boolean, bigint>;
   stackAggregationCommit: (
-    rewardCycle: number | bigint
+    rewardCycle: number | bigint,
   ) => Transaction<boolean, bigint>;
   submitRewardTx: (
     block: {
@@ -62,7 +62,7 @@ export interface InsurancePoolAdminContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Transaction<
     {
       "out-value": bigint;
@@ -72,14 +72,14 @@ export interface InsurancePoolAdminContract {
   >;
   submitUnauditedRewards: (
     amount: number | bigint,
-    cycle: number | bigint
+    cycle: number | bigint,
   ) => Transaction<boolean, bigint>;
   burnHeightToRewardCycle: (height: number | bigint) => Promise<bigint>;
   getNextCycle: () => Promise<bigint>;
   getRewardBalance: (cycle: number | bigint) => Promise<bigint>;
   getRewards: (
     user: string,
-    cycle: number | bigint
+    cycle: number | bigint,
   ) => Promise<ClarityTypes.Response<bigint, bigint>>;
   getUnauditedRewards: (cycle: number | bigint) => Promise<bigint>;
   getVaultBalance: (cycle: number | bigint) => Promise<bigint>;

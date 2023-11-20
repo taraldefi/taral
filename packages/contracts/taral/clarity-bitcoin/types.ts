@@ -21,7 +21,7 @@ export interface ClarityBitcoinContract {
       scriptSig: Buffer;
       sequence: Buffer;
     },
-    result: Buffer
+    result: Buffer,
   ) => Promise<Buffer>;
   concatIns: (
     ins: {
@@ -31,20 +31,20 @@ export interface ClarityBitcoinContract {
       };
       scriptSig: Buffer;
       sequence: Buffer;
-    }[]
+    }[],
   ) => Promise<Buffer>;
   concatOut: (
     out: {
       scriptPubKey: Buffer;
       value: Buffer;
     },
-    result: Buffer
+    result: Buffer,
   ) => Promise<Buffer>;
   concatOuts: (
     outs: {
       scriptPubKey: Buffer;
       value: Buffer;
-    }[]
+    }[],
   ) => Promise<Buffer>;
   concatTx: (tx: {
     ins: {
@@ -71,7 +71,7 @@ export interface ClarityBitcoinContract {
     state: {
       "hash-input": Buffer;
       "hash-output": Buffer;
-    }
+    },
   ) => Promise<{
     "hash-input": Buffer;
     "hash-output": Buffer;
@@ -85,7 +85,7 @@ export interface ClarityBitcoinContract {
       "root-hash": Buffer;
       "tree-depth": bigint;
       verified: boolean;
-    }
+    },
   ) => Promise<{
     "cur-hash": Buffer;
     path: bigint;
@@ -101,7 +101,7 @@ export interface ClarityBitcoinContract {
       buffer: Buffer;
       index: bigint;
       remaining: bigint;
-    }
+    },
   ) => Promise<{
     acc: Buffer;
     buffer: Buffer;
@@ -114,7 +114,7 @@ export interface ClarityBitcoinContract {
       acc: Buffer;
       data: Buffer;
       index: bigint;
-    }
+    },
   ) => Promise<{
     acc: Buffer;
     data: Buffer;
@@ -186,7 +186,7 @@ export interface ClarityBitcoinContract {
         }[];
       },
       bigint
-    >
+    >,
   ) => Promise<
     ClarityTypes.Response<
       {
@@ -222,7 +222,7 @@ export interface ClarityBitcoinContract {
         }[];
       },
       bigint
-    >
+    >,
   ) => Promise<
     ClarityTypes.Response<
       {
@@ -242,7 +242,7 @@ export interface ClarityBitcoinContract {
   readSlice: (
     data: Buffer,
     offset: number | bigint,
-    size: number | bigint
+    size: number | bigint,
   ) => Promise<ClarityTypes.Response<Buffer, bigint>>;
   readSlice1: (input: { data: Buffer; index: bigint }) => Promise<Buffer>;
   readSlice128: (input: { data: Buffer; index: bigint }) => Promise<Buffer>;
@@ -353,7 +353,7 @@ export interface ClarityBitcoinContract {
   reverseBuff32: (input: Buffer) => Promise<Buffer>;
   verifyBlockHeader: (
     headerbuff: Buffer,
-    expectedBlockHeight: number | bigint
+    expectedBlockHeight: number | bigint,
   ) => Promise<boolean>;
   verifyMerkleProof: (
     reversedTxid: Buffer,
@@ -362,7 +362,7 @@ export interface ClarityBitcoinContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   wasTxMined: (
     block: {
@@ -379,7 +379,7 @@ export interface ClarityBitcoinContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   wasTxMinedCompact: (
     block: {
@@ -391,7 +391,7 @@ export interface ClarityBitcoinContract {
       hashes: Buffer[];
       "tree-depth": bigint;
       "tx-index": bigint;
-    }
+    },
   ) => Promise<ClarityTypes.Response<boolean, bigint>>;
   BUFF_TO_BYTE: () => Promise<Buffer[]>;
   ERRBADHEADER: () => Promise<bigint>;

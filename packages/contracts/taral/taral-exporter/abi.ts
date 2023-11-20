@@ -14,36 +14,19 @@ export const TaralExporterInterface: ClarityAbi = {
       ],
       name: "get-or-create-exporter-id",
       outputs: {
-        type: "uint128",
-      },
-    },
-    {
-      access: "private",
-      args: [
-        {
-          name: "value",
-          type: {
-            optional: {
-              tuple: [
-                {
-                  name: "orderId",
-                  type: "uint128",
-                },
-              ],
-            },
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
           },
         },
-      ],
-      name: "is-valid-value",
-      outputs: {
-        type: "bool",
       },
     },
     {
       access: "public",
       args: [
         {
-          name: "newOrderId",
+          name: "new-order-id",
           type: "uint128",
         },
         {
@@ -56,7 +39,7 @@ export const TaralExporterInterface: ClarityAbi = {
         type: {
           response: {
             error: "uint128",
-            ok: "bool",
+            ok: "uint128",
           },
         },
       },
@@ -69,7 +52,7 @@ export const TaralExporterInterface: ClarityAbi = {
           type: "principal",
         },
         {
-          name: "exporterName",
+          name: "exporter-name",
           type: {
             "string-utf8": {
               length: 100,
@@ -77,7 +60,15 @@ export const TaralExporterInterface: ClarityAbi = {
           },
         },
         {
-          name: "exporterCategory",
+          name: "hash",
+          type: {
+            buffer: {
+              length: 256,
+            },
+          },
+        },
+        {
+          name: "exporter-category",
           type: {
             "string-utf8": {
               length: 100,
@@ -86,6 +77,28 @@ export const TaralExporterInterface: ClarityAbi = {
         },
       ],
       name: "register",
+      outputs: {
+        type: {
+          response: {
+            error: "uint128",
+            ok: "uint128",
+          },
+        },
+      },
+    },
+    {
+      access: "public",
+      args: [
+        {
+          name: "exporter-principal",
+          type: "principal",
+        },
+        {
+          name: "success",
+          type: "bool",
+        },
+      ],
+      name: "update-exporter-track-record",
       outputs: {
         type: {
           response: {
@@ -103,160 +116,14 @@ export const TaralExporterInterface: ClarityAbi = {
           type: "principal",
         },
       ],
-      name: "get-exporter-id",
+      name: "get-exporter-hash",
       outputs: {
         type: {
-          optional: "uint128",
-        },
-      },
-    },
-    {
-      access: "read_only",
-      args: [
-        {
-          name: "id",
-          type: "uint128",
-        },
-        {
-          name: "exporter",
-          type: "principal",
-        },
-      ],
-      name: "get-exporter-order",
-      outputs: {
-        type: {
-          optional: {
-            tuple: [
-              {
-                name: "orderId",
-                type: "uint128",
-              },
-            ],
-          },
-        },
-      },
-    },
-    {
-      access: "read_only",
-      args: [
-        {
-          name: "ids",
-          type: {
-            list: {
-              length: 10,
-              type: "uint128",
-            },
-          },
-        },
-        {
-          name: "principals",
-          type: {
-            list: {
-              length: 10,
-              type: "principal",
-            },
-          },
-        },
-      ],
-      name: "get-exporter-orders",
-      outputs: {
-        type: {
-          list: {
-            length: 10,
-            type: {
-              optional: {
-                tuple: [
-                  {
-                    name: "orderId",
-                    type: "uint128",
-                  },
-                ],
-              },
-            },
-          },
-        },
-      },
-    },
-    {
-      access: "read_only",
-      args: [
-        {
-          name: "exporter",
-          type: "principal",
-        },
-      ],
-      name: "get-exporter-profile",
-      outputs: {
-        type: {
-          optional: {
-            tuple: [
-              {
-                name: "category",
-                type: {
-                  "string-utf8": {
-                    length: 100,
-                  },
-                },
-              },
-              {
-                name: "name",
-                type: {
-                  "string-utf8": {
-                    length: 100,
-                  },
-                },
-              },
-              {
-                name: "ordersNextAvailId",
-                type: "uint128",
-              },
-            ],
-          },
-        },
-      },
-    },
-    {
-      access: "read_only",
-      args: [
-        {
-          name: "principals",
-          type: {
-            list: {
-              length: 10,
-              type: "principal",
-            },
-          },
-        },
-      ],
-      name: "get-exporters",
-      outputs: {
-        type: {
-          list: {
-            length: 10,
-            type: {
-              optional: {
-                tuple: [
-                  {
-                    name: "category",
-                    type: {
-                      "string-utf8": {
-                        length: 100,
-                      },
-                    },
-                  },
-                  {
-                    name: "name",
-                    type: {
-                      "string-utf8": {
-                        length: 100,
-                      },
-                    },
-                  },
-                  {
-                    name: "ordersNextAvailId",
-                    type: "uint128",
-                  },
-                ],
+          response: {
+            error: "uint128",
+            ok: {
+              buffer: {
+                length: 256,
               },
             },
           },
@@ -266,78 +133,42 @@ export const TaralExporterInterface: ClarityAbi = {
     {
       access: "read_only",
       args: [],
-      name: "get-next-exporter-id",
+      name: "get-info",
       outputs: {
-        type: "uint128",
+        type: {
+          response: {
+            error: "none",
+            ok: {
+              tuple: [
+                {
+                  name: "version",
+                  type: {
+                    "string-ascii": {
+                      length: 10,
+                    },
+                  },
+                },
+              ],
+            },
+          },
+        },
+      },
+    },
+    {
+      access: "read_only",
+      args: [],
+      name: "get-version",
+      outputs: {
+        type: {
+          "string-ascii": {
+            length: 10,
+          },
+        },
       },
     },
   ],
   fungible_tokens: [],
-  maps: [
-    {
-      key: "principal",
-      name: "exporterByPrincipal",
-      value: "uint128",
-    },
-    {
-      key: {
-        tuple: [
-          {
-            name: "exporterId",
-            type: "uint128",
-          },
-        ],
-      },
-      name: "exporterProfile",
-      value: {
-        tuple: [
-          {
-            name: "category",
-            type: {
-              "string-utf8": {
-                length: 100,
-              },
-            },
-          },
-          {
-            name: "name",
-            type: {
-              "string-utf8": {
-                length: 100,
-              },
-            },
-          },
-          {
-            name: "ordersNextAvailId",
-            type: "uint128",
-          },
-        ],
-      },
-    },
-    {
-      key: {
-        tuple: [
-          {
-            name: "exporterId",
-            type: "uint128",
-          },
-          {
-            name: "id",
-            type: "uint128",
-          },
-        ],
-      },
-      name: "orders",
-      value: {
-        tuple: [
-          {
-            name: "orderId",
-            type: "uint128",
-          },
-        ],
-      },
-    },
-  ],
+  maps: [],
   non_fungible_tokens: [],
   variables: [
     {
@@ -372,7 +203,7 @@ export const TaralExporterInterface: ClarityAbi = {
     },
     {
       access: "constant",
-      name: "ERR-PERMISSION-DENIED",
+      name: "ERR_EMPTY_HASH",
       type: {
         response: {
           error: "uint128",
@@ -381,9 +212,43 @@ export const TaralExporterInterface: ClarityAbi = {
       },
     },
     {
-      access: "variable",
-      name: "exporterIdNonce",
-      type: "uint128",
+      access: "constant",
+      name: "ERR_EMPTY_SIGNATURE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "ERR_INVALID_SIGNATURE",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "VERSION",
+      type: {
+        "string-ascii": {
+          length: 10,
+        },
+      },
+    },
+    {
+      access: "constant",
+      name: "exporter-storage-error",
+      type: {
+        response: {
+          error: "uint128",
+          ok: "none",
+        },
+      },
     },
   ],
 };

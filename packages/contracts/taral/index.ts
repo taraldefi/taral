@@ -51,21 +51,9 @@ import {
   webStorageServiceInfo,
 } from "./storage-service";
 import { nodeTaralCoinInfo, webTaralCoinInfo } from "./taral-coin";
-import {
-  nodeTaralExporterV1Info,
-  webTaralExporterV1Info,
-} from "./taral-exporter-v1";
 import { nodeTaralExporterInfo, webTaralExporterInfo } from "./taral-exporter";
 import { nodeTaralImporterInfo, webTaralImporterInfo } from "./taral-importer";
-import {
-  nodeTaralImporterV1Info,
-  webTaralImporterV1Info,
-} from "./taral-importer-v1";
-import { nodeTaralOracleV1Info, webTaralOracleV1Info } from "./taral-oracle-v1";
-import {
-  nodeTaralPurchaseOrderInfo,
-  webTaralPurchaseOrderInfo,
-} from "./taral-purchase-order";
+import { nodeTaralOracleInfo, webTaralOracleInfo } from "./taral-oracle";
 import {
   nodeTaralPurchaseOrderTraitInfo,
   webTaralPurchaseOrderTraitInfo,
@@ -79,9 +67,9 @@ import {
   webTaralPurchaseOrderNftInfo,
 } from "./taral-purchase-order-nft";
 import {
-  nodeTaralPurchaseOrderV1Info,
-  webTaralPurchaseOrderV1Info,
-} from "./taral-purchase-order-v1";
+  nodeTaralPurchaseOrderInfo,
+  webTaralPurchaseOrderInfo,
+} from "./taral-purchase-order";
 import { nodeTaralStorageInfo, webTaralStorageInfo } from "./taral-storage";
 import { nodeUsdaTokenInfo, webUsdaTokenInfo } from "./usda-token";
 import {
@@ -98,6 +86,8 @@ import {
 } from "./nft-marketplace";
 import { nodeSip009NftInfo, webSip009NftInfo } from "./sip009-nft";
 import { nodeSip010TokenInfo, webSip010TokenInfo } from "./sip010-token";
+import { nodeTaralLenderInfo, webTaralLenderInfo } from "./taral-lender";
+import { nodeTaralBankInfo, webTaralBankInfo } from "./taral-bank";
 export type { Sip010FtTraitContract } from "./sip010-ft-trait";
 export type { Sip009NftTraitContract } from "./sip009-nft-trait";
 export type { ClarityBitcoinContract } from "./clarity-bitcoin";
@@ -118,16 +108,13 @@ export type { BtcFtSwapContract } from "./btc-ft-swap";
 export type { BtcNftSwapContract } from "./btc-nft-swap";
 export type { StorageServiceContract } from "./storage-service";
 export type { TaralCoinContract } from "./taral-coin";
-export type { TaralExporterV1Contract } from "./taral-exporter-v1";
 export type { TaralExporterContract } from "./taral-exporter";
 export type { TaralImporterContract } from "./taral-importer";
-export type { TaralImporterV1Contract } from "./taral-importer-v1";
-export type { TaralOracleV1Contract } from "./taral-oracle-v1";
-export type { TaralPurchaseOrderContract } from "./taral-purchase-order";
+export type { TaralOracleContract } from "./taral-oracle";
 export type { TaralPurchaseOrderTraitContract } from "./taral-purchase-order-trait";
 export type { PurchaseOrderStorageContract } from "./purchase-order-storage";
 export type { TaralPurchaseOrderNftContract } from "./taral-purchase-order-nft";
-export type { TaralPurchaseOrderV1Contract } from "./taral-purchase-order-v1";
+export type { TaralPurchaseOrderContract } from "./taral-purchase-order";
 export type { TaralStorageContract } from "./taral-storage";
 export type { UsdaTokenContract } from "./usda-token";
 export type { MarketplaceStorageContract } from "./marketplace-storage";
@@ -135,6 +122,8 @@ export type { MarketplaceTraitContract } from "./marketplace-trait";
 export type { NftMarketplaceContract } from "./nft-marketplace";
 export type { Sip009NftContract } from "./sip009-nft";
 export type { Sip010TokenContract } from "./sip010-token";
+export type { TaralLenderContract } from "./taral-lender";
+export type { TaralBankContract } from "./taral-bank";
 
 export const nodeTaralContracts = {
   nodeSip010FtTrait: nodeSip010FtTraitInfo,
@@ -157,16 +146,13 @@ export const nodeTaralContracts = {
   nodeBtcNftSwap: nodeBtcNftSwapInfo,
   nodeStorageService: nodeStorageServiceInfo,
   nodeTaralCoin: nodeTaralCoinInfo,
-  nodeTaralExporterV1: nodeTaralExporterV1Info,
   nodeTaralExporter: nodeTaralExporterInfo,
   nodeTaralImporter: nodeTaralImporterInfo,
-  nodeTaralImporterV1: nodeTaralImporterV1Info,
-  nodeTaralOracleV1: nodeTaralOracleV1Info,
-  nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
+  nodeTaralOracle: nodeTaralOracleInfo,
   nodeTaralPurchaseOrderTrait: nodeTaralPurchaseOrderTraitInfo,
   nodePurchaseOrderStorage: nodePurchaseOrderStorageInfo,
   nodeTaralPurchaseOrderNft: nodeTaralPurchaseOrderNftInfo,
-  nodeTaralPurchaseOrderV1: nodeTaralPurchaseOrderV1Info,
+  nodeTaralPurchaseOrder: nodeTaralPurchaseOrderInfo,
   nodeTaralStorage: nodeTaralStorageInfo,
   nodeUsdaToken: nodeUsdaTokenInfo,
   nodeMarketplaceStorage: nodeMarketplaceStorageInfo,
@@ -174,6 +160,8 @@ export const nodeTaralContracts = {
   nodeNftMarketplace: nodeNftMarketplaceInfo,
   nodeSip009Nft: nodeSip009NftInfo,
   nodeSip010Token: nodeSip010TokenInfo,
+  nodeTaralLender: nodeTaralLenderInfo,
+  nodeTaralBank: nodeTaralBankInfo,
 };
 
 export const webTaralContracts = {
@@ -197,16 +185,13 @@ export const webTaralContracts = {
   webBtcNftSwap: webBtcNftSwapInfo,
   webStorageService: webStorageServiceInfo,
   webTaralCoin: webTaralCoinInfo,
-  webTaralExporterV1: webTaralExporterV1Info,
   webTaralExporter: webTaralExporterInfo,
   webTaralImporter: webTaralImporterInfo,
-  webTaralImporterV1: webTaralImporterV1Info,
-  webTaralOracleV1: webTaralOracleV1Info,
-  webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
+  webTaralOracle: webTaralOracleInfo,
   webTaralPurchaseOrderTrait: webTaralPurchaseOrderTraitInfo,
   webPurchaseOrderStorage: webPurchaseOrderStorageInfo,
   webTaralPurchaseOrderNft: webTaralPurchaseOrderNftInfo,
-  webTaralPurchaseOrderV1: webTaralPurchaseOrderV1Info,
+  webTaralPurchaseOrder: webTaralPurchaseOrderInfo,
   webTaralStorage: webTaralStorageInfo,
   webUsdaToken: webUsdaTokenInfo,
   webMarketplaceStorage: webMarketplaceStorageInfo,
@@ -214,4 +199,6 @@ export const webTaralContracts = {
   webNftMarketplace: webNftMarketplaceInfo,
   webSip009Nft: webSip009NftInfo,
   webSip010Token: webSip010TokenInfo,
+  webTaralLender: webTaralLenderInfo,
+  webTaralBank: webTaralBankInfo,
 };

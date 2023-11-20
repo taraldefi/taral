@@ -5,7 +5,7 @@ import { TransactionVersion } from "./types";
 export function getAddressFromPrivateKey(
   /** Private key buffer or hex string */
   privateKey: string | Buffer,
-  transactionVersion = TransactionVersion.Mainnet
+  transactionVersion = TransactionVersion.Mainnet,
 ): string {
   const pubKey = publicKeyFromPrivKey(privateKey);
   return getAddressFromPublicKey(pubKey.data, transactionVersion);

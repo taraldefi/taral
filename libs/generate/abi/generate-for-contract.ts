@@ -64,7 +64,7 @@ export async function submitAnalisysForContract({
     const outputPath = resolve(
       `${outputFolder}/${subFolder}`,
       ".",
-      contractName
+      contractName,
     );
     await mkdir(outputPath, { recursive: true });
 

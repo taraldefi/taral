@@ -31,7 +31,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let [receipt] = block.receipts;
@@ -60,7 +60,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let block = chain.mineBlock([
@@ -72,7 +72,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let [receipt] = block.receipts;
@@ -101,7 +101,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let [receipt] = block.receipts;
@@ -129,7 +129,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -138,7 +138,7 @@ Clarinet.test({
       "taral-importer",
       "get-importer-profile",
       [types.principal(importer_wallet)],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -164,7 +164,7 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -173,7 +173,7 @@ Clarinet.test({
       "taral-importer",
       "get-next-importer-id",
       [],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -199,7 +199,7 @@ Clarinet.test({
           types.utf8(importer1_name),
           types.utf8(importer1_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -216,7 +216,7 @@ Clarinet.test({
           types.utf8(importer2_name),
           types.utf8(importer2_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let importer3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
@@ -232,7 +232,7 @@ Clarinet.test({
       "taral-importer",
       "get-importers",
       [importerList],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -266,7 +266,7 @@ Clarinet.test({
         "taral-importer",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     // console.log(block.receipts)
@@ -362,13 +362,13 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
       Tx.contractCall(
         "taral-importer",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let receipt = block.receipts[1];
@@ -397,13 +397,13 @@ Clarinet.test({
           types.utf8(importer_name),
           types.utf8(importer_category),
         ],
-        deployer.address
+        deployer.address,
       ),
       Tx.contractCall(
         "taral-importer",
         "append-order",
         [types.uint(new_order_id), types.principal(importer_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -412,7 +412,7 @@ Clarinet.test({
       "taral-importer",
       "get-importer-order",
       [types.uint(0), types.principal(importer_wallet)],
-      deployer.address
+      deployer.address,
     );
 
     // Assert
@@ -438,7 +438,7 @@ Clarinet.test({
           types.utf8(importer1_name),
           types.utf8(importer1_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let importer2_wallet = "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG";
@@ -454,7 +454,7 @@ Clarinet.test({
           types.utf8(importer2_name),
           types.utf8(importer2_category),
         ],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let importer3_wallet = "ST2JHG361ZXG51QTKY2NQCVBPPRRE2KZB1HR05NNC";
@@ -465,7 +465,7 @@ Clarinet.test({
         "taral-importer",
         "append-order",
         [types.uint(new1_order_id), types.principal(importer1_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let new2_order_id = 2002;
@@ -475,7 +475,7 @@ Clarinet.test({
         "taral-importer",
         "append-order",
         [types.uint(new2_order_id), types.principal(importer1_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let new3_order_id = 2003;
@@ -485,7 +485,7 @@ Clarinet.test({
         "taral-importer",
         "append-order",
         [types.uint(new3_order_id), types.principal(importer2_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
     let new4_order_id = 2004;
@@ -495,7 +495,7 @@ Clarinet.test({
         "taral-importer",
         "append-order",
         [types.uint(new4_order_id), types.principal(importer2_wallet)],
-        deployer.address
+        deployer.address,
       ),
     ]);
 
@@ -518,7 +518,7 @@ Clarinet.test({
       "taral-importer",
       "get-importer-orders",
       [orderList, importerList],
-      deployer.address
+      deployer.address,
     );
 
     // Assert

@@ -7,6 +7,6 @@ export const FORM_DATA_REQUEST_METADATA_KEY: Symbol = Symbol();
 export function FormDataRequest(config?: FormDataInterceptorConfig) {
   return applyDecorators(
     SetMetadata(FORM_DATA_REQUEST_METADATA_KEY, config),
-    UseInterceptors(FormDataInterceptor)
+    UseInterceptors(FormDataInterceptor),
   );
 }

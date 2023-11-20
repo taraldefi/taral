@@ -67,7 +67,7 @@ export class ApiMetricsMiddleware implements NestMiddleware {
   constructor(
     @Inject(MetricService) private readonly metricService: MetricService,
     @Inject(OPENTELEMETRY_MODULE_OPTIONS)
-    private readonly options: OpenTelemetryModuleOptions = {}
+    private readonly options: OpenTelemetryModuleOptions = {},
   ) {
     this.requestTotal = this.metricService.getCounter("http_request_total", {
       description: "Total number of HTTP requests",
@@ -81,35 +81,35 @@ export class ApiMetricsMiddleware implements NestMiddleware {
       "http_response_success_total",
       {
         description: "Total number of all successful responses",
-      }
+      },
     );
 
     this.responseErrorTotal = this.metricService.getCounter(
       "http_response_error_total",
       {
         description: "Total number of all response errors",
-      }
+      },
     );
 
     this.responseClientErrorTotal = this.metricService.getCounter(
       "http_client_error_total",
       {
         description: "Total number of client error requests",
-      }
+      },
     );
 
     this.responseServerErrorTotal = this.metricService.getCounter(
       "http_server_error_total",
       {
         description: "Total number of server error requests",
-      }
+      },
     );
 
     this.serverAbortsTotal = this.metricService.getCounter(
       "http_server_aborts_total",
       {
         description: "Total number of data transfers aborted",
-      }
+      },
     );
 
     const {
@@ -131,7 +131,7 @@ export class ApiMetricsMiddleware implements NestMiddleware {
             ? timeBuckets
             : this.defaultLongRunningRequestBuckets,
         description: "HTTP latency value recorder in seconds",
-      }
+      },
     );
 
     this.requestSizeHistogram = this.metricService.getHistogram(
@@ -142,7 +142,7 @@ export class ApiMetricsMiddleware implements NestMiddleware {
             ? requestSizeBuckets
             : this.defaultRequestSizeBuckets,
         description: "Current total of incoming bytes",
-      }
+      },
     );
 
     this.responseSizeHistogram = this.metricService.getHistogram(
@@ -153,7 +153,7 @@ export class ApiMetricsMiddleware implements NestMiddleware {
             ? responseSizeBuckets
             : this.defaultResponseSizeBuckets,
         description: "Current total of outgoing bytes",
-      }
+      },
     );
   }
 

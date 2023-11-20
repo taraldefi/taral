@@ -7,7 +7,7 @@ import { OKCOIN_FILTER } from "./filter";
 import { OkCoinInstruments } from "./types";
 
 export async function retrieveOKCoinFeed(
-  request: IOkCoinFeedRequest
+  request: IOkCoinFeedRequest,
 ): Promise<IOraclePriceFeed[]> {
   const timestamp = Math.floor(Date.now() / 1000);
   const instruments = await fetchInstruments();
@@ -25,7 +25,7 @@ export async function retrieveOKCoinFeed(
     const msg = buildPayload(
       timestamp,
       OKCOIN_FILTER[key].symbol,
-      Math.floor(midPrice(pair!) * OKCOIN_FILTER[key].decimals)
+      Math.floor(midPrice(pair!) * OKCOIN_FILTER[key].decimals),
     );
 
     const sig = signPayload({

@@ -4,27 +4,27 @@ import { ClarityTypes } from "lib-shared";
 export interface TaralPurchaseOrderNftContract {
   burn: (
     tokenId: number | bigint,
-    sender: string
+    sender: string,
   ) => Transaction<boolean, bigint>;
   mint: (
     tokenId: number | bigint,
-    receiver: string
+    receiver: string,
   ) => Transaction<boolean, bigint>;
   setTokenUri: (
     tokenId: number | bigint,
-    value: string
+    value: string,
   ) => Transaction<boolean, bigint>;
   transfer: (
     tokenId: number | bigint,
     sender: string,
-    receiver: string
+    receiver: string,
   ) => Transaction<boolean, bigint>;
   getLastTokenId: () => Promise<ClarityTypes.Response<bigint, null>>;
   getOwner: (
-    id: number | bigint
+    id: number | bigint,
   ) => Promise<ClarityTypes.Response<string | null, null>>;
   getTokenUri: (
-    tokenId: number | bigint
+    tokenId: number | bigint,
   ) => Promise<ClarityTypes.Response<string | null, null>>;
   ERRNOTTOKENOWNER: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERROWNERONLY: () => Promise<ClarityTypes.Response<null, bigint>>;

@@ -13,7 +13,7 @@ export type { ExporterStorageContract } from "./types";
 export const nodeExporterStorageContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<ExporterStorageContract>(
     ExporterStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeExporterStorageInfo: NodeContract<ExporterStorageContract> = {
 export const webExporterStorageContract = (provider: BaseWebProvider) => {
   const contract = webProxy<ExporterStorageContract>(
     ExporterStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };

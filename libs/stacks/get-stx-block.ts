@@ -18,12 +18,12 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
   Logger.debug(NAME, `Last block: ${toJSON(lastBlock)}`);
 
   let stxBlock = firstResponse.results.find(
-    (b: any) => b.burn_block_height === bitcoinBlockHeight
+    (b: any) => b.burn_block_height === bitcoinBlockHeight,
   );
 
   offset += Math.max(
     limit,
-    firstResponse.results[0].burn_block_height - bitcoinBlockHeight
+    firstResponse.results[0].burn_block_height - bitcoinBlockHeight,
   );
 
   while (!stxBlock) {
@@ -31,7 +31,7 @@ export async function getStxBlock(bitcoinBlockHeight: number) {
     const blocks = blockListResponse.results;
 
     stxBlock = blocks.find(
-      (b: any) => b.burn_block_height === bitcoinBlockHeight
+      (b: any) => b.burn_block_height === bitcoinBlockHeight,
     );
 
     offset -= limit;

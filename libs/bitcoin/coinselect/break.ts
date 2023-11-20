@@ -3,7 +3,7 @@ import * as utils from "./utils";
 export function broken(
   utxos: any[],
   output: { value?: any; script?: any },
-  feeRate: number
+  feeRate: number,
 ) {
   if (!isFinite(utils.uintOrNaN(feeRate))) return {};
 

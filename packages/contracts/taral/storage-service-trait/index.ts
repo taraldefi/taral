@@ -13,7 +13,7 @@ export type { StorageServiceTraitContract } from "./types";
 export const nodeStorageServiceTraitContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<StorageServiceTraitContract>(
     StorageServiceTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -28,7 +28,7 @@ export const nodeStorageServiceTraitInfo: NodeContract<StorageServiceTraitContra
 export const webStorageServiceTraitContract = (provider: BaseWebProvider) => {
   const contract = webProxy<StorageServiceTraitContract>(
     StorageServiceTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

@@ -149,9 +149,8 @@ export class FilesService {
 
     const fileHash = this.createFileHash(fileBuffer);
 
-    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(
-      fileBuffer,
-    );
+    const encryptedFileBuffer =
+      await this.encryptionService.encryptForStorage(fileBuffer);
 
     const storageResponse = await storage.put(
       onDiskFilename,
@@ -186,9 +185,8 @@ export class FilesService {
 
     const fileHash = this.createFileHash(fileBuffer);
 
-    const encryptedFileBuffer = await this.encryptionService.encryptForStorage(
-      fileBuffer,
-    );
+    const encryptedFileBuffer =
+      await this.encryptionService.encryptForStorage(fileBuffer);
 
     const storageResponse = await storage.put(
       onDiskFilename,

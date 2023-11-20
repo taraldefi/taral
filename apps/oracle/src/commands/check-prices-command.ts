@@ -16,16 +16,16 @@ async function checkPrice(source: string, symbol: string) {
   if (getPriceResult != null) {
     Logger.info(
       LOGGER_CATEGORY,
-      `Result for checking the price for (${source}/${symbol})`
+      `Result for checking the price for (${source}/${symbol})`,
     );
     Logger.info(
       LOGGER_CATEGORY,
-      `Amount: ${getPriceResult.amount} | Timestamp: ${getPriceResult.timestamp} | Height: ${getPriceResult.height}`
+      `Amount: ${getPriceResult.amount} | Timestamp: ${getPriceResult.timestamp} | Height: ${getPriceResult.height}`,
     );
   } else {
     Logger.error(
       LOGGER_CATEGORY,
-      `Could not get the price for (${source}/${symbol})`
+      `Could not get the price for (${source}/${symbol})`,
     );
   }
 }

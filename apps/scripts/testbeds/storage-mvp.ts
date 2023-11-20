@@ -25,7 +25,7 @@ export async function storageMvp() {
   const readEncryptedContent = readEncryptedFileWithEncoding(encrypted, "utf8");
   const decryptedContent = await decryptString(
     privateKey,
-    readEncryptedContent
+    readEncryptedContent,
   );
 
   syncWriteFileWithEncoding(file, decryptedContent, "binary");

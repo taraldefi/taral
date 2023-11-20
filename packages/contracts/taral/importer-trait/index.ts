@@ -13,7 +13,7 @@ export type { ImporterTraitContract } from "./types";
 export const nodeImporterTraitContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<ImporterTraitContract>(
     ImporterTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeImporterTraitInfo: NodeContract<ImporterTraitContract> = {
 export const webImporterTraitContract = (provider: BaseWebProvider) => {
   const contract = webProxy<ImporterTraitContract>(
     ImporterTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

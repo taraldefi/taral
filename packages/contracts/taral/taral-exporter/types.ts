@@ -4,57 +4,38 @@ import { ClarityTypes } from "lib-shared";
 export interface TaralExporterContract {
   appendOrder: (
     newOrderId: number | bigint,
-    exporter: string
-  ) => Transaction<boolean, bigint>;
+    exporter: string,
+  ) => Transaction<bigint, bigint>;
   register: (
     exporter: string,
     exporterName: string,
-    exporterCategory: string
+    hash: Buffer,
+    exporterCategory: string,
+  ) => Transaction<bigint, bigint>;
+  updateExporterTrackRecord: (
+    exporterPrincipal: string,
+    success: boolean,
   ) => Transaction<boolean, bigint>;
-  getExporterId: (exporter: string) => Promise<bigint | null>;
-  getExporterOrder: (
-    id: number | bigint,
-    exporter: string
-  ) => Promise<{
-    orderId: bigint;
-  } | null>;
-  getExporterOrders: (
-    ids: bigint[],
-    principals: string[]
-  ) => Promise<
-    | {
-        orderId: bigint;
-      }
-    | null[]
+  getExporterHash: (
+    exporter: string,
+  ) => Promise<ClarityTypes.Response<Buffer, bigint>>;
+  getInfo: () => Promise<
+    ClarityTypes.Response<
+      {
+        version: string;
+      },
+      null
+    >
   >;
-  getExporterProfile: (exporter: string) => Promise<{
-    category: string;
-    name: string;
-    ordersNextAvailId: bigint;
-  } | null>;
-  getExporters: (principals: string[]) => Promise<
-    | {
-        category: string;
-        name: string;
-        ordersNextAvailId: bigint;
-      }
-    | null[]
-  >;
-  getNextExporterId: () => Promise<bigint>;
+  getVersion: () => Promise<string>;
   ERREXPORTERALREADYREGISTERED: () => Promise<
     ClarityTypes.Response<null, bigint>
   >;
   ERREXPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;
-  ERRPERMISSIONDENIED: () => Promise<ClarityTypes.Response<null, bigint>>;
-  exporterIdNonce: () => Promise<bigint>;
-  exporterByPrincipal: (key: string) => Promise<bigint | null>;
-  exporterProfile: (key: { exporterId: bigint }) => Promise<{
-    category: string;
-    name: string;
-    ordersNextAvailId: bigint;
-  } | null>;
-  orders: (key: { exporterId: bigint; id: bigint }) => Promise<{
-    orderId: bigint;
-  } | null>;
+  ERR_EMPTY_HASH: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_EMPTY_SIGNATURE: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INVALID_SIGNATURE: () => Promise<ClarityTypes.Response<null, bigint>>;
+  VERSION: () => Promise<string>;
+  exporterStorageError: () => Promise<ClarityTypes.Response<null, bigint>>;
 }

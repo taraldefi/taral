@@ -11,11 +11,11 @@ import { InsurancePoolAuditCompactInterface } from "./abi";
 export type { InsurancePoolAuditCompactContract } from "./types";
 
 export const nodeInsurancePoolAuditCompactContract = (
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ) => {
   const contract = nodeProxy<InsurancePoolAuditCompactContract>(
     InsurancePoolAuditCompactInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -29,11 +29,11 @@ export const nodeInsurancePoolAuditCompactInfo: NodeContract<InsurancePoolAuditC
   };
 
 export const webInsurancePoolAuditCompactContract = (
-  provider: BaseWebProvider
+  provider: BaseWebProvider,
 ) => {
   const contract = webProxy<InsurancePoolAuditCompactContract>(
     InsurancePoolAuditCompactInterface,
-    provider
+    provider,
   );
   return contract;
 };

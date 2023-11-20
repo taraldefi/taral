@@ -1,5 +1,5 @@
 import { Logger } from "lib-shared";
-import { TaralOracleV1Contract } from "taral-contracts";
+import { TaralOracleContract } from "taral-contracts";
 import { IOraclePriceEntry } from "./types";
 
 export async function getPrice({
@@ -7,7 +7,7 @@ export async function getPrice({
   source,
   symbol,
 }: {
-  contract: TaralOracleV1Contract;
+  contract: TaralOracleContract;
   source: string;
   symbol: string;
 }): Promise<IOraclePriceEntry | null> {

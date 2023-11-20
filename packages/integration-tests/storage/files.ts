@@ -18,7 +18,7 @@ export function readTestFile(file: string): File {
 export function syncWriteFileWithEncoding(
   filename: string,
   data: any,
-  encoding: BufferEncoding
+  encoding: BufferEncoding,
 ) {
   /**
    * flags:
@@ -39,20 +39,20 @@ export function readUnencryptedFileWithEncoding(filename: string): string {
 
   const fileStream: Buffer = fs.readFileSync(filePath);
 
-  var result = fileStream.toString("binary");
+  const result = fileStream.toString("binary");
 
   return result;
 }
 
 export function readEncryptedFileWithEncoding(
   filename: string,
-  encoding: BufferEncoding
+  encoding: BufferEncoding,
 ): string {
   const filePath = path.join(__dirname, `../filesystem/${filename}`);
 
   const fileStream: Buffer = fs.readFileSync(filePath);
 
-  var result = fileStream.toString(encoding);
+  const result = fileStream.toString(encoding);
 
   return result;
 }

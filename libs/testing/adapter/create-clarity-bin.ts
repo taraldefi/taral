@@ -15,7 +15,7 @@ export async function createClarityBin({
   const provider = await NativeClarityBinProvider.create(
     _allocations,
     dbFileName,
-    binFile
+    binFile,
   );
   return provider;
 }

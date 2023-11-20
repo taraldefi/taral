@@ -7,7 +7,7 @@ const SIGN = false;
 
 export async function encryptString(
   publicKey: string,
-  content: string
+  content: string,
 ): Promise<string> {
   const encryptedContent = await encryptContent(content, {
     publicKey: publicKey,
@@ -21,7 +21,7 @@ export async function encryptString(
 
 export async function decryptString(
   privateKey: string,
-  encryptedContent: string
+  encryptedContent: string,
 ): Promise<string> {
   const decryptedContent = await decryptContent(encryptedContent, {
     privateKey: privateKey,

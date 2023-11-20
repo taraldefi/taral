@@ -14,7 +14,7 @@ export class CronExplorer implements OnModuleInit {
     private readonly discoveryService: DiscoveryService,
     private readonly metadataAccessor: CronMetadataAccessor,
     private readonly metadataScanner: MetadataScanner,
-    private readonly orchestrator: AgendaOrchestrator
+    private readonly orchestrator: AgendaOrchestrator,
   ) {}
 
   onModuleInit() {
@@ -28,14 +28,14 @@ export class CronExplorer implements OnModuleInit {
         return this.metadataAccessor.isQueue(
           !wrapper.metatype || wrapper.inject
             ? wrapper?.constructor
-            : wrapper.metatype
+            : wrapper.metatype,
         );
       })
       .forEach((wrapper: InstanceWrapper) => {
         const { instance, metatype } = wrapper;
 
         const { queueName } = this.metadataAccessor.getQueueMetadata(
-          instance.constructor || metatype
+          instance.constructor || metatype,
         );
 
         const queueToken = getQueueToken(queueName);
@@ -65,12 +65,12 @@ export class CronExplorer implements OnModuleInit {
                 jobProcessor,
                 jobOptions,
                 jobProcessorType,
-                methodRef.length === 2
+                methodRef.length === 2,
               );
             } else if (this.metadataAccessor.isEventListener(methodRef)) {
               const listener = this.wrapFunctionInTryCatchBlocks(
                 methodRef,
-                instance
+                instance,
               );
 
               const eventName =
@@ -82,10 +82,10 @@ export class CronExplorer implements OnModuleInit {
                 queueToken,
                 listener,
                 eventName,
-                jobName
+                jobName,
               );
             }
-          }
+          },
         );
       });
   }

@@ -8,7 +8,7 @@ export interface BtcFtSwapContract {
     btcReceiver: Buffer,
     amount: number | bigint,
     ftReceiver: string | null,
-    ft: string
+    ft: string,
   ) => Transaction<bigint, bigint>;
   getOutValue: (
     tx: {
@@ -27,7 +27,7 @@ export interface BtcFtSwapContract {
       }[];
       version: Buffer;
     },
-    pubscriptkey: Buffer
+    pubscriptkey: Buffer,
   ) => Transaction<
     {
       out: {
@@ -71,7 +71,7 @@ export interface BtcFtSwapContract {
       "tree-depth": bigint;
       "tx-index": bigint;
     },
-    ft: string
+    ft: string,
   ) => Transaction<boolean, bigint>;
   ERR_ALREADY_DONE: () => Promise<ClarityTypes.Response<null, bigint>>;
   ERR_FAILED_TO_PARSE_TX: () => Promise<ClarityTypes.Response<null, bigint>>;

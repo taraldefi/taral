@@ -176,9 +176,8 @@ export class RelationshipService extends BaseService {
       }
     }
 
-    const updatedRelationship = await this.relationshipRepository.save(
-      relationship,
-    );
+    const updatedRelationship =
+      await this.relationshipRepository.save(relationship);
 
     return updatedRelationship;
   }

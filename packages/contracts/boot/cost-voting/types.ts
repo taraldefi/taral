@@ -8,16 +8,16 @@ export interface CostVotingContract {
     functionContract: string,
     functionName: string,
     costFunctionContract: string,
-    costFunctionName: string
+    costFunctionName: string,
   ) => Transaction<bigint, null>;
   veto: (proposalId: number | bigint) => Transaction<boolean, bigint>;
   voteProposal: (
     proposalId: number | bigint,
-    amount: number | bigint
+    amount: number | bigint,
   ) => Transaction<boolean, bigint>;
   withdrawVotes: (
     proposalId: number | bigint,
-    amount: number | bigint
+    amount: number | bigint,
   ) => Transaction<boolean, bigint>;
   getConfirmedProposal: (confirmedId: number | bigint) => Promise<{
     "confirmed-height": bigint;
@@ -28,7 +28,7 @@ export interface CostVotingContract {
   } | null>;
   getPrincipalVotes: (
     address: string,
-    proposalId: number | bigint
+    proposalId: number | bigint,
   ) => Promise<bigint | null>;
   getProposal: (proposalId: number | bigint) => Promise<{
     "cost-function-contract": string;

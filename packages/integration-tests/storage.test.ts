@@ -18,7 +18,7 @@ test("[File storage] - Happy flow", async () => {
 
   const deployerConfiguredStorage: StorageApiClient = new StorageApiClient(
     "http://localhost:3000",
-    deployerPrivateKey
+    deployerPrivateKey,
   );
 
   const firstFileBuffer = readTestFile(firstVersionFileName);
@@ -26,7 +26,7 @@ test("[File storage] - Happy flow", async () => {
   const result = await deployerConfiguredStorage.createFile(
     firstVersionFileName,
     firstFileBuffer.file,
-    firstFileBuffer.fileSizeInBytes
+    firstFileBuffer.fileSizeInBytes,
   );
 
   expect(result.hasError).toBe(false);

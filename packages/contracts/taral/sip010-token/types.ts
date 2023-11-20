@@ -4,13 +4,13 @@ import { ClarityTypes } from "lib-shared";
 export interface Sip010TokenContract {
   mint: (
     amount: number | bigint,
-    recipient: string
+    recipient: string,
   ) => Transaction<boolean, bigint>;
   transfer: (
     amount: number | bigint,
     sender: string,
     recipient: string,
-    memo: Buffer | null
+    memo: Buffer | null,
   ) => Transaction<boolean, bigint>;
   getBalance: (who: string) => Promise<ClarityTypes.Response<bigint, null>>;
   getDecimals: () => Promise<ClarityTypes.Response<bigint, null>>;

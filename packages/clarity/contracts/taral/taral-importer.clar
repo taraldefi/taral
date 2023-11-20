@@ -1,170 +1,113 @@
-;; importer
-;; Smart Contract 
-;;     Should record importer name
-;;     Should record importer area of import
-;;     Should record importer's transaction (purchase/sale) history
-
-
-;; constants
-
+;; Updated version of taral importer contract
+(impl-trait .importer-trait.importer-trait)
+;; Constants and Errors
 (define-constant ERR-GENERIC (err u100))
-(define-constant ERR-PERMISSION-DENIED (err u101))
+(define-constant ERR_INVALID_SIGNATURE (err u101))
+(define-constant ERR-IMPORTER-NOT-REGISTERED (err u102))
+(define-constant ERR_EMPTY_HASH (err u103))
+(define-constant ERR_EMPTY_SIGNATURE (err u104))
+(define-constant ERR-IMPORTER-ALREADY-REGISTERED (err u105))
+(define-constant importer-storage-error (err u106))
+(define-constant VERSION "0.2.6.beta")
 
-(define-constant ERR-IMPORTER-NOT-REGISTERED (err u121))
-(define-constant ERR-IMPORTER-ALREADY-REGISTERED (err u102))
-
-;; data maps and vars
-(define-data-var importerIdNonce uint u10001)
-
-(define-map importerByPrincipal
-  principal
-  uint
+(define-read-only (get-importer-hash (importer principal))
+    (let 
+    ((current-importer-profile (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error)))           
+    (ok (get hash current-importer-profile))
+    )
 )
 
-(define-map importerProfile {importerId: uint} 
-  {
-    name: (string-utf8 100), 
-    category: (string-utf8 100), ;; Merchant /Manufacturer /Service /Project /Deemed Importer
-    ordersNextAvailId: uint
-  }  
-)
 
-(define-map orders 
-    {id: uint,
-     importerId: uint
-    } 
-    {       
-      orderId: uint
-    }
-)
-
-;; private functions
+;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
+;; @Param importer : principal of importer
 (define-private (get-or-create-importer-id (importer principal))
-
-  (match (map-get? importerByPrincipal importer) 
-          value 
-          value  (let ((importerId (var-get importerIdNonce)))  
-                      (map-set importerByPrincipal importer importerId)
-                      (var-set importerIdNonce (+ u1 importerId))
-                      importerId
-                  )
-  )
-)
-
-;; to filter out none from list [none none (some XXX) none]
-(define-private (is-valid-value
-                  (value (optional 
-                          {orderId: uint}
-                  ))
-                )
-
-   (is-some value)
-)
-
-;; read-only functions
-(define-read-only (get-importer-id (importer principal))
-
-  (map-get? importerByPrincipal importer)
-)
-
-(define-read-only (get-next-importer-id)    
-
-  (var-get importerIdNonce)
-)
-
-(define-read-only (get-importer-profile (importer principal))
-
-  (let ((importerId (try! (get-importer-id importer))))          
-     (map-get? importerProfile {importerId: importerId})
-  )
-)
-
-(define-read-only (get-importers (principals (list 10 principal))) 
-  
-  (map get-importer-profile principals)       
-)
-
-(define-read-only (get-importer-order (id uint) (importer principal))
-
-  (let ((importerId (try! (get-importer-id importer))))                              
-    (map-get? orders { id: id, 
-                       importerId: importerId
-                     }
-    )
-  )       
-)
-
-(define-read-only (get-importer-orders (ids (list 10 uint)) (principals (list 10 principal)) )    
-
-  (filter is-valid-value (map get-importer-order ids principals))      
-)
-
-;; public functions
-(define-public (register (importer principal) 
-                         (importerName (string-utf8 100)) 
-                         (importerCategory (string-utf8 100)))
-
-  (begin 
-
-      ;; (asserts! (is-eq tx-sender importer) 
-      ;;            PERMISSION_DENIED_ERROR
-      ;; )
-
-      (asserts! (is-none (map-get? importerByPrincipal importer)) ERR-IMPORTER-ALREADY-REGISTERED)
-      (asserts! (> (len importerName) u0) ERR-GENERIC)
-      (asserts! (> (len importerCategory) u0) ERR-GENERIC) 
-      
-      (ok (let ((importerId (get-or-create-importer-id importer)))
-            importerId 
-            (map-insert importerProfile {importerId: importerId} 
-                                         {name: importerName, 
-                                          category: importerCategory,
-                                          ordersNextAvailId: u0
-                                         }
+    (match (contract-call? .importer-storage get-importer-by-principal importer) 
+          matched-importer-id (ok matched-importer-id)  
+          (let ((importer-id (contract-call? .importer-storage get-importer-id-nonce)))  
+            (unwrap! (contract-call? .importer-storage add-importer importer importer-id) importer-storage-error)
+            (unwrap! (contract-call? .importer-storage increment-importer-id-nonce) importer-storage-error)
+            (ok importer-id)
             )
-      ))
-  )
+    )
 )
 
-;; #[allow(unchecked_params)]
-;; #[allow(unchecked_data)]
-(define-public (append-order (newOrderId uint)
-                             (importer principal)                                                       
-               )
-  (begin 
+;; @Desc Core function to implement importer registration
+;; @Params importer : importer principal
+;; @params importer-name : name of the importer
+;; @params importer-category : category of importer
+(define-public (register 
+    (importer principal) 
+    (importer-name (string-utf8 100)) 
+    (hash (buff 256)) 
+    (importer-category (string-utf8 100))
+)
+    (begin
+        (asserts! (is-none (contract-call? .importer-storage get-importer-by-principal importer)) ERR-IMPORTER-ALREADY-REGISTERED)
 
-      ;; (asserts! (is-eq tx-sender importer) 
-      ;;            PERMISSION_DENIED_ERROR
-      ;; )
-
-
-    ;; validate importer       
-    (let ((optImporterId (get-importer-id importer)))
-
-      (asserts! (not (is-none optImporterId)) ERR-IMPORTER-NOT-REGISTERED)
+        (asserts! (> (len importer-name) u0) ERR-GENERIC)
         
-      ;; ? validate the new order 
+        (asserts! (> (len importer-category) u0) ERR-GENERIC) 
+        
+        ;; check that the hash is not empty
+        (asserts! (> (len hash) u0) ERR_EMPTY_HASH)
+            
+        (let (
+            (importer-id (unwrap! (get-or-create-importer-id importer) ERR-GENERIC)))
+            (unwrap! (contract-call? .importer-storage add-importer-profile importer-id importer-name hash importer-category) importer-storage-error)
+            (print {action: "register", importer-id: importer-id, importer: importer, importer-name: importer-name, importer-category: importer-category })
+            (ok importer-id)
+        )
+    ) 
+)
 
-      (let ((importerId (unwrap-panic optImporterId)))
-      
-        ;; update ordersNextAvailId & importer orderId
-        (let ((currentImporter (unwrap-panic (get-importer-profile importer)) ))                    
-          (let ((newId (get ordersNextAvailId currentImporter) ))  
+(define-public (update-importer-track-record (importer-principal principal) (success bool))
+    (let (
+        (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer-principal ) ERR-IMPORTER-NOT-REGISTERED))
+        (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer-principal) importer-storage-error))
+        (successful-transaction-count (get successful-transactions current-importer ))
+        (failed-transaction-count (get failed-transactions current-importer ))
+        )
+        
+        (if success
+            (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { successful-transactions: (+ u1 successful-transaction-count)})) importer-storage-error)
 
-            (map-set importerProfile {importerId: importerId}               
-              (merge currentImporter { ordersNextAvailId: (+ u1 newId)})
-            )        
-
-            (ok 
-              (map-insert orders {id: newId,
-                                  importerId: importerId}   
-                                {orderId: newOrderId }     
-              )                  
-            )
-          )
-        )        
-      )          
-
+            (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { failed-transactions: (+ u1 failed-transaction-count)})) importer-storage-error)
+        )
+        
+        (ok true)
     )
-  )
+)
+
+;; @Desc appends order to importer and updates importer profile
+;; @params new-order-id : ID of new order
+;; @Params importer : Principal of importer
+(define-public (append-order 
+    (new-order-id uint) 
+    (importer principal) 
+)
+    (
+        let (
+            (importer-id (unwrap! (contract-call? .importer-storage get-importer-by-principal importer ) ERR-IMPORTER-NOT-REGISTERED))
+            (current-importer (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error))
+            (new-id (contract-call? .importer-storage get-orders-next-avail-id current-importer))
+        )
+
+        (asserts! (not (is-none (contract-call? .importer-storage get-importer-by-principal importer))) ERR-IMPORTER-NOT-REGISTERED)
+        (unwrap! (contract-call? .importer-storage update-importer-profile {importer-id: importer-id} (merge current-importer { orders-next-avail-id: (+ u1 new-id)})) importer-storage-error)
+        (unwrap! (contract-call? .importer-storage add-order new-id importer-id new-order-id) importer-storage-error)
+        (print {action: "append-order", importer: importer, new-order-id: new-order-id  })
+        (ok new-id) 
+    )
+)
+
+(define-read-only (get-info)
+    (ok {
+        version: (get-version)
+    })
+)
+
+;; Returns version of the safe contract
+;; @returns string-ascii
+(define-read-only (get-version) 
+    VERSION
 )

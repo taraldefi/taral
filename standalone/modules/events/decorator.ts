@@ -11,7 +11,7 @@ export function ListensTo(event: string) {
   return function (
     target: Record<string, any>,
     propertyKey: string,
-    descriptor: PropertyDescriptor
+    descriptor: PropertyDescriptor,
   ) {
     Reflect.defineMetadata(EVENT_NAME, event, target, propertyKey);
   };

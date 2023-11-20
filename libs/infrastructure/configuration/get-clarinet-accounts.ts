@@ -3,7 +3,7 @@ import { ClarinetAccounts } from "lib-shared";
 import { getClarinetDevConfig } from ".";
 
 export async function getClarinetAccounts(
-  folder: string
+  folder: string,
 ): Promise<ClarinetAccounts> {
   const devConfig = getClarinetDevConfig(folder);
 
@@ -27,7 +27,7 @@ export async function getClarinetAccounts(
           privateKey,
         },
       ];
-    })
+    }),
   );
 
   const accounts: ClarinetAccounts = Object.fromEntries(accountEntries);

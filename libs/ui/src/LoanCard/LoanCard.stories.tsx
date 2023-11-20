@@ -1,10 +1,10 @@
 // Generated with util/create-component.js
-import React from 'react';
-import { LargeLoanCard, PaymentSuccessCard, SmallLoanCard } from './LoanCard';
-import { LoanCardTypes } from './LoanCard.types';
+import React from "react";
+import { LargeLoanCard, PaymentSuccessCard, SmallLoanCard } from "./LoanCard";
+import { LoanCardTypes } from "./LoanCard.types";
 
 export default {
-  title: 'LoanCard',
+  title: "LoanCard",
 };
 
 export const interestRate = () => (
@@ -37,8 +37,8 @@ export const paymentSuccess = () => (
     onBack={() => {}}
     paymentDetails={{
       amount: 2000,
-      date: 'March 19, 2023',
-      method: 'USD-Stablecoin',
+      date: "March 19, 2023",
+      method: "USD-Stablecoin",
     }}
   ></PaymentSuccessCard>
 );

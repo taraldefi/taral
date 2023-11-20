@@ -35,7 +35,7 @@ export function isEmpty(value: any): boolean {
 
 export async function EmitEvent<T>(
   event: EmitsEvent<T>,
-  data: T
+  data: T,
 ): Promise<void> {
   await event.emit(data);
   return;

@@ -9,6 +9,6 @@ export function decodeAddress() {
   Logger.debug(
     LOGGER_CATEGORY,
     "Decoded stx address: ",
-    `0x${result.data.toString("hex")}` // 0x6d78de7b0625dfbfc16c3a8a5735f6dc3dc3f2ce
+    `0x${result.data.toString("hex")}`, // 0x6d78de7b0625dfbfc16c3a8a5735f6dc3dc3f2ce
   );
 }

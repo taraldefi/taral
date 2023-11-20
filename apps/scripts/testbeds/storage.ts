@@ -6,7 +6,7 @@ import { readTestFile, syncWriteFileWithEncoding } from "./storage/files";
 export async function storageManualTest(updateFile: boolean = false) {
   const storage: StorageApiClient = new StorageApiClient(
     "http://localhost:3000",
-    PrivateKey
+    PrivateKey,
   );
 
   const firstVersionFilename = "dummy.pdf";
@@ -17,14 +17,14 @@ export async function storageManualTest(updateFile: boolean = false) {
   const result = await storage.createFile(
     "dummy.pdf",
     fileInfo.file,
-    fileInfo.fileSizeInBytes
+    fileInfo.fileSizeInBytes,
   );
 
   if (result.hasError) {
     console.log(JSON.stringify(result));
     console.log(
       "Failed to create file with error: ",
-      result.error?.errors.message
+      result.error?.errors.message,
     );
 
     return;
@@ -39,14 +39,14 @@ export async function storageManualTest(updateFile: boolean = false) {
     const updateResult = await storage.updateFile(
       result.result?.id!,
       secondVersionFileInfo.file,
-      secondVersionFileInfo.fileSizeInBytes
+      secondVersionFileInfo.fileSizeInBytes,
     );
 
     if (updateResult.hasError) {
       console.log(JSON.stringify(updateResult));
       console.log(
         "Failed to update file with error: ",
-        updateResult.error?.errors.message
+        updateResult.error?.errors.message,
       );
 
       return;
@@ -61,19 +61,19 @@ export async function storageManualTest(updateFile: boolean = false) {
 async function requestFile(
   storage: StorageApiClient,
   id: string,
-  fileName: string
+  fileName: string,
 ) {
   const requestFileResult = await storage.requestFile(id);
 
   if (requestFileResult.hasError) {
     console.log(
       "Failed to request file with error: ",
-      requestFileResult.error?.errors.message
+      requestFileResult.error?.errors.message,
     );
   }
 
   const encryptedContent = JSON.stringify(
-    requestFileResult.result?.encryptedFile
+    requestFileResult.result?.encryptedFile,
   );
 
   const privateKey = ecPrivateKey(PrivateKey);

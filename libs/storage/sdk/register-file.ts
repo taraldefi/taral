@@ -8,10 +8,10 @@ import {
 import { IStorageFileRegister } from "./types";
 
 export async function registerFile(
-  request: IStorageFileRegister
+  request: IStorageFileRegister,
 ): Promise<string> {
   const stacksPrivateKey: StacksPrivateKey = createStacksPrivateKey(
-    request.privateKey
+    request.privateKey,
   );
 
   const signature = signMessageHashRsv({
@@ -24,7 +24,7 @@ export async function registerFile(
 
   Logger.debug(
     "register-file",
-    `Registering file ${request.fileId} - ${request.fileName}`
+    `Registering file ${request.fileId} - ${request.fileName}`,
   );
 
   const response = await txOk(
@@ -32,8 +32,8 @@ export async function registerFile(
       request.fileId,
       request.fileName,
       buffer,
-      signatureBuffer
-    )
+      signatureBuffer,
+    ),
   );
 
   Logger.debug("register-file", "Received result ", response);

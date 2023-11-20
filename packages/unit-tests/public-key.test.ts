@@ -17,12 +17,12 @@ test("Test public key generation", () => {
   const publicKey = publicKeyResult.data.toString("hex");
 
   expect(publicKey).toEqual(
-    "0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa"
+    "0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa",
   );
 
   const address = getAddressFromPublicKey(
     publicKeyResult.data,
-    TransactionVersion.Testnet
+    TransactionVersion.Testnet,
   );
 
   expect(address).toEqual("ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM");

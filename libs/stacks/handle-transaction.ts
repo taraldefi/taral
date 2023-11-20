@@ -13,7 +13,7 @@ const NAME = "handle-transaction";
 
 export async function handleTransaction(
   transaction: StacksTransaction,
-  network: StacksNetwork
+  network: StacksNetwork,
 ): Promise<TxBroadcastResultOk> {
   const result = await broadcastTransaction(transaction, network);
   Logger.debug(NAME, "Broadcast transaction result: ", result);
@@ -29,7 +29,7 @@ export async function handleTransaction(
       return result as TxBroadcastResultOk;
     } else {
       throw new Error(
-        `failed to handle transaction ${transaction.txid()}: ${toJSON(result)}`
+        `failed to handle transaction ${transaction.txid()}: ${toJSON(result)}`,
       );
     }
   }
@@ -38,7 +38,7 @@ export async function handleTransaction(
 
   if (!processed) {
     throw new Error(
-      `failed to process transaction ${transaction.txid}: transaction not found`
+      `failed to process transaction ${transaction.txid}: transaction not found`,
     );
   }
 
@@ -58,7 +58,7 @@ function isBroadcastSuccessful(result: TxBroadcastResult): boolean {
 async function processing(
   network: StacksNetwork,
   tx: string,
-  count = 0
+  count = 0,
 ): Promise<boolean> {
   return processingWithSidecar(tx, count, network);
 }
@@ -66,7 +66,7 @@ async function processing(
 async function processingWithSidecar(
   tx: string,
   count = 0,
-  network: StacksNetwork
+  network: StacksNetwork,
 ): Promise<boolean> {
   const value = await getTransactionById(tx, network);
 
@@ -74,7 +74,7 @@ async function processingWithSidecar(
     Logger.debug(
       NAME,
       `transaction ${tx} processed with retry count ${count}`,
-      value
+      value,
     );
     return true;
   }

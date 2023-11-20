@@ -11,18 +11,17 @@ import {
   TestUtilsProvider,
 } from "lib-testing";
 import {
-  nodeArkadikoContracts,
   nodeTaralContracts,
   TaralCoinContract,
-  TaralOracleV1Contract,
+  TaralOracleContract,
   StorageServiceContract,
-  TaralExporterV1Contract,
+  TaralExporterContract,
 } from "taral-contracts";
 
 export let talToken: (caller: ClarinetAccount) => TaralCoinContract;
-export let taralOracle: (caller: ClarinetAccount) => TaralOracleV1Contract;
+export let taralOracle: (caller: ClarinetAccount) => TaralOracleContract;
 export let storageService: (caller: ClarinetAccount) => StorageServiceContract;
-export let taralExporter: (caller: ClarinetAccount) => TaralExporterV1Contract;
+export let taralExporter: (caller: ClarinetAccount) => TaralExporterContract;
 
 export let clarinetAccounts: ClarinetAccounts;
 export let deployer: ClarinetAccount;
@@ -37,16 +36,15 @@ beforeAll(async () => {
   clarityBin = await getDefaultClarityBin(clarinetAccounts);
 
   testUtilsProvider = await TestUtilsProvider.ensureTestContracts(clarityBin);
-  await TestProvider.fromContracts(true, nodeArkadikoContracts, clarityBin);
 
   const deployed = await TestProvider.fromContracts(
     true,
     nodeTaralContracts,
-    clarityBin
+    clarityBin,
   );
 
   talToken = deployed.nodeTaralCoin.contract;
-  taralOracle = deployed.nodeTaralOracleV1.contract;
+  taralOracle = deployed.nodeTaralOracle.contract;
   storageService = deployed.nodeStorageService.contract;
-  taralExporter = deployed.nodeTaralExporterV1.contract;
+  taralExporter = deployed.nodeTaralExporter.contract;
 }, 3000000);

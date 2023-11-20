@@ -13,7 +13,7 @@ export type { Sip010TokenContract } from "./types";
 export const nodeSip010TokenContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<Sip010TokenContract>(
     Sip010TokenInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeSip010TokenInfo: NodeContract<Sip010TokenContract> = {
 export const webSip010TokenContract = (provider: BaseWebProvider) => {
   const contract = webProxy<Sip010TokenContract>(
     Sip010TokenInterface,
-    provider
+    provider,
   );
   return contract;
 };

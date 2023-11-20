@@ -6,7 +6,7 @@ import {
 
 export function contractWithSubDirectory(
   contractName: string,
-  subfolder: string
+  subfolder: string,
 ): string {
   if (contractName.endsWith(CONTRACT_EXTENSION)) {
     return `${getRootRelativeContractsFolder()}/${subfolder}/${contractName}`;
@@ -17,7 +17,7 @@ export function contractWithSubDirectory(
 
 export function contractWithSubDirectoryRelativeFilePath(
   contractName: string,
-  subfolder: string
+  subfolder: string,
 ) {
   if (contractName.endsWith(CONTRACT_EXTENSION)) {
     return `${CONTRACTS_RELATIVE_LOCATION}/${subfolder}/${contractName}`;

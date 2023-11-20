@@ -13,7 +13,7 @@ export function stopwatch(): {
 
 export async function time<T>(
   fn: () => Promise<T>,
-  onFinish: (elapsedMs: number) => void
+  onFinish: (elapsedMs: number) => void,
 ): Promise<T> {
   const watch = stopwatch();
   try {

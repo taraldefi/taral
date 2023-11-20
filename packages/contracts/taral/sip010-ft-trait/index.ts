@@ -13,7 +13,7 @@ export type { Sip010FtTraitContract } from "./types";
 export const nodeSip010FtTraitContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<Sip010FtTraitContract>(
     Sip010FtTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeSip010FtTraitInfo: NodeContract<Sip010FtTraitContract> = {
 export const webSip010FtTraitContract = (provider: BaseWebProvider) => {
   const contract = webProxy<Sip010FtTraitContract>(
     Sip010FtTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

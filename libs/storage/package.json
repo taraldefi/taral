@@ -9,14 +9,14 @@
   },
   "devDependencies": {
     "@types/fs-extra": "^11.0.1",
-    "@types/node": "20.3.1",
+    "@types/node": "20.9.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
     "axios": "1.6.0",
     "@types/axios": "0.14.0",
-    "@stacks/blockchain-api-client": "^7.3.2",
+    "@stacks/blockchain-api-client": "^7.3.4",
     "@stacks/common": "^6.0.0",
     "@stacks/network": "^6.0.0",
     "@stacks/stacks-blockchain-api-types": "^7.3.2",

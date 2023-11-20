@@ -15,7 +15,7 @@ export type AgendaModuleJobOptions =
 export function Every(interval: string): MethodDecorator;
 export function Every(options: RepeatableJobOptions): MethodDecorator;
 export function Every(
-  intervalOrOptions: string | RepeatableJobOptions
+  intervalOrOptions: string | RepeatableJobOptions,
 ): MethodDecorator {
   const options =
     typeof intervalOrOptions === "string"
@@ -24,7 +24,7 @@ export function Every(
 
   return applyDecorators(
     SetMetadata(CRON_JOB_OPTIONS, options),
-    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.EVERY)
+    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.EVERY),
   );
 }
 
@@ -36,7 +36,7 @@ export function Schedule(whenOrOptions: string | NonRepeatableJobOptions) {
 
   return applyDecorators(
     SetMetadata(CRON_JOB_OPTIONS, options),
-    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.SCHEDULE)
+    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.SCHEDULE),
   );
 }
 
@@ -45,6 +45,6 @@ export function Now(name?: string): MethodDecorator {
 
   return applyDecorators(
     SetMetadata(CRON_JOB_OPTIONS, options),
-    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.NOW)
+    SetMetadata(JOB_PROCESSOR_TYPE, JobProcessorType.NOW),
   );
 }

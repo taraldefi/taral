@@ -5,13 +5,13 @@ export interface TaralCoinContract {
   getTokenUri: () => Transaction<string | null, null>;
   mint: (
     recipient: string,
-    amount: number | bigint
+    amount: number | bigint,
   ) => Transaction<boolean, bigint>;
   transfer: (
     amount: number | bigint,
     sender: string,
     recipient: string,
-    memo: Buffer | null
+    memo: Buffer | null,
   ) => Transaction<boolean, bigint>;
   getBalance: (owner: string) => Promise<ClarityTypes.Response<bigint, null>>;
   getDecimals: () => Promise<ClarityTypes.Response<bigint, null>>;

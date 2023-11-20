@@ -6,7 +6,7 @@ export interface IGetNonceRequest {
 
 export async function getNonce(request: IGetNonceRequest) {
   const stacksAddressNonceResponse = await fetch(
-    `${NETWORK.coreApiUrl}/extended/v1/address/${request.principal}/nonces`
+    `${NETWORK.coreApiUrl}/extended/v1/address/${request.principal}/nonces`,
   );
 
   const addressNoncesJSON = await stacksAddressNonceResponse.text();

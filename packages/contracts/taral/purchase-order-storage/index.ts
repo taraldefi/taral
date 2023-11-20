@@ -11,11 +11,11 @@ import { PurchaseOrderStorageInterface } from "./abi";
 export type { PurchaseOrderStorageContract } from "./types";
 
 export const nodePurchaseOrderStorageContract = (
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ) => {
   const contract = nodeProxy<PurchaseOrderStorageContract>(
     PurchaseOrderStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -31,7 +31,7 @@ export const nodePurchaseOrderStorageInfo: NodeContract<PurchaseOrderStorageCont
 export const webPurchaseOrderStorageContract = (provider: BaseWebProvider) => {
   const contract = webProxy<PurchaseOrderStorageContract>(
     PurchaseOrderStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };

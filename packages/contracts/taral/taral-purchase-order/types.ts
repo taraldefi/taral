@@ -3,80 +3,57 @@ import { ClarityTypes } from "lib-shared";
 
 export interface TaralPurchaseOrderContract {
   checkIfUserHoldsTalToken: (user: string) => Transaction<boolean, null>;
+  createVault: (
+    collateralStx: number | bigint,
+    collateralBtc: number | bigint,
+    loanAmount: number | bigint,
+    duration: number | bigint,
+  ) => Transaction<bigint, bigint>;
   initialize: (
     exporter: string,
     importer: string,
-    deliveryCountry: string,
-    dispatchMethod: string,
-    shipmentType: string,
-    shippingRoute: string[],
+    orderHash: Buffer,
+    orderDetailHash: Buffer,
     paymentTerm: string,
-    items: {
-      description: string;
-      id: string;
-      quantity: bigint;
-      type: string;
-      unitPrice: bigint;
-    }[],
     amount: number | bigint,
-    invoiceTerms: string
+    deliveryTerm: string,
   ) => Transaction<boolean, bigint>;
-  getPurchaseOrder: (orderId: number | bigint) => Promise<{
-    amount: bigint;
-    deliveryCountry: string;
-    dispatchMethod: string;
-    exporterId: bigint;
-    importerId: bigint;
-    invoiceTerms: string;
-    paymentTerm: string;
-    shipmentType: string;
-  } | null>;
-  getPurchaseOrderDetail: (orderId: number | bigint) => Promise<{
-    item: {
-      description: string;
-      id: string;
-      quantity: bigint;
-      type: string;
-      unitPrice: bigint;
-    }[];
-    shippingRoute: string[];
-  } | null>;
-  getPurchaseOrders: (orderIds: bigint[]) => Promise<
-    | {
-        amount: bigint;
-        deliveryCountry: string;
-        dispatchMethod: string;
-        exporterId: bigint;
-        importerId: bigint;
-        invoiceTerms: string;
-        paymentTerm: string;
-        shipmentType: string;
-      }
-    | null[]
+  liquidate: (vaultId: number | bigint) => Transaction<bigint, bigint>;
+  repayLoan: (
+    vaultId: number | bigint,
+    repaymentAmount: number | bigint,
+  ) => Transaction<bigint, bigint>;
+  getInfo: () => Promise<
+    ClarityTypes.Response<
+      {
+        version: string;
+      },
+      null
+    >
   >;
-  ERREXPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
+  getVersion: () => Promise<string>;
+  DEBT_RATIO: () => Promise<bigint>;
   ERRGENERIC: () => Promise<ClarityTypes.Response<null, bigint>>;
-  ERRIMPORTERNOTREGISTERED: () => Promise<ClarityTypes.Response<null, bigint>>;
-  ERRPERMISSIONDENIED: () => Promise<ClarityTypes.Response<null, bigint>>;
-  orderIdNonce: () => Promise<bigint>;
-  order: (key: { id: bigint }) => Promise<{
-    amount: bigint;
-    deliveryCountry: string;
-    dispatchMethod: string;
-    exporterId: bigint;
-    importerId: bigint;
-    invoiceTerms: string;
-    paymentTerm: string;
-    shipmentType: string;
-  } | null>;
-  orderDetail: (key: { id: bigint }) => Promise<{
-    item: {
-      description: string;
-      id: string;
-      quantity: bigint;
-      type: string;
-      unitPrice: bigint;
-    }[];
-    shippingRoute: string[];
-  } | null>;
+  ERR_CONTRACT_CALL: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_EMPTY_HASH: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INSUFFICIENT_COLLATERAL: () => Promise<
+    ClarityTypes.Response<null, bigint>
+  >;
+  ERR_INSUFFICIENT_REPAYMENT: () => Promise<
+    ClarityTypes.Response<null, bigint>
+  >;
+  ERR_INVALID_LOAN_AMOUNT: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INVALID_LOAN_DURATION: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_INVALID_VAULT: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_PURCHASE_ORDER_STORAGE: () => Promise<
+    ClarityTypes.Response<null, bigint>
+  >;
+  ERR_VAULT_NOT_FOUND: () => Promise<ClarityTypes.Response<null, bigint>>;
+  ERR_VAULT_NOT_UNDERCOLLATERALIZED: () => Promise<
+    ClarityTypes.Response<null, bigint>
+  >;
+  MIN_BTC_COLLATERAL_AMOUNT: () => Promise<bigint>;
+  MIN_COLLATERAL_AMOUNT: () => Promise<bigint>;
+  MIN_LOAN_AMOUNT: () => Promise<bigint>;
+  VERSION: () => Promise<string>;
 }

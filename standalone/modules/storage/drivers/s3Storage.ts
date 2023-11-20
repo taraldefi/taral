@@ -41,7 +41,7 @@ export class S3Storage implements StorageDriver {
   async put(
     path: string,
     fileContent: any,
-    options?: FileOptions
+    options?: FileOptions,
   ): Promise<StorageDriver$PutFileResponse> {
     const { mimeType } = options || {};
     let params = {
@@ -164,7 +164,7 @@ export class S3Storage implements StorageDriver {
    */
   async copy(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse> {
     this.client
       .copyObject({
@@ -184,7 +184,7 @@ export class S3Storage implements StorageDriver {
    */
   async move(
     path: string,
-    newPath: string
+    newPath: string,
   ): Promise<StorageDriver$RenameFileResponse> {
     await this.copy(path, newPath);
     await this.delete(path);

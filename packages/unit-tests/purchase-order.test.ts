@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
 import { TestProvider } from "lib-testing";
 import {
-  TaralExporterV1Contract,
-  TaralImporterV1Contract,
-  TaralPurchaseOrderV1Contract,
+  TaralExporterContract,
+  TaralImporterContract,
+  TaralPurchaseOrderContract,
   ExporterStorageContract,
   TaralCoinContract,
   nodeTaralContracts,
@@ -14,51 +14,51 @@ import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 import { tx } from "lib-shared";
 
 describe("Taral Purchase Order", () => {
-  let taral_exporter: TaralExporterV1Contract;
-  let taral_importer: TaralImporterV1Contract;
-  let taral_purchase_order: TaralPurchaseOrderV1Contract;
+  let taral_exporter: TaralExporterContract;
+  let taral_importer: TaralImporterContract;
+  let taral_purchase_order: TaralPurchaseOrderContract;
   let taral_coin: TaralCoinContract;
   let taral_exporter_storage: ExporterStorageContract;
   beforeAll(async () => {
-    const taralExporterInfo = nodeTaralContracts.nodeTaralExporterV1;
+    const taralExporterInfo = nodeTaralContracts.nodeTaralExporter;
     const taralExporterStorageInfo = nodeTaralContracts.nodeExporterStorage;
-    const taralImporterInfo = nodeTaralContracts.nodeTaralImporterV1;
-    const taralPurchaseOrderInfo = nodeTaralContracts.nodeTaralPurchaseOrderV1;
+    const taralImporterInfo = nodeTaralContracts.nodeTaralImporter;
+    const taralPurchaseOrderInfo = nodeTaralContracts.nodeTaralPurchaseOrder;
     const taralCoinInfo = nodeTaralContracts.nodeTaralCoin;
     const ExporterContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralExporterInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const ExporterStorageContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralExporterStorageInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const ImporterContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralImporterInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const PurchaseOrderContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralPurchaseOrderInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const TaralCoinContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralCoinInfo,
       },
-      clarityBin
+      clarityBin,
     );
 
     const ExporterContract = ExporterContractInfo.taralExporterInfo.contract;
@@ -84,15 +84,15 @@ describe("Taral Purchase Order", () => {
     const exporter_wallet = clarinetAccounts.wallet_6.address;
     const exporter2_wallet = clarinetAccounts.wallet_7.address;
     const block_1 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet),
     );
 
     const block_2 = await tx(taral_coin.mint(exporter_wallet, 10));
     const block_3 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter_wallet),
     );
     const block_4 = await tx(
-      taral_purchase_order.checkIfUserHoldsTalToken(exporter2_wallet)
+      taral_purchase_order.checkIfUserHoldsTalToken(exporter2_wallet),
     );
     expect(block_1.value).toEqual(false);
     expect(block_2.value).toEqual(true);
@@ -117,11 +117,11 @@ describe("Taral Purchase Order", () => {
         exporter_wallet,
         exporter_name,
         exporter_buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
 
     const importer_message = "This is the data containing importer details";
     const importer_messageHex = hashStacksMessage({
@@ -136,11 +136,11 @@ describe("Taral Purchase Order", () => {
         importer_wallet,
         importer_name,
         importer_buffer,
-        importer_category
-      )
+        importer_category,
+      ),
     );
 
-    expect(block_2.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_2.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
 
     const order =
       '{deliveryCountry: "Germany","dispathMethod: "air",shipmentType:"LCL"}';
@@ -162,13 +162,20 @@ describe("Taral Purchase Order", () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        deliveryTerm
-      )
+        deliveryTerm,
+      ),
     );
     expect(result.value).toEqual(100n);
   }, 3000000);
 
   test("Ensure the initialization works", async () => {
+    const exporter_message = "This is the data containing exporter details";
+    const exporter_messageHex = hashStacksMessage({
+      message: exporter_message,
+    });
+    const exporter_name = "ALPS Logistics";
+    const exporter_category = "Merchant";
+    const exporter_buffer = Buffer.from(utf8ToBytes(exporter_messageHex));
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const importer_wallet = clarinetAccounts.wallet_2.address;
     const order =
@@ -177,6 +184,36 @@ describe("Taral Purchase Order", () => {
       '{shippingRoute: ["Loading Port", "Discharge Port"],"items: ["item1", "item2"]}';
     const orderHex = hashStacksMessage({ message: order });
     const orderDetailsHex = hashStacksMessage({ message: orderDetails });
+
+    const block_1 = await tx(
+      taral_exporter.register(
+        exporter_wallet,
+        exporter_name,
+        exporter_buffer,
+        exporter_category,
+      ),
+    );
+
+    // expect(block_1.value).toEqual(105n); //REGISTERED SUCCESSFULLY
+
+    const importer_message = "This is the data containing importer details";
+    const importer_messageHex = hashStacksMessage({
+      message: importer_message,
+    });
+    const importer_name = "XYZ Company";
+    const importer_category = "Merchant";
+    const importer_buffer = Buffer.from(utf8ToBytes(importer_messageHex));
+
+    const block_2 = await tx(
+      taral_importer.register(
+        importer_wallet,
+        importer_name,
+        importer_buffer,
+        importer_category,
+      ),
+    );
+
+    // expect(block_2.value).toEqual(true); //REGISTERED SUCCESSFULLY
 
     const paymentTerm = "60 Days";
     const amount = 10000;
@@ -191,15 +228,16 @@ describe("Taral Purchase Order", () => {
         orderDetailsBuffer,
         paymentTerm,
         amount,
-        deliveryTerm
-      )
+        deliveryTerm,
+      ),
     );
     expect(result.value).toEqual(true); // INITIALIZED SUCCESSFULLY
 
     const appended_order = await taral_exporter_storage.getExporterOrder(
       0n,
-      exporter_wallet
+      exporter_wallet,
     );
+
     expect(appended_order?.["order-id"]).toEqual(10001n);
   }, 3000000);
 });

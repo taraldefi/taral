@@ -55,7 +55,7 @@ export class TestProvider implements BaseProvider {
   constructor(
     clarityBin: NativeClarityBinProvider,
     contractIdentifier: string,
-    contractFilePath: string
+    contractFilePath: string,
   ) {
     this.clarityBin = clarityBin;
     this.contractIdentifier = contractIdentifier;
@@ -107,17 +107,17 @@ export class TestProvider implements BaseProvider {
   public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
-    clarityBin?: NativeClarityBinProvider
+    clarityBin?: NativeClarityBinProvider,
   ): Promise<NodeContractInstances<T, M>>;
   public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
-    accounts?: ClarinetAccounts
+    accounts?: ClarinetAccounts,
   ): Promise<NodeContractInstances<T, M>>;
   public static async fromContracts<T extends NodeContracts<M>, M>(
     deploy: boolean,
     contracts: T,
-    clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
+    clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts,
   ): Promise<NodeContractInstances<T, M>> {
     const clarityBin = await getDefaultClarityBin(clarityBinOrAccounts);
     const instances = {} as NodeContractInstances<T, M>;
@@ -165,7 +165,7 @@ export class TestProvider implements BaseProvider {
   async callReadOnly(request: INodeProviderRequest) {
     const argsFormatted = this.formatArguments(
       request.function,
-      request.arguments
+      request.arguments,
     );
     const result = await evalJson({
       contractAddress: this.contractIdentifier,
@@ -180,7 +180,7 @@ export class TestProvider implements BaseProvider {
   callPublic(request: INodeProviderRequest): Transaction<any, any> {
     const argsFormatted = this.formatArguments(
       request.function,
-      request.arguments
+      request.arguments,
     );
     const submit: Submitter<any, any> = async (_options: SubmitOptions) => {
       // if (!("x" in options)) {
@@ -195,7 +195,7 @@ export class TestProvider implements BaseProvider {
       });
       const getResult = (): Promise<TransactionResult<any, any>> => {
         const resultCV = deserializeCV(
-          Buffer.from(receipt.output_serialized, "hex")
+          Buffer.from(receipt.output_serialized, "hex"),
         );
         const result = cvToValue(resultCV);
         if (receipt.success) {
@@ -249,7 +249,7 @@ export class TestProvider implements BaseProvider {
 
   handleEvalResponse(result: EvalOk) {
     const resultCV = deserializeCV(
-      Buffer.from(result.output_serialized, "hex")
+      Buffer.from(result.output_serialized, "hex"),
     );
     const value = cvToValue(resultCV);
     switch (resultCV.type) {
@@ -283,7 +283,7 @@ export class TestProvider implements BaseProvider {
 
         Logger.debug(
           "[Buffer hex CV TO String]",
-          `0x${bytesToHex(val.buffer)}`
+          `0x${bytesToHex(val.buffer)}`,
         );
         return `0x${bytesToHex(val.buffer)}`;
       case ClarityType.OptionalNone:

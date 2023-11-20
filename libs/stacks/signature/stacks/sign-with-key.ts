@@ -6,7 +6,7 @@ import { intToHex, leftPadHexToLength } from "./utils";
 
 export function signWithKey(
   privateKey: StacksPrivateKey,
-  messageHash: string
+  messageHash: string,
 ): MessageSignature {
   const [rawSignature, recoveryParam] = signSync(
     messageHash,
@@ -14,7 +14,7 @@ export function signWithKey(
     {
       canonical: true,
       recovered: true,
-    }
+    },
   );
   const signature = Signature.fromHex(rawSignature);
   const r = leftPadHexToLength(signature.r.toString(16), COORDINATE_BYTES * 2);

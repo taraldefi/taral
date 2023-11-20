@@ -2,11 +2,11 @@ import { Logger } from "lib-shared";
 import { IStorageFileReadInterrogation } from "./types";
 
 export async function canRead(
-  request: IStorageFileReadInterrogation
+  request: IStorageFileReadInterrogation,
 ): Promise<boolean> {
   const response = await request.contract.canReadFile(
     request.participant,
-    request.fileId
+    request.fileId,
   );
 
   Logger.debug("can-read-file", "Received response ", JSON.stringify(response));

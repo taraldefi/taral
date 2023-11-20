@@ -1,6 +1,6 @@
 import { TestProvider } from "lib-testing";
 import {
-  TaralExporterV1Contract,
+  TaralExporterContract,
   nodeTaralContracts,
   ExporterStorageContract,
 } from "taral-contracts";
@@ -9,24 +9,24 @@ import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 import { tx } from "lib-shared";
 
 describe("Taral Exporter", () => {
-  let taral_exporter: TaralExporterV1Contract;
+  let taral_exporter: TaralExporterContract;
   let taral_exporter_storage: ExporterStorageContract;
   beforeAll(async () => {
-    const taralExporterInfo = nodeTaralContracts.nodeTaralExporterV1;
+    const taralExporterInfo = nodeTaralContracts.nodeTaralExporter;
     const ExporterStorageInfo = nodeTaralContracts.nodeExporterStorage;
     const ExporterContractInfo = await TestProvider.fromContracts(
       false,
       {
         taralExporterInfo,
       },
-      clarityBin
+      clarityBin,
     );
     const ExporterStorageContractInfo = await TestProvider.fromContracts(
       false,
       {
         ExporterStorageInfo,
       },
-      clarityBin
+      clarityBin,
     );
 
     const ExporterContract = ExporterContractInfo.taralExporterInfo.contract;
@@ -54,8 +54,8 @@ describe("Taral Exporter", () => {
         exporter_wallet,
         exporter_name,
         buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
     expect(result.value).toEqual(100n);
   }, 3000000);
@@ -73,11 +73,11 @@ describe("Taral Exporter", () => {
         exporter_wallet,
         exporter_name,
         buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10001n); //REGISTERED SUCCESSFULLY
   }, 3000000);
 
   test("Ensure that exporter hash getter function works", async () => {
@@ -86,7 +86,9 @@ describe("Taral Exporter", () => {
     const exporter_wallet = clarinetAccounts.wallet_1.address;
     const buffer = Buffer.from(utf8ToBytes(messageHex));
 
-    const block_1 = (await taral_exporter.getExporterHash(exporter_wallet)).unwrapOr(null);
+    const block_1 = (
+      await taral_exporter.getExporterHash(exporter_wallet)
+    ).unwrapOr(null);
 
     expect(block_1).not.toEqual(null);
 
@@ -108,19 +110,19 @@ describe("Taral Exporter", () => {
         exporter_wallet,
         exporter_name,
         buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
 
-    expect(block_1.value).toEqual(true); //REGISTERED SUCCESSFULLY
+    expect(block_1.value).toEqual(10002n); //REGISTERED SUCCESSFULLY
 
     const block_2 = await tx(
       taral_exporter.register(
         exporter_wallet,
         exporter_name,
         buffer,
-        exporter_category
-      )
+        exporter_category,
+      ),
     );
     expect(block_2.value).toEqual(105n); //EXPORTER ALREADY REGISTERED
   }, 3000000);
@@ -128,9 +130,8 @@ describe("Taral Exporter", () => {
   test("Ensure that exporter storage function works", async () => {
     const exporter_wallet = clarinetAccounts.wallet_3.address;
 
-    const response = await taral_exporter_storage.getExporterByPrincipal(
-      exporter_wallet
-    );
+    const response =
+      await taral_exporter_storage.getExporterByPrincipal(exporter_wallet);
 
     expect(response).toEqual(null);
   }, 3000000);
@@ -138,9 +139,8 @@ describe("Taral Exporter", () => {
   test("Ensure that exporter exists after registration", async () => {
     const exporter_wallet = clarinetAccounts.wallet_2.address;
 
-    const response = await taral_exporter_storage.getExporterProfile(
-      exporter_wallet
-    );
+    const response =
+      await taral_exporter_storage.getExporterProfile(exporter_wallet);
     expect(response?.category).toEqual("Project");
   }, 3000000);
 
@@ -160,7 +160,6 @@ describe("Taral Exporter", () => {
       exporter3_wallet,
     ]);
 
-
     expect(response).not.toBe(null);
 
     const nonNullResponse = response as any as {
@@ -178,7 +177,7 @@ describe("Taral Exporter", () => {
     const exporter3_wallet = clarinetAccounts.wallet_3.address;
     const new_order_id = 2001;
     const response = await tx(
-      taral_exporter.appendOrder(new_order_id, exporter3_wallet)
+      taral_exporter.appendOrder(new_order_id, exporter3_wallet),
     );
 
     expect(response.value).toEqual(102n); // ERR-EXPORTER-NOT-REGISTERED
@@ -189,10 +188,10 @@ describe("Taral Exporter", () => {
     const new_order_id = 2001;
 
     const response = await tx(
-      taral_exporter.appendOrder(new_order_id, exporter_wallet)
+      taral_exporter.appendOrder(new_order_id, exporter_wallet),
     );
 
-    expect(response.value).toEqual(true); // Succesfully added order
+    expect(response.value).toEqual(0n); // Succesfully added order
   }, 3000000);
 
   test("Ensure that order exists after registration", async () => {
@@ -200,7 +199,7 @@ describe("Taral Exporter", () => {
 
     const response = await taral_exporter_storage.getExporterOrder(
       0,
-      exporter_wallet
+      exporter_wallet,
     );
 
     expect(response?.["order-id"]).toEqual(2001n);

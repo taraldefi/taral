@@ -13,7 +13,7 @@ export type { ImporterStorageContract } from "./types";
 export const nodeImporterStorageContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<ImporterStorageContract>(
     ImporterStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -27,7 +27,7 @@ export const nodeImporterStorageInfo: NodeContract<ImporterStorageContract> = {
 export const webImporterStorageContract = (provider: BaseWebProvider) => {
   const contract = webProxy<ImporterStorageContract>(
     ImporterStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };

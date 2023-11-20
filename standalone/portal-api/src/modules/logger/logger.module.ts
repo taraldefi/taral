@@ -10,7 +10,7 @@ import { createLogger } from './logger';
       useFactory: (configService: ConfigService) => {
         return createLogger(configService);
       },
-      inject: [ConfigService]
+      inject: [ConfigService],
     },
   ],
   exports: ['Logger'],

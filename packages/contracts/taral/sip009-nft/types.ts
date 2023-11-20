@@ -6,14 +6,14 @@ export interface Sip009NftContract {
   transfer: (
     id: number | bigint,
     sender: string,
-    recipient: string
+    recipient: string,
   ) => Transaction<boolean, bigint>;
   getLastTokenId: () => Promise<ClarityTypes.Response<bigint, null>>;
   getOwner: (
-    id: number | bigint
+    id: number | bigint,
   ) => Promise<ClarityTypes.Response<string | null, null>>;
   getTokenUri: (
-    id: number | bigint
+    id: number | bigint,
   ) => Promise<ClarityTypes.Response<null | null, null>>;
   CONTRACT_OWNER: () => Promise<string>;
   MINT: () => Promise<bigint>;

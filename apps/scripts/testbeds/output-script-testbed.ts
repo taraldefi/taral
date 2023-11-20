@@ -11,17 +11,17 @@ export function getOutputScript() {
   Logger.debug(
     LOGGER_CATEGORY,
     "Decoded btc address: ",
-    `0x${result.data.toString("hex")}`
+    `0x${result.data.toString("hex")}`,
   );
   Logger.debug("Decoded btc raw response", JSON.stringify(result));
 
   const outputScript = address.toOutputScript(
     "mqVnk6NPRdhntvfm4hh9vvjiRkFDUuSYsH",
-    btc.networks.regtest
+    btc.networks.regtest,
   );
   Logger.debug(
     LOGGER_CATEGORY,
     "Output script is:",
-    outputScript.toString("hex")
+    outputScript.toString("hex"),
   );
 }

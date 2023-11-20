@@ -13,7 +13,7 @@ export type { MarketplaceStorageContract } from "./types";
 export const nodeMarketplaceStorageContract = (provider: BaseNodeProvider) => {
   const contract = nodeProxy<MarketplaceStorageContract>(
     MarketplaceStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -28,7 +28,7 @@ export const nodeMarketplaceStorageInfo: NodeContract<MarketplaceStorageContract
 export const webMarketplaceStorageContract = (provider: BaseWebProvider) => {
   const contract = webProxy<MarketplaceStorageContract>(
     MarketplaceStorageInterface,
-    provider
+    provider,
   );
   return contract;
 };

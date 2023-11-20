@@ -10,7 +10,7 @@ export class MemoryStoredFile extends StoredFile {
   size: number;
 
   @Transform((params: TransformFnParams) =>
-    params.value instanceof Buffer ? params.value : null
+    params.value instanceof Buffer ? params.value : null,
   )
   buffer: Buffer;
 
@@ -19,7 +19,7 @@ export class MemoryStoredFile extends StoredFile {
     encoding,
     mimetype,
     stream: NodeJS.ReadableStream,
-    config: FormDataInterceptorConfig
+    config: FormDataInterceptorConfig,
   ): Promise<MemoryStoredFile> {
     return new Promise<MemoryStoredFile>((res, rej) => {
       stream.pipe(
@@ -33,7 +33,7 @@ export class MemoryStoredFile extends StoredFile {
           });
 
           res(file);
-        })
+        }),
       );
     });
   }

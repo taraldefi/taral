@@ -18,12 +18,12 @@ export class FileSystemStoredFile extends StoredFile {
     encoding,
     mimetype,
     stream: NodeJS.ReadableStream,
-    config: FormDataInterceptorConfig
+    config: FormDataInterceptorConfig,
   ): Promise<FileSystemStoredFile> {
     await mkdirp.native(config.fileSystemStoragePath);
     const filePath = path.resolve(
       config.fileSystemStoragePath,
-      FileSystemStoredFile.makeFileNameWithSalt(originalName)
+      FileSystemStoredFile.makeFileNameWithSalt(originalName),
     );
 
     return new Promise<FileSystemStoredFile>((res, rej) => {

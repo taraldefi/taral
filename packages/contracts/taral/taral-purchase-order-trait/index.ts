@@ -11,11 +11,11 @@ import { TaralPurchaseOrderTraitInterface } from "./abi";
 export type { TaralPurchaseOrderTraitContract } from "./types";
 
 export const nodeTaralPurchaseOrderTraitContract = (
-  provider: BaseNodeProvider
+  provider: BaseNodeProvider,
 ) => {
   const contract = nodeProxy<TaralPurchaseOrderTraitContract>(
     TaralPurchaseOrderTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };
@@ -29,11 +29,11 @@ export const nodeTaralPurchaseOrderTraitInfo: NodeContract<TaralPurchaseOrderTra
   };
 
 export const webTaralPurchaseOrderTraitContract = (
-  provider: BaseWebProvider
+  provider: BaseWebProvider,
 ) => {
   const contract = webProxy<TaralPurchaseOrderTraitContract>(
     TaralPurchaseOrderTraitInterface,
-    provider
+    provider,
   );
   return contract;
 };

@@ -7,11 +7,11 @@ import {
   NodeContractInstance,
 } from "lib-shared";
 import { NETWORK } from "taral-configuration";
-import { nodeTaralContracts, TaralOracleV1Contract } from "taral-contracts";
+import { nodeTaralContracts, TaralOracleContract } from "taral-contracts";
 
 interface IOracleContractInfo {
   contract: NodeContractInstance<
-    (account: ClarinetAccount) => TaralOracleV1Contract
+    (account: ClarinetAccount) => TaralOracleContract
   >;
   account: ClarinetAccount;
 }
@@ -28,13 +28,13 @@ export async function getOracleContract(): Promise<IOracleContractInfo> {
     {
       secretKey: deployer.privateKey,
       stacksAddress: deployer.address,
-    }
+    },
   );
 
   Logger.debug("get-oracle", "Getting oracle contract from private testnet");
 
   return {
     account: deployer,
-    contract: deployed.nodeTaralOracleV1,
+    contract: deployed.nodeTaralOracle,
   };
 }

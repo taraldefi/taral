@@ -7,7 +7,7 @@ export interface UsdaTokenContract {
     amount: number | bigint,
     sender: string,
     recipient: string,
-    memo: Buffer | null
+    memo: Buffer | null,
   ) => Transaction<boolean, bigint>;
   getBalance: (account: string) => Promise<ClarityTypes.Response<bigint, null>>;
   getDecimals: () => Promise<ClarityTypes.Response<bigint, null>>;

@@ -3,7 +3,7 @@ import { ClarinetAccounts } from "lib-shared";
 import { createClarityBin } from "./create-clarity-bin";
 
 export async function getDefaultClarityBin(
-  clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts
+  clarityBinOrAccounts?: NativeClarityBinProvider | ClarinetAccounts,
 ): Promise<NativeClarityBinProvider> {
   let clarityBin: NativeClarityBinProvider;
   if (!clarityBinOrAccounts) {
