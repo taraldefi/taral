@@ -1,16 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, ValidateNested } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  ValidateNested,
+} from 'class-validator';
 import { CreatePaymentExperienceRequest } from './create-payment-experience.dto';
 import { Type } from 'class-transformer';
 
 export class UpdateRelationshipRequest {
   @ApiProperty({ example: 'Relationship' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   shareHoldingRelationship: string;
 
   @ApiProperty({ example: 'Influence' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   influence: string;
 
