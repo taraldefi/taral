@@ -17,9 +17,9 @@ import { SupplierCompanyInformationEntity } from 'src/modules/company-informatio
 import { CompanyAddressEntity } from 'src/modules/company-information/models/company.information.address.entity';
 import { CompanyAddressRepository } from 'src/modules/company-information/repositories/company.information.address.repository';
 import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/models/company.information.tax.and.revenue.entity';
-import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
 import { SupplierCompanyInformationRepository } from 'src/modules/company-information/repositories/supplier.company.information.repository';
 import { UpdateSupplierEntityDto } from '../dto/request/update-supplier-entity.dto';
+import { CompanyTaxAndRevenueRepository } from 'src/modules/company-information/repositories/company.information.tax.and.revenue.repository';
 
 @Injectable()
 export class SupplierCompanyEntityService {
@@ -31,7 +31,7 @@ export class SupplierCompanyEntityService {
     private companyAddressRepository: CompanyAddressRepository,
 
     @InjectRepository(CompanyTaxAndRevenueEntity)
-    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
+    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueRepository,
 
     @InjectRepository(SupplierCompanyInformationEntity)
     private supplierCompanyInformationRepository: SupplierCompanyInformationRepository,
