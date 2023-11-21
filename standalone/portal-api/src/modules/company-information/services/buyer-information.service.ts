@@ -6,7 +6,6 @@ import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/
 import { CompanyAddressEntity } from '../models/company.information.address.entity';
 import { CompanyAddressRepository } from '../repositories/company.information.address.repository';
 import { CompanyTaxAndRevenueEntity } from '../models/company.information.tax.and.revenue.entity';
-import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
 import { BuyerCompanyInformationRepository } from '../repositories/buyer.company.information.repository';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
@@ -19,6 +18,7 @@ import { EntityNotFoundError } from 'typeorm';
 import { triggerError } from 'src/common/trigger.error';
 import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-company.dto';
 import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
+import { CompanyTaxAndRevenueRepository } from '../repositories/company.information.tax.and.revenue.repository';
 
 @Injectable()
 export class BuyerInformationService extends BaseService {
@@ -30,7 +30,7 @@ export class BuyerInformationService extends BaseService {
     private companyAddressRepository: CompanyAddressRepository,
 
     @InjectRepository(CompanyTaxAndRevenueEntity)
-    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
+    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueRepository,
 
     @InjectRepository(BuyerCompanyInformationEntity)
     private buyerCompanyInformationRepository: BuyerCompanyInformationRepository,

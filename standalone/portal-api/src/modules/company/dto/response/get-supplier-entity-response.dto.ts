@@ -9,8 +9,6 @@ import {
   IsNotEmpty,
   ValidateNested,
 } from 'class-validator';
-import { CreateSupplierCompanyAddressRequest } from 'src/modules/supplier/dto/request/create-supplier-company-address.dto';
-import { CreateSupplierCompanyTaxAndRevenueRequest } from 'src/modules/supplier/dto/request/create-supplier-company-tax-and-revenue.dto';
 import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-tax-and-revenue.response.dto';
 import { GetSupplierCompanyAddressRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-address-response.dto';
 
