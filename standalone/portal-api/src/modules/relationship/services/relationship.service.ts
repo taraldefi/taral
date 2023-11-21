@@ -50,7 +50,7 @@ export class RelationshipService extends BaseService {
   public async createEntity(
     entity: CreateRelationshipRequest,
     buyerId: string,
-    supplierId: string,
+    supplier: SupplierCompanyEntity,
   ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
@@ -59,10 +59,6 @@ export class RelationshipService extends BaseService {
     const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
-
-    const supplier = await this.supplierCompanyService.findSupplierEntityById(
-      supplierId,
-    );
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -88,6 +84,12 @@ export class RelationshipService extends BaseService {
 
     await this.relationshipRepository.save(relationship);
 
+    buyer.relationshipWithSuppliers = [
+      ...buyer.relationshipWithSuppliers,
+      relationship,
+    ];
+    await buyer.save();
+
     return relationship;
   }
 
@@ -98,17 +100,13 @@ export class RelationshipService extends BaseService {
     entity: UpdateRelationshipRequest,
     relationshipId: string,
     buyerId: string,
-    supplierId: string,
+    supplier: SupplierCompanyEntity,
   ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
-
-    const supplier = await this.supplierCompanyService.findSupplierEntityById(
-      supplierId,
-    );
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -176,8 +174,9 @@ export class RelationshipService extends BaseService {
       }
     }
 
-    const updatedRelationship =
-      await this.relationshipRepository.save(relationship);
+    const updatedRelationship = await this.relationshipRepository.save(
+      relationship,
+    );
 
     return updatedRelationship;
   }

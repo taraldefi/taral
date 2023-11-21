@@ -4,8 +4,6 @@ import { RelationshipService } from 'src/modules/relationship/services/relations
 
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { BuyerCompanyInformationEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
-import { BuyerCompanyInformationRepository } from 'src/modules/company-information/repositories/buyer.company.information.repository';
 import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
 import { CreateSupplierInformationRequest } from '../dto/request/supplier/create-supplier-company.dto';
 import { SupplierCompanyEntityService } from 'src/modules/company/services/supplier-entity.service';
@@ -39,7 +37,7 @@ export class SupplierInformationService extends BaseService {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
-        relations: ['supplierInformation', 'buyerInformation'],
+        relations: ['supplierInformation'],
       },
     );
 
@@ -72,7 +70,6 @@ export class SupplierInformationService extends BaseService {
       applicationId,
       {
         relations: [
-          'buyerInformation',
           'supplierInformation',
           'paymentTerms',
           'orderDetails',
@@ -95,13 +92,22 @@ export class SupplierInformationService extends BaseService {
     const savedRelationship = await this.relationshipService.createEntity(
       data.relationshipWithSupplier,
       application.company.id,
-      selectedSupplier.id,
+      selectedSupplier,
     );
 
-    application.supplierInformation = selectedSupplier;
-    application.company.relationshipWithSuppliers = [savedRelationship];
+    selectedSupplier.relationshipWithBuyers = [
+      ...selectedSupplier.relationshipWithBuyers,
+      savedRelationship,
+    ];
 
-    application.save();
+    selectedSupplier.applications = [
+      ...selectedSupplier.applications,
+      application,
+    ];
+
+    selectedSupplier.save();
+    application.supplierInformation = selectedSupplier;
+    await this.buyerApplicationRepository.save(application);
 
     return this.mappingService.mapSupplierInformationForImporterApplication(
       selectedSupplier.id,
@@ -121,7 +127,7 @@ export class SupplierInformationService extends BaseService {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
-        relations: ['supplierInformation', 'buyerInformation'],
+        relations: ['supplierInformation'],
       },
     );
 
@@ -143,7 +149,7 @@ export class SupplierInformationService extends BaseService {
       data.relationshipWithSupplier,
       buyer.relationshipWithSuppliers[0].id,
       application.company.id,
-      supplier.id,
+      supplier,
     );
 
     return this.mappingService.mapSupplierInformationForImporterApplication(

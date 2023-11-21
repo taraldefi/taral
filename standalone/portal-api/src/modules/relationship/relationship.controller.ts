@@ -14,18 +14,18 @@ import { CollaborationRelationshipEntity } from './models/collaboration.relation
 export class RelationshipController {
   constructor(private readonly relationshipService: RelationshipService) {}
 
-  @Post('/:buyerId/:supplierId')
-  async createEntity(
-    @Param('buyerId') buyerId: string,
-    @Param('supplierId') supplierId: string,
-    @Body() entity: CreateRelationshipRequest,
-  ): Promise<CollaborationRelationshipEntity> {
-    return await this.relationshipService.createEntity(
-      entity,
-      buyerId,
-      supplierId,
-    );
-  }
+  // @Post('/:buyerId/:supplierId')
+  // async createEntity(
+  //   @Param('buyerId') buyerId: string,
+  //   @Param('supplierId') supplierId: string,
+  //   @Body() entity: CreateRelationshipRequest,
+  // ): Promise<CollaborationRelationshipEntity> {
+  //   return await this.relationshipService.createEntity(
+  //     entity,
+  //     buyerId,
+  //     supplierId,
+  //   );
+  // }
 
   // @Put('/:id/:buyerId/:supplierId')
   // async updateEntity(

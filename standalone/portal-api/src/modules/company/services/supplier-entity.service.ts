@@ -47,6 +47,7 @@ export class SupplierCompanyEntityService {
     const entity = await this.supplierCompanyRepository.findOne(id, {
       relations: [
         'relationshipWithBuyers',
+        'applications',
         'companyInformation',
         'companyInformation.address',
         'companyInformation.taxAndRevenue',
@@ -77,7 +78,9 @@ export class SupplierCompanyEntityService {
 
     const entity = await this.supplierCompanyRepository.findOne({
       relations: [
+        'relationshipWithBuyers',
         'companyInformation',
+        'applications',
         'companyInformation.address',
         'companyInformation.taxAndRevenue',
       ],

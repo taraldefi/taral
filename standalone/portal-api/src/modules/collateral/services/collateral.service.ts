@@ -51,8 +51,6 @@ export class CollateralService extends BaseService {
       applicationId,
       {
         relations: [
-          'buyerInformation',
-          'supplierInformation',
           'paymentTerms',
           'orderDetails',
           'security',

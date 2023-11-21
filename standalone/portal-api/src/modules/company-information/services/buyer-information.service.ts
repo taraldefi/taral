@@ -47,9 +47,6 @@ export class BuyerInformationService extends BaseService {
   public async get(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
-      {
-        relations: ['buyerInformation'],
-      },
     );
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(
@@ -75,8 +72,6 @@ export class BuyerInformationService extends BaseService {
         applicationId,
         {
           relations: [
-            'buyerInformation',
-            'supplierInformation',
             'paymentTerms',
             'orderDetails',
             'security',
@@ -92,12 +87,6 @@ export class BuyerInformationService extends BaseService {
       });
     }
 
-    if (application.buyerInformation) {
-      throw new HttpException(
-        'Buyer information already exists',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     console.log(application);
     // get the buyer company to fill in the buyer company information
     const entity = await this.buyerCompanyService.findBuyerEntityById(
@@ -151,7 +140,6 @@ export class BuyerInformationService extends BaseService {
     //   entity.sector = sectorSavedResult;
     // }
     entity.save();
-    application.buyerInformation = entity.companyInformation;
 
     await application.save();
 
@@ -168,9 +156,6 @@ export class BuyerInformationService extends BaseService {
     this.setupTransactionHooks();
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
-      {
-        relations: ['buyerInformation'],
-      },
     );
     const entity = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
