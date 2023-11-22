@@ -4066,7 +4066,7 @@
     "@types/node" "^18.0.4"
     buffer "^6.0.3"
 
-"@stacks/common@^6.0.0", "@stacks/common@^6.5.2", "@stacks/common@^6.8.1":
+"@stacks/common@^6.0.0", "@stacks/common@^6.8.1":
   version "6.8.1"
   resolved "https://registry.yarnpkg.com/@stacks/common/-/common-6.8.1.tgz#4f13f4635014b1d50e78745d72ecb9085afed69d"
   integrity sha512-ewL9GLZNQYa5a/3K4xSHlHIgHkD4rwWW/QEaPId8zQIaL+1O9qCaF4LX9orNQeOmEk8kvG0x2xGV54fXKCZeWQ==
@@ -4130,7 +4130,7 @@
     "@stacks/common" "^4.3.5"
     cross-fetch "^3.1.5"
 
-"@stacks/network@^6.0.0", "@stacks/network@^6.1.1", "@stacks/network@^6.5.4", "@stacks/network@^6.8.1":
+"@stacks/network@^6.0.0", "@stacks/network@^6.1.1", "@stacks/network@^6.8.1":
   version "6.8.1"
   resolved "https://registry.yarnpkg.com/@stacks/network/-/network-6.8.1.tgz#87d19dee16066b3acc3582f790f88386ac998496"
   integrity sha512-n8M25pPbLqpSBctabtsLOTBlmPvm9EPQpTI//x7HLdt5lEjDXxauEQt0XGSvDUZwecrmztqt9xNxlciiGApRBw==
@@ -4178,15 +4178,15 @@
     "@stacks/network" "^4.3.5"
     jsontokens "^3.1.1"
 
-"@stacks/transactions@6.5.4":
-  version "6.5.4"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.5.4.tgz#8d09558b6f1571b7606440dc7c2b93847d4cb815"
-  integrity sha512-yQhywPQ5cospYpVPbEMFRTUBZhVvyuI+meJ3fqHpu10IXX4CdURKLtW7N64c71YNXmE1tnsN7hWaPzrwjX0Dyw==
+"@stacks/transactions@6.9.0", "@stacks/transactions@^6.1.1", "@stacks/transactions@^6.9.0":
+  version "6.9.0"
+  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.9.0.tgz#99082bccf271cd8254eea644c23a7d2b30281a63"
+  integrity sha512-hSs9+0Ew++GwMZMgPObOx0iVCQRxkiCqI+DHdPEikAmg2utpyLh2/txHOjfSIkQHvcBfJJ6O5KphmxDP4gUqiA==
   dependencies:
     "@noble/hashes" "1.1.5"
     "@noble/secp256k1" "1.7.1"
-    "@stacks/common" "^6.5.2"
-    "@stacks/network" "^6.5.4"
+    "@stacks/common" "^6.8.1"
+    "@stacks/network" "^6.8.1"
     c32check "^2.0.0"
     lodash.clonedeep "^4.5.0"
 
@@ -4206,18 +4206,6 @@
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
     smart-buffer "^4.1.0"
-
-"@stacks/transactions@^6.1.1", "@stacks/transactions@^6.5.4", "@stacks/transactions@^6.8.1", "@stacks/transactions@^6.9.0":
-  version "6.9.0"
-  resolved "https://registry.yarnpkg.com/@stacks/transactions/-/transactions-6.9.0.tgz#99082bccf271cd8254eea644c23a7d2b30281a63"
-  integrity sha512-hSs9+0Ew++GwMZMgPObOx0iVCQRxkiCqI+DHdPEikAmg2utpyLh2/txHOjfSIkQHvcBfJJ6O5KphmxDP4gUqiA==
-  dependencies:
-    "@noble/hashes" "1.1.5"
-    "@noble/secp256k1" "1.7.1"
-    "@stacks/common" "^6.8.1"
-    "@stacks/network" "^6.8.1"
-    c32check "^2.0.0"
-    lodash.clonedeep "^4.5.0"
 
 "@stacks/wallet-sdk@^4.2.0":
   version "4.3.8"
