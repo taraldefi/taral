@@ -2,6 +2,7 @@ import { Storage } from '@modules/storage';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
+  IsolationLevel,
   Transactional,
   runOnTransactionComplete,
   runOnTransactionRollback,
@@ -20,9 +21,10 @@ import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/mode
 import { SupplierCompanyInformationRepository } from 'src/modules/company-information/repositories/supplier.company.information.repository';
 import { UpdateSupplierEntityDto } from '../dto/request/update-supplier-entity.dto';
 import { CompanyTaxAndRevenueRepository } from 'src/modules/company-information/repositories/company.information.tax.and.revenue.repository';
+import { BaseService } from 'src/common/services/base.service';
 
 @Injectable()
-export class SupplierCompanyEntityService {
+export class SupplierCompanyEntityService extends BaseService {
   constructor(
     @InjectRepository(SupplierCompanyEntity)
     private supplierCompanyRepository: SupplierCompanyEntityRepository,
@@ -37,7 +39,9 @@ export class SupplierCompanyEntityService {
     private supplierCompanyInformationRepository: SupplierCompanyInformationRepository,
 
     private mappingService: EntityMappingService,
-  ) {}
+  ) {
+    super();
+  }
 
   public async findSupplierEntityById(
     id: string,
@@ -53,7 +57,7 @@ export class SupplierCompanyEntityService {
         'companyInformation.taxAndRevenue',
       ],
     });
-    console.log('entity', entity);
+
     if (!entity) throw triggerError('entity-not-found');
 
     return entity;
@@ -91,22 +95,20 @@ export class SupplierCompanyEntityService {
 
     return this.mappingService.mapSupplierEntityDetails(entity);
   }
-  public async getAllSupplierEntity(): Promise<SupplierCompanyEntity[]> {
+  public async getAllSupplierEntities(): Promise<SupplierCompanyEntity[]> {
     return await this.supplierCompanyRepository.find({
       select: ['id', 'name', 'abbreviation', 'logo'],
     });
   }
 
-  @Transactional()
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async updateSupplierEntity(
     id: string,
     data: UpdateSupplierEntityDto,
   ): Promise<GetSupplierEntityDetailsResponse> {
-    runOnTransactionRollback((cb) =>
-      console.log('Rollback error ' + cb.message),
-    );
-
-    runOnTransactionComplete((cb) => console.log('Transaction Complete'));
+    this.setupTransactionHooks();
 
     if (!id) throw triggerError('missing-entity-id');
 
@@ -261,20 +263,18 @@ export class SupplierCompanyEntityService {
       entity.companyInformation = companySavedResult;
     }
 
-    entity.save();
+    await this.supplierCompanyRepository.save(entity);
 
     return this.mappingService.mapSupplierEntityDetails(entity);
   }
 
-  @Transactional()
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async createSupplierEntity(
     data: CreateSupplierEntityDto,
   ): Promise<GetSupplierEntityDetailsResponse> {
-    runOnTransactionRollback((cb) =>
-      console.log('Rollback error ' + cb.message),
-    );
-
-    runOnTransactionComplete((cb) => console.log('Transaction Complete'));
+    this.setupTransactionHooks();
 
     const imageUUID = uuidv4();
     const storage = Storage.disk('files');
@@ -285,8 +285,6 @@ export class SupplierCompanyEntityService {
     } else {
       console.log('No logo provided for entity');
     }
-
-    // const entityProducts = await this.createProducts();
 
     const entity = new SupplierCompanyEntity();
     const companyInformation = new SupplierCompanyInformationEntity();
@@ -344,40 +342,4 @@ export class SupplierCompanyEntityService {
 
     return this.mappingService.mapSupplierEntityDetails(result);
   }
-
-  // private async createApplications(): Promise<LegalApplicationEntity[]> {
-  //   const result: LegalApplicationEntity[] = [];
-
-  //   for (let i = 0; i < 10; i++) {
-  //     const application = new LegalApplicationEntity();
-
-  //     application.title = `Legal Product #${i}`;
-  //     application.issuanceDate = new Date(2022, 1, 1, 16, 30);
-
-  //     await this.entityApplicationRepository.save(application);
-
-  //     result.push(application);
-  //   }
-
-  //   return result;
-  // }
-
-  // private async createProducts(): Promise<LegalProductEntity[]> {
-  //   const result: LegalProductEntity[] = [];
-
-  //   for (let i = 0; i < 10; i++) {
-  //     const product = new LegalProductEntity();
-
-  //     product.title = `Legal Product #${i}`;
-  //     product.issuanceDate = new Date(2022, 1, 1, 16, 30);
-  //     product.maturityDate = new Date(2022, 1, 1, 16, 30);
-  //     product.amount = 650000;
-
-  //     await this.entityProductRepository.save(product);
-
-  //     result.push(product);
-  //   }
-
-  //   return result;
-  // }
 }

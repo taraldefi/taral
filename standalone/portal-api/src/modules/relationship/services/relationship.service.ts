@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { triggerError } from 'src/common/trigger.error';
 import { BaseService } from 'src/common/services/base.service';
-import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { CreateRelationshipRequest } from '../dto/request/create-relationship.dto';
 import { UpdateRelationshipRequest } from '../dto/request/update-relationship.dto';
@@ -12,16 +11,17 @@ import { CollaborationRelationshipEntity } from '../models/collaboration.relatio
 import { PaymentExperience } from '../models/payment.experience';
 import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
 import { EntityMappingService } from './mapping.service';
-import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
-import { SupplierCompanyEntityService } from 'src/modules/company/services/supplier-entity.service';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
     private buyerCompanyService: BuyerCompanyEntityService,
 
-    private supplierCompanyService: SupplierCompanyEntityService,
+    @InjectRepository(BuyerCompanyEntity)
+    private buyerCompanyRepository: BuyerCompanyEntityRepository,
 
     @InjectRepository(CollaborationRelationshipEntity)
     private relationshipRepository: CollaborationRelationshipsRepository,
@@ -88,7 +88,7 @@ export class RelationshipService extends BaseService {
       ...buyer.relationshipWithSuppliers,
       relationship,
     ];
-    await buyer.save();
+    await this.buyerCompanyRepository.save(buyer);
 
     return relationship;
   }

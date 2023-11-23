@@ -3,7 +3,7 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { EntityLogoController } from './entity-logo.controller';
-import { EntityController } from './legal-entities.controller';
+import { BuyerEntityController } from './buyer-entities.controller';
 
 import { BuyerCompanyEntity } from './models/buyer.company.entity';
 import { SupplierCompanyEntity } from './models/supplier.company.entity';
@@ -12,7 +12,6 @@ import { LogoService } from './services/logo.service';
 import { EntityMappingService } from './services/mapping.service';
 import { SupplierEntityController } from './supplier-entities.controller';
 import { SupplierCompanyEntityService } from './services/supplier-entity.service';
-import { CompanyInformationModule } from '../company-information/company.information.module';
 import { CompanyAddressEntity } from '../company-information/models/company.information.address.entity';
 import { CompanyTaxAndRevenueEntity } from '../company-information/models/company.information.tax.and.revenue.entity';
 import { SupplierCompanyInformationEntity } from '../company-information/models/supplier.company.information.entity';
@@ -29,7 +28,7 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [
-    EntityController,
+    BuyerEntityController,
     EntityLogoController,
     SupplierEntityController,
   ],

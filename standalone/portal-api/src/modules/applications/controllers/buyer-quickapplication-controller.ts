@@ -49,7 +49,7 @@ export class QuickApplicationController {
     private readonly entityService: BuyerCompanyEntityService,
     private readonly collateralService: CollateralService,
     private readonly buyerInformationService: BuyerInformationService,
-    private readonly SupplierInformationService: SupplierInformationService,
+    private readonly supplierInformationService: SupplierInformationService,
     private readonly orderDetailService: OrderDetailService,
     private readonly orderProductService: OrderProductService,
     private readonly paymentTermService: PaymentTermService,
@@ -102,8 +102,9 @@ export class QuickApplicationController {
   // Submit a valid application
   @Post('/:id/submit')
   async submitApplication(@Param('id') applicationId: string) {
-    const application =
-      await this.buyerQuickApplicationService.markAsComplete(applicationId);
+    const application = await this.buyerQuickApplicationService.markAsComplete(
+      applicationId,
+    );
     return application;
   }
 
@@ -145,7 +146,7 @@ export class QuickApplicationController {
   //Get supplier info of an application by ID
   @Get('/:id/supplier-info')
   async getSupplierInfo(@Param('id') id: string) {
-    return await this.SupplierInformationService.getSupplierInformation(id);
+    return await this.supplierInformationService.getSupplierInformation(id);
   }
 
   // Create supplier information for an application
@@ -155,7 +156,7 @@ export class QuickApplicationController {
     @Body() supplierInfo: CreateSupplierInformationRequest,
   ) {
     const supplierInformation =
-      await this.SupplierInformationService.createSupplierInformation(
+      await this.supplierInformationService.createSupplierInformation(
         supplierInfo,
         applicationId,
       );
@@ -169,7 +170,7 @@ export class QuickApplicationController {
     @Body() supplierInfo: UpdateSupplierInformationRequest,
   ) {
     const supplierInformation =
-      await this.SupplierInformationService.updateSupplierInformation(
+      await this.supplierInformationService.updateSupplierInformation(
         applicationId,
         supplierInfo,
       );

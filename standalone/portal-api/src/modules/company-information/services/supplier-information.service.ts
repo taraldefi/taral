@@ -14,6 +14,8 @@ import { UpdateSupplierInformationRequest } from '../dto/request/supplier/update
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
 import { triggerError } from 'src/common/trigger.error';
+import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
+import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
 
 @Injectable()
 export class SupplierInformationService extends BaseService {
@@ -22,10 +24,13 @@ export class SupplierInformationService extends BaseService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     @InjectRepository(BuyerCompanyEntity)
-    private buyerCompanyRepository: BuyerCompanyEntityRepository,
+    private buyerQuickCompanyRepository: BuyerCompanyEntityRepository,
+
+    @InjectRepository(SupplierCompanyEntity)
+    private supplierCompanyRepository: SupplierCompanyEntityRepository,
 
     private readonly mappingService: EntityMappingService,
-    private readonly supplierService: SupplierCompanyEntityService,
+    private readonly supplierCompanyService: SupplierCompanyEntityService,
     private readonly relationshipService: RelationshipService,
   ) {
     super();
@@ -41,7 +46,7 @@ export class SupplierInformationService extends BaseService {
       },
     );
 
-    const savedSupplier = await this.supplierService.getSupplierEntity(
+    const savedSupplier = await this.supplierCompanyService.getSupplierEntity(
       application.supplierInformation.id,
     );
 
@@ -65,7 +70,6 @@ export class SupplierInformationService extends BaseService {
   ): Promise<SupplierInformationResponse> {
     this.setupTransactionHooks();
 
-    //TODO: check for application so that isolated supplier creation is prevented
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
@@ -85,9 +89,8 @@ export class SupplierInformationService extends BaseService {
       );
     }
 
-    const selectedSupplier = await this.supplierService.findSupplierEntityById(
-      data.supplierId,
-    );
+    const selectedSupplier =
+      await this.supplierCompanyService.findSupplierEntityById(data.supplierId);
 
     const savedRelationship = await this.relationshipService.createEntity(
       data.relationshipWithSupplier,
@@ -105,7 +108,7 @@ export class SupplierInformationService extends BaseService {
       application,
     ];
 
-    selectedSupplier.save();
+    await this.supplierCompanyRepository.save(selectedSupplier);
     application.supplierInformation = selectedSupplier;
     await this.buyerApplicationRepository.save(application);
 
@@ -131,12 +134,12 @@ export class SupplierInformationService extends BaseService {
       },
     );
 
-    const buyer = await this.buyerCompanyRepository.findOneOrFail({
+    const buyer = await this.buyerQuickCompanyRepository.findOneOrFail({
       relations: ['relationshipWithSuppliers'],
       where: { id: application.company.id },
     });
 
-    const supplier = await this.supplierService.findSupplierEntityById(
+    const supplier = await this.supplierCompanyService.findSupplierEntityById(
       data.supplierId,
     );
 

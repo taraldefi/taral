@@ -228,7 +228,7 @@ export class SupplierEntityController {
   }
 
   @Get()
-  async getAllEntity() {
-    return await this.entityService.getAllSupplierEntity();
+  async getAllEntities() {
+    return await this.entityService.getAllSupplierEntities();
   }
 }

@@ -19,7 +19,7 @@ import { BuyerCompanyEntityService } from './services/buyer-entity.service';
   path: 'entities',
   version: '1',
 })
-export class EntityController {
+export class BuyerEntityController {
   constructor(private readonly entityService: BuyerCompanyEntityService) {}
 
   @ApiConsumes('multipart/form-data')
