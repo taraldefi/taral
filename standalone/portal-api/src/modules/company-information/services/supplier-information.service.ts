@@ -21,10 +21,10 @@ import { SupplierCompanyEntityRepository } from 'src/modules/company/repositorie
 export class SupplierInformationService extends BaseService {
   constructor(
     @InjectRepository(QuickApplicationEntity)
-    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
+    private buyerQuickApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     @InjectRepository(BuyerCompanyEntity)
-    private buyerQuickCompanyRepository: BuyerCompanyEntityRepository,
+    private buyerCompanyRepository: BuyerCompanyEntityRepository,
 
     @InjectRepository(SupplierCompanyEntity)
     private supplierCompanyRepository: SupplierCompanyEntityRepository,
@@ -39,7 +39,7 @@ export class SupplierInformationService extends BaseService {
   public async getSupplierInformation(
     applicationId: string,
   ): Promise<SupplierInformationResponse> {
-    const application = await this.buyerApplicationRepository.findOne(
+    const application = await this.buyerQuickApplicationRepository.findOne(
       applicationId,
       {
         relations: ['supplierInformation'],
@@ -70,7 +70,7 @@ export class SupplierInformationService extends BaseService {
   ): Promise<SupplierInformationResponse> {
     this.setupTransactionHooks();
 
-    const application = await this.buyerApplicationRepository.findOne(
+    const application = await this.buyerQuickApplicationRepository.findOne(
       applicationId,
       {
         relations: [
@@ -110,7 +110,7 @@ export class SupplierInformationService extends BaseService {
 
     await this.supplierCompanyRepository.save(selectedSupplier);
     application.supplierInformation = selectedSupplier;
-    await this.buyerApplicationRepository.save(application);
+    await this.buyerQuickApplicationRepository.save(application);
 
     return this.mappingService.mapSupplierInformationForImporterApplication(
       selectedSupplier.id,
@@ -127,14 +127,14 @@ export class SupplierInformationService extends BaseService {
   ): Promise<SupplierInformationResponse> {
     this.setupTransactionHooks();
 
-    const application = await this.buyerApplicationRepository.findOne(
+    const application = await this.buyerQuickApplicationRepository.findOne(
       applicationId,
       {
         relations: ['supplierInformation'],
       },
     );
 
-    const buyer = await this.buyerQuickCompanyRepository.findOneOrFail({
+    const buyer = await this.buyerCompanyRepository.findOneOrFail({
       relations: ['relationshipWithSuppliers'],
       where: { id: application.company.id },
     });
