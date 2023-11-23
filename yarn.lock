@@ -19012,10 +19012,10 @@ socks@~2.3.2:
     ip "1.1.5"
     smart-buffer "^4.1.0"
 
-sonner@^1.0.3:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.2.0.tgz#26e7520d0f93b9f70763130099b4e1b16f121f11"
-  integrity sha512-4bIPKrhF+Z4yEC4EZvNBswcVzMrUhztOQXqyIoiZqiqN1TT39FeK+TgRsQidvvztnYgOn4+S3LdAsri61c7ATA==
+sonner@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/sonner/-/sonner-1.2.2.tgz#240e817eddd2cfdc7b09150b130b2f78484d1571"
+  integrity sha512-EHxYBr5tLDQW4CqosTsX95/Qd5oxjDeQN/EbKBZcjdNp4Hjs6snXB6Lmu1kTL27M3su0oG9DxkllfvX+aSoI4Q==
 
 source-list-map@^2.0.0, source-list-map@^2.0.1:
   version "2.0.1"
