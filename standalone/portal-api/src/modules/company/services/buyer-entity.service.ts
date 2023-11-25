@@ -29,6 +29,7 @@ export class BuyerCompanyEntityService {
 
     const entity = await this.buyerEntityRepository.findOne(id, {
       relations: [
+        'relationshipWithSuppliers',
         'applications',
         'companyInformation',
         'companyInformation.address',

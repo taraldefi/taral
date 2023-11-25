@@ -5,14 +5,17 @@ import { CollaborationRelationshipEntity } from './models/collaboration.relation
 import { CompaniesModule } from '../company/company.module';
 import { EntityMappingService } from './services/mapping.service';
 import { RelationshipService } from './services/relationship.service';
-import { RelationshipController } from './relationship.controller';
+import { BuyerCompanyEntity } from '../company/models/buyer.company.entity';
 
 @Module({
   imports: [
     CompaniesModule,
-    TypeOrmModule.forFeature([CollaborationRelationshipEntity]),
+    TypeOrmModule.forFeature([
+      CollaborationRelationshipEntity,
+      BuyerCompanyEntity,
+    ]),
   ],
-  controllers: [RelationshipController],
+  controllers: [],
   providers: [
     ConfigModule,
     ConfigService,

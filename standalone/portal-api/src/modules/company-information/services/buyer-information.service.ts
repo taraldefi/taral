@@ -6,19 +6,19 @@ import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/
 import { CompanyAddressEntity } from '../models/company.information.address.entity';
 import { CompanyAddressRepository } from '../repositories/company.information.address.repository';
 import { CompanyTaxAndRevenueEntity } from '../models/company.information.tax.and.revenue.entity';
-import { CompanyTaxAndRevenueEntityRepository } from 'src/modules/supplier/repositories/supplier-company-tax-and-revenue.repository';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
 import { BuyerCompanyInformationRepository } from '../repositories/buyer.company.information.repository';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
-import { CreateBuyerCompanyRequest } from '../dto/request/create-buyer-company.dto';
-import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
+import { CreateBuyerCompanyRequest } from '../dto/request/buyer/create-buyer-company.dto';
+import { GetBuyerResponse } from '../dto/response/buyer/get-buyer-response.dto';
 import { EntityNotFoundError } from 'typeorm';
 import { triggerError } from 'src/common/trigger.error';
-import { UpdateBuyerCompanyRequest } from '../dto/request/update-buyer-company.dto';
+import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-company.dto';
 import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
+import { CompanyTaxAndRevenueRepository } from '../repositories/company.information.tax.and.revenue.repository';
 
 @Injectable()
 export class BuyerInformationService extends BaseService {
@@ -30,7 +30,7 @@ export class BuyerInformationService extends BaseService {
     private companyAddressRepository: CompanyAddressRepository,
 
     @InjectRepository(CompanyTaxAndRevenueEntity)
-    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueEntityRepository,
+    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueRepository,
 
     @InjectRepository(BuyerCompanyInformationEntity)
     private buyerCompanyInformationRepository: BuyerCompanyInformationRepository,
@@ -47,9 +47,6 @@ export class BuyerInformationService extends BaseService {
   public async get(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
-      {
-        relations: ['buyerInformation'],
-      },
     );
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(
@@ -75,8 +72,6 @@ export class BuyerInformationService extends BaseService {
         applicationId,
         {
           relations: [
-            'buyerInformation',
-            'supplierInformation',
             'paymentTerms',
             'orderDetails',
             'security',
@@ -92,12 +87,6 @@ export class BuyerInformationService extends BaseService {
       });
     }
 
-    if (application.buyerInformation) {
-      throw new HttpException(
-        'Buyer information already exists',
-        HttpStatus.BAD_REQUEST,
-      );
-    }
     console.log(application);
     // get the buyer company to fill in the buyer company information
     const entity = await this.buyerCompanyService.findBuyerEntityById(
@@ -151,7 +140,6 @@ export class BuyerInformationService extends BaseService {
     //   entity.sector = sectorSavedResult;
     // }
     entity.save();
-    application.buyerInformation = entity.companyInformation;
 
     await application.save();
 
@@ -168,9 +156,6 @@ export class BuyerInformationService extends BaseService {
     this.setupTransactionHooks();
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
-      {
-        relations: ['buyerInformation'],
-      },
     );
     const entity = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,

@@ -39,14 +39,13 @@ export class BuyerQuickApplicationService extends BaseService {
     const applications = await this.buyerApplicationRepository.find({
       select: [
         'id',
-        'supplierInformation',
         'issuanceDate',
         'title',
         'status',
         'applicationNumber',
         'endDate',
       ],
-      relations: ['supplierInformation'],
+
       where: { company: { id: entityID } },
     });
 
@@ -74,8 +73,6 @@ export class BuyerQuickApplicationService extends BaseService {
       id,
       {
         relations: [
-          'buyerInformation',
-          'supplierInformation',
           'paymentTerms',
           'orderDetails',
           'security',
@@ -118,7 +115,6 @@ export class BuyerQuickApplicationService extends BaseService {
       id,
       {
         relations: [
-          'buyerInformation',
           'supplierInformation',
           'paymentTerms',
           'orderDetails',
@@ -155,8 +151,9 @@ export class BuyerQuickApplicationService extends BaseService {
     application.status = 'ACTIVE';
     application.createdAt = new Date();
 
-    const savedApplication =
-      await this.buyerApplicationRepository.save(application);
+    const savedApplication = await this.buyerApplicationRepository.save(
+      application,
+    );
 
     entity.applications = [...entity.applications, savedApplication];
     await entity.save();
@@ -199,7 +196,6 @@ export class BuyerQuickApplicationService extends BaseService {
     application: QuickApplicationEntity,
   ): Promise<boolean> {
     if (
-      application.buyerInformation &&
       application.supplierInformation &&
       application.paymentTerms &&
       application.orderDetails &&

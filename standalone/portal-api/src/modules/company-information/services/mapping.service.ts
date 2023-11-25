@@ -1,17 +1,39 @@
 import { Injectable } from '@nestjs/common';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
-import { GetBuyerResponse } from '../dto/response/get-buyer-response.dto';
-import { GetBuyerCompanyAddressRequest } from '../dto/response/get-buyer-company-address-response.dto';
-import { GetBuyerCompanyTaxAndRevenueRequest } from '../dto/response/get-buyer-company-tax-and-revenue.response.dto';
+import { EntityMappingService as RelationshipEntityMappingService } from 'src/modules/relationship/services/mapping.service';
+import { GetBuyerResponse } from '../dto/response/buyer/get-buyer-response.dto';
+import { GetBuyerCompanyAddressRequest } from '../dto/response/buyer/get-buyer-company-address-response.dto';
+import { GetBuyerCompanyTaxAndRevenueRequest } from '../dto/response/buyer/get-buyer-company-tax-and-revenue.response.dto';
+import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
+import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
+import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
+import { GetSupplierCompanyAddressRequest } from '../dto/response/supplier/get-supplier-company-address-response.dto';
 
 @Injectable()
 export class EntityMappingService {
+  constructor(
+    private readonly relationshipMappingService: RelationshipEntityMappingService,
+  ) {}
   public mapManyEntities(entities: BuyerCompanyEntity[]): GetBuyerResponse[] {
     var response = new Array<GetBuyerResponse>();
 
     entities.forEach((entity) => {
       response.push(this.mapEntityDetails(entity));
     });
+
+    return response;
+  }
+
+  public mapSupplierInformationForImporterApplication(
+    supplierId: string,
+    relationshipEntity: CollaborationRelationshipEntity,
+  ): SupplierInformationResponse {
+    var response = new SupplierInformationResponse();
+
+    response.supplierId = supplierId;
+
+    response.relationshipWithSupplier =
+      this.relationshipMappingService.mapEntityDetails(relationshipEntity);
 
     return response;
   }

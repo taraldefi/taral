@@ -37,14 +37,7 @@ export class PaymentTermService extends BaseService {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
-        relations: [
-          'buyerInformation',
-          'supplierInformation',
-          'paymentTerms',
-          'orderDetails',
-          'security',
-          'transactionDocuments',
-        ],
+        relations: ['paymentTerms'],
       },
     );
 

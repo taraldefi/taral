@@ -9,6 +9,8 @@ import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -44,13 +46,7 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   status: string;
 
-  @OneToOne(() => BuyerCompanyInformationEntity)
-  @JoinColumn()
-  @Allow()
-  buyerInformation: BuyerCompanyInformationEntity;
-
-  @OneToOne(() => SupplierCompanyEntity)
-  @JoinColumn()
+  @ManyToOne(() => SupplierCompanyEntity, (supplier) => supplier.applications)
   @Allow()
   supplierInformation: SupplierCompanyEntity;
 

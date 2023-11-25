@@ -8,7 +8,7 @@ import {
   IsString,
 } from 'class-validator';
 
-export class UpdateSupplierCompanyTaxAndRevenueRequest {
+export class CreateSupplierCompanyTaxAndRevenueRequest {
   @ApiProperty({ example: 'Engelbrecht Ltd' })
   @IsOptional()
   @IsString()
@@ -25,15 +25,16 @@ export class UpdateSupplierCompanyTaxAndRevenueRequest {
 
   @ApiProperty({ example: '1000000000' })
   @IsNumberString()
+  @IsOptional()
   exportValue?: number;
 
   @ApiProperty({ example: 'true' })
-  @IsNotEmpty()
   @IsBoolean()
+  @IsOptional()
   audited?: boolean;
 
   @ApiProperty({ example: '15' })
-  @IsNotEmpty()
+  @IsOptional()
   @IsNumberString()
   exportRevenuePercentage?: number;
 }

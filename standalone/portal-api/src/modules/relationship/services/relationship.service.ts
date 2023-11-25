@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { triggerError } from 'src/common/trigger.error';
 import { BaseService } from 'src/common/services/base.service';
-import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { CreateRelationshipRequest } from '../dto/request/create-relationship.dto';
 import { UpdateRelationshipRequest } from '../dto/request/update-relationship.dto';
@@ -12,17 +11,17 @@ import { CollaborationRelationshipEntity } from '../models/collaboration.relatio
 import { PaymentExperience } from '../models/payment.experience';
 import { CollaborationRelationshipsRepository } from '../repositories/collaboration.relationships.repository';
 import { EntityMappingService } from './mapping.service';
-import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
-    @InjectRepository(BuyerCompanyEntity)
     private buyerCompanyService: BuyerCompanyEntityService,
 
-    @InjectRepository(SupplierCompanyEntity)
-    private supplierCompanyRepository: SupplierCompanyEntityRepository,
+    @InjectRepository(BuyerCompanyEntity)
+    private buyerCompanyRepository: BuyerCompanyEntityRepository,
 
     @InjectRepository(CollaborationRelationshipEntity)
     private relationshipRepository: CollaborationRelationshipsRepository,
@@ -51,7 +50,7 @@ export class RelationshipService extends BaseService {
   public async createEntity(
     entity: CreateRelationshipRequest,
     buyerId: string,
-    supplierId: string,
+    supplier: SupplierCompanyEntity,
   ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
@@ -60,11 +59,6 @@ export class RelationshipService extends BaseService {
     const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
-
-    const supplier = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['relationshipWithBuyers'],
-      where: { id: supplierId },
-    });
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -90,6 +84,12 @@ export class RelationshipService extends BaseService {
 
     await this.relationshipRepository.save(relationship);
 
+    buyer.relationshipWithSuppliers = [
+      ...buyer.relationshipWithSuppliers,
+      relationship,
+    ];
+    await this.buyerCompanyRepository.save(buyer);
+
     return relationship;
   }
 
@@ -100,18 +100,13 @@ export class RelationshipService extends BaseService {
     entity: UpdateRelationshipRequest,
     relationshipId: string,
     buyerId: string,
-    supplierId: string,
+    supplier: SupplierCompanyEntity,
   ): Promise<CollaborationRelationshipEntity> {
     this.setupTransactionHooks();
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(buyerId);
 
     if (!buyer) throw triggerError('entity-not-found');
-
-    const supplier = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['relationshipWithBuyers'],
-      where: { id: supplierId },
-    });
 
     if (!supplier) throw triggerError('entity-not-found');
 
@@ -121,6 +116,9 @@ export class RelationshipService extends BaseService {
     });
 
     if (!relationship) throw triggerError('entity-not-found');
+
+    relationship.buyer = buyer;
+    relationship.supplier = supplier;
 
     if (entity.influence) {
       relationship.influence = entity.influence;
@@ -176,8 +174,9 @@ export class RelationshipService extends BaseService {
       }
     }
 
-    const updatedRelationship =
-      await this.relationshipRepository.save(relationship);
+    const updatedRelationship = await this.relationshipRepository.save(
+      relationship,
+    );
 
     return updatedRelationship;
   }

@@ -1,29 +1,20 @@
 import buyerApplicationService from "@services/application/buyerApplicationService";
+import supplierEntityService from "@services/supplierEntityService";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import convertDate from "@utils/lib/convertDate";
 import { useAtom } from "jotai";
 import debounce from "just-debounce-it";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
-import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
+import {
+  Company,
+  CreateSupplierInformationForBuyerApplication,
+} from "src/types/supplier_info_for_buyer";
 import * as Yup from "yup";
 
 // All functions are similar to buyer information for more details check buyer information
 const initialData: CreateSupplierInformationForBuyerApplication = {
-  supplierInformation: {
-    company: {
-      companyName: "",
-      dateEstablished: "",
-      phoneNumber: "",
-      registrationNumbers: "",
-      address: {
-        city: "",
-        addressLine1: "",
-        addressLine2: "",
-        postalCode: "",
-      },
-    },
-  },
+  supplierId: "",
 
   relationshipWithSupplier: {
     shareHoldingRelationship: null,
@@ -41,29 +32,7 @@ const initialData: CreateSupplierInformationForBuyerApplication = {
 };
 
 const schemaValidation = Yup.object({
-  supplierInformation: Yup.object({
-    company: Yup.object({
-      companyName: Yup.string().required("Company name is required"),
-
-      dateEstablished: Yup.string().required("Establishment date is required"),
-
-      phoneNumber: Yup.string().required("Phone number is required"),
-
-      registrationNumbers: Yup.string().required(
-        "Registration numbers are required"
-      ),
-
-      address: Yup.object({
-        city: Yup.string().required("City is required"),
-
-        addressLine1: Yup.string().required("Address line 1 is required"),
-
-        addressLine2: Yup.string().required("Address line 2 is required"),
-
-        postalCode: Yup.string().required("Postal code is required"),
-      }),
-    }),
-  }).required(),
+  supplierId: Yup.string().required("Company name is required"),
 
   relationshipWithSupplier: Yup.object({
     shareHoldingRelationship: Yup.string().nullable(),
@@ -103,6 +72,7 @@ const schemaValidation = Yup.object({
 
 const useSupplierInformationForm = (applicationID: string) => {
   const [updateMode, setUpdateMode] = useState(false);
+  const [companyInformation, setCompanyInformation] = useState<Company>();
 
   const getInitialData = async () => {
     console.log("applicationID", applicationID);
@@ -111,24 +81,20 @@ const useSupplierInformationForm = (applicationID: string) => {
       const response = await buyerApplicationService.getSupplierInfo(
         applicationID as string
       );
-      if (response && response.id) {
+      if (response && response.supplierId) {
+        const companyData = await supplierEntityService.getEntity(
+          response.supplierId
+        );
+        setCompanyInformation({
+          dateEstablished: convertDate(companyData.incorporationDate),
+          phoneNumber: companyData.phoneNumber,
+          registrationNumbers: companyData.registrationNumbers,
+          address: companyData.address,
+        });
         setUpdateMode(true);
       }
       const responseData: CreateSupplierInformationForBuyerApplication = {
-        supplierInformation: {
-          company: {
-            companyName: response.supplier.companyName,
-            dateEstablished: convertDate(response.supplier.dateEstablished),
-            phoneNumber: response.supplier.phoneNumber,
-            registrationNumbers: response.supplier.registrationNumbers,
-            address: {
-              city: response.supplier.address.city,
-              addressLine1: response.supplier.address.addressLine1,
-              addressLine2: response.supplier.address.addressLine2,
-              postalCode: response.supplier.address.postalCode,
-            },
-          },
-        },
+        supplierId: response.supplierId,
 
         relationshipWithSupplier: {
           shareHoldingRelationship:
@@ -169,20 +135,24 @@ const useSupplierInformationForm = (applicationID: string) => {
   ) => {
     console.count("payload for patch:" + JSON.stringify(args));
     if (!updateMode) {
-      const createSupplierInfo = buyerApplicationService.createSupplierInfo(
-        applicationID as string,
-        args
+      const createSupplierInfo =
+        await buyerApplicationService.createSupplierInfo(
+          applicationID as string,
+          args
+        );
+      const companyData = await supplierEntityService.getEntity(
+        createSupplierInfo.supplierId
       );
-      toast.promise(createSupplierInfo, {
-        loading: "Loading...",
-        success: (data) => {
-          setUpdateMode(true);
-          return `supplier information created`;
-        },
-        error: (err) => {
-          return `${err}`;
-        },
+      setCompanyInformation({
+        dateEstablished: convertDate(companyData.incorporationDate),
+        phoneNumber: companyData.phoneNumber,
+        registrationNumbers: companyData.registrationNumbers,
+        address: companyData.address,
       });
+      if (createSupplierInfo.supplierId) {
+        setUpdateMode(true);
+        toast.success(`supplier information created`);
+      }
     } else {
       const updateSupplierInfo = buyerApplicationService.updateSupplierInfo(
         applicationID as string,
@@ -221,6 +191,8 @@ const useSupplierInformationForm = (applicationID: string) => {
     schemaValidation,
     queryResult,
     handleDebouncedChange,
+    companyInformation,
+    setCompanyInformation,
   };
 };
 

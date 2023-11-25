@@ -10,8 +10,6 @@ import { CollateralModule } from '../collateral/collateral.module';
 import { RelationshipModule } from '../relationship/relationship.module';
 import { PaymentTermModule } from '../payment-term/payment-term.module';
 import { BuyerQuickApplicationService } from './services/buyer-quick-application.service/application.service';
-// import { BuyerQuickApplicationSupplierInformationService } from './services/buyer-quick-application.service/supplier-info.service';
-import { BuyerQuickApplicationMappingService } from './services/buyer-quick-application.service/mapping.service';
 import { CompanyInformationModule } from '../company-information/company.information.module';
 import { SectorsModule } from '../sectors/sectors.module';
 
@@ -27,13 +25,7 @@ import { SectorsModule } from '../sectors/sectors.module';
     TypeOrmModule.forFeature([QuickApplicationEntity]),
   ],
   controllers: [QuickApplicationController],
-  providers: [
-    ConfigModule,
-    TypeOrmConfigService,
-    BuyerQuickApplicationService,
-    // BuyerQuickApplicationSupplierInformationService,
-    BuyerQuickApplicationMappingService,
-  ],
+  providers: [ConfigModule, TypeOrmConfigService, BuyerQuickApplicationService],
   exports: [
     BuyerQuickApplicationService,
     TypeOrmModule.forFeature([QuickApplicationEntity]),

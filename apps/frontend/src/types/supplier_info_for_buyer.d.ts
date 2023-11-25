@@ -1,17 +1,10 @@
 export interface CreateSupplierInformationForBuyerApplication {
-  supplierInformation: SupplierInformation;
+  supplierId: string;
   relationshipWithSupplier: RelationshipWithSupplier;
 }
 
 export interface GetSupplierInfoResponse {
-  id: string;
-  supplier: {
-    address: Address;
-    companyName: string;
-    dateEstablished: string;
-    registrationNumbers: string;
-    phoneNumber: string;
-  };
+  supplierId: string;
   relationshipExists: boolean;
   relationshipWithSupplier: RelationshpWithSupplierResponse;
 }
@@ -40,7 +33,7 @@ export interface SupplierInformation {
 }
 
 export interface Company {
-  companyName: string;
+  companyName?: string;
   dateEstablished: string;
   phoneNumber: string;
   registrationNumbers: string;

@@ -2,6 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { GetApplicationResponse } from '../dto/response/get-application-response.dto';
 import { GetEntityDetailsResponse } from '../dto/response/get-entity-details-response.dto';
 import { BuyerCompanyEntity } from '../models/buyer.company.entity';
+import { SupplierCompanyEntity } from '../models/supplier.company.entity';
+import { GetSupplierEntityDetailsResponse } from '../dto/response/get-supplier-entity-response.dto';
+import { GetSupplierCompanyAddressRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-address-response.dto';
+import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-tax-and-revenue.response.dto';
 
 @Injectable()
 export class EntityMappingService {
@@ -46,6 +50,71 @@ export class EntityMappingService {
 
       return applicationItem;
     });
+
+    return response;
+  }
+
+  public mapSupplierEntityDetails(
+    entity: SupplierCompanyEntity,
+  ): GetSupplierEntityDetailsResponse {
+    var response = new GetSupplierEntityDetailsResponse();
+    response.address = new GetSupplierCompanyAddressRequest();
+    response.taxAndRevenue = new GetSupplierCompanyTaxAndRevenueRequest();
+
+    response.abbreviation = entity.abbreviation;
+    response.beneficialOwner = entity.beneficialOwner;
+    response.coreBusiness = entity.coreBusiness;
+    response.headquarters = entity.headquarters;
+
+    response.id = entity.id;
+    response.incorporationDate = entity.incorporationDate;
+    response.industryType = entity.industryType;
+
+    response.legalForm = entity.legalForm;
+    response.logo = entity.logo;
+    response.name = entity.name;
+
+    response.nationality = entity.nationality;
+
+    if (entity.companyInformation) {
+      response.employeeCount = entity.companyInformation.employeeCount;
+      response.phoneNumber = entity.companyInformation.phoneNumber;
+      response.registrationNumbers =
+        entity.companyInformation.registrationNumbers;
+
+      response.address.addressLine1 =
+        entity.companyInformation.address.addressLine1;
+      response.address.addressLine2 =
+        entity.companyInformation.address.addressLine2;
+      response.address.city = entity.companyInformation.address.city;
+      response.address.postalCode =
+        entity.companyInformation.address.postalCode;
+
+      if (entity.companyInformation.taxAndRevenue.taxNumber) {
+        response.taxAndRevenue.taxNumber =
+          entity.companyInformation.taxAndRevenue.taxNumber;
+      }
+      if (entity.companyInformation.taxAndRevenue.audited) {
+        response.taxAndRevenue.audited =
+          entity.companyInformation.taxAndRevenue.audited;
+      }
+      if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
+        response.taxAndRevenue.exportRevenuePercentage =
+          entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
+      }
+      if (entity.companyInformation.taxAndRevenue.exportValue) {
+        response.taxAndRevenue.exportValue =
+          entity.companyInformation.taxAndRevenue.exportValue;
+      }
+      if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
+        response.taxAndRevenue.lastFiscalYear =
+          entity.companyInformation.taxAndRevenue.lastFiscalYear;
+      }
+      if (entity.companyInformation.taxAndRevenue.totalRevenue) {
+        response.taxAndRevenue.totalRevenue =
+          entity.companyInformation.taxAndRevenue.totalRevenue;
+      }
+    }
 
     return response;
   }

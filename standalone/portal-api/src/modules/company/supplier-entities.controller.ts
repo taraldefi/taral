@@ -9,18 +9,18 @@ import {
   Post,
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { CreateEntityDto } from './dto/request/create-entity.dto';
-import { UpdateEntityDto } from './dto/request/update-entity.dto';
-import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
-import { BuyerCompanyEntityService } from './services/buyer-entity.service';
+import { SupplierCompanyEntityService } from './services/supplier-entity.service';
+import { CreateSupplierEntityDto } from './dto/request/create-supplier-entity.dto';
+import { GetSupplierEntityDetailsResponse } from './dto/response/get-supplier-entity-response.dto';
+import { UpdateSupplierEntityDto } from './dto/request/update-supplier-entity.dto';
 
-@ApiTags('Entities')
+@ApiTags('SupplierEntities')
 @Controller({
-  path: 'entities',
+  path: 'supplier-entities',
   version: '1',
 })
-export class EntityController {
-  constructor(private readonly entityService: BuyerCompanyEntityService) {}
+export class SupplierEntityController {
+  constructor(private readonly entityService: SupplierCompanyEntityService) {}
 
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -82,9 +82,9 @@ export class EntityController {
   @FormDataRequest({ storage: MemoryStoredFile })
   @Post()
   async createEntity(
-    @Body() entity: CreateEntityDto,
-  ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.createBuyerEntity(entity);
+    @Body() entity: CreateSupplierEntityDto,
+  ): Promise<GetSupplierEntityDetailsResponse> {
+    return await this.entityService.createSupplierEntity(entity);
   }
 
   @ApiBody({
@@ -147,9 +147,9 @@ export class EntityController {
   @FormDataRequest({ storage: MemoryStoredFile })
   async updateEntity(
     @Param('id') id,
-    @Body() entity: UpdateEntityDto,
-  ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.updateBuyerEntity(id, entity);
+    @Body() entity: UpdateSupplierEntityDto,
+  ): Promise<GetSupplierEntityDetailsResponse> {
+    return await this.entityService.updateSupplierEntity(id, entity);
   }
 
   @ApiBody({
@@ -212,23 +212,23 @@ export class EntityController {
   @FormDataRequest({ storage: MemoryStoredFile })
   async updateEntityByForm(
     @Param('id') id,
-    @Body() entity: UpdateEntityDto,
-  ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.updateBuyerEntity(id, entity);
+    @Body() entity: UpdateSupplierEntityDto,
+  ): Promise<GetSupplierEntityDetailsResponse> {
+    return await this.entityService.updateSupplierEntity(id, entity);
   }
 
   @Delete('/:id')
   async deleteEntity(@Param('id') id) {
-    await this.entityService.deleteBuyerEntity(id);
+    await this.entityService.deleteSupplierEntity(id);
   }
 
   @Get('/:id')
   async getEntity(@Param('id') id) {
-    return await this.entityService.getBuyerEntity(id);
+    return await this.entityService.getSupplierEntity(id);
   }
 
   @Get()
-  async getAllEntity() {
-    return await this.entityService.getAllBuyerEntity();
+  async getAllEntities() {
+    return await this.entityService.getAllSupplierEntities();
   }
 }
