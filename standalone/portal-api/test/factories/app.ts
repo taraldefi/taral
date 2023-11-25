@@ -63,7 +63,10 @@ export class AppFactory {
 
   async close() {
     await getConnection().dropDatabase();
-    if (this.redis) await this.teardown(this.redis);
+    if (this.redis) {
+      console.log('tearing down redis');
+      await this.teardown(this.redis);
+    }
     if (this.appInstance) await this.appInstance.close();
   }
 
@@ -74,7 +77,30 @@ export class AppFactory {
     );
 
     for (const table of tables) {
-      await connection.query(`DELETE FROM ${table};`);
+      const exists = await connection.query(`SELECT EXISTS (
+        SELECT FROM 
+          pg_catalog.pg_tables 
+        WHERE 
+          schemaname != 'pg_catalog' AND 
+          schemaname != 'information_schema' AND 
+          tablename = '${table}'
+      );`)
+
+      let tableExists = false;
+
+      // result is expected to be an array with one object: [{ exists: boolean }]
+      if (exists && exists.length > 0) {
+        tableExists = exists[0].exists;
+      }
+      
+      if (tableExists) {
+        try {
+          await connection.query(`DELETE FROM ${table};`);
+        } catch (e) {
+        }
+      } else {
+        // console.log(`Table ${table} does not exist`);
+      }
     }
   }
 
@@ -89,9 +115,11 @@ export class AppFactory {
     });
 
     await connection.query(`SET session_replication_role = 'replica';`);
+    
     const tables = connection.entityMetadatas.map(
       (entity) => `"${entity.tableName}"`,
     );
+
     for (const tableName of tables) {
       await connection.query(`DROP TABLE IF EXISTS ${tableName};`);
     }
@@ -103,6 +131,7 @@ export class AppFactory {
     return new Promise<void>((resolve) => {
       redis.quit();
       redis.on('end', () => {
+        console.log('Redis connection closed');
         resolve();
       });
     });
@@ -110,10 +139,15 @@ export class AppFactory {
 }
 
 const setupRedis = async () => {
+
+  console.log(' is this where it happens? ');
   const redis = new Redis({
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT) || 6379,
   });
+
+  
+  console.log(' flushing redis ');
   await redis.flushall();
   return redis;
 };
