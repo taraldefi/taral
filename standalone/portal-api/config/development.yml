@@ -5,6 +5,7 @@ db:
   username: 'root'
   password: 'secret'
   synchronize: false
+  database: api
 
 app:
   runchainhook: false
