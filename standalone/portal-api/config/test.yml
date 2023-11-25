@@ -5,3 +5,12 @@ app:
   runchainhook: false
   runjobs: false
   fluentdlogging: false
+
+db:
+  host: 'localhost'
+  type: 'postgres'
+  port: 5432
+  username: 'root'
+  password: 'secret'
+  synchronize: false
+  database: api
