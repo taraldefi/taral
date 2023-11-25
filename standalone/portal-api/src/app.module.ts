@@ -19,6 +19,7 @@ import { SectorsModule } from './modules/sectors/sectors.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 import {
   CookieResolver,
@@ -42,7 +43,7 @@ import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
 import { TwofaModule } from './modules/twofa/twofa.module';
 import { CustomThrottlerGuard } from './common/guard/custom-throttle.guard';
 import { ThrottlerModule } from '@nestjs/throttler';
-import path from 'path';
+import path, { join } from 'path';
 import { AppController } from './app.controller';
 import databaseConfig from './config/database.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
@@ -120,11 +121,11 @@ export class AppModule {
         ],
         inject: [ConfigService],
       }),
-      // ServeStaticModule.forRoot({
-      //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
+      ServeStaticModule.forRoot({
+        rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
 
-      //   exclude: ['/api*']
-      // }),
+        exclude: ['/api*']
+      }),
       StorageModule.registerAsync({
         imports: [ConfigService],
         useFactory: (config: ConfigService) => {

@@ -186,7 +186,7 @@ export class AuthService {
     }
     const accessToken =
       await this.refreshTokenService.generateAccessToken(user);
-      
+
     let refreshToken = null;
     if (userLoginDto.remember) {
       refreshToken = await this.refreshTokenService.generateRefreshToken(
@@ -500,6 +500,8 @@ export class AuthService {
       await this.refreshTokenService.createAccessTokenFromRefreshToken(
         refreshToken,
       );
+
+      // this.refreshTokenService.generateRefreshToken(token.user, {})
     return this.buildResponsePayload(token);
   }
 

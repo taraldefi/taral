@@ -40,6 +40,7 @@ import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
+import { RefreshTokenDto } from './dto/refresh-token.dto';
 
 @ApiTags('user')
 @Controller()
@@ -78,18 +79,23 @@ export class AuthController {
     return response.status(HttpStatus.NO_CONTENT).json({});
   }
 
-  @Post('/refresh')
+  @Post('/auth/refresh')
   async refresh(
-    @Req()
-    req: Request,
+    @Body()
+    refreshTokenDto: RefreshTokenDto,
     @Res()
     response: Response,
   ) {
     try {
+
+      console.log('enter auth refresh');
+
       const cookiePayload =
         await this.authService.createAccessTokenFromRefreshToken(
-          req.cookies['Refresh'],
+          refreshTokenDto.refreshToken,
         );
+
+      console.log('cookiePayload', cookiePayload);
       response.setHeader('Set-Cookie', cookiePayload);
       return response.status(HttpStatus.NO_CONTENT).json({});
     } catch (e) {

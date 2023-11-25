@@ -119,6 +119,7 @@ export class RefreshTokenService {
     user: UserSerializer;
   }> {
     const { user } = await this.resolveRefreshToken(refresh);
+
     const token = await this.generateAccessToken(user);
     return {
       user,
@@ -160,7 +161,9 @@ export class RefreshTokenService {
    */
   async decodeRefreshToken(token: string): Promise<RefreshTokenInterface> {
     try {
-      return await this.jwt.verifyAsync(token);
+      return await this.jwt.verifyAsync(token, {
+        secret: tokenConfig.secret,
+      });
     } catch (e) {
       if (e instanceof TokenExpiredError) {
         throw new CustomHttpException(
