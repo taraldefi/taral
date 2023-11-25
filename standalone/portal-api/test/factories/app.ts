@@ -9,7 +9,7 @@ import config from 'config';
 
 import { AppModule } from 'src/app.module';
 
-const dbConfig = config.get('database') as any;
+const dbConfig = config.get('db') as any;
 
 export class AppFactory {
   private constructor(
