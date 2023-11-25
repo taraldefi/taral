@@ -21,6 +21,14 @@ const throttleConfig = config.get('throttle.login') as any;
 const redisConfig = config.get('queue') as any;
 const jwtConfig = config.get('jwt') as any;
 
+console.log('JWT config', JSON.stringify(jwtConfig, null, 2));
+
+
+console.log('Redis config host', redisConfig.host);
+console.log('Redis config port',redisConfig.port);
+console.log('Redis config password',redisConfig.password);
+
+
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
   useFactory: () => {
@@ -46,6 +54,7 @@ const LoginThrottleFactory = {
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET || jwtConfig.secret,
+        secretOrPrivateKey: process.env.JWT_SECRET || jwtConfig.secret,
         signOptions: {
           expiresIn: process.env.JWT_EXPIRES_IN || jwtConfig.expiresIn,
         },

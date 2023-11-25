@@ -186,6 +186,7 @@ export class AuthService {
     }
     const accessToken =
       await this.refreshTokenService.generateAccessToken(user);
+      
     let refreshToken = null;
     if (userLoginDto.remember) {
       refreshToken = await this.refreshTokenService.generateRefreshToken(
