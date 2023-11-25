@@ -5,16 +5,16 @@
     "plugins": ["@nestjs/swagger"],
     "assets": [
       {
-        "include": "../public/**/*",
+        "include": "public/**/*",
         "watchAssets": true,
         "outDir": "dist/standalone/portal-api"
       },
       {
-        "include": "i18n/**/*",
+        "include": "src/i18n/**/*",
         "watchAssets": true,
         "outDir": "dist/standalone/portal-api/src"
       },
-      { "include": "mail/templates/**/*", "watchAssets": true },
+      { "include": "src/modules/mail/templates/**/*", "watchAssets": true },
       { "include": "**/*.css", "watchAssets": true }
     ]
   },
