@@ -53,16 +53,17 @@ export class RefreshTokenService {
     refreshToken: Partial<RefreshTokenEntity>,
   ): Promise<string> {
     const token = await this.repository.createRefreshToken(user, refreshToken);
-    const opts: SignOptions = {
-      ...BASE_OPTIONS,
+    const payload = {
       subject: String(user.id),
       jwtid: String(token.id),
     };
 
     return this.jwt.signAsync(
-      { ...opts },
+      { ...payload },
       {
+        ...BASE_OPTIONS,
         expiresIn: tokenConfig.refreshExpiresIn,
+        secret: tokenConfig.secret,
       },
     );
   }
@@ -134,14 +135,23 @@ export class RefreshTokenService {
     user: UserSerializer,
     isTwoFAAuthenticated = false,
   ): Promise<string> {
-    const opts: SignOptions = {
-      ...BASE_OPTIONS,
+    const payload = {
       subject: String(user.id),
     };
-    return this.jwt.signAsync({
-      ...opts,
-      isTwoFAAuthenticated,
+
+    const token = await this.jwt.signAsync(payload, {
+      ...BASE_OPTIONS,
+      secret: tokenConfig.secret,
     });
+
+    console.log('token', token);  
+
+    return token;
+
+    // return this.jwt.signAsync({
+    //   ...opts,
+    //   isTwoFAAuthenticated
+    // });
   }
 
   /**
