@@ -50,6 +50,7 @@ queue:
   username: ''
 
 throttle:
+  enabled: true
   global:
     ttl: 60
     limit: 60

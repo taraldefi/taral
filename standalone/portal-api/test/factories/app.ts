@@ -65,7 +65,7 @@ export class AppFactory {
     await getConnection().dropDatabase();
     if (this.redis) {
       console.log('tearing down redis');
-      await this.teardown(this.redis);
+      await this.shutdown(this.redis);
     }
     if (this.appInstance) await this.appInstance.close();
   }
@@ -99,7 +99,6 @@ export class AppFactory {
         } catch (e) {
         }
       } else {
-        // console.log(`Table ${table} does not exist`);
       }
     }
   }
@@ -127,19 +126,30 @@ export class AppFactory {
     await connection.close();
   }
 
-  async teardown(redis: Redis.Redis) {
-    return new Promise<void>((resolve) => {
-      redis.quit();
-      redis.on('end', () => {
-        console.log('Redis connection closed');
-        resolve();
-      });
+  async shutdown(redis: Redis.Redis) {
+    await new Promise<void>((resolve) => {
+        redis.quit(() => {
+            resolve();
+        });
     });
+    // redis.quit() creates a thread to close the connection.
+    // We wait until all threads have been run once to ensure the connection closes.
+    await new Promise(resolve => setImmediate(resolve));
   }
+
+  // async teardown(redis: Redis.Redis) {
+  //   return new Promise<void>(async (resolve) => {
+  //     await this.shutdown(redis);
+  //     redis.disconnect();
+  //     redis.on('end', () => {
+  //       console.log('Redis connection closed');
+  //       resolve();
+  //     });
+  //   });
+  // }
 }
 
 const setupRedis = async () => {
-
   console.log(' is this where it happens? ');
   const redis = new Redis({
     host: process.env.REDIS_HOST || 'localhost',

@@ -14,6 +14,10 @@ describe('AppController (e2e)', () => {
     await AppFactory.cleanupDB();
   });
 
+  afterEach(() => {
+    return AppFactory.cleanupDB();
+  });
+
   it('/ (GET)', () => {
     return request(app.instance.getHttpServer())
       .get('/')
@@ -23,5 +27,6 @@ describe('AppController (e2e)', () => {
 
   afterAll(async () => {
     await app.close();
+    return AppFactory.cleanupDB();
   });
 });

@@ -15,7 +15,7 @@ const throttleConfig: ThrottlerModuleOptions = {
   storage: new ThrottlerStorageRedisService({
     host: process.env.REDIS_HOST || redisConfig.host,
     port: process.env.REDIS_PORT || redisConfig.port,
-    // password: process.env.REDIS_PASSWORD || redisConfig.password,
+    password: process.env.REDIS_PASSWORD || redisConfig.password,
   }),
 };
 

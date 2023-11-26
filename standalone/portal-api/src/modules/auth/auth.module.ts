@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { DynamicModule, Module, Provider, Type } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -9,25 +9,19 @@ import { AuthController } from 'src/modules/auth/auth.controller';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { MailModule } from 'src/modules/mail/mail.module';
-import { RateLimiterRedis } from 'rate-limiter-flexible';
+import { RateLimiterRedis, RateLimiterRes, RateLimiterStoreAbstract } from 'rate-limiter-flexible';
 import { RefreshTokenModule } from 'src/modules/refresh-token/refresh-token.module';
 import { JwtTwoFactorStrategy } from 'src/common/strategy/jwt-two-factor.strategy';
 import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 import { UserEntity } from './entity/user.entity';
 import { UserEntityRepositoryProvider } from './user.repository.provider';
 import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
+import { ConfigService } from '@nestjs/config';
+import { NoRateLimiter, RedisRateLimiter } from './interfaces/rate.limiter';
 
-const throttleConfig = config.get('throttle.login') as any;
+const throttleLoginConfig = config.get('throttle.login') as any;
 const redisConfig = config.get('queue') as any;
 const jwtConfig = config.get('jwt') as any;
-
-console.log('JWT config', JSON.stringify(jwtConfig, null, 2));
-
-
-console.log('Redis config host', redisConfig.host);
-console.log('Redis config port',redisConfig.port);
-console.log('Redis config password',redisConfig.password);
-
 
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
@@ -39,15 +33,24 @@ const LoginThrottleFactory = {
       password: process.env.REDIS_PASSWORD || redisConfig.password,
     });
 
-    return new RateLimiterRedis({
+    const rateLimiterRedis = new RateLimiterRedis({
       storeClient: redisClient,
-      keyPrefix: throttleConfig.prefix,
-      points: throttleConfig.limit,
+      keyPrefix: throttleLoginConfig.prefix,
+      points: throttleLoginConfig.limit,
       duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
-      blockDuration: throttleConfig.blockDuration,
+      blockDuration: throttleLoginConfig.blockDuration,
     });
+
+    return new RedisRateLimiter(rateLimiterRedis);
   },
 };
+
+const NoLoginThrottleFactory = {
+  provide: 'LOGIN_THROTTLE',
+  useFactory: () => {
+    return new NoRateLimiter();
+  },
+}
 
 @Module({
   imports: [
@@ -69,13 +72,7 @@ const LoginThrottleFactory = {
   ],
   controllers: [AuthController],
   providers: [
-    AuthService,
-    JwtTwoFactorStrategy,
-    JwtStrategy,
-    UniqueValidatorPipe,
-    LoginThrottleFactory,
-    UserEntityRepositoryProvider,
-    RoleEntityRepositoryProvider,
+    ...AuthModule.createDynamicProviders(),
   ],
   exports: [
     AuthService,
@@ -85,4 +82,29 @@ const LoginThrottleFactory = {
     JwtModule,
   ],
 })
-export class AuthModule {}
+export class AuthModule {
+  static createDynamicProviders(): Provider[] {
+    const providers: Provider[] = [
+      AuthService,
+      JwtTwoFactorStrategy,
+      JwtStrategy,
+      UniqueValidatorPipe,
+      UserEntityRepositoryProvider,
+      RoleEntityRepositoryProvider,
+    ];
+
+    const config = new ConfigService();
+
+    const shouldEnableThrottle = config.get('throttle.enabled');
+
+    if (shouldEnableThrottle) {
+      console.log('Enabling throttling');
+      providers.push(LoginThrottleFactory);
+    } else {
+      console.log('Not running in throttle mode');
+      providers.push(NoLoginThrottleFactory);
+    }
+
+    return providers;
+  }
+}

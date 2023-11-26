@@ -24,6 +24,7 @@ queue:
   username: ''
 
 throttle:
+  enabled: false
   global:
     ttl: 60
     limit: 60
