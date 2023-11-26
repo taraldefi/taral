@@ -17,7 +17,8 @@ import { UserEntity } from './entity/user.entity';
 import { UserEntityRepositoryProvider } from './user.repository.provider';
 import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
 import { ConfigService } from '@nestjs/config';
-import { NoRateLimiter, RedisRateLimiter } from './interfaces/rate.limiter';
+import { RedisRateLimiter } from './limiter/redis.rate.limiter';
+import { NoRateLimiter } from './limiter/no.rate.limiter';
 
 const throttleLoginConfig = config.get('throttle.login') as any;
 const redisConfig = config.get('queue') as any;
