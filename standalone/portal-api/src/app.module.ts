@@ -15,7 +15,6 @@ import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
-// import { SuppliersModule } from './modules/supplier/suppliers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
@@ -133,7 +132,6 @@ export class AppModule {
         inject: [ConfigService],
       }),
       HomeModule,
-      // EventModule,
       StorageModule,
       LoggerModule,
       WinstonLoggerModule,
@@ -144,7 +142,6 @@ export class AppModule {
       FilesModule,
       RatingsModule,
       SectorsModule,
-      // SuppliersModule,
       TransactionsModule,
       GoodsAndServicesModule,
       ContractsModule,
@@ -167,6 +164,14 @@ export class AppModule {
     const shouldRunChainhook = config.get('app.runchainhook');
     const shouldRunJobs = config.get('app.runjobs');
     const shouldRunThrottle = config.get('app.runthrottle');
+    const shouldRunEvents = config.get('app.runevents');
+
+    if (shouldRunEvents) {
+      console.log('Running events');
+      imports.push(EventModule);
+    } else {
+      console.log('Not running events');
+    }
 
     if (shouldRunThrottle) {
       console.log('Running throttle');
