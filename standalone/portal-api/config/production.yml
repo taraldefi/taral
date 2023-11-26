@@ -24,6 +24,7 @@ app:
   runjobs: true
   fluentdlogging: false
   runthrottle: true
+  runevents: true
 
 mail:
   host: ''

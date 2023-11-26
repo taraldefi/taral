@@ -26,6 +26,7 @@ app:
   runchainhook: false
   runjobs: false
   runthrottle: false
+  runevents: false
 
 throttle:
   enabled: false

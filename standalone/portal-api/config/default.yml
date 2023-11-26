@@ -29,6 +29,7 @@ app:
   runchainhook: false
   runjobs: false
   runthrottle: false
+  runevents: false
 
 mail:
   host: 'smtp.mailtrap.io'

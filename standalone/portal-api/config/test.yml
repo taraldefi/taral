@@ -6,6 +6,7 @@ app:
   runjobs: false
   fluentdlogging: false
   runthrottle: false
+  runevents: false
 
 db:
   host: 'localhost'
