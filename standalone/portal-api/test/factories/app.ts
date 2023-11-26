@@ -8,13 +8,17 @@ import Redis from 'ioredis';
 import config from 'config';
 
 import { AppModule } from 'src/app.module';
+import { RedisRateLimiter } from '../../src/modules/auth/limiter/redis.rate.limiter';
+import { NoRateLimiter } from '../../src/modules/auth/limiter/no.rate.limiter';
 
 const dbConfig = config.get('db') as any;
+const throttleConfig = config.get('throttle') as any;
+const throttleEnabled = throttleConfig.enabled as boolean;
 
 export class AppFactory {
   private constructor(
     private readonly appInstance: INestApplication,
-    private readonly redis: Redis.Redis,
+    private readonly redis?: Redis.Redis,
   ) {}
 
   get instance() {
@@ -22,7 +26,16 @@ export class AppFactory {
   }
 
   static async new() {
-    const redis = await setupRedis();
+
+    if (throttleEnabled) {
+      const redis = await setupRedis();
+      return await this.setupAppFactory(redis);
+    }
+
+    return await this.setupAppFactory();
+  }
+
+  private static async setupAppFactory(redis? : Redis.Redis) {
     const moduleBuilder = Test.createTestingModule({
       imports: [
         AppModule,
@@ -40,13 +53,17 @@ export class AppFactory {
       .overrideProvider('LOGIN_THROTTLE')
       .useFactory({
         factory: () => {
-          return new RateLimiterRedis({
-            storeClient: redis,
-            keyPrefix: 'login',
-            points: 5,
-            duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
-            blockDuration: 3000,
-          });
+          if (redis) {
+            return new RedisRateLimiter(new RateLimiterRedis({
+              storeClient: redis,
+              keyPrefix: 'login',
+              points: 5,
+              duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
+              blockDuration: 3000,
+            }));
+          } else {
+            return new NoRateLimiter();
+          }
         },
       });
 
@@ -63,9 +80,9 @@ export class AppFactory {
 
   async close() {
     await getConnection().dropDatabase();
-    if (this.redis) {
+    if (this.redis && throttleEnabled) {
       console.log('tearing down redis');
-      await this.shutdown(this.redis);
+      await this.teardown(this.redis);
     }
     if (this.appInstance) await this.appInstance.close();
   }
@@ -126,27 +143,15 @@ export class AppFactory {
     await connection.close();
   }
 
-  async shutdown(redis: Redis.Redis) {
-    await new Promise<void>((resolve) => {
-        redis.quit(() => {
-            resolve();
-        });
+  async teardown(redis: Redis.Redis) {
+    return new Promise<void>((resolve) => {
+      redis.disconnect();
+      redis.on('end', () => {
+        console.log('Redis connection closed');
+        resolve();
+      });
     });
-    // redis.quit() creates a thread to close the connection.
-    // We wait until all threads have been run once to ensure the connection closes.
-    await new Promise(resolve => setImmediate(resolve));
   }
-
-  // async teardown(redis: Redis.Redis) {
-  //   return new Promise<void>(async (resolve) => {
-  //     await this.shutdown(redis);
-  //     redis.disconnect();
-  //     redis.on('end', () => {
-  //       console.log('Redis connection closed');
-  //       resolve();
-  //     });
-  //   });
-  // }
 }
 
 const setupRedis = async () => {

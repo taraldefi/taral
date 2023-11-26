@@ -175,12 +175,12 @@ export class AppModule {
       console.log('Not running chainhook');
     }
 
-    // if (shouldRunJobs) {
-    //   console.log('Running jobs');
-    //   imports.push(JobsModule);
-    // } else {
-    //   console.log('Not running jobs');
-    // }
+    if (shouldRunJobs) {
+      console.log('Running jobs');
+      imports.push(JobsModule);
+    } else {
+      console.log('Not running jobs');
+    }
 
     return imports;
   }

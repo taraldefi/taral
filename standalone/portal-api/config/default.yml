@@ -4,8 +4,6 @@ server:
 
 db:
   host: 'localhost'
-  runchainhook: false
-  runjobs: false
   type: 'postgres'
   name: 'api'
   port: 5432
@@ -28,6 +26,8 @@ app:
   frontendUrl: 'http://localhost:3000'
   sameSite: true
   fluentdlogging: false
+  runchainhook: false
+  runjobs: false
 
 mail:
   host: 'smtp.mailtrap.io'
