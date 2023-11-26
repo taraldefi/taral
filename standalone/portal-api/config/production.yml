@@ -23,6 +23,7 @@ app:
   runchainhook: true
   runjobs: true
   fluentdlogging: false
+  runthrottle: true
 
 mail:
   host: ''

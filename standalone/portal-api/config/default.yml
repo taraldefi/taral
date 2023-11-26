@@ -28,6 +28,7 @@ app:
   fluentdlogging: false
   runchainhook: false
   runjobs: false
+  runthrottle: false
 
 mail:
   host: 'smtp.mailtrap.io'

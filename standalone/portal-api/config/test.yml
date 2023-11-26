@@ -5,6 +5,7 @@ app:
   runchainhook: false
   runjobs: false
   fluentdlogging: false
+  runthrottle: false
 
 db:
   host: 'localhost'

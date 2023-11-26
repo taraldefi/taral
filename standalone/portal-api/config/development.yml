@@ -25,6 +25,7 @@ app:
   fluentdlogging: false
   runchainhook: false
   runjobs: false
+  runthrottle: false
 
 throttle:
   enabled: false
