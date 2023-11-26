@@ -46,6 +46,11 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   status: string;
 
+  @OneToOne(() => BuyerCompanyInformationEntity)
+  @JoinColumn()
+  @Allow()
+  buyerInformation: BuyerCompanyInformationEntity;
+
   @ManyToOne(() => SupplierCompanyEntity, (supplier) => supplier.applications)
   @Allow()
   supplierInformation: SupplierCompanyEntity;

@@ -8,21 +8,13 @@ import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.compa
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
 import { GetSupplierCompanyAddressRequest } from '../dto/response/supplier/get-supplier-company-address-response.dto';
+import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
 
 @Injectable()
 export class EntityMappingService {
   constructor(
     private readonly relationshipMappingService: RelationshipEntityMappingService,
   ) {}
-  public mapManyEntities(entities: BuyerCompanyEntity[]): GetBuyerResponse[] {
-    var response = new Array<GetBuyerResponse>();
-
-    entities.forEach((entity) => {
-      response.push(this.mapEntityDetails(entity));
-    });
-
-    return response;
-  }
 
   public mapSupplierInformationForImporterApplication(
     supplierId: string,
@@ -38,7 +30,10 @@ export class EntityMappingService {
     return response;
   }
 
-  public mapEntityDetails(entity: BuyerCompanyEntity): GetBuyerResponse {
+  public mapEntityDetails(
+    entity: BuyerCompanyEntity,
+    buyerInfo: BuyerCompanyInformationEntity,
+  ): GetBuyerResponse {
     var response = new GetBuyerResponse();
     response.address = new GetBuyerCompanyAddressRequest();
     response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
@@ -46,43 +41,38 @@ export class EntityMappingService {
     response.id = entity.id;
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
-    if (entity.companyInformation) {
+    if (entity.companyInformation && buyerInfo) {
       response.employeeCount = entity.companyInformation.employeeCount;
       response.phoneNumber = entity.companyInformation.phoneNumber;
       response.registrationNumbers =
         entity.companyInformation.registrationNumbers;
 
-      response.address.addressLine1 =
-        entity.companyInformation.address.addressLine1;
-      response.address.addressLine2 =
-        entity.companyInformation.address.addressLine2;
-      response.address.city = entity.companyInformation.address.city;
-      response.address.postalCode =
-        entity.companyInformation.address.postalCode;
+      response.address.addressLine1 = buyerInfo.address.addressLine1;
+      response.address.addressLine2 = buyerInfo.address.addressLine2;
+      response.address.city = buyerInfo.address.city;
+      response.address.postalCode = buyerInfo.address.postalCode;
 
-      if (entity.companyInformation.taxAndRevenue.taxNumber) {
-        response.taxAndRevenue.taxNumber =
-          entity.companyInformation.taxAndRevenue.taxNumber;
+      if (buyerInfo.taxAndRevenue.taxNumber) {
+        response.taxAndRevenue.taxNumber = buyerInfo.taxAndRevenue.taxNumber;
       }
-      if (entity.companyInformation.taxAndRevenue.audited) {
-        response.taxAndRevenue.audited =
-          entity.companyInformation.taxAndRevenue.audited;
+      if (buyerInfo.taxAndRevenue.audited) {
+        response.taxAndRevenue.audited = buyerInfo.taxAndRevenue.audited;
       }
-      if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
+      if (buyerInfo.taxAndRevenue.exportRevenuePercentage) {
         response.taxAndRevenue.exportRevenuePercentage =
-          entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
+          buyerInfo.taxAndRevenue.exportRevenuePercentage;
       }
-      if (entity.companyInformation.taxAndRevenue.exportValue) {
+      if (buyerInfo.taxAndRevenue.exportValue) {
         response.taxAndRevenue.exportValue =
-          entity.companyInformation.taxAndRevenue.exportValue;
+          buyerInfo.taxAndRevenue.exportValue;
       }
-      if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
+      if (buyerInfo.taxAndRevenue.lastFiscalYear) {
         response.taxAndRevenue.lastFiscalYear =
-          entity.companyInformation.taxAndRevenue.lastFiscalYear;
+          buyerInfo.taxAndRevenue.lastFiscalYear;
       }
-      if (entity.companyInformation.taxAndRevenue.totalRevenue) {
+      if (buyerInfo.taxAndRevenue.totalRevenue) {
         response.taxAndRevenue.totalRevenue =
-          entity.companyInformation.taxAndRevenue.totalRevenue;
+          buyerInfo.taxAndRevenue.totalRevenue;
       }
     }
 

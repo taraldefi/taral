@@ -20,6 +20,8 @@ import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-com
 import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
 import { CompanyTaxAndRevenueRepository } from '../repositories/company.information.tax.and.revenue.repository';
 import { ConfigService } from '@nestjs/config';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
 
 @Injectable()
 export class BuyerInformationService extends BaseService {
@@ -38,8 +40,8 @@ export class BuyerInformationService extends BaseService {
     @InjectRepository(BuyerCompanyInformationEntity)
     private buyerCompanyInformationRepository: BuyerCompanyInformationRepository,
 
-    @InjectRepository(SectorEntity)
-    private sectorEntityRepository: SectorsRepository,
+    @InjectRepository(BuyerCompanyEntity)
+    private buyerCompanyRepository: BuyerCompanyEntityRepository,
 
     private readonly buyerCompanyService: BuyerCompanyEntityService,
     private readonly buyerInformationMappingService: EntityMappingService,
@@ -50,13 +52,23 @@ export class BuyerInformationService extends BaseService {
   public async get(applicationId: string) {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'buyerInformation.address',
+          'buyerInformation.taxAndRevenue',
+        ],
+      },
     );
 
     const buyer = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
     );
 
-    return this.buyerInformationMappingService.mapEntityDetails(buyer);
+    return this.buyerInformationMappingService.mapEntityDetails(
+      buyer,
+      application.buyerInformation,
+    );
   }
 
   @Transactional({
@@ -75,6 +87,7 @@ export class BuyerInformationService extends BaseService {
         applicationId,
         {
           relations: [
+            'buyerInformation',
             'paymentTerms',
             'orderDetails',
             'security',
@@ -90,50 +103,101 @@ export class BuyerInformationService extends BaseService {
       });
     }
 
-    console.log(application);
+    if (application.buyerInformation) {
+      throw new HttpException(
+        'Buyer information already exists',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
     // get the buyer company to fill in the buyer company information
     const entity = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
     );
 
-    // create a new instance of the buyer company information
+    let entityAddressExists = false;
     const companyInformation = new BuyerCompanyInformationEntity();
     const address = new CompanyAddressEntity();
 
     companyInformation.address = address;
-    entity.companyInformation = companyInformation;
+    companyInformation.employeeCount = data.employeeCount;
+    companyInformation.phoneNumber = data.phoneNumber;
+    companyInformation.registrationNumbers = data.registrationNumbers;
 
-    entity.companyInformation.address.addressLine1 = data.address.addressLine1;
-    entity.companyInformation.address.addressLine2 = data.address.addressLine2;
-    entity.companyInformation.address.city = data.address.city;
-    entity.companyInformation.address.postalCode = data.address.postalCode;
+    address.addressLine1 = data.address.addressLine1;
+    address.addressLine2 = data.address.addressLine2;
+    address.city = data.address.city;
+    address.postalCode = data.address.postalCode;
 
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
-    companyInformation.address = addressSavedResult;
-    companyInformation.phoneNumber = data.phoneNumber;
-    companyInformation.employeeCount = data.employeeCount;
-    companyInformation.registrationNumbers = data.registrationNumbers;
-
-    if (data.taxAndRevenue) {
-      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
-      taxAndRevenue.audited = data.taxAndRevenue.audited;
-      taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
-      taxAndRevenue.exportRevenuePercentage =
-        data.taxAndRevenue.exportRevenuePercentage;
-      taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
-      taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
-      taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
-      var taxAndRevenueSavedResult =
-        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
-
-      companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+    if (entity.companyInformation && entity.companyInformation.address) {
+      entityAddressExists = true;
     }
 
-    var companySavedResult = await this.buyerCompanyInformationRepository.save(
-      companyInformation,
-    );
-    entity.companyInformation = companySavedResult;
+    // if company information does not exist, create a new one
+    if (!entityAddressExists) {
+      console.log('<+++++++++ TRIGGERED ++++++++>');
+      entity.companyInformation = companyInformation;
+      entity.companyInformation.address = addressSavedResult;
+
+      if (data.taxAndRevenue) {
+        const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+        taxAndRevenue.audited = data.taxAndRevenue.audited;
+        taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
+        taxAndRevenue.exportRevenuePercentage =
+          data.taxAndRevenue.exportRevenuePercentage;
+        taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+        taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
+        taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+        var taxAndRevenueSavedResult =
+          await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+
+        companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+      }
+      let companySaved = await this.buyerCompanyInformationRepository.save(
+        companyInformation,
+      );
+      entity.companyInformation = companySaved;
+      await this.buyerCompanyRepository.save(entity);
+
+      const clone = Object.assign({}, companyInformation);
+      let cloneCompanySaved = await this.buyerCompanyInformationRepository.save(
+        clone,
+      );
+
+      application.buyerInformation = cloneCompanySaved;
+      await application.save();
+    } else {
+      console.log('OTHER <+++++++++ TRIGGERED ++++++++>');
+      const companyInformationClone = new BuyerCompanyInformationEntity();
+      companyInformationClone.address = addressSavedResult;
+
+      companyInformationClone.employeeCount = data.employeeCount;
+      companyInformationClone.phoneNumber = data.phoneNumber;
+      companyInformationClone.registrationNumbers = data.registrationNumbers;
+
+      if (data.taxAndRevenue) {
+        const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+        taxAndRevenue.audited = data.taxAndRevenue.audited;
+        taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
+        taxAndRevenue.exportRevenuePercentage =
+          data.taxAndRevenue.exportRevenuePercentage;
+        taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+        taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
+        taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+        var taxAndRevenueSavedResult =
+          await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+
+        companyInformationClone.taxAndRevenue = taxAndRevenueSavedResult;
+      }
+      var companySavedCloneResult =
+        await this.buyerCompanyInformationRepository.save(
+          companyInformationClone,
+        );
+      application.buyerInformation = companySavedCloneResult;
+      await application.save();
+    }
+
     // if (data.sector) {
     //   const sector = new SectorEntity();
     //   sector.industryType = data.sector.industryType;
@@ -142,11 +206,11 @@ export class BuyerInformationService extends BaseService {
     //   var sectorSavedResult = await this.sectorEntityRepository.save(sector);
     //   entity.sector = sectorSavedResult;
     // }
-    entity.save();
 
-    await application.save();
-
-    return this.buyerInformationMappingService.mapEntityDetails(entity);
+    return this.buyerInformationMappingService.mapEntityDetails(
+      entity,
+      application.buyerInformation,
+    );
   }
 
   @Transactional({
@@ -170,31 +234,31 @@ export class BuyerInformationService extends BaseService {
 
     if (data.address.addressLine1) {
       companyAddressChanged = true;
-      entity.companyInformation.address.addressLine1 =
+      application.buyerInformation.address.addressLine1 =
         data.address.addressLine1;
     }
 
     if (data.address.addressLine2) {
       companyAddressChanged = true;
-      entity.companyInformation.address.addressLine2 =
+      application.buyerInformation.address.addressLine2 =
         data.address.addressLine2;
     }
 
     if (data.address.city) {
       companyAddressChanged = true;
-      entity.companyInformation.address.city = data.address.city;
+      application.buyerInformation.address.city = data.address.city;
     }
 
     if (data.address.postalCode) {
       companyAddressChanged = true;
-      entity.companyInformation.address.postalCode = data.address.postalCode;
+      application.buyerInformation.address.postalCode = data.address.postalCode;
     }
 
     if (companyAddressChanged) {
       var addressSavedResult = await this.companyAddressRepository.save(
-        entity.companyInformation.address,
+        application.buyerInformation.address,
       );
-      entity.companyInformation.address = addressSavedResult;
+      application.buyerInformation.address = addressSavedResult;
     }
 
     let taxAndRevenueChanged = false;
@@ -236,30 +300,6 @@ export class BuyerInformationService extends BaseService {
       entity.companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
     }
 
-    let companyChanged = false;
-
-    if (data.employeeCount) {
-      companyChanged = true;
-      entity.companyInformation.employeeCount = data.employeeCount;
-    }
-
-    if (data.phoneNumber) {
-      companyChanged = true;
-      entity.companyInformation.phoneNumber = data.phoneNumber;
-    }
-    if (data.registrationNumbers) {
-      companyChanged = true;
-      entity.companyInformation.registrationNumbers = data.registrationNumbers;
-    }
-
-    if (companyChanged) {
-      var companySavedResult =
-        await this.buyerCompanyInformationRepository.save(
-          entity.companyInformation,
-        );
-      entity.companyInformation = companySavedResult;
-    }
-
     // let sectorChanged = false;
     // if (data.sector) {
     //   if (data.sector.industryType) {
@@ -281,6 +321,9 @@ export class BuyerInformationService extends BaseService {
     // }
     entity.save();
 
-    return this.buyerInformationMappingService.mapEntityDetails(entity);
+    return this.buyerInformationMappingService.mapEntityDetails(
+      entity,
+      application.buyerInformation,
+    );
   }
 }
