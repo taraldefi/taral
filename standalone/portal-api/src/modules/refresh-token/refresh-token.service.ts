@@ -145,14 +145,7 @@ export class RefreshTokenService {
       secret: tokenConfig.secret,
     });
 
-    console.log('token', token);  
-
     return token;
-
-    // return this.jwt.signAsync({
-    //   ...opts,
-    //   isTwoFAAuthenticated
-    // });
   }
 
   /**
