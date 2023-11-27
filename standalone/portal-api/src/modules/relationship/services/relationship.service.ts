@@ -14,10 +14,13 @@ import { EntityMappingService } from './mapping.service';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     private buyerCompanyService: BuyerCompanyEntityService,
 
     @InjectRepository(BuyerCompanyEntity)
@@ -28,7 +31,7 @@ export class RelationshipService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super();
+    super(configService);
   }
 
   public async delete(id: string): Promise<void> {

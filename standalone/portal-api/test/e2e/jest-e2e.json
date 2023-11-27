@@ -6,5 +6,11 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "modulePaths": ["."]
+  "modulePaths": ["."],
+  
+  "moduleNameMapper": {
+    "src/(.*)": "<rootDir>/src/$1",
+    "@modules/(.*)": "<rootDir>/../modules/$1",
+    "@libs/(.*)": "<rootDir>/../../libs/$1"
+  }
 }

@@ -55,6 +55,7 @@ export class UserEntityRepository extends BaseRepository<
         },
       ],
     });
+
     if (user && (await user.validatePassword(password))) {
       if (user.status !== UserStatusEnum.ACTIVE) {
         return [
@@ -65,6 +66,7 @@ export class UserEntityRepository extends BaseRepository<
       }
       return [user, null, null];
     }
+    
     return [
       null,
       ExceptionTitleList.InvalidCredentials,

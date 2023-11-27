@@ -16,10 +16,13 @@ import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/b
 import { triggerError } from 'src/common/trigger.error';
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { SupplierCompanyEntityRepository } from 'src/modules/company/repositories/supplier.company.repository';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SupplierInformationService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(QuickApplicationEntity)
     private buyerQuickApplicationRepository: BuyerQuickApplicationEntityRepository,
 
@@ -33,7 +36,7 @@ export class SupplierInformationService extends BaseService {
     private readonly supplierCompanyService: SupplierCompanyEntityService,
     private readonly relationshipService: RelationshipService,
   ) {
-    super();
+    super(configService);
   }
 
   public async getSupplierInformation(

@@ -1,3 +1,4 @@
+import { ConfigService } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { METADATA_KEY } from 'src/common/decorators/track-changes.decorator';
 import {
@@ -8,21 +9,29 @@ import {
 import { BaseHistory } from 'src/modules/history/entities/base.history.entity';
 
 import * as winston from 'winston';
+import { loggingLevel } from '../../modules/logger/logger';
 
 export abstract class BaseService {
-  protected readonly Logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json(),
-    ),
-    transports: [
-      new winston.transports.Console(),
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    ],
-  });
+  protected readonly Logger;
 
-  protected constructor() {}
+  protected constructor(
+    private readonly configurationService: ConfigService
+  ) {
+
+    const logLevel = this.configurationService.get('logging.level') as loggingLevel;
+
+    this.Logger = winston.createLogger({
+      level: logLevel,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      ],
+    });
+  }
 
   protected setupTransactionHooks() {
     runOnTransactionRollback((cb) =>

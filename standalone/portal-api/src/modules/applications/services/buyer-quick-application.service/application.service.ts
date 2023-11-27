@@ -7,20 +7,20 @@ import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-b
 import { GetBuyerQuickApplicationResponse } from '../../dto/response/get-buyer-quick-application-response.dto';
 import { QuickApplicationEntity } from '../../models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from '../../repositories/buyer.quickapplication.repository';
-
-// import { BuyerQuickApplicationSupplierInformationService } from './supplier-info.service';
 import { BaseService } from 'src/common/services/base.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { CollateralService } from 'src/modules/collateral/services/collateral.service';
 import { PaymentTermService } from 'src/modules/payment-term/services/payment-term.service';
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
-import { OrderProductService } from 'src/modules/order-detail/services/order-product.service';
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
@@ -30,7 +30,7 @@ export class BuyerQuickApplicationService extends BaseService {
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
   ) {
-    super();
+    super(configService);
   }
 
   public async getAllApplications(

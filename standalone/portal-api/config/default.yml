@@ -4,8 +4,6 @@ server:
 
 db:
   host: 'localhost'
-  runchainhook: false
-  runjobs: false
   type: 'postgres'
   name: 'api'
   port: 5432
@@ -27,6 +25,13 @@ app:
   appUrl: 'http://localhost:7777'
   frontendUrl: 'http://localhost:3000'
   sameSite: true
+  runchainhook: false
+  runjobs: false
+  runthrottle: false
+  runevents: false
+
+logging:
+  level: 'error'
   fluentdlogging: false
 
 mail:
@@ -50,6 +55,7 @@ queue:
   username: ''
 
 throttle:
+  enabled: true
   global:
     ttl: 60
     limit: 60

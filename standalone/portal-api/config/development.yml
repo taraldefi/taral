@@ -5,12 +5,44 @@ db:
   username: 'root'
   password: 'secret'
   synchronize: false
+  database: api
+
+jwt:
+  # expiresIn: 10
+  expiresIn: 900
+  refreshExpiresIn: 604800
+  cookieExpiresIn: 604800
+  secret: 'example@123'
 
 app:
+  fallbackLanguage: 'en'
+  name: 'Taral'
+  version: 'v0.1'
+  description: 'Taral API'
+  appUrl: 'http://localhost:7777'
+  frontendUrl: 'http://localhost:3000'
+  sameSite: true
   runchainhook: false
   runjobs: false
+  runthrottle: false
+  runevents: false
+
+logging:
+  level: 'error'
   fluentdlogging: false
-  
+
+
+throttle:
+  enabled: false
+  global:
+    ttl: 60
+    limit: 60
+  login:
+    prefix: 'login_fail_throttle'
+    limit: 5
+    duration: 2592000
+    blockDuration: 3000
+
 # DATABASE_TYPE=postgres
 # DATABASE_HOST=localhost
 # DATABASE_PORT=5432
@@ -24,7 +56,3 @@ app:
 # DATABASE_CA=
 # DATABASE_KEY=
 # DATABASE_CERT=
-
-
-jwt:
-  secret: 'example@123'

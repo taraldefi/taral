@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module, Provider } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -16,10 +16,16 @@ import { JwtStrategy } from 'src/common/strategy/jwt.strategy';
 import { UserEntity } from './entity/user.entity';
 import { UserEntityRepositoryProvider } from './user.repository.provider';
 import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
+import { ConfigService } from '@nestjs/config';
+import { RedisRateLimiter } from './limiter/redis.rate.limiter';
+import { NoRateLimiter } from './limiter/no.rate.limiter';
+import { loggingLevel } from '../logger/logger';
+import winston from 'winston';
 
-const throttleConfig = config.get('throttle.login') as any;
+const throttleLoginConfig = config.get('throttle.login') as any;
 const redisConfig = config.get('queue') as any;
 const jwtConfig = config.get('jwt') as any;
+const loggingLevel = config.get('logging.level') as loggingLevel;
 
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
@@ -31,21 +37,31 @@ const LoginThrottleFactory = {
       password: process.env.REDIS_PASSWORD || redisConfig.password,
     });
 
-    return new RateLimiterRedis({
+    const rateLimiterRedis = new RateLimiterRedis({
       storeClient: redisClient,
-      keyPrefix: throttleConfig.prefix,
-      points: throttleConfig.limit,
+      keyPrefix: throttleLoginConfig.prefix,
+      points: throttleLoginConfig.limit,
       duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
-      blockDuration: throttleConfig.blockDuration,
+      blockDuration: throttleLoginConfig.blockDuration,
     });
+
+    return new RedisRateLimiter(rateLimiterRedis);
   },
 };
+
+const NoLoginThrottleFactory = {
+  provide: 'LOGIN_THROTTLE',
+  useFactory: () => {
+    return new NoRateLimiter();
+  },
+}
 
 @Module({
   imports: [
     JwtModule.registerAsync({
       useFactory: () => ({
         secret: process.env.JWT_SECRET || jwtConfig.secret,
+        secretOrPrivateKey: process.env.JWT_SECRET || jwtConfig.secret,
         signOptions: {
           expiresIn: process.env.JWT_EXPIRES_IN || jwtConfig.expiresIn,
         },
@@ -60,13 +76,7 @@ const LoginThrottleFactory = {
   ],
   controllers: [AuthController],
   providers: [
-    AuthService,
-    JwtTwoFactorStrategy,
-    JwtStrategy,
-    UniqueValidatorPipe,
-    LoginThrottleFactory,
-    UserEntityRepositoryProvider,
-    RoleEntityRepositoryProvider,
+    ...AuthModule.createDynamicProviders(),
   ],
   exports: [
     AuthService,
@@ -76,4 +86,34 @@ const LoginThrottleFactory = {
     JwtModule,
   ],
 })
-export class AuthModule {}
+export class AuthModule {
+  constructor() {
+  }
+
+  static createDynamicProviders(): Provider[] {
+    const logger = new Logger("AuthModule");
+
+    const providers: Provider[] = [
+      AuthService,
+      JwtTwoFactorStrategy,
+      JwtStrategy,
+      UniqueValidatorPipe,
+      UserEntityRepositoryProvider,
+      RoleEntityRepositoryProvider,
+    ];
+
+    const config = new ConfigService();
+
+    const shouldEnableThrottle = config.get('throttle.enabled');
+
+    if (shouldEnableThrottle) {
+      logger.log('info', 'Enabling throttling');
+      providers.push(LoginThrottleFactory);
+    } else {
+      logger.log('info', 'Not running in throttle mode');
+      providers.push(NoLoginThrottleFactory);
+    }
+
+    return providers;
+  }
+}

@@ -19,10 +19,13 @@ import { triggerError } from 'src/common/trigger.error';
 import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-company.dto';
 import { SectorsRepository } from 'src/modules/sectors/repositories/sectors.repository';
 import { CompanyTaxAndRevenueRepository } from '../repositories/company.information.tax.and.revenue.repository';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class BuyerInformationService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
@@ -41,7 +44,7 @@ export class BuyerInformationService extends BaseService {
     private readonly buyerCompanyService: BuyerCompanyEntityService,
     private readonly buyerInformationMappingService: EntityMappingService,
   ) {
-    super();
+    super(configService);
   }
 
   public async get(applicationId: string) {

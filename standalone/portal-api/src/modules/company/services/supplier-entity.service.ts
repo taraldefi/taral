@@ -22,10 +22,13 @@ import { SupplierCompanyInformationRepository } from 'src/modules/company-inform
 import { UpdateSupplierEntityDto } from '../dto/request/update-supplier-entity.dto';
 import { CompanyTaxAndRevenueRepository } from 'src/modules/company-information/repositories/company.information.tax.and.revenue.repository';
 import { BaseService } from 'src/common/services/base.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class SupplierCompanyEntityService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(SupplierCompanyEntity)
     private supplierCompanyRepository: SupplierCompanyEntityRepository,
 
@@ -40,7 +43,7 @@ export class SupplierCompanyEntityService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super();
+    super(configService);
   }
 
   public async findSupplierEntityById(

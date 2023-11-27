@@ -6,13 +6,13 @@ import { AppModule } from './app.module';
 import { initializeTransactionalContext } from 'src/common/transaction/common';
 import validationOptions from './utils/validation-options';
 import cookieParser from 'cookie-parser';
-import fs from 'fs';
 import { useContainer } from 'class-validator';
 import { UnprocessableExceptionFilter } from './common/filters/unprocessable-entity.filter';
 import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
 import { CommonExceptionFilter } from './common/exception/exception-filter';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { I18nService } from 'nestjs-i18n';
+import { UnauthorizedExceptionFilter } from './common/filters/unauthorized.filter';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -38,9 +38,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   app.useGlobalFilters(
-    new CommonExceptionFilter(logger, i18n),
+    new UnauthorizedExceptionFilter(logger),
     new UnprocessableExceptionFilter(logger),
     new EntityNotFoundFilter(logger),
+    new CommonExceptionFilter(logger, i18n)
   );
 
   app.use(cookieParser());

@@ -38,7 +38,6 @@ import { ValidationPayloadInterface } from 'src/common/interfaces/validation-err
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { UserEntityRepositoryToken } from './user.repository.provider';
-import { RoleEntity } from '../role/entities/role.entity';
 import { RoleEntityRepository } from '../role/role.repository';
 import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
 import { NORMAL_ROLE_ID } from '../../config/permission.config';
@@ -48,8 +47,12 @@ import {
   defaultUserGroupsForSerializing,
   ownerUserGroupsForSerializing,
 } from 'src/common/groups/constants';
+import { RateLimiter } from './interfaces/rate.limiter';
 
-const throttleConfig = config.get('throttle.login') as any;
+const throttleConfig = config.get('throttle') as any;
+const throttleEnabled = throttleConfig.enabled as boolean;
+
+const throttleLoginConfig = config.get('throttle.login') as any;
 const jwtConfig = config.get('jwt') as any;
 const appConfig = config.get('app') as any;
 
@@ -57,10 +60,6 @@ const isSameSite =
   appConfig.sameSite !== null
     ? appConfig.sameSite
     : process.env.IS_SAME_SITE === 'true';
-const BASE_OPTIONS: SignOptions = {
-  issuer: appConfig.appUrl,
-  audience: appConfig.frontendUrl,
-};
 
 @Injectable()
 export class AuthService {
@@ -74,8 +73,8 @@ export class AuthService {
     private readonly mailService: MailService,
     private readonly refreshTokenService: RefreshTokenService,
     @Inject('LOGIN_THROTTLE')
-    private readonly rateLimiter: RateLimiterStoreAbstract,
-  ) {}
+    private readonly rateLimiter: RateLimiter,
+  ) { }
 
   /**
    * send mail
@@ -151,41 +150,50 @@ export class AuthService {
     userLoginDto: UserLoginDto,
     refreshTokenPayload: Partial<RefreshTokenEntity>,
   ): Promise<string[]> {
-    const usernameIPkey = `${userLoginDto.username}_${refreshTokenPayload.ip}`;
-    const resUsernameAndIP = await this.rateLimiter.get(usernameIPkey);
-    let retrySecs = 0;
-    // Check if user is already blocked
-    if (
-      resUsernameAndIP !== null &&
-      resUsernameAndIP.consumedPoints > throttleConfig.limit
-    ) {
-      retrySecs = Math.round(resUsernameAndIP.msBeforeNext / 1000) || 1;
-    }
-    if (retrySecs > 0) {
-      throw new CustomHttpException(
-        `tooManyRequest-{"second":"${String(retrySecs)}"}`,
-        HttpStatus.TOO_MANY_REQUESTS,
-        StatusCodesList.TooManyTries,
-      );
-    }
 
-    const [user, error, code] = await this.userRepository.login(userLoginDto);
-    if (!user) {
-      const [result, throttleError] =
-        await this.limitConsumerPromiseHandler(usernameIPkey);
-      if (!result) {
+    const usernameIPkey = `${userLoginDto.username}_${refreshTokenPayload.ip}`;
+
+    if (throttleEnabled) {
+      const resUsernameAndIP = await this.rateLimiter.get(usernameIPkey);
+      let retrySecs = 0;
+      // Check if user is already blocked
+      if (
+        resUsernameAndIP !== null &&
+        resUsernameAndIP.consumedPoints > throttleLoginConfig.limit
+      ) {
+        retrySecs = Math.round(resUsernameAndIP.msBeforeNext / 1000) || 1;
+      }
+      if (retrySecs > 0) {
         throw new CustomHttpException(
-          `tooManyRequest-{"second":${String(
-            Math.round(throttleError.msBeforeNext / 1000) || 1,
-          )}}`,
+          `tooManyRequest-{"second":"${String(retrySecs)}"}`,
           HttpStatus.TOO_MANY_REQUESTS,
           StatusCodesList.TooManyTries,
         );
       }
+    }
+
+    const [user, error, code] = await this.userRepository.login(userLoginDto);
+    if (!user) {
+
+      if (throttleEnabled) {
+        const [result, throttleError] =
+          await this.limitConsumerPromiseHandler(usernameIPkey);
+        if (!result) {
+          throw new CustomHttpException(
+            `tooManyRequest-{"second":${String(
+              Math.round(throttleError.msBeforeNext / 1000) || 1,
+            )}}`,
+            HttpStatus.TOO_MANY_REQUESTS,
+            StatusCodesList.TooManyTries,
+          );
+        }
+      }
+
       throw new UnauthorizedException(error, code);
     }
     const accessToken =
       await this.refreshTokenService.generateAccessToken(user);
+
     let refreshToken = null;
     if (userLoginDto.remember) {
       refreshToken = await this.refreshTokenService.generateRefreshToken(
@@ -193,7 +201,11 @@ export class AuthService {
         refreshTokenPayload,
       );
     }
-    await this.rateLimiter.delete(usernameIPkey);
+
+    if (throttleEnabled) {
+      await this.rateLimiter.delete(usernameIPkey);
+    }
+
     return this.buildResponsePayload(accessToken, refreshToken);
   }
 
@@ -452,14 +464,11 @@ export class AuthService {
    */
   getCookieForLogOut(): string[] {
     return [
-      `Authentication=; HttpOnly; Path=/; Max-Age=0; ${
-        !isSameSite ? 'SameSite=None; Secure;' : ''
+      `Authentication=; HttpOnly; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
       }`,
-      `Refresh=; HttpOnly; Path=/; Max-Age=0; ${
-        !isSameSite ? 'SameSite=None; Secure;' : ''
+      `Refresh=; HttpOnly; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
       }`,
-      `ExpiresIn=; Path=/; Max-Age=0; ${
-        !isSameSite ? 'SameSite=None; Secure;' : ''
+      `ExpiresIn=; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
       }`,
     ];
   }
@@ -471,19 +480,16 @@ export class AuthService {
    */
   buildResponsePayload(accessToken: string, refreshToken?: string): string[] {
     let tokenCookies = [
-      `Authentication=${accessToken}; HttpOnly; Path=/; ${
-        !isSameSite ? 'SameSite=None; Secure;' : ''
+      `Authentication=${accessToken}; HttpOnly; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
       } Max-Age=${jwtConfig.cookieExpiresIn}`,
     ];
     if (refreshToken) {
       const expiration = new Date();
       expiration.setSeconds(expiration.getSeconds() + jwtConfig.expiresIn);
       tokenCookies = tokenCookies.concat([
-        `Refresh=${refreshToken}; HttpOnly; Path=/; ${
-          !isSameSite ? 'SameSite=None; Secure;' : ''
+        `Refresh=${refreshToken}; HttpOnly; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
         } Max-Age=${jwtConfig.cookieExpiresIn}`,
-        `ExpiresIn=${expiration}; Path=/; ${
-          !isSameSite ? 'SameSite=None; Secure;' : ''
+        `ExpiresIn=${expiration}; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
         } Max-Age=${jwtConfig.cookieExpiresIn}`,
       ]);
     }
@@ -499,6 +505,8 @@ export class AuthService {
       await this.refreshTokenService.createAccessTokenFromRefreshToken(
         refreshToken,
       );
+
+    // this.refreshTokenService.generateRefreshToken(token.user, {})
     return this.buildResponsePayload(token);
   }
 

@@ -12,17 +12,20 @@ import { BaseService } from 'src/common/services/base.service';
 import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class PaymentTermService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(PaymentTermEntity)
     private paymentTermRepository: PaymentTermRepository,
     private paymentTermMappingService: PaymentTermMappingService,
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super();
+    super(configService);
   }
 
   @Transactional({

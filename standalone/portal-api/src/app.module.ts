@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Type } from '@nestjs/common';
+import { DynamicModule, Logger, Module, Type } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -15,10 +15,10 @@ import authConfig from './config/auth.config';
 import { FilesModule } from './modules/files/files.module';
 import { RatingsModule } from './modules/rating/ratings.module';
 import { SectorsModule } from './modules/sectors/sectors.module';
-// import { SuppliersModule } from './modules/supplier/suppliers.module';
 import { TransactionsModule } from './modules/transaction/transaction.module';
 import { GoodsAndServicesModule } from './modules/service/service.module';
 import { ContractsModule } from './modules/contract/contracts.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
 
 import {
   CookieResolver,
@@ -27,7 +27,6 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import throttleConfig from './config/throttle.config';
 import winstonConfig from './config/winston.config';
 import { WinstonModule } from 'nest-winston';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
@@ -41,8 +40,8 @@ import { I18nExceptionFilterPipe } from './common/pipes/i18n-exception-filter.pi
 import { CustomValidationPipe } from './common/pipes/custom-validation.pipe';
 import { TwofaModule } from './modules/twofa/twofa.module';
 import { CustomThrottlerGuard } from './common/guard/custom-throttle.guard';
-import { ThrottlerModule } from '@nestjs/throttler';
-import path from 'path';
+import { ThrottlerModule, ThrottlerModuleOptions } from '@nestjs/throttler';
+import path, { join } from 'path';
 import { AppController } from './app.controller';
 import databaseConfig from './config/database.config';
 import { TypeOrmConfigService } from './database/typeorm-config.service';
@@ -59,6 +58,10 @@ import { OrderDetailsModule } from './modules/order-detail/order-details.module'
 import { CollateralModule } from './modules/collateral/collateral.module';
 import { WinstonLoggerModule } from './modules/logger/logger.module';
 import { ApplicationModule } from './modules/applications/application.module';
+import config from 'config';
+import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
+import { loggingLevel } from './modules/logger/logger';
+import winston from 'winston';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -98,9 +101,6 @@ export class AppModule {
         useClass: TypeOrmConfigService,
       }),
       WinstonModule.forRoot(winstonConfig),
-      ThrottlerModule.forRootAsync({
-        useFactory: () => throttleConfig,
-      }),
       I18nModule.forRootAsync({
         useFactory: (configService: ConfigService) => ({
           fallbackLanguage: configService.get('app.fallbackLanguage'),
@@ -120,11 +120,11 @@ export class AppModule {
         ],
         inject: [ConfigService],
       }),
-      // ServeStaticModule.forRoot({
-      //   rootPath: join(__dirname, '..\\..\\..\\..\\',  'public'),
+      ServeStaticModule.forRoot({
+        rootPath: join(__dirname, '..\\..\\..\\..\\', 'public'),
 
-      //   exclude: ['/api*']
-      // }),
+        exclude: ['/api*']
+      }),
       StorageModule.registerAsync({
         imports: [ConfigService],
         useFactory: (config: ConfigService) => {
@@ -133,7 +133,6 @@ export class AppModule {
         inject: [ConfigService],
       }),
       HomeModule,
-      EventModule,
       StorageModule,
       LoggerModule,
       WinstonLoggerModule,
@@ -144,7 +143,6 @@ export class AppModule {
       FilesModule,
       RatingsModule,
       SectorsModule,
-      // SuppliersModule,
       TransactionsModule,
       GoodsAndServicesModule,
       ContractsModule,
@@ -166,21 +164,56 @@ export class AppModule {
 
     const shouldRunChainhook = config.get('app.runchainhook');
     const shouldRunJobs = config.get('app.runjobs');
+    const shouldRunThrottle = config.get('app.runthrottle');
+    const shouldRunEvents = config.get('app.runevents');
+    const logger = new Logger("AppModule");
+
+    if (shouldRunEvents) {
+      logger.log('info', 'Running events');
+      imports.push(EventModule);
+    } else {
+      logger.log('info', 'Not running events');
+    }
+
+    if (shouldRunThrottle) {
+      logger.log('info', 'Running throttle');
+      
+      imports.push(ThrottlerModule.forRootAsync({
+        useFactory: () => this.getThrottleConfig(),
+      }),)
+    }
 
     if (shouldRunChainhook) {
-      console.log('Running chainhook');
+      logger.log('info', 'Running chainhook');
       imports.push(RabbitMqModule);
     } else {
-      console.log('Not running chainhook');
+      logger.log('info', 'Not running chainhook');
     }
 
     if (shouldRunJobs) {
-      console.log('Running jobs');
+      logger.log('info', 'Running jobs');
       imports.push(JobsModule);
     } else {
-      console.log('Not running jobs');
+      logger.log('info', 'Not running jobs');
     }
 
     return imports;
+  }
+
+  private static getThrottleConfig() {
+    const throttleConfigVariables = config.get('throttle.global') as any;
+    const redisConfig = config.get('queue') as any;
+
+    const throttleConfig: ThrottlerModuleOptions = {
+      ttl: process.env.THROTTLE_TTL || throttleConfigVariables.get('ttl'),
+      limit: process.env.THROTTLE_LIMIT || throttleConfigVariables.get('limit'),
+      storage: new ThrottlerStorageRedisService({
+        host: process.env.REDIS_HOST || redisConfig.host,
+        port: process.env.REDIS_PORT || redisConfig.port,
+        password: process.env.REDIS_PASSWORD || redisConfig.password,
+      }),
+    };
+
+    return throttleConfig;
   }
 }

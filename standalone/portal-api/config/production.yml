@@ -22,7 +22,13 @@ app:
   frontendUrl: 'http://localhost:3000'
   runchainhook: true
   runjobs: true
+  runthrottle: true
+  runevents: true
+
+logging:
+  level: 'error'
   fluentdlogging: false
+
 
 mail:
   host: ''
