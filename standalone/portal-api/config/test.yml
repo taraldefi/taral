@@ -8,7 +8,7 @@ app:
   runevents: false
 
 logging:
-  level: 'warn'
+  level: 'error'
   fluentdlogging: false
 
 db:

@@ -60,7 +60,8 @@ import { WinstonLoggerModule } from './modules/logger/logger.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import config from 'config';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
-import { throttle } from 'rxjs';
+import { loggingLevel } from './modules/logger/logger';
+import winston from 'winston';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -165,16 +166,30 @@ export class AppModule {
     const shouldRunJobs = config.get('app.runjobs');
     const shouldRunThrottle = config.get('app.runthrottle');
     const shouldRunEvents = config.get('app.runevents');
+    const loggingLevel = config.get('logging.level') as loggingLevel;
+
+    const logger = winston.createLogger({
+      level: loggingLevel,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      ],
+    });
+
 
     if (shouldRunEvents) {
-      console.log('Running events');
+      logger.log('info', 'Running events');
       imports.push(EventModule);
     } else {
-      console.log('Not running events');
+      logger.log('info', 'Not running events');
     }
 
     if (shouldRunThrottle) {
-      console.log('Running throttle');
+      logger.log('info', 'Running throttle');
       
       imports.push(ThrottlerModule.forRootAsync({
         useFactory: () => this.getThrottleConfig(),
@@ -182,17 +197,17 @@ export class AppModule {
     }
 
     if (shouldRunChainhook) {
-      console.log('Running chainhook');
+      logger.log('info', 'Running chainhook');
       imports.push(RabbitMqModule);
     } else {
-      console.log('Not running chainhook');
+      logger.log('info', 'Not running chainhook');
     }
 
     if (shouldRunJobs) {
-      console.log('Running jobs');
+      logger.log('info', 'Running jobs');
       imports.push(JobsModule);
     } else {
-      console.log('Not running jobs');
+      logger.log('info', 'Not running jobs');
     }
 
     return imports;

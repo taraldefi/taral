@@ -19,10 +19,13 @@ import { RoleEntityRepositoryProvider } from '../role/role.repository.provider';
 import { ConfigService } from '@nestjs/config';
 import { RedisRateLimiter } from './limiter/redis.rate.limiter';
 import { NoRateLimiter } from './limiter/no.rate.limiter';
+import { loggingLevel } from '../logger/logger';
+import winston from 'winston';
 
 const throttleLoginConfig = config.get('throttle.login') as any;
 const redisConfig = config.get('queue') as any;
 const jwtConfig = config.get('jwt') as any;
+const loggingLevel = config.get('logging.level') as loggingLevel;
 
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
@@ -84,7 +87,24 @@ const NoLoginThrottleFactory = {
   ],
 })
 export class AuthModule {
+  constructor() {
+  }
+
   static createDynamicProviders(): Provider[] {
+    const logger = winston.createLogger({
+      level: loggingLevel,
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
+      transports: [
+        new winston.transports.Console(),
+        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+      ],
+    });
+
+    console.log('loggingLevel', loggingLevel);
+
     const providers: Provider[] = [
       AuthService,
       JwtTwoFactorStrategy,
@@ -99,10 +119,10 @@ export class AuthModule {
     const shouldEnableThrottle = config.get('throttle.enabled');
 
     if (shouldEnableThrottle) {
-      console.log('Enabling throttling');
+      logger.info('Enabling throttling');
       providers.push(LoginThrottleFactory);
     } else {
-      console.log('Not running in throttle mode');
+      logger.info('Not running in throttle mode');
       providers.push(NoLoginThrottleFactory);
     }
 

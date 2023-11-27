@@ -3,7 +3,26 @@ import { FluentdTransport } from 'src/common/logging/fluentd.transport';
 import * as winston from 'winston';
 import TransportStream from 'winston-transport';
 
-export type loggingLevel = 'error' | 'warn' | 'info' | 'debug' | 'verbose';
+// {
+//   emerg: 0,
+//   alert: 1,
+//   crit: 2,
+//   error: 3,
+//   warning: 4,
+//   notice: 5,
+//   info: 6,
+//   debug: 7
+// }
+
+export type loggingLevel = 
+'emerg'
+| 'alert'
+| 'crit'
+| 'error'
+| 'warning'
+| 'notice'
+| 'info'
+| 'debug';
 
 export function createLogger(configService: ConfigService) {
   const loginToFluentd = configService.get('logging.fluentdlogging');
