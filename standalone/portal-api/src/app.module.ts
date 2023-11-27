@@ -166,15 +166,16 @@ export class AppModule {
     const shouldRunThrottle = config.get('app.runthrottle');
     const shouldRunEvents = config.get('app.runevents');
 
-    // if (shouldRunEvents) {
-    //   console.log('Running events');
-    //   imports.push(EventModule);
-    // } else {
-    //   console.log('Not running events');
-    // }
+    if (shouldRunEvents) {
+      console.log('Running events');
+      imports.push(EventModule);
+    } else {
+      console.log('Not running events');
+    }
 
     if (shouldRunThrottle) {
       console.log('Running throttle');
+      
       imports.push(ThrottlerModule.forRootAsync({
         useFactory: () => this.getThrottleConfig(),
       }),)
@@ -187,12 +188,12 @@ export class AppModule {
       console.log('Not running chainhook');
     }
 
-    // if (shouldRunJobs) {
-    //   console.log('Running jobs');
-    //   imports.push(JobsModule);
-    // } else {
-    //   console.log('Not running jobs');
-    // }
+    if (shouldRunJobs) {
+      console.log('Running jobs');
+      imports.push(JobsModule);
+    } else {
+      console.log('Not running jobs');
+    }
 
     return imports;
   }
