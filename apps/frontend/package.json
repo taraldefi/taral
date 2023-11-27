@@ -30,7 +30,7 @@
     "@stacks/connect": "^7.4.2",
     "@tanstack/query-core": "^5.0.5",
     "@tanstack/react-query": "^5.8.4",
-    "axios": "^1.6.0",
+    "axios": "^1.6.2",
     "cors": "^2.8.5",
     "express": "^4.18.1",
     "jotai": "^2.5.1",
