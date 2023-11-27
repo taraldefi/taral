@@ -11,17 +11,20 @@ import { QuickApplicationEntity } from 'src/modules/applications/models/quickapp
 import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { BaseService } from 'src/common/services/base.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class CollateralService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(CollateralEntity)
     private collateralRepository: CollateralsRepository,
     private readonly collateralMappingService: CollateralMappingService,
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super();
+    super(configService);
   }
 
   @Transactional({

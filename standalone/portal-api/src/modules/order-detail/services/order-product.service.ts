@@ -13,10 +13,13 @@ import { QuickApplicationEntity } from 'src/modules/applications/models/quickapp
 import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { GetOrderProductResponse } from '../dto/response/get-order-product-response.dto';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class OrderProductService extends BaseService {
   constructor(
+    public configService: ConfigService,
+
     @InjectRepository(OrderProductEntity)
     private orderProductsRepository: OrderProductsRepository,
     private readonly orderDetailMappingService: OrderDetailMappingService,
@@ -25,7 +28,7 @@ export class OrderProductService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super();
+    super(configService);
   }
 
   public async get(id: string) {
