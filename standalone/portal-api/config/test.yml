@@ -4,9 +4,12 @@ jwt:
 app:
   runchainhook: false
   runjobs: false
-  fluentdlogging: false
   runthrottle: false
   runevents: false
+
+logging:
+  level: 'warn'
+  fluentdlogging: false
 
 db:
   host: 'localhost'

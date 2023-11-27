@@ -22,11 +22,15 @@ app:
   appUrl: 'http://localhost:7777'
   frontendUrl: 'http://localhost:3000'
   sameSite: true
-  fluentdlogging: false
   runchainhook: false
   runjobs: false
   runthrottle: false
   runevents: false
+
+logging:
+  level: 'warn'
+  fluentdlogging: false
+
 
 throttle:
   enabled: false

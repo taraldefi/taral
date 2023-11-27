@@ -22,9 +22,13 @@ app:
   frontendUrl: 'http://localhost:3000'
   runchainhook: true
   runjobs: true
-  fluentdlogging: false
   runthrottle: true
   runevents: true
+
+logging:
+  level: 'warn'
+  fluentdlogging: false
+
 
 mail:
   host: ''
