@@ -6,7 +6,6 @@ import { AppModule } from './app.module';
 import { initializeTransactionalContext } from 'src/common/transaction/common';
 import validationOptions from './utils/validation-options';
 import cookieParser from 'cookie-parser';
-import fs from 'fs';
 import { useContainer } from 'class-validator';
 import { UnprocessableExceptionFilter } from './common/filters/unprocessable-entity.filter';
 import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
