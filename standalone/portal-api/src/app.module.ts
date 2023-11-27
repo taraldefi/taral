@@ -1,4 +1,4 @@
-import { DynamicModule, Module, Type } from '@nestjs/common';
+import { DynamicModule, Logger, Module, Type } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -166,20 +166,7 @@ export class AppModule {
     const shouldRunJobs = config.get('app.runjobs');
     const shouldRunThrottle = config.get('app.runthrottle');
     const shouldRunEvents = config.get('app.runevents');
-    const loggingLevel = config.get('logging.level') as loggingLevel;
-
-    const logger = winston.createLogger({
-      level: loggingLevel,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-      transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      ],
-    });
-
+    const logger = new Logger("AppModule");
 
     if (shouldRunEvents) {
       logger.log('info', 'Running events');

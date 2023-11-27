@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common';
+import { Logger, Module, Provider } from '@nestjs/common';
 import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
@@ -91,19 +91,7 @@ export class AuthModule {
   }
 
   static createDynamicProviders(): Provider[] {
-    const logger = winston.createLogger({
-      level: loggingLevel,
-      format: winston.format.combine(
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-      transports: [
-        new winston.transports.Console(),
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      ],
-    });
-
-    console.log('loggingLevel', loggingLevel);
+    const logger = new Logger("AuthModule");
 
     const providers: Provider[] = [
       AuthService,
@@ -119,10 +107,10 @@ export class AuthModule {
     const shouldEnableThrottle = config.get('throttle.enabled');
 
     if (shouldEnableThrottle) {
-      logger.info('Enabling throttling');
+      logger.log('info', 'Enabling throttling');
       providers.push(LoginThrottleFactory);
     } else {
-      logger.info('Not running in throttle mode');
+      logger.log('info', 'Not running in throttle mode');
       providers.push(NoLoginThrottleFactory);
     }
 

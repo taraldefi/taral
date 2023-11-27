@@ -17,7 +17,7 @@ import * as fs from 'fs';
 export default registerAs('filesystem', () => {
   const storageMode = process.env.FILE_DRIVER;
 
-  console.log(`storage : ${storageMode}`);
+  // console.log(`storage : ${storageMode}`);
 
   if (storageMode === 'S3') {
     return {
@@ -37,7 +37,7 @@ export default registerAs('filesystem', () => {
   const dir = `./${process.env.LOCAL_STORAGE_DIR}`;
   const absolutePath = path.resolve(dir);
 
-  console.log(`absolute path: ${absolutePath}`);
+  // console.log(`absolute path: ${absolutePath}`);
 
   if (!fs.existsSync(absolutePath)) {
     fs.mkdirSync(absolutePath);
