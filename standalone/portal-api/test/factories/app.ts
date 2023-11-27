@@ -19,7 +19,7 @@ export class AppFactory {
   private constructor(
     private readonly appInstance: INestApplication,
     private readonly redis?: Redis.Redis,
-  ) {}
+  ) { }
 
   get instance() {
     return this.appInstance;
@@ -35,7 +35,7 @@ export class AppFactory {
     return await this.setupAppFactory();
   }
 
-  private static async setupAppFactory(redis? : Redis.Redis) {
+  private static async setupAppFactory(redis?: Redis.Redis) {
     const moduleBuilder = Test.createTestingModule({
       imports: [
         AppModule,
@@ -75,13 +75,30 @@ export class AppFactory {
 
     await app.init();
 
+    const connection = await createConnection({
+      type: dbConfig.type || 'postgres',
+      host: process.env.DB_HOST || dbConfig.host,
+      port: parseInt(process.env.DB_PORT) || dbConfig.port,
+      database: process.env.DB_DATABASE_NAME || dbConfig.database,
+      username: process.env.DB_USERNAME || dbConfig.username,
+      password: process.env.DB_PASSWORD || dbConfig.password,
+      entities: [
+        "src\\**\\*.entity{.ts,.js}"
+      ],
+      migrations: [
+        "src\\database\\migrations\\**\\*{.ts,.js}"
+      ],
+      name: "testing"
+    });
+
+    await connection.synchronize(false); // Drops and creates the schema
+    await connection.close();
     return new AppFactory(app, redis);
   }
 
   async close() {
     await getConnection().dropDatabase();
     if (this.redis && throttleEnabled) {
-      console.log('tearing down redis');
       await this.teardown(this.redis);
     }
     if (this.appInstance) await this.appInstance.close();
@@ -109,12 +126,11 @@ export class AppFactory {
       if (exists && exists.length > 0) {
         tableExists = exists[0].exists;
       }
-      
+
       if (tableExists) {
         try {
           await connection.query(`DELETE FROM ${table};`);
-        } catch (e) {
-        }
+        } catch (e) { }
       } else {
       }
     }
@@ -131,13 +147,15 @@ export class AppFactory {
     });
 
     await connection.query(`SET session_replication_role = 'replica';`);
-    
+
     const tables = connection.entityMetadatas.map(
       (entity) => `"${entity.tableName}"`,
     );
 
     for (const tableName of tables) {
-      await connection.query(`DROP TABLE IF EXISTS ${tableName};`);
+      try {
+        await connection.query(`DROP TABLE IF EXISTS ${tableName};`);
+      } catch (e) { }
     }
 
     await connection.close();
@@ -147,7 +165,6 @@ export class AppFactory {
     return new Promise<void>((resolve) => {
       redis.disconnect();
       redis.on('end', () => {
-        console.log('Redis connection closed');
         resolve();
       });
     });
@@ -155,14 +172,11 @@ export class AppFactory {
 }
 
 const setupRedis = async () => {
-  console.log(' is this where it happens? ');
   const redis = new Redis({
     host: process.env.REDIS_HOST || 'localhost',
     port: parseInt(process.env.REDIS_PORT) || 6379,
   });
 
-  
-  console.log(' flushing redis ');
   await redis.flushall();
   return redis;
 };
