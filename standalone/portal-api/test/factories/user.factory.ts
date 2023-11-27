@@ -30,7 +30,7 @@ export class UserFactory {
       email: faker.internet.email().toLowerCase(),
       name: `${faker.name.firstName()} ${faker.name.lastName()}`,
       address: faker.address.streetAddress(),
-      contact: faker.phone.phoneNumber(),
+      contact: faker.phone.number(),
       avatar: faker.image.avatar(),
       salt,
       token: faker.datatype.uuid(),
