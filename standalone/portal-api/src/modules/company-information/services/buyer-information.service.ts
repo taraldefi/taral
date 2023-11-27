@@ -115,6 +115,9 @@ export class BuyerInformationService extends BaseService {
     );
 
     let entityAddressExists = false;
+    if (entity.companyInformation && entity.companyInformation.address) {
+      entityAddressExists = true;
+    }
     const companyInformation = new BuyerCompanyInformationEntity();
     const address = new CompanyAddressEntity();
 
@@ -130,18 +133,33 @@ export class BuyerInformationService extends BaseService {
 
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
-    if (entity.companyInformation && entity.companyInformation.address) {
-      entityAddressExists = true;
-    }
-
-    // if company information does not exist, create a new one
+    // if company information does already exist, create one for company and clone it for application
     if (!entityAddressExists) {
-      console.log('<+++++++++ TRIGGERED ++++++++>');
+      // create a duplicate company information for the application
+      const duplicateCompanyInformation = new BuyerCompanyInformationEntity();
+      const duplicateAddress = new CompanyAddressEntity();
+
+      duplicateCompanyInformation.address = duplicateAddress;
+      duplicateCompanyInformation.employeeCount = data.employeeCount;
+      duplicateCompanyInformation.phoneNumber = data.phoneNumber;
+      duplicateCompanyInformation.registrationNumbers =
+        data.registrationNumbers;
+
+      duplicateAddress.addressLine1 = data.address.addressLine1;
+      duplicateAddress.addressLine2 = data.address.addressLine2;
+      duplicateAddress.city = data.address.city;
+      duplicateAddress.postalCode = data.address.postalCode;
+
+      //save the duplicate address
+      await this.companyAddressRepository.save(duplicateAddress);
+
       entity.companyInformation = companyInformation;
       entity.companyInformation.address = addressSavedResult;
 
       if (data.taxAndRevenue) {
         const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+        const duplicateTaxAndRevenue = new CompanyTaxAndRevenueEntity();
+
         taxAndRevenue.audited = data.taxAndRevenue.audited;
         taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
         taxAndRevenue.exportRevenuePercentage =
@@ -149,32 +167,48 @@ export class BuyerInformationService extends BaseService {
         taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
         taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
         taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+
+        duplicateTaxAndRevenue.audited = data.taxAndRevenue.audited;
+        duplicateTaxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
+        duplicateTaxAndRevenue.exportRevenuePercentage =
+          data.taxAndRevenue.exportRevenuePercentage;
+        duplicateTaxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+        duplicateTaxAndRevenue.lastFiscalYear =
+          data.taxAndRevenue.lastFiscalYear;
+        duplicateTaxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+
         var taxAndRevenueSavedResult =
           await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+        var duplicateTaxAndRevenueSaved =
+          await this.companyTaxAndRevenueRepository.save(
+            duplicateTaxAndRevenue,
+          );
 
         companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+        duplicateCompanyInformation.taxAndRevenue = duplicateTaxAndRevenueSaved;
       }
-      let companySaved = await this.buyerCompanyInformationRepository.save(
-        companyInformation,
-      );
-      entity.companyInformation = companySaved;
+      let companySavedResult =
+        await this.buyerCompanyInformationRepository.save(companyInformation);
+      entity.companyInformation = companySavedResult;
       await this.buyerCompanyRepository.save(entity);
 
-      const clone = Object.assign({}, companyInformation);
-      let cloneCompanySaved = await this.buyerCompanyInformationRepository.save(
-        clone,
-      );
+      //save the duplicate company information
 
-      application.buyerInformation = cloneCompanySaved;
-      await application.save();
+      let clonedCompanySavedResult =
+        await this.buyerCompanyInformationRepository.save(
+          duplicateCompanyInformation,
+        );
+
+      application.buyerInformation = clonedCompanySavedResult;
+      await this.buyerApplicationRepository.save(application);
     } else {
-      console.log('OTHER <+++++++++ TRIGGERED ++++++++>');
-      const companyInformationClone = new BuyerCompanyInformationEntity();
-      companyInformationClone.address = addressSavedResult;
+      const applicationBuyerInformation = new BuyerCompanyInformationEntity();
+      applicationBuyerInformation.address = addressSavedResult;
 
-      companyInformationClone.employeeCount = data.employeeCount;
-      companyInformationClone.phoneNumber = data.phoneNumber;
-      companyInformationClone.registrationNumbers = data.registrationNumbers;
+      applicationBuyerInformation.employeeCount = data.employeeCount;
+      applicationBuyerInformation.phoneNumber = data.phoneNumber;
+      applicationBuyerInformation.registrationNumbers =
+        data.registrationNumbers;
 
       if (data.taxAndRevenue) {
         const taxAndRevenue = new CompanyTaxAndRevenueEntity();
@@ -188,14 +222,14 @@ export class BuyerInformationService extends BaseService {
         var taxAndRevenueSavedResult =
           await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-        companyInformationClone.taxAndRevenue = taxAndRevenueSavedResult;
+        applicationBuyerInformation.taxAndRevenue = taxAndRevenueSavedResult;
       }
       var companySavedCloneResult =
         await this.buyerCompanyInformationRepository.save(
-          companyInformationClone,
+          applicationBuyerInformation,
         );
       application.buyerInformation = companySavedCloneResult;
-      await application.save();
+      await this.buyerApplicationRepository.save(application);
     }
 
     // if (data.sector) {
@@ -223,6 +257,13 @@ export class BuyerInformationService extends BaseService {
     this.setupTransactionHooks();
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
+      {
+        relations: [
+          'buyerInformation',
+          'buyerInformation.address',
+          'buyerInformation.taxAndRevenue',
+        ],
+      },
     );
     const entity = await this.buyerCompanyService.findBuyerEntityById(
       application.company.id,
