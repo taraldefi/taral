@@ -19,14 +19,13 @@ export class AppFactory {
   private constructor(
     private readonly appInstance: INestApplication,
     private readonly redis?: Redis.Redis,
-  ) { }
+  ) {}
 
   get instance() {
     return this.appInstance;
   }
 
   static async new() {
-
     if (throttleEnabled) {
       const redis = await setupRedis();
       return await this.setupAppFactory(redis);
@@ -54,13 +53,15 @@ export class AppFactory {
       .useFactory({
         factory: () => {
           if (redis) {
-            return new RedisRateLimiter(new RateLimiterRedis({
-              storeClient: redis,
-              keyPrefix: 'login',
-              points: 5,
-              duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
-              blockDuration: 3000,
-            }));
+            return new RedisRateLimiter(
+              new RateLimiterRedis({
+                storeClient: redis,
+                keyPrefix: 'login',
+                points: 5,
+                duration: 60 * 60 * 24 * 30, // Store number for 30 days since first fail
+                blockDuration: 3000,
+              }),
+            );
           } else {
             return new NoRateLimiter();
           }
@@ -82,13 +83,9 @@ export class AppFactory {
       database: process.env.DATABASE_NAME || dbConfig.name,
       username: process.env.DATABASE_USERNAME || dbConfig.username,
       password: process.env.DATABASE_PASSWORD || dbConfig.password,
-      entities: [
-        "src\\**\\*.entity{.ts,.js}"
-      ],
-      migrations: [
-        "src\\database\\migrations\\**\\*{.ts,.js}"
-      ],
-      name: "testing"
+      entities: ['src\\**\\*.entity{.ts,.js}'],
+      migrations: ['src\\database\\migrations\\**\\*{.ts,.js}'],
+      name: 'testing',
     });
 
     await connection.synchronize(false); // Drops and creates the schema
@@ -118,7 +115,7 @@ export class AppFactory {
           schemaname != 'pg_catalog' AND 
           schemaname != 'information_schema' AND 
           tablename = '${table}'
-      );`)
+      );`);
 
       let tableExists = false;
 
@@ -130,7 +127,7 @@ export class AppFactory {
       if (tableExists) {
         try {
           await connection.query(`DELETE FROM ${table};`);
-        } catch (e) { }
+        } catch (e) {}
       } else {
       }
     }
@@ -144,13 +141,9 @@ export class AppFactory {
       database: process.env.DATABASE_NAME || dbConfig.name,
       username: process.env.DATABASE_USERNAME || dbConfig.username,
       password: process.env.DATABASE_PASSWORD || dbConfig.password,
-      entities: [
-        "src\\**\\*.entity{.ts,.js}"
-      ],
-      migrations: [
-        "src\\database\\migrations\\**\\*{.ts,.js}"
-      ],
-      name: "testing"
+      entities: ['src\\**\\*.entity{.ts,.js}'],
+      migrations: ['src\\database\\migrations\\**\\*{.ts,.js}'],
+      name: 'testing',
     });
 
     await connection.query(`SET session_replication_role = 'replica';`);
@@ -162,7 +155,7 @@ export class AppFactory {
     for (const tableName of tables) {
       try {
         await connection.query(`DROP TABLE IF EXISTS ${tableName};`);
-      } catch (e) { }
+      } catch (e) {}
     }
 
     await connection.close();

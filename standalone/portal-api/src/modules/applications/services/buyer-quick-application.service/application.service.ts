@@ -116,6 +116,7 @@ export class BuyerQuickApplicationService extends BaseService {
       {
         relations: [
           'supplierInformation',
+          'buyerInformation',
           'paymentTerms',
           'orderDetails',
           'security',

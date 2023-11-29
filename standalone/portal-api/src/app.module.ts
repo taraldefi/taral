@@ -64,7 +64,13 @@ import { loggingLevel } from './modules/logger/logger';
 import winston from 'winston';
 
 @Module({
-  imports: [...AppModule.createDynamicImports()],
+  imports: [
+    ...AppModule.createDynamicImports(),
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 2,
+    }),
+  ],
   providers: [
     ...AppModule.createDynamicProviders()
   ],
@@ -138,7 +144,7 @@ export class AppModule {
       ServeStaticModule.forRoot({
         rootPath: join(__dirname, '..\\..\\..\\..\\', 'public'),
 
-        exclude: ['/api*']
+        exclude: ['/api*'],
       }),
       StorageModule.registerAsync({
         imports: [ConfigService],
@@ -181,7 +187,7 @@ export class AppModule {
     const shouldRunJobs = config.get('app.runjobs');
     const shouldRunThrottle = config.get('app.runthrottle');
     const shouldRunEvents = config.get('app.runevents');
-    const logger = new Logger("AppModule");
+    const logger = new Logger('AppModule');
 
     if (shouldRunEvents) {
       logger.log('info', 'Running events');
@@ -192,10 +198,12 @@ export class AppModule {
 
     if (shouldRunThrottle) {
       logger.log('info', 'Running throttle');
-      
-      imports.push(ThrottlerModule.forRootAsync({
-        useFactory: () => this.getThrottleConfig(),
-      }),)
+
+      imports.push(
+        ThrottlerModule.forRootAsync({
+          useFactory: () => this.getThrottleConfig(),
+        }),
+      );
     }
 
     if (shouldRunChainhook) {
