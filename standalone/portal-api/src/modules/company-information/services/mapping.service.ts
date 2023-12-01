@@ -9,6 +9,7 @@ import { CollaborationRelationshipEntity } from 'src/modules/relationship/models
 import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
 import { GetSupplierCompanyAddressRequest } from '../dto/response/supplier/get-supplier-company-address-response.dto';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
+import { CompanyTaxAndRevenueEntity } from '../models/company.information.tax.and.revenue.entity';
 
 @Injectable()
 export class EntityMappingService {
@@ -38,10 +39,25 @@ export class EntityMappingService {
     response.address = new GetBuyerCompanyAddressRequest();
     response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
 
+    let latestTaxAndRevenue: CompanyTaxAndRevenueEntity = undefined;
+
     response.id = entity.id;
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
+
     if (entity.companyInformation && buyerInfo) {
+      if (buyerInfo.taxAndRevenue) {
+        const fiscalYears = entity.companyInformation.taxAndRevenue.map(
+          (fiscalYear) => {
+            return fiscalYear.lastFiscalYear;
+          },
+        );
+        latestTaxAndRevenue = buyerInfo.taxAndRevenue.find(
+          (taxAndRevenue) =>
+            taxAndRevenue.lastFiscalYear === Math.max(...fiscalYears),
+        );
+      }
+
       response.employeeCount = entity.companyInformation.employeeCount;
       response.phoneNumber = entity.companyInformation.phoneNumber;
       response.registrationNumbers =
@@ -52,27 +68,15 @@ export class EntityMappingService {
       response.address.city = buyerInfo.address.city;
       response.address.postalCode = buyerInfo.address.postalCode;
 
-      if (buyerInfo.taxAndRevenue.taxNumber) {
-        response.taxAndRevenue.taxNumber = buyerInfo.taxAndRevenue.taxNumber;
-      }
-      if (buyerInfo.taxAndRevenue.audited) {
-        response.taxAndRevenue.audited = buyerInfo.taxAndRevenue.audited;
-      }
-      if (buyerInfo.taxAndRevenue.exportRevenuePercentage) {
+      if (latestTaxAndRevenue) {
+        response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
+        response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
         response.taxAndRevenue.exportRevenuePercentage =
-          buyerInfo.taxAndRevenue.exportRevenuePercentage;
-      }
-      if (buyerInfo.taxAndRevenue.exportValue) {
-        response.taxAndRevenue.exportValue =
-          buyerInfo.taxAndRevenue.exportValue;
-      }
-      if (buyerInfo.taxAndRevenue.lastFiscalYear) {
+          latestTaxAndRevenue.exportRevenuePercentage;
+        response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
         response.taxAndRevenue.lastFiscalYear =
-          buyerInfo.taxAndRevenue.lastFiscalYear;
-      }
-      if (buyerInfo.taxAndRevenue.totalRevenue) {
-        response.taxAndRevenue.totalRevenue =
-          buyerInfo.taxAndRevenue.totalRevenue;
+          latestTaxAndRevenue.lastFiscalYear;
+        response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
       }
     }
 

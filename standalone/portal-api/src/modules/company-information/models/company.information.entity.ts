@@ -4,6 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
   TableInheritance,
@@ -29,12 +30,11 @@ export class CompanyInformationEntity extends EntityHelper {
   @Allow()
   registrationNumbers: string;
 
-  @OneToOne(
+  @OneToMany(
     () => CompanyTaxAndRevenueEntity,
     (taxAndRevenue) => taxAndRevenue.company,
   )
-  @JoinColumn()
-  taxAndRevenue?: CompanyTaxAndRevenueEntity;
+  taxAndRevenue?: CompanyTaxAndRevenueEntity[];
 
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()

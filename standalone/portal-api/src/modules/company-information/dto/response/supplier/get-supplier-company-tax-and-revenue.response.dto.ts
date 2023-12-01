@@ -3,6 +3,7 @@ import {
   IsBoolean,
   IsDateString,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -17,10 +18,10 @@ export class GetSupplierCompanyTaxAndRevenueRequest {
   @IsString()
   taxNumber?: string;
 
-  @ApiProperty({ example: '12-12-2022' })
-  @IsDateString()
+  @ApiProperty({ example: 2022 })
+  @IsNumber()
   @IsNotEmpty()
-  lastFiscalYear: Date;
+  lastFiscalYear: number;
 
   @ApiProperty({ example: '1000000000' })
   @IsNotEmpty()

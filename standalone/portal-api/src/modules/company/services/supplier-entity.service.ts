@@ -206,32 +206,32 @@ export class SupplierCompanyEntityService extends BaseService {
     let taxAndRevenueChanged = false;
     if (data.taxAndRevenue.taxNumber) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.taxNumber =
+      entity.companyInformation.taxAndRevenue[0].taxNumber =
         data.taxAndRevenue.taxNumber;
     }
     if (data.taxAndRevenue.audited) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.audited =
+      entity.companyInformation.taxAndRevenue[0].audited =
         data.taxAndRevenue.audited;
     }
     if (data.taxAndRevenue.exportRevenuePercentage) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.exportRevenuePercentage =
+      entity.companyInformation.taxAndRevenue[0].exportRevenuePercentage =
         data.taxAndRevenue.exportRevenuePercentage;
     }
     if (data.taxAndRevenue.exportValue) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.exportValue =
+      entity.companyInformation.taxAndRevenue[0].exportValue =
         data.taxAndRevenue.exportValue;
     }
     if (data.taxAndRevenue.lastFiscalYear) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.lastFiscalYear =
+      entity.companyInformation.taxAndRevenue[0].lastFiscalYear =
         data.taxAndRevenue.lastFiscalYear;
     }
     if (data.taxAndRevenue.totalRevenue) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.totalRevenue =
+      entity.companyInformation.taxAndRevenue[0].totalRevenue =
         data.taxAndRevenue.totalRevenue;
     }
     if (taxAndRevenueChanged) {
@@ -334,7 +334,7 @@ export class SupplierCompanyEntityService extends BaseService {
       var taxAndRevenueSavedResult =
         await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-      companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+      companyInformation.taxAndRevenue[0] = taxAndRevenueSavedResult;
     }
 
     var companySavedResult =

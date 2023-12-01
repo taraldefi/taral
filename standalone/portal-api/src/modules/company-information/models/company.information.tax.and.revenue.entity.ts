@@ -1,6 +1,13 @@
 import { Allow } from 'class-validator';
 import { EntityHelper } from 'src/utils/entity-helper';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { CompanyInformationEntity } from './company.information.entity';
 
 @Entity({ name: 'TaxAndRevenue' })
@@ -8,13 +15,13 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: 'int' })
   @Allow()
   taxNumber?: string;
 
-  @Column({ type: 'timestamptz' })
+  @Column({ unique: true })
   @Allow()
-  lastFiscalYear: Date;
+  lastFiscalYear: number;
 
   @Column()
   @Allow()
@@ -38,7 +45,7 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @Allow()
   exportRevenuePercentage: number;
 
-  @OneToOne(
+  @ManyToOne(
     () => CompanyInformationEntity,
     (company) => company.taxAndRevenue,
     {
@@ -46,5 +53,6 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
       onDelete: 'CASCADE',
     },
   )
+  @JoinColumn()
   company: CompanyInformationEntity;
 }

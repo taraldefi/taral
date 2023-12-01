@@ -57,13 +57,13 @@ describe('BuyerInformation for Application (integration)', () => {
   });
 
   it('should create an application buyer information', async () => {
-    await request(app.instance.getHttpServer())
+    const result = await request(app.instance.getHttpServer())
       .post(`/quick-applications/${firstApplicationId}/buyer-info`)
       .send({
         phoneNumber: '1234567891',
         registrationNumbers: '123456',
         taxAndRevenue: {
-          lastFiscalYear: '2022-12-12',
+          lastFiscalYear: 2022,
           totalRevenue: '100000',
           exportRevenuePercentage: '10',
         },
@@ -86,7 +86,7 @@ describe('BuyerInformation for Application (integration)', () => {
         registrationNumbers: '123456',
         dateEstablished: faker.date.recent(),
         taxAndRevenue: {
-          lastFiscalYear: '2022-12-12',
+          lastFiscalYear: 2022,
           totalRevenue: '100000',
           exportRevenuePercentage: '10',
         },
@@ -148,7 +148,7 @@ describe('BuyerInformation for Application (integration)', () => {
         phoneNumber: '1234567891',
         registrationNumbers: '123456',
         taxAndRevenue: {
-          lastFiscalYear: '2022-12-12',
+          lastFiscalYear: 2023,
           totalRevenue: '100000',
           exportRevenuePercentage: '10',
         },

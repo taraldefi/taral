@@ -14,9 +14,9 @@ export class CreateSupplierCompanyTaxAndRevenueRequest {
   @IsString()
   taxNumber?: string;
 
-  @ApiProperty({ example: '12-12-2022' })
-  @IsDateString()
-  lastFiscalYear?: Date;
+  @ApiProperty({ example: 2023 })
+  @IsNumberString()
+  lastFiscalYear?: number;
 
   @ApiProperty({ example: '1000000000' })
   @IsNotEmpty()

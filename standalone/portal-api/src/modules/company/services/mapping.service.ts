@@ -90,29 +90,29 @@ export class EntityMappingService {
       response.address.postalCode =
         entity.companyInformation.address.postalCode;
 
-      if (entity.companyInformation.taxAndRevenue.taxNumber) {
+      if (entity.companyInformation.taxAndRevenue[0].taxNumber) {
         response.taxAndRevenue.taxNumber =
-          entity.companyInformation.taxAndRevenue.taxNumber;
+          entity.companyInformation.taxAndRevenue[0].taxNumber;
       }
-      if (entity.companyInformation.taxAndRevenue.audited) {
+      if (entity.companyInformation.taxAndRevenue[0].audited) {
         response.taxAndRevenue.audited =
-          entity.companyInformation.taxAndRevenue.audited;
+          entity.companyInformation.taxAndRevenue[0].audited;
       }
-      if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
+      if (entity.companyInformation.taxAndRevenue[0].exportRevenuePercentage) {
         response.taxAndRevenue.exportRevenuePercentage =
-          entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
+          entity.companyInformation.taxAndRevenue[0].exportRevenuePercentage;
       }
-      if (entity.companyInformation.taxAndRevenue.exportValue) {
+      if (entity.companyInformation.taxAndRevenue[0].exportValue) {
         response.taxAndRevenue.exportValue =
-          entity.companyInformation.taxAndRevenue.exportValue;
+          entity.companyInformation.taxAndRevenue[0].exportValue;
       }
-      if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
+      if (entity.companyInformation.taxAndRevenue[0].lastFiscalYear) {
         response.taxAndRevenue.lastFiscalYear =
-          entity.companyInformation.taxAndRevenue.lastFiscalYear;
+          entity.companyInformation.taxAndRevenue[0].lastFiscalYear;
       }
-      if (entity.companyInformation.taxAndRevenue.totalRevenue) {
+      if (entity.companyInformation.taxAndRevenue[0].totalRevenue) {
         response.taxAndRevenue.totalRevenue =
-          entity.companyInformation.taxAndRevenue.totalRevenue;
+          entity.companyInformation.taxAndRevenue[0].totalRevenue;
       }
     }
 
