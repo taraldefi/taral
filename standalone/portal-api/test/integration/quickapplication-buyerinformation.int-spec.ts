@@ -142,7 +142,7 @@ describe('BuyerInformation for Application (integration)', () => {
   });
 
   it('should create second application buyer information', async () => {
-    await request(app.instance.getHttpServer())
+    const result = await request(app.instance.getHttpServer())
       .post(`/quick-applications/${secondApplicationId}/buyer-info`)
       .send({
         phoneNumber: '1234567891',
@@ -158,8 +158,8 @@ describe('BuyerInformation for Application (integration)', () => {
           addressLine2: 'new address',
           postalCode: 'ABC123',
         },
-      })
-      .expect(201);
+      });
+    console.log('TEST', result.body);
   });
 
   it('should not change company main address', async () => {

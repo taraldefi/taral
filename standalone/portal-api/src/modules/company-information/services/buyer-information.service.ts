@@ -143,8 +143,8 @@ export class BuyerInformationService extends BaseService {
 
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
-    // if company information does already exist, create one for company and clone it for application
-    if (!entityAddressExists) {
+    // if company information does not already exist, create one for company and clone it for application
+    if (!entityAddressExists && !entityTaxAndRevenueExists) {
       // create a duplicate company information for the application
       const duplicateCompanyInformation = new BuyerCompanyInformationEntity();
       const duplicateAddress = new CompanyAddressEntity();
@@ -166,49 +166,22 @@ export class BuyerInformationService extends BaseService {
       entity.companyInformation = companyInformation;
       entity.companyInformation.address = addressSavedResult;
 
-      if (data.taxAndRevenue) {
-        if (entityTaxAndRevenueExists) {
-          if (fiscalYears.includes(data.taxAndRevenue.lastFiscalYear)) {
-            throw new HttpException(
-              'Tax and Revenue information for this year already exists',
-              HttpStatus.BAD_REQUEST,
-            );
-          }
-          const newFiscalYearLessThanAlreadyExistingYearData = fiscalYears.some(
-            (fiscalYear) => fiscalYear > data.taxAndRevenue.lastFiscalYear,
-          );
-          if (newFiscalYearLessThanAlreadyExistingYearData) {
-            throw new HttpException(
-              'Fiscal year must be greater than the previous year',
-              HttpStatus.BAD_REQUEST,
-            );
-          }
-          if (data.taxAndRevenue.lastFiscalYear >= new Date().getFullYear()) {
-            throw new HttpException(
-              'Fiscal year must be less than the current year',
-              HttpStatus.BAD_REQUEST,
-            );
-          }
-        } else {
-          const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
 
-          taxAndRevenue.audited = data.taxAndRevenue.audited;
-          taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
-          taxAndRevenue.exportRevenuePercentage =
-            data.taxAndRevenue.exportRevenuePercentage;
-          taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
-          taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
-          taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+      taxAndRevenue.audited = data.taxAndRevenue.audited;
+      taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
+      taxAndRevenue.exportRevenuePercentage =
+        data.taxAndRevenue.exportRevenuePercentage;
+      taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+      taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
+      taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
 
-          var taxAndRevenueSavedResult =
-            await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-          companyInformation.taxAndRevenue = [taxAndRevenueSavedResult];
-          duplicateCompanyInformation.taxAndRevenue = [
-            taxAndRevenueSavedResult,
-          ];
-        }
-      }
+      companyInformation.taxAndRevenue = [taxAndRevenueSavedResult];
+      duplicateCompanyInformation.taxAndRevenue = [taxAndRevenueSavedResult];
+
       let companySavedResult =
         await this.buyerCompanyInformationRepository.save(companyInformation);
       entity.companyInformation = companySavedResult;
@@ -225,6 +198,30 @@ export class BuyerInformationService extends BaseService {
       await this.buyerApplicationRepository.save(application);
     } else {
       // if company information does already exist, create one for application
+      if (fiscalYears.includes(data.taxAndRevenue.lastFiscalYear)) {
+        throw new HttpException(
+          'Tax and Revenue information for this year already exists',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      const newFiscalYearLessThanAlreadyExistingYearData = fiscalYears.some(
+        (fiscalYear) => fiscalYear > data.taxAndRevenue.lastFiscalYear,
+      );
+      if (newFiscalYearLessThanAlreadyExistingYearData) {
+        throw new HttpException(
+          'Fiscal year must be greater than the previous year',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      if (data.taxAndRevenue.lastFiscalYear > new Date().getFullYear()) {
+        throw new HttpException(
+          'Fiscal year must be less than the current year',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      // if company information does already exist, create one for application
       const applicationBuyerInformation = new BuyerCompanyInformationEntity();
       applicationBuyerInformation.address = addressSavedResult;
 
@@ -233,42 +230,26 @@ export class BuyerInformationService extends BaseService {
       applicationBuyerInformation.registrationNumbers =
         data.registrationNumbers;
 
-      if (data.taxAndRevenue) {
-        // fetch the tax and revenue from the already existing company information
-        const getExistingFiscalYearInformation =
-          entity.companyInformation.taxAndRevenue.find((fiscalYear) => {
-            return (
-              fiscalYear.lastFiscalYear === data.taxAndRevenue.lastFiscalYear
-            );
-          });
+      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
 
-        if (getExistingFiscalYearInformation) {
-          throw new HttpException(
-            'Tax and Revenue information for this year already exists',
-            HttpStatus.BAD_REQUEST,
-          );
-        }
+      taxAndRevenue.audited = data.taxAndRevenue.audited;
+      taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
+      taxAndRevenue.exportRevenuePercentage =
+        data.taxAndRevenue.exportRevenuePercentage;
+      taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
+      taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
+      taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
 
-        const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      var taxAndRevenueSavedResult =
+        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
 
-        taxAndRevenue.audited = data.taxAndRevenue.audited;
-        taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
-        taxAndRevenue.exportRevenuePercentage =
-          data.taxAndRevenue.exportRevenuePercentage;
-        taxAndRevenue.exportValue = data.taxAndRevenue.exportValue;
-        taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
-        taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
+      applicationBuyerInformation.taxAndRevenue = [
+        ...entity.companyInformation.taxAndRevenue,
+        taxAndRevenueSavedResult,
+      ];
 
-        var taxAndRevenueSavedResult =
-          await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+      entity.companyInformation.taxAndRevenue.push(taxAndRevenueSavedResult);
 
-        applicationBuyerInformation.taxAndRevenue = [
-          ...entity.companyInformation.taxAndRevenue,
-          taxAndRevenueSavedResult,
-        ];
-
-        entity.companyInformation.taxAndRevenue.push(taxAndRevenueSavedResult);
-      }
       var companySavedCloneResult =
         await this.buyerCompanyInformationRepository.save(
           applicationBuyerInformation,
