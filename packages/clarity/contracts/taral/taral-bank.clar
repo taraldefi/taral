@@ -16,7 +16,9 @@
     outstanding-amount: uint,
     is-completed: bool,
     completed-successfully: bool,
-    accepted-bid-id: (optional uint)
+    accepted-bid-id: (optional uint),
+    created-at: uint,  ;; Timestamp of creation
+    updated-at: uint   ;; Timestamp of last update
   }
 )
 
@@ -132,7 +134,6 @@
                       required-amount 
                       borrower-id 
                       lender-id)
-
                     )
 
 
@@ -141,14 +142,10 @@
                     ;; Calculate any left-over overpaid balance
                       
                       ;; Update purchase order with new data
-                      (map-set purchase-orders 
+
+                      (map-set purchase-orders
                         { id: purchase-order-id }
-                        {
-                          borrower-id: (get borrower-id po),
-                          downpayment: (get downpayment po),
-                          lender-id: (get lender-id po),
-                          seller-id: (get seller-id po),
-                          total-amount: (get total-amount po),
+                        (merge po {
                           overpaid-balance: remaining-balance,
                           payments-left: updated-payments-left,
                           first-payment-year: (if (is-eq updated-payments-left (get duration bid)) current-year (get first-payment-year po)),
@@ -156,9 +153,10 @@
                           outstanding-amount: (- (get outstanding-amount po) (* required-amount actual-months-covered)),
                           is-completed: false,
                           completed-successfully: false,
-                          accepted-bid-id: (get accepted-bid-id po)
-                        }
+                          updated-at: block-height
+                        })
                       )
+
                       (ok purchase-order-id)
                 )
             )
@@ -175,24 +173,16 @@
         (begin
             ;; Mark the purchase order as ended unsuccessfully.
             (let ()
+
                 (map-set purchase-orders
-                    { id: purchase-order-id }
-                    {
-                        borrower-id: (get borrower-id po),
-                        lender-id: (get lender-id po),
-                        seller-id: (get seller-id po),
-                        total-amount: (get total-amount po),
-                        downpayment: (get downpayment po),
-                        overpaid-balance: (get overpaid-balance po),
-                        payments-left: (get payments-left po),
-                        first-payment-year: (get first-payment-year po),
-                        first-payment-month: (get first-payment-month po),
-                        outstanding-amount: (get outstanding-amount po),
-                        is-completed: true,
-                        completed-successfully: false,
-                        accepted-bid-id: (get accepted-bid-id po)
-                    }
+                        { id: purchase-order-id }
+                        (merge po {
+                          is-completed: true,
+                          completed-successfully: false,
+                          updated-at: block-height
+                        })
                 )
+
                 ;; Update lender's track record.
                 (let ((lender-principal (unwrap! (get lender-id po) ERR_NO_LENDER_FOR_PURCHASE_ORDER)))
                     (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
@@ -257,7 +247,9 @@
         outstanding-amount: (- total-amount downpayment),
         is-completed: false,
         completed-successfully: false,
-        accepted-bid-id: none
+        accepted-bid-id: none,
+        created-at: block-height,
+        updated-at: block-height
       }
     )
     (ok po-id)
@@ -361,8 +353,6 @@
           ;; (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
 
           (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
-
-
         
           ;; (unwrap! (ft-transfer? stablecoin (get bid-amount bid)  lender-id) (err "Failed to transfer stablecoin"))
 
@@ -450,24 +440,16 @@
     (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
 
     ;; Update purchase order with details from the accepted bid
-    (map-set purchase-orders 
-      { id: (get purchase-order-id bid) } 
-      {
-        borrower-id: (get borrower-id po),
-        lender-id: (get lender-id bid),
-        seller-id: (get seller-id po),
-        total-amount: (get total-amount po),
-        downpayment: (get downpayment po),
-        outstanding-amount: (- (get total-amount po) (get downpayment po)),
-        payments-left: (get payments-left po),
-        overpaid-balance: u0,
-        first-payment-month: (get first-payment-month po), ;; This will be updated when the first payment is made
-        first-payment-year: (get first-payment-year po),  ;; This will be updated when the first payment is made,
-        is-completed: (get is-completed po),
-        completed-successfully: (get completed-successfully po),
-        accepted-bid-id: (some bid-id)
-      }
-    )
+
+    (map-set purchase-orders
+        { id: (get purchase-order-id bid) }
+        (merge po {
+          outstanding-amount: (- (get total-amount po) (get downpayment po)),
+          overpaid-balance: u0,
+          accepted-bid-id: (some bid-id),
+          updated-at: block-height
+        })
+      )
 
     ;; Mark bid as accepted
     (map-set bids 
