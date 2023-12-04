@@ -55,6 +55,7 @@
 
 ;; Counter for Purchase Orders and Bids
 (define-data-var next-purchase-order-id uint u1)
+(define-data-var next-payment-id uint u1)
 (define-data-var next-bid-id uint u1)
 
 (define-constant ERR_PURCHASE_ORDER_NOT_FOUND (err u100))
@@ -204,12 +205,14 @@
 (define-private (record-multiple-payments 
 (current-year uint) (current-month uint)
     (purchase-order-id uint) (months uint) (amount-per-month uint) (borrower principal) (lender principal))
-  (begin
+ 
+  (let (
+      (payment-id (increment-next-payment-id))
+    )
 
     (unwrap! (contract-call? .usda-token transfer (* months amount-per-month) borrower lender none) (err u1000))
-
     (map-set payments
-      { id: (var-get next-purchase-order-id) } 
+      { id: payment-id } 
       {
         borrower-id: borrower,
         purchase-order-id: purchase-order-id,
@@ -219,10 +222,8 @@
         year: current-year
       }
     )
-    (var-set next-purchase-order-id (+ (var-get next-purchase-order-id) u1))
     
-    (ok purchase-order-id)
-
+    (ok payment-id)
   )
 )
 
@@ -230,10 +231,11 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
-  (let ((po-id (var-get next-purchase-order-id)))
-    (var-set next-purchase-order-id (+ po-id u1))
+  (let (
+    (purchase-order-id (increment-next-purchase-order-id)))
+
     (map-set purchase-orders
-      { id: po-id }
+      { id: purchase-order-id }
       {
         borrower-id: tx-sender,
         lender-id: (default-lender-id),
@@ -252,7 +254,7 @@
         updated-at: block-height
       }
     )
-    (ok po-id)
+    (ok purchase-order-id)
   )
 )
 
@@ -262,7 +264,7 @@
 ;; #[allow(unchecked_data)]
 (define-public (place-bid (purchase-order-id uint) (bid-amount uint) (interest-rate uint) (number-of-downpayments uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
-        (bid-id (var-get next-bid-id))
+        (bid-id (increment-next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
         (lender-interest-amount (* (/ interest-rate u100) total-amount))
         (protocol-interest-amount (* (/ protocol-interest-rate u100) total-amount))
@@ -270,7 +272,6 @@
         (total-with-interest (+ total-amount total-interest))
         (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u1)))
   )
-    (var-set next-bid-id (+ bid-id u1))
     (map-set bids 
       { id: bid-id }
       {
@@ -487,6 +488,36 @@
     )
 
     (ok true)
+  )
+)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+;; Implements a safe way to provide a valid ID for a purchase order
+(define-private (increment-next-purchase-order-id)
+  (let ((current-id (var-get next-purchase-order-id)))
+    (var-set next-purchase-order-id (+ current-id u1))
+    current-id
+  )
+)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+;; Implements a safe way to provide a valid ID for a payment
+(define-private (increment-next-payment-id)
+  (let ((current-id (var-get next-payment-id)))
+    (var-set next-payment-id (+ current-id u1))
+    current-id
+  )
+)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+;; Implements a safe way to provide a valid ID for a bid
+(define-private (increment-next-bid-id)
+  (let ((current-id (var-get next-bid-id)))
+    (var-set next-bid-id (+ current-id u1))
+    current-id
   )
 )
 
