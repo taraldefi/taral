@@ -315,19 +315,20 @@
     )
       (if (not (get refunded bid))
         (begin
-
-
-          ;; (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
-
-          (try! (contract-call? .usda-token transfer (get bid-amount bid) contract-caller lender-id none))
+          
+          (try! (contract-call? 
+                  .usda-token transfer 
+                  (get bid-amount bid) 
+                  contract-caller 
+                  lender-id 
+                  none)
+          )
         
-          ;; (unwrap! (ft-transfer? stablecoin (get bid-amount bid)  lender-id) (err "Failed to transfer stablecoin"))
-
-          ;; Mark bid as accepted
-            (map-set bids 
+          ;; Mark bid as refunded
+          (map-set bids 
             { id: bid-id } 
             (merge bid { refunded: true })
-            )
+          )
 
           (ok true)
         )
