@@ -19,7 +19,7 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @Allow()
   taxNumber?: string;
 
-  @Column({ unique: true })
+  @Column()
   @Allow()
   lastFiscalYear: number;
 
@@ -54,5 +54,5 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
     },
   )
   @JoinColumn()
-  company: CompanyInformationEntity;
+  companyInformation: CompanyInformationEntity;
 }

@@ -121,10 +121,10 @@ function Index() {
     <Layout>
       <div className="viewbody">
         <div style={{ padding: "10%", width: "100%" }}>
-          <ApplicationTable
+          {/* <ApplicationTable
             onClick={handleRowItemClick}
             applicationTableData={TableData}
-          ></ApplicationTable>
+          ></ApplicationTable> */}
         </div>
       </div>
     </Layout>

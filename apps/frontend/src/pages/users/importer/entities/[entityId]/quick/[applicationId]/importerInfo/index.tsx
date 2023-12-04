@@ -280,13 +280,12 @@ function Index({ ...props }) {
                 Last fiscal year? <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
-                type="date"
+                type="number"
                 className={
                   errors.taxAndRevenue?.lastFiscalYear
                     ? "inputs inputRed"
                     : "inputs"
                 }
-                id="calendar"
                 placeholder={
                   errors.taxAndRevenue?.lastFiscalYear
                     ? `${errors.taxAndRevenue?.lastFiscalYear?.message}`

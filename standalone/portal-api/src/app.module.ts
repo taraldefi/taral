@@ -68,7 +68,7 @@ import winston from 'winston';
     ...AppModule.createDynamicImports(),
     ThrottlerModule.forRoot({
       ttl: 60,
-      limit: 2,
+      limit: 50,
     }),
   ],
   providers: [

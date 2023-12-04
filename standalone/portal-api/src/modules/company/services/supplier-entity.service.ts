@@ -324,6 +324,7 @@ export class SupplierCompanyEntityService extends BaseService {
 
     if (data.taxAndRevenue) {
       const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      companyInformation.taxAndRevenue = [taxAndRevenue];
       taxAndRevenue.audited = data.taxAndRevenue.audited;
       taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
       taxAndRevenue.exportRevenuePercentage =

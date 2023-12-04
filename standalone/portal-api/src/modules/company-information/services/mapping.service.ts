@@ -34,30 +34,17 @@ export class EntityMappingService {
   public mapEntityDetails(
     entity: BuyerCompanyEntity,
     buyerInfo: BuyerCompanyInformationEntity,
+    latestTaxAndRevenue: CompanyTaxAndRevenueEntity,
   ): GetBuyerResponse {
     var response = new GetBuyerResponse();
     response.address = new GetBuyerCompanyAddressRequest();
     response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
-
-    let latestTaxAndRevenue: CompanyTaxAndRevenueEntity = undefined;
 
     response.id = entity.id;
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
 
     if (entity.companyInformation && buyerInfo) {
-      if (buyerInfo.taxAndRevenue) {
-        const fiscalYears = entity.companyInformation.taxAndRevenue.map(
-          (fiscalYear) => {
-            return fiscalYear.lastFiscalYear;
-          },
-        );
-        latestTaxAndRevenue = buyerInfo.taxAndRevenue.find(
-          (taxAndRevenue) =>
-            taxAndRevenue.lastFiscalYear === Math.max(...fiscalYears),
-        );
-      }
-
       response.employeeCount = entity.companyInformation.employeeCount;
       response.phoneNumber = entity.companyInformation.phoneNumber;
       response.registrationNumbers =

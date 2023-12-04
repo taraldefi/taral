@@ -20,7 +20,7 @@ interface Company {
 }
 
 interface TaxAndRevenue {
-  lastFiscalYear: string;
+  lastFiscalYear: number;
   totalRevenue: string;
   exportRevenuePercentage: string;
 }

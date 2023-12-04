@@ -18,7 +18,7 @@ const initialData: GetBuyerInfoResponse = {
   registrationNumbers: "",
   employeeCount: null,
   taxAndRevenue: {
-    lastFiscalYear: "",
+    lastFiscalYear: 0,
     totalRevenue: "",
     exportRevenuePercentage: "",
   },
@@ -42,7 +42,7 @@ const schemaValidation = Yup.object().shape({
   ),
 
   taxAndRevenue: Yup.object().shape({
-    lastFiscalYear: Yup.string().required("Last fiscal year is required"),
+    lastFiscalYear: Yup.number().required("Last fiscal year is required"),
 
     totalRevenue: Yup.string().required("Total revenue is required"),
 
@@ -94,7 +94,7 @@ const useBuyerInformationForm = (applicationID: string) => {
         phoneNumber: response.phoneNumber,
         registrationNumbers: response.registrationNumbers,
         taxAndRevenue: {
-          lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
+          lastFiscalYear: response.taxAndRevenue.lastFiscalYear,
           totalRevenue: response.taxAndRevenue.totalRevenue,
           exportRevenuePercentage:
             response.taxAndRevenue.exportRevenuePercentage,

@@ -32,7 +32,7 @@ export class CompanyInformationEntity extends EntityHelper {
 
   @OneToMany(
     () => CompanyTaxAndRevenueEntity,
-    (taxAndRevenue) => taxAndRevenue.company,
+    (taxAndRevenue) => taxAndRevenue.companyInformation,
   )
   taxAndRevenue?: CompanyTaxAndRevenueEntity[];
 
