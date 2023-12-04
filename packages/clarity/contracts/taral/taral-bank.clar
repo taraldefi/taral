@@ -76,6 +76,7 @@
 (define-constant ERR_BID_NOT_FOUND (err u115))
 (define-constant ERR_BID_ALREADY_REFUNDED (err u116))
 (define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_BID (err u117))
+(define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
@@ -111,9 +112,7 @@
     (if (< total-available required-amount)
         ;; Return type: (response bool uint)
         (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
-        
 
-        ;; Branch when there are sufficient funds
         (let ((response (contract-call? .usda-token transfer 
                                         (* required-amount months-covered)
                                         (get borrower-id po) 
@@ -152,7 +151,7 @@
             error
               ;; Nested error branch
               ;; Return type: (response bool uint) or err
-              (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
+              (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
           )
         )
     )
