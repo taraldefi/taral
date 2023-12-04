@@ -99,71 +99,65 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (make-payment (purchase-order-id uint) (amount uint) (current-year uint) (current-month uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
-        (bid (unwrap! (map-get? bids { id: purchase-order-id }) ERR_BID_NOT_FOUND_FOR_PURCHASE_ORDER))
-        (borrower-id (get borrower-id po))
-        (required-amount (get monthly-payment bid))
-          (overpaid-balance (get overpaid-balance po))
-        (total-available (+ amount overpaid-balance))
-        (months-covered (/ total-available required-amount))
-        (lender-id (unwrap-panic (get lender-id bid) ))
-        (actual-months-covered (if (> months-covered (get payments-left po)) 
-                                                   (get payments-left po)
-                                                   months-covered))
+  (let 
+    (
+      (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
+      (bid (unwrap-panic (map-get? bids {id: (unwrap-panic (get accepted-bid-id po))})))
+      (total-available (+ amount (get overpaid-balance po)))
+      (required-amount (get monthly-payment bid))
+      (months-covered (/ total-available required-amount))
+    )
 
-                                                   (remaining-balance (- total-available (* required-amount actual-months-covered)))
-                          (updated-payments-left (- (get payments-left po) actual-months-covered))
-        )
-      
-      ;; Calculate total available amount (current payment + overpaid balance)
+    (if (< total-available required-amount)
+        ;; Return type: (response bool uint)
+        (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
         
-        (if (< total-available required-amount)
-            ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT
-            
-            (begin
-                ;; Calculate months covered by the payment using integer division
-                  ;; Check if months-covered is more than payments-left and adjust if necessary
-                    ;; Record payments for all months covered
-                    ;; (unwrap! (record-multiple-payments current-year current-month  purchase-order-id actual-months-covered required-amount (get borrower-id po) (get lender-id bid)) (err ERR_FAILED_TO_RECORD_PAYMENTS))
-                    
 
-                    (try! (record-multiple-payments 
-                      current-year 
-                      current-month 
-                      purchase-order-id 
-                      actual-months-covered 
-                      required-amount 
-                      borrower-id 
-                      lender-id)
-                    )
+        ;; Branch when there are sufficient funds
+        (let ((response (contract-call? .usda-token transfer 
+                                        (* required-amount months-covered)
+                                        (get borrower-id po) 
+                                        (unwrap-panic (get lender-id po))
+                                        (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000))))
+          (match response
+            success
+              ;; Nested success branch
+              (let (
+                    (new-overpaid-balance (mod total-available required-amount))
+                    (new-payments-left (- (get payments-left po) months-covered)))
 
+                ;; Record the lump sum payment
+                (map-set payments
+                         {id: (increment-next-payment-id)}
+                         {
+                           borrower-id: (get borrower-id po),
+                           purchase-order-id: purchase-order-id,
+                           amount: (* required-amount months-covered),
+                           month: current-month,
+                           year: current-year,
+                           months-covered: months-covered
+                         })
 
-                    ;; (unwrap-panic (contract-call? .usda-token transfer (* actual-months-covered required-amount) (get borrower-id po) lender-id none))
-
-                    ;; Calculate any left-over overpaid balance
-                      
-                      ;; Update purchase order with new data
-
-                      (map-set purchase-orders
-                        { id: purchase-order-id }
-                        (merge po {
-                          overpaid-balance: remaining-balance,
-                          payments-left: updated-payments-left,
-                          first-payment-year: (if (is-eq updated-payments-left (get duration bid)) current-year (get first-payment-year po)),
-                          first-payment-month: (if (is-eq updated-payments-left (get duration bid)) current-month (get first-payment-month po)),
-                          outstanding-amount: (- (get outstanding-amount po) (* required-amount actual-months-covered)),
-                          is-completed: false,
-                          completed-successfully: false,
-                          updated-at: block-height
-                        })
-                      )
-
-                      (ok purchase-order-id)
-                )
-            )
+                ;; Update the purchase order
+                (map-set purchase-orders 
+                         {id: purchase-order-id}
+                         (merge po {
+                           overpaid-balance: new-overpaid-balance,
+                           payments-left: new-payments-left,
+                           updated-at: block-height
+                         }))
+                ;; Return type: (response bool uint)
+                (ok true)
+              )
+            error
+              ;; Nested error branch
+              ;; Return type: (response bool uint) or err
+              (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
+          )
+        )
+    )
   )
 )
-
 
 (define-public (check-purchase-order-health (purchase-order-id uint) (current-year uint) (current-month uint))
   (let ((missed-payments (unwrap! (missed-last-three-payments purchase-order-id current-year current-month) ERR_FAILED_TO_CHECK_MISSED_PAYMENTS))
@@ -197,33 +191,6 @@
         )
         ERR_NO_MISSED_PAYMENTS
     )
-  )
-)
-
-
-;; Helper function to record multiple payments
-(define-private (record-multiple-payments 
-(current-year uint) (current-month uint)
-    (purchase-order-id uint) (months uint) (amount-per-month uint) (borrower principal) (lender principal))
- 
-  (let (
-      (payment-id (increment-next-payment-id))
-    )
-
-    (unwrap! (contract-call? .usda-token transfer (* months amount-per-month) borrower lender none) (err u1000))
-    (map-set payments
-      { id: payment-id } 
-      {
-        borrower-id: borrower,
-        purchase-order-id: purchase-order-id,
-        amount: (* months amount-per-month),
-        months-covered: months,
-        month: current-month,
-        year: current-year
-      }
-    )
-    
-    (ok payment-id)
   )
 )
 
