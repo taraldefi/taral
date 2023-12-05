@@ -306,23 +306,29 @@
 
     ;; Transfer the bid amount from the lender to the contract
 
-    ;; transfer funds TODO:
-    (map-set bids 
-      { id: bid-id }
-      {
-        purchase-order-id: purchase-order-id,
-        bid-amount: bid-amount,
-        lender-id: (some tx-sender),
-        is-accepted: false,
-        interest-rate: interest-rate,
-        duration: (+ number-of-downpayments u1),
-        number-of-downpayments: number-of-downpayments,
-        monthly-payment: monthly-payment-amount,
-        refunded: false,
-        is-rejected: false
-      }
+    (if (is-ok (contract-call? .usda-token transfer bid-amount tx-sender (as-contract tx-sender) none))
+        (begin
+
+          ;; transfer funds TODO:
+          (map-set bids 
+            { id: bid-id }
+            {
+              purchase-order-id: purchase-order-id,
+              bid-amount: bid-amount,
+              lender-id: (some tx-sender),
+              is-accepted: false,
+              interest-rate: interest-rate,
+              duration: (+ number-of-downpayments u1),
+              number-of-downpayments: number-of-downpayments,
+              monthly-payment: monthly-payment-amount,
+              refunded: false,
+              is-rejected: false
+            }
+          )
+          (ok bid-id)
+        )
+        ERR_NOT_ENOUGH_FUNDS
     )
-    (ok bid-id)
   )
 )
 
@@ -338,13 +344,21 @@
 
     (let ((po-id (get purchase-order-id bid)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-        (map-set bids
+
+        (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) tx-sender none))
+        (begin
+
+          ;; transfer funds TODO:
+           (map-set bids
                 {id: bid-id}
                 (merge bid { is-rejected: true }))
         (map-set purchase-orders
                 {id: po-id}
                 (merge po { active-bids-count: (- (get active-bids-count po) u1) }))
         (ok true)
+        )
+        ERR_NOT_ENOUGH_FUNDS
+    )
       )
     )
   )
