@@ -237,7 +237,7 @@
       { id: purchase-order-id }
       {
         borrower-id: tx-sender,
-        lender-id: (default-lender-id),
+        lender-id: none,
         seller-id: seller-id,
         total-amount: total-amount,
         downpayment: downpayment,
@@ -520,8 +520,4 @@
     (var-set next-bid-id (+ current-id u1))
     current-id
   )
-)
-
-(define-private (default-lender-id) 
-  (some 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB) ;; this is a dummy principal value
 )
