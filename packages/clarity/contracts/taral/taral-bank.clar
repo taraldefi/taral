@@ -80,6 +80,7 @@
 (define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
 (define-constant ERR_MISSED_PAYMENTS u120)
 
+
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
     (+ (* (- current-year first-year) u12) current-month)
@@ -95,6 +96,18 @@
           (ok true)   ;; True means they missed a payment in the last three months.
           (ok false)  ;; False means they didn't.
       )
+    )
+  )
+)
+
+(define-read-only (get-payment-details (purchase-order-id uint))
+  (let ((po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
+        (bid-id (unwrap-panic (get accepted-bid-id po))))
+    (let ((bid (unwrap-panic (map-get? bids {id: bid-id}))))
+      (ok { 
+        payments-left: (get payments-left po), 
+        monthly-payment: (get monthly-payment bid)
+      })
     )
   )
 )
