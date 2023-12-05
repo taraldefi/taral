@@ -485,23 +485,30 @@
 
     ;; Update purchase order with details from the accepted bid
 
-    (map-set purchase-orders
-        { id: (get purchase-order-id bid) }
-        (merge po {
-          outstanding-amount: (- (get total-amount po) (get downpayment po)),
-          overpaid-balance: u0,
-          accepted-bid-id: (some bid-id),
-          updated-at: block-height
-        })
-      )
+    (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get borrower-id po) none))
+        (begin
 
-    ;; Mark bid as accepted
-    (map-set bids 
-      { id: bid-id } 
-      (merge bid { is-accepted: true })
+          
+          (map-set purchase-orders
+              { id: (get purchase-order-id bid) }
+              (merge po {
+                outstanding-amount: (- (get total-amount po) (get downpayment po)),
+                overpaid-balance: u0,
+                accepted-bid-id: (some bid-id),
+                updated-at: block-height
+              })
+            )
+
+          ;; Mark bid as accepted
+          (map-set bids 
+            { id: bid-id } 
+            (merge bid { is-accepted: true })
+          )
+
+          (ok bid-id)
+        )
+        ERR_NOT_ENOUGH_FUNDS
     )
-
-    (ok bid-id)
   )
 )
 
