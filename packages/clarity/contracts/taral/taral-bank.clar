@@ -78,6 +78,7 @@
 (define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_BID (err u117))
 (define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
 (define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
+(define-constant ERR_MISSED_PAYMENTS u120)
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
@@ -200,12 +201,11 @@
                     (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
                     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
 
-
                     (ok purchase-order-id)
                 )
             )
         )
-        ERR_NO_MISSED_PAYMENTS
+        (err ERR_MISSED_PAYMENTS)
     )
   )
 )
