@@ -79,7 +79,7 @@
 (define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
 (define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
 (define-constant ERR_MISSED_PAYMENTS u120)
-
+(define-constant ERR_OVERPAYMENT (err u121))
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
@@ -128,63 +128,66 @@
         ;; Return type: (response bool uint)
         (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
 
-        (let ((response (contract-call? .usda-token transfer 
+         (if (> months-covered (get payments-left po))
+              (err ERR_OVERPAYMENT)
+              (let ((response (contract-call? .usda-token transfer 
                                         (* required-amount months-covered)
                                         (get borrower-id po) 
                                         (unwrap-panic (get lender-id po))
                                         (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000))))
-          (match response
-            success
-              ;; Nested success branch
-              (let (
-                    (new-overpaid-balance (mod total-available required-amount))
-                    (new-payments-left (- (get payments-left po) months-covered)))
+              (match response
+                success
+                  ;; Nested success branch
+                  (let (
+                        (new-overpaid-balance (mod total-available required-amount))
+                        (new-payments-left (- (get payments-left po) months-covered)))
 
-                ;; Record the lump sum payment
-                (map-set payments
-                         {id: (increment-next-payment-id)}
-                         {
-                           borrower-id: (get borrower-id po),
-                           purchase-order-id: purchase-order-id,
-                           amount: (* required-amount months-covered),
-                           month: current-month,
-                           year: current-year,
-                           months-covered: months-covered
-                         })
+                    ;; Record the lump sum payment
+                    (map-set payments
+                            {id: (increment-next-payment-id)}
+                            {
+                              borrower-id: (get borrower-id po),
+                              purchase-order-id: purchase-order-id,
+                              amount: (* required-amount months-covered),
+                              month: current-month,
+                              year: current-year,
+                              months-covered: months-covered
+                            })
 
-                ;; Update the purchase order
-                (map-set purchase-orders 
-                         {id: purchase-order-id}
-                         (merge po {
-                           overpaid-balance: new-overpaid-balance,
-                           payments-left: new-payments-left,
-                           updated-at: block-height
-                         }))
+                    ;; Update the purchase order
+                    (map-set purchase-orders 
+                            {id: purchase-order-id}
+                            (merge po {
+                              overpaid-balance: new-overpaid-balance,
+                              payments-left: new-payments-left,
+                              updated-at: block-height
+                            }))
 
-                ;; Check if this payment completes the purchase order
-                (if (is-eq new-payments-left u0)
+                    ;; Check if this payment completes the purchase order
+                    (if (is-eq new-payments-left u0)
 
-                    ;; If all payments are made, end the purchase order successfully
-                    (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
-                    (match end-purchase-order-response
-                      end-purchase-order-success
+                        ;; If all payments are made, end the purchase order successfully
+                        (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+                        (match end-purchase-order-response
+                          end-purchase-order-success
+                          (ok true)
+                          end-purchase-order-error
+                            ;; Nested error branch
+                            ;; Return type: (response bool uint) or err
+                          (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+                        )
+                      )
+
                       (ok true)
-                      end-purchase-order-error
-                        ;; Nested error branch
-                        ;; Return type: (response bool uint) or err
-                       (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
                     )
                   )
-
-                  (ok true)
-                )
+                error
+                  ;; Nested error branch
+                  ;; Return type: (response bool uint) or err
+                  (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
               )
-            error
-              ;; Nested error branch
-              ;; Return type: (response bool uint) or err
-              (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
-          )
-        )
+            )
+         )
     )
   )
 )
