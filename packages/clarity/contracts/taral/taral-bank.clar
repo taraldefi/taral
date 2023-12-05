@@ -116,14 +116,11 @@
 
 ;; Function to check if a purchase order has active bids
 (define-read-only (has-active-bids (purchase-order-id uint))
-  (let ((active-bids (filter
-                      (lambda (bid-id bid)
-                        (and
-                          (is-eq (get purchase-order-id bid) purchase-order-id)
-                          (not (get is-rejected bid))
-                        ))
-                      bids)))
-    (not (is-empty active-bids))
+  (let ((po (map-get? purchase-orders {id: purchase-order-id})))
+    (match po
+      po-data (> (get active-bids-count po-data) u0)
+      false  ;; If purchase order not found, return false
+    )
   )
 )
 
@@ -266,7 +263,8 @@
         accepted-bid-id: none,
         created-at: block-height,
         updated-at: block-height,
-        is-canceled: false 
+        is-canceled: false,
+        active-bids-count: u0 
       }
     )
     (ok purchase-order-id)
