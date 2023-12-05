@@ -18,6 +18,7 @@
     completed-successfully: bool,
     accepted-bid-id: (optional uint),
     is-canceled: bool,
+    active-bids-count: uint,
     created-at: uint,  ;; Timestamp of creation
     updated-at: uint   ;; Timestamp of last update
   }
@@ -110,6 +111,19 @@
         monthly-payment: (get monthly-payment bid)
       })
     )
+  )
+)
+
+;; Function to check if a purchase order has active bids
+(define-read-only (has-active-bids (purchase-order-id uint))
+  (let ((active-bids (filter
+                      (lambda (bid-id bid)
+                        (and
+                          (is-eq (get purchase-order-id bid) purchase-order-id)
+                          (not (get is-rejected bid))
+                        ))
+                      bids)))
+    (not (is-empty active-bids))
   )
 )
 
