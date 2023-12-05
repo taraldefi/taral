@@ -322,38 +322,6 @@
   )
 )
 
-;; Refund a bid
-;; #[allow(unchecked_params)]
-;; #[allow(unchecked_data)]
-(define-private (refund-bid (bid-id uint))
-    (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-    (lender-id (unwrap! (get lender-id bid) (err u111)))
-    
-    )
-      (if (not (get refunded bid))
-        (begin
-          
-          (try! (contract-call? 
-                  .usda-token transfer 
-                  (get bid-amount bid) 
-                  contract-caller 
-                  lender-id 
-                  none)
-          )
-        
-          ;; Mark bid as refunded
-          (map-set bids 
-            { id: bid-id } 
-            (merge bid { refunded: true })
-          )
-
-          (ok true)
-        )
-        ERR_BID_ALREADY_REFUNDED
-      )
-    )
-  )
-
 ;; Retract or update a bid
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
@@ -445,6 +413,38 @@
     (ok bid-id)
   )
 )
+
+;; Refund a bid
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-private (refund-bid (bid-id uint))
+    (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
+    (lender-id (unwrap! (get lender-id bid) (err u111)))
+    
+    )
+      (if (not (get refunded bid))
+        (begin
+          
+          (try! (contract-call? 
+                  .usda-token transfer 
+                  (get bid-amount bid) 
+                  contract-caller 
+                  lender-id 
+                  none)
+          )
+        
+          ;; Mark bid as refunded
+          (map-set bids 
+            { id: bid-id } 
+            (merge bid { refunded: true })
+          )
+
+          (ok true)
+        )
+        ERR_BID_ALREADY_REFUNDED
+      )
+    )
+  )
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
