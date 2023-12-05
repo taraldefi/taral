@@ -77,6 +77,7 @@
 (define-constant ERR_BID_ALREADY_REFUNDED (err u116))
 (define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_BID (err u117))
 (define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
+(define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
@@ -145,8 +146,24 @@
                            payments-left: new-payments-left,
                            updated-at: block-height
                          }))
-                ;; Return type: (response bool uint)
-                (ok true)
+
+                ;; Check if this payment completes the purchase order
+                (if (is-eq new-payments-left u0)
+
+                    ;; If all payments are made, end the purchase order successfully
+                    (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+                    (match end-purchase-order-response
+                      end-purchase-order-success
+                      (ok true)
+                      end-purchase-order-error
+                        ;; Nested error branch
+                        ;; Return type: (response bool uint) or err
+                       (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+                    )
+                  )
+
+                  (ok true)
+                )
               )
             error
               ;; Nested error branch
@@ -431,8 +448,9 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (end-purchase-order-successfully (purchase-order-id uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
+(define-private (end-purchase-order-successfully (purchase-order-id uint))
+  (let (
+        (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
         (lender-id (unwrap! (get lender-id po) ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER))
         (borrower-id (get borrower-id po))
         (seller-id (get seller-id po))
@@ -441,9 +459,9 @@
     ;; Verify that the outstanding amount is fully paid
     (asserts! (<= (get outstanding-amount po) u0) ERR_PURCHASE_ORDER_NOT_FULLY_PAID)
 
-    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id true) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
-    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id true) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
-    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-importer update-importer-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-lender update-lender-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
