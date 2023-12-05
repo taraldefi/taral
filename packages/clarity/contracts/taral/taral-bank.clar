@@ -83,6 +83,10 @@
 (define-constant ERR_MISSED_PAYMENTS u120)
 (define-constant ERR_OVERPAYMENT (err u121))
 
+(define-constant ERR_ACTIVE_BIDS_PRESENT (err u122))
+(define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
+(define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
+
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
     (+ (* (- current-year first-year) u12) current-month)
@@ -272,6 +276,19 @@
 )
 
 (define-constant protocol-interest-rate u5) ;; 5% protocol interest
+
+;; Function to cancel a purchase order
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-public (cancel-purchase-order (purchase-order-id uint))
+  (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
+    (asserts! (is-eq (get active-bids-count po) u0) ERR_ACTIVE_BIDS_PRESENT)
+    (map-set purchase-orders
+            {id: purchase-order-id}
+            (merge po { is-canceled: true }))
+    (ok true)
+  )
+)
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
