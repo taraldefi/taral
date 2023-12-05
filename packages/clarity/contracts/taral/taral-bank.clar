@@ -37,7 +37,8 @@
     duration: uint,
     number-of-downpayments: uint,
     monthly-payment: uint,
-    refunded: bool
+    refunded: bool,
+    is-rejected: bool
   }
 )
 
@@ -302,6 +303,10 @@
         (total-with-interest (+ total-amount total-interest))
         (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u1)))
   )
+
+    ;; Transfer the bid amount from the lender to the contract
+
+    ;; transfer funds TODO:
     (map-set bids 
       { id: bid-id }
       {
@@ -313,10 +318,35 @@
         duration: (+ number-of-downpayments u1),
         number-of-downpayments: number-of-downpayments,
         monthly-payment: monthly-payment-amount,
-        refunded: false
+        refunded: false,
+        is-rejected: false
       }
     )
     (ok bid-id)
+  )
+)
+
+;; Function to reject a bid
+;; Updated to decrement the active-bids-count
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-public (reject-bid (bid-id uint))
+  (let ((bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND)))
+    (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
+
+    ;; refund the bid amount;
+
+    (let ((po-id (get purchase-order-id bid)))
+      (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (map-set bids
+                {id: bid-id}
+                (merge bid { is-rejected: true }))
+        (map-set purchase-orders
+                {id: po-id}
+                (merge po { active-bids-count: (- (get active-bids-count po) u1) }))
+        (ok true)
+      )
+    )
   )
 )
 
