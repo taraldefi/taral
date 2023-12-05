@@ -17,6 +17,7 @@
     is-completed: bool,
     completed-successfully: bool,
     accepted-bid-id: (optional uint),
+    is-canceled: bool,
     created-at: uint,  ;; Timestamp of creation
     updated-at: uint   ;; Timestamp of last update
   }
@@ -250,7 +251,8 @@
         completed-successfully: false,
         accepted-bid-id: none,
         created-at: block-height,
-        updated-at: block-height
+        updated-at: block-height,
+        is-canceled: false 
       }
     )
     (ok purchase-order-id)
