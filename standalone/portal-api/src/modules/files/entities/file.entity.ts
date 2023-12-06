@@ -5,15 +5,12 @@ import {
   AfterLoad,
   Column,
   Entity,
-  JoinColumn,
   ManyToMany,
-  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { FileParticipantEntity } from './file-participant.entity';
 import { FileVersionEntity } from './file-version.entity';
-import { TransactionDocumentEntity } from 'src/modules/transaction-documents/models/transaction-documents.entity';
 
 @Entity({ name: 'file' })
 export class FileEntity extends EntityHelper {
