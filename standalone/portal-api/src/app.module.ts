@@ -1,4 +1,4 @@
-import { DynamicModule, Logger, Module, Type } from '@nestjs/common';
+import { DynamicModule, Logger, Module, Provider, Type } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -66,22 +66,37 @@ import winston from 'winston';
 @Module({
   imports: [...AppModule.createDynamicImports()],
   providers: [
-    {
-      provide: APP_PIPE,
-      useClass: CustomValidationPipe,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: CustomThrottlerGuard,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: I18nExceptionFilterPipe,
-    },
+    ...AppModule.createDynamicProviders()
   ],
   controllers: [AppController],
 })
 export class AppModule {
+  static createDynamicProviders(): Provider[] {
+    const providers: Provider[] = [
+      {
+        provide: APP_PIPE,
+        useClass: CustomValidationPipe,
+      },
+      
+      {
+        provide: APP_FILTER,
+        useClass: I18nExceptionFilterPipe,
+      },
+    ];
+
+    
+    const shouldRunThrottle = config.get('app.runthrottle');
+
+    if (shouldRunThrottle)  {
+      providers.push({
+        provide: APP_GUARD,
+        useClass: CustomThrottlerGuard,
+      });
+    }
+
+    return providers;
+  }
+
   static createDynamicImports(): (Type<any> | DynamicModule)[] {
     const imports: (Type<any> | DynamicModule)[] = [
       ClientsModule.register([rabbitMQServiceOptions as any]),
