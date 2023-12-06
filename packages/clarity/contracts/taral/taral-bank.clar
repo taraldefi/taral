@@ -18,7 +18,7 @@
     completed-successfully: bool,
     accepted-bid-id: (optional uint),
     is-canceled: bool,
-    active-bids-count: uint,
+    has-active-bids: bool,
     created-at: uint,  ;; Timestamp of creation
     updated-at: uint   ;; Timestamp of last update
   }
@@ -151,7 +151,7 @@
 (define-read-only (has-active-bids (purchase-order-id uint))
   (let ((po (map-get? purchase-orders {id: purchase-order-id})))
     (match po
-      po-data (> (get active-bids-count po-data) u0)
+      po-data (get has-active-bids po-data)
       false  ;; If purchase order not found, return false
     )
   )
@@ -319,7 +319,7 @@
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
-              active-bids-count: u0 
+              has-active-bids: false 
             }
           )
 
@@ -335,7 +335,7 @@
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq (get active-bids-count po) u0) ERR_ACTIVE_BIDS_PRESENT)
+    (asserts! (is-eq (get has-active-bids po) true) ERR_ACTIVE_BIDS_PRESENT)
     ;; ensure only the lender can cancel their own bid
     (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
 
@@ -364,6 +364,10 @@
         (monthly-payment-amount (/ total-amount number-of-downpayments))
         (monthly-payment-with-interest-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
+
+    (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
+    (asserts! (not (get has-active-bids po)) ERR_ACTIVE_BIDS_PRESENT)
+    
     ;; Transfer the bid amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
@@ -413,7 +417,7 @@
                   (merge bid { is-rejected: true }))
               (map-set purchase-orders
                       {id: po-id}
-                      (merge po { active-bids-count: (- (get active-bids-count po) u1) }))
+                      (merge po { has-active-bids: false }))
               (ok true)
           )
           
@@ -451,6 +455,9 @@
   (let ((bid (unwrap! (map-get? bids { id: bid-id }) ERR_BID_NOT_FOUND))
         (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id bid) }) ERR_PURCHASE_ORDER_NOT_FOUND)))
     (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
+    (asserts! (not (get is-accepted bid)) ERR_CANNOT_MODIFY_ACCEPTED_BID)
+    (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
+    (asserts! (not (get has-active-bids po)) ERR_ACTIVE_BIDS_PRESENT)
 
     ;; Update purchase order with details from the accepted bid
     (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get seller-id po) none))
