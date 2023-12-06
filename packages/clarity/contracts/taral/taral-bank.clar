@@ -96,7 +96,7 @@
 (define-constant ERR_ACTIVE_BIDS_PRESENT (err u122))
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
-
+(define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
 
 (define-constant err-unauthorised (err u401))
 
@@ -294,29 +294,38 @@
   (let (
     (purchase-order-id (increment-next-purchase-order-id)))
 
-    (map-set purchase-orders
-      { id: purchase-order-id }
-      {
-        borrower-id: tx-sender,
-        lender-id: none,
-        seller-id: seller-id,
-        total-amount: total-amount,
-        downpayment: downpayment,
-        overpaid-balance: u0,
-        payments-left: u0,
-        first-payment-year: u0,
-        first-payment-month: u0,
-        outstanding-amount: (- total-amount downpayment),
-        is-completed: false,
-        completed-successfully: false,
-        accepted-bid-id: none,
-        created-at: block-height,
-        updated-at: block-height,
-        is-canceled: false,
-        active-bids-count: u0 
-      }
+    ;; ensure the downpayment is less than the total amount
+    (asserts! (< downpayment total-amount) ERR_DOWNPAYMENT_TOO_LARGE)
+
+    (if (is-ok (contract-call? .usda-token transfer downpayment tx-sender (as-contract tx-sender) none))
+        (begin
+          (map-set purchase-orders
+            { id: purchase-order-id }
+            {
+              borrower-id: tx-sender,
+              lender-id: none,
+              seller-id: seller-id,
+              total-amount: total-amount,
+              downpayment: downpayment,
+              overpaid-balance: u0,
+              payments-left: u0,
+              first-payment-year: u0,
+              first-payment-month: u0,
+              outstanding-amount: (- total-amount downpayment),
+              is-completed: false,
+              completed-successfully: false,
+              accepted-bid-id: none,
+              created-at: block-height,
+              updated-at: block-height,
+              is-canceled: false,
+              active-bids-count: u0 
+            }
+          )
+
+          (ok purchase-order-id)
+        )
+        ERR_NOT_ENOUGH_FUNDS
     )
-    (ok purchase-order-id)
   )
 )
 
@@ -326,10 +335,19 @@
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
     (asserts! (is-eq (get active-bids-count po) u0) ERR_ACTIVE_BIDS_PRESENT)
-    (map-set purchase-orders
+    ;; ensure only the lender can cancel their own bid
+    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
+
+    (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) tx-sender none))
+        (begin
+          (map-set purchase-orders
             {id: purchase-order-id}
             (merge po { is-canceled: true }))
-    (ok true)
+
+          (ok true)
+        )
+        ERR_NOT_ENOUGH_FUNDS
+    )
   )
 )
 
