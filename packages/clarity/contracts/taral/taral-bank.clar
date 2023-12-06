@@ -343,8 +343,6 @@
         (total-with-interest (+ total-amount protocol-interest-amount))
         (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
-    ;; default the interest rate to 1% per annum
-
     ;; Transfer the bid amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer bid-amount tx-sender (as-contract tx-sender) none))
         (begin
@@ -375,18 +373,19 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (reject-bid (bid-id uint))
-  (let ((bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND)))
+  (let 
+    (
+      (bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND))
+  
+      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID)
+    )
+    
     (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
-
-    ;; refund the bid amount;
 
     (let ((po-id (get purchase-order-id bid)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-
-        (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) tx-sender none))
+        (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) lender-id none))
           (begin
-
-            ;; transfer funds TODO:
             (map-set bids
                   {id: bid-id}
                   (merge bid { is-rejected: true }))
