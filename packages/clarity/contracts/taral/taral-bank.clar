@@ -61,6 +61,7 @@
 
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate uint u1) ;; 1% protocol interest
+(define-data-var contract-paused bool false)
 
 
 ;; Counter for Purchase Orders and Bids
@@ -95,6 +96,9 @@
 (define-constant ERR_ACTIVE_BIDS_PRESENT (err u122))
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
+
+
+(define-constant err-unauthorised (err u401))
 
 (define-read-only (get-info)
     (ok {
@@ -150,6 +154,23 @@
     )
   )
 )
+
+(define-public (pause-contract)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (var-set contract-paused true)
+    (ok true)
+  )
+)
+
+(define-public (resume-contract)
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (var-set contract-paused false)
+    (ok true)
+  )
+)
+
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
@@ -314,14 +335,12 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (place-bid (purchase-order-id uint) (bid-amount uint) (interest-rate uint) (number-of-downpayments uint))
+(define-public (place-bid (purchase-order-id uint) (bid-amount uint) (number-of-downpayments uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
         (bid-id (increment-next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
-        (lender-interest-amount (* (/ interest-rate u100) total-amount))
-        (protocol-interest-amount (* (/ protocol-interest-rate u100) total-amount))
-        (total-interest (+ lender-interest-amount protocol-interest-amount))
-        (total-with-interest (+ total-amount total-interest))
+        (protocol-interest-amount (* (/ (var-get protocol-interest-rate) u100) total-amount))
+        (total-with-interest (+ total-amount protocol-interest-amount))
         (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
     ;; default the interest rate to 1% per annum
@@ -336,7 +355,7 @@
               bid-amount: bid-amount,
               lender-id: (some tx-sender),
               is-accepted: false,
-              interest-rate: interest-rate,
+              interest-rate: (var-get protocol-interest-rate),
               duration: (+ number-of-downpayments u1),
               number-of-downpayments: number-of-downpayments,
               monthly-payment: monthly-payment-amount,
@@ -365,19 +384,20 @@
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
 
         (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) tx-sender none))
-        (begin
+          (begin
 
-          ;; transfer funds TODO:
-           (map-set bids
-                {id: bid-id}
-                (merge bid { is-rejected: true }))
-        (map-set purchase-orders
-                {id: po-id}
-                (merge po { active-bids-count: (- (get active-bids-count po) u1) }))
-        (ok true)
+            ;; transfer funds TODO:
+            (map-set bids
+                  {id: bid-id}
+                  (merge bid { is-rejected: true }))
+              (map-set purchase-orders
+                      {id: po-id}
+                      (merge po { active-bids-count: (- (get active-bids-count po) u1) }))
+              (ok true)
+          )
+          
+          ERR_NOT_ENOUGH_FUNDS
         )
-        ERR_NOT_ENOUGH_FUNDS
-    )
       )
     )
   )
