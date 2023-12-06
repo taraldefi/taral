@@ -340,6 +340,10 @@
   )
 )
 
+(define-read-only (get-purchase-order-by-id (purchase-order-id uint))
+    (map-get? purchase-orders {id: purchase-order-id})
+)
+
 ;; Create Purchase Order
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
