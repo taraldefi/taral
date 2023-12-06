@@ -33,11 +33,10 @@
     bid-amount: uint,
     lender-id: (optional principal),
     is-accepted: bool,
-    interest-rate: uint,
+    interest-rate-per-month: uint,
     duration: uint,
     number-of-downpayments: uint,
     monthly-payment: uint,
-    monthly-payment-with-interest: uint,
     refunded: bool,
     is-rejected: bool
   }
@@ -61,7 +60,7 @@
 (define-constant VERSION "0.0.5.beta")
 
 (define-data-var contract-owner principal tx-sender)
-(define-data-var protocol-interest-rate uint u1) ;; 1% protocol interest
+(define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
 (define-data-var contract-paused bool false)
 
 
@@ -105,7 +104,7 @@
 (define-read-only (get-info)
     (ok {
         version: (get-version),
-        protocol-interest: (var-get protocol-interest-rate),
+        protocol-interest-rate-per-annum: (var-get protocol-interest-rate-per-annum),
     })
 )
 
@@ -114,6 +113,9 @@
 (define-read-only (get-version) 
     VERSION
 )
+
+(define-read-only (interest-per-month) 
+  (/ (var-get protocol-interest-rate-per-annum) u12))
 
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
@@ -358,11 +360,7 @@
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
         (bid-id (increment-next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
-        
-        (protocol-interest-amount (* (/ (var-get protocol-interest-rate) u100) total-amount))
-        (total-with-interest (+ total-amount protocol-interest-amount))
         (monthly-payment-amount (/ total-amount number-of-downpayments))
-        (monthly-payment-with-interest-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
 
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
@@ -378,11 +376,10 @@
               bid-amount: total-amount,
               lender-id: (some tx-sender),
               is-accepted: false,
-              interest-rate: (var-get protocol-interest-rate),
+              interest-rate-per-month: (interest-per-month),
               duration: (+ number-of-downpayments u1),
               number-of-downpayments: number-of-downpayments,
               monthly-payment: monthly-payment-amount,
-              monthly-payment-with-interest: monthly-payment-with-interest-amount,
               refunded: false,
               is-rejected: false
             }
