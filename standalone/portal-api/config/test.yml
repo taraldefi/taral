@@ -1,24 +1,55 @@
 jwt:
+  expiresIn: 900
+  refreshExpiresIn: 604800
+  cookieExpiresIn: 604800
   secret: 'example@123'
 
 app:
+  nodeEnv: 'test'
+  port: 3000
+  apiPrefix: 'api'
+  fallbackLanguage: 'en'
+  name: 'Taral'
+  version: 'v0.1'
+  description: 'Taral API'
+  backendDomain: 'http://localhost:3000'
+  frontendDomain: 'http://localhost:3001'
+  sameSite: true
   runchainhook: false
   runjobs: false
   runthrottle: false
   runevents: false
+  fluentLogging: false
 
 logging:
   level: 'error'
   fluentdlogging: false
 
+aws:
+  bucket: ''
+  region: ''
+  accessKeyId: ''
+  secretAccessKey: ''
+
+file:
+  driver: 'local' # or S3, in which case aws config must be set
+  localDir: 'local_storage'
+
 db:
   host: 'localhost'
   type: 'postgres'
+  name: 'api'
   port: 5432
   username: 'root'
   password: 'secret'
   synchronize: false
-  database: api
+  maxConnections: 100
+  sslEnabled: false
+  rejectUnauthorized: false
+  ca: ''
+  key: ''
+  cert: ''
+  url: ''
 
 queue:
   driver: 'redis'
@@ -38,6 +69,20 @@ throttle:
     limit: 5
     duration: 2592000
     blockDuration: 3000
+
+mail:
+  host: 'smtp.mailtrap.io'
+  port: 2525
+  user: 'f4a511d60957e6'
+  password: '7522797b96cef0'
+  from: 'taral'
+  defaultEmail: 'taral@gmail.com'
+  defaultName: 'Taral'
+  preview: true
+  ignoreTls: true
+  secure: true
+  requireTls: true
+  queueName: 'taral-mail'
 
 onchain:
   mock: true

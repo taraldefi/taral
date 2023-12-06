@@ -1,13 +1,14 @@
 import { registerAs } from '@nestjs/config';
+import config from 'config';
 
 export default registerAs('mail', () => ({
-  port: parseInt(process.env.MAIL_PORT, 10),
-  host: process.env.MAIL_HOST,
-  user: process.env.MAIL_USER,
-  password: process.env.MAIL_PASSWORD,
-  defaultEmail: process.env.MAIL_DEFAULT_EMAIL,
-  defaultName: process.env.MAIL_DEFAULT_NAME,
-  ignoreTLS: process.env.MAIL_IGNORE_TLS === 'true',
-  secure: process.env.MAIL_SECURE === 'true',
-  requireTLS: process.env.MAIL_REQUIRE_TLS === 'true',
+  port: parseInt(process.env.MAIL_PORT || config.get('mail.port'), 10),
+  host: process.env.MAIL_HOST || config.get('mail.host'),
+  user: process.env.MAIL_USER || config.get('mail.user'),
+  password: process.env.MAIL_PASSWORD || config.get('mail.password'),
+  defaultEmail: process.env.MAIL_DEFAULT_EMAIL || config.get('mail.defaultEmail'),
+  defaultName: process.env.MAIL_DEFAULT_NAME || config.get('mail.defaultName'),
+  ignoreTLS: (process.env.MAIL_IGNORE_TLS || config.get('mail.ignoreTls')) === 'true',
+  secure: (process.env.MAIL_SECURE || config.get('mail.secure')) === 'true',
+  requireTLS: (process.env.MAIL_REQUIRE_TLS || config.get('mail.requireTls')) === 'true',
 }));
