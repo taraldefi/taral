@@ -19,6 +19,12 @@ export async function getDeployerPublicKey() {
     LOGGER_CATEGORY,
     `Attempting to generate public key for ${contracts.deployer.address} on TESTNET`,
   );
+
+  Logger.info(
+    LOGGER_CATEGORY,
+    `The private key for ${contracts.deployer.address} on TESTNET is ${deployerPrivateKey}`,
+  );
+
   const publicKey = publicKeyFromPrivKey(deployerPrivateKey);
 
   Logger.info(
