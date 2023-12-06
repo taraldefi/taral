@@ -34,7 +34,7 @@
     lender-id: (optional principal),
     is-accepted: bool,
     interest-rate-per-month: uint,
-    number-of-downpayments: uint,
+    number-of-installments: uint,
     monthly-payment: uint,
     refunded: bool,
     is-rejected: bool
@@ -395,7 +395,7 @@
               lender-id: (some tx-sender),
               is-accepted: false,
               interest-rate-per-month: (interest-per-month),
-              number-of-downpayments: number-of-installments,
+              number-of-installments: number-of-installments,
               monthly-payment: monthly-payment-amount,
               refunded: false,
               is-rejected: false
