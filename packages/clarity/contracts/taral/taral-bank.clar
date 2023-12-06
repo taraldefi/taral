@@ -97,6 +97,7 @@
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
 (define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
+(define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER (err u126))
 
 (define-constant err-unauthorised (err u401))
 
@@ -262,7 +263,6 @@
         (begin
             ;; Mark the purchase order as ended unsuccessfully.
             (let ()
-
                 (map-set purchase-orders
                         { id: purchase-order-id }
                         (merge po {
@@ -449,29 +449,33 @@
     (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
 
     ;; Update purchase order with details from the accepted bid
-    ;; Transfer the bid amount from the contract to the seller and 
-    ;; transfer the downpayment to the seller as well.
-    (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get borrower-id po) none))
+    (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get seller-id po) none))
         (begin
-          (map-set purchase-orders
-              { id: (get purchase-order-id bid) }
-              (merge po {
-                outstanding-amount: (- (get total-amount po) (get downpayment po)),
-                overpaid-balance: u0,
-                accepted-bid-id: (some bid-id),
-                updated-at: block-height
-              })
+          (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) (get seller-id po) none))
+            (begin
+              (map-set purchase-orders
+                { id: (get purchase-order-id bid) }
+                
+                (merge po {
+                  outstanding-amount: (- (get total-amount po) (get downpayment po)),
+                  overpaid-balance: u0,
+                  accepted-bid-id: (some bid-id),
+                  updated-at: block-height
+                })
+              )
+
+              ;; Mark bid as accepted
+              (map-set bids 
+                { id: bid-id } 
+                (merge bid { is-accepted: true })
+              )
+
+              (ok bid-id)
             )
-
-          ;; Mark bid as accepted
-          (map-set bids 
-            { id: bid-id } 
-            (merge bid { is-accepted: true })
+            ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER
           )
-
-          (ok bid-id)
         )
-        ERR_NOT_ENOUGH_FUNDS
+      ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER
     )
   )
 )
