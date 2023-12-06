@@ -24,7 +24,7 @@
   }
 )
 
-(define-map bids
+(define-map bids ;; this will be called financing-offers
   {
     id: uint
   }
@@ -185,6 +185,7 @@
 
                         ;; If all payments are made, end the purchase order successfully
                         (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+
                         (match end-purchase-order-response
                           end-purchase-order-success
                           (ok true)
@@ -304,12 +305,11 @@
         (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u1)))
   )
 
-    ;; Transfer the bid amount from the lender to the contract
+    ;; default the interest rate to 1% per annum
 
+    ;; Transfer the bid amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer bid-amount tx-sender (as-contract tx-sender) none))
         (begin
-
-          ;; transfer funds TODO:
           (map-set bids 
             { id: bid-id }
             {
@@ -364,55 +364,6 @@
   )
 )
 
-;; #[allow(unchecked_params)]
-;; #[allow(unchecked_data)]
-(define-public (update-bid-number-of-downpayments (bid-id uint) (new-number-of-downpayments uint))
-  (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-    (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
-    (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
-  )
-     (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
-        ERR_CANNOT_MODIFY_ACCEPTED_BID
-
-        (if (not (get refunded bid))
-        (begin
-            (map-set bids 
-                { id: bid-id } 
-                (merge bid { number-of-downpayments: new-number-of-downpayments })
-            )
-            (ok true)
-        )
-        ERR_CANNOT_MODIFY_ACCEPTED_BID
-    )
-    )
-  )
-)
-
-;; #[allow(unchecked_params)]
-;; #[allow(unchecked_data)]
-(define-public (update-interest (id uint) (new-interest uint))
-  (let ((bid (unwrap-panic (map-get? bids { id: id })))
-    (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
-    (accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) }))))
-  )
-
-    (if (and (not (is-none accepted-bid-id)) (is-eq id (unwrap-panic accepted-bid-id)))
-        ERR_CANNOT_MODIFY_ACCEPTED_BID
-
-        (if (not (get refunded bid))
-            (begin
-                (map-set bids 
-                    { id: id } 
-                    (merge bid { interest-rate: new-interest })
-                )
-                (ok true)
-            )
-            ERR_CANNOT_MODIFY_ACCEPTED_BID
-        )
-    )
-  )
-)
-
 ;; Retract or update a bid
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
@@ -421,6 +372,8 @@
         (old-amount (get bid-amount bid))
         (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
         )
+
+    ;; check that the bid can only be updated by the creator of the bid.
     
     ;; Fetch the purchase order's accepted bid ID
     (let ((accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) })))))
@@ -484,11 +437,10 @@
     (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
 
     ;; Update purchase order with details from the accepted bid
-
+    ;; Transfer the bid amount from the contract to the seller and 
+    ;; transfer the downpayment to the seller as well.
     (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get borrower-id po) none))
         (begin
-
-          
           (map-set purchase-orders
               { id: (get purchase-order-id bid) }
               (merge po {
