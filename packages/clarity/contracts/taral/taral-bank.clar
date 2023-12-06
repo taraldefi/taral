@@ -56,11 +56,19 @@
   }
 )
 
+;; Version string
+(define-constant VERSION "0.0.5.beta")
+
+(define-data-var contract-owner principal tx-sender)
+(define-data-var protocol-interest-rate uint u1) ;; 1% protocol interest
+
+
 ;; Counter for Purchase Orders and Bids
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-payment-id uint u1)
 (define-data-var next-bid-id uint u1)
 
+;; Error codes
 (define-constant ERR_PURCHASE_ORDER_NOT_FOUND (err u100))
 (define-constant ERR_BID_NOT_FOUND_FOR_PURCHASE_ORDER (err u101))
 (define-constant ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT (err u102))
@@ -87,6 +95,20 @@
 (define-constant ERR_ACTIVE_BIDS_PRESENT (err u122))
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
+
+(define-read-only (get-info)
+    (ok {
+        version: (get-version),
+        protocol-interest: (var-get protocol-interest-rate),
+    })
+)
+
+;; Returns version of the safe contract
+;; @returns string-ascii
+(define-read-only (get-version) 
+    VERSION
+)
+
 
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
@@ -277,8 +299,6 @@
   )
 )
 
-(define-constant protocol-interest-rate u5) ;; 5% protocol interest
-
 ;; Function to cancel a purchase order
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
@@ -302,9 +322,8 @@
         (protocol-interest-amount (* (/ protocol-interest-rate u100) total-amount))
         (total-interest (+ lender-interest-amount protocol-interest-amount))
         (total-with-interest (+ total-amount total-interest))
-        (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u1)))
+        (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
-
     ;; default the interest rate to 1% per annum
 
     ;; Transfer the bid amount from the lender to the contract
