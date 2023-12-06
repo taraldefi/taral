@@ -34,7 +34,6 @@
     lender-id: (optional principal),
     is-accepted: bool,
     interest-rate-per-month: uint,
-    duration: uint,
     number-of-downpayments: uint,
     monthly-payment: uint,
     refunded: bool,
@@ -61,6 +60,8 @@
 
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
+(define-data-var po_number_of_installments uint u3) ;; number of installments for paying the loan
+
 (define-data-var contract-paused bool false)
 
 
@@ -156,6 +157,22 @@
       po-data (get has-active-bids po-data)
       false  ;; If purchase order not found, return false
     )
+  )
+)
+
+(define-public (update-protocol-interest-rate-per-annum (new-interest-rate uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (var-set protocol-interest-rate-per-annum new-interest-rate)
+    (ok true)
+  )
+)
+
+(define-public (update-number-of-installments (new-number-of-installments uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (var-set po_number_of_installments new-number-of-installments)
+    (ok true)
   )
 )
 
@@ -356,11 +373,12 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (place-bid (purchase-order-id uint) (number-of-downpayments uint))
+(define-public (place-bid (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
         (bid-id (increment-next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
-        (monthly-payment-amount (/ total-amount number-of-downpayments))
+        (number-of-installments (var-get po_number_of_installments))
+        (monthly-payment-amount (/ total-amount number-of-installments))
   )
 
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
@@ -377,8 +395,7 @@
               lender-id: (some tx-sender),
               is-accepted: false,
               interest-rate-per-month: (interest-per-month),
-              duration: (+ number-of-downpayments u1),
-              number-of-downpayments: number-of-downpayments,
+              number-of-downpayments: number-of-installments,
               monthly-payment: monthly-payment-amount,
               refunded: false,
               is-rejected: false
