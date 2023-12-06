@@ -405,65 +405,21 @@
 ;; Retract or update a bid
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (update-bid (bid-id uint) (new-amount (optional uint)))
-  (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-        (old-amount (get bid-amount bid))
-        (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
-        )
-
-    ;; check that the bid can only be updated by the creator of the bid.
-    
-    ;; Fetch the purchase order's accepted bid ID
-    (let ((accepted-bid-id (get accepted-bid-id (unwrap-panic (map-get? purchase-orders { id: (get purchase-order-id bid) })))))
-      
-      ;; Check if the bid was the accepted one
-      (if (and (not (is-none accepted-bid-id)) (is-eq bid-id (unwrap-panic accepted-bid-id)))
-        ERR_CANNOT_MODIFY_ACCEPTED_BID
-
-        ;; Check if the bid was already refunded
-        (if (get refunded bid)
-          ERR_BID_ALREADY_REFUNDED
-          
-          ;; If no new amount is provided or it's zero, we consider this a retraction and refund the bid
-          (if (or (is-none new-amount) (is-eq (unwrap-panic new-amount) u0))
-            (refund-bid bid-id)
-            
-            ;; If the new amount is more than the old amount
-            (if (> (unwrap-panic new-amount) old-amount)
-              (let ((difference (- (unwrap-panic new-amount) old-amount)))
-                ;; Transfer the difference from the bidder to the contract
-                (if (is-ok (contract-call? .usda-token transfer difference  lender-id contract-caller none))
-                  (begin
-
-                    (map-set bids 
-                        { id: bid-id } 
-                        (merge bid { bid-amount: (unwrap-panic new-amount) })
-                    )
-                    (ok true)
-                  )
-                  ERR_NOT_ENOUGH_FUNDS
-                )
-              )
-              
-              ;; If the new amount is less than the old amount
-              (let ((difference (- old-amount (unwrap-panic new-amount))))
-                ;; Transfer the difference from the contract back to the bidder
-                (if (is-ok (contract-call? .usda-token transfer difference contract-caller lender-id none))
-                  (begin
-                    (map-set bids 
-                            { id: bid-id } 
-                            (merge bid { bid-amount: (unwrap-panic new-amount) })
-                    )
-                    (ok true)
-                  )
-                  ERR_NOT_ENOUGH_FUNDS
-                )
-              )
-            )
-          )
-        )
-      )
+(define-public (cancel-bid (bid-id uint))
+  (let 
+    (
+      (bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND))
+  
+      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
     )
+
+    ;; ensure the bid cannot be canceled after it's been accepted, not even by admin
+    (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
+
+    ;; ensure only the lender can cancel their own bid
+    (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
+
+    (refund-bid bid-id)
   )
 )
 
