@@ -16,7 +16,7 @@
     outstanding-amount: uint,
     is-completed: bool,
     completed-successfully: bool,
-    accepted-bid-id: (optional uint),
+    accepted-financing-id: (optional uint),
     is-canceled: bool,
     has-active-financing: bool,
     created-at: uint,  ;; Timestamp of creation
@@ -24,13 +24,13 @@
   }
 )
 
-(define-map bids ;; this will be called financing-offers
+(define-map po-financing ;; this will be called financing-offers
   {
     id: uint
   }
   {
     purchase-order-id: uint,
-    bid-amount: uint,
+    financing-amount: uint,
     lender-id: (optional principal),
     is-accepted: bool,
     interest-rate-per-month: uint,
@@ -65,14 +65,14 @@
 (define-data-var contract-paused bool false)
 
 
-;; Counter for Purchase Orders and Bids
+;; Counter for Purchase Orders and financing offers
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-payment-id uint u1)
-(define-data-var next-bid-id uint u1)
+(define-data-var next-financing-id uint u1)
 
 ;; Error codes
 (define-constant ERR_PURCHASE_ORDER_NOT_FOUND (err u100))
-(define-constant ERR_BID_NOT_FOUND_FOR_PURCHASE_ORDER (err u101))
+(define-constant ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER (err u101))
 (define-constant ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT (err u102))
 (define-constant ERR_FAILED_TO_RECORD_PAYMENTS (err u103))
 (define-constant ERR_FAILED_TO_CHECK_MISSED_PAYMENTS (err u104))
@@ -81,14 +81,14 @@
 (define-constant ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD (err u107))
 (define-constant ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD (err u108))
 (define-constant ERR_NO_MISSED_PAYMENTS (err u109))
-(define-constant ERR_NO_LENDER_FOR_BID (err u110))
-(define-constant ERR_CANNOT_MODIFY_ACCEPTED_BID (err u111))
+(define-constant ERR_NO_LENDER_FOR_FINANCING (err u110))
+(define-constant ERR_CANNOT_MODIFY_ACCEPTED_FINANCING (err u111))
 (define-constant ERR_NOT_ENOUGH_FUNDS (err u112))
 (define-constant ERR_PURCHASE_ORDER_NOT_FULLY_PAID (err u113))
 (define-constant ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER (err u114))
-(define-constant ERR_BID_NOT_FOUND (err u115))
-(define-constant ERR_BID_ALREADY_REFUNDED (err u116))
-(define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_BID (err u117))
+(define-constant ERR_FINANCING_NOT_FOUND (err u115))
+(define-constant ERR_FINANCING_ALREADY_REFUNDED (err u116))
+(define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING (err u117))
 (define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
 (define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
 (define-constant ERR_MISSED_PAYMENTS u120)
@@ -96,7 +96,7 @@
 
 (define-constant ERR_PO_HAS_ACTIVE_FINANCING (err u122))
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
-(define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
+(define-constant ERR_CANNOT_REJECT_ACCEPTED_FINANCING (err u124))
 (define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
 (define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER (err u126))
 
@@ -140,17 +140,17 @@
 
 (define-read-only (get-payment-details (purchase-order-id uint))
   (let ((po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
-        (bid-id (unwrap-panic (get accepted-bid-id po))))
-    (let ((bid (unwrap-panic (map-get? bids {id: bid-id}))))
+        (financing-id (unwrap-panic (get accepted-financing-id po))))
+    (let ((financing (unwrap-panic (map-get? po-financing {id: financing-id}))))
       (ok { 
         payments-left: (get payments-left po), 
-        monthly-payment: (get monthly-payment bid)
+        monthly-payment: (get monthly-payment financing)
       })
     )
   )
 )
 
-;; Function to check if a purchase order has active bids
+;; Function to check if a purchase order has active financing offers
 (define-read-only (has-active-financing (purchase-order-id uint))
   (let ((po (map-get? purchase-orders {id: purchase-order-id})))
     (match po
@@ -199,9 +199,9 @@
   (let 
     (
       (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
-      (bid (unwrap-panic (map-get? bids {id: (unwrap-panic (get accepted-bid-id po))})))
+      (financing (unwrap-panic (map-get? po-financing {id: (unwrap-panic (get accepted-financing-id po))})))
       (total-available (+ amount (get overpaid-balance po)))
-      (required-amount (get monthly-payment bid))
+      (required-amount (get monthly-payment financing))
       (months-covered (/ total-available required-amount))
     )
 
@@ -334,7 +334,7 @@
               outstanding-amount: (- total-amount downpayment),
               is-completed: false,
               completed-successfully: false,
-              accepted-bid-id: none,
+              accepted-financing-id: none,
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
@@ -355,7 +355,7 @@
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
     (asserts! (is-eq (get has-active-financing po) true) ERR_PO_HAS_ACTIVE_FINANCING)
-    ;; ensure only the lender can cancel their own bid
+    ;; ensure only the lender can cancel their own financing offer
     (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
 
     (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) tx-sender none))
@@ -373,9 +373,9 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (place-bid (purchase-order-id uint))
+(define-public (finance (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
-        (bid-id (increment-next-bid-id))
+        (financing-id (increment-next-financing-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
         (number-of-installments (var-get po_number_of_installments))
         (monthly-payment-amount (/ total-amount number-of-installments))
@@ -384,14 +384,14 @@
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
     (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
     
-    ;; Transfer the bid amount from the lender to the contract
+    ;; Transfer the financing offer amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
-          (map-set bids 
-            { id: bid-id }
+          (map-set po-financing 
+            { id: financing-id }
             {
               purchase-order-id: purchase-order-id,
-              bid-amount: total-amount,
+              financing-amount: total-amount,
               lender-id: (some tx-sender),
               is-accepted: false,
               interest-rate-per-month: (interest-per-month),
@@ -401,34 +401,33 @@
               is-rejected: false
             }
           )
-          (ok bid-id)
+          (ok financing-id)
         )
         ERR_NOT_ENOUGH_FUNDS
     )
   )
 )
 
-;; Function to reject a bid
-;; Updated to decrement the active-bids-count
+;; Function to reject a financing offer
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (reject-bid (bid-id uint))
+(define-public (reject-financing (financing-id uint))
   (let 
     (
-      (bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND))
+      (financing (unwrap! (map-get? po-financing {id: financing-id}) ERR_FINANCING_NOT_FOUND))
   
-      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
+      (lender-id (unwrap! (get lender-id financing) ERR_NO_LENDER_FOR_FINANCING))
     )
 
-    (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
+    (asserts! (not (get is-accepted financing)) ERR_CANNOT_REJECT_ACCEPTED_FINANCING)
 
-    (let ((po-id (get purchase-order-id bid)))
+    (let ((po-id (get purchase-order-id financing)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-        (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) lender-id none))
+        (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
-            (map-set bids
-                  {id: bid-id}
-                  (merge bid { is-rejected: true }))
+            (map-set po-financing
+                  {id: financing-id}
+                  (merge financing { is-rejected: true }))
               (map-set purchase-orders
                       {id: po-id}
                       (merge po { has-active-financing: false }))
@@ -442,61 +441,61 @@
   )
 )
 
-;; Retract or update a bid
+;; Retract or update a financing offer
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (cancel-bid (bid-id uint))
+(define-public (cancel-financing (financing-id uint))
   (let 
     (
-      (bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND))
+      (financing (unwrap! (map-get? po-financing {id: financing-id}) ERR_FINANCING_NOT_FOUND))
   
-      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
+      (lender-id (unwrap! (get lender-id financing) ERR_NO_LENDER_FOR_FINANCING))
     )
 
-    ;; ensure the bid cannot be canceled after it's been accepted, not even by admin
-    (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
+    ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
+    (asserts! (not (get is-accepted financing)) ERR_CANNOT_REJECT_ACCEPTED_FINANCING)
 
-    ;; ensure only the lender can cancel their own bid
+    ;; ensure only the lender can cancel their own financing offer
     (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
 
-    (refund-bid bid-id)
+    (refund-financing financing-id)
   )
 )
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (accept-bid (bid-id uint))
-  (let ((bid (unwrap! (map-get? bids { id: bid-id }) ERR_BID_NOT_FOUND))
-        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id bid) }) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
-    (asserts! (not (get is-accepted bid)) ERR_CANNOT_MODIFY_ACCEPTED_BID)
+(define-public (accept-financing (financing-id uint))
+  (let ((financing (unwrap! (map-get? po-financing { id: financing-id }) ERR_FINANCING_NOT_FOUND))
+        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id financing) }) ERR_PURCHASE_ORDER_NOT_FOUND)))
+    (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING)
+    (asserts! (not (get is-accepted financing)) ERR_CANNOT_MODIFY_ACCEPTED_FINANCING)
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
     (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
 
-    ;; Update purchase order with details from the accepted bid
-    (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get seller-id po) none))
+    ;; Update purchase order with details from the accepted financing
+    (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) (get seller-id po) none))
         (begin
           (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) (get seller-id po) none))
             (begin
               (map-set purchase-orders
-                { id: (get purchase-order-id bid) }
+                { id: (get purchase-order-id financing) }
                 
                 (merge po {
                   outstanding-amount: (- (get total-amount po) (get downpayment po)),
                   overpaid-balance: u0,
-                  accepted-bid-id: (some bid-id),
+                  accepted-financing-id: (some financing-id),
                   has-active-financing: true,
                   updated-at: block-height
                 })
               )
 
-              ;; Mark bid as accepted
-              (map-set bids 
-                { id: bid-id } 
-                (merge bid { is-accepted: true })
+              ;; Mark financing as accepted
+              (map-set po-financing 
+                { id: financing-id } 
+                (merge financing { is-accepted: true })
               )
 
-              (ok bid-id)
+              (ok financing-id)
             )
             ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER
           )
@@ -506,34 +505,35 @@
   )
 )
 
-;; Refund a bid
+;; Refund a financing offer
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-private (refund-bid (bid-id uint))
-    (let ((bid (unwrap-panic (map-get? bids { id: bid-id })))
-    (lender-id (unwrap! (get lender-id bid) (err u111)))
+(define-private (refund-financing (financing-id uint))
+    (let ((financing (unwrap-panic (map-get? po-financing { id: financing-id })))
+    (lender-id (unwrap! (get lender-id financing) (err u111)))
     
     )
-      (if (not (get refunded bid))
+      (if (not (get refunded financing))
         (begin
           
           (try! (contract-call? 
                   .usda-token transfer 
-                  (get bid-amount bid) 
+                  (get financing-amount financing) 
                   contract-caller 
                   lender-id 
                   none)
           )
         
-          ;; Mark bid as refunded
-          (map-set bids 
-            { id: bid-id } 
-            (merge bid { refunded: true })
+          ;; Mark finance offer as refunded
+          (map-set po-financing 
+            { id: financing-id } 
+            (merge financing { refunded: true })
           )
 
           (ok true)
         )
-        ERR_BID_ALREADY_REFUNDED
+        
+        ERR_FINANCING_ALREADY_REFUNDED
       )
     )
   )
@@ -590,10 +590,10 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-;; Implements a safe way to provide a valid ID for a bid
-(define-private (increment-next-bid-id)
-  (let ((current-id (var-get next-bid-id)))
-    (var-set next-bid-id (+ current-id u1))
+;; Implements a safe way to provide a valid ID for a financing offer
+(define-private (increment-next-financing-id)
+  (let ((current-id (var-get next-financing-id)))
+    (var-set next-financing-id (+ current-id u1))
     current-id
   )
 )
