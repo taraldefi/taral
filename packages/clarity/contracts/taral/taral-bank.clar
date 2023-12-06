@@ -377,9 +377,9 @@
     (
       (bid (unwrap! (map-get? bids {id: bid-id}) ERR_BID_NOT_FOUND))
   
-      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID)
+      (lender-id (unwrap! (get lender-id bid) ERR_NO_LENDER_FOR_BID))
     )
-    
+
     (asserts! (not (get is-accepted bid)) ERR_CANNOT_REJECT_ACCEPTED_BID)
 
     (let ((po-id (get purchase-order-id bid)))
