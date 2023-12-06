@@ -18,7 +18,7 @@
     completed-successfully: bool,
     accepted-bid-id: (optional uint),
     is-canceled: bool,
-    has-active-bids: bool,
+    has-active-financing: bool,
     created-at: uint,  ;; Timestamp of creation
     updated-at: uint   ;; Timestamp of last update
   }
@@ -94,7 +94,7 @@
 (define-constant ERR_MISSED_PAYMENTS u120)
 (define-constant ERR_OVERPAYMENT (err u121))
 
-(define-constant ERR_ACTIVE_BIDS_PRESENT (err u122))
+(define-constant ERR_PO_HAS_ACTIVE_FINANCING (err u122))
 (define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_BID (err u124))
 (define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
@@ -151,10 +151,10 @@
 )
 
 ;; Function to check if a purchase order has active bids
-(define-read-only (has-active-bids (purchase-order-id uint))
+(define-read-only (has-active-financing (purchase-order-id uint))
   (let ((po (map-get? purchase-orders {id: purchase-order-id})))
     (match po
-      po-data (get has-active-bids po-data)
+      po-data (get has-active-financing po-data)
       false  ;; If purchase order not found, return false
     )
   )
@@ -338,7 +338,7 @@
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
-              has-active-bids: false 
+              has-active-financing: false 
             }
           )
 
@@ -354,7 +354,7 @@
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq (get has-active-bids po) true) ERR_ACTIVE_BIDS_PRESENT)
+    (asserts! (is-eq (get has-active-financing po) true) ERR_PO_HAS_ACTIVE_FINANCING)
     ;; ensure only the lender can cancel their own bid
     (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
 
@@ -382,7 +382,7 @@
   )
 
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
-    (asserts! (not (get has-active-bids po)) ERR_ACTIVE_BIDS_PRESENT)
+    (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
     
     ;; Transfer the bid amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
@@ -431,7 +431,7 @@
                   (merge bid { is-rejected: true }))
               (map-set purchase-orders
                       {id: po-id}
-                      (merge po { has-active-bids: false }))
+                      (merge po { has-active-financing: false }))
               (ok true)
           )
           
@@ -471,7 +471,7 @@
     (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_BID)
     (asserts! (not (get is-accepted bid)) ERR_CANNOT_MODIFY_ACCEPTED_BID)
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
-    (asserts! (not (get has-active-bids po)) ERR_ACTIVE_BIDS_PRESENT)
+    (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
 
     ;; Update purchase order with details from the accepted bid
     (if (is-ok (contract-call? .usda-token transfer (get bid-amount bid) (as-contract tx-sender) (get seller-id po) none))
@@ -485,6 +485,7 @@
                   outstanding-amount: (- (get total-amount po) (get downpayment po)),
                   overpaid-balance: u0,
                   accepted-bid-id: (some bid-id),
+                  has-active-financing: true,
                   updated-at: block-height
                 })
               )
