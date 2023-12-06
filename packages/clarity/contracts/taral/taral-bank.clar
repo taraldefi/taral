@@ -37,6 +37,7 @@
     duration: uint,
     number-of-downpayments: uint,
     monthly-payment: uint,
+    monthly-payment-with-interest: uint,
     refunded: bool,
     is-rejected: bool
   }
@@ -353,28 +354,31 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (place-bid (purchase-order-id uint) (bid-amount uint) (number-of-downpayments uint))
+(define-public (place-bid (purchase-order-id uint) (number-of-downpayments uint))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
         (bid-id (increment-next-bid-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
+        
         (protocol-interest-amount (* (/ (var-get protocol-interest-rate) u100) total-amount))
         (total-with-interest (+ total-amount protocol-interest-amount))
-        (monthly-payment-amount (/ total-with-interest (+ number-of-downpayments u0)))
+        (monthly-payment-amount (/ total-amount number-of-downpayments))
+        (monthly-payment-with-interest-amount (/ total-with-interest (+ number-of-downpayments u0)))
   )
     ;; Transfer the bid amount from the lender to the contract
-    (if (is-ok (contract-call? .usda-token transfer bid-amount tx-sender (as-contract tx-sender) none))
+    (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
           (map-set bids 
             { id: bid-id }
             {
               purchase-order-id: purchase-order-id,
-              bid-amount: bid-amount,
+              bid-amount: total-amount,
               lender-id: (some tx-sender),
               is-accepted: false,
               interest-rate: (var-get protocol-interest-rate),
               duration: (+ number-of-downpayments u1),
               number-of-downpayments: number-of-downpayments,
               monthly-payment: monthly-payment-amount,
+              monthly-payment-with-interest: monthly-payment-with-interest-amount,
               refunded: false,
               is-rejected: false
             }
