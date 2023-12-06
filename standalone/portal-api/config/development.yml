@@ -31,6 +31,13 @@ logging:
   level: 'error'
   fluentdlogging: false
 
+onchain:
+  mock: true
+  privateKey: '753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601'
+  publicKey: '0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa'
+  address: ''
+  network: ''
+
 
 throttle:
   enabled: false

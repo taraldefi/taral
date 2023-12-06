@@ -25,6 +25,14 @@ app:
   runthrottle: true
   runevents: true
 
+onchain:
+  mock: true
+  privateKey: ''
+  publicKey: ''
+  address: ''
+  network: ''
+
+
 logging:
   level: 'error'
   fluentdlogging: false

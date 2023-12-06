@@ -38,3 +38,10 @@ throttle:
     limit: 5
     duration: 2592000
     blockDuration: 3000
+
+onchain:
+  mock: true
+  privateKey: ''
+  publicKey: ''
+  address: ''
+  network: ''

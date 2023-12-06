@@ -54,6 +54,13 @@ queue:
   password: ''
   username: ''
 
+onchain:
+  mock: true
+  privateKey: ''
+  publicKey: ''
+  address: ''
+  network: ''
+
 throttle:
   enabled: true
   global:
