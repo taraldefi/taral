@@ -42,8 +42,6 @@ describe("Taral bank test flows", () => {
         "borrower-id": Cl.standardPrincipal(WALLET_1),
         "completed-successfully": Cl.bool(false),
         "created-at": Cl.uint(blockHeight),
-        "first-payment-month": Cl.uint(0),
-        "first-payment-year": Cl.uint(0),
         "seller-id": Cl.standardPrincipal(WALLET_2),
         "accepted-financing-id": Cl.none(),
         "total-amount": Cl.uint(borrow),
@@ -56,6 +54,7 @@ describe("Taral bank test flows", () => {
         "overpaid-balance": Cl.uint(0),
         "updated-at": Cl.uint(blockHeight),
         downpayment: Cl.uint(downPayment),
+        "first-payment-block-height": Cl.uint(0)
     })));
 
     // check if the PO has active financing
@@ -97,8 +96,6 @@ describe("Taral bank test flows", () => {
         "borrower-id": Cl.standardPrincipal(WALLET_1),
         "completed-successfully": Cl.bool(false),
         "created-at": Cl.uint(initialBlockHeight),
-        "first-payment-month": Cl.uint(0),
-        "first-payment-year": Cl.uint(0),
         "seller-id": Cl.standardPrincipal(WALLET_2),
         "accepted-financing-id": Cl.none(),
         "total-amount": Cl.uint(borrow),
@@ -111,6 +108,7 @@ describe("Taral bank test flows", () => {
         "overpaid-balance": Cl.uint(0),
         "updated-at": Cl.uint(blockHeight),
         downpayment: Cl.uint(downPayment),
+        "first-payment-block-height": Cl.uint(0)
     })));
   }),
 
