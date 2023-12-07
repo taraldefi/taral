@@ -1,8 +1,5 @@
-import { initSimnet } from "@hirosystems/clarinet-sdk";
 import { Cl } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
-
-const simnet = await initSimnet();
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
@@ -25,6 +22,11 @@ describe("Taral bank test flows", () => {
         ], WALLET_1
     );
 
+    let initialBlockHeight = simnet.blockHeight;
+    let blockHeight = initialBlockHeight;
+
+    console.log('Initial block height', initialBlockHeight);
+
     expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
 
     expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
@@ -39,7 +41,7 @@ describe("Taral bank test flows", () => {
     expect(getPurchaseOrder.result).toStrictEqual(Cl.some(Cl.tuple({
         "borrower-id": Cl.standardPrincipal(WALLET_1),
         "completed-successfully": Cl.bool(false),
-        "created-at": Cl.uint(4),
+        "created-at": Cl.uint(blockHeight),
         "first-payment-month": Cl.uint(0),
         "first-payment-year": Cl.uint(0),
         "seller-id": Cl.standardPrincipal(WALLET_2),
@@ -52,7 +54,7 @@ describe("Taral bank test flows", () => {
         "has-active-financing": Cl.bool(false),
         "outstanding-amount": Cl.uint(borrow - downPayment),
         "overpaid-balance": Cl.uint(0),
-        "updated-at": Cl.uint(4),
+        "updated-at": Cl.uint(blockHeight),
         downpayment: Cl.uint(downPayment),
     })));
 
@@ -82,6 +84,8 @@ describe("Taral bank test flows", () => {
 
     expectUsdaTransfer(cancelPurchaseOrderResult.events[0].data, DEPLOYER, WALLET_1, downPayment);
 
+    blockHeight++;
+
     const getPurchaseOrderAfterCancel = simnet.callReadOnlyFn(
         "taral-bank",
         "get-purchase-order-by-id",
@@ -92,7 +96,7 @@ describe("Taral bank test flows", () => {
     expect(getPurchaseOrderAfterCancel.result).toStrictEqual(Cl.some(Cl.tuple({
         "borrower-id": Cl.standardPrincipal(WALLET_1),
         "completed-successfully": Cl.bool(false),
-        "created-at": Cl.uint(4),
+        "created-at": Cl.uint(initialBlockHeight),
         "first-payment-month": Cl.uint(0),
         "first-payment-year": Cl.uint(0),
         "seller-id": Cl.standardPrincipal(WALLET_2),
@@ -105,9 +109,12 @@ describe("Taral bank test flows", () => {
         "has-active-financing": Cl.bool(false),
         "outstanding-amount": Cl.uint(borrow - downPayment),
         "overpaid-balance": Cl.uint(0),
-        "updated-at": Cl.uint(4),
+        "updated-at": Cl.uint(blockHeight),
         downpayment: Cl.uint(downPayment),
     })));
+  }),
+
+  it("Should be able to place a financing offer", () => {
   })
 
   /*
