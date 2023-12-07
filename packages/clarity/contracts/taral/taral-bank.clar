@@ -102,6 +102,8 @@
 
 (define-constant err-unauthorised (err u401))
 
+;;TODO: parameterize how much time a block takes. 
+
 (define-read-only (get-info)
     (ok {
         version: (get-version),
@@ -154,7 +156,7 @@
 (define-read-only (has-active-financing (purchase-order-id uint))
   (let ((po (map-get? purchase-orders {id: purchase-order-id})))
     (match po
-      po-data (get has-active-financing po-data)
+      po-data (is-eq (get has-active-financing po-data) true)
       false  ;; If purchase order not found, return false
     )
   )
@@ -391,11 +393,11 @@
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq (get has-active-financing po) true) ERR_PO_HAS_ACTIVE_FINANCING)
+    (asserts! (is-eq (get has-active-financing po) false) ERR_PO_HAS_ACTIVE_FINANCING)
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
+    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) err-unauthorised)
 
-    (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) tx-sender none))
+    (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get borrower-id po) none)))
         (begin
           (map-set purchase-orders
             {id: purchase-order-id}
