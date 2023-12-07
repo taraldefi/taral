@@ -608,12 +608,12 @@
       (if (not (get refunded financing))
         (begin
           
-          (try! (contract-call? 
+          (try! (as-contract (contract-call? 
                   .usda-token transfer 
                   (get financing-amount financing) 
                   contract-caller 
                   lender-id 
-                  none)
+                  none))
           )
         
           ;; Mark finance offer as refunded
