@@ -99,6 +99,7 @@
 (define-constant ERR_CANNOT_REJECT_ACCEPTED_FINANCING (err u124))
 (define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
 (define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER (err u126))
+(define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES (err u127))
 
 (define-constant err-unauthorised (err u401))
 
@@ -401,7 +402,10 @@
         (begin
           (map-set purchase-orders
             {id: purchase-order-id}
-            (merge po { is-canceled: true }))
+            (merge po { 
+              is-canceled: true,
+              updated-at: block-height 
+            }))
 
           (ok true)
         )
@@ -419,7 +423,7 @@
         (number-of-installments (var-get po_number_of_installments))
         (monthly-payment-amount (/ total-amount number-of-installments))
   )
-
+    (asserts! (not (is-eq (get borrower-id po) tx-sender)) ERR_BORROWER_CANNOT_FINANCE_THEMSELVES)
     (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
     (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
     
