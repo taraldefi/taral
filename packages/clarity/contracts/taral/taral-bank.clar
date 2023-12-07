@@ -11,6 +11,7 @@
     downpayment: uint,
     overpaid-balance: uint,
     payments-left: uint,
+    payments-made: uint,
     first-payment-block-height: uint,
     outstanding-amount: uint,
     is-completed: bool,
@@ -62,7 +63,6 @@
 
 (define-data-var contract-paused bool false)
 
-
 ;; Counter for Purchase Orders and financing offers
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-payment-id uint u1)
@@ -70,7 +70,6 @@
 
 ;; Define a data variable for block time in seconds
 (define-data-var blocks-time-in-seconds uint u600) ;; Default to 600 seconds (10 minutes)
-
 
 ;; Error codes
 (define-constant ERR_PURCHASE_ORDER_NOT_FOUND u100)
@@ -140,25 +139,31 @@
 )
 
 (define-read-only (missed-last-three-payments (purchase-order-id uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+  (match (map-get? purchase-orders { id: purchase-order-id })
+    po
     (let ((first-payment-block-height (get first-payment-block-height po))
-          (current-block-height block-height)
-          (blocks-per-month (calculate-blocks-per-month))) ;; This should be defined based on your blockchain's average block time
+          (current-block-height block-height))
+      (let ((blocks-per-month (calculate-blocks-per-month)))
 
-      ;; Calculate the number of months since the first payment
-      (let ((months-passed (/ (- current-block-height first-payment-block-height) blocks-per-month)))
+        ;; Calculate the total number of months since the first payment
+        (let (
+            (total-months-passed (/ (- current-block-height first-payment-block-height) blocks-per-month))
+            (months-after (max total-months-passed (var-get po_number_of_installments)))
+          )
 
-        ;; Calculate the expected number of payments made till now
-        (let ((expected-payments-made (- months-passed (get payments-left po))))
-
-          ;; Check if they missed a payment in the last three months
-          (if (> expected-payments-made (+ (get payments-left po) u3))
+          ;; Calculate the number of payments that should have been made by now
+            ;; Check if the number of expected payments exceeds the total months passed minus three
+          (if (is-eq total-months-passed u0)
+            (ok false)
+            (if (< (get payments-made po) months-after)
               (ok true)   ;; True means they missed a payment in the last three months.
-              (ok false)  ;; False means they didn't.
+              (ok false)  ;; False means they didn't miss any payments.
+            )
           )
         )
       )
     )
+    (err ERR_PURCHASE_ORDER_NOT_FOUND)
   )
 )
 
@@ -302,6 +307,7 @@
                                       overpaid-balance: new-overpaid-balance,
                                       payments-left: new-payments-left,
                                       updated-at: block-height,
+                                      payments-made: (+ (get payments-made po) u1),
                                       first-payment-block-height: block-height
                                     }))
                                 ;; otherwise, don't update it
@@ -310,6 +316,7 @@
                                         (merge po {
                                           overpaid-balance: new-overpaid-balance,
                                           payments-left: new-payments-left,
+                                          payments-made: (+ (get payments-made po) u1),
                                           updated-at: block-height
                                         }))    
                               )
@@ -428,6 +435,7 @@
               updated-at: block-height,
               is-canceled: false,
               has-active-financing: false,
+              payments-made: u0,
               first-payment-block-height: u0 ;; default, block height of 0
             }
           )
@@ -495,6 +503,13 @@
               is-rejected: false
             }
           )
+
+          (map-set purchase-orders
+            {id: purchase-order-id}
+            (merge po { 
+              updated-at: block-height,
+              payments-left: number-of-installments 
+            }))
           (ok financing-id)
         )
         (err ERR_NOT_ENOUGH_FUNDS)
@@ -664,6 +679,13 @@
 
 (define-private (min (a uint) (b uint))
     (if (<= a b)
+        a
+        b
+    )
+)
+
+(define-private (max (a uint) (b uint))
+    (if (>= a b)
         a
         b
     )
