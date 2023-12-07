@@ -103,6 +103,7 @@
 (define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER u126)
 (define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES u127)
 (define-constant ERR_PAYMENTS_MISSED u128)
+(define-constant ERR_SELLER_CANNOT_FINANCE_THEIR_PO u129)
 
 (define-constant err-unauthorised u401)
 
@@ -473,6 +474,7 @@
         (monthly-payment-amount (/ total-amount number-of-installments))
   )
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
+    (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
     
@@ -565,9 +567,9 @@
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Update purchase order with details from the accepted financing
-    (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) (get seller-id po) none))
+    (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
         (begin
-          (if (is-ok (contract-call? .usda-token transfer (get downpayment po) (as-contract tx-sender) (get seller-id po) none))
+          (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get seller-id po) none)))
             (begin
               (map-set purchase-orders
                 { id: (get purchase-order-id financing) }
