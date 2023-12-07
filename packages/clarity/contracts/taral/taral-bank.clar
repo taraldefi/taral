@@ -11,8 +11,7 @@
     downpayment: uint,
     overpaid-balance: uint,
     payments-left: uint,
-    first-payment-year: uint,
-    first-payment-month: uint,
+    first-payment-block-height: uint,
     outstanding-amount: uint,
     is-completed: bool,
     completed-successfully: bool,
@@ -49,8 +48,7 @@
     borrower-id: principal,
     purchase-order-id: uint,
     amount: uint,
-    month: uint,
-    year: uint,
+    block: uint,
     months-covered: uint
   }
 )
@@ -70,38 +68,43 @@
 (define-data-var next-payment-id uint u1)
 (define-data-var next-financing-id uint u1)
 
+;; Define a data variable for block time in seconds
+(define-data-var blocks-time-in-seconds uint u600) ;; Default to 600 seconds (10 minutes)
+
+
 ;; Error codes
-(define-constant ERR_PURCHASE_ORDER_NOT_FOUND (err u100))
-(define-constant ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER (err u101))
-(define-constant ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT (err u102))
-(define-constant ERR_FAILED_TO_RECORD_PAYMENTS (err u103))
-(define-constant ERR_FAILED_TO_CHECK_MISSED_PAYMENTS (err u104))
-(define-constant ERR_NO_LENDER_FOR_PURCHASE_ORDER (err u105))
-(define-constant ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD (err u106))
-(define-constant ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD (err u107))
-(define-constant ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD (err u108))
-(define-constant ERR_NO_MISSED_PAYMENTS (err u109))
-(define-constant ERR_NO_LENDER_FOR_FINANCING (err u110))
-(define-constant ERR_CANNOT_MODIFY_ACCEPTED_FINANCING (err u111))
-(define-constant ERR_NOT_ENOUGH_FUNDS (err u112))
-(define-constant ERR_PURCHASE_ORDER_NOT_FULLY_PAID (err u113))
-(define-constant ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER (err u114))
-(define-constant ERR_FINANCING_NOT_FOUND (err u115))
-(define-constant ERR_FINANCING_ALREADY_REFUNDED (err u116))
-(define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING (err u117))
-(define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED (err u118))
-(define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER (err u119))
+(define-constant ERR_PURCHASE_ORDER_NOT_FOUND u100)
+(define-constant ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER u101)
+(define-constant ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT u102)
+(define-constant ERR_FAILED_TO_RECORD_PAYMENTS u103)
+(define-constant ERR_FAILED_TO_CHECK_MISSED_PAYMENTS u104)
+(define-constant ERR_NO_LENDER_FOR_PURCHASE_ORDER u105)
+(define-constant ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD u106)
+(define-constant ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD u107)
+(define-constant ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD u108)
+(define-constant ERR_NO_MISSED_PAYMENTS u109)
+(define-constant ERR_NO_LENDER_FOR_FINANCING u110)
+(define-constant ERR_CANNOT_MODIFY_ACCEPTED_FINANCING u111)
+(define-constant ERR_NOT_ENOUGH_FUNDS u112)
+(define-constant ERR_PURCHASE_ORDER_NOT_FULLY_PAID u113)
+(define-constant ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER u114)
+(define-constant ERR_FINANCING_NOT_FOUND u115)
+(define-constant ERR_FINANCING_ALREADY_REFUNDED u116)
+(define-constant ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING u117)
+(define-constant ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED u118)
+(define-constant ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER u119)
 (define-constant ERR_MISSED_PAYMENTS u120)
-(define-constant ERR_OVERPAYMENT (err u121))
+(define-constant ERR_OVERPAYMENT u121)
 
-(define-constant ERR_PO_HAS_ACTIVE_FINANCING (err u122))
-(define-constant ERR_PURCHASE_ORDER_CANCELED (err u123))
-(define-constant ERR_CANNOT_REJECT_ACCEPTED_FINANCING (err u124))
-(define-constant ERR_DOWNPAYMENT_TOO_LARGE (err u125))
-(define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER (err u126))
-(define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES (err u127))
+(define-constant ERR_PO_HAS_ACTIVE_FINANCING u122)
+(define-constant ERR_PURCHASE_ORDER_CANCELED u123)
+(define-constant ERR_CANNOT_REJECT_ACCEPTED_FINANCING u124)
+(define-constant ERR_DOWNPAYMENT_TOO_LARGE u125)
+(define-constant ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER u126)
+(define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES u127)
+(define-constant ERR_PAYMENTS_MISSED u128)
 
-(define-constant err-unauthorised (err u401))
+(define-constant err-unauthorised u401)
 
 ;;TODO: parameterize how much time a block takes. 
 
@@ -122,6 +125,12 @@
   (/ (var-get protocol-interest-rate-per-annum) u12))
 
 
+;; Function to get the current block time
+(define-read-only (get-blocks-time-in-seconds)
+  (var-get blocks-time-in-seconds)
+)
+
+
 (define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
   (-
     (+ (* (- current-year first-year) u12) current-month)
@@ -129,13 +138,24 @@
   )
 )
 
-(define-read-only (missed-last-three-payments (purchase-order-id uint) (current-year uint) (current-month uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (let ((months-passed (months-since-first-payment (get first-payment-year po) (get first-payment-month po) current-year current-month))
-          (expected-payments-made (- months-passed (get payments-left po))))
-      (if (> expected-payments-made (+ (get payments-left po) u3))
-          (ok true)   ;; True means they missed a payment in the last three months.
-          (ok false)  ;; False means they didn't.
+(define-read-only (missed-last-three-payments (purchase-order-id uint))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (let ((first-payment-block-height (get first-payment-block-height po))
+          (current-block-height block-height)
+          (blocks-per-month (calculate-blocks-per-month))) ;; This should be defined based on your blockchain's average block time
+
+      ;; Calculate the number of months since the first payment
+      (let ((months-passed (/ (- current-block-height first-payment-block-height) blocks-per-month)))
+
+        ;; Calculate the expected number of payments made till now
+        (let ((expected-payments-made (- months-passed (get payments-left po))))
+
+          ;; Check if they missed a payment in the last three months
+          (if (> expected-payments-made (+ (get payments-left po) u3))
+              (ok true)   ;; True means they missed a payment in the last three months.
+              (ok false)  ;; False means they didn't.
+          )
+        )
       )
     )
   )
@@ -165,7 +185,7 @@
 
 (define-public (update-protocol-interest-rate-per-annum (new-interest-rate uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
     (var-set protocol-interest-rate-per-annum new-interest-rate)
     (ok true)
   )
@@ -173,7 +193,7 @@
 
 (define-public (update-number-of-installments (new-number-of-installments uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
     (var-set po_number_of_installments new-number-of-installments)
     (ok true)
   )
@@ -181,7 +201,7 @@
 
 (define-public (pause-contract)
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
     (var-set contract-paused true)
     (ok true)
   )
@@ -189,15 +209,26 @@
 
 (define-public (resume-contract)
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) err-unauthorised)
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
     (var-set contract-paused false)
     (ok true)
   )
 )
 
+;; Function to update the block time (restricted to contract owner or authorized users)
+(define-public (set-blocks-time-in-seconds (new-block-time uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    ;; Add any required authorization checks here
+    (var-set blocks-time-in-seconds new-block-time)
+    (ok true)
+  )
+)
+
+
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (make-payment (purchase-order-id uint) (amount uint) (current-year uint) (current-month uint))
+(define-public (make-payment (purchase-order-id uint) (amount uint))
   (let 
     (
       (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
@@ -257,19 +288,30 @@
                                       borrower-id: (get borrower-id po),
                                       purchase-order-id: purchase-order-id,
                                       amount: total-principal-payment,
-                                      month: current-month,
-                                      year: current-year,
-                                      months-covered: months-covered
+                                      months-covered: months-covered,
+                                      block: block-height
                                     })
 
-                            ;; Update the purchase order
-                            (map-set purchase-orders 
+                             ;; Update the purchase order
+                             (if (is-eq (get first-payment-block-height po) u0)
+                                ;; if the first payment hasn't been done yet, update it
+                                (map-set purchase-orders 
                                     {id: purchase-order-id}
                                     (merge po {
                                       overpaid-balance: new-overpaid-balance,
                                       payments-left: new-payments-left,
-                                      updated-at: block-height
+                                      updated-at: block-height,
+                                      first-payment-block-height: block-height
                                     }))
+                                ;; otherwise, don't update it
+                                (map-set purchase-orders 
+                                        {id: purchase-order-id}
+                                        (merge po {
+                                          overpaid-balance: new-overpaid-balance,
+                                          payments-left: new-payments-left,
+                                          updated-at: block-height
+                                        }))    
+                              )
 
                             ;; Check if this payment completes the purchase order
                             (if (is-eq new-payments-left u0)
@@ -310,16 +352,22 @@
   )
 )
 
-(define-public (check-purchase-order-health (purchase-order-id uint) (current-year uint) (current-month uint))
-  (let ((missed-payments (unwrap! (missed-last-three-payments purchase-order-id current-year current-month) ERR_FAILED_TO_CHECK_MISSED_PAYMENTS))
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-public (check-purchase-order-health (purchase-order-id uint))
+  (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (let ((first-payment-block (get first-payment-block-height po))
+          (current-block block-height)
+          (payment-interval-blocks u1440) ;; Example: Monthly payment interval in blocks
+          (payments-expected (get payments-left po)))
 
-  (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
-  )
-    (if missed-payments
-        (begin
-            ;; Mark the purchase order as ended unsuccessfully.
-            (let ()
-                (map-set purchase-orders
+      (let ((blocks-since-first-payment (- current-block first-payment-block))
+            (expected-blocks-until-payment (* payment-interval-blocks payments-expected)))
+
+        (if (>= blocks-since-first-payment expected-blocks-until-payment)
+          (begin 
+          
+            (map-set purchase-orders
                         { id: purchase-order-id }
                         (merge po {
                           is-completed: true,
@@ -329,16 +377,18 @@
                 )
 
                 ;; Update lender's track record.
-                (let ((lender-principal (unwrap! (get lender-id po) ERR_NO_LENDER_FOR_PURCHASE_ORDER)))
-                    (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
-                    (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
-                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
+                (let ((lender-principal (unwrap! (get lender-id po) (err ERR_NO_LENDER_FOR_PURCHASE_ORDER))))
+                    (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
-                    (ok purchase-order-id)
+                    (err ERR_MISSED_PAYMENTS)
                 )
-            )
+          )
+            ;; If the current block height exceeds the expected payment schedule
+          (ok purchase-order-id)  ;; Indicates health, payments are up-to-date
         )
-        (err ERR_MISSED_PAYMENTS)
+      )
     )
   )
 )
@@ -355,7 +405,7 @@
     (purchase-order-id (increment-next-purchase-order-id)))
 
     ;; ensure the downpayment is less than the total amount
-    (asserts! (< downpayment total-amount) ERR_DOWNPAYMENT_TOO_LARGE)
+    (asserts! (< downpayment total-amount) (err ERR_DOWNPAYMENT_TOO_LARGE))
 
     (if (is-ok (contract-call? .usda-token transfer downpayment tx-sender (as-contract tx-sender) none))
         (begin
@@ -369,8 +419,6 @@
               downpayment: downpayment,
               overpaid-balance: u0,
               payments-left: u0,
-              first-payment-year: u0,
-              first-payment-month: u0,
               outstanding-amount: (- total-amount downpayment),
               is-completed: false,
               completed-successfully: false,
@@ -378,13 +426,14 @@
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
-              has-active-financing: false 
+              has-active-financing: false,
+              first-payment-block-height: u0 ;; default, block height of 0
             }
           )
 
           (ok purchase-order-id)
         )
-        ERR_NOT_ENOUGH_FUNDS
+        (err ERR_NOT_ENOUGH_FUNDS)
     )
   )
 )
@@ -393,10 +442,10 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
-  (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq (get has-active-financing po) false) ERR_PO_HAS_ACTIVE_FINANCING)
+  (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (asserts! (is-eq (get has-active-financing po) false) (err ERR_PO_HAS_ACTIVE_FINANCING))
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) err-unauthorised)
+    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err err-unauthorised))
 
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get borrower-id po) none)))
         (begin
@@ -409,7 +458,7 @@
 
           (ok true)
         )
-        ERR_NOT_ENOUGH_FUNDS
+        (err ERR_NOT_ENOUGH_FUNDS)
     )
   )
 )
@@ -417,15 +466,15 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (finance (purchase-order-id uint))
-  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
         (financing-id (increment-next-financing-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
         (number-of-installments (var-get po_number_of_installments))
         (monthly-payment-amount (/ total-amount number-of-installments))
   )
-    (asserts! (not (is-eq (get borrower-id po) tx-sender)) ERR_BORROWER_CANNOT_FINANCE_THEMSELVES)
-    (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
-    (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
+    (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
+    (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
+    (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
     
     ;; Transfer the financing offer amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
@@ -446,7 +495,7 @@
           )
           (ok financing-id)
         )
-        ERR_NOT_ENOUGH_FUNDS
+        (err ERR_NOT_ENOUGH_FUNDS)
     )
   )
 )
@@ -457,15 +506,15 @@
 (define-public (reject-financing (financing-id uint))
   (let 
     (
-      (financing (unwrap! (map-get? po-financing {id: financing-id}) ERR_FINANCING_NOT_FOUND))
+      (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (unwrap! (get lender-id financing) ERR_NO_LENDER_FOR_FINANCING))
+      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
     )
 
-    (asserts! (not (get is-accepted financing)) ERR_CANNOT_REJECT_ACCEPTED_FINANCING)
+    (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
 
     (let ((po-id (get purchase-order-id financing)))
-      (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
         (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
             (map-set po-financing
@@ -477,7 +526,7 @@
               (ok true)
           )
           
-          ERR_NOT_ENOUGH_FUNDS
+          (err ERR_NOT_ENOUGH_FUNDS)
         )
       )
     )
@@ -490,16 +539,16 @@
 (define-public (cancel-financing (financing-id uint))
   (let 
     (
-      (financing (unwrap! (map-get? po-financing {id: financing-id}) ERR_FINANCING_NOT_FOUND))
+      (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (unwrap! (get lender-id financing) ERR_NO_LENDER_FOR_FINANCING))
+      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
     )
 
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
-    (asserts! (not (get is-accepted financing)) ERR_CANNOT_REJECT_ACCEPTED_FINANCING)
+    (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
 
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) err-unauthorised)
+    (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) (err err-unauthorised))
 
     (refund-financing financing-id)
   )
@@ -508,12 +557,12 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (accept-financing (financing-id uint))
-  (let ((financing (unwrap! (map-get? po-financing { id: financing-id }) ERR_FINANCING_NOT_FOUND))
-        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id financing) }) ERR_PURCHASE_ORDER_NOT_FOUND)))
-    (asserts! (is-eq tx-sender (get borrower-id po)) ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING)
-    (asserts! (not (get is-accepted financing)) ERR_CANNOT_MODIFY_ACCEPTED_FINANCING)
-    (asserts! (not (get is-canceled po)) ERR_PURCHASE_ORDER_CANCELED)
-    (asserts! (not (get has-active-financing po)) ERR_PO_HAS_ACTIVE_FINANCING)
+  (let ((financing (unwrap! (map-get? po-financing { id: financing-id }) (err ERR_FINANCING_NOT_FOUND)))
+        (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id financing) }) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (asserts! (is-eq tx-sender (get borrower-id po)) (err ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING))
+    (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_MODIFY_ACCEPTED_FINANCING))
+    (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
+    (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Update purchase order with details from the accepted financing
     (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) (get seller-id po) none))
@@ -540,10 +589,10 @@
 
               (ok financing-id)
             )
-            ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER
+            (err ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER)
           )
         )
-      ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER
+      (err ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER)
     )
   )
 )
@@ -576,7 +625,7 @@
           (ok true)
         )
         
-        ERR_FINANCING_ALREADY_REFUNDED
+        (err ERR_FINANCING_ALREADY_REFUNDED)
       )
     )
   )
@@ -585,18 +634,18 @@
 ;; #[allow(unchecked_data)]
 (define-private (end-purchase-order-successfully (purchase-order-id uint))
   (let (
-        (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) ERR_PURCHASE_ORDER_NOT_FOUND))
-        (lender-id (unwrap! (get lender-id po) ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER))
+        (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (lender-id (unwrap! (get lender-id po) (err ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER)))
         (borrower-id (get borrower-id po))
         (seller-id (get seller-id po))
     )
 
     ;; Verify that the outstanding amount is fully paid
-    (asserts! (<= (get outstanding-amount po) u0) ERR_PURCHASE_ORDER_NOT_FULLY_PAID)
+    (asserts! (<= (get outstanding-amount po) u0) (err ERR_PURCHASE_ORDER_NOT_FULLY_PAID))
 
-    (unwrap! (contract-call? .taral-importer update-importer-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD)
-    (unwrap! (contract-call? .taral-exporter update-exporter-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD)
-    (unwrap! (contract-call? .taral-lender update-lender-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD)
+    (unwrap! (contract-call? .taral-importer update-importer-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
@@ -647,3 +696,15 @@
     current-id
   )
 )
+
+(define-private (calculate-blocks-per-month)
+  (let ((block-time-seconds (var-get blocks-time-in-seconds)))
+    ;; Calculate blocks per day: 86400 seconds per day / block time in seconds
+    (let ((blocks-per-day (/ u86400 block-time-seconds)))
+
+      ;; Assuming an average month length of 30 days
+      (* blocks-per-day u30) ;; Blocks per day * 30 days
+    )
+  )
+)
+
