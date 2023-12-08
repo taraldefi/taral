@@ -276,63 +276,33 @@ function Index({ ...props }) {
           <div className="taxAndRevenue">
             <div className="maintitle">TAX AND REVENUE</div>
             <div className="form-item">
-              <span>
-                Last fiscal year? <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Last fiscal year</span>
               <input
+                disabled
                 type="number"
-                className={
-                  errors.taxAndRevenue?.lastFiscalYear
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.taxAndRevenue?.lastFiscalYear
-                    ? `${errors.taxAndRevenue?.lastFiscalYear?.message}`
-                    : "last fiscal year"
-                }
-                {...register("taxAndRevenue.lastFiscalYear")}
+                className={"inputs"}
+                defaultValue={queryResult.data?.taxAndRevenue.lastFiscalYear}
               />
             </div>
             <div className="form-item">
-              <span>
-                Total revenue last fiscal year?{" "}
-                <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Total revenue last fiscal year </span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.taxAndRevenue?.totalRevenue
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.taxAndRevenue?.totalRevenue
-                    ? `${errors.taxAndRevenue?.totalRevenue?.message}`
-                    : "total revenue"
-                }
-                {...register("taxAndRevenue.totalRevenue")}
+                className={"inputs"}
+                defaultValue={queryResult.data?.taxAndRevenue.totalRevenue}
               />
             </div>
             <div className="form-item">
-              <span>
-                What % of revenue was comprised by exports?{" "}
-                <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Percentage of revenue was comprised by exports </span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.taxAndRevenue?.exportRevenuePercentage
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.taxAndRevenue?.exportRevenuePercentage
-                    ? `${errors.taxAndRevenue?.exportRevenuePercentage?.message}`
-                    : "revenue percentage"
+                className={"inputs"}
+                defaultValue={
+                  queryResult.data?.taxAndRevenue.exportRevenuePercentage
                 }
                 id="percentage"
-                {...register("taxAndRevenue.exportRevenuePercentage")}
               />
             </div>
 

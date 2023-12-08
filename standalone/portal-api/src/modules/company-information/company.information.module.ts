@@ -5,7 +5,6 @@ import { BuyerCompanyInformationEntity } from './models/buyer.company.informatio
 import { CompanyAddressEntity } from './models/company.information.address.entity';
 import { CompanyInformationEntity } from './models/company.information.entity';
 import { SupplierCompanyInformationEntity } from './models/supplier.company.information.entity';
-import { CompanyTaxAndRevenueEntity } from './models/company.information.tax.and.revenue.entity';
 import { EntityMappingService } from './services/mapping.service';
 import { QuickApplicationEntity } from '../applications/models/quickapplication.entity';
 import { BuyerInformationService } from './services/buyer-information.service';
@@ -28,7 +27,6 @@ import { SupplierInformationService } from './services/supplier-information.serv
       CompanyAddressEntity,
       SupplierCompanyInformationEntity,
       BuyerCompanyInformationEntity,
-      CompanyTaxAndRevenueEntity,
       QuickApplicationEntity,
     ]),
   ],
@@ -49,7 +47,6 @@ import { SupplierInformationService } from './services/supplier-information.serv
       CompanyAddressEntity,
       SupplierCompanyInformationEntity,
       BuyerCompanyInformationEntity,
-      CompanyTaxAndRevenueEntity,
     ]),
   ],
 })

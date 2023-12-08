@@ -19,7 +19,6 @@ export class GetBuyerCompanyTaxAndRevenueRequest {
   taxNumber?: string;
 
   @ApiProperty({ example: 2022 })
-  @IsNumber()
   @IsNotEmpty()
   lastFiscalYear: number;
 

@@ -9,7 +9,7 @@ import { CollaborationRelationshipEntity } from 'src/modules/relationship/models
 import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
 import { GetSupplierCompanyAddressRequest } from '../dto/response/supplier/get-supplier-company-address-response.dto';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
-import { CompanyTaxAndRevenueEntity } from '../models/company.information.tax.and.revenue.entity';
+import { BuyerCompanyTaxAndRevenueEntity } from 'src/modules/company/models/buyer.company.tax.and.revenue.entity';
 
 @Injectable()
 export class EntityMappingService {
@@ -34,15 +34,29 @@ export class EntityMappingService {
   public mapEntityDetails(
     entity: BuyerCompanyEntity,
     buyerInfo: BuyerCompanyInformationEntity,
-    latestTaxAndRevenue: CompanyTaxAndRevenueEntity,
+    latestTaxAndRevenue: BuyerCompanyTaxAndRevenueEntity,
   ): GetBuyerResponse {
     var response = new GetBuyerResponse();
     response.address = new GetBuyerCompanyAddressRequest();
     response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
 
+    console.log(
+      'tax and revenue info',
+      latestTaxAndRevenue,
+      response.taxAndRevenue,
+    );
+
     response.id = entity.id;
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
+
+    response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
+    response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
+    response.taxAndRevenue.exportRevenuePercentage =
+      latestTaxAndRevenue.exportRevenuePercentage;
+    response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
+    response.taxAndRevenue.lastFiscalYear = latestTaxAndRevenue.lastFiscalYear;
+    response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
 
     if (entity.companyInformation && buyerInfo) {
       response.employeeCount = entity.companyInformation.employeeCount;
@@ -54,17 +68,6 @@ export class EntityMappingService {
       response.address.addressLine2 = buyerInfo.address.addressLine2;
       response.address.city = buyerInfo.address.city;
       response.address.postalCode = buyerInfo.address.postalCode;
-
-      if (latestTaxAndRevenue) {
-        response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
-        response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
-        response.taxAndRevenue.exportRevenuePercentage =
-          latestTaxAndRevenue.exportRevenuePercentage;
-        response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
-        response.taxAndRevenue.lastFiscalYear =
-          latestTaxAndRevenue.lastFiscalYear;
-        response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
-      }
     }
 
     return response;

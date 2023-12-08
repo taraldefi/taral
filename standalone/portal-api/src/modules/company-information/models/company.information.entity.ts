@@ -10,7 +10,6 @@ import {
   TableInheritance,
 } from 'typeorm';
 import { CompanyAddressEntity } from './company.information.address.entity';
-import { CompanyTaxAndRevenueEntity } from './company.information.tax.and.revenue.entity';
 
 @Entity({ name: 'CompanyInformation' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -29,12 +28,6 @@ export class CompanyInformationEntity extends EntityHelper {
   @Column()
   @Allow()
   registrationNumbers: string;
-
-  @OneToMany(
-    () => CompanyTaxAndRevenueEntity,
-    (taxAndRevenue) => taxAndRevenue.companyInformation,
-  )
-  taxAndRevenue?: CompanyTaxAndRevenueEntity[];
 
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()

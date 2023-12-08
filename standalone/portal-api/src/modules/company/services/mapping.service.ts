@@ -6,13 +6,18 @@ import { SupplierCompanyEntity } from '../models/supplier.company.entity';
 import { GetSupplierEntityDetailsResponse } from '../dto/response/get-supplier-entity-response.dto';
 import { GetSupplierCompanyAddressRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-address-response.dto';
 import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-tax-and-revenue.response.dto';
+import { SupplierCompanyTaxAndRevenueEntity } from '../models/supplier.company.tax.and.revenue.entity';
+import { BuyerCompanyTaxAndRevenueEntity } from '../models/buyer.company.tax.and.revenue.entity';
+import { GetBuyerCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/buyer/get-buyer-company-tax-and-revenue.response.dto';
 
 @Injectable()
 export class EntityMappingService {
   public mapEntityDetails(
     entity: BuyerCompanyEntity,
+    latestTaxAndRevenue: BuyerCompanyTaxAndRevenueEntity,
   ): GetEntityDetailsResponse {
     var response = new GetEntityDetailsResponse();
+    response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
 
     response.abbreviation = entity.abbreviation;
     response.beneficialOwner = entity.beneficialOwner;
@@ -28,6 +33,14 @@ export class EntityMappingService {
     response.name = entity.name;
 
     response.nationality = entity.nationality;
+
+    response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
+    response.taxAndRevenue.exportRevenuePercentage =
+      latestTaxAndRevenue.exportRevenuePercentage;
+    response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
+    response.taxAndRevenue.lastFiscalYear = latestTaxAndRevenue.lastFiscalYear;
+    response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
+    response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
 
     // response.products = entity.legalProducts.map((entity) => {
     //   var entityItem = new GetProductResponse();
@@ -56,6 +69,7 @@ export class EntityMappingService {
 
   public mapSupplierEntityDetails(
     entity: SupplierCompanyEntity,
+    latestTaxAndRevenue: SupplierCompanyTaxAndRevenueEntity,
   ): GetSupplierEntityDetailsResponse {
     var response = new GetSupplierEntityDetailsResponse();
     response.address = new GetSupplierCompanyAddressRequest();
@@ -90,29 +104,25 @@ export class EntityMappingService {
       response.address.postalCode =
         entity.companyInformation.address.postalCode;
 
-      if (entity.companyInformation.taxAndRevenue[0].taxNumber) {
-        response.taxAndRevenue.taxNumber =
-          entity.companyInformation.taxAndRevenue[0].taxNumber;
+      if (latestTaxAndRevenue.taxNumber) {
+        response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
       }
-      if (entity.companyInformation.taxAndRevenue[0].audited) {
-        response.taxAndRevenue.audited =
-          entity.companyInformation.taxAndRevenue[0].audited;
+      if (latestTaxAndRevenue.audited) {
+        response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
       }
-      if (entity.companyInformation.taxAndRevenue[0].exportRevenuePercentage) {
+      if (latestTaxAndRevenue.exportRevenuePercentage) {
         response.taxAndRevenue.exportRevenuePercentage =
-          entity.companyInformation.taxAndRevenue[0].exportRevenuePercentage;
+          latestTaxAndRevenue.exportRevenuePercentage;
       }
-      if (entity.companyInformation.taxAndRevenue[0].exportValue) {
-        response.taxAndRevenue.exportValue =
-          entity.companyInformation.taxAndRevenue[0].exportValue;
+      if (latestTaxAndRevenue.exportValue) {
+        response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
       }
-      if (entity.companyInformation.taxAndRevenue[0].lastFiscalYear) {
+      if (latestTaxAndRevenue.lastFiscalYear) {
         response.taxAndRevenue.lastFiscalYear =
-          entity.companyInformation.taxAndRevenue[0].lastFiscalYear;
+          latestTaxAndRevenue.lastFiscalYear;
       }
-      if (entity.companyInformation.taxAndRevenue[0].totalRevenue) {
-        response.taxAndRevenue.totalRevenue =
-          entity.companyInformation.taxAndRevenue[0].totalRevenue;
+      if (latestTaxAndRevenue.totalRevenue) {
+        response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
       }
     }
 

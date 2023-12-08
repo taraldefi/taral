@@ -34,7 +34,6 @@ interface Address {
 
 interface CreateBuyerInformationForBuyerApplication {
   address: Address;
-  taxAndRevenue: TaxAndRevenue;
   phoneNumber: string;
   registrationNumbers: string;
 }

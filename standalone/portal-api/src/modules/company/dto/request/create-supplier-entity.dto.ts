@@ -92,9 +92,8 @@ export class CreateSupplierEntityDto {
   registrationNumbers: string;
 
   @ValidateNested()
-  @IsOptional()
   @Type(() => CreateSupplierCompanyTaxAndRevenueRequest)
-  taxAndRevenue?: CreateSupplierCompanyTaxAndRevenueRequest;
+  taxAndRevenue: CreateSupplierCompanyTaxAndRevenueRequest;
 
   @ValidateNested()
   @Type(() => CreateSupplierCompanyAddressRequest)

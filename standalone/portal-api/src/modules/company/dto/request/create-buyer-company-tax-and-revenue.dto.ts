@@ -15,7 +15,7 @@ export class CreateBuyerCompanyTaxAndRevenueRequest {
   taxNumber?: string;
 
   @ApiProperty({ example: 2023 })
-  @IsNumber()
+  @IsNotEmpty()
   lastFiscalYear?: number;
 
   @ApiProperty({ example: '1000000000' })

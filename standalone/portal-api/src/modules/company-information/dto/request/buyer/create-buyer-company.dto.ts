@@ -7,7 +7,7 @@ import {
   IsString,
   ValidateNested,
 } from 'class-validator';
-import { CreateBuyerCompanyTaxAndRevenueRequest } from './create-buyer-company-tax-and-revenue.dto';
+import { CreateBuyerCompanyTaxAndRevenueRequest } from '../../../../company/dto/request/create-buyer-company-tax-and-revenue.dto';
 import { CreateBuyerCompanyAddressRequest } from './create-buyer-company-address.dto';
 import { Type } from 'class-transformer';
 
@@ -25,11 +25,6 @@ export class CreateBuyerCompanyRequest {
   @IsNotEmpty()
   @IsString()
   registrationNumbers: string;
-
-  @ValidateNested()
-  @IsOptional()
-  @Type(() => CreateBuyerCompanyTaxAndRevenueRequest)
-  taxAndRevenue?: CreateBuyerCompanyTaxAndRevenueRequest;
 
   @ValidateNested()
   @Type(() => CreateBuyerCompanyAddressRequest)

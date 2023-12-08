@@ -41,17 +41,6 @@ const schemaValidation = Yup.object().shape({
     "Registration numbers are required"
   ),
 
-  taxAndRevenue: Yup.object().shape({
-    lastFiscalYear: Yup.number().required("Last fiscal year is required"),
-
-    totalRevenue: Yup.string().required("Total revenue is required"),
-
-    exportRevenuePercentage: Yup.string()
-      .required("Export revenue percentage is required")
-      .min(0, "Export revenue percentage must be at least 0")
-      .max(100, "Export revenue percentage cannot exceed 100"),
-  }),
-
   address: Yup.object().shape({
     city: Yup.string().required("City is required"),
 

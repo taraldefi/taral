@@ -8,10 +8,11 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { CompanyInformationEntity } from './company.information.entity';
+import { CompanyInformationEntity } from '../../company-information/models/company.information.entity';
+import { BuyerCompanyEntity } from './buyer.company.entity';
 
-@Entity({ name: 'TaxAndRevenue' })
-export class CompanyTaxAndRevenueEntity extends EntityHelper {
+@Entity({ name: 'BuyerCompanyTaxAndRevenue' })
+export class BuyerCompanyTaxAndRevenueEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -45,14 +46,10 @@ export class CompanyTaxAndRevenueEntity extends EntityHelper {
   @Allow()
   exportRevenuePercentage: number;
 
-  @ManyToOne(
-    () => CompanyInformationEntity,
-    (company) => company.taxAndRevenue,
-    {
-      cascade: true,
-      onDelete: 'CASCADE',
-    },
-  )
+  @ManyToOne(() => BuyerCompanyEntity, (company) => company.taxAndRevenue, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
-  companyInformation: CompanyInformationEntity;
+  buyerCompany: BuyerCompanyEntity;
 }
