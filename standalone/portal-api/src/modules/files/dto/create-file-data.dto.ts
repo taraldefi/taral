@@ -10,7 +10,7 @@ import {
 export class CreateFileDataDto {
   @IsFile()
   @MaxFileSize(100e6)
-  @HasMimeType(['application/pdf'])
+  @HasMimeType(['application/octet-stream'])
   @ApiProperty({
     example: {
       file: {

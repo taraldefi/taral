@@ -5,8 +5,8 @@ import {
   getPublicKeyFromPrivate,
 } from "lib-stacks";
 import { PrivateKey } from "./storage/constants";
-import { readEncryptedFileWithEncoding } from "./storage/read-file";
-import { syncWriteFileWithEncoding } from "./storage/write-pdf-file";
+import { readEncryptedFileWithEncoding } from "./storage/files";
+import { syncWriteFileWithEncoding } from "./storage/files";
 
 export async function storageMvp() {
   const file = "dummy.pdf";

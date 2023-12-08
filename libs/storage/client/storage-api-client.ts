@@ -94,6 +94,7 @@ export class StorageApiClient {
     const config = {
       headers: {
         "content-type": "multipart/form-data",
+        "mime-type": "application/octet-stream",
       },
     };
 
@@ -147,6 +148,7 @@ export class StorageApiClient {
     const config = {
       headers: {
         "Content-Type": "application/json",
+        "mime-type": "application/octet-stream",
       },
     };
 
