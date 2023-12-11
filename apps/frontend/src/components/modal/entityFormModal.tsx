@@ -12,7 +12,6 @@ import {
 } from "@store/entityStore";
 import { useAtom } from "jotai";
 import { toast } from "sonner";
-import e from "express";
 
 type Props = {
   isOpen: boolean;
@@ -238,6 +237,7 @@ function FormModal({ isOpen, onClose }: Props) {
                 </select>
               </div>
             </div>
+
             <div>
               <button className="button" type="submit">
                 {"Create Entity"}

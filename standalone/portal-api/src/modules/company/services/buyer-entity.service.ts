@@ -104,7 +104,7 @@ export class BuyerCompanyEntityService {
     }
 
     const entity = await this.buyerEntityRepository.findOneOrFail({
-      relations: ['applications'],
+      relations: ['applications', 'taxAndRevenue'],
       where: { id: id },
     });
 
@@ -179,11 +179,11 @@ export class BuyerCompanyEntityService {
         );
       }
 
-      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find((taxAndRevenue) => {
-        return (
-          taxAndRevenue.lastFiscalYear === data.taxAndRevenue.lastFiscalYear
-        );
-      });
+      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find(
+        (taxAndRevenue) =>
+          taxAndRevenue.lastFiscalYear ===
+          parseInt(data.taxAndRevenue.lastFiscalYear.toString()),
+      );
 
       if (!taxAndRevenueToBeChanged) {
         taxAndRevenueToBeChanged = new BuyerCompanyTaxAndRevenueEntity();
@@ -341,8 +341,8 @@ export class BuyerCompanyEntityService {
     let allTaxAndRevenue = await this.getAllTaxAndRevenue(companyId);
     let latestTaxAndRevenue: BuyerCompanyTaxAndRevenueEntity = undefined;
 
-    const fiscalYears = allTaxAndRevenue.map((fiscalYear) => {
-      return fiscalYear.lastFiscalYear;
+    const fiscalYears = allTaxAndRevenue.map((taxAndRevenue) => {
+      return parseInt(taxAndRevenue.lastFiscalYear.toString());
     });
 
     latestTaxAndRevenue = allTaxAndRevenue.find(

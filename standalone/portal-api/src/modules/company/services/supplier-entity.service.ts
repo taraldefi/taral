@@ -124,7 +124,7 @@ export class SupplierCompanyEntityService extends BaseService {
     }
 
     const entity = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['applications'],
+      relations: ['applications', 'taxAndRevenue'],
       where: { id: id },
     });
 
@@ -231,11 +231,11 @@ export class SupplierCompanyEntityService extends BaseService {
         );
       }
 
-      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find((taxAndRevenue) => {
-        return (
-          taxAndRevenue.lastFiscalYear === data.taxAndRevenue.lastFiscalYear
-        );
-      });
+      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find(
+        (taxAndRevenue) =>
+          taxAndRevenue.lastFiscalYear ===
+          parseInt(data.taxAndRevenue.lastFiscalYear.toString()),
+      );
 
       if (!taxAndRevenueToBeChanged) {
         taxAndRevenueToBeChanged = new SupplierCompanyTaxAndRevenueEntity();
@@ -436,7 +436,7 @@ export class SupplierCompanyEntityService extends BaseService {
     let latestTaxAndRevenue: SupplierCompanyTaxAndRevenueEntity = undefined;
 
     const fiscalYears = allTaxAndRevenue.map((fiscalYear) => {
-      return fiscalYear.lastFiscalYear;
+      return parseInt(fiscalYear.lastFiscalYear.toString());
     });
 
     latestTaxAndRevenue = allTaxAndRevenue.find(
