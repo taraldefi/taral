@@ -283,7 +283,7 @@ export class SupplierCompanyEntityService extends BaseService {
         );
 
       entity.taxAndRevenue.push(savedTaxAndRevenueResult);
-      entity.save();
+      await this.supplierCompanyRepository.save(entity);
     }
 
     let companyChanged = false;

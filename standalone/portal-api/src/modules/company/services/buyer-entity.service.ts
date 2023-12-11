@@ -231,7 +231,7 @@ export class BuyerCompanyEntityService {
         );
 
       entity.taxAndRevenue.push(savedTaxAndRevenueResult);
-      entity.save();
+      await this.buyerEntityRepository.save(entity);
     }
 
     var updatedEntity = await this.buyerEntityRepository.save(entity);

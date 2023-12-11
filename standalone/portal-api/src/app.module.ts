@@ -64,16 +64,8 @@ import { loggingLevel } from './modules/logger/logger';
 import winston from 'winston';
 
 @Module({
-  imports: [
-    ...AppModule.createDynamicImports(),
-    ThrottlerModule.forRoot({
-      ttl: 60,
-      limit: 50,
-    }),
-  ],
-  providers: [
-    ...AppModule.createDynamicProviders()
-  ],
+  imports: [...AppModule.createDynamicImports()],
+  providers: [...AppModule.createDynamicProviders()],
   controllers: [AppController],
 })
 export class AppModule {
@@ -83,17 +75,16 @@ export class AppModule {
         provide: APP_PIPE,
         useClass: CustomValidationPipe,
       },
-      
+
       {
         provide: APP_FILTER,
         useClass: I18nExceptionFilterPipe,
       },
     ];
 
-    
     const shouldRunThrottle = config.get('app.runthrottle');
 
-    if (shouldRunThrottle)  {
+    if (shouldRunThrottle) {
       providers.push({
         provide: APP_GUARD,
         useClass: CustomThrottlerGuard,

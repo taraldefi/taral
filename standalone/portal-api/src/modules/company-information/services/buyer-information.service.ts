@@ -168,7 +168,7 @@ export class BuyerInformationService extends BaseService {
 
       application.buyerInformation = clonedCompanySavedResult;
       await this.buyerApplicationRepository.save(application);
-      await entity.save();
+      await this.buyerCompanyRepository.save(entity);
     } else {
       // if company information does already exist, create one for application
       const applicationBuyerInformation = new BuyerCompanyInformationEntity();
