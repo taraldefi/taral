@@ -6,9 +6,8 @@ async function main() {
   console.log("Taral testbed");
   console.log("A place to quickly prototype and test things.");
   console.log(`Ran from ${cwd}`);
-  // await getDeployerPublicKey();
   // await storageManualTest(true);
-  await storageManualTest();
+  await storageManualTest(true);
 }
 
 main();
