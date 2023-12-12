@@ -36,6 +36,7 @@
     interest-rate-per-month: uint,
     number-of-installments: uint,
     monthly-payment: uint,
+    requires-bullet-payment: bool,
     refunded: bool,
     is-rejected: bool
   }
@@ -59,7 +60,9 @@
 
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
-(define-data-var po_number_of_installments uint u3) ;; number of installments for paying the loan
+(define-data-var po-number-of-installments uint u3) ;; number of installments for paying the loan
+(define-data-var payments-default-grace-period-in-days uint u5)
+(define-data-var po-due-date uint u90) ;; start payment after 30 days or 90 days
 
 (define-data-var contract-paused bool false)
 
@@ -138,26 +141,36 @@
   )
 )
 
-(define-read-only (missed-last-three-payments (purchase-order-id uint))
+;;TODO: maybe parameterize the missed payment, leave people 1 month of grace period
+(define-read-only (is-po-defaulted (purchase-order-id uint))
   (match (map-get? purchase-orders { id: purchase-order-id })
     po
     (let ((first-payment-block-height (get first-payment-block-height po))
           (current-block-height block-height))
-      (let ((blocks-per-month (calculate-blocks-per-month)))
+      (let 
+        (
+          (blocks-per-month (calculate-blocks-per-month))
+          (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
+          (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
+          (total-grace-months (/ (+ due-date-blocks grace-period-blocks) blocks-per-month))
+        )
 
         ;; Calculate the total number of months since the first payment
         (let (
             (total-months-passed (/ (- current-block-height first-payment-block-height) blocks-per-month))
-            (months-after (max total-months-passed (var-get po_number_of_installments)))
+            (months-after (max total-months-passed (var-get po-number-of-installments)))
           )
 
-          ;; Calculate the number of payments that should have been made by now
-            ;; Check if the number of expected payments exceeds the total months passed minus three
-          (if (is-eq total-months-passed u0)
+          (if (> total-grace-months total-months-passed)
             (ok false)
-            (if (< (get payments-made po) months-after)
-              (ok true)   ;; True means they missed a payment in the last three months.
-              (ok false)  ;; False means they didn't miss any payments.
+            ;; Calculate the number of payments that should have been made by now
+            ;; Check if the number of expected payments exceeds the total months passed minus three
+            (if (is-eq total-months-passed u0)
+              (ok false)
+              (if (< (get payments-made po) months-after)
+                (ok true)   ;; True means they missed a payment in the last three months.
+                (ok false)  ;; False means they didn't miss any payments.
+              )
             )
           )
         )
@@ -197,10 +210,26 @@
   )
 )
 
+(define-public (update-protocol-due-date (new-due-date uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (var-set po-due-date new-due-date)
+    (ok true)
+  )
+)
+
+(define-public (update-grace-period-in-days (new-grace-period uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (var-set payments-default-grace-period-in-days new-grace-period)
+    (ok true)
+  )
+)
+
 (define-public (update-number-of-installments (new-number-of-installments uint))
   (begin
     (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
-    (var-set po_number_of_installments new-number-of-installments)
+    (var-set po-number-of-installments new-number-of-installments)
     (ok true)
   )
 )
@@ -230,7 +259,6 @@
     (ok true)
   )
 )
-
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
@@ -474,18 +502,18 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (finance (purchase-order-id uint))
+(define-public (finance (purchase-order-id uint) (requires-bullet-payment bool))
   (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
         (financing-id (increment-next-financing-id))
         (total-amount (- (get total-amount po) (get downpayment po)))
-        (number-of-installments (var-get po_number_of_installments))
+        (number-of-installments (var-get po-number-of-installments))
         (monthly-payment-amount (/ total-amount number-of-installments))
   )
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
     (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
-    
+
     ;; Transfer the financing offer amount from the lender to the contract
     (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
@@ -500,7 +528,8 @@
               number-of-installments: number-of-installments,
               monthly-payment: monthly-payment-amount,
               refunded: false,
-              is-rejected: false
+              is-rejected: false,
+              requires-bullet-payment: requires-bullet-payment
             }
           )
 
@@ -529,6 +558,7 @@
     )
 
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
+    ;; this can only be done by the owner of contract or owner of the purchase order.
 
     (let ((po-id (get purchase-order-id financing)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
@@ -580,6 +610,8 @@
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_MODIFY_ACCEPTED_FINANCING))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
+
+    ;; TODO: make sure only the owner of the purchase order can accept the financing offer
 
     ;; Update purchase order with details from the accepted financing
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
@@ -728,6 +760,27 @@
 
       ;; Assuming an average month length of 30 days
       (* blocks-per-day u30) ;; Blocks per day * 30 days
+    )
+  )
+)
+
+(define-private (due-date-to-block-height (due-date uint))
+  (let ((block-time-seconds (var-get blocks-time-in-seconds)))
+    ;; Calculate blocks per day: 86400 seconds per day / block time in seconds
+    (let ((blocks-per-day (/ u86400 block-time-seconds)))
+
+      (* blocks-per-day due-date) ;; Blocks per day * due-date
+    )
+  )
+)
+
+(define-private (grace-period-to-block-height (grace-period uint))
+  (let ((block-time-seconds (var-get blocks-time-in-seconds)))
+    ;; Calculate blocks per day: 86400 seconds per day / block time in seconds
+    (let ((blocks-per-day (/ u86400 block-time-seconds)))
+
+      ;; Assuming an average month length of 30 days
+      (* blocks-per-day grace-period) ;; Blocks per day * grace-period
     )
   )
 )
