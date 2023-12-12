@@ -27,9 +27,10 @@ import { ownerUserGroupsForSerializing } from 'src/common/groups/constants';
 
 const appConfig = config.get('app') as any;
 const tokenConfig = config.get('jwt') as any;
+
 const BASE_OPTIONS: SignOptions = {
-  issuer: appConfig.appUrl,
-  audience: appConfig.frontendUrl,
+  issuer: appConfig.backendDomain,
+  audience: appConfig.frontendDomain,
 };
 
 @Injectable()

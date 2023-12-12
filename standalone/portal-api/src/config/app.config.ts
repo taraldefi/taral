@@ -10,4 +10,6 @@ export default registerAs('app', () => ({
   port: parseInt(process.env.APP_PORT || process.env.PORT || config.get('app.port'), 10) || 3000,
   apiPrefix: process.env.API_PREFIX || config.get('app.apiPrefix') || 'api',
   fallbackLanguage: process.env.APP_FALLBACK_LANGUAGE || config.get('app.fallbackLanguage') || 'en',
+  appUrl: process.env.BACKEND_DOMAIN || config.get('app.backendDomain'),
+  audience: process.env.FRONTEND_DOMAIN || config.get('app.frontendDomain'),
 }));
