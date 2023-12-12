@@ -62,7 +62,7 @@
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
 (define-data-var po-number-of-installments uint u3) ;; number of installments for paying the loan
 (define-data-var payments-default-grace-period-in-days uint u5)
-(define-data-var po-due-date uint u90) ;; start payment after 30 days or 90 days
+(define-data-var po-due-date uint u90) ;; start payment after 90 days in case of bullet payment
 
 (define-data-var contract-paused bool false)
 
@@ -149,6 +149,9 @@
           (current-block-height block-height))
       (let 
         (
+          (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
+          (financing (unwrap-panic (map-get? po-financing {id: accepted-financing-id})))
+          (is-bullet-payment (get requires-bullet-payment financing))
           (blocks-per-month (calculate-blocks-per-month))
           (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
           (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
@@ -161,10 +164,8 @@
             (months-after (max total-months-passed (var-get po-number-of-installments)))
           )
 
-          (if (> total-grace-months total-months-passed)
+          (if is-bullet-payment
             (ok false)
-            ;; Calculate the number of payments that should have been made by now
-            ;; Check if the number of expected payments exceeds the total months passed minus three
             (if (is-eq total-months-passed u0)
               (ok false)
               (if (< (get payments-made po) months-after)
@@ -173,6 +174,19 @@
               )
             )
           )
+
+          ;; (if (> total-grace-months total-months-passed)
+          ;;   (ok false)
+          ;;   ;; Calculate the number of payments that should have been made by now
+          ;;   ;; Check if the number of expected payments exceeds the total months passed minus three
+          ;;   (if (is-eq total-months-passed u0)
+          ;;     (ok false)
+          ;;     (if (< (get payments-made po) months-after)
+          ;;       (ok true)   ;; True means they missed a payment in the last three months.
+          ;;       (ok false)  ;; False means they didn't miss any payments.
+          ;;     )
+          ;;   )
+          ;; )
         )
       )
     )
