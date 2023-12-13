@@ -1,7 +1,7 @@
 import { Cl } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import { expectUsdaTransfer } from "./helpers/transfer";
-import { fastForwardMonths } from "./helpers/time";
+import { fastForwardDays, fastForwardMonths } from "./helpers/time";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
@@ -52,7 +52,6 @@ describe("Taral bank test flows", () => {
             ], WALLET_3
         );
 
-        // console.log(JSON.stringify(placeFinancingResult, null, 2));
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
         expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
@@ -108,7 +107,6 @@ describe("Taral bank test flows", () => {
             ], WALLET_3
         );
 
-        // console.log(JSON.stringify(placeFinancingResult, null, 2));
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
         expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
@@ -145,17 +143,6 @@ describe("Taral bank test flows", () => {
             ], WALLET_1
         );
 
-        expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
-
-        fastForwardMonths(1);
-
-        hasPoDefaulted = simnet.callReadOnlyFn(
-            "taral-bank",
-            "is-po-defaulted",
-            [
-                Cl.uint(purchaseOrderId),
-            ], WALLET_1
-        );
 
         expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
 
@@ -183,5 +170,16 @@ describe("Taral bank test flows", () => {
 
         expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
 
+        fastForwardDays(6);
+
+        hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(true));
     })
 });

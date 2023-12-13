@@ -6,3 +6,12 @@ export function fastForwardMonths(months: number) {
         simnet.mineEmptyBlock();
     }
 }
+
+export function fastForwardDays(days: number) {
+    const blocksPerDay = 6 * 24; // 6 blocks per hour, 24 hours per day
+    const blocksToFastForward = days * blocksPerDay;
+
+    for (let i = 0; i < blocksToFastForward; i++) {
+        simnet.mineEmptyBlock();
+    }
+}
