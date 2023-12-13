@@ -38,7 +38,9 @@
     monthly-payment: uint,
     requires-bullet-payment: bool,
     refunded: bool,
-    is-rejected: bool
+    is-rejected: bool,
+    created-at: uint,  ;; Timestamp of creation
+    accepted-at: uint, ;; Timestamp of acceptance
   }
 )
 
@@ -151,6 +153,7 @@
         (
           (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
           (financing (unwrap-panic (map-get? po-financing {id: accepted-financing-id})))
+          (financing-accepted-at (get accepted-at financing))
           (is-bullet-payment (get requires-bullet-payment financing))
           (blocks-per-month (calculate-blocks-per-month))
           (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
@@ -165,7 +168,10 @@
           )
 
           (if is-bullet-payment
-            (ok false)
+            (if (> current-block-height (+ financing-accepted-at grace-period-blocks))
+              (ok false)
+              (ok true)
+            )
             (if (is-eq total-months-passed u0)
               (ok false)
               (if (< (get payments-made po) months-after)
@@ -452,6 +458,8 @@
 ;; #[allow(unchecked_data)]
 (define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
   (let (
+
+    ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 
     ;; ensure the downpayment is less than the total amount
@@ -543,7 +551,9 @@
               monthly-payment: monthly-payment-amount,
               refunded: false,
               is-rejected: false,
-              requires-bullet-payment: requires-bullet-payment
+              requires-bullet-payment: requires-bullet-payment,
+              created-at: block-height,
+              accepted-at: u0
             }
           )
 
@@ -625,8 +635,6 @@
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
-    ;; TODO: make sure only the owner of the purchase order can accept the financing offer
-
     ;; Update purchase order with details from the accepted financing
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
         (begin
@@ -647,7 +655,10 @@
               ;; Mark financing as accepted
               (map-set po-financing 
                 { id: financing-id } 
-                (merge financing { is-accepted: true })
+                (merge financing { 
+                  is-accepted: true,
+                  accepted-at: block-height
+                })
               )
 
               (ok financing-id)
