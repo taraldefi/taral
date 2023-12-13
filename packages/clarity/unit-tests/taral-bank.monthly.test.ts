@@ -1,7 +1,6 @@
 import { Cl } from "@stacks/transactions";
 import { expect, it } from "vitest";
 import { fastForwardMonths } from "./helpers/time";
-import { expectUsdaTransfer } from "./helpers/transfer";
 import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_MONTHLY_TESTS } from "./constants";
 
@@ -32,7 +31,7 @@ describeOrSkip("Taral bank test flows", () => {
 
     it("Should be able to create and cancel a purchase order", () => {
         const purchaseOrderResult = simnet.callPublicFn(
-            "taral-bank",
+            "taral-bank-complete",
             "create-purchase-order",
             [
                 Cl.uint(borrow),
@@ -49,7 +48,7 @@ describeOrSkip("Taral bank test flows", () => {
         expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         const getPurchaseOrder = simnet.callReadOnlyFn(
-            "taral-bank",
+            "taral-bank-complete",
             "get-purchase-order-by-id",
             [Cl.uint(purchaseOrderId)],
             WALLET_1,
@@ -78,7 +77,7 @@ describeOrSkip("Taral bank test flows", () => {
         // check if the PO has active financing
 
         const checkHasActiveFinancingResult = simnet.callReadOnlyFn(
-            "taral-bank",
+            "taral-bank-complete",
             "has-active-financing",
             [
                 Cl.uint(purchaseOrderId),
@@ -89,7 +88,7 @@ describeOrSkip("Taral bank test flows", () => {
         expect(checkHasActiveFinancingResult.result).toStrictEqual(Cl.bool(false));
 
         const cancelPurchaseOrderResult = simnet.callPublicFn(
-            "taral-bank",
+            "taral-bank-complete",
             "cancel-purchase-order",
             [
                 Cl.uint(purchaseOrderId),
@@ -104,7 +103,7 @@ describeOrSkip("Taral bank test flows", () => {
         blockHeight++;
 
         const getPurchaseOrderAfterCancel = simnet.callReadOnlyFn(
-            "taral-bank",
+            "taral-bank-complete",
             "get-purchase-order-by-id",
             [Cl.uint(purchaseOrderId)],
             WALLET_1,
@@ -133,7 +132,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         it("Should be able to place and cancel a financing offer", () => {
             const purchaseOrderResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "create-purchase-order",
                 [
                     Cl.uint(borrow),
@@ -151,7 +150,7 @@ describeOrSkip("Taral bank test flows", () => {
 
             // place a financing offer
             const placeFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "finance",
                 [
                     Cl.uint(purchaseOrderId),
@@ -165,7 +164,7 @@ describeOrSkip("Taral bank test flows", () => {
             blockHeight++;
 
             const cancelFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "cancel-financing",
                 [
                     Cl.uint(1),
@@ -180,7 +179,7 @@ describeOrSkip("Taral bank test flows", () => {
             const financingId = 1;
 
             const purchaseOrderResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "create-purchase-order",
                 [
                     Cl.uint(borrow),
@@ -194,7 +193,7 @@ describeOrSkip("Taral bank test flows", () => {
 
             // place a financing offer
             const placeFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "finance",
                 [
                     Cl.uint(purchaseOrderId),
@@ -207,7 +206,7 @@ describeOrSkip("Taral bank test flows", () => {
             expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
             const acceptFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "accept-financing",
                 [
                     Cl.uint(1),
@@ -224,7 +223,7 @@ describeOrSkip("Taral bank test flows", () => {
             const financingId = 1;
 
             const purchaseOrderResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "create-purchase-order",
                 [
                     Cl.uint(borrow),
@@ -238,7 +237,7 @@ describeOrSkip("Taral bank test flows", () => {
 
             // place a financing offer
             let placeFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "finance",
                 [
                     Cl.uint(purchaseOrderId),
@@ -251,7 +250,7 @@ describeOrSkip("Taral bank test flows", () => {
             expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
             const acceptFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "accept-financing",
                 [
                     Cl.uint(1),
@@ -265,7 +264,7 @@ describeOrSkip("Taral bank test flows", () => {
 
             // place a financing offer
             placeFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "finance",
                 [
                     Cl.uint(purchaseOrderId),
@@ -280,7 +279,7 @@ describeOrSkip("Taral bank test flows", () => {
             const financingId = 1;
 
             const purchaseOrderResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "create-purchase-order",
                 [
                     Cl.uint(borrow),
@@ -294,7 +293,7 @@ describeOrSkip("Taral bank test flows", () => {
 
             // place a financing offer
             let placeFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "finance",
                 [
                     Cl.uint(purchaseOrderId),
@@ -307,7 +306,7 @@ describeOrSkip("Taral bank test flows", () => {
             expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
             const acceptFinancingResult = simnet.callPublicFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "accept-financing",
                 [
                     Cl.uint(1),
@@ -320,7 +319,7 @@ describeOrSkip("Taral bank test flows", () => {
             expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
 
             let hasPoDefaulted = simnet.callReadOnlyFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "is-po-defaulted",
                 [
                     Cl.uint(purchaseOrderId),
@@ -332,7 +331,7 @@ describeOrSkip("Taral bank test flows", () => {
             fastForwardMonths(1);
 
             hasPoDefaulted = simnet.callReadOnlyFn(
-                "taral-bank",
+                "taral-bank-complete",
                 "is-po-defaulted",
                 [
                     Cl.uint(purchaseOrderId),
@@ -341,4 +340,29 @@ describeOrSkip("Taral bank test flows", () => {
 
             expect(hasPoDefaulted.result).toBeOk(Cl.bool(true));
         })
+
+        
+        /*
+        * Helper function to assert that a transfer event is a USDa transfer 
+        */
+        function expectUsdaTransfer(transferEvent: any, sender: string, recipient: string, amount: any) {
+
+            let senderAddress = sender;
+            if (sender === DEPLOYER) {
+                senderAddress = `${sender}.taral-bank-complete`;
+            }
+
+            let recipientAddress = recipient;
+            if (recipient === DEPLOYER) {
+                recipientAddress = `${recipient}.taral-bank-complete`;
+            }
+
+            expect(transferEvent.asset_identifier).toStrictEqual(
+                `${DEPLOYER}.usda-token::usda`,
+            );
+
+            expect(transferEvent.sender).toStrictEqual(senderAddress);
+            expect(transferEvent.recipient).toStrictEqual(recipientAddress);
+            expect(transferEvent.amount).toStrictEqual(`${amount}`);
+        }
 });

@@ -517,6 +517,8 @@
         (total-amount (- (get total-amount po) (get downpayment po)))
         (number-of-installments (var-get po-number-of-installments))
         (monthly-payment-amount (/ total-amount number-of-installments))
+
+        ;; TODO: monthly payment amount < 
   )
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
     (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))

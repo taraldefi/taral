@@ -41,7 +41,8 @@
         "sip009-nft",
         "sip010-token",
         "taral-lender",
-        "taral-bank"
+        "taral-bank",
+        "taral-bank-complete"
       ]
     }
   ]
