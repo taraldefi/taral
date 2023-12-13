@@ -1,7 +1,9 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { expectUsdaTransfer } from "./helpers/transfer";
 import { fastForwardDays, fastForwardMonths } from "./helpers/time";
+import { describeConditional } from "./describe.skip";
+import { RUN_TARAL_BANK_BULLET_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
@@ -9,6 +11,8 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const WALLET_3 = accounts.get("wallet_3")!;
 const WALLET_4 = accounts.get("wallet_4")!;
 const DEPLOYER = accounts.get("deployer")!;
+
+const describeOrSkip = describeConditional(RUN_TARAL_BANK_BULLET_TESTS);
 
 console.log('=========================');
 console.log('====== INFORMATION ======');
@@ -21,7 +25,7 @@ console.log('DEPLOYER', DEPLOYER);
 console.log('=========================');
 console.log('=========================');
 
-describe("Taral bank test flows", () => {
+describeOrSkip("Taral bank test flows", () => {
     const borrow = 1100;
     const downPayment = 100;
     const purchaseOrderId = 1;
@@ -271,7 +275,7 @@ describe("Taral bank test flows", () => {
             expect(placeFinancingResult.result).toBeErr(Cl.uint(122));
         }),
 
-        it("Should be able to check if the loan has defaulted", () => {
+        it("Should be able to check if the loan has defaulted1", () => {
             const financingId = 1;
 
             const purchaseOrderResult = simnet.callPublicFn(

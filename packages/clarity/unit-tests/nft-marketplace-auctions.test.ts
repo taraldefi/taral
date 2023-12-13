@@ -1,5 +1,7 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_NFT_MARKETPLACE_AUCTION_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
@@ -7,7 +9,9 @@ const WALLET_2 = accounts.get("wallet_2")!;
 const WALLET_3 = accounts.get("wallet_3")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("Should test marketplace auction flows", () => {
+const describeOrSkip = describeConditional(RUN_NFT_MARKETPLACE_AUCTION_TESTS);
+
+describeOrSkip("Should test marketplace auction flows", () => {
   it("Should ensure that we can start an auction", () => {
     const setWhitelistedResult = simnet.callPublicFn(
       "nft-marketplace",

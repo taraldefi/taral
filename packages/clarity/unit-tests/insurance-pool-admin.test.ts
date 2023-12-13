@@ -1,10 +1,13 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_INSURANCE_POOL_ADMIN_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
+const describeOrSkip = describeConditional(RUN_INSURANCE_POOL_ADMIN_TESTS);
 
-describe("Should test insurance pool", () => {
+describeOrSkip("Should test insurance pool", () => {
   it("Should ensure sanity checks", () => {
     const payInResult = simnet.callPublicFn(
       "insurance-pool-admin",

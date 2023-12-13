@@ -1,12 +1,15 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_DUMMY_ORACLE_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
-
 const VERBOSE = false;
 
-describe("Should test dummy oracle", () => {
+const describeOrSkip = describeConditional(RUN_DUMMY_ORACLE_TESTS);
+
+describeOrSkip("Should test dummy oracle", () => {
   it("Should ensure that the prices are fetched", () => {
     const btcPriceResult = simnet.callReadOnlyFn(
       "dummy-oracle",

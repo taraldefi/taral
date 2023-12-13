@@ -1,13 +1,15 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { parts } from "./fixtures";
+import { describeConditional } from "./describe.skip";
+import { RUN_INSURANCE_POOL_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
-
 const VERBOSE = false;
+const describeOrSkip = describeConditional(RUN_INSURANCE_POOL_TESTS);
 
-describe("Should test insurance audit flows", () => {
+describeOrSkip("Should test insurance audit flows", () => {
   it("Should ensure that invalid txs are not accepted", () => {
     const submitRewardTx = simnet.callPublicFn(
       "insurance-pool-audit",
