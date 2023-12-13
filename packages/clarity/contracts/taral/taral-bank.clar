@@ -167,20 +167,6 @@
             (months-after (max total-months-passed (var-get po-number-of-installments)))
           )
 
-          ;; (ok {
-          ;;   total-months-passed: total-months-passed,
-          ;;   months-after: months-after,
-          ;;   grace-period-blocks: grace-period-blocks,
-          ;;   due-date-blocks: due-date-blocks,
-          ;;   total-grace-months: total-grace-months,
-          ;;   financing-accepted-at: financing-accepted-at,
-          ;;   current-block-height: current-block-height,
-          ;;   first-payment-block-height: first-payment-block-height,
-          ;;   is-bullet-payment: is-bullet-payment,
-          ;;   financing: financing,
-          ;;   po: po,
-          ;; })
-
           (if is-bullet-payment
             (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
               (ok true)
@@ -194,19 +180,6 @@
               )
             )
           )
-
-          ;; (if (> total-grace-months total-months-passed)
-          ;;   (ok false)
-          ;;   ;; Calculate the number of payments that should have been made by now
-          ;;   ;; Check if the number of expected payments exceeds the total months passed minus three
-          ;;   (if (is-eq total-months-passed u0)
-          ;;     (ok false)
-          ;;     (if (< (get payments-made po) months-after)
-          ;;       (ok true)   ;; True means they missed a payment in the last three months.
-          ;;       (ok false)  ;; False means they didn't miss any payments.
-          ;;     )
-          ;;   )
-          ;; )
         )
       )
     )
