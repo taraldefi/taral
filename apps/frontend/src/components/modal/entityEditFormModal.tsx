@@ -10,6 +10,7 @@ import { EditFormModalAtom } from "@store/ModalStore";
 import { EntityEditedAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
 import convertDate from "@utils/lib/convertDate";
+import { toast } from "sonner";
 
 type Props = {
   isOpen: boolean;
@@ -60,15 +61,22 @@ function FormEditModal({ isOpen, onClose }: Props) {
       console.log(pair[0] + " : " + pair[1]);
     }
 
-    if (entityId)
-      entityService.updateEntity(entityId, formData).then((data) => {
-        if (data.id) {
-          console.log(data.id);
+    if (entityId) {
+      const response = entityService.updateEntity(entityId, formData);
+      toast.promise(response, {
+        loading: "Loading...",
+        success: (data) => {
           setEntityEdited(JSON.stringify(data));
           setLoading(false);
           onClose();
-        }
+
+          return `${data.name} entity updated`;
+        },
+        error: (err) => {
+          return `${err.message}`;
+        },
       });
+    }
   };
   return (
     <div className={"formModal " + (isOpen && "active")}>
@@ -89,136 +97,139 @@ function FormEditModal({ isOpen, onClose }: Props) {
             </span>
           </div>
           <form className="form" onSubmit={handleSubmit(onSubmit)}>
-            <span className="label">entity information</span>
-            <div className="entityfield">
-              <span>Entity Logo</span>
-              <input
-                {...register("logo")}
-                title="entity logo"
-                id="upload"
-                className="inputs"
-                type="file"
-                placeholder="Upload Logo..."
-              ></input>
-            </div>
-            <div className="flexrow">
+            <div className="formContent">
+              <span className="label">entity information</span>
               <div className="entityfield">
-                <span>Entity Name</span>
+                <span>Entity Logo</span>
                 <input
-                  {...register("name")}
+                  {...register("logo")}
+                  title="entity logo"
+                  id="upload"
                   className="inputs"
-                  type="text"
-                  placeholder="Entity Name..."
+                  type="file"
+                  placeholder="Upload Logo..."
                 ></input>
               </div>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Entity Name</span>
+                  <input
+                    disabled
+                    {...register("name")}
+                    className="inputs"
+                    type="text"
+                    placeholder="Entity Name..."
+                  ></input>
+                </div>
+                <div className="entityfield">
+                  <span>Abbreviation</span>
+                  <input
+                    {...register("abbreviation")}
+                    className="inputs"
+                    type="text"
+                    placeholder="Abbreviation..."
+                  ></input>
+                </div>
+              </div>
               <div className="entityfield">
-                <span>Abbreviation</span>
+                <span>Beneficial Owner</span>
                 <input
-                  {...register("abbreviation")}
+                  {...register("beneficialOwner")}
                   className="inputs"
                   type="text"
-                  placeholder="Abbreviation..."
+                  placeholder="Beneficial Owner..."
                 ></input>
               </div>
-            </div>
-            <div className="entityfield">
-              <span>Beneficial Owner</span>
-              <input
-                {...register("beneficialOwner")}
-                className="inputs"
-                type="text"
-                placeholder="Beneficial Owner..."
-              ></input>
-            </div>
-            <div className="flexrow">
-              <div className="entityfield">
-                <span>Nationality</span>
-                <select
-                  {...register("nationality")}
-                  id="downarrow"
-                  className="inputs"
-                  onChange={(e) => setSelectedCountry(e.target.value)}
-                >
-                  <option value="">Select country...</option>
-                  {countries.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </select>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Nationality</span>
+                  <select
+                    {...register("nationality")}
+                    id="downarrow"
+                    className="inputs"
+                    onChange={(e) => setSelectedCountry(e.target.value)}
+                  >
+                    <option value="">Select country...</option>
+                    {countries.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="entityfield">
+                  <span>Headquarters Location</span>
+                  <input
+                    {...register("headquarters")}
+                    className="inputs"
+                    type="text"
+                    placeholder="headquarter"
+                  ></input>
+                </div>
               </div>
-              <div className="entityfield">
-                <span>Headquarters Location</span>
-                <input
-                  {...register("headquarters")}
-                  className="inputs"
-                  type="text"
-                  placeholder="headquarter"
-                ></input>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Core Business</span>
+                  <select
+                    id="downarrow"
+                    className="inputs"
+                    {...register("coreBusiness")}
+                  >
+                    <option value="">Core Business...</option>
+                    {industries.map((item) => {
+                      return (
+                        <option key={item.id} value={item.name}>
+                          {item.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+                <div className="entityfield">
+                  <span>Industry Type</span>
+                  <input
+                    {...register("industryType")}
+                    className="inputs"
+                    type="text"
+                    placeholder="Industry Type..."
+                  ></input>
+                </div>
               </div>
-            </div>
-            <div className="flexrow">
-              <div className="entityfield">
-                <span>Core Business</span>
-                <select
-                  id="downarrow"
-                  className="inputs"
-                  {...register("coreBusiness")}
-                >
-                  <option value="">Core Business...</option>
-                  {industries.map((item) => {
-                    return (
-                      <option key={item.id} value={item.name}>
-                        {item.name}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div className="entityfield">
-                <span>Industry Type</span>
-                <input
-                  {...register("industryType")}
-                  className="inputs"
-                  type="text"
-                  placeholder="Industry Type..."
-                ></input>
-              </div>
-            </div>
 
-            <div className="flexrow">
-              <div className="entityfield">
-                <span>Incorporation Date</span>
-                <input
-                  {...register("incorporationDate")}
-                  id="calendar"
-                  className="inputs"
-                  type="date"
-                  placeholder="Select Date..."
-                ></input>
-              </div>
-              <div className="entityfield">
-                <span>Legal Form</span>
-                <select
-                  id="downarrow"
-                  className="inputs"
-                  {...register("legalForm")}
-                >
-                  <option key="0" value={""} selected>
-                    Select Form...
-                  </option>
-                  <option value={"sole proprietorship"} key="1">
-                    sole proprietorship
-                  </option>
-                  <option value={"partnership"} key="2">
-                    partnership
-                  </option>
-                  <option value={"corporation"} key="3">
-                    corporation
-                  </option>
-                </select>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Incorporation Date</span>
+                  <input
+                    {...register("incorporationDate")}
+                    id="calendar"
+                    className="inputs"
+                    type="date"
+                    placeholder="Select Date..."
+                  ></input>
+                </div>
+                <div className="entityfield">
+                  <span>Legal Form</span>
+                  <select
+                    id="downarrow"
+                    className="inputs"
+                    {...register("legalForm")}
+                  >
+                    <option key="0" value={""} selected>
+                      Select Form...
+                    </option>
+                    <option value={"sole proprietorship"} key="1">
+                      sole proprietorship
+                    </option>
+                    <option value={"partnership"} key="2">
+                      partnership
+                    </option>
+                    <option value={"corporation"} key="3">
+                      corporation
+                    </option>
+                  </select>
+                </div>
               </div>
             </div>
             <div>
