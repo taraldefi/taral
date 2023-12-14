@@ -1,4 +1,4 @@
-import React from "react";
+import React, { use } from "react";
 import axios from "axios";
 import { Button } from "taral-ui";
 import { PortalIcons } from "@components/icons";
@@ -8,19 +8,76 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import Modal from "./pdfViewer";
 import { useNetworks } from "@hooks/useNetwork";
 
-import { signData } from "@utils/lib/signData";
+import apiUrls from "@config/apiUrls";
+import { useRouter } from "next/router";
+import { toast } from "sonner";
+import { useOpenSignMessage } from "@micro-stacks/react";
+import { set } from "react-hook-form";
 
-const FileUpload = ({ onFileUpload }: any) => {
+export enum documentType {
+  CONFIRMATION_DOCUMENT = "confirmation-document",
+  ADDITIONAL_DOCUMENT = "additional-document",
+}
+
+type FileUploadProps = {
+  type: documentType;
+};
+
+const FileUpload = ({ type }: FileUploadProps) => {
+  const router = useRouter();
+
+  console.log(type);
+
   const [uploadedFile, setFile] = React.useState<any>(null);
+  const { openSignMessage, isRequestPending } = useOpenSignMessage();
+  const [uploadStatus, setUploadStatus] = React.useState<any>(false);
   const [isLoading, setLoading] = React.useState(false);
   const [showPdfViewer, setShowPdfViewer] = React.useState(false);
   const { currentStacksNetwork } = useNetworks();
 
+  const applicationID = router.query.applicationId;
+
   const deleteFile = (_name: any) => {
-    axios
-      .delete(`http://localhost:8080/upload?name=${_name}`)
-      .then(() => setFile(null))
-      .catch((err: any) => console.error(err));
+    setFile(null);
+  };
+
+  const fetchUploadStatus = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:3000/api/v1/transaction-docs/${type}/${applicationID}`
+      );
+
+      setUploadStatus(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUploadStatus();
+  }, []);
+
+  const onSign = async (file: any) => {
+    await openSignMessage({
+      message: file.name,
+      onFinish: async (walletResponse) => {
+        console.log("Response", walletResponse);
+
+        const formData = new FormData();
+        //onFileUpload(file);
+        formData.append("file", file, file.name);
+        formData.append("signedMessage", file.name);
+        formData.append("signature", walletResponse.signature);
+        await axios.post(`${apiUrls.CREATE_FILE}`, formData);
+
+        await axios.post(
+          `http://localhost:3000/api/v1/transaction-docs/${type}/${applicationID}`
+        );
+
+        setLoading(false);
+        setFile(file);
+      },
+    });
   };
 
   const uploadHandler = async (event: any) => {
@@ -30,16 +87,8 @@ const FileUpload = ({ onFileUpload }: any) => {
       setLoading(true);
       file.url = URL.createObjectURL(file);
       // Prompt User to sign document
-      const signatureData = await signData(file.name, currentStacksNetwork);
+      const signatureData = await onSign(file);
       console.log(signatureData);
-      const formData = new FormData();
-      onFileUpload(file);
-      formData.append("file", file, file.name);
-      formData.append("signedMessage", file.name);
-      formData.append("signature", signatureData.signature);
-      await axios.post("http://localhost:8080/upload", formData);
-      setLoading(false);
-      setFile(file);
     } catch (error: any) {
       console.error(error);
       setLoading(false);
@@ -92,7 +141,18 @@ const FileUpload = ({ onFileUpload }: any) => {
   const UploadFileCard = () => {
     return (
       <div className="file-card">
-        <input type="file" accept=".pdf" onChange={(e) => uploadHandler(e)} />
+        <input
+          type="file"
+          accept=".pdf"
+          onChange={(e) => {
+            e.preventDefault();
+            if (uploadStatus) {
+              toast.warning("File already uploaded");
+              return;
+            }
+            uploadHandler(e);
+          }}
+        />
         <div className="centeredButton">
           {isLoading ? (
             <Button
@@ -110,9 +170,9 @@ const FileUpload = ({ onFileUpload }: any) => {
             ></Button>
           ) : (
             <Button
-              backgroundColor="#1ab98b"
+              backgroundColor={uploadStatus ? "#1e7b60" : "#1ab98b"}
               primary={true}
-              label={"Upload"}
+              label={uploadStatus ? "Uploaded" : "Upload"}
               icon={
                 <PortalIcons selected={false} icon={"upload"}></PortalIcons>
               }
