@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { useEffect, useState } from "react";
 import "taral-ui/build/index.scss";
-
+import * as MicroStacks from "@micro-stacks/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -22,17 +22,21 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
   const queryClient = new QueryClient();
   return (
-    <Provider>
-      <QueryClientProvider client={queryClient}>
-        <Toaster richColors position={"top-center"} />
-        <NextNProgress
-          color="#1ab98b"
-          height={6}
-          options={{ showSpinner: false }}
-        />
-        <Component {...pageProps} />
+    <MicroStacks.ClientProvider
+      appName="Tariala"
+      appIconUrl="https://avatars.githubusercontent.com/u/87638650?s=200&v=4"
+    >
+      <Provider>
+        <QueryClientProvider client={queryClient}>
+          <Toaster richColors position={"top-center"} />
+          <NextNProgress
+            color="#1ab98b"
+            height={6}
+            options={{ showSpinner: false }}
+          />
+          <Component {...pageProps} />
 
-        {/* <IdleTimeOutHandler
+          {/* <IdleTimeOutHandler
         onActive={() => {}}
         onIdle={() => {}}
         onLogout={async () => {
@@ -40,9 +44,10 @@ function MyApp({ Component, pageProps }: AppProps) {
         }}
       /> */}
 
-        <SelectNetworkDialog></SelectNetworkDialog>
-      </QueryClientProvider>
-    </Provider>
+          <SelectNetworkDialog></SelectNetworkDialog>
+        </QueryClientProvider>
+      </Provider>
+    </MicroStacks.ClientProvider>
   );
 }
 export default MyApp;

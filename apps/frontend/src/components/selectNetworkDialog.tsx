@@ -4,8 +4,7 @@ import {
   StacksMainnet,
   StacksMocknet,
   StacksTestnet,
-  StacksDevnet,
-} from "@stacks/network";
+} from "micro-stacks/network";
 import { useNetworks } from "@hooks/useNetwork";
 import { Network } from "@utils/lib/constants";
 import {
@@ -46,7 +45,7 @@ const NetworkListItem = ({
         : index === 1
         ? new StacksTestnet()
         : index === 2
-        ? new StacksDevnet()
+        ? new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
         : new StacksMocknet()
     );
     setOpen(false);
