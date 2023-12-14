@@ -627,12 +627,14 @@ describeOrSkip("Taral bank test flows", () => {
             ], WALLET_1
         );
 
+        expect(transferResult.result).toBeOk(Cl.bool(true));
+
         assetsMap = simnet.getAssetsMap();
         balanceUsda = assetsMap.get('.usda-token.usda')!;
         balanceUsdaWallet1 = balanceUsda.get(WALLET_1)!;
         expect(balanceUsdaWallet1).toBe(1000n);
 
-        const makePaymentResult = simnet.callPublicFn(
+        let makePaymentResult = simnet.callPublicFn(
             "taral-bank",
             "make-payment",
             [
@@ -640,10 +642,35 @@ describeOrSkip("Taral bank test flows", () => {
             ], WALLET_1
         );
 
-        console.log(JSON.stringify(makePaymentResult, null, 2));
         expect(makePaymentResult.result).toBeErr(Cl.uint(1));
-    })
 
+        // check purchase order health
+
+        fastForwardDays(6);
+
+        const checkPurchaseOrderHealth = simnet.callPublicFn(
+            "taral-bank",
+            "check-purchase-order-health",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(checkPurchaseOrderHealth.result).toBeOk(Cl.tuple({
+            "is-completed": Cl.bool(true),
+            "is-defaulted": Cl.bool(true)
+        }));
+        
+        makePaymentResult = simnet.callPublicFn(
+            "taral-bank",
+            "make-payment",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(makePaymentResult.result).toBeErr(Cl.uint(130)); // cannot make payments anymore, po is defaulted
+    })
 
     function ensureRegistrationOfParties() {
         // register the importer
