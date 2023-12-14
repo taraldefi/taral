@@ -367,47 +367,7 @@ describeOrSkip("Taral bank test flows", () => {
     }), 
 
     it("Should be able to pay back the loan", () => {
-        // register the importer
-        const registerImporterResult = simnet.callPublicFn(
-            "taral-importer",
-            "register",
-            [
-                Cl.standardPrincipal(WALLET_1), // the importer
-                Cl.stringUtf8("Importer"),
-                Cl.buffer(Buffer.from("Stacks Signed Message: 1")),
-                Cl.stringUtf8("Importer")
-            ], WALLET_1
-        );
-
-        expect(registerImporterResult.result).toBeOk(Cl.uint(1));
-
-        // register the exporter
-        const registerExporterResult = simnet.callPublicFn(
-            "taral-exporter",
-            "register",
-            [
-                Cl.standardPrincipal(WALLET_2), // the exporter
-                Cl.stringUtf8("Exporter"),
-                Cl.buffer(Buffer.from("Stacks Signed Message: 1")),
-                Cl.stringUtf8("Exporter")
-            ], WALLET_2
-        );
-
-        expect(registerExporterResult.result).toBeOk(Cl.uint(1));
-
-        // register the lender
-        const registerLenderResult = simnet.callPublicFn(
-            "taral-lender",
-            "register-lender",
-            [
-                Cl.stringUtf8("Lender"),
-                Cl.stringUtf8("Lender"),
-                Cl.stringUtf8("Germany")
-            ], WALLET_3
-        );
-
-        expect(registerLenderResult.result).toBeOk(Cl.bool(true));
-
+        ensureRegistrationOfParties();
         checkTrackRecord(0, 0);
 
         const purchaseOrderResult = simnet.callPublicFn(
@@ -560,7 +520,173 @@ describeOrSkip("Taral bank test flows", () => {
         }));
 
         checkTrackRecord(1, 0);
+    }),
+
+    it("Should produce meaningful errors if not able to pay back the loan", () => {
+        ensureRegistrationOfParties();
+        checkTrackRecord(0, 0);
+
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2) // the seller
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        // place a financing offer
+        let placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_3
+        );
+
+        expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
+        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+
+        const acceptFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "accept-financing",
+            [
+                Cl.uint(1),
+            ], WALLET_1
+        );
+
+        expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
+        const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
+        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+
+        let hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
+
+        fastForwardMonths(1);
+
+        hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
+
+        fastForwardMonths(1);
+
+        hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
+
+        fastForwardMonths(1);
+
+        hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
+
+        let assetsMap = simnet.getAssetsMap();
+        let balanceUsda = assetsMap.get('.usda-token.usda')!;
+        let balanceUsdaWallet1 = balanceUsda.get(WALLET_1)!;
+        
+        // transfer the money out so we can't pay back the loan
+        const transferResult = simnet.callPublicFn(
+            "usda-token",
+            "transfer",
+            [
+                Cl.uint(balanceUsdaWallet1 - 1000n), // leave a little bit of money in the account
+                Cl.standardPrincipal(WALLET_1),
+                Cl.standardPrincipal(WALLET_3),
+                Cl.none()
+            ], WALLET_1
+        );
+
+        assetsMap = simnet.getAssetsMap();
+        balanceUsda = assetsMap.get('.usda-token.usda')!;
+        balanceUsdaWallet1 = balanceUsda.get(WALLET_1)!;
+        expect(balanceUsdaWallet1).toBe(1000n);
+
+        const makePaymentResult = simnet.callPublicFn(
+            "taral-bank",
+            "make-payment",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        console.log(JSON.stringify(makePaymentResult, null, 2));
+        expect(makePaymentResult.result).toBeErr(Cl.uint(1));
     })
+
+
+    function ensureRegistrationOfParties() {
+        // register the importer
+        const registerImporterResult = simnet.callPublicFn(
+            "taral-importer",
+            "register",
+            [
+                Cl.standardPrincipal(WALLET_1), // the importer
+                Cl.stringUtf8("Importer"),
+                Cl.buffer(Buffer.from("Stacks Signed Message: 1")),
+                Cl.stringUtf8("Importer")
+            ], WALLET_1
+        );
+
+        expect(registerImporterResult.result).toBeOk(Cl.uint(1));
+
+        // register the exporter
+        const registerExporterResult = simnet.callPublicFn(
+            "taral-exporter",
+            "register",
+            [
+                Cl.standardPrincipal(WALLET_2), // the exporter
+                Cl.stringUtf8("Exporter"),
+                Cl.buffer(Buffer.from("Stacks Signed Message: 1")),
+                Cl.stringUtf8("Exporter")
+            ], WALLET_2
+        );
+
+        expect(registerExporterResult.result).toBeOk(Cl.uint(1));
+
+        // register the lender
+        const registerLenderResult = simnet.callPublicFn(
+            "taral-lender",
+            "register-lender",
+            [
+                Cl.stringUtf8("Lender"),
+                Cl.stringUtf8("Lender"),
+                Cl.stringUtf8("Germany")
+            ], WALLET_3
+        );
+
+        expect(registerLenderResult.result).toBeOk(Cl.bool(true));
+    }
 
 
     function checkTrackRecord(success: number, failed: number) {
