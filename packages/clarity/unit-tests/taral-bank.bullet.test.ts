@@ -686,6 +686,39 @@ describeOrSkip("Taral bank test flows", () => {
         expect(makePaymentResult.result).toBeErr(Cl.uint(130)); // cannot make payments anymore, po is defaulted
 
         checkTrackRecord(0, 1);
+
+        hasPoDefaulted = simnet.callReadOnlyFn(
+            "taral-bank",
+            "is-po-defaulted",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(hasPoDefaulted.result).toBeOk(Cl.bool(true));
+
+
+        const getPurchaseOrder = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-po-details",
+            [Cl.uint(purchaseOrderId)],
+            WALLET_1,
+        );
+
+        expect(getPurchaseOrder.result).toBeOk(Cl.tuple({
+            "total-amount": Cl.uint(borrow),
+            "downpayment": Cl.uint(downPayment),
+            "outstanding-amount": Cl.uint(1000),
+            "is-completed": Cl.bool(true),
+            "accepted-financing-id": Cl.some(Cl.uint(1)),
+            "is-canceled": Cl.bool(false),
+            "created-at": Cl.uint(7),
+
+            "completed-successfully": Cl.bool(false),
+            "has-active-financing": Cl.bool(true),
+            "updated-at": Cl.uint(14268),
+            "is-defaulted": Cl.bool(true)
+        }));
     })
 
     function ensureRegistrationOfParties() {

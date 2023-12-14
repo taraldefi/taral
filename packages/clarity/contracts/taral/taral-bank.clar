@@ -145,10 +145,19 @@
           (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
           (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
           (is-completed (get is-completed po))
+          (is-completed-successfully (get completed-successfully po))
         )
 
         (if is-completed
-          (ok false)
+          (if is-completed-successfully
+            (ok false)
+
+            (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+              (ok true)
+              (ok false)
+            ) 
+          )
+
           (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
             (ok true)
             (ok false)
