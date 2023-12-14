@@ -504,5 +504,38 @@ describeOrSkip("Taral bank test flows", () => {
 
         console.log(JSON.stringify(makePaymentResult, null, 2));
         expect(makePaymentResult.result).toBeOk(Cl.bool(true));
+
+        const getPaymentDetails = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-payment-details",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(getPaymentDetails.result).toBeOk(Cl.tuple({
+            "payment-left": Cl.uint(0),
+        }));
+
+        const getPurchaseOrder = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-po-details",
+            [Cl.uint(purchaseOrderId)],
+            WALLET_1,
+        );
+
+        expect(getPurchaseOrder.result).toBeOk(Cl.tuple({
+            "total-amount": Cl.uint(borrow),
+            "downpayment": Cl.uint(downPayment),
+            "outstanding-amount": Cl.uint(0),
+            "is-completed": Cl.bool(true),
+            "accepted-financing-id": Cl.some(Cl.uint(1)),
+            "is-canceled": Cl.bool(false),
+            "created-at": Cl.uint(7),
+
+            "completed-successfully": Cl.bool(true),
+            "has-active-financing": Cl.bool(true),
+            "updated-at": Cl.uint(13402),
+        }));
     })
 });
