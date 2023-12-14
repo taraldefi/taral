@@ -408,6 +408,8 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(registerLenderResult.result).toBeOk(Cl.bool(true));
 
+        checkTrackRecord(0, 0);
+
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
             "create-purchase-order",
@@ -556,5 +558,52 @@ describeOrSkip("Taral bank test flows", () => {
             "has-active-financing": Cl.bool(true),
             "updated-at": Cl.uint(13402),
         }));
+
+        checkTrackRecord(1, 0);
     })
+
+
+    function checkTrackRecord(success: number, failed: number) {
+         // get lender track record 
+         const getLenderTrackRecord = simnet.callReadOnlyFn(
+            "taral-lender",
+            "get-track-record",
+            [
+                Cl.standardPrincipal(WALLET_3),
+            ], WALLET_3
+        );
+
+        expect(getLenderTrackRecord.result).toBeOk(Cl.tuple({
+            "successful-transactions": Cl.uint(success),
+            "failed-transactions": Cl.uint(failed),
+        }));
+
+        // get exporter track record
+        const getExporterTrackRecord = simnet.callReadOnlyFn(
+            "taral-exporter",
+            "get-track-record",
+            [
+                Cl.standardPrincipal(WALLET_2),
+            ], WALLET_2
+        );
+
+        expect(getExporterTrackRecord.result).toBeOk(Cl.tuple({
+            "successful-transactions": Cl.uint(success),
+            "failed-transactions": Cl.uint(failed),
+        }));
+
+        // get importer track record
+        const getImporterTrackRecord = simnet.callReadOnlyFn(
+            "taral-importer",
+            "get-track-record",
+            [
+                Cl.standardPrincipal(WALLET_1),
+            ], WALLET_1
+        );
+
+        expect(getImporterTrackRecord.result).toBeOk(Cl.tuple({
+            "successful-transactions": Cl.uint(success),
+            "failed-transactions": Cl.uint(failed),
+        }));
+    }
 });
