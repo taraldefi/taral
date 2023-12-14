@@ -100,6 +100,7 @@
 (define-constant ERR_PAYMENTS_MISSED u128)
 (define-constant ERR_SELLER_CANNOT_FINANCE_THEIR_PO u129)
 (define-constant CANNOT_MAKE_PAYMENT_PO_COMPLETED u130)
+(define-constant COULD_NOT_UNWRAP u131)
 
 (define-constant err-unauthorised u401)
 
@@ -171,7 +172,11 @@
 )
 
 (define-read-only (get-po-details (purchase-order-id uint))
-  (let ((po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id}))))
+  (let 
+    (
+      (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
+      (is-defaulted (unwrap! (is-po-defaulted purchase-order-id) (err COULD_NOT_UNWRAP)))
+    )
     (ok { 
       total-amount: (get total-amount po),
       downpayment: (get downpayment po),
@@ -183,6 +188,7 @@
       has-active-financing: (get has-active-financing po),
       created-at: (get created-at po),
       updated-at: (get updated-at po),
+      is-defaulted: is-defaulted
     })
   )
 )

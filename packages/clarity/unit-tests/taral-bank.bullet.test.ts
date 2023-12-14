@@ -517,6 +517,7 @@ describeOrSkip("Taral bank test flows", () => {
             "completed-successfully": Cl.bool(true),
             "has-active-financing": Cl.bool(true),
             "updated-at": Cl.uint(13402),
+            "is-defaulted": Cl.bool(false)
         }));
 
         const checkPurchaseOrderHealth = simnet.callPublicFn(
