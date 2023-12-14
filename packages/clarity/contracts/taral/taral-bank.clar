@@ -267,66 +267,86 @@
     )
 
     ;; Calculate the current outstanding amount and monthly payment
-    (let ((outstanding-amount (get outstanding-amount po))
+    (let 
+      (
+          (outstanding-amount (get outstanding-amount po))
           (interest-for-payment ( - (/ ( + (* outstanding-amount u100) (* outstanding-amount interest-rate-per-payment)) u100) outstanding-amount))          
           (total-payment-required (+ outstanding-amount interest-for-payment))
-    )
+      )
 
-        (unwrap-panic 
-          (contract-call? .usda-token transfer 
-                                        interest-for-payment
-                                        (get borrower-id po) 
-                                        (var-get contract-owner)
-                                        none) 
-        )
-
-        (unwrap-panic 
-          (contract-call? 
-              .usda-token transfer 
-                outstanding-amount
-                borrower-id
-                lender-id
-                none
+        (let 
+          (
+              (interest-transfer-result (contract-call? .usda-token transfer 
+                                          interest-for-payment
+                                          (get borrower-id po) 
+                                          (var-get contract-owner)
+                                          none))
           )
-        )
 
-        (map-set payments
-          {
-            id: (increment-next-payment-id)
-          }
-          {
-            borrower-id: (get borrower-id po),
-            purchase-order-id: purchase-order-id,
-            amount: outstanding-amount,
-            block: block-height
-          }
-        )
+          (match interest-transfer-result
+            interest-transfer-success
+            (begin 
+              (let 
+                (
+                  (principal-transfer-result (contract-call? .usda-token transfer outstanding-amount borrower-id lender-id none))
+                )
 
-          ;; Update the purchase order
-        (map-set purchase-orders 
-          {
-            id: purchase-order-id
-          }
-          
-          (merge po 
-            {
-              updated-at: block-height,
-              outstanding-amount: u0
-            }
-          )
-        )
+                (match principal-transfer-result
+                  principal-transfer-success
+                  (begin 
+                    ;; Check if this payment completes the purchase order
+                    ;; If all payments are made, end the purchase order successfully
+                    (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
 
-        ;; Check if this payment completes the purchase order
-        ;; If all payments are made, end the purchase order successfully
-        (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+                      (match end-purchase-order-response
+                        end-purchase-order-success
+                        (begin 
+                          (map-set payments
+                            {
+                              id: (increment-next-payment-id)
+                            }
+                            {
+                              borrower-id: (get borrower-id po),
+                              purchase-order-id: purchase-order-id,
+                              amount: outstanding-amount,
+                              block: block-height
+                            }
+                          )
 
-          (match end-purchase-order-response
-            end-purchase-order-success
-            (ok true)
-            end-purchase-order-error
-              ;; Nested error branch
-              ;; Return type: (response bool uint) or err
-            (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+                            ;; Update the purchase order
+                          (map-set purchase-orders 
+                            {
+                              id: purchase-order-id
+                            }
+                            
+                            (merge po 
+                              {
+                                updated-at: block-height,
+                                outstanding-amount: u0,
+                                completed-successfully: true,
+                                is-completed: true
+                              }
+                            )
+                          )
+
+                          (ok true)
+                        
+                        )
+                        end-purchase-order-error
+                          ;; Nested error branch
+                          ;; Return type: (response bool uint) or err
+                        (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+                      )
+                    )
+                  
+                  )
+                  principal-transfer-error
+                  (err principal-transfer-error)
+                )
+              )
+            )
+            interest-transfer-error
+            (err interest-transfer-error)
           )
         )
       )
@@ -633,25 +653,14 @@
         (seller-id (get seller-id po))
     )
 
-    ;; Verify that the outstanding amount is fully paid
-    (asserts! (<= (get outstanding-amount po) u0) (err ERR_PURCHASE_ORDER_NOT_FULLY_PAID))
-
     (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
     (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
-    ;; Mark purchase order as completed successfully
-    (map-set purchase-orders
-      { id: purchase-order-id }
-      (merge po { 
-        is-completed: true, 
-        completed-successfully: true
-      })
-    )
-
     (ok true)
   )
 )
+
 
 (define-private (min (a uint) (b uint))
     (if (<= a b)
