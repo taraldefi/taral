@@ -1,3 +1,6 @@
+
+(define-constant lender-storage-error (err u100))
+
 (define-map lenders
     {
         id: principal
@@ -10,6 +13,18 @@
         failed-transactions: uint
     }
 )
+
+(define-read-only (get-track-record (lender principal))
+    (let 
+        ((current-lender-profile (unwrap! (map-get? lenders { id: lender }) lender-storage-error)))           
+        
+        (ok {
+            successful-transactions: (get successful-transactions current-lender-profile),
+            failed-transactions: (get failed-transactions current-lender-profile)
+        })
+    )
+)
+
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
