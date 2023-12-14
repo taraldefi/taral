@@ -22,7 +22,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
   const { entityId } = useModal(EditFormModalAtom);
   const [, setEntityEdited] = useAtom(EntityEditedAtom);
   const [data, setData] = React.useState<EntityResponse>();
-  const { register, handleSubmit, reset, control } = useForm<EntityResponse>({
+  const { register, handleSubmit, reset, control } = useForm<Entity>({
     defaultValues: data,
     mode: "onChange",
   });

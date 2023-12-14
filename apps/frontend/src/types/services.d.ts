@@ -77,7 +77,10 @@ interface Entity {
   coreBusiness: string;
   incorporationDate: string;
   legalForm: string;
+  taxAndRevenueFiscalYear: number;
+  taxAndRevenueTotalRevenue: number;
 }
+
 interface EntityResponse {
   id: string;
   logo: string;

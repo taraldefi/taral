@@ -2,11 +2,7 @@ import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios, { AxiosError } from "axios";
-import {
-  CreateApplication,
-  CreateApplicationResponse,
-  EntityResponse,
-} from "src/types";
+import { CreateApplication, CreateApplicationResponse } from "src/types";
 
 export class ApplicationService {
   async getAllApplications(entityId: string) {

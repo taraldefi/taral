@@ -1,6 +1,6 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
-import FileUpload from "@components/widgets/FileUpload";
+import FileUpload, { documentType } from "@components/widgets/FileUpload";
 import applicationService from "@services/application/applicationService";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
@@ -19,6 +19,8 @@ function Index({ ...props }) {
       }/entities/${entityID}/quick/${applicationID}/security`
     );
   };
+
+  const onUploadConfirmationDocument = async () => {};
 
   const onSubmit = async () => {
     const response = () => applicationService.submitApplication(applicationID);
@@ -53,7 +55,7 @@ function Index({ ...props }) {
                   flexDirection: "column",
                 }}
               >
-                <FileUpload />
+                <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
                 <span>Confirmation Document</span>
               </div>
 
@@ -66,7 +68,7 @@ function Index({ ...props }) {
                   flexDirection: "column",
                 }}
               >
-                <FileUpload />
+                <FileUpload type={documentType.ADDITIONAL_DOCUMENT} />
                 <span>Additional Documents</span>
               </div>
             </div>
@@ -82,7 +84,7 @@ function Index({ ...props }) {
               for now.
             </div>
             <div className="btnContainer">
-              <Button label={"Skip for now"} onClick={() => {}}></Button>
+              <Button label={"Skip for now"} onClick={onSubmit}></Button>
             </div>
           </div>
         </div>

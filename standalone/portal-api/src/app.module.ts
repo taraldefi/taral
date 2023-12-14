@@ -62,6 +62,7 @@ import config from 'config';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { loggingLevel } from './modules/logger/logger';
 import winston from 'winston';
+import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -153,6 +154,7 @@ export class AppModule {
       CompanyInformationModule,
       FinancialsModule,
       FilesModule,
+      TransactionDocumentModule,
       RatingsModule,
       SectorsModule,
       TransactionsModule,

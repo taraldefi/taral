@@ -1,7 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNotEmpty, IsUUID, ValidateNested } from 'class-validator';
-import { CreateFileResponse } from 'src/modules/files/dto/create-file-response.dto';
+import { IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateTxDocResponse {
   @IsUUID()
@@ -12,15 +10,11 @@ export class CreateTxDocResponse {
     description: 'Confirmation Document',
   })
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => CreateFileResponse)
-  confirmationDocument: CreateFileResponse;
+  confirmationDocument: boolean;
 
   @ApiProperty({
     description: 'Additional Document',
   })
   @IsNotEmpty()
-  @ValidateNested()
-  @Type(() => CreateFileResponse)
-  additionalDocument: CreateFileResponse;
+  additionalDocument: boolean;
 }

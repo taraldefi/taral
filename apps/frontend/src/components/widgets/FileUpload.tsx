@@ -12,7 +12,6 @@ import apiUrls from "@config/apiUrls";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { useOpenSignMessage } from "@micro-stacks/react";
-import { set } from "react-hook-form";
 
 export enum documentType {
   CONFIRMATION_DOCUMENT = "confirmation-document",
@@ -79,6 +78,10 @@ const FileUpload = ({ type }: FileUploadProps) => {
       },
     });
   };
+
+  React.useEffect(() => {
+    fetchUploadStatus();
+  }, []);
 
   const uploadHandler = async (event: any) => {
     const file = event.target.files[0];

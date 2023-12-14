@@ -161,62 +161,65 @@ export class BuyerCompanyEntityService {
       fiscalYears = await this.getAllFiscalYears(entity.id);
     }
 
-    if (data.taxAndRevenue.lastFiscalYear) {
-      const newFiscalYearLessThanAlreadyExistingYearData = fiscalYears.some(
-        (fiscalYear) => fiscalYear > data.taxAndRevenue.lastFiscalYear,
-      );
-      if (newFiscalYearLessThanAlreadyExistingYearData) {
-        throw new HttpException(
-          'Fiscal year must be greater than the already existing year information',
-          HttpStatus.BAD_REQUEST,
+    if (data.taxAndRevenue) {
+      if (data.taxAndRevenue.lastFiscalYear) {
+        const newFiscalYearLessThanAlreadyExistingYearData = fiscalYears.some(
+          (fiscalYear) => fiscalYear > data.taxAndRevenue.lastFiscalYear,
         );
-      }
+        if (newFiscalYearLessThanAlreadyExistingYearData) {
+          throw new HttpException(
+            'Fiscal year must be greater than the already existing year information',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
 
-      if (data.taxAndRevenue.lastFiscalYear > new Date().getFullYear()) {
-        throw new HttpException(
-          'Fiscal year must be less than the current year',
-          HttpStatus.BAD_REQUEST,
+        if (data.taxAndRevenue.lastFiscalYear > new Date().getFullYear()) {
+          throw new HttpException(
+            'Fiscal year must be less than the current year',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+
+        taxAndRevenueToBeChanged = getAllTaxAndRevenue.find(
+          (taxAndRevenue) =>
+            taxAndRevenue.lastFiscalYear ===
+            parseInt(data.taxAndRevenue.lastFiscalYear.toString()),
         );
+
+        if (!taxAndRevenueToBeChanged) {
+          taxAndRevenueToBeChanged = new BuyerCompanyTaxAndRevenueEntity();
+          newTaxAndRevenueInformationAdded = true;
+        }
       }
 
-      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find(
-        (taxAndRevenue) =>
-          taxAndRevenue.lastFiscalYear ===
-          parseInt(data.taxAndRevenue.lastFiscalYear.toString()),
-      );
-
-      if (!taxAndRevenueToBeChanged) {
-        taxAndRevenueToBeChanged = new BuyerCompanyTaxAndRevenueEntity();
-        newTaxAndRevenueInformationAdded = true;
+      if (data.taxAndRevenue.taxNumber) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.taxNumber = data.taxAndRevenue.taxNumber;
+      }
+      if (data.taxAndRevenue.audited) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.audited = data.taxAndRevenue.audited;
+      }
+      if (data.taxAndRevenue.exportRevenuePercentage) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.exportRevenuePercentage =
+          data.taxAndRevenue.exportRevenuePercentage;
+      }
+      if (data.taxAndRevenue.exportValue) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.exportValue = data.taxAndRevenue.exportValue;
+      }
+      if (data.taxAndRevenue.lastFiscalYear) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.lastFiscalYear =
+          data.taxAndRevenue.lastFiscalYear;
+      }
+      if (data.taxAndRevenue.totalRevenue) {
+        taxAndRevenueChanged = true;
+        taxAndRevenueToBeChanged.totalRevenue = data.taxAndRevenue.totalRevenue;
       }
     }
 
-    if (data.taxAndRevenue.taxNumber) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.taxNumber = data.taxAndRevenue.taxNumber;
-    }
-    if (data.taxAndRevenue.audited) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.audited = data.taxAndRevenue.audited;
-    }
-    if (data.taxAndRevenue.exportRevenuePercentage) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.exportRevenuePercentage =
-        data.taxAndRevenue.exportRevenuePercentage;
-    }
-    if (data.taxAndRevenue.exportValue) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.exportValue = data.taxAndRevenue.exportValue;
-    }
-    if (data.taxAndRevenue.lastFiscalYear) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.lastFiscalYear =
-        data.taxAndRevenue.lastFiscalYear;
-    }
-    if (data.taxAndRevenue.totalRevenue) {
-      taxAndRevenueChanged = true;
-      taxAndRevenueToBeChanged.totalRevenue = data.taxAndRevenue.totalRevenue;
-    }
     if (taxAndRevenueChanged) {
       await this.buyerCompanyTaxAndRevenueRepository.save(
         taxAndRevenueToBeChanged,
