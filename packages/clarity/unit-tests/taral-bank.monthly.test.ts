@@ -4,30 +4,32 @@ import { fastForwardMonths } from "./helpers/time";
 import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_MONTHLY_TESTS } from "./constants";
 
-const accounts = simnet.getAccounts();
-const WALLET_1 = accounts.get("wallet_1")!;
-const WALLET_2 = accounts.get("wallet_2")!;
-const WALLET_3 = accounts.get("wallet_3")!;
-const WALLET_4 = accounts.get("wallet_4")!;
-const DEPLOYER = accounts.get("deployer")!;
 
 const describeOrSkip = describeConditional(RUN_TARAL_BANK_MONTHLY_TESTS);
 
-console.log('=========================');
-console.log('====== INFORMATION ======');
-console.log('=========================');
-console.log('Balances', simnet.getAssetsMap());
-console.log('WALLET_1', WALLET_1);
-console.log('WALLET_2', WALLET_2);
-console.log('WALLET_3', WALLET_3);
-console.log('DEPLOYER', DEPLOYER);
-console.log('=========================');
-console.log('=========================');
 
 describeOrSkip("Taral bank test flows", () => {
     const borrow = 1100;
     const downPayment = 100;
     const purchaseOrderId = 1;
+
+    const accounts = simnet.getAccounts();
+    const WALLET_1 = accounts.get("wallet_1")!;
+    const WALLET_2 = accounts.get("wallet_2")!;
+    const WALLET_3 = accounts.get("wallet_3")!;
+    const WALLET_4 = accounts.get("wallet_4")!;
+    const DEPLOYER = accounts.get("deployer")!;
+
+    console.log('=========================');
+    console.log('====== INFORMATION ======');
+    console.log('=========================');
+    console.log('Balances', simnet.getAssetsMap());
+    console.log('WALLET_1', WALLET_1);
+    console.log('WALLET_2', WALLET_2);
+    console.log('WALLET_3', WALLET_3);
+    console.log('DEPLOYER', DEPLOYER);
+    console.log('=========================');
+    console.log('=========================');
 
     it("Should be able to create and cancel a purchase order", () => {
         const purchaseOrderResult = simnet.callPublicFn(

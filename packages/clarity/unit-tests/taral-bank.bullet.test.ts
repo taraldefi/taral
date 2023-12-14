@@ -6,31 +6,32 @@ import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_BULLET_TESTS } from "./constants";
 // import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 
-const accounts = simnet.getAccounts();
-const WALLET_1 = accounts.get("wallet_1")!;
-const WALLET_2 = accounts.get("wallet_2")!;
-const WALLET_3 = accounts.get("wallet_3")!;
-const WALLET_4 = accounts.get("wallet_4")!;
-const DEPLOYER = accounts.get("deployer")!;
-
 const describeOrSkip = describeConditional(RUN_TARAL_BANK_BULLET_TESTS);
 
-console.log('=========================');
-console.log('====== INFORMATION ======');
-console.log('=========================');
-console.log('Balances', simnet.getAssetsMap());
-console.log('WALLET_1', WALLET_1);
-console.log('WALLET_2', WALLET_2);
-console.log('WALLET_3', WALLET_3);
-console.log('DEPLOYER', DEPLOYER);
-console.log('=========================');
-console.log('=========================');
 
 describeOrSkip("Taral bank test flows", () => {
     const borrow = 1100;
     const downPayment = 100;
     const purchaseOrderId = 1;
     const financingId = 1;
+
+    const accounts = simnet.getAccounts();
+    const WALLET_1 = accounts.get("wallet_1")!;
+    const WALLET_2 = accounts.get("wallet_2")!;
+    const WALLET_3 = accounts.get("wallet_3")!;
+    const WALLET_4 = accounts.get("wallet_4")!;
+    const DEPLOYER = accounts.get("deployer")!;
+
+    console.log('=========================');
+    console.log('====== INFORMATION ======');
+    console.log('=========================');
+    console.log('Balances', simnet.getAssetsMap());
+    console.log('WALLET_1', WALLET_1);
+    console.log('WALLET_2', WALLET_2);
+    console.log('WALLET_3', WALLET_3);
+    console.log('DEPLOYER', DEPLOYER);
+    console.log('=========================');
+    console.log('=========================');
 
     it("Should be able to create and cancel a purchase order", () => {
         const purchaseOrderResult = simnet.callPublicFn(
@@ -502,8 +503,26 @@ describeOrSkip("Taral bank test flows", () => {
             ], WALLET_1
         );
 
-        console.log(JSON.stringify(makePaymentResult, null, 2));
         expect(makePaymentResult.result).toBeOk(Cl.bool(true));
+        const transferEvents = makePaymentResult.events.filter((event: any) => event.event === 'ft_transfer_event');
+        const interestTransferEvent = transferEvents[0].data as any;
+
+        expect(interestTransferEvent.asset_identifier).toStrictEqual(
+            `${DEPLOYER}.usda-token::usda`,
+        );
+    
+        expect(interestTransferEvent.sender).toStrictEqual(WALLET_1);
+        expect(interestTransferEvent.recipient).toStrictEqual(`${DEPLOYER}`);
+        expect(interestTransferEvent.amount).toStrictEqual(`${(borrow - downPayment) * 3 / 100}`);
+
+        const principalTransferEvent = transferEvents[1].data as any;
+        expect(principalTransferEvent.asset_identifier).toStrictEqual(
+            `${DEPLOYER}.usda-token::usda`,
+        );
+    
+        expect(principalTransferEvent.sender).toStrictEqual(WALLET_1);
+        expect(principalTransferEvent.recipient).toStrictEqual(`${WALLET_3}`);
+        expect(principalTransferEvent.amount).toStrictEqual(`${(borrow - downPayment)}`);
 
         const getPaymentDetails = simnet.callReadOnlyFn(
             "taral-bank",
