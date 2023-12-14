@@ -354,6 +354,7 @@
   )
 
 
+
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 ;; (define-public (check-purchase-order-health (purchase-order-id uint))
@@ -661,6 +662,21 @@
   )
 )
 
+(define-private (end-purchase-order-unsuccessfully (purchase-order-id uint))
+  (let (
+        (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (lender-id (unwrap! (get lender-id po) (err ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER)))
+        (borrower-id (get borrower-id po))
+        (seller-id (get seller-id po))
+    )
+
+    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
+
+    (ok true)
+  )
+)
 
 (define-private (min (a uint) (b uint))
     (if (<= a b)
