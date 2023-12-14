@@ -27,7 +27,7 @@
   {
     purchase-order-id: uint,
     financing-amount: uint,
-    lender-id: (optional principal),
+    lender-id: principal,
     is-accepted: bool,
     interest-rate: uint,
     refunded: bool,
@@ -240,76 +240,76 @@
       (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
       (financing (unwrap-panic (map-get? po-financing {id: (unwrap-panic (get accepted-financing-id po))})))
       (bullet-interest-rate (/ (/ (var-get protocol-interest-rate-per-annum) u4) u100)) ;; bullet payment is 3 months
+      (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
+      (lender-id (unwrap-panic (get lender-id po)))
+      (borrower-id (get borrower-id po))
     )
 
     ;; Calculate the current outstanding amount and monthly payment
     (let ((outstanding-amount (get outstanding-amount po))
-          (interest-for-payment (* outstanding-amount bullet-interest-rate))
+          (interest-for-payment ( - (/ ( + (* outstanding-amount u100) (* outstanding-amount interest-rate-per-payment)) u100) outstanding-amount))          
           (total-payment-required (+ outstanding-amount interest-for-payment))
     )
 
-        ;; Calculate how many months can be covered by the payment, excluding interest for advance months
-        
-
-        (if (is-ok (contract-call? .usda-token transfer 
+        (unwrap-panic 
+          (contract-call? .usda-token transfer 
                                         interest-for-payment
                                         (get borrower-id po) 
-                                        (as-contract tx-sender)
-                                        (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000)))
-                (begin 
-                  (let ((response (contract-call? .usda-token transfer 
-                                        outstanding-amount
-                                        (get borrower-id po) 
-                                        (unwrap-panic (get lender-id po))
-                                        (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000))))
-                      (match response
-                        success
-                          ;; Nested success branch
-                          (let ()
+                                        (var-get contract-owner)
+                                        none) 
+        )
 
-                            ;; Record the lump sum payment
-                            (map-set payments
-                                    {id: (increment-next-payment-id)}
-                                    {
-                                      borrower-id: (get borrower-id po),
-                                      purchase-order-id: purchase-order-id,
-                                      amount: outstanding-amount,
-                                      block: block-height
-                                    })
+        (unwrap-panic 
+          (contract-call? 
+              .usda-token transfer 
+                outstanding-amount
+                borrower-id
+                lender-id
+                none
+          )
+        )
 
-                             ;; Update the purchase order
-                             (map-set purchase-orders 
-                                    {id: purchase-order-id}
-                                    (merge po {
-                                      updated-at: block-height,
-                                    }))
+      (map-set payments
+        {
+          id: (increment-next-payment-id)
+        }
+        {
+          borrower-id: (get borrower-id po),
+          purchase-order-id: purchase-order-id,
+          amount: outstanding-amount,
+          block: block-height
+        }
+      )
 
-                            ;; Check if this payment completes the purchase order
-                            ;; If all payments are made, end the purchase order successfully
-                            (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+        ;; Update the purchase order
+      (map-set purchase-orders 
+        {
+          id: purchase-order-id
+        }
+        
+        (merge po 
+          {
+            updated-at: block-height,
+            outstanding-amount: u0
+          }
+        )
+      )
 
-                            (match end-purchase-order-response
-                              end-purchase-order-success
-                              (ok true)
-                              end-purchase-order-error
-                                ;; Nested error branch
-                                ;; Return type: (response bool uint) or err
-                              (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
-                            )
-                            )
-                          )
-                        error
-                          ;; Nested error branch
-                          ;; Return type: (response bool uint) or err
-                          (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
-                      )
-                    )
-                )
+      ;; (ok (end-purchase-order-successfully purchase-order-id))
 
-                ;; Nested error branch
-                ;; Return type: (response bool uint) or err
-                (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
-              )
+      ;; Check if this payment completes the purchase order
+      ;; If all payments are made, end the purchase order successfully
+      (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+
+      (match end-purchase-order-response
+        end-purchase-order-success
+        (ok true)
+        end-purchase-order-error
+          ;; Nested error branch
+          ;; Return type: (response bool uint) or err
+        (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+      )
+      )
       )
     )
   )
@@ -448,7 +448,7 @@
             {
               purchase-order-id: purchase-order-id,
               financing-amount: total-amount,
-              lender-id: (some tx-sender),
+              lender-id: tx-sender,
               is-accepted: false,
               interest-rate: (interest-per-payment),
               refunded: false,
@@ -478,7 +478,7 @@
     (
       (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
+      (lender-id (get lender-id financing))
     )
 
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
@@ -512,7 +512,7 @@
     (
       (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
+      (lender-id (get lender-id financing))
     )
 
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
@@ -547,7 +547,8 @@
                   outstanding-amount: (- (get total-amount po) (get downpayment po)),
                   accepted-financing-id: (some financing-id),
                   has-active-financing: true,
-                  updated-at: block-height
+                  updated-at: block-height,
+                  lender-id: (some (get lender-id financing))
                 })
               )
 
@@ -575,7 +576,7 @@
 ;; #[allow(unchecked_data)]
 (define-private (refund-financing (financing-id uint))
     (let ((financing (unwrap-panic (map-get? po-financing { id: financing-id })))
-    (lender-id (unwrap! (get lender-id financing) (err u111)))
+    (lender-id (get lender-id financing))
     
     )
       (if (not (get refunded financing))
@@ -616,9 +617,9 @@
     ;; Verify that the outstanding amount is fully paid
     (asserts! (<= (get outstanding-amount po) u0) (err ERR_PURCHASE_ORDER_NOT_FULLY_PAID))
 
-    (unwrap! (contract-call? .taral-importer update-importer-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-exporter update-exporter-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-lender update-lender-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
     ;; Mark purchase order as completed successfully
     (map-set purchase-orders
