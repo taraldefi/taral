@@ -149,11 +149,15 @@
           (financing-accepted-at (get accepted-at financing))
           (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
           (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
+          (is-completed (get is-completed po))
         )
 
-        (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+        (if is-completed
+          (ok false)
+          (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
             (ok true)
             (ok false)
+          )
         )
       )
     )
@@ -269,47 +273,45 @@
           )
         )
 
-      (map-set payments
-        {
-          id: (increment-next-payment-id)
-        }
-        {
-          borrower-id: (get borrower-id po),
-          purchase-order-id: purchase-order-id,
-          amount: outstanding-amount,
-          block: block-height
-        }
-      )
-
-        ;; Update the purchase order
-      (map-set purchase-orders 
-        {
-          id: purchase-order-id
-        }
-        
-        (merge po 
+        (map-set payments
           {
-            updated-at: block-height,
-            outstanding-amount: u0
+            id: (increment-next-payment-id)
+          }
+          {
+            borrower-id: (get borrower-id po),
+            purchase-order-id: purchase-order-id,
+            amount: outstanding-amount,
+            block: block-height
           }
         )
-      )
 
-      ;; (ok (end-purchase-order-successfully purchase-order-id))
+          ;; Update the purchase order
+        (map-set purchase-orders 
+          {
+            id: purchase-order-id
+          }
+          
+          (merge po 
+            {
+              updated-at: block-height,
+              outstanding-amount: u0
+            }
+          )
+        )
 
-      ;; Check if this payment completes the purchase order
-      ;; If all payments are made, end the purchase order successfully
-      (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+        ;; Check if this payment completes the purchase order
+        ;; If all payments are made, end the purchase order successfully
+        (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
 
-      (match end-purchase-order-response
-        end-purchase-order-success
-        (ok true)
-        end-purchase-order-error
-          ;; Nested error branch
-          ;; Return type: (response bool uint) or err
-        (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
-      )
-      )
+          (match end-purchase-order-response
+            end-purchase-order-success
+            (ok true)
+            end-purchase-order-error
+              ;; Nested error branch
+              ;; Return type: (response bool uint) or err
+            (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+          )
+        )
       )
     )
   )
