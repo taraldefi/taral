@@ -176,6 +176,23 @@
   )
 )
 
+(define-read-only (get-po-details (purchase-order-id uint))
+  (let ((po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id}))))
+    (ok { 
+      total-amount: (get total-amount po),
+      downpayment: (get downpayment po),
+      outstanding-amount: (get outstanding-amount po),
+      is-completed: (get is-completed po),
+      completed-successfully: (get completed-successfully po),
+      accepted-financing-id: (get accepted-financing-id po),
+      is-canceled: (get is-canceled po),
+      has-active-financing: (get has-active-financing po),
+      created-at: (get created-at po),
+      updated-at: (get updated-at po),
+    })
+  )
+)
+
 ;; Function to check if a purchase order has active financing offers
 (define-read-only (has-active-financing (purchase-order-id uint))
   (let ((po (map-get? purchase-orders {id: purchase-order-id})))
