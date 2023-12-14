@@ -99,6 +99,7 @@
 (define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES u127)
 (define-constant ERR_PAYMENTS_MISSED u128)
 (define-constant ERR_SELLER_CANNOT_FINANCE_THEIR_PO u129)
+(define-constant CANNOT_MAKE_PAYMENT_PO_COMPLETED u130)
 
 (define-constant err-unauthorised u401)
 
@@ -126,13 +127,6 @@
   (var-get blocks-time-in-seconds)
 )
 
-
-(define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
-  (-
-    (+ (* (- current-year first-year) u12) current-month)
-    first-month
-  )
-)
 
 (define-read-only (is-po-defaulted (purchase-order-id uint))
   (match (map-get? purchase-orders { id: purchase-order-id })
@@ -264,7 +258,11 @@
       (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
       (lender-id (unwrap-panic (get lender-id po)))
       (borrower-id (get borrower-id po))
+      (is-completed (get is-completed po))
+      (completed-successfully (get completed-successfully po))
     )
+
+    (asserts! (not is-completed) (err CANNOT_MAKE_PAYMENT_PO_COMPLETED))
 
     ;; Calculate the current outstanding amount and monthly payment
     (let 
@@ -274,127 +272,154 @@
           (total-payment-required (+ outstanding-amount interest-for-payment))
       )
 
-        (let 
-          (
-              (interest-transfer-result (contract-call? .usda-token transfer 
-                                          interest-for-payment
-                                          (get borrower-id po) 
-                                          (var-get contract-owner)
-                                          none))
-          )
+      (let 
+        (
+            (interest-transfer-result (contract-call? .usda-token transfer 
+                                        interest-for-payment
+                                        (get borrower-id po) 
+                                        (var-get contract-owner)
+                                        none))
+        )
 
-          (match interest-transfer-result
-            interest-transfer-success
-            (begin 
-              (let 
-                (
-                  (principal-transfer-result (contract-call? .usda-token transfer outstanding-amount borrower-id lender-id none))
-                )
+        (match interest-transfer-result
+          interest-transfer-success
+          (begin 
+            (let 
+              (
+                (principal-transfer-result (contract-call? .usda-token transfer outstanding-amount borrower-id lender-id none))
+              )
 
-                (match principal-transfer-result
-                  principal-transfer-success
-                  (begin 
-                    ;; Check if this payment completes the purchase order
-                    ;; If all payments are made, end the purchase order successfully
-                    (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+              (match principal-transfer-result
+                principal-transfer-success
+                (begin 
+                  ;; Check if this payment completes the purchase order
+                  ;; If all payments are made, end the purchase order successfully
+                  (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
 
-                      (match end-purchase-order-response
-                        end-purchase-order-success
-                        (begin 
-                          (map-set payments
-                            {
-                              id: (increment-next-payment-id)
-                            }
-                            {
-                              borrower-id: (get borrower-id po),
-                              purchase-order-id: purchase-order-id,
-                              amount: outstanding-amount,
-                              block: block-height
-                            }
-                          )
-
-                            ;; Update the purchase order
-                          (map-set purchase-orders 
-                            {
-                              id: purchase-order-id
-                            }
-                            
-                            (merge po 
-                              {
-                                updated-at: block-height,
-                                outstanding-amount: u0,
-                                completed-successfully: true,
-                                is-completed: true
-                              }
-                            )
-                          )
-
-                          (ok true)
-                        
+                    (match end-purchase-order-response
+                      end-purchase-order-success
+                      (begin 
+                        (map-set payments
+                          {
+                            id: (increment-next-payment-id)
+                          }
+                          {
+                            borrower-id: (get borrower-id po),
+                            purchase-order-id: purchase-order-id,
+                            amount: outstanding-amount,
+                            block: block-height
+                          }
                         )
-                        end-purchase-order-error
-                          ;; Nested error branch
-                          ;; Return type: (response bool uint) or err
-                        (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+
+                          ;; Update the purchase order
+                        (map-set purchase-orders 
+                          {
+                            id: purchase-order-id
+                          }
+                          
+                          (merge po 
+                            {
+                              updated-at: block-height,
+                              outstanding-amount: u0,
+                              completed-successfully: true,
+                              is-completed: true
+                            }
+                          )
+                        )
+
+                        (ok true)
+                      
                       )
+                      end-purchase-order-error
+                        ;; Nested error branch
+                        ;; Return type: (response bool uint) or err
+                      (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
                     )
-                  
                   )
-                  principal-transfer-error
-                  (err principal-transfer-error)
+                
                 )
+                principal-transfer-error
+                (err principal-transfer-error)
               )
             )
-            interest-transfer-error
-            (err interest-transfer-error)
           )
+          interest-transfer-error
+          (err interest-transfer-error)
         )
       )
     )
   )
-
-
+)
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-;; (define-public (check-purchase-order-health (purchase-order-id uint))
-;;   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
-;;     (let ((first-payment-block (get first-payment-block-height po))
-;;           (current-block block-height)
-;;           (payment-interval-blocks u1440) ;; Example: Monthly payment interval in blocks
-;;           (payments-expected (get payments-left po)))
+(define-public (check-purchase-order-health (purchase-order-id uint))
+  (let 
+    (
+      (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
+      (is-completed (get is-completed po))
+    )
 
-;;       (let ((blocks-since-first-payment (- current-block first-payment-block))
-;;             (expected-blocks-until-payment (* payment-interval-blocks payments-expected)))
+    (if is-completed
+      (ok 
+        {
+          is-defaulted: false,
+          is-completed: true
+        }
+      )
+      ;; else, check if it's defaulted
+      (if (is-ok (is-po-defaulted purchase-order-id))
+        (begin 
+          (let 
+            (
+              (end-purchase-order-response (end-purchase-order-unsuccessfully purchase-order-id))
+            )
 
-;;         (if (>= blocks-since-first-payment expected-blocks-until-payment)
-;;           (begin 
-          
-;;             (map-set purchase-orders
-;;                         { id: purchase-order-id }
-;;                         (merge po {
-;;                           is-completed: true,
-;;                           completed-successfully: false,
-;;                           updated-at: block-height
-;;                         })
-;;                 )
+              (match end-purchase-order-response
+              end-purchase-order-success
+              (begin 
+                ;; Update the purchase order
+                (map-set purchase-orders 
+                  {
+                    id: purchase-order-id
+                  }
+                  
+                  (merge po 
+                    {
+                      updated-at: block-height,
+                      completed-successfully: false,
+                      is-completed: true
+                    }
+                  )
+                )
 
-;;                 ;; Update lender's track record.
-;;                 (let ((lender-principal (unwrap! (get lender-id po) (err ERR_NO_LENDER_FOR_PURCHASE_ORDER))))
-;;                     (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
-;;                     (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
-;;                     (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
+                (ok 
+                  {
+                  is-defaulted: true,
+                  is-completed: true
+                  }
+                )
+              
+              )
+              end-purchase-order-error
+                ;; Nested error branch
+                ;; Return type: (response bool uint) or err
+              (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+            )
+          )
+        )
 
-;;                     (err ERR_MISSED_PAYMENTS)
-;;                 )
-;;           )
-;;             ;; If the current block height exceeds the expected payment schedule
-;;           (ok purchase-order-id)  ;; Indicates health, payments are up-to-date
-;;         )
-;;       )
-;;     )
-;;   )
-;; )
+        ;; else, nothing to do
+        (ok 
+          {
+            is-defaulted: false,
+            is-completed: true
+          }
+        )
+      )
+    )
+  )
+)
 
 (define-read-only (get-purchase-order-by-id (purchase-order-id uint))
     (map-get? purchase-orders {id: purchase-order-id})
