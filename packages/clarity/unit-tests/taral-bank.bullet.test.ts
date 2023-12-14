@@ -670,6 +670,8 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(makePaymentResult.result).toBeErr(Cl.uint(130)); // cannot make payments anymore, po is defaulted
+
+        checkTrackRecord(0, 1);
     })
 
     function ensureRegistrationOfParties() {
