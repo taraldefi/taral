@@ -519,6 +519,19 @@ describeOrSkip("Taral bank test flows", () => {
             "updated-at": Cl.uint(13402),
         }));
 
+        const checkPurchaseOrderHealth = simnet.callPublicFn(
+            "taral-bank",
+            "check-purchase-order-health",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(checkPurchaseOrderHealth.result).toBeOk(Cl.tuple({
+            "is-completed": Cl.bool(true),
+            "is-defaulted": Cl.bool(false)
+        }));
+
         checkTrackRecord(1, 0);
     }),
 
