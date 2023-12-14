@@ -134,6 +134,13 @@ export class SupplierCompanyEntityService extends BaseService {
       entity.abbreviation = data.abbreviation;
     }
 
+    if (data.phoneNumber) {
+      entity.phoneNumber = data.phoneNumber;
+    }
+    if (data.registrationNumber) {
+      entity.registrationNumber = data.registrationNumber;
+    }
+
     if (data.beneficialOwner) {
       entity.beneficialOwner = data.beneficialOwner;
     }
@@ -293,15 +300,6 @@ export class SupplierCompanyEntityService extends BaseService {
       entity.companyInformation.employeeCount = data.employeeCount;
     }
 
-    if (data.phoneNumber) {
-      companyChanged = true;
-      entity.companyInformation.phoneNumber = data.phoneNumber;
-    }
-    if (data.registrationNumbers) {
-      companyChanged = true;
-      entity.companyInformation.registrationNumbers = data.registrationNumbers;
-    }
-
     if (companyChanged) {
       var companySavedResult =
         await this.supplierCompanyInformationRepository.save(
@@ -354,6 +352,9 @@ export class SupplierCompanyEntityService extends BaseService {
     entity.legalForm = data.legalForm;
     entity.nationality = data.nationality;
 
+    entity.phoneNumber = data.phoneNumber;
+    entity.registrationNumber = data.registrationNumber;
+
     if (data.logo) {
       entity.logo = imageUUID;
     }
@@ -366,9 +367,7 @@ export class SupplierCompanyEntityService extends BaseService {
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
     companyInformation.address = addressSavedResult;
-    companyInformation.phoneNumber = data.phoneNumber;
     companyInformation.employeeCount = data.employeeCount;
-    companyInformation.registrationNumbers = data.registrationNumbers;
 
     if (data.taxAndRevenue) {
       const taxAndRevenue = new SupplierCompanyTaxAndRevenueEntity();

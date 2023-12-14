@@ -32,6 +32,9 @@ export class EntityMappingService {
     response.logo = entity.logo;
     response.name = entity.name;
 
+    response.phoneNumber = entity.phoneNumber;
+    response.registrationNumber = entity.registrationNumber;
+
     response.nationality = entity.nationality;
 
     response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
@@ -90,11 +93,11 @@ export class EntityMappingService {
 
     response.nationality = entity.nationality;
 
+    response.phoneNumber = entity.phoneNumber;
+    response.registrationNumber = entity.registrationNumber;
+
     if (entity.companyInformation) {
       response.employeeCount = entity.companyInformation.employeeCount;
-      response.phoneNumber = entity.companyInformation.phoneNumber;
-      response.registrationNumbers =
-        entity.companyInformation.registrationNumbers;
 
       response.address.addressLine1 =
         entity.companyInformation.address.addressLine1;

@@ -21,7 +21,7 @@ export class GetBuyerResponse {
   employeeCount?: number;
 
   @ApiProperty({ example: '123456789' })
-  registrationNumbers: string;
+  registrationNumber: string;
 
   @ApiProperty()
   @ValidateNested()

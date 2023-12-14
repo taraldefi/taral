@@ -91,7 +91,7 @@
       .button {
         border: 0;
         color: white;
-        background-color: #0d8489;
+        background-color: #1ab98b;
         border-radius: 5px;
         height: 50px;
         margin: auto;
@@ -121,9 +121,11 @@
     .formContent {
       height: 60vh;
       max-height: 100vh;
+      overflow-y: scroll;
       overflow-x: hidden;
-
-      width: 70%;
+      padding-left: 2%;
+      padding-right: 2%;
+      width: 80%;
       margin: auto;
       display: flex;
       flex-direction: column;
@@ -255,11 +257,12 @@
 
         :nth-child(1) {
           font-size: 14px;
-          padding-bottom: 5px;
+
           color: #64748b;
         }
 
         span {
+          padding-bottom: 5px;
           font-family: inter;
           color: #475569;
           font-size: 14px;
@@ -394,13 +397,11 @@
 }
 
 .newApplicationModal {
-  overflow-y: hidden;
-
   &.active {
     box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
     -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
     -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
-    width: 42vw;
+
     height: 47%;
     left: 30vw;
     top: 12.5vw;

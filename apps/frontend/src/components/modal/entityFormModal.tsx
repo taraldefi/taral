@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect } from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { countries, industries } from "@utils/lib/constants";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import entityService from "@services/entityService";
 import { Entity } from "src/types";
 import { useRouter } from "next/router";
@@ -10,8 +10,10 @@ import {
   EntityCreatedAtom,
   currentSelectedEntityAtom,
 } from "@store/entityStore";
+import "react-international-phone/style.css";
 import { useAtom } from "jotai";
 import { toast } from "sonner";
+import { PhoneInput } from "react-international-phone";
 
 type Props = {
   isOpen: boolean;
@@ -22,7 +24,7 @@ function FormModal({ isOpen, onClose }: Props) {
   const [, setSelectedCountry] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const [isSubmitSuccessful, setSubmitSuccessful] = React.useState(false);
-  const { register, handleSubmit, reset } = useForm<Entity>();
+  const { register, handleSubmit, reset, control } = useForm<Entity>();
   const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const [, setEntityCreated] = useAtom(EntityCreatedAtom);
   const router = useRouter();
@@ -129,14 +131,74 @@ function FormModal({ isOpen, onClose }: Props) {
                 </div>
               </div>
               <div className="entityfield">
-                <span>Beneficial Owner</span>
-                <input
-                  {...register("beneficialOwner")}
-                  className="inputs"
-                  type="text"
-                  placeholder="Beneficial Owner..."
-                ></input>
+                <span>Phone Number</span>
+                {/* <input
+                type="text"
+                className={
+                  errors.company?.companyName ? "inputs inputRed" : "inputs"
+                }
+                placeholder="Contact number..."
+                {...register("company.phoneNumber")}
+              /> */}
+                <Controller
+                  control={control}
+                  name="phoneNumber"
+                  render={({ field: { onChange, onBlur, value, ref } }) => (
+                    <PhoneInput
+                      inputStyle={{
+                        width: "100%",
+                        height: "44px",
+                        border: `1.5px solid #cbd5e1`,
+                      }}
+                      placeholder={"phone number"}
+                      defaultCountry="us"
+                      value={value}
+                      onChange={onChange}
+                    />
+                  )}
+                />
               </div>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Last fiscal year</span>
+                  <input
+                    {...register("taxAndRevenueFiscalYear")}
+                    className="inputs"
+                    type="number"
+                    placeholder="Year"
+                  ></input>
+                </div>
+                <div className="entityfield">
+                  <span>Total Revenue</span>
+                  <input
+                    {...register("taxAndRevenueTotalRevenue")}
+                    className="inputs"
+                    type="number"
+                    placeholder="Total Revenue"
+                  ></input>
+                </div>
+              </div>
+              <div className="flexrow">
+                <div className="entityfield">
+                  <span>Beneficial Owner</span>
+                  <input
+                    {...register("beneficialOwner")}
+                    className="inputs"
+                    type="text"
+                    placeholder="Beneficial Owner..."
+                  ></input>
+                </div>
+                <div className="entityfield">
+                  <span>Registration Number</span>
+                  <input
+                    {...register("registrationNumber")}
+                    className="inputs"
+                    type="text"
+                    placeholder="Registration Number"
+                  ></input>
+                </div>
+              </div>
+
               <div className="flexrow">
                 <div className="entityfield">
                   <span>Nationality</span>
@@ -244,27 +306,6 @@ function FormModal({ isOpen, onClose }: Props) {
                       corporation
                     </option>
                   </select>
-                </div>
-              </div>
-
-              <div className="flexrow">
-                <div className="entityfield">
-                  <span>Last fiscal year</span>
-                  <input
-                    {...register("taxAndRevenueFiscalYear")}
-                    className="inputs"
-                    type="number"
-                    placeholder="Year"
-                  ></input>
-                </div>
-                <div className="entityfield">
-                  <span>Total Revenue</span>
-                  <input
-                    {...register("taxAndRevenueTotalRevenue")}
-                    className="inputs"
-                    type="number"
-                    placeholder="Total Revenue"
-                  ></input>
                 </div>
               </div>
             </div>

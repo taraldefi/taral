@@ -30,6 +30,8 @@ describe('BuyerInformation for Application (integration)', () => {
       .attach('logo', path.resolve(__dirname, '../../testLogo.png'))
       .field('name', 'Verner')
       .field('beneficialOwner', 'John Smith')
+      .field('phoneNumber', '1234567891')
+      .field('registrationNumber', '123456')
       .field('abbreviation', '55-NB')
       .field('nationality', 'Germany')
       .field('headquarters', 'Berlin')
@@ -62,8 +64,6 @@ describe('BuyerInformation for Application (integration)', () => {
     const result = await request(app.instance.getHttpServer())
       .post(`/quick-applications/${firstApplicationId}/buyer-info`)
       .send({
-        phoneNumber: '1234567891',
-        registrationNumbers: '123456',
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'main address (unchanged)',
@@ -78,10 +78,6 @@ describe('BuyerInformation for Application (integration)', () => {
     const updateApplication = await request(app.instance.getHttpServer())
       .patch(`/quick-applications/${firstApplicationId}/buyer-info`)
       .send({
-        companyName: 'Verner',
-        phoneNumber: '1234567891',
-        registrationNumbers: '123456',
-        dateEstablished: faker.date.recent(),
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'main address (changed)',
@@ -137,9 +133,6 @@ describe('BuyerInformation for Application (integration)', () => {
     const result = await request(app.instance.getHttpServer())
       .post(`/quick-applications/${secondApplicationId}/buyer-info`)
       .send({
-        phoneNumber: '1234567891',
-        registrationNumbers: '123456',
-
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'new address',

@@ -17,17 +17,9 @@ export class CompanyInformationEntity extends EntityHelper {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
-  @Allow()
-  phoneNumber: string;
-
   @Column({ nullable: true })
   @Allow()
   employeeCount?: number;
-
-  @Column()
-  @Allow()
-  registrationNumbers: string;
 
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()

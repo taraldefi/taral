@@ -35,6 +35,15 @@ export class CreateEntityDto {
   @IsString()
   name: string;
 
+  @ApiProperty({ example: '1234567891' })
+  @IsString()
+  phoneNumber: string;
+
+  @ApiProperty({ example: '123456789' })
+  @IsNotEmpty()
+  @IsString()
+  registrationNumber: string;
+
   @ApiProperty({ example: 'John Smith' })
   @IsNotEmpty()
   @IsString()

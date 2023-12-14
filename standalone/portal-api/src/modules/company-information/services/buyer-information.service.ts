@@ -121,8 +121,6 @@ export class BuyerInformationService extends BaseService {
 
     companyInformation.address = address;
     companyInformation.employeeCount = data.employeeCount;
-    companyInformation.phoneNumber = data.phoneNumber;
-    companyInformation.registrationNumbers = data.registrationNumbers;
 
     address.addressLine1 = data.address.addressLine1;
     address.addressLine2 = data.address.addressLine2;
@@ -139,9 +137,6 @@ export class BuyerInformationService extends BaseService {
 
       duplicateCompanyInformation.address = duplicateAddress;
       duplicateCompanyInformation.employeeCount = data.employeeCount;
-      duplicateCompanyInformation.phoneNumber = data.phoneNumber;
-      duplicateCompanyInformation.registrationNumbers =
-        data.registrationNumbers;
 
       duplicateAddress.addressLine1 = data.address.addressLine1;
       duplicateAddress.addressLine2 = data.address.addressLine2;
@@ -175,9 +170,6 @@ export class BuyerInformationService extends BaseService {
       applicationBuyerInformation.address = addressSavedResult;
 
       applicationBuyerInformation.employeeCount = data.employeeCount;
-      applicationBuyerInformation.phoneNumber = data.phoneNumber;
-      applicationBuyerInformation.registrationNumbers =
-        data.registrationNumbers;
 
       var companySavedCloneResult =
         await this.buyerCompanyInformationRepository.save(

@@ -89,7 +89,7 @@ export class UpdateSupplierEntityDto {
   @ApiProperty({ example: '123456789' })
   @IsNotEmpty()
   @IsString()
-  registrationNumbers: string;
+  registrationNumber: string;
 
   @ValidateNested()
   @IsOptional()

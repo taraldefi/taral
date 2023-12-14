@@ -51,6 +51,9 @@ export class EntityMappingService {
     response.companyName = entity.name;
     response.dateEstablished = entity.incorporationDate;
 
+    response.phoneNumber = entity.phoneNumber;
+    response.registrationNumber = entity.registrationNumber;
+
     response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
     response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
     response.taxAndRevenue.exportRevenuePercentage =
@@ -61,9 +64,6 @@ export class EntityMappingService {
 
     if (entity.companyInformation && buyerInfo) {
       response.employeeCount = entity.companyInformation.employeeCount;
-      response.phoneNumber = entity.companyInformation.phoneNumber;
-      response.registrationNumbers =
-        entity.companyInformation.registrationNumbers;
 
       response.address.addressLine1 = buyerInfo.address.addressLine1;
       response.address.addressLine2 = buyerInfo.address.addressLine2;

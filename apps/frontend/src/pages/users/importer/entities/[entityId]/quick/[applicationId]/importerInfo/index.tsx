@@ -124,16 +124,11 @@ function Index({ ...props }) {
                   Registration Number <b style={{ color: "#f84141" }}>*</b>
                 </span>
                 <input
+                  disabled
                   type="text"
-                  className={
-                    errors.registrationNumbers ? "inputs inputRed" : "inputs"
-                  }
-                  placeholder={
-                    errors.registrationNumbers
-                      ? `${errors.registrationNumbers.message}`
-                      : "registration number"
-                  }
-                  {...register("registrationNumbers")}
+                  className={"inputs"}
+                  placeholder={"registration number"}
+                  defaultValue={queryResult.data?.registrationNumber}
                 />
               </div>
             </div>
@@ -160,34 +155,16 @@ function Index({ ...props }) {
                 placeholder="Contact number..."
                 {...register("company.phoneNumber")}
               /> */}
-              <Controller
-                control={control}
-                name="phoneNumber"
-                render={({ field: { onChange, onBlur, value, ref } }) => (
-                  <PhoneInput
-                    inputStyle={
-                      errors.phoneNumber
-                        ? {
-                            width: "100%",
-                            height: "44px",
-                            border: "1.5px solid red",
-                          }
-                        : {
-                            width: "100%",
-                            height: "44px",
-                            border: `1.5px solid #cbd5e1`,
-                          }
-                    }
-                    placeholder={
-                      errors.phoneNumber
-                        ? `${errors.phoneNumber.message}`
-                        : "phone number"
-                    }
-                    defaultCountry="us"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+              <PhoneInput
+                inputStyle={{
+                  width: "100%",
+                  height: "44px",
+                  border: `1.5px solid #cbd5e1`,
+                }}
+                disabled
+                placeholder={"phone number"}
+                defaultCountry="us"
+                value={queryResult.data?.phoneNumber}
               />
             </div>
 

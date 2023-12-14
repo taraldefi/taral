@@ -40,6 +40,16 @@ export class UpdateEntityDto {
   @IsOptional()
   beneficialOwner?: string;
 
+  @ApiProperty({ example: '1234567891' })
+  @IsString()
+  @IsOptional()
+  phoneNumber?: string;
+
+  @ApiProperty({ example: '123456789' })
+  @IsString()
+  @IsOptional()
+  registrationNumber?: string;
+
   @ApiProperty({ example: '55-NB' })
   @IsString()
   @IsOptional()

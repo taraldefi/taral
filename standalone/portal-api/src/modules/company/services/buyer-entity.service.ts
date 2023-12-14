@@ -114,6 +114,13 @@ export class BuyerCompanyEntityService {
       entity.abbreviation = data.abbreviation;
     }
 
+    if (data.phoneNumber) {
+      entity.phoneNumber = data.phoneNumber;
+    }
+    if (data.registrationNumber) {
+      entity.registrationNumber = data.registrationNumber;
+    }
+
     if (data.beneficialOwner) {
       entity.beneficialOwner = data.beneficialOwner;
     }
@@ -269,6 +276,8 @@ export class BuyerCompanyEntityService {
     // const entityProducts = await this.createProducts();
 
     const entity = new BuyerCompanyEntity();
+    entity.phoneNumber = data.phoneNumber;
+    entity.registrationNumber = data.registrationNumber;
     entity.abbreviation = data.abbreviation;
     entity.name = data.name;
     entity.beneficialOwner = data.beneficialOwner;

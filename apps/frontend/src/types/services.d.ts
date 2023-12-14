@@ -1,3 +1,5 @@
+import { string } from "yup";
+
 interface LoginResponse {
   token: string;
 }
@@ -69,6 +71,8 @@ interface Entity {
   id: string;
   name: string;
   logo: any;
+  phoneNumber: string;
+  registrationNumber: string;
   beneficialOwner: string;
   abbreviation: string;
   nationality: string;
@@ -85,6 +89,8 @@ interface EntityResponse {
   id: string;
   logo: string;
   name: string;
+  phoneNumber: string;
+  registrationNumber: string;
   beneficialOwner: string;
   abbreviation: string;
   nationality: string;
