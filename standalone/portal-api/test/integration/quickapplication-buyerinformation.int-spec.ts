@@ -37,6 +37,8 @@ describe('BuyerInformation for Application (integration)', () => {
       .field('coreBusiness', 'Software Development')
       .field('incorporationDate', '2022-12-12')
       .field('legalForm', 'Limited')
+      .field('taxAndRevenue[lastFiscalYear]', 2023)
+      .field('taxAndRevenue[totalRevenue]', 120)
       .expect(201);
 
     buyerEntityId = createBuyer.body.id;
@@ -62,11 +64,6 @@ describe('BuyerInformation for Application (integration)', () => {
       .send({
         phoneNumber: '1234567891',
         registrationNumbers: '123456',
-        taxAndRevenue: {
-          lastFiscalYear: 2022,
-          totalRevenue: '100000',
-          exportRevenuePercentage: '10',
-        },
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'main address (unchanged)',
@@ -85,11 +82,6 @@ describe('BuyerInformation for Application (integration)', () => {
         phoneNumber: '1234567891',
         registrationNumbers: '123456',
         dateEstablished: faker.date.recent(),
-        taxAndRevenue: {
-          lastFiscalYear: 2022,
-          totalRevenue: '100000',
-          exportRevenuePercentage: '10',
-        },
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'main address (changed)',
@@ -147,11 +139,7 @@ describe('BuyerInformation for Application (integration)', () => {
       .send({
         phoneNumber: '1234567891',
         registrationNumbers: '123456',
-        taxAndRevenue: {
-          lastFiscalYear: 2023,
-          totalRevenue: '100000',
-          exportRevenuePercentage: '10',
-        },
+
         address: {
           city: 'Cluj-Napoca',
           addressLine1: 'new address',

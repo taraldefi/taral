@@ -219,11 +219,7 @@ export class BuyerInformationService extends BaseService {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
       {
-        relations: [
-          'buyerInformation',
-          'buyerInformation.address',
-          'buyerInformation.taxAndRevenue',
-        ],
+        relations: ['buyerInformation', 'buyerInformation.address'],
       },
     );
     const entity = await this.buyerCompanyService.findBuyerEntityById(
