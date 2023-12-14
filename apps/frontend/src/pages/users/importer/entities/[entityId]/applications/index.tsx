@@ -118,7 +118,7 @@ const TableData = [
 ];
 function Index({ ...props }) {
   const router = useRouter();
-
+  console.log(props);
   const handleActiveApplicationClick = (id: string) => {
     const currentApplication = props.applicationTableData.find(
       (application: any) => application.id === id

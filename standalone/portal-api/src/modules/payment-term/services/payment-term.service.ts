@@ -72,9 +72,10 @@ export class PaymentTermService extends BaseService {
     const savedPaymentTerm = await this.paymentTermRepository.save(paymentTerm);
 
     const newEndDate = new Date(
-      application.issuanceDate.getMilliseconds() +
+      application.issuanceDate.getTime() +
         parseInt(savedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
     );
+
     application.endDate = newEndDate;
     application.paymentTerms = savedPaymentTerm;
     application.save();
@@ -186,7 +187,7 @@ export class PaymentTermService extends BaseService {
       paymentTerm,
     );
     const newEndDate = new Date(
-      application.issuanceDate.getMilliseconds() +
+      application.issuanceDate.getTime() +
         parseInt(updatedPaymentTerm.paymentDuration) * 24 * 60 * 60 * 1000,
     );
     application.endDate = newEndDate;

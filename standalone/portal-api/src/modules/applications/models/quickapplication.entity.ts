@@ -34,6 +34,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   title: string;
 
+  @Column()
+  @Allow()
+  exporterName: string;
+
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   issuanceDate: Date;

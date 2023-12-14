@@ -9,6 +9,10 @@ export class SupplierInformationResponse {
   @IsString()
   supplierId: string;
 
+  @IsNotEmpty()
+  @IsString()
+  supplierName: string;
+
   @ApiProperty()
   @ValidateNested()
   @Type(() => GetRelationshipResponse)

@@ -49,9 +49,10 @@ export class SupplierInformationService extends BaseService {
       },
     );
 
-    const savedSupplier = await this.supplierCompanyService.getSupplierEntity(
-      application.supplierInformation.id,
-    );
+    const savedSupplier =
+      await this.supplierCompanyService.findSupplierEntityById(
+        application.supplierInformation.id,
+      );
 
     const savedRelationship = await this.relationshipService.getEntity(
       application.company.id,
@@ -59,7 +60,7 @@ export class SupplierInformationService extends BaseService {
     );
 
     return this.mappingService.mapSupplierInformationForImporterApplication(
-      savedSupplier.id,
+      savedSupplier,
       savedRelationship,
     );
   }
@@ -111,12 +112,14 @@ export class SupplierInformationService extends BaseService {
       application,
     ];
 
+    application.exporterName = selectedSupplier.name;
+
     await this.supplierCompanyRepository.save(selectedSupplier);
     application.supplierInformation = selectedSupplier;
     await this.buyerQuickApplicationRepository.save(application);
 
     return this.mappingService.mapSupplierInformationForImporterApplication(
-      selectedSupplier.id,
+      selectedSupplier,
       savedRelationship,
     );
   }
@@ -149,6 +152,7 @@ export class SupplierInformationService extends BaseService {
     if (!supplier) throw triggerError('entity-not-found');
 
     application.supplierInformation = supplier;
+    application.exporterName = supplier.name;
     application.save();
 
     const updatedRelationship = await this.relationshipService.updateEntity(
@@ -159,7 +163,7 @@ export class SupplierInformationService extends BaseService {
     );
 
     return this.mappingService.mapSupplierInformationForImporterApplication(
-      supplier.id,
+      supplier,
       updatedRelationship,
     );
   }

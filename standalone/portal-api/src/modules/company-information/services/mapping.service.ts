@@ -18,12 +18,13 @@ export class EntityMappingService {
   ) {}
 
   public mapSupplierInformationForImporterApplication(
-    supplierId: string,
+    supplier: SupplierCompanyEntity,
     relationshipEntity: CollaborationRelationshipEntity,
   ): SupplierInformationResponse {
     var response = new SupplierInformationResponse();
 
-    response.supplierId = supplierId;
+    response.supplierId = supplier.id;
+    response.supplierName = supplier.name;
 
     response.relationshipWithSupplier =
       this.relationshipMappingService.mapEntityDetails(relationshipEntity);
