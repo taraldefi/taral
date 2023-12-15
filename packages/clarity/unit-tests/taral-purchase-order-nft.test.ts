@@ -1,12 +1,16 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_TARAL_PURCHASE_ORDER_NFT_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("Should test purchase order nft flows", () => {
+const describeOrSkip = describeConditional(RUN_TARAL_PURCHASE_ORDER_NFT_TESTS);
+
+describeOrSkip("Should test purchase order nft flows", () => {
   it("Should ensure one is able to MINT and get last token ID", () => {
     const mintResult = simnet.callPublicFn(
       "taral-purchase-order-nft",

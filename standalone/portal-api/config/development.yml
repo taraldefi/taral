@@ -1,35 +1,62 @@
 db:
   host: 'localhost'
   type: 'postgres'
+  name: 'api'
   port: 5432
   username: 'root'
   password: 'secret'
   synchronize: false
-  database: api
+  maxConnections: 100
+  sslEnabled: false
+  rejectUnauthorized: false
+  ca: ''
+  key: ''
+  cert: ''
+  url: ''
 
 jwt:
-  # expiresIn: 10
   expiresIn: 900
   refreshExpiresIn: 604800
   cookieExpiresIn: 604800
   secret: 'example@123'
 
+aws:
+  bucket: ''
+  region: ''
+  accessKeyId: ''
+  secretAccessKey: ''
+
+file:
+  driver: 'local' # or S3, in which case aws config must be set
+  localDir: 'local_storage'
+
 app:
+  nodeEnv: 'development'
+  port: 3000
+  apiPrefix: 'api'
   fallbackLanguage: 'en'
   name: 'Taral'
   version: 'v0.1'
   description: 'Taral API'
-  appUrl: 'http://localhost:7777'
-  frontendUrl: 'http://localhost:3000'
+  backendDomain: 'http://localhost:3000'
+  frontendDomain: 'http://localhost:3001'
   sameSite: true
   runchainhook: false
   runjobs: false
   runthrottle: false
   runevents: false
+  fluentLogging: false
 
 logging:
   level: 'error'
   fluentdlogging: false
+
+onchain:
+  mock: true
+  privateKey: '753b7cc01a1a2e86221266a154af739463fce51219d97e4f856cd7200c3bd2a601'
+  publicKey: '0390a5cac7c33fda49f70bc1b0866fa0ba7a9440d9de647fecb8132ceb76a94dfa'
+  address: ''
+  network: ''
 
 
 throttle:
@@ -43,16 +70,16 @@ throttle:
     duration: 2592000
     blockDuration: 3000
 
-# DATABASE_TYPE=postgres
-# DATABASE_HOST=localhost
-# DATABASE_PORT=5432
-# DATABASE_USERNAME=root
-# DATABASE_PASSWORD=secret
-# DATABASE_NAME=api
-# DATABASE_SYNCHRONIZE=false
-# DATABASE_MAX_CONNECTIONS=100
-# DATABASE_SSL_ENABLED=false
-# DATABASE_REJECT_UNAUTHORIZED=false
-# DATABASE_CA=
-# DATABASE_KEY=
-# DATABASE_CERT=
+mail:
+  host: 'smtp.mailtrap.io'
+  port: 2525
+  user: 'f4a511d60957e6'
+  password: '7522797b96cef0'
+  from: 'taral'
+  defaultEmail: 'taral@gmail.com'
+  defaultName: 'Taral'
+  preview: true
+  ignoreTls: true
+  secure: true
+  requireTls: true
+  queueName: 'taral-mail'

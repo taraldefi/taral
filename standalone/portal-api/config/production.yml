@@ -3,27 +3,61 @@ server:
   origin: 'http://localhost:3000'
 
 db:
-  host: ''
-  type: ''
+  host: 'localhost'
+  type: 'postgres'
+  name: 'api'
   port: 5432
-  database: 'truthy'
+  username: 'root'
+  password: 'secret'
   synchronize: false
+  maxConnections: 100
+  sslEnabled: false
+  rejectUnauthorized: false
+  ca: ''
+  key: ''
+  cert: ''
+  url: ''
 
 jwt:
   expiresIn: 900
   refreshExpiresIn: 604800
   cookieExpiresIn: 604800
+  secret: 'example@123'
+
+aws:
+  bucket: ''
+  region: ''
+  accessKeyId: ''
+  secretAccessKey: ''
+
+file:
+  driver: 'local' # or S3, in which case aws config must be set
+  localDir: 'local_storage'
 
 app:
+  nodeEnv: 'production'
+  port: 3000
+  apiPrefix: 'api'
+  fallbackLanguage: 'en'
   name: 'Taral'
   version: 'v0.1'
   description: 'Taral API'
-  appUrl: 'heroku url'
-  frontendUrl: 'http://localhost:3000'
-  runchainhook: true
-  runjobs: true
-  runthrottle: true
-  runevents: true
+  backendDomain: 'http://localhost:3000'
+  frontendDomain: 'http://localhost:3001'
+  sameSite: true
+  runchainhook: false
+  runjobs: false
+  runthrottle: false
+  runevents: false
+  fluentLogging: false
+
+onchain:
+  mock: true
+  privateKey: ''
+  publicKey: ''
+  address: ''
+  network: ''
+
 
 logging:
   level: 'error'
@@ -31,15 +65,17 @@ logging:
 
 
 mail:
-  host: ''
+  host: 'smtp.mailtrap.io'
   port: 2525
-  user: ''
-  pass: ''
+  user: 'f4a511d60957e6'
+  password: '7522797b96cef0'
   from: 'taral'
-  fromMail: 'taral@gmail.com'
+  defaultEmail: 'taral@gmail.com'
+  defaultName: 'Taral'
   preview: true
-  secure: false
-  ignoreTLS: true
+  ignoreTls: true
+  secure: true
+  requireTls: true
   queueName: 'taral-mail'
 
 queue:
@@ -49,6 +85,7 @@ queue:
   db: ''
   password: ''
   username: ''
+
 
 throttle:
   global:

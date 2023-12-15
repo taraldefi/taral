@@ -1,14 +1,17 @@
 import { Cl, TupleCV } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
 import { hexStringToUint8Array } from "./helpers/helpers";
 import { parts } from "./fixtures";
+import { RUN_CLARITY_BITCOIN_TESTS } from "./constants";
+import { describeConditional } from "./describe.skip";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
-
 const VERBOSE = false;
 
-describe("Should test clarity bitcoin", () => {
+const describeOrSkip = describeConditional(RUN_CLARITY_BITCOIN_TESTS);
+
+describeOrSkip("Should test clarity bitcoin", () => {
   it("Should ensure that valid merkle proofs are validated - [light version]", () => {
     var parseTransactionResult = simnet.callReadOnlyFn(
       "clarity-bitcoin",

@@ -17,6 +17,17 @@
     )
 )
 
+(define-read-only (get-track-record (importer principal))
+    (let 
+        ((current-importer-profile (unwrap! (contract-call? .importer-storage get-importer-profile importer) importer-storage-error)))           
+        
+        (ok {
+            successful-transactions: (get successful-transactions current-importer-profile),
+            failed-transactions: (get failed-transactions current-importer-profile)
+        })
+    )
+)
+
 
 ;; @Desc function to fetch or create an importer ID, makes use of match function to check if importer id exists
 ;; @Param importer : principal of importer

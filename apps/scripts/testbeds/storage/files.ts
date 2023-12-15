@@ -28,7 +28,7 @@ export function syncWriteFileWithEncoding(
 
   console.log("filename ", filename);
 
-  const path = join(__dirname, `../../storage/${filename}`);
+  const path = join(__dirname, `../testfiles/${filename}`);
   writeFileSync(path, data, {
     encoding,
   });
@@ -48,7 +48,8 @@ export function readEncryptedFileWithEncoding(
   filename: string,
   encoding: BufferEncoding,
 ): string {
-  const filePath = path.join(__dirname, `../../storage/${filename}`);
+  console.log('DIRNAME', __dirname);
+  const filePath = path.join(__dirname, `../testfiles/${filename}`);
 
   const fileStream: Buffer = fs.readFileSync(filePath);
 

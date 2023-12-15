@@ -9,6 +9,10 @@
     seller-id: principal,
     total-amount: uint,
     downpayment: uint,
+    overpaid-balance: uint,
+    payments-left: uint,
+    payments-made: uint,
+    first-payment-block-height: uint,
     outstanding-amount: uint,
     is-completed: bool,
     completed-successfully: bool,
@@ -27,9 +31,12 @@
   {
     purchase-order-id: uint,
     financing-amount: uint,
-    lender-id: principal,
+    lender-id: (optional principal),
     is-accepted: bool,
-    interest-rate: uint,
+    interest-rate-per-month: uint,
+    number-of-installments: uint,
+    monthly-payment: uint,
+    requires-bullet-payment: bool,
     refunded: bool,
     is-rejected: bool,
     created-at: uint,  ;; Timestamp of creation
@@ -46,6 +53,7 @@
     purchase-order-id: uint,
     amount: uint,
     block: uint,
+    months-covered: uint
   }
 )
 
@@ -54,6 +62,7 @@
 
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
+(define-data-var po-number-of-installments uint u3) ;; number of installments for paying the loan
 (define-data-var payments-default-grace-period-in-days uint u5)
 (define-data-var po-due-date uint u90) ;; start payment after 90 days in case of bullet payment
 
@@ -99,8 +108,6 @@
 (define-constant ERR_BORROWER_CANNOT_FINANCE_THEMSELVES u127)
 (define-constant ERR_PAYMENTS_MISSED u128)
 (define-constant ERR_SELLER_CANNOT_FINANCE_THEIR_PO u129)
-(define-constant CANNOT_MAKE_PAYMENT_PO_COMPLETED u130)
-(define-constant COULD_NOT_UNWRAP u131)
 
 (define-constant err-unauthorised u401)
 
@@ -119,8 +126,8 @@
     VERSION
 )
 
-(define-read-only (interest-per-payment) 
-  (/ (var-get protocol-interest-rate-per-annum) u4)) ;; bullet payment is 90 days
+(define-read-only (interest-per-month) 
+  (/ (var-get protocol-interest-rate-per-annum) u12))
 
 
 ;; Function to get the current block time
@@ -129,38 +136,49 @@
 )
 
 
+(define-read-only (months-since-first-payment (first-year uint) (first-month uint) (current-year uint) (current-month uint))
+  (-
+    (+ (* (- current-year first-year) u12) current-month)
+    first-month
+  )
+)
+
+;;TODO: maybe parameterize the missed payment, leave people 1 month of grace period
 (define-read-only (is-po-defaulted (purchase-order-id uint))
   (match (map-get? purchase-orders { id: purchase-order-id })
     po
-    (let 
-        (
-          (current-block-height block-height)
-        )
-
+    (let ((first-payment-block-height (get first-payment-block-height po))
+          (current-block-height block-height))
       (let 
         (
           (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
           (financing (unwrap-panic (map-get? po-financing {id: accepted-financing-id})))
           (financing-accepted-at (get accepted-at financing))
+          (is-bullet-payment (get requires-bullet-payment financing))
+          (blocks-per-month (calculate-blocks-per-month))
           (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
           (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
-          (is-completed (get is-completed po))
-          (is-completed-successfully (get completed-successfully po))
+          (total-grace-months (/ (+ due-date-blocks grace-period-blocks) blocks-per-month))
         )
 
-        (if is-completed
-          (if is-completed-successfully
-            (ok false)
+        ;; Calculate the total number of months since the first payment
+        (let (
+            (total-months-passed (/ (- current-block-height first-payment-block-height) blocks-per-month))
+            (months-after (max total-months-passed (var-get po-number-of-installments)))
+          )
 
+          (if is-bullet-payment
             (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
               (ok true)
               (ok false)
-            ) 
-          )
-
-          (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
-            (ok true)
-            (ok false)
+            )
+            (if (is-eq total-months-passed u0)
+              (ok false)
+              (if (< (get payments-made po) months-after)
+                (ok true)   ;; True means they missed a payment in the last three months.
+                (ok false)  ;; False means they didn't miss any payments.
+              )
+            )
           )
         )
       )
@@ -174,31 +192,10 @@
         (financing-id (unwrap-panic (get accepted-financing-id po))))
     (let ((financing (unwrap-panic (map-get? po-financing {id: financing-id}))))
       (ok { 
-        payment-left: (get outstanding-amount po)
+        payments-left: (get payments-left po), 
+        monthly-payment: (get monthly-payment financing)
       })
     )
-  )
-)
-
-(define-read-only (get-po-details (purchase-order-id uint))
-  (let 
-    (
-      (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
-      (is-defaulted (unwrap! (is-po-defaulted purchase-order-id) (err COULD_NOT_UNWRAP)))
-    )
-    (ok { 
-      total-amount: (get total-amount po),
-      downpayment: (get downpayment po),
-      outstanding-amount: (get outstanding-amount po),
-      is-completed: (get is-completed po),
-      completed-successfully: (get completed-successfully po),
-      accepted-financing-id: (get accepted-financing-id po),
-      is-canceled: (get is-canceled po),
-      has-active-financing: (get has-active-financing po),
-      created-at: (get created-at po),
-      updated-at: (get updated-at po),
-      is-defaulted: is-defaulted
-    })
   )
 )
 
@@ -236,6 +233,14 @@
   )
 )
 
+(define-public (update-number-of-installments (new-number-of-installments uint))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (var-set po-number-of-installments new-number-of-installments)
+    (ok true)
+  )
+)
+
 (define-public (pause-contract)
   (begin
     (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
@@ -264,102 +269,126 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (make-payment (purchase-order-id uint))
+(define-public (make-payment (purchase-order-id uint) (amount uint))
   (let 
     (
       (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
       (financing (unwrap-panic (map-get? po-financing {id: (unwrap-panic (get accepted-financing-id po))})))
-      (bullet-interest-rate (/ (/ (var-get protocol-interest-rate-per-annum) u4) u100)) ;; bullet payment is 3 months
-      (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
-      (lender-id (unwrap-panic (get lender-id po)))
-      (borrower-id (get borrower-id po))
-      (is-completed (get is-completed po))
-      (completed-successfully (get completed-successfully po))
+      (total-available (+ amount (get overpaid-balance po)))
+      (monthly-interest-rate (/ (/ (var-get protocol-interest-rate-per-annum) u12) u100))
     )
 
-    (asserts! (not is-completed) (err CANNOT_MAKE_PAYMENT_PO_COMPLETED))
-
     ;; Calculate the current outstanding amount and monthly payment
-    (let 
-      (
-          (outstanding-amount (get outstanding-amount po))
-          (interest-for-payment ( - (/ ( + (* outstanding-amount u100) (* outstanding-amount interest-rate-per-payment)) u100) outstanding-amount))          
-          (total-payment-required (+ outstanding-amount interest-for-payment))
-      )
+    (let ((outstanding-amount (get outstanding-amount po))
+          (monthly-payment (get monthly-payment financing))
+          (interest-for-current-month (* outstanding-amount monthly-interest-rate))
+          (principal-payment (min monthly-payment outstanding-amount))
+          (total-payment-required (+ principal-payment interest-for-current-month))
+    )
 
-      (let 
-        (
-            (interest-transfer-result (contract-call? .usda-token transfer 
-                                        interest-for-payment
-                                        (get borrower-id po) 
-                                        (var-get contract-owner)
-                                        none))
-        )
+      (if (< total-available total-payment-required)
+        (err ERR_INSUFICIENT_AMOUNT_FOR_MONTHLY_PAYMENT)
 
-        (match interest-transfer-result
-          interest-transfer-success
-          (begin 
-            (let 
-              (
-                (principal-transfer-result (contract-call? .usda-token transfer outstanding-amount borrower-id lender-id none))
-              )
+        ;; Calculate how many months can be covered by the payment, excluding interest for advance months
+        (let ((months-covered (/ (- total-available interest-for-current-month) monthly-payment)))
 
-              (match principal-transfer-result
-                principal-transfer-success
-                (begin 
-                  ;; Check if this payment completes the purchase order
-                  ;; If all payments are made, end the purchase order successfully
-                  (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
-
-                    (match end-purchase-order-response
-                      end-purchase-order-success
-                      (begin 
-                        (map-set payments
-                          {
-                            id: (increment-next-payment-id)
-                          }
-                          {
-                            borrower-id: (get borrower-id po),
-                            purchase-order-id: purchase-order-id,
-                            amount: outstanding-amount,
-                            block: block-height
-                          }
-                        )
-
-                          ;; Update the purchase order
-                        (map-set purchase-orders 
-                          {
-                            id: purchase-order-id
-                          }
-                          
-                          (merge po 
-                            {
-                              updated-at: block-height,
-                              outstanding-amount: u0,
-                              completed-successfully: true,
-                              is-completed: true
-                            }
-                          )
-                        )
-
-                        (ok true)
-                      
-                      )
-                      end-purchase-order-error
-                        ;; Nested error branch
-                        ;; Return type: (response bool uint) or err
-                      (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
-                    )
-                  )
-                
+          ;; Update the outstanding amount
+          (let (
+                (total-principal-payment (* principal-payment months-covered))
+                (new-outstanding-amount (- outstanding-amount total-principal-payment))
                 )
-                principal-transfer-error
-                (err principal-transfer-error)
+
+            ;; Make the payment transfer and update the records
+            ;; This includes transferring funds, updating the payment and purchase order maps, etc.
+
+            (if (> months-covered (get payments-left po))
+              (err ERR_OVERPAYMENT)
+
+              (if (is-ok (contract-call? .usda-token transfer 
+                                        interest-for-current-month
+                                        (get borrower-id po) 
+                                        (as-contract tx-sender)
+                                        (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000)))
+                (begin 
+                  (let ((response (contract-call? .usda-token transfer 
+                                        total-principal-payment
+                                        (get borrower-id po) 
+                                        (unwrap-panic (get lender-id po))
+                                        (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000))))
+                      (match response
+                        success
+                          ;; Nested success branch
+                          (let (
+                                (new-overpaid-balance (mod total-available principal-payment))
+                                (new-payments-left (- (get payments-left po) months-covered)))
+
+                            ;; Record the lump sum payment
+                            (map-set payments
+                                    {id: (increment-next-payment-id)}
+                                    {
+                                      borrower-id: (get borrower-id po),
+                                      purchase-order-id: purchase-order-id,
+                                      amount: total-principal-payment,
+                                      months-covered: months-covered,
+                                      block: block-height
+                                    })
+
+                             ;; Update the purchase order
+                             (if (is-eq (get first-payment-block-height po) u0)
+                                ;; if the first payment hasn't been done yet, update it
+                                (map-set purchase-orders 
+                                    {id: purchase-order-id}
+                                    (merge po {
+                                      overpaid-balance: new-overpaid-balance,
+                                      payments-left: new-payments-left,
+                                      updated-at: block-height,
+                                      payments-made: (+ (get payments-made po) u1),
+                                      first-payment-block-height: block-height
+                                    }))
+                                ;; otherwise, don't update it
+                                (map-set purchase-orders 
+                                        {id: purchase-order-id}
+                                        (merge po {
+                                          overpaid-balance: new-overpaid-balance,
+                                          payments-left: new-payments-left,
+                                          payments-made: (+ (get payments-made po) u1),
+                                          updated-at: block-height
+                                        }))    
+                              )
+
+                            ;; Check if this payment completes the purchase order
+                            (if (is-eq new-payments-left u0)
+
+                                ;; If all payments are made, end the purchase order successfully
+                                (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+
+                                (match end-purchase-order-response
+                                  end-purchase-order-success
+                                  (ok true)
+                                  end-purchase-order-error
+                                    ;; Nested error branch
+                                    ;; Return type: (response bool uint) or err
+                                  (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
+                                )
+                              )
+
+                              (ok true)
+                            )
+                          )
+                        error
+                          ;; Nested error branch
+                          ;; Return type: (response bool uint) or err
+                          (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
+                      )
+                    )
+                )
+
+                ;; Nested error branch
+                ;; Return type: (response bool uint) or err
+                (err ERR_PAYMENT_LUMP_SUM_TRANSFER_FAILED)
               )
             )
           )
-          interest-transfer-error
-          (err interest-transfer-error)
         )
       )
     )
@@ -369,67 +398,38 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (check-purchase-order-health (purchase-order-id uint))
-  (let 
-    (
-      (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
-      (is-completed (get is-completed po))
-    )
+  (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+    (let ((first-payment-block (get first-payment-block-height po))
+          (current-block block-height)
+          (payment-interval-blocks u1440) ;; Example: Monthly payment interval in blocks
+          (payments-expected (get payments-left po)))
 
-    (if is-completed
-      (ok 
-        {
-          is-defaulted: false,
-          is-completed: true
-        }
-      )
-      ;; else, check if it's defaulted
-      (if (is-ok (is-po-defaulted purchase-order-id))
-        (begin 
-          (let 
-            (
-              (end-purchase-order-response (end-purchase-order-unsuccessfully purchase-order-id))
-            )
+      (let ((blocks-since-first-payment (- current-block first-payment-block))
+            (expected-blocks-until-payment (* payment-interval-blocks payments-expected)))
 
-              (match end-purchase-order-response
-              end-purchase-order-success
-              (begin 
-                ;; Update the purchase order
-                (map-set purchase-orders 
-                  {
-                    id: purchase-order-id
-                  }
-                  
-                  (merge po 
-                    {
-                      updated-at: block-height,
-                      completed-successfully: false,
-                      is-completed: true
-                    }
-                  )
+        (if (>= blocks-since-first-payment expected-blocks-until-payment)
+          (begin 
+          
+            (map-set purchase-orders
+                        { id: purchase-order-id }
+                        (merge po {
+                          is-completed: true,
+                          completed-successfully: false,
+                          updated-at: block-height
+                        })
                 )
 
-                (ok 
-                  {
-                  is-defaulted: true,
-                  is-completed: true
-                  }
+                ;; Update lender's track record.
+                (let ((lender-principal (unwrap! (get lender-id po) (err ERR_NO_LENDER_FOR_PURCHASE_ORDER))))
+                    (unwrap! (contract-call? .taral-importer update-importer-track-record (get borrower-id po) false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-exporter update-exporter-track-record (get seller-id po) false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+                    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-principal false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
+
+                    (err ERR_MISSED_PAYMENTS)
                 )
-              
-              )
-              end-purchase-order-error
-                ;; Nested error branch
-                ;; Return type: (response bool uint) or err
-              (err ERR_COULD_NOT_COMPLETE_PURCHASE_ORDER)
-            )
           )
-        )
-
-        ;; else, nothing to do
-        (ok 
-          {
-            is-defaulted: false,
-            is-completed: true
-          }
+            ;; If the current block height exceeds the expected payment schedule
+          (ok purchase-order-id)  ;; Indicates health, payments are up-to-date
         )
       )
     )
@@ -462,6 +462,8 @@
               seller-id: seller-id,
               total-amount: total-amount,
               downpayment: downpayment,
+              overpaid-balance: u0,
+              payments-left: u0,
               outstanding-amount: (- total-amount downpayment),
               is-completed: false,
               completed-successfully: false,
@@ -470,6 +472,8 @@
               updated-at: block-height,
               is-canceled: false,
               has-active-financing: false,
+              payments-made: u0,
+              first-payment-block-height: u0 ;; default, block height of 0
             }
           )
 
@@ -507,13 +511,14 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (finance (purchase-order-id uint))
-  (let 
-    (
-      (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
-      (financing-id (increment-next-financing-id))
-      (total-amount (- (get total-amount po) (get downpayment po))
-    )
+(define-public (finance (purchase-order-id uint) (requires-bullet-payment bool))
+  (let ((po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+        (financing-id (increment-next-financing-id))
+        (total-amount (- (get total-amount po) (get downpayment po)))
+        (number-of-installments (var-get po-number-of-installments))
+        (monthly-payment-amount (/ total-amount number-of-installments))
+
+        ;; TODO: monthly payment amount < 
   )
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
     (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))
@@ -528,11 +533,14 @@
             {
               purchase-order-id: purchase-order-id,
               financing-amount: total-amount,
-              lender-id: tx-sender,
+              lender-id: (some tx-sender),
               is-accepted: false,
-              interest-rate: (interest-per-payment),
+              interest-rate-per-month: (interest-per-month),
+              number-of-installments: number-of-installments,
+              monthly-payment: monthly-payment-amount,
               refunded: false,
               is-rejected: false,
+              requires-bullet-payment: requires-bullet-payment,
               created-at: block-height,
               accepted-at: u0
             }
@@ -542,6 +550,7 @@
             {id: purchase-order-id}
             (merge po { 
               updated-at: block-height,
+              payments-left: number-of-installments 
             }))
           (ok financing-id)
         )
@@ -558,7 +567,7 @@
     (
       (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (get lender-id financing))
+      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
     )
 
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
@@ -592,7 +601,7 @@
     (
       (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
   
-      (lender-id (get lender-id financing))
+      (lender-id (unwrap! (get lender-id financing) (err ERR_NO_LENDER_FOR_FINANCING)))
     )
 
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
@@ -625,10 +634,10 @@
                 
                 (merge po {
                   outstanding-amount: (- (get total-amount po) (get downpayment po)),
+                  overpaid-balance: u0,
                   accepted-financing-id: (some financing-id),
                   has-active-financing: true,
-                  updated-at: block-height,
-                  lender-id: (some (get lender-id financing))
+                  updated-at: block-height
                 })
               )
 
@@ -656,7 +665,7 @@
 ;; #[allow(unchecked_data)]
 (define-private (refund-financing (financing-id uint))
     (let ((financing (unwrap-panic (map-get? po-financing { id: financing-id })))
-    (lender-id (get lender-id financing))
+    (lender-id (unwrap! (get lender-id financing) (err u111)))
     
     )
       (if (not (get refunded financing))
@@ -694,25 +703,21 @@
         (seller-id (get seller-id po))
     )
 
-    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
+    ;; Verify that the outstanding amount is fully paid
+    (asserts! (<= (get outstanding-amount po) u0) (err ERR_PURCHASE_ORDER_NOT_FULLY_PAID))
 
-    (ok true)
-  )
-)
+    (unwrap! (contract-call? .taral-importer update-importer-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-exporter update-exporter-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
+    (unwrap! (contract-call? .taral-lender update-lender-track-record 'SP3GWX3NE58KXHESRYE4DYQ1S31PQJTCRXB3PE9SB true) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
-(define-private (end-purchase-order-unsuccessfully (purchase-order-id uint))
-  (let (
-        (po (unwrap! (map-get? purchase-orders { id: purchase-order-id }) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
-        (lender-id (unwrap! (get lender-id po) (err ERR_NO_LENDER_ASSOCIATED_WITH_PURCHASE_ORDER)))
-        (borrower-id (get borrower-id po))
-        (seller-id (get seller-id po))
+    ;; Mark purchase order as completed successfully
+    (map-set purchase-orders
+      { id: purchase-order-id }
+      (merge po { 
+        is-completed: true, 
+        completed-successfully: true
+      })
     )
-
-    (unwrap! (contract-call? .taral-importer update-importer-track-record borrower-id false) (err ERR_FAILED_TO_UPDATE_BORROWER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-exporter update-exporter-track-record seller-id false) (err ERR_FAILED_TO_UPDATE_SELLER_TRACK_RECORD))
-    (unwrap! (contract-call? .taral-lender update-lender-track-record lender-id false) (err ERR_FAILED_TO_UPDATE_LENDER_TRACK_RECORD))
 
     (ok true)
   )

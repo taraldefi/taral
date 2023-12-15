@@ -77,11 +77,11 @@ export class AppFactory {
 
     const connection = await createConnection({
       type: dbConfig.type || 'postgres',
-      host: process.env.DB_HOST || dbConfig.host,
-      port: parseInt(process.env.DB_PORT) || dbConfig.port,
-      database: process.env.DB_DATABASE_NAME || dbConfig.database,
-      username: process.env.DB_USERNAME || dbConfig.username,
-      password: process.env.DB_PASSWORD || dbConfig.password,
+      host: process.env.DATABASE_HOST || dbConfig.host,
+      port: parseInt(process.env.DATABASE_PORT) || dbConfig.port,
+      database: process.env.DATABASE_NAME || dbConfig.name,
+      username: process.env.DATABASE_USERNAME || dbConfig.username,
+      password: process.env.DATABASE_PASSWORD || dbConfig.password,
       entities: [
         "src\\**\\*.entity{.ts,.js}"
       ],
@@ -139,11 +139,18 @@ export class AppFactory {
   static async dropTables() {
     const connection = await createConnection({
       type: dbConfig.type || 'postgres',
-      host: process.env.DB_HOST || dbConfig.host,
-      port: parseInt(process.env.DB_PORT) || dbConfig.port,
-      database: process.env.DB_DATABASE_NAME || dbConfig.database,
-      username: process.env.DB_USERNAME || dbConfig.username,
-      password: process.env.DB_PASSWORD || dbConfig.password,
+      host: process.env.DATABASE_HOST || dbConfig.host,
+      port: parseInt(process.env.DATABASE_PORT) || dbConfig.port,
+      database: process.env.DATABASE_NAME || dbConfig.name,
+      username: process.env.DATABASE_USERNAME || dbConfig.username,
+      password: process.env.DATABASE_PASSWORD || dbConfig.password,
+      entities: [
+        "src\\**\\*.entity{.ts,.js}"
+      ],
+      migrations: [
+        "src\\database\\migrations\\**\\*{.ts,.js}"
+      ],
+      name: "testing"
     });
 
     await connection.query(`SET session_replication_role = 'replica';`);

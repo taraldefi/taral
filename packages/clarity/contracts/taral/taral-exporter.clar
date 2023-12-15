@@ -17,6 +17,18 @@
     )
 )
 
+(define-read-only (get-track-record (exporter principal))
+    (let 
+        ((current-exporter-profile (unwrap! (contract-call? .exporter-storage get-exporter-profile exporter) exporter-storage-error)))           
+        
+        (ok {
+            successful-transactions: (get successful-transactions current-exporter-profile),
+            failed-transactions: (get failed-transactions current-exporter-profile)
+        })
+    )
+)
+
+
 (define-public (update-exporter-track-record (exporter-principal principal) (success bool))
     (let (
         (exporter-id (unwrap! (contract-call? .exporter-storage get-exporter-by-principal exporter-principal ) ERR-EXPORTER-NOT-REGISTERED))

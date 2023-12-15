@@ -1,6 +1,6 @@
 ;; Storage contract for taral exporter
 ;; NOTE: To be only called by the respective parent contract
-(define-data-var exporter-id-nonce uint u10001)
+(define-data-var exporter-id-nonce uint u1)
 
 (define-map exporter-by-principal principal uint)
 

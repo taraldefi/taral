@@ -12,7 +12,6 @@ export class EncryptionService {
 
   constructor(private configService: ConfigService) {
     this.privateKey = this.configService.get('onchain.privateKey') as string;
-
     this.publicKey = this.configService.get('onchain.publicKey') as string;
   }
 

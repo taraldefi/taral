@@ -1,13 +1,16 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_CHAINHOOK_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const WALLET_3 = accounts.get("wallet_3")!;
 const DEPLOYER = accounts.get("deployer")!;
+const describeOrSkip = describeConditional(RUN_CHAINHOOK_TESTS);
 
-describe("Should test marketplace chainhook [ value added only if ran with the chainhook backend ]", () => {
+describeOrSkip("Should test marketplace chainhook [ value added only if ran with the chainhook backend ]", () => {
   it("Ensure we can run the chainhook integration", () => {
     const setWhitelistedResult = simnet.callPublicFn(
       "nft-marketplace",

@@ -39,10 +39,6 @@ export class FileVersionEntity extends EntityHelper {
   @AfterLoad()
   @AfterInsert()
   updatePath() {
-    if (this.path.indexOf('/') === 0) {
-      this.path = appConfig().backendDomain + this.path;
-    }
-
     if (this.created == undefined) {
       this.created = new Date();
     }

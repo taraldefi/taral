@@ -1,5 +1,7 @@
 import { Cl } from "@stacks/transactions";
-import { describe, expect, it } from "vitest";
+import { expect, it } from "vitest";
+import { describeConditional } from "./describe.skip";
+import { RUN_TARAL_PURCHASE_ORDER_TESTS } from "./constants";
 
 const accounts = simnet.getAccounts();
 const EXPORTER_WALLET = accounts.get("wallet_8")!;
@@ -8,7 +10,9 @@ const WALLET_1 = accounts.get("wallet_1")!;
 const WALLET_2 = accounts.get("wallet_2")!;
 const DEPLOYER = accounts.get("deployer")!;
 
-describe("Should test taral purchase order flows", () => {
+const describeOrSkip = describeConditional(RUN_TARAL_PURCHASE_ORDER_TESTS);
+
+describeOrSkip("Should test taral purchase order flows", () => {
   it("Should check if a user holds TAL tokens", () => {
     const mintTalResult = simnet.callPublicFn(
       "taral-coin",

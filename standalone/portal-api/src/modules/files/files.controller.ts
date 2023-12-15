@@ -130,7 +130,7 @@ export class FilesController {
     );
 
     res.set({
-      'Content-Type': 'application/pdf',
+      'Content-Type': 'application/octet-stream',
       'Content-Disposition': `attachment; filename="${requestFileResult.name}"`,
     });
 
