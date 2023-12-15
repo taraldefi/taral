@@ -4,7 +4,7 @@ import {
 } from "@stacks/stacks-blockchain-api-types";
 import { atom } from "jotai";
 import { atomFamily, atomWithStorage } from "jotai/utils";
-import { StacksMainnet } from "@stacks/network";
+import { StacksMainnet } from "micro-stacks/network";
 import {
   DEFAULT_NETWORK_LIST,
   DEFAULT_NETWORK_INDEX,

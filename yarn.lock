@@ -2713,7 +2713,7 @@
 
 "@micro-stacks/react@^1.0.9":
   version "1.0.9"
-  resolved "https://registry.yarnpkg.com/@micro-stacks/react/-/react-1.0.9.tgz#ca6340f2efdd8f61eb42df77d856c0f343a15668"
+  resolved "https://registry.npmjs.org/@micro-stacks/react/-/react-1.0.9.tgz#ca6340f2efdd8f61eb42df77d856c0f343a15668"
   integrity sha512-K9Xm6r5JIX1J1ijYJv/AaaiC2EgtNjeKkXhl7D0YM9lk0J9haN2Sxav9pI5nR7r6KYKcqUeAx71d9vBW9VxXsA==
   dependencies:
     "@micro-stacks/client" "1.2.1"
