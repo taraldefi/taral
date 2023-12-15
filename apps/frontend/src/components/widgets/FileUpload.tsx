@@ -43,7 +43,7 @@ const FileUpload = ({ type }: FileUploadProps) => {
   const fetchUploadStatus = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:3000/api/v1/transaction-docs/${type}/${applicationID}`
+        `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationID}`
       );
 
       setUploadStatus(response.data);
