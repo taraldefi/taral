@@ -71,7 +71,7 @@ const FileUpload = ({ type }: FileUploadProps) => {
         await axios.post(`${apiUrls.CREATE_FILE}`, formData);
 
         await axios.post(
-          `http://localhost:3000/api/v1/transaction-docs/${type}/${applicationID}`
+          `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationID}`
         );
 
         setLoading(false);
