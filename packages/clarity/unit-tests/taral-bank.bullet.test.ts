@@ -34,6 +34,33 @@ describeOrSkip("Taral bank test flows", () => {
     console.log('=========================');
     console.log('=========================');
 
+    it("Should not be able to cancel a purchase order if not the borrower", () => {
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+
+        const cancelPurchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "cancel-purchase-order",
+            [
+                Cl.uint(purchaseOrderId),
+            ],
+            WALLET_2
+        );
+
+        expect(cancelPurchaseOrderResult.result).toBeErr(Cl.uint(401));
+    }),
+
     it("Should be able to create and cancel a purchase order", () => {
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
