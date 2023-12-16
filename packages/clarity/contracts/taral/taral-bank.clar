@@ -49,6 +49,8 @@
   }
 )
 
+(define-data-var micro-multiplier uint u1000000)
+
 ;; Version string
 (define-constant VERSION "0.0.5.beta")
 
@@ -270,7 +272,6 @@
     (
       (po (unwrap-panic (map-get? purchase-orders {id: purchase-order-id})))
       (financing (unwrap-panic (map-get? po-financing {id: (unwrap-panic (get accepted-financing-id po))})))
-      (bullet-interest-rate (/ (/ (var-get protocol-interest-rate-per-annum) u4) u100)) ;; bullet payment is 3 months
       (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
       (lender-id (unwrap-panic (get lender-id po)))
       (borrower-id (get borrower-id po))
@@ -414,8 +415,8 @@
 
                 (ok 
                   {
-                  is-defaulted: true,
-                  is-completed: true
+                    is-defaulted: true,
+                    is-completed: true
                   }
                 )
               
@@ -447,9 +448,10 @@
 ;; Create Purchase Order
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
+(define-public (create-purchase-order (total-amount-usdt uint) (downpayment-usdt uint) (seller-id principal))
   (let (
-
+    (total-amount (* total-amount-usdt (var-get micro-multiplier)))
+    (downpayment (* downpayment-usdt (var-get micro-multiplier)))
     ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 
