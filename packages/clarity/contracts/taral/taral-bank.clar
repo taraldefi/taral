@@ -16,7 +16,7 @@
     is-canceled: bool,
     has-active-financing: bool,
     created-at: uint,  ;; Timestamp of creation
-    updated-at: uint   ;; Timestamp of last update
+    updated-at: uint,   ;; Timestamp of last update
   }
 )
 
@@ -469,7 +469,7 @@
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
-              has-active-financing: false,
+              has-active-financing: false
             }
           )
 
@@ -542,6 +542,7 @@
             {id: purchase-order-id}
             (merge po { 
               updated-at: block-height,
+              has-active-financing: true
             }))
           (ok financing-id)
         )
@@ -613,7 +614,7 @@
     (asserts! (is-eq tx-sender (get borrower-id po)) (err ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING))
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_MODIFY_ACCEPTED_FINANCING))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
-    (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
+    (asserts! (is-none (get accepted-financing-id po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Update purchase order with details from the accepted financing
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
