@@ -1,4 +1,5 @@
 import { expect } from "vitest";
+import { MICRO_MULTIPLIER } from "./currency";
 
 const accounts = simnet.getAccounts();
 const DEPLOYER = accounts.get("deployer")!;
@@ -25,5 +26,5 @@ export function expectSUSDTTransfer(transferEvent: any, sender: string, recipien
 
     expect(transferEvent.sender).toStrictEqual(senderAddress);
     expect(transferEvent.recipient).toStrictEqual(recipientAddress);
-    expect(transferEvent.amount).toStrictEqual(`${amount}`);
+    expect(transferEvent.amount).toStrictEqual(`${amount * MICRO_MULTIPLIER}`);
 }

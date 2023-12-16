@@ -4,6 +4,7 @@ import { expectSUSDTTransfer } from "./helpers/transfer";
 import { fastForwardDays, fastForwardMonths } from "./helpers/time";
 import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_BULLET_TESTS } from "./constants";
+import { MICRO_MULTIPLIER } from "./helpers/currency";
 // import { hashStacksMessage, utf8ToBytes } from "lib-stacks";
 
 const describeOrSkip = describeConditional(RUN_TARAL_BANK_BULLET_TESTS);
@@ -64,14 +65,14 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(blockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
-            "total-amount": Cl.uint(borrow),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(false),
             "is-completed": Cl.bool(false),
             "has-active-financing": Cl.bool(false),
-            "outstanding-amount": Cl.uint(borrow - downPayment),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
             "updated-at": Cl.uint(blockHeight),
-            downpayment: Cl.uint(downPayment),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
         })));
 
         // check if the PO has active financing
@@ -115,14 +116,14 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(initialBlockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
-            "total-amount": Cl.uint(borrow),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(true),
             "is-completed": Cl.bool(false),
             "has-active-financing": Cl.bool(false),
-            "outstanding-amount": Cl.uint(borrow - downPayment),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
             "updated-at": Cl.uint(blockHeight),
-            downpayment: Cl.uint(downPayment),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
         })));
     }),
 
@@ -514,7 +515,7 @@ describeOrSkip("Taral bank test flows", () => {
     
         expect(interestTransferEvent.sender).toStrictEqual(WALLET_1);
         expect(interestTransferEvent.recipient).toStrictEqual(`${DEPLOYER}`);
-        expect(interestTransferEvent.amount).toStrictEqual(`${(borrow - downPayment) * 3 / 100}`);
+        expect(interestTransferEvent.amount).toStrictEqual(`${(borrow - downPayment) * MICRO_MULTIPLIER * 3 / 100}`);
 
         const principalTransferEvent = transferEvents[1].data as any;
         expect(principalTransferEvent.asset_identifier).toStrictEqual(
@@ -523,7 +524,7 @@ describeOrSkip("Taral bank test flows", () => {
     
         expect(principalTransferEvent.sender).toStrictEqual(WALLET_1);
         expect(principalTransferEvent.recipient).toStrictEqual(`${WALLET_3}`);
-        expect(principalTransferEvent.amount).toStrictEqual(`${(borrow - downPayment)}`);
+        expect(principalTransferEvent.amount).toStrictEqual(`${(borrow - downPayment) * MICRO_MULTIPLIER}`);
 
         const getPaymentDetails = simnet.callReadOnlyFn(
             "taral-bank",
@@ -545,8 +546,8 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(getPurchaseOrder.result).toBeOk(Cl.tuple({
-            "total-amount": Cl.uint(borrow),
-            "downpayment": Cl.uint(downPayment),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
+            "downpayment": Cl.uint(downPayment * MICRO_MULTIPLIER),
             "outstanding-amount": Cl.uint(0),
             "is-completed": Cl.bool(true),
             "accepted-financing-id": Cl.some(Cl.uint(1)),
@@ -749,9 +750,9 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(getPurchaseOrder.result).toBeOk(Cl.tuple({
-            "total-amount": Cl.uint(borrow),
-            "downpayment": Cl.uint(downPayment),
-            "outstanding-amount": Cl.uint(1000),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
+            "downpayment": Cl.uint(downPayment * MICRO_MULTIPLIER),
+            "outstanding-amount": Cl.uint(1000 * MICRO_MULTIPLIER),
             "is-completed": Cl.bool(true),
             "accepted-financing-id": Cl.some(Cl.uint(1)),
             "is-canceled": Cl.bool(false),
