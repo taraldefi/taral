@@ -101,8 +101,9 @@
 (define-constant ERR_SELLER_CANNOT_FINANCE_THEIR_PO u129)
 (define-constant CANNOT_MAKE_PAYMENT_PO_COMPLETED u130)
 (define-constant COULD_NOT_UNWRAP u131)
+(define-constant ERR_CONTRACT_PAUSED u132)
 
-(define-constant err-unauthorised u401)
+(define-constant ERR_UNAUTHORIZED u401)
 
 ;;TODO: parameterize how much time a block takes. 
 
@@ -214,7 +215,7 @@
 
 (define-public (update-protocol-interest-rate-per-annum (new-interest-rate uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     (var-set protocol-interest-rate-per-annum new-interest-rate)
     (ok true)
   )
@@ -222,7 +223,7 @@
 
 (define-public (update-protocol-due-date (new-due-date uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     (var-set po-due-date new-due-date)
     (ok true)
   )
@@ -230,7 +231,7 @@
 
 (define-public (update-grace-period-in-days (new-grace-period uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     (var-set payments-default-grace-period-in-days new-grace-period)
     (ok true)
   )
@@ -238,7 +239,7 @@
 
 (define-public (pause-contract)
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     (var-set contract-paused true)
     (ok true)
   )
@@ -246,7 +247,7 @@
 
 (define-public (resume-contract)
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     (var-set contract-paused false)
     (ok true)
   )
@@ -255,7 +256,7 @@
 ;; Function to update the block time (restricted to contract owner or authorized users)
 (define-public (set-blocks-time-in-seconds (new-block-time uint))
   (begin
-    (asserts! (is-eq tx-sender (var-get contract-owner)) (err err-unauthorised))
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
     ;; Add any required authorization checks here
     (var-set blocks-time-in-seconds new-block-time)
     (ok true)
@@ -277,6 +278,7 @@
       (completed-successfully (get completed-successfully po))
     )
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     (asserts! (not is-completed) (err CANNOT_MAKE_PAYMENT_PO_COMPLETED))
 
     ;; Calculate the current outstanding amount and monthly payment
@@ -375,6 +377,8 @@
       (is-completed (get is-completed po))
     )
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+
     (if is-completed
       (ok 
         {
@@ -449,6 +453,8 @@
     ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+
     ;; ensure the downpayment is less than the total amount
     (asserts! (< downpayment total-amount) (err ERR_DOWNPAYMENT_TOO_LARGE))
 
@@ -486,8 +492,10 @@
 (define-public (cancel-purchase-order (purchase-order-id uint))
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
     (asserts! (is-eq (get has-active-financing po) false) (err ERR_PO_HAS_ACTIVE_FINANCING))
+
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err err-unauthorised))
+    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get borrower-id po) none)))
         (begin
@@ -515,6 +523,7 @@
       (total-amount (- (get total-amount po) (get downpayment po))
     )
   )
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
     (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
@@ -562,6 +571,7 @@
       (lender-id (get lender-id financing))
     )
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
     ;; this can only be done by the owner of contract or owner of the purchase order.
 
@@ -596,11 +606,12 @@
       (lender-id (get lender-id financing))
     )
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
 
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) (err err-unauthorised))
+    (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 
     (refund-financing financing-id)
   )
@@ -616,6 +627,7 @@
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (is-none (get accepted-financing-id po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
     ;; Update purchase order with details from the accepted financing
     (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
         (begin
