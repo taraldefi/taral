@@ -213,6 +213,45 @@ describeOrSkip("Taral bank test flows", () => {
         expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
     }),
 
+    it ("Should not be able to place a financing offer after another one has been placed", () => {
+        const financingId = 1;
+
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2) // the seller
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        // place a financing offer
+        let placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_3
+        );
+
+        expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
+        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+
+        placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_4
+        );
+
+        expect(placeFinancingResult.result).toBeErr(Cl.uint(122));
+    }),
+
     it("Should not be able to place a financing offer after another one has been accepted", () => {
         const financingId = 1;
 
@@ -573,6 +612,7 @@ describeOrSkip("Taral bank test flows", () => {
             ], WALLET_1
         );
 
+        console.log(JSON.stringify(acceptFinancingResult, null, 2));
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
         expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
