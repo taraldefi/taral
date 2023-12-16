@@ -568,12 +568,15 @@
   (let 
     (
       (financing (unwrap! (map-get? po-financing {id: financing-id}) (err ERR_FINANCING_NOT_FOUND)))
+
+      (purchase-order (unwrap! (map-get? purchase-orders {id: (get purchase-order-id financing)}) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
   
       (lender-id (get lender-id financing))
     )
 
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
+    (asserts! (is-eq tx-sender (get borrower-id purchase-order)) (err ERR_UNAUTHORIZED))
     ;; this can only be done by the owner of contract or owner of the purchase order.
 
     (let ((po-id (get purchase-order-id financing)))
