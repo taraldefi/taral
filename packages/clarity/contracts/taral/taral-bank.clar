@@ -278,7 +278,7 @@
       (completed-successfully (get completed-successfully po))
     )
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     (asserts! (not is-completed) (err CANNOT_MAKE_PAYMENT_PO_COMPLETED))
 
     ;; Calculate the current outstanding amount and monthly payment
@@ -291,7 +291,7 @@
 
       (let 
         (
-            (interest-transfer-result (contract-call? .usda-token transfer 
+            (interest-transfer-result (contract-call? .token-susdt transfer 
                                         interest-for-payment
                                         (get borrower-id po) 
                                         (var-get contract-owner)
@@ -303,7 +303,7 @@
           (begin 
             (let 
               (
-                (principal-transfer-result (contract-call? .usda-token transfer outstanding-amount borrower-id lender-id none))
+                (principal-transfer-result (contract-call? .token-susdt transfer outstanding-amount borrower-id lender-id none))
               )
 
               (match principal-transfer-result
@@ -377,7 +377,7 @@
       (is-completed (get is-completed po))
     )
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
 
     (if is-completed
       (ok 
@@ -453,12 +453,12 @@
     ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
 
     ;; ensure the downpayment is less than the total amount
     (asserts! (< downpayment total-amount) (err ERR_DOWNPAYMENT_TOO_LARGE))
 
-    (if (is-ok (contract-call? .usda-token transfer downpayment tx-sender (as-contract tx-sender) none))
+    (if (is-ok (contract-call? .token-susdt transfer downpayment tx-sender (as-contract tx-sender) none))
         (begin
           (map-set purchase-orders
             { id: purchase-order-id }
@@ -493,11 +493,11 @@
   (let ((po (unwrap! (map-get? purchase-orders {id: purchase-order-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
     (asserts! (is-eq (get has-active-financing po) false) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; ensure only the lender can cancel their own financing offer
     (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 
-    (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get borrower-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get borrower-id po) none)))
         (begin
           (map-set purchase-orders
             {id: purchase-order-id}
@@ -523,14 +523,14 @@
       (total-amount (- (get total-amount po) (get downpayment po))
     )
   )
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
     (asserts! (not (is-eq (get seller-id po) tx-sender)) (err ERR_SELLER_CANNOT_FINANCE_THEIR_PO))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Transfer the financing offer amount from the lender to the contract
-    (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
+    (if (is-ok (contract-call? .token-susdt transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
           (map-set po-financing 
             { id: financing-id }
@@ -571,13 +571,13 @@
       (lender-id (get lender-id financing))
     )
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
     ;; this can only be done by the owner of contract or owner of the purchase order.
 
     (let ((po-id (get purchase-order-id financing)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
-        (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
+        (if (is-ok (contract-call? .token-susdt transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
             (map-set po-financing
                   {id: financing-id}
@@ -606,7 +606,7 @@
       (lender-id (get lender-id financing))
     )
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
 
@@ -627,11 +627,11 @@
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
     (asserts! (is-none (get accepted-financing-id po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
-    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) ERR_CONTRACT_PAUSED)
+    (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; Update purchase order with details from the accepted financing
-    (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
         (begin
-          (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get seller-id po) none)))
+          (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get seller-id po) none)))
             (begin
               (map-set purchase-orders
                 { id: (get purchase-order-id financing) }
@@ -676,7 +676,7 @@
         (begin
           
           (try! (as-contract (contract-call? 
-                  .usda-token transfer 
+                  .token-susdt transfer 
                   (get financing-amount financing) 
                   contract-caller 
                   lender-id 

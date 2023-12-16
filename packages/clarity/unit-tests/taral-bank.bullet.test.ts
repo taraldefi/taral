@@ -1,6 +1,6 @@
 import { Cl } from "@stacks/transactions";
 import { expect, it } from "vitest";
-import { expectUsdaTransfer } from "./helpers/transfer";
+import { expectSUSDTTransfer } from "./helpers/transfer";
 import { fastForwardDays, fastForwardMonths } from "./helpers/time";
 import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_BULLET_TESTS } from "./constants";
@@ -49,7 +49,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
 
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         const getPurchaseOrder = simnet.callReadOnlyFn(
             "taral-bank",
@@ -98,7 +98,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(cancelPurchaseOrderResult.result).toBeOk(Cl.bool(true));
 
-        expectUsdaTransfer(cancelPurchaseOrderResult.events[0].data, DEPLOYER, WALLET_1, downPayment);
+        expectSUSDTTransfer(cancelPurchaseOrderResult.events[0].data, DEPLOYER, WALLET_1, downPayment);
 
         blockHeight++;
 
@@ -142,7 +142,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
 
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         const placeFinancingResult = simnet.callPublicFn(
@@ -154,7 +154,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(1)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         blockHeight++;
 
@@ -167,7 +167,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(cancelFinancingResult.result).toBeOk(Cl.bool(true));
-        expectUsdaTransfer(cancelFinancingResult.events[0].data, DEPLOYER, WALLET_3, borrow - downPayment);
+        expectSUSDTTransfer(cancelFinancingResult.events[0].data, DEPLOYER, WALLET_3, borrow - downPayment);
     }),
 
     it("Should be able to place a financing offer and accept it", () => {
@@ -184,7 +184,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         const placeFinancingResult = simnet.callPublicFn(
@@ -197,7 +197,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         // console.log(JSON.stringify(placeFinancingResult, null, 2));
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         const acceptFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -209,8 +209,8 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
-        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
-        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
     }),
 
     it ("Should not be able to place a financing offer after another one has been placed", () => {
@@ -227,7 +227,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         let placeFinancingResult = simnet.callPublicFn(
@@ -239,7 +239,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         placeFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -266,7 +266,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         let placeFinancingResult = simnet.callPublicFn(
@@ -278,7 +278,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         const acceptFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -290,8 +290,8 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
-        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
-        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
 
         // place a financing offer
         placeFinancingResult = simnet.callPublicFn(
@@ -318,7 +318,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         let placeFinancingResult = simnet.callPublicFn(
@@ -330,7 +330,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         const acceptFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -342,8 +342,8 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
-        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
-        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
 
         let hasPoDefaulted = simnet.callReadOnlyFn(
             "taral-bank",
@@ -420,7 +420,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         let placeFinancingResult = simnet.callPublicFn(
@@ -432,7 +432,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         const acceptFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -444,8 +444,8 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
-        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
-        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
 
         let hasPoDefaulted = simnet.callReadOnlyFn(
             "taral-bank",
@@ -509,7 +509,7 @@ describeOrSkip("Taral bank test flows", () => {
         const interestTransferEvent = transferEvents[0].data as any;
 
         expect(interestTransferEvent.asset_identifier).toStrictEqual(
-            `${DEPLOYER}.usda-token::usda`,
+            `${DEPLOYER}.token-susdt::bridged-usdt`,
         );
     
         expect(interestTransferEvent.sender).toStrictEqual(WALLET_1);
@@ -518,7 +518,7 @@ describeOrSkip("Taral bank test flows", () => {
 
         const principalTransferEvent = transferEvents[1].data as any;
         expect(principalTransferEvent.asset_identifier).toStrictEqual(
-            `${DEPLOYER}.usda-token::usda`,
+            `${DEPLOYER}.token-susdt::bridged-usdt`,
         );
     
         expect(principalTransferEvent.sender).toStrictEqual(WALLET_1);
@@ -590,7 +590,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
-        expectUsdaTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
 
         // place a financing offer
         let placeFinancingResult = simnet.callPublicFn(
@@ -602,7 +602,7 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         expect(placeFinancingResult.result).toBeOk(Cl.uint(financingId)); // financing id is 1
-        expectUsdaTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
 
         const acceptFinancingResult = simnet.callPublicFn(
             "taral-bank",
@@ -615,8 +615,8 @@ describeOrSkip("Taral bank test flows", () => {
         console.log(JSON.stringify(acceptFinancingResult, null, 2));
         expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
         const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
-        expectUsdaTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
-        expectUsdaTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
 
         let hasPoDefaulted = simnet.callReadOnlyFn(
             "taral-bank",
@@ -666,15 +666,18 @@ describeOrSkip("Taral bank test flows", () => {
         expect(hasPoDefaulted.result).toBeOk(Cl.bool(false));
 
         let assetsMap = simnet.getAssetsMap();
-        let balanceUsda = assetsMap.get('.usda-token.usda')!;
-        let balanceUsdaWallet1 = balanceUsda.get(WALLET_1)!;
+
+        console.log(JSON.stringify(assetsMap, null, 2));
+
+        let balanceSUSDT = assetsMap.get('.token-susdt.bridged-usdt')!;
+        let balanceSUSDTWallet1 = balanceSUSDT.get(WALLET_1)!;
         
         // transfer the money out so we can't pay back the loan
         const transferResult = simnet.callPublicFn(
-            "usda-token",
+            "token-susdt",
             "transfer",
             [
-                Cl.uint(balanceUsdaWallet1 - 1000n), // leave a little bit of money in the account
+                Cl.uint(balanceSUSDTWallet1 - 1000n), // leave a little bit of money in the account
                 Cl.standardPrincipal(WALLET_1),
                 Cl.standardPrincipal(WALLET_3),
                 Cl.none()
@@ -684,9 +687,9 @@ describeOrSkip("Taral bank test flows", () => {
         expect(transferResult.result).toBeOk(Cl.bool(true));
 
         assetsMap = simnet.getAssetsMap();
-        balanceUsda = assetsMap.get('.usda-token.usda')!;
-        balanceUsdaWallet1 = balanceUsda.get(WALLET_1)!;
-        expect(balanceUsdaWallet1).toBe(1000n);
+        balanceSUSDT = assetsMap.get('.token-susdt.bridged-usdt')!;
+        balanceSUSDTWallet1 = balanceSUSDT.get(WALLET_1)!;
+        expect(balanceSUSDTWallet1).toBe(1000n);
 
         let makePaymentResult = simnet.callPublicFn(
             "taral-bank",
