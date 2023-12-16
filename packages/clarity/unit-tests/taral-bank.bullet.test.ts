@@ -154,6 +154,33 @@ describeOrSkip("Taral bank test flows", () => {
         })));
     }),
 
+    it("Should not be able to finance if it's the po borrower", () => {
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        // place a financing offer
+        const placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_1
+        );
+
+        expect(placeFinancingResult.result).toBeErr(Cl.uint(127)); // financing id is 1
+    }),
+
     it("Should be able to place and cancel a financing offer", () => {
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
