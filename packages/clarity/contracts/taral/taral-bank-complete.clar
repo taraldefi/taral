@@ -60,6 +60,7 @@
 ;; Version string
 (define-constant VERSION "0.0.5.beta")
 
+(define-data-var micro-multiplier uint u1000000)
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
 (define-data-var po-number-of-installments uint u3) ;; number of installments for paying the loan
@@ -443,9 +444,11 @@
 ;; Create Purchase Order
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
+(define-public (create-purchase-order (total-amount-usdt uint) (downpayment-usdt uint) (seller-id principal))
   (let (
 
+    (total-amount (* total-amount-usdt (var-get micro-multiplier)))
+    (downpayment (* downpayment-usdt (var-get micro-multiplier)))
     ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 

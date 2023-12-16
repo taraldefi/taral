@@ -49,11 +49,10 @@
   }
 )
 
-(define-data-var micro-multiplier uint u1000000)
-
 ;; Version string
 (define-constant VERSION "0.0.5.beta")
 
+(define-data-var micro-multiplier uint u1000000)
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
 (define-data-var payments-default-grace-period-in-days uint u5)

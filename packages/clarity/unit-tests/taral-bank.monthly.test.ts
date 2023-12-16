@@ -3,6 +3,7 @@ import { expect, it } from "vitest";
 import { fastForwardMonths } from "./helpers/time";
 import { describeConditional } from "./describe.skip";
 import { RUN_TARAL_BANK_MONTHLY_TESTS } from "./constants";
+import { MICRO_MULTIPLIER } from "./helpers/currency";
 
 
 const describeOrSkip = describeConditional(RUN_TARAL_BANK_MONTHLY_TESTS);
@@ -62,16 +63,16 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(blockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
-            "total-amount": Cl.uint(borrow),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "payments-left": Cl.uint(0),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(false),
             "is-completed": Cl.bool(false),
             "has-active-financing": Cl.bool(false),
-            "outstanding-amount": Cl.uint(borrow - downPayment),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
             "overpaid-balance": Cl.uint(0),
             "updated-at": Cl.uint(blockHeight),
-            downpayment: Cl.uint(downPayment),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
             "payments-made": Cl.uint(0),
             "first-payment-block-height": Cl.uint(0)
         })));
@@ -117,16 +118,16 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(initialBlockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
-            "total-amount": Cl.uint(borrow),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "payments-left": Cl.uint(0),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(true),
             "is-completed": Cl.bool(false),
             "has-active-financing": Cl.bool(false),
-            "outstanding-amount": Cl.uint(borrow - downPayment),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
             "overpaid-balance": Cl.uint(0),
             "updated-at": Cl.uint(blockHeight),
-            downpayment: Cl.uint(downPayment),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
             "payments-made": Cl.uint(0),
             "first-payment-block-height": Cl.uint(0)
         })));
@@ -365,6 +366,6 @@ describeOrSkip("Taral bank test flows", () => {
 
         expect(transferEvent.sender).toStrictEqual(senderAddress);
         expect(transferEvent.recipient).toStrictEqual(recipientAddress);
-        expect(transferEvent.amount).toStrictEqual(`${amount}`);
+        expect(transferEvent.amount).toStrictEqual(`${amount * MICRO_MULTIPLIER}`);
     }
 });
