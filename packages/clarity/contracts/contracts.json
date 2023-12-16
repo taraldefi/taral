@@ -42,7 +42,8 @@
         "sip010-token",
         "taral-lender",
         "taral-bank",
-        "taral-bank-complete"
+        "taral-bank-complete",
+        "token-susdt"
       ]
     }
   ]
