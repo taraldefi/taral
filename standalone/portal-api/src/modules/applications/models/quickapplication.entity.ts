@@ -34,6 +34,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   title: string;
 
+  @Column()
+  @Allow()
+  exporterName: string;
+
   @Column({ type: 'timestamptz' }) // Recommended
   @Allow()
   issuanceDate: Date;
@@ -45,6 +49,11 @@ export class QuickApplicationEntity extends EntityHelper {
   @Column({ type: 'enum', enum: ApplicationStatus })
   @Allow()
   status: string;
+
+  @OneToOne(() => BuyerCompanyInformationEntity)
+  @JoinColumn()
+  @Allow()
+  buyerInformation: BuyerCompanyInformationEntity;
 
   @ManyToOne(() => SupplierCompanyEntity, (supplier) => supplier.applications)
   @Allow()

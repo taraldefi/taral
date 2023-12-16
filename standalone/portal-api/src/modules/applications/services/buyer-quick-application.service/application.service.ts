@@ -15,6 +15,7 @@ import { PaymentTermService } from 'src/modules/payment-term/services/payment-te
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
+import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -25,7 +26,8 @@ export class BuyerQuickApplicationService extends BaseService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     private buyerInformationService: BuyerInformationService,
-    // private supplierInfoService: BuyerQuickApplicationSupplierInformationService,
+
+    private supplierInfoService: SupplierInformationService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
@@ -44,6 +46,7 @@ export class BuyerQuickApplicationService extends BaseService {
         'status',
         'applicationNumber',
         'endDate',
+        'exporterName',
       ],
 
       where: { company: { id: entityID } },
@@ -52,13 +55,12 @@ export class BuyerQuickApplicationService extends BaseService {
     var response = new Array<GetApplicationResponse>();
 
     response = applications.map((application) => {
-      console.log(application);
       var applicationItem = new GetApplicationResponse();
       applicationItem.id = application.id;
       applicationItem.issuanceDate = application.issuanceDate;
       applicationItem.title = application.title;
       applicationItem.applicationNumber = application.applicationNumber;
-      applicationItem.exporterName = '--';
+      applicationItem.exporterName = application.exporterName;
       applicationItem.endDate = application.endDate;
       applicationItem.status = application.status;
 
@@ -77,6 +79,7 @@ export class BuyerQuickApplicationService extends BaseService {
           'orderDetails',
           'security',
           'transactionDocuments',
+          'exporterName',
         ],
       },
     );
@@ -91,16 +94,14 @@ export class BuyerQuickApplicationService extends BaseService {
     const savedBuyerInformation = await this.buyerInformationService.get(
       application.id,
     );
-    // const savedSupplierInformation =
-    //   await this.supplierInfoService.getSupplierInformation(application.id);
 
     const savedPaymentTerm = await this.paymentTermService.get(application.id);
     const savedOrderDetail = await this.orderDetailService.get(application.id);
     const savedCollateral = await this.collateralService.get(application.id);
-    // response.exporterName = savedSupplierInformation.supplier.companyName;
-    response.exporterName = '--';
+    response.exporterName = application.exporterName;
+
     response.buyerInformation = savedBuyerInformation;
-    // response.supplierInformation = savedSupplierInformation;
+
     response.orderDetails = savedOrderDetail;
     response.security = savedCollateral;
     response.paymentTerms = savedPaymentTerm;
@@ -115,7 +116,7 @@ export class BuyerQuickApplicationService extends BaseService {
       id,
       {
         relations: [
-          'supplierInformation',
+          'buyerInformation',
           'paymentTerms',
           'orderDetails',
           'security',
@@ -150,6 +151,7 @@ export class BuyerQuickApplicationService extends BaseService {
     application.endDate = endDate;
     application.status = 'ACTIVE';
     application.createdAt = new Date();
+    application.exporterName = '--';
 
     const savedApplication = await this.buyerApplicationRepository.save(
       application,
@@ -196,11 +198,10 @@ export class BuyerQuickApplicationService extends BaseService {
     application: QuickApplicationEntity,
   ): Promise<boolean> {
     if (
-      application.supplierInformation &&
+      application.buyerInformation &&
       application.paymentTerms &&
       application.orderDetails &&
       application.security
-      //application.transactionDocuments
     ) {
       return true;
     }

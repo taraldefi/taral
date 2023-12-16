@@ -6,6 +6,7 @@ import { Allow } from 'class-validator';
 import { SupplierFinancialInformationEntity } from 'src/modules/financial/models/supplier.financial.info.entity';
 import { SupplierRatingEntity } from 'src/modules/rating/models/supplier.rating.entity';
 import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { SupplierCompanyTaxAndRevenueEntity } from './supplier.company.tax.and.revenue.entity';
 
 @Entity({ name: 'SupplierCompanies' })
 export class SupplierCompanyEntity extends CompanyEntity {
@@ -21,6 +22,12 @@ export class SupplierCompanyEntity extends CompanyEntity {
   @JoinColumn()
   @Allow()
   rating: SupplierRatingEntity;
+
+  @OneToMany(
+    () => SupplierCompanyTaxAndRevenueEntity,
+    (taxAndRevenue) => taxAndRevenue.supplierCompany,
+  )
+  taxAndRevenue: SupplierCompanyTaxAndRevenueEntity[];
 
   @OneToMany(
     () => CollaborationRelationshipEntity,

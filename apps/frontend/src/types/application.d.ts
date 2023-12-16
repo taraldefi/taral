@@ -14,13 +14,13 @@ interface Company {
   companyName: string;
   dateEstablished: string;
   phoneNumber: string;
-  registrationNumbers: string;
+  registrationNumber: string;
   taxAndRevenue: TaxAndRevenue;
   address: Address;
 }
 
 interface TaxAndRevenue {
-  lastFiscalYear: string;
+  lastFiscalYear: number;
   totalRevenue: string;
   exportRevenuePercentage: string;
 }
@@ -34,9 +34,6 @@ interface Address {
 
 interface CreateBuyerInformationForBuyerApplication {
   address: Address;
-  taxAndRevenue: TaxAndRevenue;
-  phoneNumber: string;
-  registrationNumbers: string;
 }
 
 interface GetBuyerInfoResponse {
@@ -47,7 +44,7 @@ interface GetBuyerInfoResponse {
   dateEstablished: string;
   employeeCount: number | null;
   phoneNumber: string;
-  registrationNumbers: string;
+  registrationNumber: string;
 }
 
 interface SupplierEntityResponse {
@@ -64,7 +61,7 @@ interface SupplierEntityResponse {
   legalForm: string;
   phoneNumber: string;
   employeeCount: number | null;
-  registrationNumbers: string;
+  registrationNumber: string;
   address: Address;
   taxAndRevenue: TaxAndRevenue;
 }

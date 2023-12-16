@@ -15,10 +15,10 @@ const initialData: GetBuyerInfoResponse = {
   companyName: "",
   dateEstablished: "",
   phoneNumber: "",
-  registrationNumbers: "",
+  registrationNumber: "",
   employeeCount: null,
   taxAndRevenue: {
-    lastFiscalYear: "",
+    lastFiscalYear: 0,
     totalRevenue: "",
     exportRevenuePercentage: "",
   },
@@ -35,23 +35,6 @@ const initialData: GetBuyerInfoResponse = {
  */
 
 const schemaValidation = Yup.object().shape({
-  phoneNumber: Yup.string().required("Phone number is required"),
-
-  registrationNumbers: Yup.string().required(
-    "Registration numbers are required"
-  ),
-
-  taxAndRevenue: Yup.object().shape({
-    lastFiscalYear: Yup.string().required("Last fiscal year is required"),
-
-    totalRevenue: Yup.string().required("Total revenue is required"),
-
-    exportRevenuePercentage: Yup.string()
-      .required("Export revenue percentage is required")
-      .min(0, "Export revenue percentage must be at least 0")
-      .max(100, "Export revenue percentage cannot exceed 100"),
-  }),
-
   address: Yup.object().shape({
     city: Yup.string().required("City is required"),
 
@@ -92,9 +75,9 @@ const useBuyerInformationForm = (applicationID: string) => {
         dateEstablished: convertDate(response.dateEstablished),
         employeeCount: response.employeeCount ?? 0,
         phoneNumber: response.phoneNumber,
-        registrationNumbers: response.registrationNumbers,
+        registrationNumber: response.registrationNumber,
         taxAndRevenue: {
-          lastFiscalYear: convertDate(response.taxAndRevenue.lastFiscalYear),
+          lastFiscalYear: response.taxAndRevenue.lastFiscalYear,
           totalRevenue: response.taxAndRevenue.totalRevenue,
           exportRevenuePercentage:
             response.taxAndRevenue.exportRevenuePercentage,

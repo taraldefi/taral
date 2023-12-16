@@ -144,13 +144,7 @@ function index(props: { entityData: Entity; hasError: boolean }) {
 }
 export const getStaticProps: GetStaticProps = async (context) => {
   const itemID = context.params?.entityId;
-  const data = await entityService.getAllEntity();
-  const foundItem = data.find((item: EntityCardResponse) => itemID === item.id);
-  if (!foundItem) {
-    return {
-      notFound: true,
-    };
-  }
+
   const entity = await entityService.getEntity(itemID as string);
 
   return {

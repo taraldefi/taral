@@ -4,6 +4,7 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import {
   HasMimeType,
@@ -11,6 +12,8 @@ import {
   MaxFileSize,
   MemoryStoredFile,
 } from '@modules/multipart';
+import { Type } from 'class-transformer';
+import { CreateBuyerCompanyTaxAndRevenueRequest } from './create-buyer-company-tax-and-revenue.dto';
 
 export class UpdateEntityDto {
   @IsFile()
@@ -36,6 +39,16 @@ export class UpdateEntityDto {
   @IsString()
   @IsOptional()
   beneficialOwner?: string;
+
+  @ApiProperty({ example: '1234567891' })
+  @IsString()
+  @IsOptional()
+  phoneNumber?: string;
+
+  @ApiProperty({ example: '123456789' })
+  @IsString()
+  @IsOptional()
+  registrationNumber?: string;
 
   @ApiProperty({ example: '55-NB' })
   @IsString()
@@ -71,4 +84,8 @@ export class UpdateEntityDto {
   @IsString()
   @IsOptional()
   legalForm?: string;
+
+  @ValidateNested()
+  @Type(() => CreateBuyerCompanyTaxAndRevenueRequest)
+  taxAndRevenue: CreateBuyerCompanyTaxAndRevenueRequest;
 }

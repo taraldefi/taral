@@ -62,12 +62,11 @@ import config from 'config';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { loggingLevel } from './modules/logger/logger';
 import winston from 'winston';
+import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
-  providers: [
-    ...AppModule.createDynamicProviders()
-  ],
+  providers: [...AppModule.createDynamicProviders()],
   controllers: [AppController],
 })
 export class AppModule {
@@ -77,17 +76,16 @@ export class AppModule {
         provide: APP_PIPE,
         useClass: CustomValidationPipe,
       },
-      
+
       {
         provide: APP_FILTER,
         useClass: I18nExceptionFilterPipe,
       },
     ];
 
-    
     const shouldRunThrottle = config.get('app.runthrottle');
 
-    if (shouldRunThrottle)  {
+    if (shouldRunThrottle) {
       providers.push({
         provide: APP_GUARD,
         useClass: CustomThrottlerGuard,
@@ -138,7 +136,7 @@ export class AppModule {
       ServeStaticModule.forRoot({
         rootPath: join(__dirname, '..\\..\\..\\..\\', 'public'),
 
-        exclude: ['/api*']
+        exclude: ['/api*'],
       }),
       StorageModule.registerAsync({
         imports: [ConfigService],
@@ -156,6 +154,7 @@ export class AppModule {
       CompanyInformationModule,
       FinancialsModule,
       FilesModule,
+      TransactionDocumentModule,
       RatingsModule,
       SectorsModule,
       TransactionsModule,
@@ -181,7 +180,7 @@ export class AppModule {
     const shouldRunJobs = config.get('app.runjobs');
     const shouldRunThrottle = config.get('app.runthrottle');
     const shouldRunEvents = config.get('app.runevents');
-    const logger = new Logger("AppModule");
+    const logger = new Logger('AppModule');
 
     if (shouldRunEvents) {
       logger.log('info', 'Running events');
@@ -192,10 +191,12 @@ export class AppModule {
 
     if (shouldRunThrottle) {
       logger.log('info', 'Running throttle');
-      
-      imports.push(ThrottlerModule.forRootAsync({
-        useFactory: () => this.getThrottleConfig(),
-      }),)
+
+      imports.push(
+        ThrottlerModule.forRootAsync({
+          useFactory: () => this.getThrottleConfig(),
+        }),
+      );
     }
 
     if (shouldRunChainhook) {

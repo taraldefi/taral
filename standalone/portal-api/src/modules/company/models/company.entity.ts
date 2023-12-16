@@ -12,6 +12,14 @@ export class CompanyEntity extends EntityHelper {
 
   @Column()
   @Allow()
+  phoneNumber: string;
+
+  @Column()
+  @Allow()
+  registrationNumber: string;
+
+  @Column()
+  @Allow()
   beneficialOwner: string;
 
   @Column()

@@ -88,7 +88,7 @@ const useSupplierInformationForm = (applicationID: string) => {
         setCompanyInformation({
           dateEstablished: convertDate(companyData.incorporationDate),
           phoneNumber: companyData.phoneNumber,
-          registrationNumbers: companyData.registrationNumbers,
+          registrationNumber: companyData.registrationNumber,
           address: companyData.address,
         });
         setUpdateMode(true);
@@ -146,7 +146,7 @@ const useSupplierInformationForm = (applicationID: string) => {
       setCompanyInformation({
         dateEstablished: convertDate(companyData.incorporationDate),
         phoneNumber: companyData.phoneNumber,
-        registrationNumbers: companyData.registrationNumbers,
+        registrationNumber: companyData.registrationNumber,
         address: companyData.address,
       });
       if (createSupplierInfo.supplierId) {

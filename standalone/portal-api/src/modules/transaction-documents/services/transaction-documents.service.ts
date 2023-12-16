@@ -6,30 +6,104 @@ import { FilesService } from 'src/modules/files/services/files.service';
 import { AuthenticationService } from 'src/modules/files/services/onchain/authentication.service';
 import { TransactionDocumentEntity } from '../models/transaction-documents.entity';
 import { TransactionDocumentRepository } from '../repositories/transaction-documents.repository';
+import { CreateTxDocDto } from '../dto/request/create-transaction-document.dto';
+import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
+import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
 
 @Injectable()
 export class TransactionDocumentService {
   constructor(
     @InjectRepository(TransactionDocumentEntity)
     private transactionDocumentRepository: TransactionDocumentRepository,
-    private fileService: FilesService,
-    private authenticationService: AuthenticationService,
+
+    @InjectRepository(QuickApplicationEntity)
+    private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {}
 
-  public async createConfirmationDocument(
-    data: CreateFileDataDto,
-  ): Promise<CreateFileResponse> {
-    const documentSignatureResult = this.authenticationService.guard(
-      data.signature,
-      data.signedMessage,
+  public async checkIfConfirmationDocumentExists(
+    applicationId: string,
+  ): Promise<boolean> {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['transactionDocuments'],
+      },
     );
-    const { response: documentResponse, savedFileEntity: savedDocumentEntity } =
-      await this.fileService.createFile(data, documentSignatureResult);
 
-    const transactionDocument = new TransactionDocumentEntity();
+    if (application.transactionDocuments) {
+      return application.transactionDocuments.confirmationDocument;
+    }
 
-    await this.transactionDocumentRepository.save(transactionDocument);
+    return false;
+  }
 
-    return documentResponse;
+  public async checkIfAdditionalDocumentExists(
+    applicationId: string,
+  ): Promise<boolean> {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['transactionDocuments'],
+      },
+    );
+
+    if (application.transactionDocuments) {
+      return application.transactionDocuments.additionalDocument;
+    }
+
+    return false;
+  }
+
+  public async markConfirmationDocumentUploaded(
+    applicationId: string,
+  ): Promise<string> {
+    console.log('markConfirmationDocumentUploaded', applicationId);
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['transactionDocuments'],
+      },
+    );
+
+    let transactionDocument = application.transactionDocuments;
+
+    if (!transactionDocument) {
+      transactionDocument = new TransactionDocumentEntity();
+    }
+
+    transactionDocument.confirmationDocument = true;
+    const savedTxDoc = await this.transactionDocumentRepository.save(
+      transactionDocument,
+    );
+    application.transactionDocuments = savedTxDoc;
+    application.save();
+
+    return transactionDocument.id;
+  }
+
+  public async markAdditionalDocumentUploaded(
+    applicationId: string,
+  ): Promise<string> {
+    const application = await this.buyerApplicationRepository.findOne(
+      applicationId,
+      {
+        relations: ['transactionDocuments'],
+      },
+    );
+
+    let transactionDocument = application.transactionDocuments;
+
+    if (!transactionDocument) {
+      transactionDocument = new TransactionDocumentEntity();
+    }
+
+    transactionDocument.additionalDocument = true;
+    const savedTxDoc = await this.transactionDocumentRepository.save(
+      transactionDocument,
+    );
+    application.transactionDocuments = savedTxDoc;
+    application.save();
+
+    return transactionDocument.id;
   }
 }

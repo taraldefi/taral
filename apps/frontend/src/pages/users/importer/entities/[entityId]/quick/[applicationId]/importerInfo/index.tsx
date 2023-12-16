@@ -124,16 +124,11 @@ function Index({ ...props }) {
                   Registration Number <b style={{ color: "#f84141" }}>*</b>
                 </span>
                 <input
+                  disabled
                   type="text"
-                  className={
-                    errors.registrationNumbers ? "inputs inputRed" : "inputs"
-                  }
-                  placeholder={
-                    errors.registrationNumbers
-                      ? `${errors.registrationNumbers.message}`
-                      : "registration number"
-                  }
-                  {...register("registrationNumbers")}
+                  className={"inputs"}
+                  placeholder={"registration number"}
+                  defaultValue={queryResult.data?.registrationNumber}
                 />
               </div>
             </div>
@@ -160,34 +155,16 @@ function Index({ ...props }) {
                 placeholder="Contact number..."
                 {...register("company.phoneNumber")}
               /> */}
-              <Controller
-                control={control}
-                name="phoneNumber"
-                render={({ field: { onChange, onBlur, value, ref } }) => (
-                  <PhoneInput
-                    inputStyle={
-                      errors.phoneNumber
-                        ? {
-                            width: "100%",
-                            height: "44px",
-                            border: "1.5px solid red",
-                          }
-                        : {
-                            width: "100%",
-                            height: "44px",
-                            border: `1.5px solid #cbd5e1`,
-                          }
-                    }
-                    placeholder={
-                      errors.phoneNumber
-                        ? `${errors.phoneNumber.message}`
-                        : "phone number"
-                    }
-                    defaultCountry="us"
-                    value={value}
-                    onChange={onChange}
-                  />
-                )}
+              <PhoneInput
+                inputStyle={{
+                  width: "100%",
+                  height: "44px",
+                  border: `1.5px solid #cbd5e1`,
+                }}
+                disabled
+                placeholder={"phone number"}
+                defaultCountry="us"
+                value={queryResult.data?.phoneNumber}
               />
             </div>
 
@@ -276,64 +253,33 @@ function Index({ ...props }) {
           <div className="taxAndRevenue">
             <div className="maintitle">TAX AND REVENUE</div>
             <div className="form-item">
-              <span>
-                Last fiscal year? <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Last fiscal year</span>
               <input
-                type="date"
-                className={
-                  errors.taxAndRevenue?.lastFiscalYear
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                id="calendar"
-                placeholder={
-                  errors.taxAndRevenue?.lastFiscalYear
-                    ? `${errors.taxAndRevenue?.lastFiscalYear?.message}`
-                    : "last fiscal year"
-                }
-                {...register("taxAndRevenue.lastFiscalYear")}
+                disabled
+                type="number"
+                className={"inputs"}
+                defaultValue={queryResult.data?.taxAndRevenue.lastFiscalYear}
               />
             </div>
             <div className="form-item">
-              <span>
-                Total revenue last fiscal year?{" "}
-                <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Total revenue last fiscal year </span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.taxAndRevenue?.totalRevenue
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.taxAndRevenue?.totalRevenue
-                    ? `${errors.taxAndRevenue?.totalRevenue?.message}`
-                    : "total revenue"
-                }
-                {...register("taxAndRevenue.totalRevenue")}
+                className={"inputs"}
+                defaultValue={queryResult.data?.taxAndRevenue.totalRevenue}
               />
             </div>
             <div className="form-item">
-              <span>
-                What % of revenue was comprised by exports?{" "}
-                <b style={{ color: "#f84141" }}>*</b>
-              </span>
+              <span>Percentage of revenue was comprised by exports </span>
               <input
+                disabled
                 type="text"
-                className={
-                  errors.taxAndRevenue?.exportRevenuePercentage
-                    ? "inputs inputRed"
-                    : "inputs"
-                }
-                placeholder={
-                  errors.taxAndRevenue?.exportRevenuePercentage
-                    ? `${errors.taxAndRevenue?.exportRevenuePercentage?.message}`
-                    : "revenue percentage"
+                className={"inputs"}
+                defaultValue={
+                  queryResult.data?.taxAndRevenue.exportRevenuePercentage
                 }
                 id="percentage"
-                {...register("taxAndRevenue.exportRevenuePercentage")}
               />
             </div>
 

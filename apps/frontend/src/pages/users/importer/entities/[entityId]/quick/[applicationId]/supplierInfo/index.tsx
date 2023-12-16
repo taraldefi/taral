@@ -122,7 +122,7 @@ function Index({ ...props }) {
       setCompanyInformation({
         dateEstablished: convertDate(companyData.incorporationDate),
         phoneNumber: companyData.phoneNumber,
-        registrationNumbers: companyData.registrationNumbers,
+        registrationNumber: companyData.registrationNumber,
         address: companyData.address,
       });
     }
@@ -222,7 +222,7 @@ function Index({ ...props }) {
                   type="text"
                   className={"inputs"}
                   disabled
-                  defaultValue={companyInformation?.registrationNumbers}
+                  defaultValue={companyInformation?.registrationNumber}
                 />
               </div>
             </div>

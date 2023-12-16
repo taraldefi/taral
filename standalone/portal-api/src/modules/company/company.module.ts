@@ -13,8 +13,9 @@ import { EntityMappingService } from './services/mapping.service';
 import { SupplierEntityController } from './supplier-entities.controller';
 import { SupplierCompanyEntityService } from './services/supplier-entity.service';
 import { CompanyAddressEntity } from '../company-information/models/company.information.address.entity';
-import { CompanyTaxAndRevenueEntity } from '../company-information/models/company.information.tax.and.revenue.entity';
 import { SupplierCompanyInformationEntity } from '../company-information/models/supplier.company.information.entity';
+import { BuyerCompanyTaxAndRevenueEntity } from './models/buyer.company.tax.and.revenue.entity';
+import { SupplierCompanyTaxAndRevenueEntity } from './models/supplier.company.tax.and.revenue.entity';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
       BuyerCompanyEntity,
       SupplierCompanyEntity,
       CompanyAddressEntity,
-      CompanyTaxAndRevenueEntity,
+      BuyerCompanyTaxAndRevenueEntity,
+      SupplierCompanyTaxAndRevenueEntity,
       SupplierCompanyInformationEntity,
     ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
@@ -43,7 +45,10 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
   exports: [
     BuyerCompanyEntityService,
     SupplierCompanyEntityService,
-    TypeOrmModule.forFeature([BuyerCompanyEntity]),
+    TypeOrmModule.forFeature([
+      BuyerCompanyEntity,
+      BuyerCompanyTaxAndRevenueEntity,
+    ]),
   ],
 })
 export class CompaniesModule {}

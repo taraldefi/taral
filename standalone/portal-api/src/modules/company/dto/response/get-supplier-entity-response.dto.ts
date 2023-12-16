@@ -58,7 +58,7 @@ export class GetSupplierEntityDetailsResponse {
   @ApiProperty({ example: '123456789' })
   @IsNotEmpty()
   @IsString()
-  registrationNumbers: string;
+  registrationNumber: string;
 
   @ValidateNested()
   @IsOptional()

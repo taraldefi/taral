@@ -1,12 +1,7 @@
 import { Storage } from '@modules/storage';
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  IsolationLevel,
-  Transactional,
-  runOnTransactionComplete,
-  runOnTransactionRollback,
-} from 'src/common/transaction';
+import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { v4 as uuidv4 } from 'uuid';
 import { triggerError } from '../../../common/trigger.error';
 import { EntityMappingService } from './mapping.service';
@@ -17,12 +12,12 @@ import { CreateSupplierEntityDto } from '../dto/request/create-supplier-entity.d
 import { SupplierCompanyInformationEntity } from 'src/modules/company-information/models/supplier.company.information.entity';
 import { CompanyAddressEntity } from 'src/modules/company-information/models/company.information.address.entity';
 import { CompanyAddressRepository } from 'src/modules/company-information/repositories/company.information.address.repository';
-import { CompanyTaxAndRevenueEntity } from 'src/modules/company-information/models/company.information.tax.and.revenue.entity';
 import { SupplierCompanyInformationRepository } from 'src/modules/company-information/repositories/supplier.company.information.repository';
 import { UpdateSupplierEntityDto } from '../dto/request/update-supplier-entity.dto';
-import { CompanyTaxAndRevenueRepository } from 'src/modules/company-information/repositories/company.information.tax.and.revenue.repository';
 import { BaseService } from 'src/common/services/base.service';
 import { ConfigService } from '@nestjs/config';
+import { SupplierCompanyTaxAndRevenueEntity } from '../models/supplier.company.tax.and.revenue.entity';
+import { SupplierCompanyTaxAndRevenueRepository } from '../repositories/supplier.company.tax.and.revenue.repository';
 
 @Injectable()
 export class SupplierCompanyEntityService extends BaseService {
@@ -35,8 +30,8 @@ export class SupplierCompanyEntityService extends BaseService {
     @InjectRepository(CompanyAddressEntity)
     private companyAddressRepository: CompanyAddressRepository,
 
-    @InjectRepository(CompanyTaxAndRevenueEntity)
-    private companyTaxAndRevenueRepository: CompanyTaxAndRevenueRepository,
+    @InjectRepository(SupplierCompanyTaxAndRevenueEntity)
+    private supplierCompanyTaxAndRevenueRepository: SupplierCompanyTaxAndRevenueRepository,
 
     @InjectRepository(SupplierCompanyInformationEntity)
     private supplierCompanyInformationRepository: SupplierCompanyInformationRepository,
@@ -57,7 +52,6 @@ export class SupplierCompanyEntityService extends BaseService {
         'applications',
         'companyInformation',
         'companyInformation.address',
-        'companyInformation.taxAndRevenue',
       ],
     });
 
@@ -89,14 +83,18 @@ export class SupplierCompanyEntityService extends BaseService {
         'companyInformation',
         'applications',
         'companyInformation.address',
-        'companyInformation.taxAndRevenue',
+        'taxAndRevenue',
       ],
       where: { id: id },
     });
 
     if (!entity) throw triggerError('entity-not-found');
+    const latestTaxAndRevenue = await this.getLatestTaxAndRevenue(entity.id);
 
-    return this.mappingService.mapSupplierEntityDetails(entity);
+    return this.mappingService.mapSupplierEntityDetails(
+      entity,
+      latestTaxAndRevenue,
+    );
   }
   public async getAllSupplierEntities(): Promise<SupplierCompanyEntity[]> {
     return await this.supplierCompanyRepository.find({
@@ -126,7 +124,7 @@ export class SupplierCompanyEntityService extends BaseService {
     }
 
     const entity = await this.supplierCompanyRepository.findOneOrFail({
-      relations: ['applications'],
+      relations: ['applications', 'taxAndRevenue'],
       where: { id: id },
     });
 
@@ -134,6 +132,13 @@ export class SupplierCompanyEntityService extends BaseService {
 
     if (data.abbreviation) {
       entity.abbreviation = data.abbreviation;
+    }
+
+    if (data.phoneNumber) {
+      entity.phoneNumber = data.phoneNumber;
+    }
+    if (data.registrationNumber) {
+      entity.registrationNumber = data.registrationNumber;
     }
 
     if (data.beneficialOwner) {
@@ -204,42 +209,88 @@ export class SupplierCompanyEntityService extends BaseService {
     }
 
     let taxAndRevenueChanged = false;
+    let taxAndRevenueToBeChanged: SupplierCompanyTaxAndRevenueEntity =
+      undefined;
+    let newTaxAndRevenueInformationAdded = false;
+    let fiscalYears = [];
+
+    const getAllTaxAndRevenue = await this.getAllTaxAndRevenue(entity.id);
+
+    if (getAllTaxAndRevenue.length > 0) {
+      fiscalYears = await this.getAllFiscalYears(entity.id);
+    }
+
+    if (data.taxAndRevenue.lastFiscalYear) {
+      const newFiscalYearLessThanAlreadyExistingYearData = fiscalYears.some(
+        (fiscalYear) => fiscalYear > data.taxAndRevenue.lastFiscalYear,
+      );
+      if (newFiscalYearLessThanAlreadyExistingYearData) {
+        throw new HttpException(
+          'Fiscal year must be greater than the already existing year information',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      if (data.taxAndRevenue.lastFiscalYear > new Date().getFullYear()) {
+        throw new HttpException(
+          'Fiscal year must be less than the current year',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      taxAndRevenueToBeChanged = getAllTaxAndRevenue.find(
+        (taxAndRevenue) =>
+          taxAndRevenue.lastFiscalYear ===
+          parseInt(data.taxAndRevenue.lastFiscalYear.toString()),
+      );
+
+      if (!taxAndRevenueToBeChanged) {
+        taxAndRevenueToBeChanged = new SupplierCompanyTaxAndRevenueEntity();
+        newTaxAndRevenueInformationAdded = true;
+      }
+    }
+
     if (data.taxAndRevenue.taxNumber) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.taxNumber =
-        data.taxAndRevenue.taxNumber;
+      taxAndRevenueToBeChanged.taxNumber = data.taxAndRevenue.taxNumber;
     }
     if (data.taxAndRevenue.audited) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.audited =
-        data.taxAndRevenue.audited;
+      taxAndRevenueToBeChanged.audited = data.taxAndRevenue.audited;
     }
     if (data.taxAndRevenue.exportRevenuePercentage) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.exportRevenuePercentage =
+      taxAndRevenueToBeChanged.exportRevenuePercentage =
         data.taxAndRevenue.exportRevenuePercentage;
     }
     if (data.taxAndRevenue.exportValue) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.exportValue =
-        data.taxAndRevenue.exportValue;
+      taxAndRevenueToBeChanged.exportValue = data.taxAndRevenue.exportValue;
     }
     if (data.taxAndRevenue.lastFiscalYear) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.lastFiscalYear =
+      taxAndRevenueToBeChanged.lastFiscalYear =
         data.taxAndRevenue.lastFiscalYear;
     }
     if (data.taxAndRevenue.totalRevenue) {
       taxAndRevenueChanged = true;
-      entity.companyInformation.taxAndRevenue.totalRevenue =
-        data.taxAndRevenue.totalRevenue;
+      taxAndRevenueToBeChanged.totalRevenue = data.taxAndRevenue.totalRevenue;
     }
     if (taxAndRevenueChanged) {
-      var taxAndRevenueSavedResult =
-        await this.companyTaxAndRevenueRepository.save(
-          entity.companyInformation.taxAndRevenue,
+      await this.supplierCompanyTaxAndRevenueRepository.save(
+        taxAndRevenueToBeChanged,
+      );
+    }
+
+    if (newTaxAndRevenueInformationAdded) {
+      taxAndRevenueToBeChanged.supplierCompany = entity;
+      const savedTaxAndRevenueResult =
+        await this.supplierCompanyTaxAndRevenueRepository.save(
+          taxAndRevenueToBeChanged,
         );
-      entity.companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+
+      entity.taxAndRevenue.push(savedTaxAndRevenueResult);
+      await this.supplierCompanyRepository.save(entity);
     }
 
     let companyChanged = false;
@@ -247,15 +298,6 @@ export class SupplierCompanyEntityService extends BaseService {
     if (data.employeeCount) {
       companyChanged = true;
       entity.companyInformation.employeeCount = data.employeeCount;
-    }
-
-    if (data.phoneNumber) {
-      companyChanged = true;
-      entity.companyInformation.phoneNumber = data.phoneNumber;
-    }
-    if (data.registrationNumbers) {
-      companyChanged = true;
-      entity.companyInformation.registrationNumbers = data.registrationNumbers;
     }
 
     if (companyChanged) {
@@ -267,8 +309,12 @@ export class SupplierCompanyEntityService extends BaseService {
     }
 
     await this.supplierCompanyRepository.save(entity);
+    const latestTaxAndRevenue = await this.getLatestTaxAndRevenue(entity.id);
 
-    return this.mappingService.mapSupplierEntityDetails(entity);
+    return this.mappingService.mapSupplierEntityDetails(
+      entity,
+      latestTaxAndRevenue,
+    );
   }
 
   @Transactional({
@@ -306,6 +352,9 @@ export class SupplierCompanyEntityService extends BaseService {
     entity.legalForm = data.legalForm;
     entity.nationality = data.nationality;
 
+    entity.phoneNumber = data.phoneNumber;
+    entity.registrationNumber = data.registrationNumber;
+
     if (data.logo) {
       entity.logo = imageUUID;
     }
@@ -318,12 +367,11 @@ export class SupplierCompanyEntityService extends BaseService {
     var addressSavedResult = await this.companyAddressRepository.save(address);
 
     companyInformation.address = addressSavedResult;
-    companyInformation.phoneNumber = data.phoneNumber;
     companyInformation.employeeCount = data.employeeCount;
-    companyInformation.registrationNumbers = data.registrationNumbers;
 
     if (data.taxAndRevenue) {
-      const taxAndRevenue = new CompanyTaxAndRevenueEntity();
+      const taxAndRevenue = new SupplierCompanyTaxAndRevenueEntity();
+      entity.taxAndRevenue = [taxAndRevenue];
       taxAndRevenue.audited = data.taxAndRevenue.audited;
       taxAndRevenue.taxNumber = data.taxAndRevenue.taxNumber;
       taxAndRevenue.exportRevenuePercentage =
@@ -332,9 +380,9 @@ export class SupplierCompanyEntityService extends BaseService {
       taxAndRevenue.lastFiscalYear = data.taxAndRevenue.lastFiscalYear;
       taxAndRevenue.totalRevenue = data.taxAndRevenue.totalRevenue;
       var taxAndRevenueSavedResult =
-        await this.companyTaxAndRevenueRepository.save(taxAndRevenue);
+        await this.supplierCompanyTaxAndRevenueRepository.save(taxAndRevenue);
 
-      companyInformation.taxAndRevenue = taxAndRevenueSavedResult;
+      entity.taxAndRevenue[0] = taxAndRevenueSavedResult;
     }
 
     var companySavedResult =
@@ -342,7 +390,59 @@ export class SupplierCompanyEntityService extends BaseService {
     entity.companyInformation = companySavedResult;
 
     var result = await this.supplierCompanyRepository.save(entity);
+    const latestTaxAndRevenue = await this.getLatestTaxAndRevenue(entity.id);
 
-    return this.mappingService.mapSupplierEntityDetails(result);
+    return this.mappingService.mapSupplierEntityDetails(
+      result,
+      latestTaxAndRevenue,
+    );
+  }
+
+  private async getAllFiscalYears(companyId: string) {
+    let fiscalYears = [];
+    let allTaxAndRevenue = await this.getAllTaxAndRevenue(companyId);
+
+    fiscalYears = allTaxAndRevenue.map((fiscalYear) => {
+      return fiscalYear.lastFiscalYear;
+    });
+
+    return fiscalYears;
+  }
+
+  private async getAllTaxAndRevenue(companyId: string) {
+    const fetchAllTaxAndRevenue =
+      await this.supplierCompanyTaxAndRevenueRepository.find({
+        select: [
+          'id',
+          'audited',
+          'totalRevenue',
+          'exportRevenuePercentage',
+          'exportValue',
+          'taxNumber',
+          'lastFiscalYear',
+          'supplierCompany',
+        ],
+        where: { supplierCompany: companyId },
+      });
+
+    return fetchAllTaxAndRevenue || [];
+  }
+
+  private async getLatestTaxAndRevenue(
+    companyId: string,
+  ): Promise<SupplierCompanyTaxAndRevenueEntity> {
+    let allTaxAndRevenue = await this.getAllTaxAndRevenue(companyId);
+    let latestTaxAndRevenue: SupplierCompanyTaxAndRevenueEntity = undefined;
+
+    const fiscalYears = allTaxAndRevenue.map((fiscalYear) => {
+      return parseInt(fiscalYear.lastFiscalYear.toString());
+    });
+
+    latestTaxAndRevenue = allTaxAndRevenue.find(
+      (taxAndRevenue) =>
+        taxAndRevenue.lastFiscalYear === Math.max(...fiscalYears),
+    );
+
+    return latestTaxAndRevenue;
   }
 }

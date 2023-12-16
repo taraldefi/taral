@@ -6,13 +6,18 @@ import { SupplierCompanyEntity } from '../models/supplier.company.entity';
 import { GetSupplierEntityDetailsResponse } from '../dto/response/get-supplier-entity-response.dto';
 import { GetSupplierCompanyAddressRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-address-response.dto';
 import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-tax-and-revenue.response.dto';
+import { SupplierCompanyTaxAndRevenueEntity } from '../models/supplier.company.tax.and.revenue.entity';
+import { BuyerCompanyTaxAndRevenueEntity } from '../models/buyer.company.tax.and.revenue.entity';
+import { GetBuyerCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/buyer/get-buyer-company-tax-and-revenue.response.dto';
 
 @Injectable()
 export class EntityMappingService {
   public mapEntityDetails(
     entity: BuyerCompanyEntity,
+    latestTaxAndRevenue: BuyerCompanyTaxAndRevenueEntity,
   ): GetEntityDetailsResponse {
     var response = new GetEntityDetailsResponse();
+    response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
 
     response.abbreviation = entity.abbreviation;
     response.beneficialOwner = entity.beneficialOwner;
@@ -27,7 +32,18 @@ export class EntityMappingService {
     response.logo = entity.logo;
     response.name = entity.name;
 
+    response.phoneNumber = entity.phoneNumber;
+    response.registrationNumber = entity.registrationNumber;
+
     response.nationality = entity.nationality;
+
+    response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
+    response.taxAndRevenue.exportRevenuePercentage =
+      latestTaxAndRevenue.exportRevenuePercentage;
+    response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
+    response.taxAndRevenue.lastFiscalYear = latestTaxAndRevenue.lastFiscalYear;
+    response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
+    response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
 
     // response.products = entity.legalProducts.map((entity) => {
     //   var entityItem = new GetProductResponse();
@@ -56,6 +72,7 @@ export class EntityMappingService {
 
   public mapSupplierEntityDetails(
     entity: SupplierCompanyEntity,
+    latestTaxAndRevenue: SupplierCompanyTaxAndRevenueEntity,
   ): GetSupplierEntityDetailsResponse {
     var response = new GetSupplierEntityDetailsResponse();
     response.address = new GetSupplierCompanyAddressRequest();
@@ -76,11 +93,11 @@ export class EntityMappingService {
 
     response.nationality = entity.nationality;
 
+    response.phoneNumber = entity.phoneNumber;
+    response.registrationNumber = entity.registrationNumber;
+
     if (entity.companyInformation) {
       response.employeeCount = entity.companyInformation.employeeCount;
-      response.phoneNumber = entity.companyInformation.phoneNumber;
-      response.registrationNumbers =
-        entity.companyInformation.registrationNumbers;
 
       response.address.addressLine1 =
         entity.companyInformation.address.addressLine1;
@@ -90,29 +107,25 @@ export class EntityMappingService {
       response.address.postalCode =
         entity.companyInformation.address.postalCode;
 
-      if (entity.companyInformation.taxAndRevenue.taxNumber) {
-        response.taxAndRevenue.taxNumber =
-          entity.companyInformation.taxAndRevenue.taxNumber;
+      if (latestTaxAndRevenue.taxNumber) {
+        response.taxAndRevenue.taxNumber = latestTaxAndRevenue.taxNumber;
       }
-      if (entity.companyInformation.taxAndRevenue.audited) {
-        response.taxAndRevenue.audited =
-          entity.companyInformation.taxAndRevenue.audited;
+      if (latestTaxAndRevenue.audited) {
+        response.taxAndRevenue.audited = latestTaxAndRevenue.audited;
       }
-      if (entity.companyInformation.taxAndRevenue.exportRevenuePercentage) {
+      if (latestTaxAndRevenue.exportRevenuePercentage) {
         response.taxAndRevenue.exportRevenuePercentage =
-          entity.companyInformation.taxAndRevenue.exportRevenuePercentage;
+          latestTaxAndRevenue.exportRevenuePercentage;
       }
-      if (entity.companyInformation.taxAndRevenue.exportValue) {
-        response.taxAndRevenue.exportValue =
-          entity.companyInformation.taxAndRevenue.exportValue;
+      if (latestTaxAndRevenue.exportValue) {
+        response.taxAndRevenue.exportValue = latestTaxAndRevenue.exportValue;
       }
-      if (entity.companyInformation.taxAndRevenue.lastFiscalYear) {
+      if (latestTaxAndRevenue.lastFiscalYear) {
         response.taxAndRevenue.lastFiscalYear =
-          entity.companyInformation.taxAndRevenue.lastFiscalYear;
+          latestTaxAndRevenue.lastFiscalYear;
       }
-      if (entity.companyInformation.taxAndRevenue.totalRevenue) {
-        response.taxAndRevenue.totalRevenue =
-          entity.companyInformation.taxAndRevenue.totalRevenue;
+      if (latestTaxAndRevenue.totalRevenue) {
+        response.taxAndRevenue.totalRevenue = latestTaxAndRevenue.totalRevenue;
       }
     }
 

@@ -36,7 +36,7 @@ export interface Company {
   companyName?: string;
   dateEstablished: string;
   phoneNumber: string;
-  registrationNumbers: string;
+  registrationNumber: string;
   address: Address;
 }
 

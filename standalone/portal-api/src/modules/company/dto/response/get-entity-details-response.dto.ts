@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { GetApplicationResponse } from './get-application-response.dto';
 import { GetProductResponse } from './get-product-response.dto';
+import { IsOptional, IsString, ValidateNested } from 'class-validator';
+import { Type } from 'class-transformer';
+import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/supplier/get-supplier-company-tax-and-revenue.response.dto';
+import { GetBuyerCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/buyer/get-buyer-company-tax-and-revenue.response.dto';
 
 export class GetEntityDetailsResponse {
   @ApiProperty({ example: '05159674-06ea-4bc2-b750-603b0f454025' })
@@ -11,6 +15,12 @@ export class GetEntityDetailsResponse {
 
   @ApiProperty({ example: 'Engelbrecht Ltd' })
   name: string;
+
+  @ApiProperty({ example: '1234567891' })
+  phoneNumber: string;
+
+  @ApiProperty({ example: '123456789' })
+  registrationNumber: string;
 
   @ApiProperty({ example: 'John Smith' })
   beneficialOwner: string;
@@ -46,6 +56,11 @@ export class GetEntityDetailsResponse {
     },
   })
   products: GetProductResponse[];
+
+  @ValidateNested()
+  @IsOptional()
+  @Type(() => GetBuyerCompanyTaxAndRevenueRequest)
+  taxAndRevenue?: GetBuyerCompanyTaxAndRevenueRequest;
 
   @ApiProperty({
     example: {

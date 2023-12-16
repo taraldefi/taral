@@ -1,9 +1,10 @@
 import { Allow } from 'class-validator';
-import { ChildEntity, OneToOne } from 'typeorm';
+import { ChildEntity, JoinColumn, OneToOne } from 'typeorm';
 import { CompanyInformationEntity } from './company.information.entity';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
+import { Injectable } from '@nestjs/common';
 
-@ChildEntity()
+@ChildEntity('BuyerCompanyInformation')
 export class BuyerCompanyInformationEntity extends CompanyInformationEntity {
   @OneToOne(
     () => BuyerCompanyEntity,

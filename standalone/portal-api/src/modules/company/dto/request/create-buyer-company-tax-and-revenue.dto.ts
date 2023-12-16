@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
-  IsDateString,
   IsNotEmpty,
+  IsNumber,
   IsNumberString,
   IsOptional,
   IsString,
@@ -14,9 +14,9 @@ export class CreateBuyerCompanyTaxAndRevenueRequest {
   @IsString()
   taxNumber?: string;
 
-  @ApiProperty({ example: '12-12-2022' })
-  @IsDateString()
-  lastFiscalYear?: Date;
+  @ApiProperty({ example: 2023 })
+  @IsNotEmpty()
+  lastFiscalYear?: number;
 
   @ApiProperty({ example: '1000000000' })
   @IsNotEmpty()

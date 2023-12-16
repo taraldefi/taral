@@ -5,6 +5,7 @@ import { BuyerCompanyInformationEntity } from 'src/modules/company-information/m
 import { Allow } from 'class-validator';
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
+import { BuyerCompanyTaxAndRevenueEntity } from './buyer.company.tax.and.revenue.entity';
 
 @Entity({ name: 'BuyerCompanies' })
 export class BuyerCompanyEntity extends CompanyEntity {
@@ -25,6 +26,12 @@ export class BuyerCompanyEntity extends CompanyEntity {
   )
   @JoinColumn()
   companyInformation: BuyerCompanyInformationEntity;
+
+  @OneToMany(
+    () => BuyerCompanyTaxAndRevenueEntity,
+    (taxAndRevenue) => taxAndRevenue.buyerCompany,
+  )
+  taxAndRevenue: BuyerCompanyTaxAndRevenueEntity[];
 
   @OneToMany(
     () => CollaborationRelationshipEntity,

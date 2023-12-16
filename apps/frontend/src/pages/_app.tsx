@@ -17,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const loader = document.getElementById("globalLoader");
-      if (loader) loader.style.display = "none";
+      if (loader) loader.remove();
     }
   }, []);
   const queryClient = new QueryClient();

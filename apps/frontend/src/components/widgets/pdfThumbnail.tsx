@@ -4,7 +4,7 @@ interface Props {
 export const DisplayThumbnail = ({ fileUrl }: Props) => {
   return (
     <>
-      <object className="object" data={fileUrl} type="application/octet-stream"></object>
+      <object className="object" data={fileUrl} type="application/pdf"></object>
     </>
   );
 };

@@ -1,18 +1,18 @@
 import React from "react";
 import Document, { Html, Head, Main, NextScript } from "next/document";
-import globalloader from "../../src/loader";
 
 class MyDocument extends Document {
   render() {
     return (
       <Html>
         <Head />
-        <head>
-          <style>{globalloader}</style>
-        </head>
+
         <body>
-          <div id={"globalLoader"}>
-            <div className="loader"></div>
+          <div id="globalLoader">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+              alt=""
+            />
           </div>
           <Main />
           <NextScript />
