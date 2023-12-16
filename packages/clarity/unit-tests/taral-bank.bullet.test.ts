@@ -214,6 +214,22 @@ describeOrSkip("Taral bank test flows", () => {
         expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
     }),
 
+    it ("Should not be able to create a purchase order if downpayment is larger than borrow", () => {
+        const financingId = 1;
+
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment + borrow),
+                Cl.standardPrincipal(WALLET_2) // the seller
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeErr(Cl.uint(125));
+    }),
+
     it ("Should not be able to place a financing offer after another one has been placed", () => {
         const financingId = 1;
 
