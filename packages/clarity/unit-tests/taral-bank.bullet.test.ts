@@ -388,6 +388,60 @@ describeOrSkip("Taral bank test flows", () => {
         expectSUSDTTransfer(cancelFinancingResult.events[0].data, DEPLOYER, WALLET_3, borrow - downPayment);
     }),
 
+    it("Should not be able to cancel a financing offer if already refunded", () => {
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        let initialBlockHeight = simnet.blockHeight;
+        let blockHeight = initialBlockHeight;
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        // place a financing offer
+        const placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_3
+        );
+
+        expect(placeFinancingResult.result).toBeOk(Cl.uint(1)); // financing id is 1
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+
+        blockHeight++;
+
+        let cancelFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "cancel-financing",
+            [
+                Cl.uint(1),
+            ], WALLET_3
+        );
+
+        expect(cancelFinancingResult.result).toBeOk(Cl.bool(true));
+        expectSUSDTTransfer(cancelFinancingResult.events[0].data, DEPLOYER, WALLET_3, borrow - downPayment);
+
+        cancelFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "cancel-financing",
+            [
+                Cl.uint(1),
+            ], WALLET_3
+        );
+
+        expect(cancelFinancingResult.result).toBeErr(Cl.uint(116));
+    }),
+
     it("Should not be able to place and cancel a financing offer if not the borrower", () => {
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
