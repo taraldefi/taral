@@ -60,6 +60,7 @@
 ;; Version string
 (define-constant VERSION "0.0.5.beta")
 
+(define-data-var micro-multiplier uint u1000000)
 (define-data-var contract-owner principal tx-sender)
 (define-data-var protocol-interest-rate-per-annum uint u12) ;; 12% protocol interest
 (define-data-var po-number-of-installments uint u3) ;; number of installments for paying the loan
@@ -304,13 +305,13 @@
             (if (> months-covered (get payments-left po))
               (err ERR_OVERPAYMENT)
 
-              (if (is-ok (contract-call? .usda-token transfer 
+              (if (is-ok (contract-call? .token-susdt transfer 
                                         interest-for-current-month
                                         (get borrower-id po) 
                                         (as-contract tx-sender)
                                         (some 0x5061796D656E7420666F7220504F000000000000000000000000000000000000)))
                 (begin 
-                  (let ((response (contract-call? .usda-token transfer 
+                  (let ((response (contract-call? .token-susdt transfer 
                                         total-principal-payment
                                         (get borrower-id po) 
                                         (unwrap-panic (get lender-id po))
@@ -443,16 +444,18 @@
 ;; Create Purchase Order
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (create-purchase-order (total-amount uint) (downpayment uint) (seller-id principal))
+(define-public (create-purchase-order (total-amount-usdt uint) (downpayment-usdt uint) (seller-id principal))
   (let (
 
+    (total-amount (* total-amount-usdt (var-get micro-multiplier)))
+    (downpayment (* downpayment-usdt (var-get micro-multiplier)))
     ;;check if the importer,exporter exists.
     (purchase-order-id (increment-next-purchase-order-id)))
 
     ;; ensure the downpayment is less than the total amount
     (asserts! (< downpayment total-amount) (err ERR_DOWNPAYMENT_TOO_LARGE))
 
-    (if (is-ok (contract-call? .usda-token transfer downpayment tx-sender (as-contract tx-sender) none))
+    (if (is-ok (contract-call? .token-susdt transfer downpayment tx-sender (as-contract tx-sender) none))
         (begin
           (map-set purchase-orders
             { id: purchase-order-id }
@@ -493,7 +496,7 @@
     ;; ensure only the lender can cancel their own financing offer
     (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err err-unauthorised))
 
-    (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get borrower-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get borrower-id po) none)))
         (begin
           (map-set purchase-orders
             {id: purchase-order-id}
@@ -526,7 +529,7 @@
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Transfer the financing offer amount from the lender to the contract
-    (if (is-ok (contract-call? .usda-token transfer total-amount tx-sender (as-contract tx-sender) none))
+    (if (is-ok (contract-call? .token-susdt transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
           (map-set po-financing 
             { id: financing-id }
@@ -575,7 +578,7 @@
 
     (let ((po-id (get purchase-order-id financing)))
       (let ((po (unwrap! (map-get? purchase-orders {id: po-id}) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
-        (if (is-ok (contract-call? .usda-token transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
+        (if (is-ok (contract-call? .token-susdt transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
             (map-set po-financing
                   {id: financing-id}
@@ -625,9 +628,9 @@
     (asserts! (not (get has-active-financing po)) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     ;; Update purchase order with details from the accepted financing
-    (if (is-ok (as-contract (contract-call? .usda-token transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get financing-amount financing) tx-sender (get seller-id po) none)))
         (begin
-          (if (is-ok (as-contract (contract-call? .usda-token transfer (get downpayment po) tx-sender (get seller-id po) none)))
+          (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get seller-id po) none)))
             (begin
               (map-set purchase-orders
                 { id: (get purchase-order-id financing) }
@@ -672,7 +675,7 @@
         (begin
           
           (try! (as-contract (contract-call? 
-                  .usda-token transfer 
+                  .token-susdt transfer 
                   (get financing-amount financing) 
                   contract-caller 
                   lender-id 

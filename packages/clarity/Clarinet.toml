@@ -136,11 +136,25 @@ depends_on = ["sip010-ft-trait"]
 [contracts.taral-lender]
 path = "contracts/taral/taral-lender.clar"
 
-[contracts.taral-bank]
-path = "contracts/taral/taral-bank.clar"
-
 [contracts.taral-bank-complete]
 path = "contracts/taral/taral-bank-complete.clar"
+
+[contracts.trait-ownable]
+path = "contracts/taral/trait-ownable.clar"
+
+[contracts.trait-sip-010]
+path = "contracts/taral/trait-sip-010.clar"
+
+[contracts.token-susdt]
+path = "contracts/taral/token-susdt.clar"
+depends_on = ["trait-ownable", "trait-sip-010"]
+
+[contracts.taral-bank-storage]
+path = "contracts/taral/taral-bank-storage.clar"
+
+[contracts.taral-bank]
+path = "contracts/taral/taral-bank.clar"
+depends_on = ["taral-bank-storage"]
 
 clarity_version = 2
 epoch = 2.4
