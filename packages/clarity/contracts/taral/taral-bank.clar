@@ -537,7 +537,7 @@
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; ensure the financing offer cannot be canceled after it's been accepted, not even by admin
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_REJECT_ACCEPTED_FINANCING))
-
+    (asserts! (not (get refunded financing)) (err ERR_FINANCING_ALREADY_REFUNDED))
     ;; ensure only the lender can cancel their own financing offer
     (asserts! (or (is-eq tx-sender lender-id) (is-eq  tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 

@@ -288,6 +288,62 @@ describeOrSkip("Taral bank test flows", () => {
         expect(placeFinancingResult.result).toBeErr(Cl.uint(122)); // financing id is 1
     }),
 
+    it("Should not be able to cancel a financing offer if already accepted", () => {
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        let initialBlockHeight = simnet.blockHeight;
+        let blockHeight = initialBlockHeight;
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        // place a financing offer
+        const placeFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "finance",
+            [
+                Cl.uint(purchaseOrderId),
+            ], WALLET_3
+        );
+
+        expect(placeFinancingResult.result).toBeOk(Cl.uint(1)); // financing id is 1
+        expectSUSDTTransfer(placeFinancingResult.events[0].data, WALLET_3, DEPLOYER, borrow - downPayment);
+
+        blockHeight++;
+
+        const acceptFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "accept-financing",
+            [
+                Cl.uint(1),
+            ], WALLET_1
+        );
+
+        expect(acceptFinancingResult.result).toBeOk(Cl.uint(financingId));
+        const events = acceptFinancingResult.events.filter((event: any) => event.event === 'ft_transfer_event');
+        expectSUSDTTransfer(events[0].data, DEPLOYER, WALLET_2, borrow - downPayment);
+        expectSUSDTTransfer(events[1].data, DEPLOYER, WALLET_2, downPayment);
+
+        const cancelFinancingResult = simnet.callPublicFn(
+            "taral-bank",
+            "cancel-financing",
+            [
+                Cl.uint(1),
+            ], WALLET_3
+        );
+
+        expect(cancelFinancingResult.result).toBeErr(Cl.uint(124));
+    }),
+
     it("Should be able to place and cancel a financing offer", () => {
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
