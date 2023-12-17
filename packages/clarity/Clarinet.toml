@@ -149,8 +149,12 @@ path = "contracts/taral/trait-sip-010.clar"
 path = "contracts/taral/token-susdt.clar"
 depends_on = ["trait-ownable", "trait-sip-010"]
 
+[contracts.taral-bank-storage]
+path = "contracts/taral/taral-bank-storage.clar"
+
 [contracts.taral-bank]
 path = "contracts/taral/taral-bank.clar"
+depends_on = ["taral-bank-storage"]
 
 clarity_version = 2
 epoch = 2.4
