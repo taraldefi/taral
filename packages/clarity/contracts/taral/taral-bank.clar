@@ -593,7 +593,6 @@
 (define-private (refund-financing (financing-id uint))
     (let ((financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id financing-id)))
     (lender-id (get lender-id financing))
-    
     )
       (if (not (get refunded financing))
         (begin
