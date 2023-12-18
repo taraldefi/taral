@@ -92,17 +92,19 @@ export class AuthService {
     linkLabel: string,
   ) {
     const appConfig = config.get('app') as any;
+
     const mailData: MailJobInterface = {
       to: user.email,
       subject,
       slug,
       context: {
         email: user.email,
-        link: `<a href="${appConfig.frontendUrl}/${url}">${linkLabel} →</a>`,
+        link: `<a href="${appConfig.frontendDomain}/${url}">${linkLabel} →</a>`,
         username: user.username,
         subject,
       },
     };
+
     await this.mailService.sendMail(mailData, 'system-mail');
   }
 
@@ -128,7 +130,9 @@ export class AuthService {
     const link = registerProcess ? `verify/${token}` : `reset/${token}`;
     const slug = registerProcess ? 'activate-account' : 'new-user-set-password';
     const linkLabel = registerProcess ? 'Activate Account' : 'Set Password';
+
     await this.sendMailToUser(user, subject, link, slug, linkLabel);
+    
     return user;
   }
 
@@ -562,6 +566,7 @@ export class AuthService {
     // add one minute throttle to generate next two factor token
     const twoFAThrottleTime = new Date();
     twoFAThrottleTime.setSeconds(twoFAThrottleTime.getSeconds() + 60);
+
     return this.userRepository.update(userId, {
       twoFASecret: secret,
       twoFAThrottleTime,
@@ -601,6 +606,7 @@ export class AuthService {
       };
       await this.mailService.sendMail(mailData, 'system-mail');
     }
+
     return this.userRepository.update(user.id, {
       isTwoFAEnabled,
     });

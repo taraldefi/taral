@@ -87,9 +87,7 @@ export class AuthController {
     response: Response,
   ) {
     try {
-
       console.log('enter auth refresh');
-
       const cookiePayload =
         await this.authService.createAccessTokenFromRefreshToken(
           refreshTokenDto.refreshToken,
@@ -225,6 +223,7 @@ export class AuthController {
       if (refreshCookie) {
         await this.authService.revokeRefreshToken(cookie);
       }
+      
       return response.sendStatus(HttpStatus.NO_CONTENT);
     } catch (e) {
       return response.sendStatus(HttpStatus.NO_CONTENT);
