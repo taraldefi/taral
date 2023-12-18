@@ -48,6 +48,8 @@ import {
   ownerUserGroupsForSerializing,
 } from 'src/common/groups/constants';
 import { RateLimiter } from './interfaces/rate.limiter';
+import { AuthResponse } from './dto/auth-response.dto';
+import { RegisterResponseDto } from './dto/register-response.dto';
 
 const throttleConfig = config.get('throttle') as any;
 const throttleEnabled = throttleConfig.enabled as boolean;
@@ -136,6 +138,36 @@ export class AuthService {
     return user;
   }
 
+  async register(
+    createUserDto: DeepPartial<UserEntity>,
+  ): Promise<RegisterResponseDto> {
+    const token = await this.generateUniqueToken(12);
+    if (!createUserDto.status) {
+      var userRole = await this.roleRepository.get(NORMAL_ROLE_ID);
+
+      createUserDto.role = userRole;
+      const currentDateTime = new Date();
+      currentDateTime.setHours(currentDateTime.getHours() + 1);
+      createUserDto.tokenValidityDate = currentDateTime;
+    }
+    const registerProcess = !createUserDto.status;
+    const user = await this.userRepository.store(createUserDto, token);
+    const subject = registerProcess ? 'Account created' : 'Set Password';
+    const link = registerProcess ? `verify/${token}` : `reset/${token}`;
+    const slug = registerProcess ? 'activate-account' : 'new-user-set-password';
+    const linkLabel = registerProcess ? 'Activate Account' : 'Set Password';
+
+    await this.sendMailToUser(user, subject, link, slug, linkLabel);
+    
+    const response: RegisterResponseDto = {
+      email: user.email,
+      username: user.username,
+      registrationToken: token,
+    };
+
+    return response;
+  }
+
   /**
    * find user entity by condition
    * @param field
@@ -153,7 +185,7 @@ export class AuthService {
   async login(
     userLoginDto: UserLoginDto,
     refreshTokenPayload: Partial<RefreshTokenEntity>,
-  ): Promise<string[]> {
+  ): Promise<AuthResponse> {
 
     const usernameIPkey = `${userLoginDto.username}_${refreshTokenPayload.ip}`;
 
@@ -464,40 +496,18 @@ export class AuthService {
   }
 
   /**
-   * Get cookie for logout action
-   */
-  getCookieForLogOut(): string[] {
-    return [
-      `Authentication=; HttpOnly; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-      }`,
-      `Refresh=; HttpOnly; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-      }`,
-      `ExpiresIn=; Path=/; Max-Age=0; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-      }`,
-    ];
-  }
-
-  /**
    * build response payload
    * @param accessToken
    * @param refreshToken
    */
-  buildResponsePayload(accessToken: string, refreshToken?: string): string[] {
-    let tokenCookies = [
-      `Authentication=${accessToken}; HttpOnly; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-      } Max-Age=${jwtConfig.cookieExpiresIn}`,
-    ];
-    if (refreshToken) {
-      const expiration = new Date();
-      expiration.setSeconds(expiration.getSeconds() + jwtConfig.expiresIn);
-      tokenCookies = tokenCookies.concat([
-        `Refresh=${refreshToken}; HttpOnly; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-        } Max-Age=${jwtConfig.cookieExpiresIn}`,
-        `ExpiresIn=${expiration}; Path=/; ${!isSameSite ? 'SameSite=None; Secure;' : ''
-        } Max-Age=${jwtConfig.cookieExpiresIn}`,
-      ]);
-    }
-    return tokenCookies;
+  buildResponsePayload(accessToken: string, refreshToken?: string): AuthResponse {
+    const authResponse: AuthResponse = {
+      accessToken,
+      refreshToken,
+      expiresIn: jwtConfig.expiresIn,
+    };
+
+    return authResponse;
   }
 
   /**

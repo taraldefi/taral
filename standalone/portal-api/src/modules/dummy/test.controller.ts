@@ -26,14 +26,14 @@ export class TestController {
 
     @Post('test')
     @HttpCode(200)
-    @UseGuards(JwtAuthGuard, PermissionGuard)
+    @UseGuards(JwtAuthGuard)
     async authenticate(
         @GetUser() user: UserEntity,
         @Body()
         payload: TestDto,
     ): Promise<TestDto> {
         const response = new TestDto();
-        response.message = `Hello ${user.id}: ${payload.message}!`;
+        response.message = `Hello ${user.email}: ${payload.message}!`;
         return response;
     }
 }

@@ -23,6 +23,7 @@ import {
 } from 'src/modules/twofa/dto/twofa-status-update.dto';
 import { TwofaService } from 'src/modules/twofa/twofa.service';
 import { RefreshTokenService } from '../refresh-token/refresh-token.service';
+import { AuthResponse } from '../auth/dto/auth-response.dto';
 
 @Controller('twofa')
 export class TwofaController {
@@ -44,7 +45,7 @@ export class TwofaController {
     user: UserEntity,
     @Body()
     twofaCodeDto: TwofaCodeDto,
-  ) {
+  ): Promise<AuthResponse> {
     //TODO(doru): if environment is development, skip 2fa
 
     const isCodeValid = this.twofaService.isTwoFACodeValid(
@@ -58,9 +59,8 @@ export class TwofaController {
       user,
       true,
     );
-    const cookiePayload = this.usersService.buildResponsePayload(accessToken);
-    response.setHeader('Set-Cookie', cookiePayload);
-    return response.status(HttpStatus.NO_CONTENT).json({});
+    const authPayload = this.usersService.buildResponsePayload(accessToken);
+    return authPayload;
   }
 
   @Put()
