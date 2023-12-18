@@ -19167,10 +19167,10 @@ vite-node@0.34.6:
   optionalDependencies:
     fsevents "~2.3.3"
 
-vitest-environment-clarinet@^1.0.2:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/vitest-environment-clarinet/-/vitest-environment-clarinet-1.0.3.tgz#063f58a1f49d444d9b8326d15aed6064ea5f1536"
-  integrity sha512-h/FeWPiEBS4a359Y8ZNo8nsftsfEoyLtZpJdnvDggDzcEUNkAsssU4tQzLp+KPm2VohAleqjFGSYMOGRbgLtDA==
+vitest-environment-clarinet@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/vitest-environment-clarinet/-/vitest-environment-clarinet-1.1.0.tgz#203a8d77a932cfe07286b4e079677a888c9ec52f"
+  integrity sha512-abf6VPWVyzZ6Ynz3kNqKZGsJuS0MH5xKyJeR9dgE5Y4dQ34KaBoTeA2jzgamDUxyX1y+5/yA/SBQab4sZjX8Sg==
 
 vitest@^0.34.4, vitest@^0.34.5:
   version "0.34.6"
