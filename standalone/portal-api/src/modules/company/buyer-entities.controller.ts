@@ -7,13 +7,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { CreateEntityDto } from './dto/request/create-entity.dto';
 import { UpdateEntityDto } from './dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
 import { BuyerCompanyEntityService } from './services/buyer-entity.service';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('Entities')
 @Controller({
   path: 'entities',

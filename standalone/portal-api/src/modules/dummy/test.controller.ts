@@ -16,9 +16,9 @@ import { AuthService } from 'src/modules/auth/auth.service';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { GetUser } from 'src/common/decorators/get-user.decorator';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
-import { PermissionGuard } from 'src/common/guard/permission.guard';
 import { TestDto } from './dto/Test.dto';
 
+@UseGuards(JwtAuthGuard)
 @Controller('test')
 export class TestController {
     constructor(
@@ -26,7 +26,6 @@ export class TestController {
 
     @Post('test')
     @HttpCode(200)
-    @UseGuards(JwtAuthGuard)
     async authenticate(
         @GetUser() user: UserEntity,
         @Body()
