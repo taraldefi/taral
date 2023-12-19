@@ -5,6 +5,11 @@
 (define-data-var next-payment-id uint u1)
 (define-data-var next-financing-id uint u1)
 
+(define-map active-purchase-orders
+  principal
+  uint
+)
+
 (define-map purchase-orders
   {
     id: uint
@@ -61,6 +66,28 @@
 
 (define-read-only (get-financing-offer-by-id (id uint))
   (map-get? po-financing { id: id })
+)
+
+(define-read-only (get-active-purchase-order (borrower-id principal))
+  (map-get? active-purchase-orders borrower-id)
+)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-public (set-active-purchase-order (borrower-id principal) (purchase-order-id uint))
+  (begin 
+    (map-set active-purchase-orders borrower-id purchase-order-id)
+    (ok purchase-order-id)
+  )
+)
+
+;; #[allow(unchecked_params)]
+;; #[allow(unchecked_data)]
+(define-public (delete-active-purchase-order (borrower-id principal))
+  (begin 
+    (map-delete active-purchase-orders borrower-id)
+    (ok true)
+  )
 )
 
 ;; #[allow(unchecked_params)]
