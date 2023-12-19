@@ -3,7 +3,8 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 type ValidationError =
   | 'entity-not-found'
   | 'missing-entity-id'
-  | 'logo-id-missing';
+  | 'logo-id-missing'
+  | 'user-not-found';
 
 export function triggerError(error: ValidationError): HttpException {
   return new HttpException(

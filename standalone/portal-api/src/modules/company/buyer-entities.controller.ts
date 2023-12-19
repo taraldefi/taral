@@ -15,6 +15,8 @@ import { UpdateEntityDto } from './dto/request/update-entity.dto';
 import { GetEntityDetailsResponse } from './dto/response/get-entity-details-response.dto';
 import { BuyerCompanyEntityService } from './services/buyer-entity.service';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { UserEntity } from '../auth/entity/user.entity';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags('Entities')
@@ -85,9 +87,10 @@ export class BuyerEntityController {
   @FormDataRequest({ storage: MemoryStoredFile })
   @Post()
   async createEntity(
+    @GetUser() user: UserEntity,
     @Body() entity: CreateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    return await this.entityService.createBuyerEntity(entity);
+    return await this.entityService.createBuyerEntity(user.id, entity);
   }
 
   @ApiBody({
@@ -231,7 +234,9 @@ export class BuyerEntityController {
   }
 
   @Get()
-  async getAllEntity() {
-    return await this.entityService.getAllBuyerEntity();
+  async getAllEntity(
+    @GetUser() user: UserEntity
+  ) {
+    return await this.entityService.getAllBuyerEntity(user.id);
   }
 }
