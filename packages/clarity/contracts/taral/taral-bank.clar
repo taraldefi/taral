@@ -48,6 +48,9 @@
 (define-constant COULD_NOT_UNWRAP u131)
 (define-constant ERR_CONTRACT_PAUSED u132)
 (define-constant ERR_STORAGE_INTERACTION_FAILED u133)
+(define-constant ERR_NO_ACTIVE_PURCHASE_ORDER u134)
+(define-constant ERR_ACTIVE_PURCHASE_ORDER u135)
+
 (define-constant ERR_UNAUTHORIZED u401)
 
 ;;TODO: parameterize how much time a block takes. 
@@ -81,35 +84,39 @@
     (let 
         (
           (current-block-height block-height)
+          (accepted-financing-id-tentative (get accepted-financing-id po))
         )
 
-      (let 
-        (
-          (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
-          (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id accepted-financing-id)))
-          (financing-accepted-at (get accepted-at financing))
-          (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
-          (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
-          (is-completed (get is-completed po))
-          (is-completed-successfully (get completed-successfully po))
-        )
+        (if (is-none accepted-financing-id-tentative)
+          (ok false)
+          (let 
+            (
+              (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
+              (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id accepted-financing-id)))
+              (financing-accepted-at (get accepted-at financing))
+              (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
+              (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
+              (is-completed (get is-completed po))
+              (is-completed-successfully (get completed-successfully po))
+            )
 
-        (if is-completed
-          (if is-completed-successfully
-            (ok false)
+            (if is-completed
+              (if is-completed-successfully
+                (ok false)
 
-            (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
-              (ok true)
-              (ok false)
-            ) 
+                (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+                  (ok true)
+                  (ok false)
+                ) 
+              )
+
+              (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+                (ok true)
+                (ok false)
+              )
+            )
           )
-
-          (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
-            (ok true)
-            (ok false)
-          )
         )
-      )
     )
     (err ERR_PURCHASE_ORDER_NOT_FOUND)
   )
@@ -123,6 +130,40 @@
         payment-left: (get outstanding-amount po)
       })
     )
+  )
+)
+
+(define-read-only (has-active-purchase-order)
+  (let 
+    (
+      (active-purchase-order-id (contract-call? .taral-bank-storage get-active-purchase-order tx-sender))
+    )
+
+    (ok (not (is-eq active-purchase-order-id none)))
+  )
+)
+
+(define-read-only (get-active-po-details)
+(let 
+    (
+      (borrower-id tx-sender)
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order borrower-id) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id)))
+      (is-defaulted (unwrap! (is-po-defaulted active-purchase-order-id) (err COULD_NOT_UNWRAP)))
+    )
+    (ok { 
+      total-amount: (get total-amount po),
+      downpayment: (get downpayment po),
+      outstanding-amount: (get outstanding-amount po),
+      is-completed: (get is-completed po),
+      completed-successfully: (get completed-successfully po),
+      accepted-financing-id: (get accepted-financing-id po),
+      is-canceled: (get is-canceled po),
+      has-active-financing: (get has-active-financing po),
+      created-at: (get created-at po),
+      updated-at: (get updated-at po),
+      is-defaulted: is-defaulted
+    })
   )
 )
 
@@ -210,10 +251,12 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (make-payment (purchase-order-id uint))
+(define-public (make-payment)
   (let 
     (
-      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id)))
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+
+      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id)))
 
       (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id (unwrap-panic (get accepted-financing-id po)))))
       (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
@@ -256,26 +299,28 @@
                 (begin 
                   ;; Check if this payment completes the purchase order
                   ;; If all payments are made, end the purchase order successfully
-                  (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+                  (let ((end-purchase-order-response (end-purchase-order-successfully active-purchase-order-id)))
 
                     (match end-purchase-order-response
                       end-purchase-order-success
-                      (begin 
-                        (unwrap! (contract-call? .taral-bank-storage set-payment {
+                      (begin
+                        (unwrap! (as-contract (contract-call? .taral-bank-storage set-payment {
                             borrower-id: (get borrower-id po),
-                            purchase-order-id: purchase-order-id,
+                            purchase-order-id: active-purchase-order-id,
                             amount: outstanding-amount,
                             block: block-height
-                        }) (err ERR_STORAGE_INTERACTION_FAILED))
+                        })) (err ERR_STORAGE_INTERACTION_FAILED))
 
-                        (unwrap! (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po 
+                        (unwrap! (as-contract (contract-call? .taral-bank-storage delete-active-purchase-order borrower-id)) (err ERR_STORAGE_INTERACTION_FAILED))
+
+                        (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order active-purchase-order-id (merge po 
                             {
                               updated-at: block-height,
                               outstanding-amount: u0,
                               completed-successfully: true,
                               is-completed: true
                             }
-                        )) (err ERR_STORAGE_INTERACTION_FAILED))
+                        ))) (err ERR_STORAGE_INTERACTION_FAILED))
 
                         (ok true)
                       
@@ -332,13 +377,13 @@
               (begin 
                 ;; Update the purchase order
 
-                (unwrap! (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po 
+                (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po 
                     {
                       updated-at: block-height,
                       completed-successfully: false,
                       is-completed: true
                     }
-                  )) (err ERR_STORAGE_INTERACTION_FAILED))
+                  ))) (err ERR_STORAGE_INTERACTION_FAILED))
 
                 (ok 
                   {
@@ -379,9 +424,13 @@
   (let (
     (total-amount (* total-amount-usdt (var-get micro-multiplier)))
     (downpayment (* downpayment-usdt (var-get micro-multiplier)))
+    (borrower tx-sender)
+    (active-purchase-order-id (contract-call? .taral-bank-storage get-active-purchase-order tx-sender))
+
     ;;check if the importer,exporter exists.
     )
 
+    (asserts! (is-none active-purchase-order-id) (err ERR_ACTIVE_PURCHASE_ORDER))
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
 
     ;; ensure the downpayment is less than the total amount
@@ -390,9 +439,9 @@
     (if (is-ok (contract-call? .token-susdt transfer downpayment tx-sender (as-contract tx-sender) none))
         (begin
 
-          (ok (unwrap! (contract-call? .taral-bank-storage set-purchase-order 
+          (ok (unwrap! (as-contract (contract-call? .taral-bank-storage set-purchase-order 
             {
-              borrower-id: tx-sender,
+              borrower-id: borrower,
               lender-id: none,
               seller-id: seller-id,
               total-amount: total-amount,
@@ -401,12 +450,13 @@
               is-completed: false,
               completed-successfully: false,
               accepted-financing-id: none,
+              proposed-financing-id: none,
               created-at: block-height,
               updated-at: block-height,
               is-canceled: false,
               has-active-financing: false
             }
-          ) (err ERR_STORAGE_INTERACTION_FAILED)))
+          )) (err ERR_STORAGE_INTERACTION_FAILED)))
         )
         (err ERR_NOT_ENOUGH_FUNDS)
     )
@@ -417,20 +467,26 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
-  (let ((po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+  (let 
+    (
+      (po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (borrower-id (get borrower-id po))
+    )
     (asserts! (is-eq (get has-active-financing po) false) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
+    (asserts! (or (is-eq tx-sender borrower-id) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 
-    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get borrower-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender borrower-id none)))
         (begin
 
-          (unwrap! (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po { 
+          (unwrap! (as-contract (contract-call? .taral-bank-storage delete-active-purchase-order borrower-id)) (err ERR_STORAGE_INTERACTION_FAILED))
+
+          (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po { 
               is-canceled: true,
               updated-at: block-height 
-          })) (err ERR_STORAGE_INTERACTION_FAILED))
+          }))) (err ERR_STORAGE_INTERACTION_FAILED))
 
           (ok true)
         )
@@ -445,8 +501,8 @@
   (let 
     (
       (po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
-      (total-amount (- (get total-amount po) (get downpayment po))
-    )
+      (total-amount (- (get total-amount po) (get downpayment po)))
+      (the-lender tx-sender)
   )
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     (asserts! (not (is-eq (get borrower-id po) tx-sender)) (err ERR_BORROWER_CANNOT_FINANCE_THEMSELVES))
@@ -458,16 +514,16 @@
     (if (is-ok (contract-call? .token-susdt transfer total-amount tx-sender (as-contract tx-sender) none))
         (begin
 
-          (unwrap! (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po { 
+          (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po { 
             updated-at: block-height,
-            has-active-financing: true
-          })) (err ERR_STORAGE_INTERACTION_FAILED))
+            has-active-financing: true,
+          }))) (err ERR_STORAGE_INTERACTION_FAILED))
 
-          (ok (unwrap! (contract-call? .taral-bank-storage set-financing
+          (ok (unwrap! (as-contract (contract-call? .taral-bank-storage set-financing
             {
               purchase-order-id: purchase-order-id,
               financing-amount: total-amount,
-              lender-id: tx-sender,
+              lender-id: the-lender,
               is-accepted: false,
               interest-rate: (interest-per-payment),
               refunded: false,
@@ -475,7 +531,7 @@
               created-at: block-height,
               accepted-at: u0
             }
-          ) (err ERR_STORAGE_INTERACTION_FAILED)))
+          )) (err ERR_STORAGE_INTERACTION_FAILED)))
         )
         (err ERR_NOT_ENOUGH_FUNDS)
     )
@@ -485,13 +541,14 @@
 ;; Function to reject a financing offer
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (reject-financing (financing-id uint))
+(define-public (reject-financing)
   (let 
     (
-      (financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id financing-id) (err ERR_FINANCING_NOT_FOUND)))
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (purchase-order (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (proposed-financing-id (unwrap! (get proposed-financing-id purchase-order) (err ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER)))
+      (financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id proposed-financing-id) (err ERR_FINANCING_NOT_FOUND)))
 
-      (purchase-order (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id (get purchase-order-id financing)) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
-  
       (lender-id (get lender-id financing))
     )
 
@@ -505,12 +562,12 @@
         (if (is-ok (contract-call? .token-susdt transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
             
-            (unwrap! (contract-call? .taral-bank-storage update-financing financing-id
+            (unwrap! (as-contract (contract-call? .taral-bank-storage update-financing proposed-financing-id
               (merge financing { is-rejected: true })
-            ) (err ERR_STORAGE_INTERACTION_FAILED))
+            )) (err ERR_STORAGE_INTERACTION_FAILED))
             
-            (unwrap! (contract-call? .taral-bank-storage update-purchase-order po-id 
-              (merge po { has-active-financing: false })) 
+            (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order po-id 
+              (merge po { has-active-financing: false, proposed-financing-id: none }))) 
             (err ERR_STORAGE_INTERACTION_FAILED))
             
             (ok true)
@@ -547,9 +604,15 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (accept-financing (financing-id uint))
-  (let ((financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id financing-id) (err ERR_FINANCING_NOT_FOUND)))
-        (po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id (get purchase-order-id financing)) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+(define-public (accept-financing)
+  (let 
+    (
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (proposed-financing-id (unwrap! (get proposed-financing-id po) (err ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER)))
+      (financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id proposed-financing-id) (err ERR_FINANCING_NOT_FOUND)))
+
+    )
     (asserts! (is-eq tx-sender (get borrower-id po)) (err ERR_ONLY_BORROWER_CAN_ACCEPT_FINANCING))
     (asserts! (not (get is-accepted financing)) (err ERR_CANNOT_MODIFY_ACCEPTED_FINANCING))
     (asserts! (not (get is-canceled po)) (err ERR_PURCHASE_ORDER_CANCELED))
@@ -562,22 +625,22 @@
           (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get seller-id po) none)))
             (begin
 
-              (unwrap! (contract-call? .taral-bank-storage update-purchase-order (get purchase-order-id financing) (merge po 
+              (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order (get purchase-order-id financing) (merge po 
                   {
                     outstanding-amount: (- (get total-amount po) (get downpayment po)),
-                    accepted-financing-id: (some financing-id),
+                    accepted-financing-id: (some proposed-financing-id),
                     has-active-financing: true,
                     updated-at: block-height,
                     lender-id: (some (get lender-id financing))
                   }
-              )) (err ERR_STORAGE_INTERACTION_FAILED))
+              ))) (err ERR_STORAGE_INTERACTION_FAILED))
               
-              (ok (unwrap! (contract-call? .taral-bank-storage update-financing financing-id
+              (ok (unwrap! (as-contract (contract-call? .taral-bank-storage update-financing proposed-financing-id
                 (merge financing { 
                     is-accepted: true,
                     accepted-at: block-height
                   })
-              ) (err ERR_STORAGE_INTERACTION_FAILED)))
+              )) (err ERR_STORAGE_INTERACTION_FAILED)))
             )
             (err ERR_COULD_NOT_TRANSFER_FUNDS_TO_SELLER)
           )
@@ -605,9 +668,9 @@
                   none))
           )
 
-           (unwrap! (contract-call? .taral-bank-storage update-financing financing-id
+           (unwrap! (as-contract (contract-call? .taral-bank-storage update-financing financing-id
               (merge financing { refunded: true })
-            ) (err ERR_STORAGE_INTERACTION_FAILED))
+            )) (err ERR_STORAGE_INTERACTION_FAILED))
         
           (ok true)
         )
