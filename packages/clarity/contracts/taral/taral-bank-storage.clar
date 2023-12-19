@@ -9,6 +9,7 @@
 
 (define-constant ERR_UNAUTHORIZED u401)
 (define-constant ERR-UNAUTHORIZED-CONTRACT-CALLER u999)
+(define-constant PO-NOT-FOUND u100)
 
 (define-map active-purchase-orders
   principal
@@ -29,6 +30,7 @@
     is-completed: bool,
     completed-successfully: bool,
     accepted-financing-id: (optional uint),
+    proposed-financing-id: (optional uint),
     is-canceled: bool,
     has-active-financing: bool,
     created-at: uint,  ;; Timestamp of creation
@@ -155,6 +157,7 @@
   (let 
     (
       (financing-id (increment-next-financing-id))
+      (po (unwrap! (map-get? purchase-orders { id: (get purchase-order-id financing) }) (err PO-NOT-FOUND)))
     )
 
     (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
@@ -171,6 +174,10 @@
         created-at: (get created-at financing),
         accepted-at: (get accepted-at financing),
       }
+    )
+
+    (map-set purchase-orders { id: (get purchase-order-id financing) }
+      (merge po { proposed-financing-id: (some financing-id) })
     )
     
     (ok financing-id)
@@ -215,6 +222,7 @@
   is-completed: bool,
   completed-successfully: bool,
   accepted-financing-id: (optional uint),
+  proposed-financing-id: (optional uint),
   is-canceled: bool,
   has-active-financing: bool,
   created-at: uint,  ;; Timestamp of creation
@@ -239,6 +247,7 @@
                               is-completed: (get is-completed po),
                               completed-successfully: (get completed-successfully po),
                               accepted-financing-id: (get accepted-financing-id po),
+                              proposed-financing-id: (get proposed-financing-id po),
                               is-canceled: (get is-canceled po),
                               has-active-financing: (get has-active-financing po),
                               created-at: (get created-at po),
@@ -260,6 +269,7 @@
   is-completed: bool,
   completed-successfully: bool,
   accepted-financing-id: (optional uint),
+  proposed-financing-id: (optional uint),
   is-canceled: bool,
   has-active-financing: bool,
   created-at: uint,  ;; Timestamp of creation
@@ -285,12 +295,16 @@
                             is-completed: (get is-completed po),
                             completed-successfully: (get completed-successfully po),
                             accepted-financing-id: (get accepted-financing-id po),
+                            proposed-financing-id: (get proposed-financing-id po),
                             is-canceled: (get is-canceled po),
                             has-active-financing: (get has-active-financing po),
                             created-at: (get created-at po),
                             updated-at: (get updated-at po),
                           }
                         )
+
+    (map-set active-purchase-orders (get borrower-id po) purchase-order-id)
+    
     (ok purchase-order-id)
   )
 )

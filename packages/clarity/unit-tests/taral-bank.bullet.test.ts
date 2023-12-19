@@ -92,6 +92,7 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(blockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
+            "proposed-financing-id": Cl.none(),
             "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(false),
@@ -143,6 +144,7 @@ describeOrSkip("Taral bank test flows", () => {
             "created-at": Cl.uint(initialBlockHeight),
             "seller-id": Cl.standardPrincipal(WALLET_2),
             "accepted-financing-id": Cl.none(),
+            "proposed-financing-id": Cl.none(),
             "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
             "lender-id": Cl.none(),
             "is-canceled": Cl.bool(true),
@@ -324,7 +326,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -519,7 +520,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -616,7 +616,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -668,7 +667,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -770,7 +768,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -940,7 +937,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -1083,7 +1079,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
@@ -1136,7 +1131,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "accept-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
