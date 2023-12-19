@@ -156,6 +156,66 @@ describeOrSkip("Taral bank test flows", () => {
         })));
     }),
 
+    it("Should be able to call readonly po details methods", () => {
+
+        let hasPurchaesOrderResult = simnet.callReadOnlyFn(
+            "taral-bank",
+            "has-active-purchase-order",
+            [
+            ],
+            WALLET_1
+        );
+
+        expect(hasPurchaesOrderResult.result).toBeOk(Cl.bool(false));
+
+        const purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        let initialBlockHeight = simnet.blockHeight;
+        let blockHeight = initialBlockHeight;
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        hasPurchaesOrderResult = simnet.callReadOnlyFn(
+            "taral-bank",
+            "has-active-purchase-order",
+            [],
+            WALLET_1
+        );
+
+        expect(hasPurchaesOrderResult.result).toBeOk(Cl.bool(true));
+
+        const getPurchaseOrder = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-active-po-details",
+            [],
+            WALLET_1,
+        );
+
+        expect(getPurchaseOrder.result).toBeOk(Cl.tuple({
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
+            "is-completed": Cl.bool(false),
+            "completed-successfully": Cl.bool(false),
+            "accepted-financing-id": Cl.none(),
+            "is-canceled": Cl.bool(false),
+            "has-active-financing": Cl.bool(false),
+            "created-at": Cl.uint(blockHeight),
+            "updated-at": Cl.uint(blockHeight),
+            "is-defaulted": Cl.bool(false),
+        }));
+    }),
+
     it("Should be able to create a purchase order again after canceling", () => {
         let purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",

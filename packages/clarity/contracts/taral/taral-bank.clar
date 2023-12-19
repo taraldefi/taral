@@ -84,35 +84,39 @@
     (let 
         (
           (current-block-height block-height)
+          (accepted-financing-id-tentative (get accepted-financing-id po))
         )
 
-      (let 
-        (
-          (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
-          (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id accepted-financing-id)))
-          (financing-accepted-at (get accepted-at financing))
-          (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
-          (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
-          (is-completed (get is-completed po))
-          (is-completed-successfully (get completed-successfully po))
-        )
+        (if (is-none accepted-financing-id-tentative)
+          (ok false)
+          (let 
+            (
+              (accepted-financing-id (unwrap-panic (get accepted-financing-id po)))
+              (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id accepted-financing-id)))
+              (financing-accepted-at (get accepted-at financing))
+              (grace-period-blocks (grace-period-to-block-height (var-get payments-default-grace-period-in-days)))
+              (due-date-blocks (due-date-to-block-height (var-get po-due-date)))
+              (is-completed (get is-completed po))
+              (is-completed-successfully (get completed-successfully po))
+            )
 
-        (if is-completed
-          (if is-completed-successfully
-            (ok false)
+            (if is-completed
+              (if is-completed-successfully
+                (ok false)
 
-            (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
-              (ok true)
-              (ok false)
-            ) 
+                (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+                  (ok true)
+                  (ok false)
+                ) 
+              )
+
+              (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
+                (ok true)
+                (ok false)
+              )
+            )
           )
-
-          (if (> current-block-height (+ financing-accepted-at due-date-blocks grace-period-blocks))
-            (ok true)
-            (ok false)
-          )
         )
-      )
     )
     (err ERR_PURCHASE_ORDER_NOT_FOUND)
   )
@@ -129,12 +133,12 @@
   )
 )
 
-(define-read-only (has-active-po)
+(define-read-only (has-active-purchase-order)
   (let 
     (
       (active-purchase-order-id (contract-call? .taral-bank-storage get-active-purchase-order tx-sender))
     )
-    
+
     (ok (not (is-eq active-purchase-order-id none)))
   )
 )
@@ -142,7 +146,8 @@
 (define-read-only (get-active-po-details)
 (let 
     (
-      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (borrower-id tx-sender)
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order borrower-id) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
       (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id)))
       (is-defaulted (unwrap! (is-po-defaulted active-purchase-order-id) (err COULD_NOT_UNWRAP)))
     )
