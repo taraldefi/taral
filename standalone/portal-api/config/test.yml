@@ -71,17 +71,17 @@ throttle:
     blockDuration: 3000
 
 mail:
-  host: 'smtp.mailtrap.io'
-  port: 2525
-  user: 'f4a511d60957e6'
-  password: '7522797b96cef0'
+  host: 'localhost'
+  port: 1025
+  user: ''
+  password: ''
   from: 'taral'
   defaultEmail: 'taral@gmail.com'
   defaultName: 'Taral'
   preview: true
   ignoreTls: true
-  secure: true
-  requireTls: true
+  secure: false
+  requireTls: false
   queueName: 'taral-mail'
 
 onchain:
