@@ -16,10 +16,12 @@ import { CompanyAddressEntity } from '../company-information/models/company.info
 import { SupplierCompanyInformationEntity } from '../company-information/models/supplier.company.information.entity';
 import { BuyerCompanyTaxAndRevenueEntity } from './models/buyer.company.tax.and.revenue.entity';
 import { SupplierCompanyTaxAndRevenueEntity } from './models/supplier.company.tax.and.revenue.entity';
+import { UserEntity } from '../auth/entity/user.entity';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([
+      UserEntity,
       BuyerCompanyEntity,
       SupplierCompanyEntity,
       CompanyAddressEntity,
