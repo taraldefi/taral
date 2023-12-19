@@ -156,6 +156,36 @@ describeOrSkip("Taral bank test flows", () => {
         })));
     }),
 
+    it("Should not be able to create a purchase order if another one is active", () => {
+        let purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        let initialBlockHeight = simnet.blockHeight;
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeErr(Cl.uint(135));
+    }),
+
     it("Should not be able to finance if it's the po borrower", () => {
         const purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",

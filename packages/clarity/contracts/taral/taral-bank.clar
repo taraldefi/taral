@@ -49,6 +49,7 @@
 (define-constant ERR_CONTRACT_PAUSED u132)
 (define-constant ERR_STORAGE_INTERACTION_FAILED u133)
 (define-constant ERR_NO_ACTIVE_PURCHASE_ORDER u134)
+(define-constant ERR_ACTIVE_PURCHASE_ORDER u135)
 
 (define-constant ERR_UNAUTHORIZED u401)
 
@@ -386,9 +387,12 @@
     (total-amount (* total-amount-usdt (var-get micro-multiplier)))
     (downpayment (* downpayment-usdt (var-get micro-multiplier)))
     (borrower tx-sender)
+    (active-purchase-order-id (contract-call? .taral-bank-storage get-active-purchase-order tx-sender))
+
     ;;check if the importer,exporter exists.
     )
 
+    (asserts! (is-none active-purchase-order-id) (err ERR_ACTIVE_PURCHASE_ORDER))
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
 
     ;; ensure the downpayment is less than the total amount
