@@ -6,14 +6,7 @@ interface LoginResponse {
 interface RegisterResponse {
   username: string;
   email: string;
-  name: string;
-  address: string;
-  isTwoFAEnabled: boolean;
-  contact: string;
-  avatar: string;
-  status: string;
-  createdAt: string;
-  updatedAt: string;
+  registrationToken: string;
 }
 
 interface userProfile {
