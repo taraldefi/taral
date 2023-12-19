@@ -150,6 +150,8 @@ export class AuthService {
       currentDateTime.setHours(currentDateTime.getHours() + 1);
       createUserDto.tokenValidityDate = currentDateTime;
     }
+
+
     const registerProcess = !createUserDto.status;
     const user = await this.userRepository.store(createUserDto, token);
     const subject = registerProcess ? 'Account created' : 'Set Password';

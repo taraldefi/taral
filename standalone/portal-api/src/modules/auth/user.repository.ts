@@ -37,6 +37,42 @@ export class UserEntityRepository extends BaseRepository<
     return this.transform(user);
   }
 
+  async isUniqueEmail(email: string): Promise<boolean> {
+    const user = await this.findOne({
+      where: {
+        email: email,
+      },
+    });
+    return !user;
+  }
+
+  async isUniqueUsername(username: string): Promise<boolean> {
+    const user = await this.findOne({
+      where: {
+        username: username,
+      },
+    });
+    return !user;
+  }
+
+  async isUniqueEmailAndUsername(
+    email: string,
+    username: string,
+  ): Promise<boolean> {
+    const user = await this.findOne({
+      where: [
+        {
+          email: email,
+        },
+        {
+          username: username,
+        },
+      ],
+    });
+    
+    return !user;
+  }
+
   /**
    * login user
    * @param userLoginDto

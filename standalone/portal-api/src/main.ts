@@ -13,6 +13,7 @@ import { CommonExceptionFilter } from './common/exception/exception-filter';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { I18nService } from 'nestjs-i18n';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorized.filter';
+import { CustomHttpExceptionFilter } from './common/filters/custom-exception.filter';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -38,6 +39,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   app.useGlobalFilters(
+    new CustomHttpExceptionFilter(logger),
     new UnauthorizedExceptionFilter(logger),
     new UnprocessableExceptionFilter(logger),
     new EntityNotFoundFilter(logger),

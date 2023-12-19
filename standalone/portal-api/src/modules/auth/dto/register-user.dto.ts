@@ -28,7 +28,7 @@ export class RegisterUserDto {
   @IsEmail()
   @IsLowercase()
   @Validate(UniqueValidatorPipe, [UserEntity], {
-    message: 'already taken',
+    message: 'already taken'
   })
   email: string;
 

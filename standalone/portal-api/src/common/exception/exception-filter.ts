@@ -22,9 +22,15 @@ export class CommonExceptionFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const statusCode = exception.getStatus();
 
+    console.log('Found exception');
     console.log(JSON.stringify(exception, null, 2));
 
-    let message = exception.getResponse() as {
+    console.log(JSON.stringify(exception.getResponse(), null, 2));
+
+
+    let exceptionResponse = exception.getResponse() as any;
+
+    let message = exceptionResponse as {
       key: string;
       args: Record<string, any>;
     };
@@ -48,7 +54,19 @@ export class CommonExceptionFilter implements ExceptionFilter {
         statusCode,
         message,
       });
-    } else {
+    } else if (exceptionResponse.message !== undefined) {
+      this.logger.error('Error: ', {
+        meta: {
+          error: exceptionResponse.message,
+        },
+      });
+
+      response.status(400).json({
+        statusCode: 400,
+        message: exceptionResponse.message,
+      });
+    }
+    else {
       const simpleException = exception as any;
 
       let message = 'Http Error';
