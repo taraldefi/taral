@@ -7,6 +7,7 @@ import {
   Index,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   OneToOne,
 } from 'typeorm';
 import bcrypt from 'bcrypt';
@@ -15,6 +16,7 @@ import { Exclude } from 'class-transformer';
 import { UserStatusEnum } from 'src/modules/auth/user-status.enum';
 import { CustomBaseEntity } from 'src/common/entity/custom-base.entity';
 import { RoleEntity } from 'src/modules/role/entities/role.entity';
+import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 
 /**
  * User Entity
@@ -100,6 +102,9 @@ export class UserEntity extends CustomBaseEntity {
 
   @Column()
   roleId: number;
+
+  @OneToMany(() => BuyerCompanyEntity, (buyerEntity) => buyerEntity.user)
+  buyerEntities: BuyerCompanyEntity[];
 
   @BeforeInsert()
   async hashPasswordBeforeInsert() {
