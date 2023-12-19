@@ -489,13 +489,14 @@
 ;; Function to reject a financing offer
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (reject-financing (financing-id uint))
+(define-public (reject-financing)
   (let 
     (
-      (financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id financing-id) (err ERR_FINANCING_NOT_FOUND)))
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (purchase-order (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (proposed-financing-id (unwrap! (get proposed-financing-id purchase-order) (err ERR_FINANCING_NOT_FOUND_FOR_PURCHASE_ORDER)))
+      (financing (unwrap! (contract-call? .taral-bank-storage get-financing-offer-by-id proposed-financing-id) (err ERR_FINANCING_NOT_FOUND)))
 
-      (purchase-order (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id (get purchase-order-id financing)) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
-  
       (lender-id (get lender-id financing))
     )
 
@@ -509,7 +510,7 @@
         (if (is-ok (contract-call? .token-susdt transfer (get financing-amount financing) (as-contract tx-sender) lender-id none))
           (begin
             
-            (unwrap! (as-contract (contract-call? .taral-bank-storage update-financing financing-id
+            (unwrap! (as-contract (contract-call? .taral-bank-storage update-financing proposed-financing-id
               (merge financing { is-rejected: true })
             )) (err ERR_STORAGE_INTERACTION_FAILED))
             

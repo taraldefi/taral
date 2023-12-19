@@ -1091,7 +1091,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "reject-financing",
             [
-                Cl.uint(1),
             ], WALLET_1
         );
 
