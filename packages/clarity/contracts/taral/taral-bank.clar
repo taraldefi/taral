@@ -429,15 +429,21 @@
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (cancel-purchase-order (purchase-order-id uint))
-  (let ((po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND))))
+  (let 
+    (
+      (po (unwrap! (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id) (err ERR_PURCHASE_ORDER_NOT_FOUND)))
+      (borrower-id (get borrower-id po))
+    )
     (asserts! (is-eq (get has-active-financing po) false) (err ERR_PO_HAS_ACTIVE_FINANCING))
 
     (asserts! (or (not (var-get contract-paused)) (is-eq tx-sender (var-get contract-owner))) (err ERR_CONTRACT_PAUSED))
     ;; ensure only the lender can cancel their own financing offer
-    (asserts! (or (is-eq tx-sender (get borrower-id po)) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
+    (asserts! (or (is-eq tx-sender borrower-id) (is-eq tx-sender (var-get contract-owner))) (err ERR_UNAUTHORIZED))
 
-    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender (get borrower-id po) none)))
+    (if (is-ok (as-contract (contract-call? .token-susdt transfer (get downpayment po) tx-sender borrower-id none)))
         (begin
+
+          (unwrap! (as-contract (contract-call? .taral-bank-storage delete-active-purchase-order borrower-id)) (err ERR_STORAGE_INTERACTION_FAILED))
 
           (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po { 
               is-canceled: true,

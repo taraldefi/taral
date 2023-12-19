@@ -156,7 +156,7 @@ describeOrSkip("Taral bank test flows", () => {
         })));
     }),
 
-    it("Should not be able to create a purchase order if another one is active", () => {
+    it("Should be able to create a purchase order again after canceling", () => {
         let purchaseOrderResult = simnet.callPublicFn(
             "taral-bank",
             "create-purchase-order",
@@ -168,6 +168,113 @@ describeOrSkip("Taral bank test flows", () => {
         );
 
         let initialBlockHeight = simnet.blockHeight;
+        let blockHeight = initialBlockHeight;
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+
+        const getPurchaseOrder = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-purchase-order-by-id",
+            [Cl.uint(purchaseOrderId)],
+            WALLET_1,
+        );
+
+        expect(getPurchaseOrder.result).toStrictEqual(Cl.some(Cl.tuple({
+            "borrower-id": Cl.standardPrincipal(WALLET_1),
+            "completed-successfully": Cl.bool(false),
+            "created-at": Cl.uint(blockHeight),
+            "seller-id": Cl.standardPrincipal(WALLET_2),
+            "accepted-financing-id": Cl.none(),
+            "proposed-financing-id": Cl.none(),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
+            "lender-id": Cl.none(),
+            "is-canceled": Cl.bool(false),
+            "is-completed": Cl.bool(false),
+            "has-active-financing": Cl.bool(false),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
+            "updated-at": Cl.uint(blockHeight),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
+        })));
+
+        // check if the PO has active financing
+
+        const checkHasActiveFinancingResult = simnet.callReadOnlyFn(
+            "taral-bank",
+            "has-active-financing",
+            [
+                Cl.uint(purchaseOrderId),
+            ],
+            WALLET_1
+        );
+
+        expect(checkHasActiveFinancingResult.result).toStrictEqual(Cl.bool(false));
+
+        const cancelPurchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "cancel-purchase-order",
+            [
+                Cl.uint(purchaseOrderId),
+            ],
+            WALLET_1
+        );
+
+        expect(cancelPurchaseOrderResult.result).toBeOk(Cl.bool(true));
+
+        expectSUSDTTransfer(cancelPurchaseOrderResult.events[0].data, DEPLOYER, WALLET_1, downPayment);
+
+        blockHeight++;
+
+        const getPurchaseOrderAfterCancel = simnet.callReadOnlyFn(
+            "taral-bank",
+            "get-purchase-order-by-id",
+            [Cl.uint(purchaseOrderId)],
+            WALLET_1,
+        );
+
+        expect(getPurchaseOrderAfterCancel.result).toStrictEqual(Cl.some(Cl.tuple({
+            "borrower-id": Cl.standardPrincipal(WALLET_1),
+            "completed-successfully": Cl.bool(false),
+            "created-at": Cl.uint(initialBlockHeight),
+            "seller-id": Cl.standardPrincipal(WALLET_2),
+            "accepted-financing-id": Cl.none(),
+            "proposed-financing-id": Cl.none(),
+            "total-amount": Cl.uint(borrow * MICRO_MULTIPLIER),
+            "lender-id": Cl.none(),
+            "is-canceled": Cl.bool(true),
+            "is-completed": Cl.bool(false),
+            "has-active-financing": Cl.bool(false),
+            "outstanding-amount": Cl.uint((borrow - downPayment) * MICRO_MULTIPLIER),
+            "updated-at": Cl.uint(blockHeight),
+            downpayment: Cl.uint(downPayment * MICRO_MULTIPLIER),
+        })));
+
+        purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
+
+        expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId + 1));
+
+        expectSUSDTTransfer(purchaseOrderResult.events[0].data, WALLET_1, DEPLOYER, downPayment);
+    }),
+
+    it("Should not be able to create a purchase order if another one is active", () => {
+        let purchaseOrderResult = simnet.callPublicFn(
+            "taral-bank",
+            "create-purchase-order",
+            [
+                Cl.uint(borrow),
+                Cl.uint(downPayment),
+                Cl.standardPrincipal(WALLET_2)
+            ], WALLET_1
+        );
 
         expect(purchaseOrderResult.result).toBeOk(Cl.uint(purchaseOrderId));
 
