@@ -101,7 +101,7 @@ mail:
   from: 'taral'
   defaultEmail: 'taral@gmail.com'
   defaultName: 'Taral'
-  preview: true
+  preview: false
   ignoreTls: true
   secure: false
   requireTls: false

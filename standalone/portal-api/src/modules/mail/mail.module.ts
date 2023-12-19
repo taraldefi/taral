@@ -55,6 +55,7 @@ const queueConfig = config.get('queue') as any;
         preview: mailConfig.preview,
         template: {
           dir: __dirname + '/templates/email/layouts/',
+          
           adapter: new PugAdapter(),
           options: {
             strict: true,
