@@ -129,6 +129,39 @@
   )
 )
 
+(define-read-only (has-active-po)
+  (let 
+    (
+      (active-purchase-order-id (contract-call? .taral-bank-storage get-active-purchase-order tx-sender))
+    )
+    
+    (ok (not (is-eq active-purchase-order-id none)))
+  )
+)
+
+(define-read-only (get-active-po-details)
+(let 
+    (
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id)))
+      (is-defaulted (unwrap! (is-po-defaulted active-purchase-order-id) (err COULD_NOT_UNWRAP)))
+    )
+    (ok { 
+      total-amount: (get total-amount po),
+      downpayment: (get downpayment po),
+      outstanding-amount: (get outstanding-amount po),
+      is-completed: (get is-completed po),
+      completed-successfully: (get completed-successfully po),
+      accepted-financing-id: (get accepted-financing-id po),
+      is-canceled: (get is-canceled po),
+      has-active-financing: (get has-active-financing po),
+      created-at: (get created-at po),
+      updated-at: (get updated-at po),
+      is-defaulted: is-defaulted
+    })
+  )
+)
+
 (define-read-only (get-po-details (purchase-order-id uint))
   (let 
     (
