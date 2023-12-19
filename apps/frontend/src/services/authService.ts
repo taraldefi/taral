@@ -21,69 +21,71 @@ class AuthService {
     username: string,
     password: string,
     remember: boolean
-  ): Promise<void> {
-    const url = apiUrls.USER_LOGIN;
-    const axiosConfig = getAxiosConfig({ method: "POST" });
+  ): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      const url = apiUrls.USER_LOGIN;
+      const axiosConfig = getAxiosConfig({ method: "POST" });
 
-    // if (process.env.NODE_ENV !== "production") {
-    //   url += "?";
-    //   for (let pair of formData.entries()) {
-    //     url += `${pair[0]}=${pair[1]}&`;
-    //   }
+      // if (process.env.NODE_ENV !== "production") {
+      //   url += "?";
+      //   for (let pair of formData.entries()) {
+      //     url += `${pair[0]}=${pair[1]}&`;
+      //   }
 
-    //   url = url.replace(/^\&|\&$/, "");
-    // }
+      //   url = url.replace(/^\&|\&$/, "");
+      // }
 
-    try {
-      const response = await axios.post(
-        url,
-        {
-          username: username,
-          password: password,
-          remember: remember,
-        },
-        axiosConfig
-      );
-      const cookieName = "Authentication";
-      const cookie = (response.headers["set-cookie"] as string[])
-        .find((cookie) => cookie.includes(cookieName))
-        ?.match(new RegExp(`^${cookieName}=(.+?);`))?.[1];
-
-      if (response.status === 204) {
-        localStorage.setItem(
-          "SITE_DATA_AUTH",
+      try {
+        const response = await axios.post(
+          url,
           JSON.stringify({
-            token: cookie,
-          })
+            username: username,
+            password: password,
+            remember: remember,
+          }),
+          axiosConfig
         );
 
-        if (remember) {
-          CoreUtils.call(
-            "setCookie",
-            "SITE_DATA_LOGIN_COOKIE",
-            cookie,
-            "/",
-            14
+        const cookie = response.data.accessToken;
+
+        if (response.status === 201) {
+          localStorage.setItem(
+            "SITE_DATA_AUTH",
+            JSON.stringify({
+              token: cookie,
+            })
           );
-        } else {
-          CoreUtils.call(
-            "setCookie",
-            "SITE_DATA_LOGIN_COOKIE",
-            cookie,
-            "/",
-            "Session"
-          );
+
+          if (remember) {
+            CoreUtils.call(
+              "setCookie",
+              "SITE_DATA_LOGIN_COOKIE",
+              cookie,
+              "/",
+              14
+            );
+          } else {
+            CoreUtils.call(
+              "setCookie",
+              "SITE_DATA_LOGIN_COOKIE",
+              cookie,
+              "/",
+              "Session"
+            );
+          }
+          resolve(true);
         }
-        return;
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          console.log(error.response?.status || error.message);
+          reject(new Error(error.message));
+        } else {
+          console.log(error.message);
+          reject(new Error(error.message));
+        }
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Login failed.");
+      reject(new Error("Login failed."));
+    });
   }
   /**
    *
@@ -99,30 +101,34 @@ class AuthService {
     password: string,
     name: string
   ): Promise<RegisterResponse> {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
-    try {
-      const response = await axios.post(
-        apiUrls.USER_REGISTER,
-        {
-          username: username,
-          email: email,
-          password: password,
-          name: name,
-        },
-        axiosConfig
-      );
-      const { data } = response;
-      if (response.status === 201) {
-        return data;
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          apiUrls.USER_REGISTER,
+          JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+            name: name,
+          }),
+          axiosConfig
+        );
+        const { data } = response;
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          console.log(error.response?.status || error.message);
+          reject(new Error(error.message));
+        } else {
+          console.log(error.message);
+          reject(new Error(error.message));
+        }
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Registration failed.");
+      reject(new Error("Registration failed."));
+    });
   }
   /**
    * Toggle 2FA function
@@ -184,24 +190,28 @@ class AuthService {
    * @param token
    * @returns
    */
-  async activateAccount(token: string): Promise<void> {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
-    try {
-      const response = await axios.get(
-        `${apiUrls.USER_ACTIVATE}?token=${token}`,
-        axiosConfig
-      );
-      if (response.status == 204) {
-        return;
+  async activateAccount(token: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "GET" });
+      try {
+        const response = await axios.get(
+          `${apiUrls.USER_ACTIVATE}?token=${token}`,
+          axiosConfig
+        );
+        if (response.status == 204) {
+          resolve(true);
+        }
+      } catch (error: any) {
+        if (axios.isAxiosError(error)) {
+          console.log(error.response?.status || error.message);
+          reject(new Error(error.message));
+        } else {
+          console.log(error.message);
+          reject(new Error(error.message));
+        }
       }
-    } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        console.log(error.response?.status || error.message);
-      } else {
-        console.log(error.message);
-      }
-    }
-    throw new Error("Failed to activate account.");
+      reject(new Error("Failed to activate account."));
+    });
   }
 
   /**

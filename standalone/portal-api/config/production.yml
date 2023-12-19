@@ -43,7 +43,7 @@ app:
   version: 'v0.1'
   description: 'Taral API'
   backendDomain: 'http://localhost:3000'
-  frontendDomain: 'http://localhost:3001'
+  frontendDomain: 'http://localhost:4200'
   sameSite: true
   runchainhook: false
   runjobs: false

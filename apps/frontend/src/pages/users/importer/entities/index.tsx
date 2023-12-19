@@ -29,8 +29,9 @@ import { useAtom } from "jotai";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
+import { EntityCardResponse } from "src/types";
 
-function Index({ ...props }) {
+function Index() {
   const [searchInput, setSearchInput] = useState("");
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
@@ -43,6 +44,22 @@ function Index({ ...props }) {
   const [entityCreated] = useAtom(EntityCreatedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const router = useRouter();
+
+  const [entities, setEntities] = useState<EntityCardResponse[]>([]);
+
+  async function fetchEntities() {
+    try {
+      const res = await entityService.getAllEntity();
+      const entities = res || [];
+      setEntities(entities);
+    } catch (error) {
+      console.log("Error fetching entities:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchEntities();
+  }, [entityCreated, entityEdited, entityDeleted]);
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -77,7 +94,7 @@ function Index({ ...props }) {
   const EntityBody = () => {
     return (
       <div className="entityContainer">
-        {props.entities
+        {entities
           .filter(function (item: any) {
             return item!.name.toLowerCase().includes(searchInput.toLowerCase());
           })
@@ -126,7 +143,7 @@ function Index({ ...props }) {
       {/* {<BottomBar></BottomBar>} */}
       <div className="mainBody">
         {" "}
-        {props.entities.length ? (
+        {entities.length ? (
           <EntityBody></EntityBody>
         ) : (
           <div
@@ -168,22 +185,22 @@ function Index({ ...props }) {
     </div>
   );
 }
-export async function getServerSideProps() {
-  try {
-    const res = await entityService.getAllEntity();
-    const entities = res || [];
-    console.log("entities", entities);
+// export async function getServerSideProps() {
+//   try {
+//     const res = await entityService.getAllEntity();
+//     const entities = res || [];
+//     console.log("entities", entities);
 
-    return {
-      props: { entities },
-    };
-  } catch (error) {
-    //TODO: Handle error
-    console.error("Error fetching entity:", error);
-    return {
-      props: { entities: [] },
-    };
-  }
-}
+//     return {
+//       props: { entities },
+//     };
+//   } catch (error) {
+//     //TODO: Handle error
+//     console.error("Error fetching entity:", error);
+//     return {
+//       props: { entities: [] },
+//     };
+//   }
+// }
 
 export default Index;
