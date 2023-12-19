@@ -76,7 +76,7 @@ export class AuthService {
     private readonly refreshTokenService: RefreshTokenService,
     @Inject('LOGIN_THROTTLE')
     private readonly rateLimiter: RateLimiter,
-  ) { }
+  ) {}
 
   /**
    * send mail
@@ -129,12 +129,12 @@ export class AuthService {
     const registerProcess = !createUserDto.status;
     const user = await this.userRepository.store(createUserDto, token);
     const subject = registerProcess ? 'Account created' : 'Set Password';
-    const link = registerProcess ? `verify/${token}` : `reset/${token}`;
+    const link = registerProcess ? `auth/verify/${token}` : `reset/${token}`;
     const slug = registerProcess ? 'activate-account' : 'new-user-set-password';
     const linkLabel = registerProcess ? 'Activate Account' : 'Set Password';
 
     await this.sendMailToUser(user, subject, link, slug, linkLabel);
-    
+
     return user;
   }
 
@@ -153,12 +153,12 @@ export class AuthService {
     const registerProcess = !createUserDto.status;
     const user = await this.userRepository.store(createUserDto, token);
     const subject = registerProcess ? 'Account created' : 'Set Password';
-    const link = registerProcess ? `verify/${token}` : `reset/${token}`;
+    const link = registerProcess ? `auth/verify/${token}` : `reset/${token}`;
     const slug = registerProcess ? 'activate-account' : 'new-user-set-password';
     const linkLabel = registerProcess ? 'Activate Account' : 'Set Password';
 
     await this.sendMailToUser(user, subject, link, slug, linkLabel);
-    
+
     const response: RegisterResponseDto = {
       email: user.email,
       username: user.username,
@@ -186,7 +186,6 @@ export class AuthService {
     userLoginDto: UserLoginDto,
     refreshTokenPayload: Partial<RefreshTokenEntity>,
   ): Promise<AuthResponse> {
-
     const usernameIPkey = `${userLoginDto.username}_${refreshTokenPayload.ip}`;
 
     if (throttleEnabled) {
@@ -210,10 +209,10 @@ export class AuthService {
 
     const [user, error, code] = await this.userRepository.login(userLoginDto);
     if (!user) {
-
       if (throttleEnabled) {
-        const [result, throttleError] =
-          await this.limitConsumerPromiseHandler(usernameIPkey);
+        const [result, throttleError] = await this.limitConsumerPromiseHandler(
+          usernameIPkey,
+        );
         if (!result) {
           throw new CustomHttpException(
             `tooManyRequest-{"second":${String(
@@ -227,8 +226,9 @@ export class AuthService {
 
       throw new UnauthorizedException(error, code);
     }
-    const accessToken =
-      await this.refreshTokenService.generateAccessToken(user);
+    const accessToken = await this.refreshTokenService.generateAccessToken(
+      user,
+    );
 
     let refreshToken = null;
     if (userLoginDto.remember) {
@@ -331,8 +331,9 @@ export class AuthService {
         [field]: updateUserDto[field],
       };
       condition.id = Not(id);
-      const checkUnique =
-        await this.userRepository.countEntityByCondition(condition);
+      const checkUnique = await this.userRepository.countEntityByCondition(
+        condition,
+      );
       if (checkUnique > 0) {
         errorPayload.push({
           property: field,
@@ -412,8 +413,9 @@ export class AuthService {
    */
   async resetPassword(resetPasswordDto: ResetPasswordDto): Promise<void> {
     const { password } = resetPasswordDto;
-    const user =
-      await this.userRepository.getUserForResetPassword(resetPasswordDto);
+    const user = await this.userRepository.getUserForResetPassword(
+      resetPasswordDto,
+    );
     if (!user) {
       throw new NotFoundException();
     }
@@ -487,8 +489,9 @@ export class AuthService {
     const condition: ObjectLiteral = {
       token,
     };
-    const tokenCount =
-      await this.userRepository.countEntityByCondition(condition);
+    const tokenCount = await this.userRepository.countEntityByCondition(
+      condition,
+    );
     if (tokenCount > 0) {
       await this.generateUniqueToken(length);
     }
@@ -500,7 +503,10 @@ export class AuthService {
    * @param accessToken
    * @param refreshToken
    */
-  buildResponsePayload(accessToken: string, refreshToken?: string): AuthResponse {
+  buildResponsePayload(
+    accessToken: string,
+    refreshToken?: string,
+  ): AuthResponse {
     const authResponse: AuthResponse = {
       accessToken,
       refreshToken,
@@ -531,8 +537,9 @@ export class AuthService {
   async revokeRefreshToken(encoded: string): Promise<void> {
     // ignore exception because anyway we are going invalidate cookies
     try {
-      const { token } =
-        await this.refreshTokenService.resolveRefreshToken(encoded);
+      const { token } = await this.refreshTokenService.resolveRefreshToken(
+        encoded,
+      );
       if (token) {
         token.isRevoked = true;
         await token.save();
