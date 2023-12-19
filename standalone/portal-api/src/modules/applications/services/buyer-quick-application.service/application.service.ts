@@ -79,7 +79,6 @@ export class BuyerQuickApplicationService extends BaseService {
           'orderDetails',
           'security',
           'transactionDocuments',
-          'exporterName',
         ],
       },
     );
