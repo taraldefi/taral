@@ -829,7 +829,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "make-payment",
             [
-                Cl.uint(purchaseOrderId),
             ], WALLET_1
         );
 
@@ -998,7 +997,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "make-payment",
             [
-                Cl.uint(purchaseOrderId),
             ], WALLET_1
         );
 
@@ -1039,11 +1037,10 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "make-payment",
             [
-                Cl.uint(purchaseOrderId),
             ], WALLET_1
         );
 
-        expect(makePaymentResult.result).toBeErr(Cl.uint(130));
+        expect(makePaymentResult.result).toBeErr(Cl.uint(134));
     }),
 
     it("Should not be able to reject financing if already accepted", () => {
@@ -1215,7 +1212,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "make-payment",
             [
-                Cl.uint(purchaseOrderId),
             ], WALLET_1
         );
 
@@ -1242,7 +1238,6 @@ describeOrSkip("Taral bank test flows", () => {
             "taral-bank",
             "make-payment",
             [
-                Cl.uint(purchaseOrderId),
             ], WALLET_1
         );
 

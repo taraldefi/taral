@@ -212,10 +212,12 @@
 
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
-(define-public (make-payment (purchase-order-id uint))
+(define-public (make-payment)
   (let 
     (
-      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id purchase-order-id)))
+      (active-purchase-order-id (unwrap! (contract-call? .taral-bank-storage get-active-purchase-order tx-sender) (err ERR_NO_ACTIVE_PURCHASE_ORDER)))
+
+      (po (unwrap-panic (contract-call? .taral-bank-storage get-purchase-order-by-id active-purchase-order-id)))
 
       (financing (unwrap-panic (contract-call? .taral-bank-storage get-financing-offer-by-id (unwrap-panic (get accepted-financing-id po)))))
       (interest-rate-per-payment (/ (var-get protocol-interest-rate-per-annum) u4)) ;; monthly payment)))
@@ -258,19 +260,21 @@
                 (begin 
                   ;; Check if this payment completes the purchase order
                   ;; If all payments are made, end the purchase order successfully
-                  (let ((end-purchase-order-response (end-purchase-order-successfully purchase-order-id)))
+                  (let ((end-purchase-order-response (end-purchase-order-successfully active-purchase-order-id)))
 
                     (match end-purchase-order-response
                       end-purchase-order-success
-                      (begin 
+                      (begin
                         (unwrap! (as-contract (contract-call? .taral-bank-storage set-payment {
                             borrower-id: (get borrower-id po),
-                            purchase-order-id: purchase-order-id,
+                            purchase-order-id: active-purchase-order-id,
                             amount: outstanding-amount,
                             block: block-height
                         })) (err ERR_STORAGE_INTERACTION_FAILED))
 
-                        (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order purchase-order-id (merge po 
+                        (unwrap! (as-contract (contract-call? .taral-bank-storage delete-active-purchase-order borrower-id)) (err ERR_STORAGE_INTERACTION_FAILED))
+
+                        (unwrap! (as-contract (contract-call? .taral-bank-storage update-purchase-order active-purchase-order-id (merge po 
                             {
                               updated-at: block-height,
                               outstanding-amount: u0,
