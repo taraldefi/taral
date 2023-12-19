@@ -1,9 +1,14 @@
 
-
 ;; Counter for Purchase Orders and financing offers
 (define-data-var next-purchase-order-id uint u1)
 (define-data-var next-payment-id uint u1)
 (define-data-var next-financing-id uint u1)
+
+(define-data-var contract-owner principal tx-sender)
+(define-data-var authorized-contract-caller principal .taral-bank)
+
+(define-constant ERR_UNAUTHORIZED u401)
+(define-constant ERR-UNAUTHORIZED-CONTRACT-CALLER u999)
 
 (define-map active-purchase-orders
   principal
@@ -60,7 +65,7 @@
   }
 )
 
-(define-read-only (get-purchase-order-by-id (id uint))
+(define-read-only (get-purchase-order-by-id (id uint))  
   (map-get? purchase-orders { id: id })
 )
 
@@ -72,10 +77,19 @@
   (map-get? active-purchase-orders borrower-id)
 )
 
+(define-public (update-authorized-contract-caller (new-authorized-contract-caller principal))
+  (begin
+    (asserts! (is-eq tx-sender (var-get contract-owner)) (err ERR_UNAUTHORIZED))
+    (var-set authorized-contract-caller new-authorized-contract-caller)
+    (ok true)
+  )
+)
+
 ;; #[allow(unchecked_params)]
 ;; #[allow(unchecked_data)]
 (define-public (set-active-purchase-order (borrower-id principal) (purchase-order-id uint))
   (begin 
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
     (map-set active-purchase-orders borrower-id purchase-order-id)
     (ok purchase-order-id)
   )
@@ -85,6 +99,7 @@
 ;; #[allow(unchecked_data)]
 (define-public (delete-active-purchase-order (borrower-id principal))
   (begin 
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
     (map-delete active-purchase-orders borrower-id)
     (ok true)
   )
@@ -104,6 +119,7 @@
     accepted-at: uint, ;; Timestamp of acceptance
 }))    
   (begin 
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
     (map-set po-financing { id: financing-id }
       {
         purchase-order-id: (get purchase-order-id financing),
@@ -141,6 +157,8 @@
       (financing-id (increment-next-financing-id))
     )
 
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
+
     (map-set po-financing { id: financing-id }
       {
         purchase-order-id: (get purchase-order-id financing),
@@ -167,18 +185,22 @@
     amount: uint,
     block: uint,
   }))
+
+  (begin 
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
   
-  (ok (map-set payments
-    {
-      id: (increment-next-payment-id)
-    }
-    {
-      borrower-id: (get borrower-id payment),
-      purchase-order-id: (get purchase-order-id payment),
-      amount: (get amount payment),
-      block: block-height
-    }
-  ))
+    (ok (map-set payments
+      {
+        id: (increment-next-payment-id)
+      }
+      {
+        borrower-id: (get borrower-id payment),
+        purchase-order-id: (get purchase-order-id payment),
+        amount: (get amount payment),
+        block: block-height
+      }
+    ))
+  )
 )
 
 ;; #[allow(unchecked_params)]
@@ -198,26 +220,32 @@
   created-at: uint,  ;; Timestamp of creation
   updated-at: uint,   ;; Timestamp of last update
 }))
-  (ok (map-set purchase-orders 
-                          {
-                            id: id
-                          }
-                          {
-                            borrower-id: (get borrower-id po),
-                            lender-id: (get lender-id po),
-                            seller-id: (get seller-id po),
-                            total-amount: (get total-amount po),
-                            downpayment: (get downpayment po),
-                            outstanding-amount: (get outstanding-amount po),
-                            is-completed: (get is-completed po),
-                            completed-successfully: (get completed-successfully po),
-                            accepted-financing-id: (get accepted-financing-id po),
-                            is-canceled: (get is-canceled po),
-                            has-active-financing: (get has-active-financing po),
-                            created-at: (get created-at po),
-                            updated-at: (get updated-at po),
-                          }
-                        ))
+
+  (begin 
+  
+    (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
+
+    (ok (map-set purchase-orders 
+                            {
+                              id: id
+                            }
+                            {
+                              borrower-id: (get borrower-id po),
+                              lender-id: (get lender-id po),
+                              seller-id: (get seller-id po),
+                              total-amount: (get total-amount po),
+                              downpayment: (get downpayment po),
+                              outstanding-amount: (get outstanding-amount po),
+                              is-completed: (get is-completed po),
+                              completed-successfully: (get completed-successfully po),
+                              accepted-financing-id: (get accepted-financing-id po),
+                              is-canceled: (get is-canceled po),
+                              has-active-financing: (get has-active-financing po),
+                              created-at: (get created-at po),
+                              updated-at: (get updated-at po),
+                            }
+                          ))
+  )
 )
 
 ;; #[allow(unchecked_params)]
@@ -240,6 +268,8 @@
   (let (
     (purchase-order-id (increment-next-purchase-order-id))
   )
+
+  (asserts! (is-eq tx-sender .taral-bank) (err ERR-UNAUTHORIZED-CONTRACT-CALLER)) ;; Error code if caller is not .taral-bank
 
   (map-set purchase-orders 
                           {
