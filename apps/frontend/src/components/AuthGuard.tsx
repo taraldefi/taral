@@ -19,20 +19,27 @@ export const AuthGuard = ({ children }: any) => {
       try {
         // Check if token is expired
         const decoded = jwtDecode(token.accessToken);
+        console.log(
+          "decoded",
+          Date.now() / 1000,
+          decoded.iat + token.expiresIn
+        );
 
         if (Date.now() / 1000 > decoded.iat + token.expiresIn) {
           // Token is expired, remove it and redirect to login
           localStorage.removeItem("SITE_DATA_AUTH");
           // Redirect to login page
-          router.push("/auth/login-mvp");
+          router.push("/auth/session-expired");
         }
       } catch (error) {
         // Handle error, invalid token format
       }
     };
+    // Set up an interval to check token validity periodically
+    const intervalId = setInterval(checkAuthState, 600); // Check every 60 seconds
 
-    checkAuthState();
-  }, []);
+    return () => clearInterval(intervalId);
+  }, [router]);
 
   return <>{children}</>;
 };
