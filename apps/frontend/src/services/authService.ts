@@ -46,15 +46,10 @@ class AuthService {
           axiosConfig
         );
 
-        const cookie = response.data.accessToken;
+        const cookie = response.data;
 
         if (response.status === 201) {
-          localStorage.setItem(
-            "SITE_DATA_AUTH",
-            JSON.stringify({
-              token: cookie,
-            })
-          );
+          localStorage.setItem("SITE_DATA_AUTH", JSON.stringify(cookie));
 
           if (remember) {
             CoreUtils.call(

@@ -32,7 +32,7 @@ function Index() {
         return "Logged in successfully!";
       },
       error: (err) => {
-        return err;
+        return "Error logging in!";
       },
     });
   };
@@ -132,6 +132,8 @@ function Index() {
             {/* <div className="inputContainer">
               <Button label={"Send OTP"}></Button>
             </div> */}
+
+            <a href="/auth/register">create a new account</a>
 
             <Button
               type="submit"

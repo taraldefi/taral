@@ -1,3 +1,4 @@
+import AuthLayout from "@components/layouts/auth_layout";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -34,14 +35,41 @@ const Slug: React.FC = () => {
   }, [router]);
 
   if (verifying) {
-    return <div>Verifying user...</div>;
+    return (
+      <AuthLayout>
+        <div className="otp-container">
+          <h2>Account Verification</h2>
+          <br />
+          <span>You are almost there we are verfying your account...</span>
+          <br />
+        </div>
+      </AuthLayout>
+    );
   }
 
   if (!verified) {
-    return <div>Verification failed. Please try again.</div>;
+    return (
+      <AuthLayout>
+        <div className="otp-container">
+          <h2>Account Verification</h2>
+          <br />
+          <span>Your account verification failed. Please try again!</span>
+          <br />
+        </div>
+      </AuthLayout>
+    );
   }
 
-  return <div>Verification successful! Redirecting to login...</div>;
+  return (
+    <AuthLayout>
+      <div className="otp-container">
+        <h2>Account Verification</h2>
+        <br />
+        <span>Account verified! redirecting you to login page</span>
+        <br />
+      </div>
+    </AuthLayout>
+  );
 };
 
 export default Slug;
