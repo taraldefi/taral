@@ -3,14 +3,15 @@ import applicationService from "@services/application/applicationService";
 import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
-import { use, useEffect, useState } from "react";
-import { set } from "react-hook-form";
+import { useEffect, useState } from "react";
 import { ApplicationTable } from "taral-ui";
 import { applicationTableDataType } from "taral-ui/build/Table/Table.types";
 
-function Index() {
+function Index({ ...props }) {
   const router = useRouter();
-  const entityId = router.query.entityId as string;
+
+  const entityId = props.query.entityId as string;
+
   const [applicationTableData, setApplicationTableData] = useState<
     applicationTableDataType[]
   >([]);
@@ -74,6 +75,13 @@ function Index() {
     </ImporterBaseLayout>
   );
 }
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  {
+    const { query } = context;
+    return { props: { query } };
+  }
+};
 
 // export async function getServerSideProps(context: NextPageContext) {
 //   const { query } = context;

@@ -37,6 +37,7 @@
     "jotai-query-toolkit": "^0.1.18",
     "jotai-tanstack-query": "^0.7.2",
     "just-debounce-it": "^3.2.0",
+    "jwt-decode": "^4.0.0",
     "moment": "^2.29.4",
     "next": "14.0.4",
     "nextjs-progressbar": "^0.0.16",

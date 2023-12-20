@@ -55,15 +55,15 @@ class AuthService {
             CoreUtils.call(
               "setCookie",
               "SITE_DATA_LOGIN_COOKIE",
-              cookie,
+              JSON.stringify(cookie),
               "/",
-              14
+              2
             );
           } else {
             CoreUtils.call(
               "setCookie",
               "SITE_DATA_LOGIN_COOKIE",
-              cookie,
+              JSON.stringify(cookie),
               "/",
               "Session"
             );

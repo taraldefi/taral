@@ -94,6 +94,7 @@ export class ApplicationService {
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${id}/submit`,
+          JSON.stringify({}),
           axiosConfig
         );
 

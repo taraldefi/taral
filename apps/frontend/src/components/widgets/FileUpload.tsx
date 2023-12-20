@@ -1,17 +1,18 @@
-import React, { use } from "react";
-import axios from "axios";
-import { Button } from "taral-ui";
 import { PortalIcons } from "@components/icons";
-import { DisplayThumbnail } from "./pdfThumbnail";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
-import Modal from "./pdfViewer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNetworks } from "@hooks/useNetwork";
+import React from "react";
+import { Button } from "taral-ui";
+import { DisplayThumbnail } from "./pdfThumbnail";
+import Modal from "./pdfViewer";
 
-import apiUrls from "@config/apiUrls";
+import { useOpenSignMessage } from "@micro-stacks/react";
+import fileService from "@services/fileService";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
-import { useOpenSignMessage } from "@micro-stacks/react";
+import axios from "axios";
+import apiUrls from "@config/apiUrls";
 
 export enum documentType {
   CONFIRMATION_DOCUMENT = "confirmation-document",
@@ -42,11 +43,12 @@ const FileUpload = ({ type }: FileUploadProps) => {
 
   const fetchUploadStatus = async () => {
     try {
-      const response = await axios.get(
-        `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationID}`
+      const response = await fileService.getTransactionDocument(
+        type,
+        applicationID as string
       );
 
-      setUploadStatus(response.data);
+      setUploadStatus(response);
     } catch (error) {
       console.error(error);
     }
@@ -67,11 +69,29 @@ const FileUpload = ({ type }: FileUploadProps) => {
         formData.append("file", file, file.name);
         formData.append("signedMessage", file.name);
         formData.append("signature", walletResponse.signature);
-        await axios.post(`${apiUrls.CREATE_FILE}`, formData);
+        await fileService.createFile(formData);
 
-        await axios.post(
-          `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationID}`
+        await fileService.markTransactionDocument(
+          type,
+          applicationID as string
         );
+        // const options = {
+        //   method: "POST",
+        //   url: `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationID}`,
+        //   headers: {
+        //     Authorization:
+        //       "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWJqZWN0IjoiMTMiLCJpYXQiOjE3MDMwNDgwNTAsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDIwMCIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6MzAwMCJ9.yvUps3NMOTucV1rZuUFeguV5r8D6DzNdOeuHgfKHxNM",
+        //   },
+        // };
+
+        // axios
+        //   .request(options)
+        //   .then(function (response) {
+        //     console.log(response.data);
+        //   })
+        //   .catch(function (error) {
+        //     console.error(error);
+        //   });
 
         setLoading(false);
         setFile(file);

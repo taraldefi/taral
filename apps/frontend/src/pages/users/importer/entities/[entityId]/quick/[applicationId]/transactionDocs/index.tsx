@@ -20,8 +20,6 @@ function Index({ ...props }) {
     );
   };
 
-  const onUploadConfirmationDocument = async () => {};
-
   const onSubmit = async () => {
     const response = () => applicationService.submitApplication(applicationID);
     toast.promise(response, {

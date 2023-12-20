@@ -12,8 +12,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "sonner";
 
 type Inputs = {
+  username: string;
   firstName: string;
-  middleName: string;
   lastName: string;
   email: string;
   password: string;
@@ -36,8 +36,8 @@ function Index() {
     formState: { errors },
   } = useForm<Inputs>({
     defaultValues: {
+      username: "",
       firstName: "",
-      middleName: "",
       lastName: "",
       email: "",
       phoneNo: "",
@@ -63,7 +63,7 @@ function Index() {
     await trigger();
     console.log(data);
     const registerPromise = authService.register(
-      data.firstName + data.idNumber,
+      data.username,
       data.email,
       data.password,
       data.firstName
@@ -73,7 +73,8 @@ function Index() {
       loading: "Creating account...",
       success: (data) => {
         console.log(data);
-        return "Account created successfully, check your mail to activate your account";
+        router.push("/auth/check-mail");
+        return "Account created successfully";
       },
       error: (err) => {
         console.log(err);
@@ -107,21 +108,22 @@ function Index() {
           <div className="innerContainer1">
             <div className="mainTitle">PERSONAL INFO</div>
             <div className="inputContainer">
-              <span>First Name</span>
+              <span>User Name</span>
               <input
                 type="text"
-                className={errors.firstName ? "inputsRed" : "inputs"}
+                className={errors.username ? "inputsRed" : "inputs"}
                 placeholder="First name..."
-                {...register("firstName", { required: true })}
+                {...register("username", { required: true })}
               />
             </div>
             <div className="splitBox">
               <div className="inputContainer">
-                <span>Middle Name</span>
+                <span>First Name</span>
                 <input
                   type="text"
-                  className="inputs"
-                  placeholder="Middle name..."
+                  className={errors.firstName ? "inputsRed" : "inputs"}
+                  placeholder="First name..."
+                  {...register("firstName", { required: true })}
                 />
               </div>
               <div className="inputContainer">

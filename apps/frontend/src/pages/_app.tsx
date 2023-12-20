@@ -10,23 +10,10 @@ import { useEffect, useState } from "react";
 import "taral-ui/build/index.scss";
 import * as MicroStacks from "@micro-stacks/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import nookies from "nookies";
-
-const isUserAuthenticated = (ctx?: any): boolean => {
-  // Get token from cookies
-  const cookies = nookies.get(ctx);
-  return !!cookies.SITE_DATA_LOGIN_COOKIE;
-};
+import { AuthGuard } from "@components/AuthGuard";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
-
-  useEffect(() => {
-    if (!isUserAuthenticated()) {
-      // Redirect to login page if not authenticated
-      router.push("/auth/login-mvp");
-    }
-  }, [router]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -48,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             height={6}
             options={{ showSpinner: false }}
           />
+
           <Component {...pageProps} />
 
           {/* <IdleTimeOutHandler

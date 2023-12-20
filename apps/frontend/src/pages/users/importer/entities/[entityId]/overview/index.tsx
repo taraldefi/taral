@@ -8,7 +8,7 @@ import {
   currentSelectedEntityAtom,
 } from "@store/entityStore";
 import { useAtom } from "jotai";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps, NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
@@ -54,23 +54,21 @@ const TableData = [
   },
 ];
 
-function index() {
+function index({ ...props }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
-  console.log(router.query.entityId);
+
   const [entityData, setEntityData] = useState<EntityResponse>();
 
-  // if (router.isFallback) {
-  //   return;
-  // }
+  if (router.isFallback) {
+    return;
+  }
 
   async function fetchEntityData() {
     try {
-      const res = await entityService.getEntity(
-        router.query.entityId as string
-      );
+      const res = await entityService.getEntity(props.query.entityId);
       setEntityData(res);
     } catch (error) {
       console.log("Error fetching entity:", error);
@@ -164,6 +162,13 @@ function index() {
     </ImporterBaseLayout>
   );
 }
+
+export const getServerSideProps = async (context: NextPageContext) => {
+  {
+    const { query } = context;
+    return { props: { query } };
+  }
+};
 // export const getStaticProps: GetStaticProps = async (context) => {
 //   const itemID = context.params?.entityId;
 

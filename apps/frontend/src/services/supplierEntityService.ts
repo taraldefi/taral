@@ -34,7 +34,7 @@ class SupplierEntityService {
     }
     throw new Error("Fetch Entity by ID failed.");
   }
-  async getAllEntity(): Promise<EntityCardResponse[]> {
+  async getAllEntity(): Promise<SupplierEntityResponse[]> {
     const axiosConfig = getAxiosConfig({ method: "GET" });
     try {
       const response = await axios.get(
