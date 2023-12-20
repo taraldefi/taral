@@ -19,11 +19,6 @@ export const AuthGuard = ({ children }: any) => {
       try {
         // Check if token is expired
         const decoded = jwtDecode(token.accessToken);
-        console.log(
-          "decoded",
-          Date.now() / 1000,
-          decoded.iat + token.expiresIn
-        );
 
         if (Date.now() / 1000 > decoded.iat + token.expiresIn) {
           // Token is expired, remove it and redirect to login
@@ -36,7 +31,7 @@ export const AuthGuard = ({ children }: any) => {
       }
     };
     // Set up an interval to check token validity periodically
-    const intervalId = setInterval(checkAuthState, 600); // Check every 60 seconds
+    const intervalId = setInterval(checkAuthState, 60000); // Check every 60 seconds
 
     return () => clearInterval(intervalId);
   }, [router]);
