@@ -213,10 +213,16 @@ class AuthService {
    * logout function
 
    */
-  async logout(): Promise<void> {
+  async logout(refreshToken: string): Promise<void> {
     const axiosConfig = getAxiosConfig({ method: "POST" });
     try {
-      const response = await axios.post(apiUrls.USER_LOGOUT, axiosConfig);
+      const response = await axios.post(
+        apiUrls.USER_LOGOUT,
+        JSON.stringify({
+          refreshToken: refreshToken,
+        }),
+        axiosConfig
+      );
       if (response.status == 201) {
         localStorage.removeItem("SITE_DATA_AUTH");
         CoreUtils.call("delCookie", "SITE_DATA_LOGIN_COOKIE", "/");

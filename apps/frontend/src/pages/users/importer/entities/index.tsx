@@ -31,6 +31,7 @@ import { useRouter } from "next/router";
 import { toast } from "sonner";
 import { EntityCardResponse } from "src/types";
 import { AuthGuard } from "@components/AuthGuard";
+import IdleTimeOutHandler from "@components/idleTimeOutHandler";
 
 function Index() {
   const [searchInput, setSearchInput] = useState("");

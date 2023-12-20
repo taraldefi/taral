@@ -8,7 +8,7 @@ export const AuthGuard = ({ children }: any) => {
   useEffect(() => {
     const checkAuthState = () => {
       const token = JSON.parse(localStorage.getItem("SITE_DATA_AUTH") || "{}");
-      console.log(token);
+
       if (!token || !token.accessToken) {
         // User is not logged in
         console.log("User is not logged in");
@@ -26,8 +26,6 @@ export const AuthGuard = ({ children }: any) => {
           // Redirect to login page
           router.push("/auth/login-mvp");
         }
-        // User is authenticated
-        router.push("/users/importer/entities");
       } catch (error) {
         // Handle error, invalid token format
       }

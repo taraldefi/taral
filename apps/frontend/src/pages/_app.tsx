@@ -1,16 +1,14 @@
-import IdleTimeOutHandler from "@components/idleTimeOutHandler";
-import { Toaster } from "sonner";
 import SelectNetworkDialog from "@components/selectNetworkDialog";
+import * as MicroStacks from "@micro-stacks/react";
 import "@styles/globals.scss";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "jotai";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { Toaster } from "sonner";
 import "taral-ui/build/index.scss";
-import * as MicroStacks from "@micro-stacks/react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthGuard } from "@components/AuthGuard";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -22,6 +20,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     }
   }, []);
   const queryClient = new QueryClient();
+
   return (
     <MicroStacks.ClientProvider
       appName="Tariala"
@@ -37,14 +36,6 @@ function MyApp({ Component, pageProps }: AppProps) {
           />
 
           <Component {...pageProps} />
-
-          {/* <IdleTimeOutHandler
-        onActive={() => {}}
-        onIdle={() => {}}
-        onLogout={async () => {
-          await router.push("/auth/login");
-        }}
-      /> */}
 
           <SelectNetworkDialog></SelectNetworkDialog>
         </QueryClientProvider>
