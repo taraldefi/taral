@@ -46,7 +46,7 @@ const NetworkListItem = ({
         ? new StacksTestnet()
         : index === 2
         ? new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
-        : new StacksMocknet()
+        : new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
     );
     setOpen(false);
   };

@@ -1,6 +1,9 @@
 import useModal from "@hooks/useModal";
 import applicationService from "@services/application/applicationService";
-import { ApplicationModalAtom } from "@store/ModalStore";
+import {
+  ApplicationModalAtom,
+  RegisterOnChainModalAtom,
+} from "@store/ModalStore";
 import { currentSelectedEntityAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
@@ -18,6 +21,7 @@ const ApplicationTopNavRightComponent = ({ entities }: Props) => {
     currentSelectedEntityAtom
   );
   const newApplicationModal = useModal(ApplicationModalAtom);
+  const registerOnchainModal = useModal(RegisterOnChainModalAtom);
 
   const router = useRouter();
   return (
@@ -54,7 +58,10 @@ const ApplicationTopNavRightComponent = ({ entities }: Props) => {
           primary={true}
           backgroundColor="#1ab98b"
           label={"New Application"}
-          onClick={() => newApplicationModal.open()}
+          onClick={() => {
+            registerOnchainModal.open();
+            //newApplicationModal.open();
+          }}
         ></Button>
       </div>
     </>

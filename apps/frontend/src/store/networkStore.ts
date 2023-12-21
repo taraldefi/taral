@@ -64,7 +64,7 @@ export const anyNetworkStatusAtom = atomFamily(
         }) || { url: "" };
         const networkUrl = network.url || "";
         try {
-          const res = await fetch(networkUrl);
+          const res = await fetch(`${networkUrl}extended/v1/status`);
           return res.json();
         } catch (error) {
           console.log(error);

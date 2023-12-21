@@ -9,6 +9,7 @@ import {
   EditFormModalAtom,
   FormModalAtom,
   NotificationModalAtom,
+  RegisterOnChainModalAtom,
   SettingsModalAtom,
 } from "@store/ModalStore";
 import { useModal } from "@utils/hooks";
@@ -16,6 +17,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Topbar from "../../topBar";
 import { AuthGuard } from "@components/AuthGuard";
+import RegisterOnChainModal from "@components/modal/registerOnChainModal";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -28,6 +30,7 @@ const ImporterBaseLayout = ({ children }: LayoutProps) => {
   const newEntityModal = useModal(FormModalAtom);
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+  const registerOnchainModal = useModal(RegisterOnChainModalAtom);
 
   return (
     <AuthGuard>
@@ -57,6 +60,10 @@ const ImporterBaseLayout = ({ children }: LayoutProps) => {
         <NotificationModal
           isOpen={notificationModal.isOpen}
         ></NotificationModal>
+        <RegisterOnChainModal
+          isOpen={registerOnchainModal.isOpen}
+          onClose={() => registerOnchainModal.close()}
+        ></RegisterOnChainModal>
       </div>
     </AuthGuard>
   );
