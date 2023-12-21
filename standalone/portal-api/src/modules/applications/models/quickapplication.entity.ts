@@ -40,6 +40,10 @@ export class QuickApplicationEntity extends EntityHelper {
 
   @Column()
   @Allow()
+  sellerPrincipal: string;
+
+  @Column()
+  @Allow()
   purchaseOrderId: number;
 
   @Column()

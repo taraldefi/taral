@@ -113,6 +113,7 @@ export class SupplierInformationService extends BaseService {
     ];
 
     application.exporterName = selectedSupplier.name;
+    application.sellerPrincipal = selectedSupplier.onchainPrincipal;
 
     await this.supplierCompanyRepository.save(selectedSupplier);
     application.supplierInformation = selectedSupplier;

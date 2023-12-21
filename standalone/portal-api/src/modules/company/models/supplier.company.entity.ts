@@ -1,4 +1,11 @@
-import { ChildEntity, Entity, JoinColumn, OneToMany, OneToOne } from 'typeorm';
+import {
+  ChildEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { CompanyEntity } from './company.entity';
 import { SupplierCompanyInformationEntity } from 'src/modules/company-information/models/supplier.company.information.entity';
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
@@ -22,6 +29,10 @@ export class SupplierCompanyEntity extends CompanyEntity {
   @JoinColumn()
   @Allow()
   rating: SupplierRatingEntity;
+
+  @Column()
+  @Allow()
+  onchainPrincipal: string;
 
   @OneToMany(
     () => SupplierCompanyTaxAndRevenueEntity,
