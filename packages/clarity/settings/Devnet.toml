@@ -71,7 +71,7 @@ balance = 100_000_000_000_000
 # stx_address: STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6
 # btc_address: mjSrB3wS4xab3kYqFktwBzfTdPg367ZJ2d
 
-# [devnet]
+[devnet]
 # pox_stacking_orders = []
 # orchestrator_port = 20445
 # bitcoind_p2p_port = 18444
@@ -90,7 +90,7 @@ balance = 100_000_000_000_000
 # miner_mnemonic = "twice kind fence tip hidden tilt action fragile skin nothing glory cousin green tomorrow spring wrist shed math olympic multiply hip blue scout claw"
 # miner_derivation_path = "m/44'/5757'/0'/0/0"
 # working_dir = "tmp/devnet"
-# postgres_port = 5432
+postgres_port = 5433
 # postgres_username = "postgres"
 # postgres_password = "postgres"
 # postgres_database = "postgres"

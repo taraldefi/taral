@@ -7,16 +7,10 @@ export const AuthGuard = ({ children }: any) => {
 
   useEffect(() => {
     const checkAuthState = () => {
-      const token = JSON.parse(localStorage.getItem("SITE_DATA_AUTH") || "{}");
-
-      if (!token || !token.accessToken) {
-        // User is not logged in
-        console.log("User is not logged in");
-        router.push("/auth/login-mvp");
-        return;
-      }
-
       try {
+        const token = JSON.parse(
+          localStorage.getItem("SITE_DATA_AUTH") || "{}"
+        );
         // Check if token is expired
         const decoded = jwtDecode(token.accessToken);
 
@@ -35,6 +29,17 @@ export const AuthGuard = ({ children }: any) => {
 
     return () => clearInterval(intervalId);
   }, [router]);
+
+  if (typeof window !== "undefined") {
+    const token = JSON.parse(localStorage.getItem("SITE_DATA_AUTH") || "{}");
+
+    if (!token || !token.accessToken) {
+      // User is not logged in
+      console.log("User is not logged in");
+      router.push("/auth/login-mvp");
+      return;
+    }
+  }
 
   return <>{children}</>;
 };

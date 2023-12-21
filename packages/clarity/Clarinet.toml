@@ -23,18 +23,18 @@ depends_on = []
 path = "contracts/taral/nft-trait.clar"
 
 [contracts.importer-trait]
-path="contracts/taral/importer-trait.clar"
+path = "contracts/taral/importer-trait.clar"
 
 [contracts.exporter-trait]
-path="contracts/taral/exporter-trait.clar"
+path = "contracts/taral/exporter-trait.clar"
 
 [contracts.storage-service-trait]
 depends_on = []
-path="contracts/taral/storage-service-trait.clar"
+path = "contracts/taral/storage-service-trait.clar"
 
 [contracts.taral-purchase-order-trait]
 depends_on = []
-path="contracts/taral/taral-purchase-order-trait.clar"
+path = "contracts/taral/taral-purchase-order-trait.clar"
 
 # Storage
 [contracts.taral-storage]
@@ -95,19 +95,23 @@ depends_on = ["clarity-bitcoin", "insurance-pool-audit"]
 
 [contracts.storage-service]
 path = "contracts/taral/storage-service.clar"
-depends_on=["storage-service-trait", "taral-file-storage"]
+depends_on = ["storage-service-trait", "taral-file-storage"]
 
 [contracts.taral-importer]
 path = "contracts/taral/taral-importer.clar"
-depends_on=["importer-storage", "importer-trait"]
+depends_on = ["importer-storage", "importer-trait"]
 
 [contracts.taral-exporter]
 path = "contracts/taral/taral-exporter.clar"
-depends_on=["exporter-storage", "exporter-trait"]
+depends_on = ["exporter-storage", "exporter-trait"]
 
 [contracts.taral-purchase-order]
 path = "contracts/taral/taral-purchase-order.clar"
-depends_on=["purchase-order-storage", "taral-purchase-order-trait", "dummy-oracle"]
+depends_on = [
+    "purchase-order-storage",
+    "taral-purchase-order-trait",
+    "dummy-oracle",
+]
 
 [contracts.taral-purchase-order-nft]
 path = "contracts/taral/taral-purchase-order-nft.clar"
@@ -157,7 +161,7 @@ path = "contracts/taral/taral-bank.clar"
 depends_on = ["taral-bank-storage"]
 
 clarity_version = 2
-epoch = 2.4
+epoch = 2.1
 [repl.analysis]
 passes = ['check_checker']
 
