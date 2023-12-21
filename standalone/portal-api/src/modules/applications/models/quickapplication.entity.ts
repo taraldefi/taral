@@ -36,6 +36,14 @@ export class QuickApplicationEntity extends EntityHelper {
 
   @Column()
   @Allow()
+  onchainPrincipal: string;
+
+  @Column()
+  @Allow()
+  purchaseOrderId: number;
+
+  @Column()
+  @Allow()
   exporterName: string;
 
   @Column({ type: 'timestamptz' }) // Recommended
