@@ -30,7 +30,7 @@ export class SupplierCompanyEntity extends CompanyEntity {
   @Allow()
   rating: SupplierRatingEntity;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   onchainPrincipal: string;
 

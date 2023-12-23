@@ -1,6 +1,7 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload, { documentType } from "@components/widgets/FileUpload";
+import useTaralContracts from "@hooks/useTaralContracts";
 import applicationService from "@services/application/applicationService";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
@@ -12,6 +13,7 @@ function Index({ ...props }) {
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
+  const { createTaralPurchaseOrder } = useTaralContracts();
   const onBack = () => {
     router.push(
       `/users/${
@@ -21,6 +23,12 @@ function Index({ ...props }) {
   };
 
   const onSubmit = async () => {
+    const onChainesponse = await createTaralPurchaseOrder(
+      1000,
+      200,
+      "ST2Y2SFNVZBT8SSZ00XXKH930MCN0RFREB2GQG7CJ"
+    );
+    console.log(onChainesponse);
     const response = () => applicationService.submitApplication(applicationID);
     toast.promise(response, {
       loading: "Loading...",

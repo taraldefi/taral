@@ -1,6 +1,7 @@
 import { PortalIcons } from "@components/icons";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import useTaralContracts from "@hooks/useTaralContracts";
 import applicationService from "@services/application/applicationService";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
@@ -11,15 +12,19 @@ type Props = {
 };
 function NewApplicationModal({ isOpen, onClose }: Props) {
   const router = useRouter();
+  const { stxAddress, isSignedIn } = useTaralContracts();
 
   const entityId = router.query.entityId as string;
 
   const handleNewApplication = () => {
+    if (!isSignedIn)
+      return toast.error("Please connect your wallet to create application");
     console.log("entityId", entityId);
     if (!entityId) return;
     const payload = {
       title: `${entityId}-${Date.now()}-Application`,
       entityId: entityId,
+      onChainPrincipal: stxAddress!,
     };
     const response = applicationService.createApplication(payload);
     toast.promise(response, {

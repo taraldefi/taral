@@ -71,9 +71,11 @@ function useTaralContracts() {
 
         onFinish: async (data: any) => {
           console.log("finished contract call!", data);
+          return data;
         },
         onCancel: () => {
           console.log("popup closed!");
+          return new Error("popup closed!");
         },
       });
     }

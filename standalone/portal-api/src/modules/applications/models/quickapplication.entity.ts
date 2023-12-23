@@ -34,15 +34,15 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   title: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   onchainPrincipal: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   sellerPrincipal: string;
 
-  @Column()
+  @Column({ nullable: true })
   @Allow()
   purchaseOrderId: number;
 

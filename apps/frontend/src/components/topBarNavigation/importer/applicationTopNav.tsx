@@ -59,8 +59,8 @@ const ApplicationTopNavRightComponent = ({ entities }: Props) => {
           backgroundColor="#1ab98b"
           label={"New Application"}
           onClick={() => {
-            registerOnchainModal.open();
-            //newApplicationModal.open();
+            // registerOnchainModal.open();
+            newApplicationModal.open();
           }}
         ></Button>
       </div>
