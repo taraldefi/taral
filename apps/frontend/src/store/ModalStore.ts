@@ -14,4 +14,5 @@ export const NotificationModalAtom = atom<boolean>(false);
 export const EntityModalAtom = atom<boolean>(false);
 export const networkDialogIsOpenAtom = atom<boolean>(false);
 export const RegisterOnChainModalAtom = atom<boolean>(false);
+export const FinishApplicationModalAtom = atom<boolean>(false);
 export const selectedEntityModalAtom = atom<string | undefined>("");

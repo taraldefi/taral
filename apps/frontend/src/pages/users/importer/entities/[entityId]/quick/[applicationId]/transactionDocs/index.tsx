@@ -1,11 +1,10 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload, { documentType } from "@components/widgets/FileUpload";
-import useTaralContracts from "@hooks/useTaralContracts";
-import applicationService from "@services/application/applicationService";
+import useModal from "@hooks/useModal";
+import { FinishApplicationModalAtom } from "@store/ModalStore";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
-import { toast } from "sonner";
 import { Button } from "taral-ui";
 
 function Index({ ...props }) {
@@ -13,7 +12,8 @@ function Index({ ...props }) {
   const router = useRouter();
   const entityID = query.entityId;
   const applicationID = query.applicationId;
-  const { createTaralPurchaseOrder } = useTaralContracts();
+  const finishModal = useModal(FinishApplicationModalAtom);
+
   const onBack = () => {
     router.push(
       `/users/${
@@ -23,27 +23,7 @@ function Index({ ...props }) {
   };
 
   const onSubmit = async () => {
-    const onChainesponse = await createTaralPurchaseOrder(
-      1000,
-      200,
-      "ST2Y2SFNVZBT8SSZ00XXKH930MCN0RFREB2GQG7CJ"
-    );
-    console.log(onChainesponse);
-    const response = () => applicationService.submitApplication(applicationID);
-    toast.promise(response, {
-      loading: "Loading...",
-      success: () => {
-        router.push(
-          `/users/${
-            router.asPath.split("/")[2]
-          }/entities/${entityID}/applications`
-        );
-        return `Application Submitted Successfully`;
-      },
-      error: (err) => {
-        return `${err.message}`;
-      },
-    });
+    finishModal.open();
   };
   return (
     <ApplicationLayout>

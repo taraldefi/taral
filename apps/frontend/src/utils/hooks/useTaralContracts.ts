@@ -54,31 +54,33 @@ function useTaralContracts() {
     totalAmount: number,
     downPayment: number,
     sellerPrincipal: string
-  ) {
-    const functionArgs = [
-      uintCV(totalAmount),
-      uintCV(downPayment),
-      standardPrincipalCV(sellerPrincipal),
-    ];
+  ): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      const functionArgs = [
+        uintCV(totalAmount),
+        uintCV(downPayment),
+        standardPrincipalCV(sellerPrincipal),
+      ];
 
-    if (isSignedIn) {
-      await openContractCall({
-        contractAddress: contractAddress,
-        contractName: TaralContracts.TARAL_BANK,
-        functionName: "create-purchase-order",
+      if (isSignedIn) {
+        await openContractCall({
+          contractAddress: contractAddress,
+          contractName: TaralContracts.TARAL_BANK,
+          functionName: "create-purchase-order",
 
-        functionArgs: functionArgs,
+          functionArgs: functionArgs,
 
-        onFinish: async (data: any) => {
-          console.log("finished contract call!", data);
-          return data;
-        },
-        onCancel: () => {
-          console.log("popup closed!");
-          return new Error("popup closed!");
-        },
-      });
-    }
+          onFinish: async (data: any) => {
+            console.log("finished contract call!", data);
+            resolve(data);
+          },
+          onCancel: () => {
+            console.log("popup closed!");
+            reject(new Error("popup closed!"));
+          },
+        });
+      }
+    });
   }
 
   async function getTaralPurchaseOrderById(purchaseOrderId: number) {

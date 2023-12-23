@@ -171,11 +171,6 @@ export class BuyerQuickApplicationService extends BaseService {
 
     const application = await this.findApplicationById(id);
 
-    if (!application.purchaseOrderId)
-      throw new HttpException(
-        'Application not registered on chain please wait',
-        HttpStatus.BAD_REQUEST,
-      );
     const isComplete = await this.checkIfApplicationIsComplete(application);
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
@@ -187,16 +182,6 @@ export class BuyerQuickApplicationService extends BaseService {
       );
 
     application.status = 'COMPLETED';
-    application.save();
-  }
-
-  public async appendPurchaseOrderToApplication(
-    id: string,
-    purchaseOrderId: number,
-  ): Promise<void> {
-    this.setupTransactionHooks();
-    const application = await this.findApplicationById(id);
-    application.purchaseOrderId = purchaseOrderId;
     application.save();
   }
 

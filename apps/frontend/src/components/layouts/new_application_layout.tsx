@@ -5,12 +5,14 @@ import FormModal from "@components/modal/entityFormModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";
 import NotificationModal from "@components/modal/notificationModal";
 import SettingsModal from "@components/modal/settingsModal";
+import StepperModal from "@components/modal/stepperModal";
 import Topbar from "@components/topBar";
 import NewApplicationTopNav from "@components/topBarNavigation/newApplication";
 import useModal from "@hooks/useModal";
 import {
   ApplicationModalAtom,
   EditFormModalAtom,
+  FinishApplicationModalAtom,
   FormModalAtom,
   NotificationModalAtom,
   SettingsModalAtom,
@@ -27,6 +29,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const newEntityModal = useModal(FormModalAtom);
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+  const finishApplicationModal = useModal(FinishApplicationModalAtom);
 
   return (
     <AuthGuard>
@@ -54,6 +57,10 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
         <NotificationModal
           isOpen={notificationModal.isOpen}
         ></NotificationModal>
+        <StepperModal
+          isOpen={finishApplicationModal.isOpen}
+          onClose={() => finishApplicationModal.close()}
+        ></StepperModal>
       </div>
     </AuthGuard>
   );
