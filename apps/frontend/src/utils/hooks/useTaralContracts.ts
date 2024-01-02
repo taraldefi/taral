@@ -6,11 +6,43 @@ import {
   uintCV,
 } from "micro-stacks/clarity";
 
+import axios from "axios";
 import { utf8ToBytes } from "micro-stacks/common";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
   const { stxAddress } = useAccount();
+
+  async function checkTransactionStatus(
+    txId: string,
+    maxAttempts: number = 30,
+    delay: number = 3000
+  ): Promise<any> {
+    let attempts = 0;
+
+    while (attempts < maxAttempts) {
+      try {
+        const response = await axios.get(
+          `http://localhost:3999/extended/v1/tx/${txId}`
+        );
+        if (response.data.tx_status === "success") {
+          return "Transaction successfully submitted on chain";
+        } else if (response.data.tx_status === "pending") {
+          attempts++;
+          await new Promise((resolve) => setTimeout(resolve, delay));
+        } else {
+          throw new Error(
+            `Transaction failed with status: ${response.data.tx_status}`
+          );
+        }
+      } catch (error) {
+        console.error("Error while checking transaction status:", error);
+        throw error;
+      }
+    }
+
+    return "Maximum attempts reached, transaction still pending but you can submit the application";
+  }
 
   const contractAddress = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
   const { openContractCall } = useOpenContractCall();
@@ -67,16 +99,18 @@ function useTaralContracts() {
           contractAddress: contractAddress,
           contractName: TaralContracts.TARAL_BANK,
           functionName: "create-purchase-order",
-
+          postConditionMode: 1,
           functionArgs: functionArgs,
 
           onFinish: async (data: any) => {
             console.log("finished contract call!", data);
-            resolve(data);
+            const txResponse = await checkTransactionStatus(data.txId);
+            // update application with PO ID
+            resolve(txResponse);
           },
           onCancel: () => {
             console.log("popup closed!");
-            reject(new Error("popup closed!"));
+            reject(new Error("user rejected transaction!"));
           },
         });
       }

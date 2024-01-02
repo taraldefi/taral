@@ -37,7 +37,7 @@ function StepperModal({ isOpen, onClose }: Props) {
       loading: "registering on-chain...",
       success: (data) => {
         setStep(1);
-        return `application submitted on chain`;
+        return data;
       },
       error: (err) => {
         return `${err.message}`;

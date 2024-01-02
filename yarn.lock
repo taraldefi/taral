@@ -3769,6 +3769,19 @@
     socket.io-client "4.6.1"
     ws "7.5.6"
 
+"@stacks/blockchain-api-client@^7.3.6":
+  version "7.3.6"
+  resolved "https://registry.npmjs.org/@stacks/blockchain-api-client/-/blockchain-api-client-7.3.6.tgz#0b9ea55c6fcc59cb1866eadc219c9aeeb593a444"
+  integrity sha512-xOYVQfawBh7hT33qusYTYdRvEoZtE+NOQ9S+nEykiv99lzaeaAc6V4wraMzAAPlSFnN/+wZELZTT1Y+/ylu6Hw==
+  dependencies:
+    "@stacks/stacks-blockchain-api-types" "*"
+    "@types/ws" "7.4.7"
+    cross-fetch "3.1.5"
+    eventemitter3 "4.0.7"
+    jsonrpc-lite "2.2.0"
+    socket.io-client "4.6.1"
+    ws "7.5.6"
+
 "@stacks/common@^4.3.5":
   version "4.3.5"
   resolved "https://registry.yarnpkg.com/@stacks/common/-/common-4.3.5.tgz#8115100f6d0bd29b66ddb2ce0e7e034ddee92115"
@@ -8408,7 +8421,7 @@ cross-fetch@^3.1.5:
 
 cross-fetch@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
+  resolved "https://registry.npmjs.org/cross-fetch/-/cross-fetch-4.0.0.tgz#f037aef1580bb3a1a35164ea2a848ba81b445983"
   integrity sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==
   dependencies:
     node-fetch "^2.6.12"
