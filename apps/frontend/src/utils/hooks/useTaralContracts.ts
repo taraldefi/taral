@@ -26,18 +26,21 @@ function useTaralContracts() {
           `http://localhost:3999/extended/v1/tx/${txId}`
         );
         if (response.data.tx_status === "success") {
+          console.log(response.data);
           return "Transaction successfully submitted on chain";
         } else if (response.data.tx_status === "pending") {
           attempts++;
           await new Promise((resolve) => setTimeout(resolve, delay));
+        } else if (response.data.tx_status === "failed") {
+          throw new Error(`Transaction failed`);
         } else {
           throw new Error(
             `Transaction failed with status: ${response.data.tx_status}`
           );
         }
       } catch (error) {
-        console.error("Error while checking transaction status:", error);
-        throw error;
+        console.log(error);
+        throw new Error("API error");
       }
     }
 
@@ -104,6 +107,8 @@ function useTaralContracts() {
 
           onFinish: async (data: any) => {
             console.log("finished contract call!", data);
+            // wait for 3 seconds
+            await new Promise((resolve) => setTimeout(resolve, 3000));
             const txResponse = await checkTransactionStatus(data.txId);
             // update application with PO ID
             resolve(txResponse);
