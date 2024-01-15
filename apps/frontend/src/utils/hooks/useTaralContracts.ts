@@ -1,4 +1,5 @@
 import { useAccount, useAuth, useOpenContractCall } from "@micro-stacks/react";
+import { PostConditionMode } from "micro-stacks/transactions";
 import {
   bufferCV,
   standardPrincipalCV,
@@ -8,6 +9,10 @@ import {
 
 import axios from "axios";
 import { utf8ToBytes } from "micro-stacks/common";
+import {
+  TARAL_BANK_CONTRACT,
+  TARAL_IMPORTER_CONTRACT,
+} from "@utils/lib/constants";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
@@ -47,12 +52,7 @@ function useTaralContracts() {
     return "Maximum attempts reached, transaction still pending but you can submit the application";
   }
 
-  const contractAddress = "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM";
   const { openContractCall } = useOpenContractCall();
-  enum TaralContracts {
-    TARAL_IMPORTER = "taral-importer",
-    TARAL_BANK = "taral-bank-complete",
-  }
 
   async function registerTaralImporterOnChain(
     importerPrincipal: string,
@@ -67,12 +67,14 @@ function useTaralContracts() {
       stringUtf8CV(importerCategory),
     ];
 
+    const contractAddress = TARAL_IMPORTER_CONTRACT.split(".")[0];
+    const contractName = TARAL_IMPORTER_CONTRACT.split(".")[1];
+
     if (isSignedIn) {
       await openContractCall({
-        contractAddress: contractAddress,
-        contractName: TaralContracts.TARAL_IMPORTER,
+        contractAddress,
+        contractName,
         functionName: "register",
-
         functionArgs: functionArgs,
 
         onFinish: async (data: any) => {
@@ -90,6 +92,12 @@ function useTaralContracts() {
     downPayment: number,
     sellerPrincipal: string
   ): Promise<any> {
+    console.log(
+      "createTaralPurchaseOrder",
+      totalAmount,
+      downPayment,
+      sellerPrincipal
+    );
     return new Promise(async (resolve, reject) => {
       const functionArgs = [
         uintCV(totalAmount),
@@ -97,21 +105,21 @@ function useTaralContracts() {
         standardPrincipalCV(sellerPrincipal),
       ];
 
+      const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+      const contractName = TARAL_BANK_CONTRACT.split(".")[1];
+
       if (isSignedIn) {
         await openContractCall({
-          contractAddress: contractAddress,
-          contractName: TaralContracts.TARAL_BANK,
+          contractAddress,
+          contractName,
           functionName: "create-purchase-order",
-          postConditionMode: 1,
+          postConditionMode: PostConditionMode.Allow,
           functionArgs: functionArgs,
 
           onFinish: async (data: any) => {
             console.log("finished contract call!", data);
             // wait for 3 seconds
-            await new Promise((resolve) => setTimeout(resolve, 3000));
-            const txResponse = await checkTransactionStatus(data.txId);
-            // update application with PO ID
-            resolve(txResponse);
+            resolve(data);
           },
           onCancel: () => {
             console.log("popup closed!");
@@ -124,11 +132,13 @@ function useTaralContracts() {
 
   async function getTaralPurchaseOrderById(purchaseOrderId: number) {
     const functionArgs = [uintCV(purchaseOrderId)];
+    const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+    const contractName = TARAL_BANK_CONTRACT.split(".")[1];
 
     if (isSignedIn) {
       await openContractCall({
-        contractAddress: contractAddress,
-        contractName: TaralContracts.TARAL_BANK,
+        contractAddress,
+        contractName,
         functionName: "get-purchase-order-by-id",
 
         functionArgs: functionArgs,
@@ -146,10 +156,12 @@ function useTaralContracts() {
   async function checkPurchaseOrderHasActiveFinancing(purchaseOrderId: number) {
     const functionArgs = [uintCV(purchaseOrderId)];
 
+    const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+    const contractName = TARAL_BANK_CONTRACT.split(".")[1];
     if (isSignedIn) {
       await openContractCall({
-        contractAddress: contractAddress,
-        contractName: TaralContracts.TARAL_BANK,
+        contractAddress,
+        contractName,
         functionName: "has-active-financing",
 
         functionArgs: functionArgs,
@@ -167,10 +179,12 @@ function useTaralContracts() {
   async function makePayment(purchaseOrderId: number, amount: number) {
     const functionArgs = [uintCV(purchaseOrderId), uintCV(amount)];
 
+    const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+    const contractName = TARAL_BANK_CONTRACT.split(".")[1];
     if (isSignedIn) {
       await openContractCall({
-        contractAddress: contractAddress,
-        contractName: TaralContracts.TARAL_BANK,
+        contractAddress,
+        contractName,
         functionName: "make-payment",
 
         functionArgs: functionArgs,
@@ -189,7 +203,6 @@ function useTaralContracts() {
     // general variables
     stxAddress,
     isSignedIn,
-    TaralContracts,
 
     // core onChain helper functions
     registerTaralImporterOnChain,

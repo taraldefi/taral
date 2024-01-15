@@ -14,6 +14,7 @@ import {
   currentNetworkAtom,
   currentStacksNetworkAtom,
 } from "@store/networkStore";
+import { useNetworks } from "@hooks/useNetwork";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -26,19 +27,18 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
   const queryClient = new QueryClient();
 
-  const [currentNetwork] = useAtom(currentStacksNetworkAtom);
-  console.log(currentNetwork);
-
-  const devnet = new StacksMocknet({ coreApiUrl: "http://localhost:3999" });
+  const { currentStacksNetwork } = useNetworks();
+  console.log(currentStacksNetwork);
 
   return (
-    <MicroStacks.ClientProvider
-      appName="Tariala"
-      appIconUrl="https://avatars.githubusercontent.com/u/87638650?s=200&v=4"
-      network={devnet}
-    >
-      <Provider>
-        <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={queryClient}>
+      <MicroStacks.ClientProvider
+        enableNetworkSwitching
+        appName="Tariala"
+        appIconUrl="https://avatars.githubusercontent.com/u/87638650?s=200&v=4"
+        network={currentStacksNetwork}
+      >
+        <Provider>
           <Toaster richColors position={"top-center"} />
           <NextNProgress
             color="#1ab98b"
@@ -49,9 +49,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           <Component {...pageProps} />
 
           <SelectNetworkDialog></SelectNetworkDialog>
-        </QueryClientProvider>
-      </Provider>
-    </MicroStacks.ClientProvider>
+        </Provider>
+      </MicroStacks.ClientProvider>
+    </QueryClientProvider>
   );
 }
 export default MyApp;

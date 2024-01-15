@@ -111,6 +111,20 @@ export class QuickApplicationController {
     return application;
   }
 
+  // Submit on chain transaction ID
+  @Post('/:id/:txId/submit-transaction')
+  async submitTransactionId(
+    @Param('id') applicationId: string,
+    @Param('txId') transactionId: string,
+  ) {
+    const application =
+      await this.buyerQuickApplicationService.insertPurchaseOrderTxId(
+        applicationId,
+        transactionId,
+      );
+    return application;
+  }
+
   // Routes for operations related to application's buyer information
 
   @Get('/:id/buyer-info')

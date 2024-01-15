@@ -503,6 +503,7 @@
       justify-content: space-between;
       margin-bottom: 20px;
     }
+
     .stepper-item {
       position: relative;
       display: flex;
@@ -725,7 +726,8 @@
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background: #ccc;
+      background: white;
+      border: 2px solid #1ab98b;
       margin-bottom: 6px;
     }
 
@@ -744,7 +746,7 @@
     .stepper-item.completed::after {
       position: absolute;
       content: "";
-      border-bottom: 2px solid #1ab98b;
+      border-bottom: 1px solid #1ab98b;
       width: 100%;
       top: 20px;
       left: 50%;

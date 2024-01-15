@@ -89,6 +89,8 @@ export class BuyerQuickApplicationService extends BaseService {
     response.issuanceDate = application.issuanceDate;
     response.endDate = application.endDate;
     response.status = application.status;
+    response.sellerPrincipal = application.sellerPrincipal;
+    response.transactionId = application.purchaseOrderId;
 
     const savedBuyerInformation = await this.buyerInformationService.get(
       application.id,
@@ -161,6 +163,31 @@ export class BuyerQuickApplicationService extends BaseService {
     await entity.save();
 
     return savedApplication;
+  }
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async insertPurchaseOrderTxId(
+    id: string,
+    txId: string,
+  ): Promise<void> {
+    this.setupTransactionHooks();
+
+    const application = await this.findApplicationById(id);
+
+    const isComplete = await this.checkIfApplicationIsComplete(application);
+    if (!isComplete)
+      throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+
+    if (application.status == 'COMPLETED')
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    application.purchaseOrderId = txId;
+    application.save();
   }
 
   @Transactional({

@@ -37,6 +37,14 @@ export class GetBuyerQuickApplicationResponse {
   exporterName: string;
 
   @ApiProperty()
+  @IsString()
+  sellerPrincipal: string;
+
+  @ApiProperty()
+  @IsString()
+  transactionId: string;
+
+  @ApiProperty()
   @ValidateNested()
   @Type(() => GetBuyerResponse)
   buyerInformation: GetBuyerResponse;

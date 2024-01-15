@@ -3,9 +3,11 @@ import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useTaralContracts from "@hooks/useTaralContracts";
 import applicationService from "@services/application/applicationService";
+import { useTransaction } from "@utils/queries/use-transaction";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import SVGComponent from "./loading";
 
 type Props = {
   isOpen: boolean;
@@ -13,36 +15,64 @@ type Props = {
 };
 function StepperModal({ isOpen, onClose }: Props) {
   const router = useRouter();
+  const [transactionId, setTransactionId] = useState("");
+  const { data: transaction, isError } = useTransaction(transactionId);
   const { stxAddress, isSignedIn, createTaralPurchaseOrder } =
     useTaralContracts();
   const [step, setStep] = useState(0);
+  const [applicationData, setApplicationData] = useState({} as any);
 
   const entityId = router.query.entityId as string;
   const applicationId = router.query.applicationId as string;
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await applicationService.getApplication(applicationId);
+        console.log("result", result);
+        if (result.transactionId) {
+          setStep(1);
+        }
+        setApplicationData(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const handleOnChainSubmission = async () => {
+    // TODO : check if tx was already submitted
     if (!isSignedIn) {
       toast.error("Please connect your wallet to continue");
       onClose();
       return;
     }
+    if (!applicationData) return;
 
-    const onChainResponse = createTaralPurchaseOrder(
-      1000,
-      200,
-      "ST2Y2SFNVZBT8SSZ00XXKH930MCN0RFREB2GQG7CJ"
+    const transactionData = await createTaralPurchaseOrder(
+      parseInt(applicationData.paymentTerms.downpaymentAmount),
+      parseInt(applicationData.paymentTerms.balanceAmount),
+      applicationData.sellerPrincipal
+    );
+    console.log("transaction", transactionData);
+
+    await applicationService.submitTransactionId(
+      applicationId,
+      transactionData.txId
     );
 
-    toast.promise(onChainResponse, {
-      loading: "registering on-chain...",
-      success: (data) => {
-        setStep(1);
-        return data;
-      },
-      error: (err) => {
-        return `${err.message}`;
-      },
-    });
+    setTransactionId(transactionData.txId);
+    toast(
+      "Transaction Submitted. If the transaction takes more than 20 minutes to settle refresh and continue to second step",
+      {
+        action: {
+          label: "view transaction",
+          onClick: () => console.log(transactionId),
+        },
+      }
+    );
   };
 
   const handleFinalSubmission = async () => {
@@ -71,6 +101,11 @@ function StepperModal({ isOpen, onClose }: Props) {
       },
     });
   };
+
+  if (transaction?.tx_status === "success") {
+    setStep(1);
+    setTransactionId("");
+  }
 
   return (
     <div className={"finishApplicationModal " + (isOpen && "active")}>
@@ -114,6 +149,8 @@ function StepperModal({ isOpen, onClose }: Props) {
                       >
                         <path d="M32,6C17.641,6,6,17.641,6,32c0,14.359,11.641,26,26,26s26-11.641,26-26C58,17.641,46.359,6,32,6z M29.081,42.748	l-10.409-9.253l2.657-2.99l7.591,6.747L44,21l3.414,3.414L29.081,42.748z"></path>
                       </svg>
+                    ) : transaction?.tx_status === "pending" ? (
+                      <SVGComponent />
                     ) : (
                       1
                     )}

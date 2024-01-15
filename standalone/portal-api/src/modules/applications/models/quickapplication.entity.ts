@@ -44,7 +44,7 @@ export class QuickApplicationEntity extends EntityHelper {
 
   @Column({ nullable: true })
   @Allow()
-  purchaseOrderId: number;
+  purchaseOrderId: string;
 
   @Column()
   @Allow()

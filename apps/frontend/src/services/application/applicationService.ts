@@ -106,6 +106,25 @@ export class ApplicationService {
       }
     });
   }
+
+  async submitTransactionId(id: string, txId: string): Promise<boolean> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${id}/${txId}/submit-transaction`,
+          JSON.stringify({}),
+          axiosConfig
+        );
+
+        if (response.status === 201) {
+          resolve(true);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
 }
 
 const applicationService = new ApplicationService();

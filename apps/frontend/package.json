@@ -54,6 +54,7 @@
     "react-international-phone": "^4.0.0",
     "react-pdf-thumbnail": "^0.1.0",
     "react-pro-sidebar": "^1.0.0",
+    "react-query": "^3.39.3",
     "react-router-dom": "^6.3.0",
     "sass": "^1.52.2",
     "sonner": "^1.2.3",

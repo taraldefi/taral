@@ -1,3 +1,5 @@
+import { StacksMainnet, StacksMocknet } from "micro-stacks/network";
+
 export interface Network {
   name: string;
   label: string;
@@ -45,6 +47,19 @@ export const DEFAULT_NETWORK_LIST: Network[] = [
 export const DEFAULT_NETWORK_INDEX = parseFloat(
   process.env.NEXT_PUBLIC_DEFAULT_NETWORK_INDEX || "0"
 );
+
+export const devnet = process.env.NODE_ENV === "development";
+
+export const stacksNetwork =
+  process.env.NODE_ENV === "production" ? StacksMainnet : StacksMocknet;
+
+export const TARAL_IMPORTER_CONTRACT = devnet
+  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer"
+  : "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer";
+
+export const TARAL_BANK_CONTRACT = devnet
+  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank-complete"
+  : "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank-complete";
 
 export const CURRENCIES = [
   { cc: "AED", symbol: "\u062f.\u0625;", name: "UAE dirham" },
