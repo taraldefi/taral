@@ -7,51 +7,19 @@ import {
   uintCV,
 } from "micro-stacks/clarity";
 
+import { fetchReadOnlyFunction } from "micro-stacks/api";
+
 import axios from "axios";
 import { utf8ToBytes } from "micro-stacks/common";
 import {
   TARAL_BANK_CONTRACT,
   TARAL_IMPORTER_CONTRACT,
+  stacksNetwork,
 } from "@utils/lib/constants";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
   const { stxAddress } = useAccount();
-
-  async function checkTransactionStatus(
-    txId: string,
-    maxAttempts: number = 30,
-    delay: number = 3000
-  ): Promise<any> {
-    let attempts = 0;
-
-    while (attempts < maxAttempts) {
-      try {
-        const response = await axios.get(
-          `http://localhost:3999/extended/v1/tx/${txId}`
-        );
-        if (response.data.tx_status === "success") {
-          console.log(response.data);
-          return "Transaction successfully submitted on chain";
-        } else if (response.data.tx_status === "pending") {
-          attempts++;
-          await new Promise((resolve) => setTimeout(resolve, delay));
-        } else if (response.data.tx_status === "failed") {
-          throw new Error(`Transaction failed`);
-        } else {
-          throw new Error(
-            `Transaction failed with status: ${response.data.tx_status}`
-          );
-        }
-      } catch (error) {
-        console.log(error);
-        throw new Error("API error");
-      }
-    }
-
-    return "Maximum attempts reached, transaction still pending but you can submit the application";
-  }
-
   const { openContractCall } = useOpenContractCall();
 
   async function registerTaralImporterOnChain(
@@ -88,18 +56,14 @@ function useTaralContracts() {
   }
 
   async function createTaralPurchaseOrder(
+    applicationId: string,
     totalAmount: number,
     downPayment: number,
     sellerPrincipal: string
   ): Promise<any> {
-    console.log(
-      "createTaralPurchaseOrder",
-      totalAmount,
-      downPayment,
-      sellerPrincipal
-    );
     return new Promise(async (resolve, reject) => {
       const functionArgs = [
+        stringUtf8CV(applicationId),
         uintCV(totalAmount),
         uintCV(downPayment),
         standardPrincipalCV(sellerPrincipal),
@@ -123,56 +87,96 @@ function useTaralContracts() {
           },
           onCancel: () => {
             console.log("popup closed!");
-            reject(new Error("user rejected transaction!"));
+            //reject(new Error("user rejected transaction!"));
           },
         });
       }
     });
   }
 
-  async function getTaralPurchaseOrderById(purchaseOrderId: number) {
-    const functionArgs = [uintCV(purchaseOrderId)];
-    const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
-    const contractName = TARAL_BANK_CONTRACT.split(".")[1];
+  async function acceptFinancing(): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+      const contractName = TARAL_BANK_CONTRACT.split(".")[1];
 
-    if (isSignedIn) {
-      await openContractCall({
-        contractAddress,
-        contractName,
-        functionName: "get-purchase-order-by-id",
+      if (isSignedIn) {
+        await openContractCall({
+          contractAddress,
+          contractName,
+          functionName: "accept-financing",
+          postConditionMode: PostConditionMode.Allow,
+          functionArgs: [],
 
-        functionArgs: functionArgs,
+          onFinish: async (data: any) => {
+            console.log("finished contract call!", data);
+            resolve(data);
+          },
+          onCancel: () => {
+            console.log("popup closed!");
+            //reject(new Error("user rejected transaction!"));
+          },
+        });
+      }
+    });
+  }
+  async function finance(id: string): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
+      const contractName = TARAL_BANK_CONTRACT.split(".")[1];
+      const functionArgs = [stringUtf8CV(id)];
 
-        onFinish: async (data: any) => {
-          console.log("finished contract call!", data);
-        },
-        onCancel: () => {
-          console.log("popup closed!");
-        },
+      if (isSignedIn) {
+        await openContractCall({
+          contractAddress,
+          contractName,
+          functionName: "finance",
+          postConditionMode: PostConditionMode.Allow,
+          functionArgs,
+
+          onFinish: async (data: any) => {
+            console.log("finished contract call!", data);
+            resolve(data);
+          },
+          onCancel: () => {
+            console.log("popup closed!");
+            //reject(new Error("user rejected transaction!"));
+          },
+        });
+      }
+    });
+  }
+
+  async function checkPurchaseOrderHasActiveFinancing(id: string) {
+    try {
+      const network = new stacksNetwork();
+      const result: any = await fetchReadOnlyFunction({
+        network,
+        contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        contractName: TARAL_BANK_CONTRACT.split(".")[1],
+        senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        functionArgs: [stringUtf8CV(id)],
+        functionName: "has-active-financing",
       });
+      return result;
+    } catch (e: any) {
+      console.error({ e });
     }
   }
 
-  async function checkPurchaseOrderHasActiveFinancing(purchaseOrderId: number) {
-    const functionArgs = [uintCV(purchaseOrderId)];
-
-    const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
-    const contractName = TARAL_BANK_CONTRACT.split(".")[1];
-    if (isSignedIn) {
-      await openContractCall({
-        contractAddress,
-        contractName,
-        functionName: "has-active-financing",
-
-        functionArgs: functionArgs,
-
-        onFinish: async (data: any) => {
-          console.log("finished contract call!", data);
-        },
-        onCancel: () => {
-          console.log("popup closed!");
-        },
+  async function getPurchaseOrderById(id: string) {
+    try {
+      const network = new stacksNetwork();
+      const result: any = await fetchReadOnlyFunction({
+        network,
+        contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        contractName: TARAL_BANK_CONTRACT.split(".")[1],
+        senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        functionArgs: [stringUtf8CV(id)],
+        functionName: "get-purchase-order-by-id",
       });
+      return result;
+    } catch (e: any) {
+      console.error({ e });
     }
   }
 
@@ -186,7 +190,6 @@ function useTaralContracts() {
         contractAddress,
         contractName,
         functionName: "make-payment",
-
         functionArgs: functionArgs,
 
         onFinish: async (data: any) => {
@@ -207,9 +210,11 @@ function useTaralContracts() {
     // core onChain helper functions
     registerTaralImporterOnChain,
     createTaralPurchaseOrder,
-    getTaralPurchaseOrderById,
+    getPurchaseOrderById,
     checkPurchaseOrderHasActiveFinancing,
+    acceptFinancing,
     makePayment,
+    finance,
   };
 }
 export default useTaralContracts;

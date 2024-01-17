@@ -8,6 +8,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import SVGComponent from "./loading";
+import { getExplorerLink } from "@utils/helper";
 
 type Props = {
   isOpen: boolean;
@@ -52,8 +53,10 @@ function StepperModal({ isOpen, onClose }: Props) {
     if (!applicationData) return;
 
     const transactionData = await createTaralPurchaseOrder(
+      applicationId,
+      parseInt(applicationData.paymentTerms.downpaymentAmount) +
+        parseInt(applicationData.paymentTerms.balanceAmount),
       parseInt(applicationData.paymentTerms.downpaymentAmount),
-      parseInt(applicationData.paymentTerms.balanceAmount),
       applicationData.sellerPrincipal
     );
     console.log("transaction", transactionData);
@@ -64,15 +67,14 @@ function StepperModal({ isOpen, onClose }: Props) {
     );
 
     setTransactionId(transactionData.txId);
-    toast(
-      "Transaction Submitted. If the transaction takes more than 20 minutes to settle refresh and continue to second step",
-      {
-        action: {
-          label: "view transaction",
-          onClick: () => console.log(transactionId),
-        },
-      }
-    );
+    toast("Transaction Submitted.", {
+      description:
+        " If the transaction takes more than 20 minutes to settle refresh and continue to second step",
+      action: {
+        label: "view transaction",
+        onClick: () => window.open(getExplorerLink(transactionData.txId)),
+      },
+    });
   };
 
   const handleFinalSubmission = async () => {
