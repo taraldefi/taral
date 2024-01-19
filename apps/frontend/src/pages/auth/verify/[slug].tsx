@@ -1,4 +1,5 @@
 import AuthLayout from "@components/layouts/auth_layout";
+import apiUrls from "@config/apiUrls";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 
@@ -11,7 +12,7 @@ const Slug: React.FC = () => {
     const verifyUser = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3000/api/auth/activate-account?token=${router.query.slug}`
+          `${apiUrls.USER_ACTIVATE}?token=${router.query.slug}`
         );
         if (response.ok) {
           setVerified(true);
