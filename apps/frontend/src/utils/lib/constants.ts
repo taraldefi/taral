@@ -18,14 +18,14 @@ export const DEFAULT_NETWORK_LIST: Network[] = [
   {
     //index: 0,
     name: "mainnet",
-    label: "hiro.so",
+    label: "api.hiro.so",
     chain: "mainnet",
     url: DEFAULT_MAINNET_SERVER,
   },
   {
     //index: 1,
     name: "testnet",
-    label: "hiro.so",
+    label: "api.testnet.hiro.so",
     chain: "testnet",
     url: DEFAULT_TESTNET_SERVER,
   },

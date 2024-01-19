@@ -4,6 +4,7 @@ import FinanceButton from "@components/widgets/FinanceButton";
 import useTaralContracts from "@hooks/useTaralContracts";
 import { useAccount } from "@micro-stacks/react";
 import applicationService from "@services/application/applicationService";
+import { truncateUuid } from "@utils/helper";
 import { LENDER_ADDRESS } from "@utils/lib/constants";
 import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
@@ -36,6 +37,7 @@ function Index({ ...props }) {
           application.id
         );
         let purchaseOrder = await getPurchaseOrderById(application.id);
+        console.log(purchaseOrder);
         let alreadyAccepted = false;
         if (purchaseOrder) {
           alreadyAccepted = purchaseOrder["accepted-financing-id"]
@@ -46,7 +48,7 @@ function Index({ ...props }) {
 
         return {
           id: application.id,
-          applicationId: application.applicationNumber,
+          applicationId: application.id,
           product: "Importer financing",
           dateFrom: convertDate(application.issuanceDate),
           dateTo: convertDate(application.endDate),

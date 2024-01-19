@@ -1,34 +1,36 @@
 // Generated with util/create-component.js
 import React from 'react';
 import {
+	ArrowDown,
+	ArrowUp,
 	CheckSquare,
-	Square,
+	Copy,
 	ExternalLink,
 	MoreHorizontal,
 	Printer,
-	ArrowUp,
-	ArrowDown,
+	Square,
 } from 'react-feather';
+import { truncateUuid } from '../../util/helper';
+import Button from '../Button';
+import { MetricRange, ProgressBar, StatusWidget } from '../Widgets';
+import './Table.scss';
 import {
 	applicationTableType,
-	researchTableType,
-	entityTableType,
+	auditTableType,
 	companyTableType,
-	screeningTableType,
+	entityTableType,
+	overviewTableType,
 	personsTableType,
-	signOffTableType,
+	quantitativeTableType,
 	receiptTableType,
 	repaymentTableType,
-	overviewTableType,
-	auditTableType,
+	researchTableType,
+	screeningTableType,
+	signOffTableType,
 	taskTableType,
 	teamTableType,
-	quantitativeTableType,
 	txTableType,
 } from './Table.types';
-import './Table.scss';
-import { MetricRange, ProgressBar, StatusWidget } from '../Widgets';
-import Button from '../Button';
 
 export const ReceiptTable: React.FC<receiptTableType> = ({
 	receiptTableData,
@@ -98,44 +100,73 @@ export const RepaymentTable: React.FC<repaymentTableType> = ({
 export const ApplicationTable: React.FC<applicationTableType> = ({
 	applicationTableData,
 	onClick = () => {},
-}) => (
-	<div className='table'>
-		<table>
-			<tbody>
-				<tr>
-					{[
-						'Application ID',
-						'Product',
-						'Date From',
-						'Date To',
-						// 'Importer ID',
-						'Exporter Name',
-						'Status',
-					].map((item, index) => {
-						return <th key={index}>{item}</th>;
+}) => {
+	const [copiedToClipboard, setCopiedToClipboard] = React.useState(false);
+	return (
+		<div className='table'>
+			<table>
+				<tbody>
+					<tr>
+						{[
+							'Application ID',
+							'Product',
+							'Date From',
+							'Date To',
+							// 'Importer ID',
+							'Exporter Name',
+							'Status',
+						].map((item, index) => {
+							return <th key={index}>{item}</th>;
+						})}
+					</tr>
+					{applicationTableData.map((item, index) => {
+						return (
+							<tr onClick={() => onClick(item.id)} key={index}>
+								<td
+									style={{
+										display: 'flex',
+										gap: '5px',
+										alignItems: 'center',
+									}}
+								>
+									{truncateUuid(item.applicationId, 4, 6)}{' '}
+									{copiedToClipboard ? (
+										<CheckSquare
+											size={'18px'}
+											color='#0BD7A4'
+										/>
+									) : (
+										<Copy
+											size={'18px'}
+											color='#0BD7A4'
+											onClick={(e) => {
+												e.stopPropagation();
+												navigator.clipboard.writeText(
+													item.applicationId,
+												);
+												setCopiedToClipboard(true);
+											}}
+										/>
+									)}
+								</td>
+								<td>{item.product}</td>
+								<td>{item.dateFrom}</td>
+								<td>{item.dateTo}</td>
+								{/* <td>{item.importerId}</td> */}
+								<td>{item.importerName}</td>
+								<td>
+									{item.status.claimable
+										? item.status.component
+										: item.status.label}
+								</td>
+							</tr>
+						);
 					})}
-				</tr>
-				{applicationTableData.map((item, index) => {
-					return (
-						<tr onClick={() => onClick(item.id)} key={index}>
-							<td>{item.applicationId}</td>
-							<td>{item.product}</td>
-							<td>{item.dateFrom}</td>
-							<td>{item.dateTo}</td>
-							{/* <td>{item.importerId}</td> */}
-							<td>{item.importerName}</td>
-							<td>
-								{item.status.claimable
-									? item.status.component
-									: item.status.label}
-							</td>
-						</tr>
-					);
-				})}
-			</tbody>
-		</table>
-	</div>
-);
+				</tbody>
+			</table>
+		</div>
+	);
+};
 
 export const EntityTable: React.FC<entityTableType> = ({ entityTableData }) => (
 	<div className='table'>
