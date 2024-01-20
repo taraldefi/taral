@@ -41,7 +41,7 @@
     "eslint-plugin-testing-library": "^6.2.0",
     "eslint-webpack-plugin": "^4.0.0",
     "file-loader": "6.2.0",
-    "fs-extra": "^11.1.0",
+    "fs-extra": "^11.2.0",
     "html-webpack-plugin": "5.5.3",
     "identity-obj-proxy": "3.0.0",
     "jest": "28.0.2",
