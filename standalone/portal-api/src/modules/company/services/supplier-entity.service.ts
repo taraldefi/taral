@@ -351,7 +351,7 @@ export class SupplierCompanyEntityService extends BaseService {
     entity.industryType = data.industryType;
     entity.legalForm = data.legalForm;
     entity.nationality = data.nationality;
-
+    entity.onchainPrincipal = data.onChainPrincipal;
     entity.phoneNumber = data.phoneNumber;
     entity.registrationNumber = data.registrationNumber;
 

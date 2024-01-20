@@ -7,6 +7,7 @@ import {
   Patch,
   Post,
   Put,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 
@@ -37,12 +38,14 @@ import { UpdateBuyerCompanyRequest } from 'src/modules/company-information/dto/r
 import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 import { CreateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/create-supplier-company.dto';
 import { UpdateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/update-supplier-company.dto';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
 @ApiTags('Applications')
 @Controller({
   path: 'quick-applications',
   version: '1',
 })
+@UseGuards(JwtAuthGuard)
 export class QuickApplicationController {
   constructor(
     private readonly buyerQuickApplicationService: BuyerQuickApplicationService,
@@ -105,6 +108,20 @@ export class QuickApplicationController {
     const application = await this.buyerQuickApplicationService.markAsComplete(
       applicationId,
     );
+    return application;
+  }
+
+  // Submit on chain transaction ID
+  @Post('/:id/:txId/submit-transaction')
+  async submitTransactionId(
+    @Param('id') applicationId: string,
+    @Param('txId') transactionId: string,
+  ) {
+    const application =
+      await this.buyerQuickApplicationService.insertPurchaseOrderTxId(
+        applicationId,
+        transactionId,
+      );
     return application;
   }
 

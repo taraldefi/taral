@@ -13,6 +13,7 @@ class EntityService {
 
   async getEntity(id: string): Promise<EntityResponse> {
     const axiosConfig = getAxiosConfig({ method: "GET" });
+    console.log(axiosConfig);
     try {
       const response = await axios.get(`${apiUrls.ENTITY}/${id}`, axiosConfig);
 
@@ -34,6 +35,7 @@ class EntityService {
   }
   async getAllEntity(): Promise<EntityCardResponse[]> {
     const axiosConfig = getAxiosConfig({ method: "GET" });
+    console.log(axiosConfig);
     try {
       const response = await axios.get(`${apiUrls.ENTITY}`, axiosConfig);
 

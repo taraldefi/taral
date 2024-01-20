@@ -41,6 +41,9 @@ import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { RefreshPaginateFilterDto } from 'src/modules/refresh-token/dto/refresh-paginate-filter.dto';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { RefreshTokenDto } from './dto/refresh-token.dto';
+import { AuthResponse } from './dto/auth-response.dto';
+import { RegisterResponseDto } from './dto/register-response.dto';
+import { LogoutResponseDto } from './dto/logout-response.dto';
 
 @ApiTags('user')
 @Controller()
@@ -51,19 +54,17 @@ export class AuthController {
   register(
     @Body(ValidationPipe)
     registerUserDto: RegisterUserDto,
-  ): Promise<UserSerializer> {
-    return this.authService.create(registerUserDto);
+  ): Promise<RegisterResponseDto> {
+    return this.authService.register(registerUserDto);
   }
 
   @Post('/auth/login')
   async login(
     @Req()
     req: Request,
-    @Res()
-    response: Response,
     @Body()
     userLoginDto: UserLoginDto,
-  ) {
+  ): Promise<AuthResponse> {
     const ua = UAParser(req.headers['user-agent']);
     const refreshTokenPayload: Partial<RefreshTokenEntity> = {
       ip: req.ip,
@@ -71,37 +72,27 @@ export class AuthController {
       browser: ua.browser.name,
       os: ua.os.name,
     };
-    const cookiePayload = await this.authService.login(
+    const authResponsePayload = await this.authService.login(
       userLoginDto,
       refreshTokenPayload,
     );
-    response.setHeader('Set-Cookie', cookiePayload);
-    return response.status(HttpStatus.NO_CONTENT).json({});
+
+    return authResponsePayload;
   }
 
   @Post('/auth/refresh')
   async refresh(
     @Body()
-    refreshTokenDto: RefreshTokenDto,
-    @Res()
-    response: Response,
-  ) {
-    try {
+    refreshTokenDto: RefreshTokenDto
+  ): Promise<AuthResponse> {
+    console.log('enter auth refresh');
+    const authResponsePayload =
+      await this.authService.createAccessTokenFromRefreshToken(
+        refreshTokenDto.refreshToken,
+      );
 
-      console.log('enter auth refresh');
-
-      const cookiePayload =
-        await this.authService.createAccessTokenFromRefreshToken(
-          refreshTokenDto.refreshToken,
-        );
-
-      console.log('cookiePayload', cookiePayload);
-      response.setHeader('Set-Cookie', cookiePayload);
-      return response.status(HttpStatus.NO_CONTENT).json({});
-    } catch (e) {
-      response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
-      return response.sendStatus(HttpStatus.BAD_REQUEST);
-    }
+    console.log('auth payload', authResponsePayload);
+    return authResponsePayload;
   }
 
   @Get('/auth/activate-account')
@@ -211,24 +202,18 @@ export class AuthController {
     return this.authService.findById(+id);
   }
 
-  @Post('/logout')
+  @Post('/auth/logout')
   async logOut(
-    @Req()
-    req: Request,
-    @Res()
-    response: Response,
-  ) {
-    try {
-      const cookie = req.cookies['Refresh'];
-      response.setHeader('Set-Cookie', this.authService.getCookieForLogOut());
-      const refreshCookie = req.cookies['Refresh'];
-      if (refreshCookie) {
-        await this.authService.revokeRefreshToken(cookie);
-      }
-      return response.sendStatus(HttpStatus.NO_CONTENT);
-    } catch (e) {
-      return response.sendStatus(HttpStatus.NO_CONTENT);
+    @Body()
+    refreshTokenDto: RefreshTokenDto,
+  ): Promise<LogoutResponseDto> {
+    if (refreshTokenDto.refreshToken) {
+      await this.authService.revokeRefreshToken(refreshTokenDto.refreshToken);
     }
+
+    return {
+      loggedOut: true,
+    };
   }
 
   @UseGuards(JwtTwoFactorGuard)

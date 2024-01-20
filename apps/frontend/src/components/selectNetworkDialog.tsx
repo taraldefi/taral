@@ -15,6 +15,7 @@ import {
 import { networkDialogIsOpenAtom } from "@store/ModalStore";
 import { SelectNetworkModal, CircularLoader } from "taral-ui";
 import { Cloud, CloudOff, Check, RefreshCw, Delete } from "react-feather";
+import { useNetwork } from "@micro-stacks/react";
 
 const NetworkListItem = ({
   network,
@@ -27,6 +28,7 @@ const NetworkListItem = ({
     useNetworks();
 
   const [, setOpen] = useAtom(networkDialogIsOpenAtom);
+  const { setNetwork } = useNetwork();
   const [, setCurrentNetwork] = useAtom(currentStacksNetworkAtom);
   const [anyStatus, dispatchAnyStatus] = useAtom(
     anyNetworkStatusAtom(network.name)
@@ -46,7 +48,16 @@ const NetworkListItem = ({
         ? new StacksTestnet()
         : index === 2
         ? new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
-        : new StacksMocknet()
+        : new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
+    );
+    setNetwork(
+      index === 0
+        ? new StacksMainnet()
+        : index === 1
+        ? new StacksTestnet()
+        : index === 2
+        ? new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
+        : new StacksMocknet({ coreApiUrl: "http://localhost:3999" })
     );
     setOpen(false);
   };

@@ -3,12 +3,16 @@ import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout"
 import useModal from "@hooks/useModal";
 import entityService from "@services/entityService";
 import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
-import { EntityDeletedAtom } from "@store/entityStore";
+import {
+  EntityDeletedAtom,
+  currentSelectedEntityAtom,
+} from "@store/entityStore";
 import { useAtom } from "jotai";
-import { GetStaticPaths, GetStaticProps } from "next";
+import { GetStaticPaths, GetStaticProps, NextPageContext } from "next";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
-import { Entity, EntityCardResponse } from "src/types";
+import { Entity, EntityCardResponse, EntityResponse } from "src/types";
 import { DeleteModal, EntityTable } from "taral-ui";
 
 const TableData = [
@@ -50,15 +54,31 @@ const TableData = [
   },
 ];
 
-function index(props: { entityData: Entity; hasError: boolean }) {
+function index({ ...props }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
 
+  const [entityData, setEntityData] = useState<EntityResponse>();
+
   if (router.isFallback) {
     return;
   }
+
+  async function fetchEntityData() {
+    try {
+      const res = await entityService.getEntity(props.query.entityId);
+      setEntityData(res);
+    } catch (error) {
+      console.log("Error fetching entity:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchEntityData();
+  }, []);
+
   const handleDelete = async (entityIdToDelete: string) => {
     try {
       await entityService.deleteEntity(entityIdToDelete).then((data) => {
@@ -105,20 +125,20 @@ function index(props: { entityData: Entity; hasError: boolean }) {
     <ImporterBaseLayout>
       <div className="viewbody">
         <div className="viewContainer">
-          {props.entityData ? (
+          {entityData ? (
             <EntityView
               infoData={{
-                id: props.entityData.id,
-                name: props.entityData.name,
-                logo: props.entityData.logo,
-                BeneficialOwner: props.entityData.beneficialOwner,
-                CodeAbbreviation: props.entityData.abbreviation,
-                Nationality: props.entityData.nationality,
-                HeadquartersLocation: props.entityData.headquarters,
-                IndustryType: props.entityData.industryType,
-                CoreBusiness: props.entityData.coreBusiness,
-                IncorporationDate: props.entityData.incorporationDate,
-                LegalForm: props.entityData.legalForm,
+                id: entityData.id,
+                name: entityData.name,
+                logo: entityData.logo,
+                BeneficialOwner: entityData.beneficialOwner,
+                CodeAbbreviation: entityData.abbreviation,
+                Nationality: entityData.nationality,
+                HeadquartersLocation: entityData.headquarters,
+                IndustryType: entityData.industryType,
+                CoreBusiness: entityData.coreBusiness,
+                IncorporationDate: entityData.incorporationDate,
+                LegalForm: entityData.legalForm,
                 productCount: 20,
               }}
             />
@@ -142,28 +162,35 @@ function index(props: { entityData: Entity; hasError: boolean }) {
     </ImporterBaseLayout>
   );
 }
-export const getStaticProps: GetStaticProps = async (context) => {
-  const itemID = context.params?.entityId;
 
-  const entity = await entityService.getEntity(itemID as string);
-
-  return {
-    props: {
-      entityData: entity,
-    },
-  };
+export const getServerSideProps = async (context: NextPageContext) => {
+  {
+    const { query } = context;
+    return { props: { query } };
+  }
 };
+// export const getStaticProps: GetStaticProps = async (context) => {
+//   const itemID = context.params?.entityId;
 
-export const getStaticPaths: GetStaticPaths = async () => {
-  const data = await entityService.getAllEntity();
-  const pathsWithParams = data.map((entity: EntityCardResponse) => ({
-    params: { entityId: entity.id },
-  }));
+//   const entity = await entityService.getEntity(itemID as string);
 
-  return {
-    paths: pathsWithParams,
-    fallback: true,
-  };
-};
+//   return {
+//     props: {
+//       entityData: entity,
+//     },
+//   };
+// };
+
+// export const getStaticPaths: GetStaticPaths = async () => {
+//   const data = await entityService.getAllEntity();
+//   const pathsWithParams = data.map((entity: EntityCardResponse) => ({
+//     params: { entityId: entity.id },
+//   }));
+
+//   return {
+//     paths: pathsWithParams,
+//     fallback: true,
+//   };
+// };
 
 export default index;

@@ -59,7 +59,7 @@ app:
   version: 'v0.1'
   description: 'Taral API'
   backendDomain: 'http://localhost:3000'
-  frontendDomain: 'http://localhost:3001'
+  frontendDomain: 'http://localhost:4200'
   sameSite: true
   runchainhook: false
   runjobs: false
@@ -94,17 +94,17 @@ logging:
 # MAIL_CLIENT_PORT=1080
 
 mail:
-  host: 'smtp.mailtrap.io'
-  port: 2525
-  user: 'f4a511d60957e6'
-  password: '7522797b96cef0'
+  host: 'localhost'
+  port: 1025
+  user: ''
+  password: ''
   from: 'taral'
   defaultEmail: 'taral@gmail.com'
   defaultName: 'Taral'
-  preview: true
+  preview: false
   ignoreTls: true
-  secure: true
-  requireTls: true
+  secure: false
+  requireTls: false
   queueName: 'taral-mail'
 
 queue:

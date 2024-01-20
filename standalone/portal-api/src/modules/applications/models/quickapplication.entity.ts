@@ -34,6 +34,18 @@ export class QuickApplicationEntity extends EntityHelper {
   @Allow()
   title: string;
 
+  @Column({ nullable: true })
+  @Allow()
+  onchainPrincipal: string;
+
+  @Column({ nullable: true })
+  @Allow()
+  sellerPrincipal: string;
+
+  @Column({ nullable: true })
+  @Allow()
+  purchaseOrderId: string;
+
   @Column()
   @Allow()
   exporterName: string;

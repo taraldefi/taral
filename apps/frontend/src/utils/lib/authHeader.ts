@@ -1,5 +1,7 @@
 interface User {
-  token?: string;
+  accessToken?: string;
+  refreshToken?: string;
+  expiresIn?: number;
 }
 
 const authHeader = (): { Authorization?: string } | object => {
@@ -9,8 +11,8 @@ const authHeader = (): { Authorization?: string } | object => {
       localStorage.getItem("SITE_DATA_AUTH") || "{}"
     );
 
-    if (user && user.token) {
-      return { Authorization: "Bearer " + user.token };
+    if (user && user.accessToken) {
+      return { Authorization: "Bearer " + user.accessToken };
     } else {
       return {};
     }

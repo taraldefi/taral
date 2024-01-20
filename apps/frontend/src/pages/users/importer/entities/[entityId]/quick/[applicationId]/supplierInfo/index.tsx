@@ -3,10 +3,10 @@ import BottomBar from "@components/newApplicationBottom";
 import { yupResolver } from "@hookform/resolvers/yup";
 import useSupplierInformationForm from "@hooks/buyerApplication/useSupplierInformation";
 import supplierEntityService from "@services/supplierEntityService";
-import { Company, SupplierEntityResponse } from "src/types";
+import { Company, EntityCardResponse, SupplierEntityResponse } from "src/types";
 import { NextPageContext } from "next";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Control, Controller, UseFormSetValue, useForm } from "react-hook-form";
 import { PhoneInput } from "react-international-phone";
 import "react-international-phone/style.css";
@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier_info_for_buyer";
 import * as Yup from "yup";
 import convertDate from "@utils/lib/convertDate";
+import entityService from "@services/entityService";
 
 type CustomRadioProps = {
   control: Control<CreateSupplierInformationForBuyerApplication, any>;
@@ -78,18 +79,32 @@ function CustomBooleanInput({ control, name, setValue }: CustomRadioProps) {
   );
 }
 
-function Index({ ...props }) {
-  const { query, entities } = props;
+function Index() {
   const router = useRouter();
-  const entityID = query.entityId;
-  const applicationID = query.applicationId;
+  const entityID = router.query.entityId;
+  const applicationID = router.query.applicationId;
   const {
     schemaValidation,
     handleDebouncedChange,
     queryResult,
     companyInformation,
     setCompanyInformation,
-  } = useSupplierInformationForm(applicationID);
+  } = useSupplierInformationForm(applicationID as string);
+  const [entities, setEntities] = useState<SupplierEntityResponse[]>([]);
+
+  async function fetchSupplierEntities() {
+    try {
+      const res = await supplierEntityService.getAllEntity();
+      const entities = res || [];
+      setEntities(entities);
+    } catch (error) {
+      console.log("Error fetching entities:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchSupplierEntities();
+  }, []);
 
   const {
     register,
@@ -469,12 +484,12 @@ function Index({ ...props }) {
   );
 }
 
-export async function getServerSideProps(context: NextPageContext) {
-  const { query } = context;
-  const res = await supplierEntityService.getAllEntity();
-  const entities = res || [];
-  console.log("entities", entities);
-  return { props: { query, entities: entities } };
-}
+// export async function getServerSideProps(context: NextPageContext) {
+//   const { query } = context;
+//   const res = await supplierEntityService.getAllEntity();
+//   const entities = res || [];
+//   console.log("entities", entities);
+//   return { props: { query, entities: entities } };
+// }
 
 export default Index;

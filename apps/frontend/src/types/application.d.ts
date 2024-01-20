@@ -1,6 +1,7 @@
 interface CreateApplication {
   title: string;
   entityId: string;
+  onChainPrincipal: string;
 }
 
 interface CreateApplicationResponse {

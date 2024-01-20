@@ -79,7 +79,6 @@ export class BuyerQuickApplicationService extends BaseService {
           'orderDetails',
           'security',
           'transactionDocuments',
-          'exporterName',
         ],
       },
     );
@@ -90,6 +89,8 @@ export class BuyerQuickApplicationService extends BaseService {
     response.issuanceDate = application.issuanceDate;
     response.endDate = application.endDate;
     response.status = application.status;
+    response.sellerPrincipal = application.sellerPrincipal;
+    response.transactionId = application.purchaseOrderId;
 
     const savedBuyerInformation = await this.buyerInformationService.get(
       application.id,
@@ -142,8 +143,8 @@ export class BuyerQuickApplicationService extends BaseService {
     const application = new QuickApplicationEntity();
 
     const applicationNumber = await this.generateApplicationNumber(entity.name);
-    // default enddate is 60 days from now
-    const endDate = new Date(Date.now() + 60 * 24 * 60 * 60 * 1000);
+    // default enddate is 90 days from now
+    const endDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000);
 
     application.applicationNumber = applicationNumber;
     application.title = data.title;
@@ -152,6 +153,7 @@ export class BuyerQuickApplicationService extends BaseService {
     application.status = 'ACTIVE';
     application.createdAt = new Date();
     application.exporterName = '--';
+    application.onchainPrincipal = data.onChainPrincipal;
 
     const savedApplication = await this.buyerApplicationRepository.save(
       application,
@@ -166,10 +168,36 @@ export class BuyerQuickApplicationService extends BaseService {
   @Transactional({
     isolationLevel: IsolationLevel.READ_COMMITTED,
   })
+  public async insertPurchaseOrderTxId(
+    id: string,
+    txId: string,
+  ): Promise<void> {
+    this.setupTransactionHooks();
+
+    const application = await this.findApplicationById(id);
+
+    const isComplete = await this.checkIfApplicationIsComplete(application);
+    if (!isComplete)
+      throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+
+    if (application.status == 'COMPLETED')
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    application.purchaseOrderId = txId;
+    application.save();
+  }
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async markAsComplete(id: string): Promise<void> {
     this.setupTransactionHooks();
 
     const application = await this.findApplicationById(id);
+
     const isComplete = await this.checkIfApplicationIsComplete(application);
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);

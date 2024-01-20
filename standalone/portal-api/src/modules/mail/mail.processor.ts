@@ -1,6 +1,6 @@
 import { Logger } from '@nestjs/common';
 import config from 'config';
-import { MailerService } from '@nestjs-modules/mailer';
+import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import {
   OnQueueActive,
   OnQueueCompleted,
@@ -53,14 +53,14 @@ export class MailProcessor {
   ): Promise<any> {
     this.logger.log(`Sending email to '${job.data.payload.to}'`);
     const mailConfig = config.get('mail') as any;
+    console.log("mailConfig", JSON.stringify(mailConfig, null, 2));
     try {
-      const options: Record<string, any> = {
+      const options: ISendMailOptions = {
         to: job.data.payload.to,
         from: process.env.MAIL_FROM || mailConfig.fromMail,
         subject: job.data.payload.subject,
         template: 'email-layout',
-        context: job.data.payload.context,
-        attachments: job.data.payload.attachments,
+        context: job.data.payload.context
       };
       return await this.mailerService.sendMail({ ...options });
     } catch (error) {

@@ -9,10 +9,6 @@ import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UnauthorizedException } from 'src/modules/exception/unauthorized.exception';
 
-const cookieExtractor = (req) => {
-  return req?.cookies?.Authentication;
-};
-
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-strategy') {
   constructor(
@@ -20,7 +16,8 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-strategy') {
     private userRepository: UserEntityRepository,
   ) {
     super({
-      jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      ignoreExpiration: false,
       secretOrKey: process.env.JWT_SECRET || config.get('jwt.secret'),
     });
   }
@@ -31,6 +28,7 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt-strategy') {
    */
   async validate(payload: JwtPayloadDto): Promise<UserEntity> {
     const { subject } = payload;
+
     const user = await this.userRepository.findOne(Number(subject), {
       relations: ['role', 'role.permission'],
     });

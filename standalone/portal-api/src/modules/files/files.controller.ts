@@ -5,6 +5,7 @@ import {
   Post,
   Res,
   StreamableFile,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
@@ -17,7 +18,9 @@ import { UpdateFileResponse } from './dto/update-file-response.dto';
 import { RequestFileDataDto } from './dto/request-file-data.dto';
 import { AuthenticationService } from './services/onchain/authentication.service';
 import { triggerError } from './utils/trigger.errror';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('Files')
 @Controller({
   path: 'files',

@@ -87,6 +87,11 @@ export class CreateSupplierEntityDto {
   @IsNumber()
   employeeCount?: number;
 
+  @ApiProperty({ example: 'ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM' })
+  @IsNotEmpty()
+  @IsString()
+  onChainPrincipal: string;
+
   @ApiProperty({ example: '123456789' })
   @IsNotEmpty()
   @IsString()

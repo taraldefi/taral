@@ -1,8 +1,10 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Param, Res, UseGuards } from '@nestjs/common';
 import { ApiOkResponse, ApiProduces, ApiTags } from '@nestjs/swagger';
 import { ApiFileResponse } from 'src/utils/api-file-response';
 import { LogoService } from './services/logo.service';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('Logos')
 @Controller({
   path: 'logo',

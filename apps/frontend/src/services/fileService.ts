@@ -8,7 +8,7 @@ class FileService {
    * Function to create a file
    * @param File object
    */
-  async createFile(file: File): Promise<IfileResponse[]> {
+  async createFile(formData: FormData): Promise<IfileResponse[]> {
     const axiosConfig = getAxiosConfig({
       method: "POST",
       contentType: "multipart/ form-data",
@@ -16,7 +16,7 @@ class FileService {
     try {
       const response = await axios.post(
         `${apiUrls.CREATE_FILE}`,
-        { file: file },
+        formData,
         axiosConfig
       );
       const { data } = response;
@@ -90,6 +90,63 @@ class FileService {
       }
     }
     throw new Error("Failed to request File.");
+  }
+
+  async markTransactionDocument(
+    type: string,
+    applicationId: string
+  ): Promise<void> {
+    const axiosConfig = getAxiosConfig({
+      method: "POST",
+    });
+    try {
+      const response = await axios.post(
+        `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationId}`,
+        JSON.stringify({}),
+        axiosConfig
+      );
+      const { data } = response;
+
+      if (response.status === 201) {
+        return data;
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.status || error.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+    throw new Error("Failed to mark transaction document.");
+  }
+
+  async getTransactionDocument(
+    type: string,
+    applicationId: string
+  ): Promise<void> {
+    const axiosConfig = getAxiosConfig({
+      method: "GET",
+    });
+    try {
+      const response = await axios.get(
+        `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationId}`,
+        axiosConfig
+      );
+      const { data } = response;
+
+      console.log(data);
+
+      if (response.status === 200) {
+        return data;
+      }
+    } catch (error: any) {
+      if (axios.isAxiosError(error)) {
+        console.log(error.response?.status || error.message);
+      } else {
+        console.log(error.message);
+      }
+    }
+    throw new Error("Failed to fetch transaction documents status.");
   }
 }
 

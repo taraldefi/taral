@@ -6,13 +6,15 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { CreateOrderDetailDto } from './dto/request/create-order-detail.dto';
 import { UpdateOrderDetailDto } from './dto/request/update-order-detail.dto';
 import { GetOrderDetailsResponse } from './dto/response/get-order-detail-response.dto';
 import { OrderDetailService } from './services/order-detail.service';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('Orders')
 @Controller({
   path: 'order',

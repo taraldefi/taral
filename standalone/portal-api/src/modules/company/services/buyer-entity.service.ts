@@ -16,18 +16,29 @@ import { BuyerCompanyEntityRepository } from '../repositories/buyer.company.repo
 import { EntityMappingService } from './mapping.service';
 import { BuyerCompanyTaxAndRevenueEntity } from '../models/buyer.company.tax.and.revenue.entity';
 import { BuyerCompanyTaxAndRevenueRepository } from '../repositories/buyer.company.tax.and.revenue.repository';
+import { BaseService } from 'src/common/services/base.service';
+import { ConfigService } from '@nestjs/config';
+import { UserEntity } from 'src/modules/auth/entity/user.entity';
+import { UserEntityRepository } from 'src/modules/auth/user.repository';
 
 @Injectable()
-export class BuyerCompanyEntityService {
+export class BuyerCompanyEntityService extends BaseService {
   constructor(
     @InjectRepository(BuyerCompanyEntity)
     private buyerEntityRepository: BuyerCompanyEntityRepository,
+
+    @InjectRepository(UserEntity)
+    private userRepository: UserEntityRepository,
 
     @InjectRepository(BuyerCompanyTaxAndRevenueEntity)
     private buyerCompanyTaxAndRevenueRepository: BuyerCompanyTaxAndRevenueRepository,
 
     private mappingService: EntityMappingService,
-  ) {}
+
+    private readonly _configService: ConfigService
+  ) {
+    super(_configService); 
+  }
 
   public async findBuyerEntityById(id: string): Promise<BuyerCompanyEntity> {
     if (!id) throw triggerError('missing-entity-id');
@@ -74,9 +85,11 @@ export class BuyerCompanyEntityService {
 
     return this.mappingService.mapEntityDetails(entity, latestTaxAndRevenue);
   }
-  public async getAllBuyerEntity(): Promise<BuyerCompanyEntity[]> {
+
+  public async getAllBuyerEntity(userId: number): Promise<BuyerCompanyEntity[]> {
     return await this.buyerEntityRepository.find({
       select: ['id', 'name', 'abbreviation', 'logo'],
+      where: { userId: userId },
     });
   }
 
@@ -85,11 +98,7 @@ export class BuyerCompanyEntityService {
     id: string,
     data: UpdateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    runOnTransactionRollback((cb) =>
-      console.log('Rollback error ' + cb.message),
-    );
-
-    runOnTransactionComplete((cb) => console.log('Transaction Complete'));
+    this.setupTransactionHooks();
 
     if (!id) throw triggerError('missing-entity-id');
 
@@ -255,17 +264,18 @@ export class BuyerCompanyEntityService {
 
   @Transactional()
   public async createBuyerEntity(
+    userId: number,
     data: CreateEntityDto,
   ): Promise<GetEntityDetailsResponse> {
-    runOnTransactionRollback((cb) =>
-      console.log('Rollback error ' + cb.message),
-    );
-
-    runOnTransactionComplete((cb) => console.log('Transaction Complete'));
+    this.setupTransactionHooks();
 
     const imageUUID = uuidv4();
     const storage = Storage.disk('files');
     const onDiskFilename = `${imageUUID}.png`;
+
+    const user = await this.userRepository.findOne(userId);
+
+    if (!user) throw triggerError('user-not-found');
 
     if (data.logo) {
       const _ = await storage.put(onDiskFilename, data.logo.buffer);
@@ -310,8 +320,10 @@ export class BuyerCompanyEntityService {
       await this.buyerCompanyTaxAndRevenueRepository.save(taxAndRevenue);
 
     entity.taxAndRevenue[0] = taxAndRevenueSavedResult;
+    entity.user = user;
 
     var result = await this.buyerEntityRepository.save(entity);
+
     const latestTaxAndRevenue = await this.getLatestTaxAndRevenue(result.id);
 
     return this.mappingService.mapEntityDetails(result, latestTaxAndRevenue);

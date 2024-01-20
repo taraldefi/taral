@@ -9,6 +9,9 @@ import { MailProcessor } from 'src/modules/mail/mail.processor';
 import { EmailTemplateModule } from 'src/modules/email-template/email-template.module';
 
 const mailConfig = config.get('mail') as any;
+
+console.log('mailConfig', JSON.stringify(mailConfig, null, 2));
+
 const queueConfig = config.get('queue') as any;
 
 @Module({
@@ -38,6 +41,11 @@ const queueConfig = config.get('queue') as any;
             user: process.env.MAIL_USER || mailConfig.user,
             pass: process.env.MAIL_PASS || mailConfig.pass,
           },
+          tls: {
+            //TODO: make sure we do not have this in production. This is for development only to allow self signed certs
+            // do not fail on invalid certs
+            rejectUnauthorized: false,
+          },
         },
         defaults: {
           from: `"${process.env.MAIL_FROM || mailConfig.from}" <${
@@ -47,6 +55,7 @@ const queueConfig = config.get('queue') as any;
         preview: mailConfig.preview,
         template: {
           dir: __dirname + '/templates/email/layouts/',
+          
           adapter: new PugAdapter(),
           options: {
             strict: true,

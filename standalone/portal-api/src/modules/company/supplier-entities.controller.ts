@@ -7,13 +7,16 @@ import {
   Param,
   Patch,
   Post,
+  UseGuards,
 } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
 import { SupplierCompanyEntityService } from './services/supplier-entity.service';
 import { CreateSupplierEntityDto } from './dto/request/create-supplier-entity.dto';
 import { GetSupplierEntityDetailsResponse } from './dto/response/get-supplier-entity-response.dto';
 import { UpdateSupplierEntityDto } from './dto/request/update-supplier-entity.dto';
+import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @ApiTags('SupplierEntities')
 @Controller({
   path: 'supplier-entities',

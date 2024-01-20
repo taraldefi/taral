@@ -60,9 +60,8 @@ import { WinstonLoggerModule } from './modules/logger/logger.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import config from 'config';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
-import { loggingLevel } from './modules/logger/logger';
-import winston from 'winston';
 import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
+import { TestModule } from './modules/dummy';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -172,6 +171,7 @@ export class AppModule {
       RelationshipModule,
       OrderDetailsModule,
       CollateralModule,
+      TestModule
     ];
 
     const config = new ConfigService();

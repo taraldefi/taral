@@ -1,3 +1,5 @@
+import { StacksMainnet, StacksMocknet } from "micro-stacks/network";
+
 export interface Network {
   name: string;
   label: string;
@@ -16,14 +18,14 @@ export const DEFAULT_NETWORK_LIST: Network[] = [
   {
     //index: 0,
     name: "mainnet",
-    label: "hiro.so",
+    label: "api.hiro.so",
     chain: "mainnet",
     url: DEFAULT_MAINNET_SERVER,
   },
   {
     //index: 1,
     name: "testnet",
-    label: "hiro.so",
+    label: "api.testnet.hiro.so",
     chain: "testnet",
     url: DEFAULT_TESTNET_SERVER,
   },
@@ -45,6 +47,23 @@ export const DEFAULT_NETWORK_LIST: Network[] = [
 export const DEFAULT_NETWORK_INDEX = parseFloat(
   process.env.NEXT_PUBLIC_DEFAULT_NETWORK_INDEX || "0"
 );
+
+export const devnet = process.env.NODE_ENV === "development";
+
+export const stacksNetwork =
+  process.env.NODE_ENV === "production" ? StacksMainnet : StacksMocknet;
+
+export const TARAL_IMPORTER_CONTRACT = devnet
+  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer"
+  : "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer";
+
+export const TARAL_BANK_CONTRACT = devnet
+  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank"
+  : process.env.NEXT_PUBLIC_TARAL_BANK_CONTRACT || "";
+
+export const LENDER_ADDRESS = devnet
+  ? "ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50"
+  : process.env.NEXT_PUBLIC_TARAL_LENDER_ADDRESS || "";
 
 export const CURRENCIES = [
   { cc: "AED", symbol: "\u062f.\u0625;", name: "UAE dirham" },

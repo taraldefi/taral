@@ -29,8 +29,11 @@ import { useAtom } from "jotai";
 import fetchEntityLogo from "@utils/lib/fetchEntityLogo";
 import { useRouter } from "next/router";
 import { toast } from "sonner";
+import { EntityCardResponse } from "src/types";
+import { AuthGuard } from "@components/AuthGuard";
+import IdleTimeOutHandler from "@components/idleTimeOutHandler";
 
-function Index({ ...props }) {
+function Index() {
   const [searchInput, setSearchInput] = useState("");
   const deleteModal = useModal(DeleteModalAtom);
   const editModal = useModal(EditFormModalAtom);
@@ -43,6 +46,22 @@ function Index({ ...props }) {
   const [entityCreated] = useAtom(EntityCreatedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const router = useRouter();
+
+  const [entities, setEntities] = useState<EntityCardResponse[]>([]);
+
+  async function fetchEntities() {
+    try {
+      const res = await entityService.getAllEntity();
+      const entities = res || [];
+      setEntities(entities);
+    } catch (error) {
+      console.log("Error fetching entities:", error);
+    }
+  }
+
+  useEffect(() => {
+    fetchEntities();
+  }, [entityCreated, entityEdited, entityDeleted]);
 
   const refreshData = () => {
     router.replace(router.asPath);
@@ -77,7 +96,7 @@ function Index({ ...props }) {
   const EntityBody = () => {
     return (
       <div className="entityContainer">
-        {props.entities
+        {entities
           .filter(function (item: any) {
             return item!.name.toLowerCase().includes(searchInput.toLowerCase());
           })
@@ -95,95 +114,99 @@ function Index({ ...props }) {
     );
   };
   return (
-    <div>
-      <div className="topbarFix">
-        <Topbar />
-        <div className="topbarLower">
-          <div className="userTabItems">
-            <div className="contents"></div>
-            <div className="entityContent">
-              <div className="entitySearch">
-                <input
-                  type="text"
-                  placeholder="Search by name or number..."
-                  className="inputs"
-                  onChange={(e) => searchItems(e.target.value)}
-                ></input>
-              </div>
-              <div>
-                <Button
-                  primary={false}
-                  label={"New Entity"}
-                  onClick={() => {
-                    newEntityModal.open();
-                  }}
-                ></Button>
+    <AuthGuard>
+      <div>
+        <div className="topbarFix">
+          <Topbar />
+          <div className="topbarLower">
+            <div className="userTabItems">
+              <div className="contents"></div>
+              <div className="entityContent">
+                <div className="entitySearch">
+                  <input
+                    type="text"
+                    placeholder="Search by name or number..."
+                    className="inputs"
+                    onChange={(e) => searchItems(e.target.value)}
+                  ></input>
+                </div>
+                <div>
+                  <Button
+                    primary={false}
+                    label={"New Entity"}
+                    onClick={() => {
+                      newEntityModal.open();
+                    }}
+                  ></Button>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {/* {<BottomBar></BottomBar>} */}
+        <div className="mainBody">
+          {" "}
+          {entities.length ? (
+            <EntityBody></EntityBody>
+          ) : (
+            <div
+              style={{
+                width: "100vw",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                fontSize: "24px",
+                fontWeight: "400",
+              }}
+            >
+              <div>No entities registered</div>
+            </div>
+          )}
+        </div>
+        <DeleteModal
+          title="Delete Entity"
+          onDelete={async () => {
+            if (deleteModal.entityId) handleDelete(deleteModal.entityId);
+          }}
+          isOpen={deleteModal.isOpen}
+          onClose={() => deleteModal.close()}
+        ></DeleteModal>
+        <FormModal
+          isOpen={newEntityModal.isOpen}
+          onClose={() => newEntityModal.close()}
+        ></FormModal>
+        <FormEditModal
+          isOpen={editModal.isOpen}
+          onClose={() => editModal.close()}
+        ></FormEditModal>
+        <NewApplicationModal
+          isOpen={applicationModal.isOpen}
+          onClose={() => applicationModal.close()}
+        ></NewApplicationModal>
+        <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
+        <NotificationModal
+          isOpen={notificationModal.isOpen}
+        ></NotificationModal>
       </div>
-      {/* {<BottomBar></BottomBar>} */}
-      <div className="mainBody">
-        {" "}
-        {props.entities.length ? (
-          <EntityBody></EntityBody>
-        ) : (
-          <div
-            style={{
-              width: "100vw",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              fontSize: "24px",
-              fontWeight: "400",
-            }}
-          >
-            <div>No entities registered</div>
-          </div>
-        )}
-      </div>
-      <DeleteModal
-        title="Delete Entity"
-        onDelete={async () => {
-          if (deleteModal.entityId) handleDelete(deleteModal.entityId);
-        }}
-        isOpen={deleteModal.isOpen}
-        onClose={() => deleteModal.close()}
-      ></DeleteModal>
-      <FormModal
-        isOpen={newEntityModal.isOpen}
-        onClose={() => newEntityModal.close()}
-      ></FormModal>
-      <FormEditModal
-        isOpen={editModal.isOpen}
-        onClose={() => editModal.close()}
-      ></FormEditModal>
-      <NewApplicationModal
-        isOpen={applicationModal.isOpen}
-        onClose={() => applicationModal.close()}
-      ></NewApplicationModal>
-      <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
-      <NotificationModal isOpen={notificationModal.isOpen}></NotificationModal>
-    </div>
+    </AuthGuard>
   );
 }
-export async function getServerSideProps() {
-  try {
-    const res = await entityService.getAllEntity();
-    const entities = res || [];
-    console.log("entities", entities);
+// export async function getServerSideProps() {
+//   try {
+//     const res = await entityService.getAllEntity();
+//     const entities = res || [];
+//     console.log("entities", entities);
 
-    return {
-      props: { entities },
-    };
-  } catch (error) {
-    //TODO: Handle error
-    console.error("Error fetching entity:", error);
-    return {
-      props: { entities: [] },
-    };
-  }
-}
+//     return {
+//       props: { entities },
+//     };
+//   } catch (error) {
+//     //TODO: Handle error
+//     console.error("Error fetching entity:", error);
+//     return {
+//       props: { entities: [] },
+//     };
+//   }
+// }
 
 export default Index;
