@@ -37,7 +37,7 @@ function Index({ ...props }) {
           application.id
         );
         let purchaseOrder = await getPurchaseOrderById(application.id);
-        console.log(purchaseOrder);
+
         let alreadyAccepted = false;
         if (purchaseOrder) {
           alreadyAccepted = purchaseOrder["accepted-financing-id"]

@@ -187,11 +187,11 @@ function useTaralContracts() {
         network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
-        senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        senderAddress: stxAddress!,
         functionArgs: [],
         functionName: "get-active-po-details",
       });
-      console.log(result);
+      console.log("result", result);
       return result;
     } catch (e: any) {
       console.error({ e });
