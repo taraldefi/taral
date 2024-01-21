@@ -29,7 +29,7 @@ const Topbar = () => {
   const currentNetwork = networks[currentNetworkIndex];
   const [balance, setBalance] = useState<string | undefined>("");
   const { stxAddress } = useAccount();
-  const { isSignedIn } = useAuth();
+  const { isSignedIn, openAuthRequest } = useAuth();
   const [client, setClient] = React.useState<any>(null);
   //console.log("current network ======>", currentStacksNetwork);
 
@@ -133,7 +133,10 @@ const Topbar = () => {
                     "#25C2A0",
                   ]}
                 />
-                {truncateUuid(stxAddress, 5, 5)}
+                <span onClick={() => openAuthRequest()}>
+                  {" "}
+                  {truncateUuid(stxAddress, 5, 5)}
+                </span>
               </>
             ) : null}
 
