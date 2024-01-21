@@ -33,39 +33,41 @@ const ImporterBaseLayout = ({ children }: LayoutProps) => {
   const registerOnchainModal = useModal(RegisterOnChainModalAtom);
 
   return (
-    <AuthGuard>
-      <div>
-        <div className="topbarFix">
-          <Topbar />
-          <ImporterTopNav />
+    <>
+      <AuthGuard>
+        <div>
+          <div className="topbarFix">
+            <Topbar />
+            <ImporterTopNav />
+          </div>
+
+          {/* {<BottomBar></BottomBar>} */}
+
+          <div className="mainBody">{children}</div>
+
+          <FormModal
+            isOpen={newEntityModal.isOpen}
+            onClose={() => newEntityModal.close()}
+          ></FormModal>
+          <FormEditModal
+            isOpen={editModal.isOpen}
+            onClose={() => editModal.close()}
+          ></FormEditModal>
+          <NewApplicationModal
+            isOpen={applicationModal.isOpen}
+            onClose={() => applicationModal.close()}
+          ></NewApplicationModal>
+          <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
+          <NotificationModal
+            isOpen={notificationModal.isOpen}
+          ></NotificationModal>
+          <RegisterOnChainModal
+            isOpen={registerOnchainModal.isOpen}
+            onClose={() => registerOnchainModal.close()}
+          ></RegisterOnChainModal>
         </div>
-
-        {/* {<BottomBar></BottomBar>} */}
-
-        <div className="mainBody">{children}</div>
-
-        <FormModal
-          isOpen={newEntityModal.isOpen}
-          onClose={() => newEntityModal.close()}
-        ></FormModal>
-        <FormEditModal
-          isOpen={editModal.isOpen}
-          onClose={() => editModal.close()}
-        ></FormEditModal>
-        <NewApplicationModal
-          isOpen={applicationModal.isOpen}
-          onClose={() => applicationModal.close()}
-        ></NewApplicationModal>
-        <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
-        <NotificationModal
-          isOpen={notificationModal.isOpen}
-        ></NotificationModal>
-        <RegisterOnChainModal
-          isOpen={registerOnchainModal.isOpen}
-          onClose={() => registerOnchainModal.close()}
-        ></RegisterOnChainModal>
-      </div>
-    </AuthGuard>
+      </AuthGuard>
+    </>
   );
 };
 

@@ -9,10 +9,10 @@ export interface CreatePaymentTerm {
   interestDegressiveRate: string | null;
   paymentType: PaymentTypes;
   downpaymentCurrency: string;
-  downpaymentAmount: string;
+  downpaymentAmount: number;
   downpaymentDescription: string;
   balanceCurrency: string;
-  balanceAmount: string;
+  balanceAmount: number;
   balancePaymentDeadline: string;
   paymentVehicleDescription: string;
   paymentDuration: string;

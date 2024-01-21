@@ -1,5 +1,5 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
-import FileUpload from "@components/widgets/FileUpload";
+import FileUpload, { documentType } from "@components/widgets/FileUpload";
 function Index() {
   return (
     <ApplicationLayout>
@@ -7,23 +7,23 @@ function Index() {
         <div className="atachContainer">
           <div className="upload_container">
             <div className="fileWraper">
-              <FileUpload />
+              <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
               <span>List of shareholders</span>
             </div>
             <div className="fileWraper">
-              <FileUpload />
+              <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
               <span>Articles of association</span>
             </div>
             <div className="fileWraper">
-              <FileUpload />
+              <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
               <span>Interim financial report</span>
             </div>
             <div className="fileWraper">
-              <FileUpload />
+              <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
               <span>Credit report importer</span>
             </div>
             <div className="fileWraper">
-              <FileUpload />
+              <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
               <span>Commercial register report</span>
             </div>
           </div>

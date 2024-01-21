@@ -35,9 +35,9 @@ export class BuyerCompanyEntityService extends BaseService {
 
     private mappingService: EntityMappingService,
 
-    private readonly _configService: ConfigService
+    private readonly _configService: ConfigService,
   ) {
-    super(_configService); 
+    super(_configService);
   }
 
   public async findBuyerEntityById(id: string): Promise<BuyerCompanyEntity> {
@@ -86,9 +86,11 @@ export class BuyerCompanyEntityService extends BaseService {
     return this.mappingService.mapEntityDetails(entity, latestTaxAndRevenue);
   }
 
-  public async getAllBuyerEntity(userId: number): Promise<BuyerCompanyEntity[]> {
+  public async getAllBuyerEntity(
+    userId: number,
+  ): Promise<BuyerCompanyEntity[]> {
     return await this.buyerEntityRepository.find({
-      select: ['id', 'name', 'abbreviation', 'logo'],
+      select: ['id', 'name', 'abbreviation', 'logo', 'registrationNumber'],
       where: { userId: userId },
     });
   }

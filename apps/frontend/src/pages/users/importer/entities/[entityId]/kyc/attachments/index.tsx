@@ -4,9 +4,7 @@ import FileUpload from "@components/widgets/FileUpload";
 function index() {
   return (
     <ImporterKycLayout>
-      <div className="kycContainer">
-        <FileUpload></FileUpload>
-      </div>
+      <div className="kycContainer">{/* <FileUpload></FileUpload> */}</div>
     </ImporterKycLayout>
   );
 }

@@ -55,18 +55,18 @@ export default function summary() {
             placeholder="Select Date"
           ></input>
           <span>Repayment Profile</span>
-          <select className="inputs" placeholder="">
+          <select className="inputs">
             <option value="select profile..."></option>
           </select>
         </div>
         <div className="summaryInfo">
           <span>INFO</span>
           <span>Industry</span>
-          <select className="inputs" placeholder="">
+          <select className="inputs">
             <option value="select profile..."></option>
           </select>
           <span>Goods</span>
-          <select className="inputs" placeholder="">
+          <select className="inputs">
             <option value="select profile..."></option>
           </select>
           <span>Delivery date</span>
@@ -77,7 +77,7 @@ export default function summary() {
             placeholder="Select date..."
           ></input>
           <span>Country</span>
-          <select className="inputs" placeholder="">
+          <select className="inputs">
             <option value="select profile..."></option>
           </select>
         </div>

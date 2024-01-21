@@ -18,6 +18,8 @@ interface infoType {
   IncorporationDate: string;
   LegalForm: string;
   productCount: number;
+  registrationNumber: string;
+  applicationCount: number;
 }
 type Props = {
   infoData: infoType;
@@ -59,7 +61,7 @@ function EntityView({ infoData }: Props) {
               <div className="lower">
                 <div className="registration">
                   <span>REGISTRATION NUMBER</span>
-                  <span>1214325136</span>
+                  <span>{infoData.registrationNumber}</span>
                 </div>
                 <div className="products">
                   <span>PRODUCTS</span>
@@ -67,7 +69,7 @@ function EntityView({ infoData }: Props) {
                 </div>
                 <div className="applications">
                   <span>APPLICATIONS</span>
-                  <span>39</span>
+                  <span>{infoData.applicationCount}</span>
                 </div>
               </div>
             </div>

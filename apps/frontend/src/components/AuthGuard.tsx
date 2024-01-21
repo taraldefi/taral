@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { jwtDecode } from "jwt-decode";
 
-export const AuthGuard = ({ children }: any) => {
+export const AuthGuard = ({ children }: any): any => {
   const router = useRouter();
 
   useEffect(() => {

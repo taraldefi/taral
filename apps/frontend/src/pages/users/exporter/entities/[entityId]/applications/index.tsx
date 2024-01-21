@@ -116,7 +116,7 @@ function Index() {
     <ExporterBaseLayout>
       <div className="viewbody">
         <div style={{ padding: "10%", width: "100%" }}>
-          <ApplicationTable applicationTableData={TableData}></ApplicationTable>
+          {/* <ApplicationTable applicationTableData={TableData}></ApplicationTable> */}
         </div>
       </div>
     </ExporterBaseLayout>

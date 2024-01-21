@@ -32,37 +32,39 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const finishApplicationModal = useModal(FinishApplicationModalAtom);
 
   return (
-    <AuthGuard>
-      <div>
-        <div className="topbarFix">
-          <Topbar />
-          <NewApplicationTopNav />
-        </div>
-        <ApplicationLeftMenu />
-        <div className="mainBody">{children}</div>
+    <>
+      <AuthGuard>
+        <div>
+          <div className="topbarFix">
+            <Topbar />
+            <NewApplicationTopNav />
+          </div>
+          <ApplicationLeftMenu />
+          <div className="mainBody">{children}</div>
 
-        <FormModal
-          isOpen={newEntityModal.isOpen}
-          onClose={() => newEntityModal.close()}
-        ></FormModal>
-        <FormEditModal
-          isOpen={editModal.isOpen}
-          onClose={() => editModal.close()}
-        ></FormEditModal>
-        <NewApplicationModal
-          isOpen={applicationModal.isOpen}
-          onClose={() => applicationModal.close()}
-        ></NewApplicationModal>
-        <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
-        <NotificationModal
-          isOpen={notificationModal.isOpen}
-        ></NotificationModal>
-        <StepperModal
-          isOpen={finishApplicationModal.isOpen}
-          onClose={() => finishApplicationModal.close()}
-        ></StepperModal>
-      </div>
-    </AuthGuard>
+          <FormModal
+            isOpen={newEntityModal.isOpen}
+            onClose={() => newEntityModal.close()}
+          ></FormModal>
+          <FormEditModal
+            isOpen={editModal.isOpen}
+            onClose={() => editModal.close()}
+          ></FormEditModal>
+          <NewApplicationModal
+            isOpen={applicationModal.isOpen}
+            onClose={() => applicationModal.close()}
+          ></NewApplicationModal>
+          <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
+          <NotificationModal
+            isOpen={notificationModal.isOpen}
+          ></NotificationModal>
+          <StepperModal
+            isOpen={finishApplicationModal.isOpen}
+            onClose={() => finishApplicationModal.close()}
+          ></StepperModal>
+        </div>
+      </AuthGuard>
+    </>
   );
 };
 

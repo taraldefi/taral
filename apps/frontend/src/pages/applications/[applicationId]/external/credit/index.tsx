@@ -1,5 +1,5 @@
 import ReportLayout from "@components/layouts/auditor/cover_layout";
-import FileUpload from "@components/widgets/FileUpload";
+import FileUpload, { documentType } from "@components/widgets/FileUpload";
 import { useRouter } from "next/router";
 
 export default function Credit() {
@@ -26,7 +26,7 @@ export default function Credit() {
     <ReportLayout documentCount={1} sortbarData={SortbarData}>
       <div className="main_container">
         <div className="upload_container">
-          <FileUpload />
+          <FileUpload type={documentType.CONFIRMATION_DOCUMENT} />
         </div>
       </div>
     </ReportLayout>
