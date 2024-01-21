@@ -4,6 +4,10 @@ export const getExplorerLink = (txId: string) => {
     : `https://explorer.stacks.co/txid/${txId}?chain=mainnet`;
 };
 
+export const ustxToStx = (uStx: string) => {
+  return (parseInt(uStx) / 1000000).toLocaleString("en-US");
+};
+
 export function truncateUuid(
   uuidStr: string,
   startLength: number,

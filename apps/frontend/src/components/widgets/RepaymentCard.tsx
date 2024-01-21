@@ -42,7 +42,7 @@ const RepaymentCard = ({ amount = "0" }: repaymentCardProp) => {
     router.push(
       `/users/${
         router.asPath.split("/")[2]
-      }/entities/${entityID}/repayment/successful`
+      }/entities/${entityID}/repayment/successful?amount=${amount}`
     );
   }
   return (
