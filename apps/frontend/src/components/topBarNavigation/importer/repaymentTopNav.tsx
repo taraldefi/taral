@@ -1,19 +1,21 @@
+import { selectedApplicationForRepaymentAtom } from "@store/applicationStore";
+import { useAtom } from "jotai";
+
 type Props = {
-  //TODO: fetch applications
   applications: any[];
 };
 
 const RepaymentTopNavRightComponent = ({ applications }: Props) => {
+  const [, setCurrentSelectedApplication] = useAtom(
+    selectedApplicationForRepaymentAtom
+  );
   return (
     <>
       <div className="viewEntitySelect">
         <select
           onChange={(e) => {
             console.log(e.target.value);
-            // setCurrentSelectedEntity(e.target.value);
-            // router.replace({
-            //   pathname: `/users/importer/entities/${e.target.value}/overview`,
-            // });
+            setCurrentSelectedApplication(e.target.value);
           }}
           name=""
           id=""

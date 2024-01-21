@@ -20,8 +20,9 @@ const ImporterTopNav = () => {
   const [entities, setEntities] = useState<EntityCardResponse[]>([]);
   const [applications, setApplications] = useState<any[]>([]);
   const [entityCreated] = useAtom(EntityCreatedAtom);
-  const currentRightSideRoute = router.asPath.split("/").pop();
-  console.log(currentRightSideRoute);
+
+  console.log("entity", entityID);
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -115,12 +116,14 @@ const ImporterTopNav = () => {
 
               case "repayment":
                 return (
-                  <RepaymentTopNavRightComponent applications={applications} />
+                  // <RepaymentTopNavRightComponent applications={applications} />
+                  <></>
                 );
 
               case "pay":
                 return (
-                  <RepaymentTopNavRightComponent applications={applications} />
+                  // <RepaymentTopNavRightComponent applications={applications} />
+                  <></>
                 );
 
               default:

@@ -172,7 +172,7 @@ function useTaralContracts() {
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
         functionArgs: [stringUtf8CV(id)],
-        functionName: "get-purchase-order-by-id",
+        functionName: "get-po-details",
       });
       return result;
     } catch (e: any) {
@@ -180,26 +180,47 @@ function useTaralContracts() {
     }
   }
 
-  async function makePayment(purchaseOrderId: number, amount: number) {
-    const functionArgs = [uintCV(purchaseOrderId), uintCV(amount)];
+  async function getActivePurchaseOrder() {
+    try {
+      const network = new stacksNetwork();
+      const result: any = await fetchReadOnlyFunction({
+        network,
+        contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        contractName: TARAL_BANK_CONTRACT.split(".")[1],
+        senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
+        functionArgs: [],
+        functionName: "get-active-po-details",
+      });
+      console.log(result);
+      return result;
+    } catch (e: any) {
+      console.error({ e });
+    }
+  }
 
+  async function makePayment(): Promise<any> {
     const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
     const contractName = TARAL_BANK_CONTRACT.split(".")[1];
-    if (isSignedIn) {
-      await openContractCall({
-        contractAddress,
-        contractName,
-        functionName: "make-payment",
-        functionArgs: functionArgs,
+    return new Promise(async (resolve, reject) => {
+      if (isSignedIn) {
+        await openContractCall({
+          contractAddress,
+          contractName,
+          functionName: "make-payment",
+          postConditionMode: PostConditionMode.Allow,
+          functionArgs: [],
 
-        onFinish: async (data: any) => {
-          console.log("finished contract call!", data);
-        },
-        onCancel: () => {
-          console.log("popup closed!");
-        },
-      });
-    }
+          onFinish: async (data: any) => {
+            console.log("finished contract call!", data);
+
+            resolve(data);
+          },
+          onCancel: () => {
+            console.log("popup closed!");
+          },
+        });
+      }
+    });
   }
 
   return {
@@ -213,6 +234,7 @@ function useTaralContracts() {
     getPurchaseOrderById,
     checkPurchaseOrderHasActiveFinancing,
     acceptFinancing,
+    getActivePurchaseOrder,
     makePayment,
     finance,
   };
