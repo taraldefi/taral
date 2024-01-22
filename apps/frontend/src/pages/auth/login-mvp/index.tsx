@@ -32,7 +32,7 @@ function Index() {
         return "Logged in successfully!";
       },
       error: (err) => {
-        return "Error logging in!";
+        return `Error logging in! ${err}`;
       },
     });
   };
@@ -62,15 +62,10 @@ function Index() {
               Enter you information to login to your account with the platform.
             </div>
           </div>
-          <div className="titleBottom">
-            <span>
-              You&apos;ll be sent an OTP to verify your email before login in.
-            </span>
-          </div>
+          <br />
         </div>
         <div className="contentWrapper">
           <form onSubmit={handleSubmit(onSubmit)} className="innerContainer1">
-            <div className="mainTitle">ACCOUNT DETAILS</div>
             <div className="inputContainer">
               <span>Username</span>
               <input
@@ -123,17 +118,12 @@ function Index() {
               </div>
             )}
             <div className="agreementBox">
-              <input
-                type="checkbox"
-                {...register("remember", { required: true })}
-              />
+              <input type="checkbox" {...register("remember")} />
               <span>remember me</span>
             </div>
             {/* <div className="inputContainer">
               <Button label={"Send OTP"}></Button>
             </div> */}
-
-            <a href="/auth/register">create a new account</a>
 
             <Button
               type="submit"
@@ -145,6 +135,17 @@ function Index() {
                 <PortalIcons selected={false} icon={"right arow"}></PortalIcons>
               }
             ></Button>
+            <a
+              style={{
+                fontSize: "12px",
+                justifyContent: "center",
+                display: "flex",
+                padding: "10px",
+              }}
+              href="/auth/register"
+            >
+              New to tariala? create a new account
+            </a>
 
             {/* <div className="fgP">
               <div className="inputContainer">

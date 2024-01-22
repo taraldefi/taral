@@ -1,20 +1,15 @@
 import SelectNetworkDialog from "@components/selectNetworkDialog";
+import { useNetworks } from "@hooks/useNetwork";
 import * as MicroStacks from "@micro-stacks/react";
 import "@styles/globals.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Provider, useAtom } from "jotai";
+import { Provider } from "jotai";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
 import "taral-ui/build/index.scss";
-import { StacksMocknet } from "micro-stacks/network";
-import {
-  currentNetworkAtom,
-  currentStacksNetworkAtom,
-} from "@store/networkStore";
-import { useNetworks } from "@hooks/useNetwork";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -25,10 +20,10 @@ function MyApp({ Component, pageProps }: AppProps) {
       if (loader) loader.remove();
     }
   }, []);
+
   const queryClient = new QueryClient();
 
   const { currentStacksNetwork } = useNetworks();
-  console.log(currentStacksNetwork);
 
   return (
     <QueryClientProvider client={queryClient}>

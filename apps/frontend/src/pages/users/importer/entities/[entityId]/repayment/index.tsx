@@ -147,10 +147,17 @@ function Index() {
         </>
       ) : (
         <div className="repaymentContainer">
-          <div className="topContainer">
-            <div className="titleContainer">
-              <span>No active purchase order</span>
-            </div>
+          <div
+            style={{
+              gap: "10px",
+              marginTop: "30vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyItems: "center",
+              alignItems: "center",
+            }}
+          >
+            <h2>No active purchase order</h2>
           </div>
         </div>
       )}

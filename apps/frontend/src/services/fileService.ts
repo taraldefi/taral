@@ -128,13 +128,12 @@ class FileService {
       method: "GET",
     });
     try {
+      console.log("getTransactionDocument", type, applicationId);
       const response = await axios.get(
         `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationId}`,
         axiosConfig
       );
       const { data } = response;
-
-      console.log(data);
 
       if (response.status === 200) {
         return data;

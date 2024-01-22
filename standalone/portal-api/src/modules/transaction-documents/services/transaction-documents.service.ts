@@ -1,14 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateFileDataDto } from 'src/modules/files/dto/create-file-data.dto';
-import { CreateFileResponse } from 'src/modules/files/dto/create-file-response.dto';
-import { FilesService } from 'src/modules/files/services/files.service';
-import { AuthenticationService } from 'src/modules/files/services/onchain/authentication.service';
-import { TransactionDocumentEntity } from '../models/transaction-documents.entity';
-import { TransactionDocumentRepository } from '../repositories/transaction-documents.repository';
-import { CreateTxDocDto } from '../dto/request/create-transaction-document.dto';
 import { QuickApplicationEntity } from 'src/modules/applications/models/quickapplication.entity';
 import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
+import { TransactionDocumentEntity } from '../models/transaction-documents.entity';
+import { TransactionDocumentRepository } from '../repositories/transaction-documents.repository';
 
 @Injectable()
 export class TransactionDocumentService {

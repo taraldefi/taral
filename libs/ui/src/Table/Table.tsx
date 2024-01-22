@@ -123,13 +123,7 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 					{applicationTableData.map((item, index) => {
 						return (
 							<tr onClick={() => onClick(item.id)} key={index}>
-								<td
-									style={{
-										display: 'flex',
-										gap: '5px',
-										alignItems: 'center',
-									}}
-								>
+								<td>
 									{truncateUuid(item.applicationId, 4, 6)}{' '}
 									{idCopiedToClipboard ===
 									item.applicationId ? (
