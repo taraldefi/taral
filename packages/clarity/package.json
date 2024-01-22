@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "eol-converter-cli": "^1.0.8",
-    "@hirosystems/clarinet-sdk": "^1.0.4",
+    "@hirosystems/clarinet-sdk": "^1.2.0",
     "@stacks/transactions": "^6.9.0",
     "chokidar-cli": "^3.0.0",
     "typescript": "^5.2.2",
