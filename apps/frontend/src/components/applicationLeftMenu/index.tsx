@@ -1,9 +1,8 @@
 import { useAtom } from "jotai";
-import { useRouter, withRouter } from "next/router";
+import { useRouter } from "next/router";
 import { pageIndexAtom } from "@store/PageIndexStore";
 import { PortalIcons } from "../icons";
 import MenuItem from "./MenuItem";
-import { ProgressBar } from "taral-ui";
 import { applicationProgressAtom } from "@store/applicationStore";
 
 function ApplicationLeftMenu() {
@@ -98,8 +97,7 @@ function ApplicationLeftMenu() {
             onClick={(e) => {
               e.preventDefault();
               router.push(
-                `/users/${
-                  router.asPath.split("/")[2]
+                `/users/${router.asPath.split("/")[2]
                 }/entities/${entityID}/newApplication/exporterInfo`
               );
             }}
@@ -112,16 +110,14 @@ function ApplicationLeftMenu() {
             <p
               onClick={() => {
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/financials-p&l/profit&loss`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/financials-p&l/profit&loss`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/financials-p&l/profit&loss`
                   ? "selectedSub"
                   : ""
               }
@@ -131,16 +127,14 @@ function ApplicationLeftMenu() {
             <p
               onClick={() => {
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/financials-p&l/balanceSheet`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/financials-p&l/balanceSheet`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/financials-p&l/balanceSheet`
                   ? "selectedSub"
                   : ""
               }
@@ -150,16 +144,14 @@ function ApplicationLeftMenu() {
             <p
               onClick={() => {
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/financials-p&l/cashFlow`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/financials-p&l/cashFlow`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/financials-p&l/cashFlow`
                   ? "selectedSub"
                   : ""
               }
@@ -177,16 +169,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/transactionDetails/projectDetails`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/transactionDetails/projectDetails`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/transactionDetails/projectDetails`
                   ? "selectedSub"
                   : ""
               }
@@ -197,16 +187,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/transactionDetails/contactAndDelivery`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/transactionDetails/contactAndDelivery`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/transactionDetails/contactAndDelivery`
                   ? "selectedSub"
                   : ""
               }
@@ -217,20 +205,19 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/transactionDetails/additionalInfo`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/transactionDetails/additionalInfo`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/transactionDetails/additionalInfo`
                   ? "selectedSub"
                   : ""
               }
             >
+
               Additional Info
             </p>
           </MenuItem>
@@ -240,16 +227,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/importerInfo/information`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/importerInfo/information`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/importerInfo/information`
                   ? "selectedSub"
                   : ""
               }
@@ -260,16 +245,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/importerInfo/business`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/importerInfo/business`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/importerInfo/business`
                   ? "selectedSub"
                   : ""
               }
@@ -280,16 +263,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/importerInfo/relationship`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/importerInfo/relationship`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/importerInfo/relationship`
                   ? "selectedSub"
                   : ""
               }
@@ -300,16 +281,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/importerInfo/attachments`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/importerInfo/attachments`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/importerInfo/attachments`
                   ? "selectedSub"
                   : ""
               }
@@ -323,16 +302,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/paymentTerms/details`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/paymentTerms/details`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/paymentTerms/details`
                   ? "selectedSub"
                   : ""
               }
@@ -343,16 +320,14 @@ function ApplicationLeftMenu() {
               onClick={(e) => {
                 e.preventDefault();
                 router.push(
-                  `/users/${
-                    router.asPath.split("/")[2]
+                  `/users/${router.asPath.split("/")[2]
                   }/entities/${entityID}/newApplication/paymentTerms/paymentType`
                 );
               }}
               className={
                 router.asPath ==
-                `/users/${
-                  router.asPath.split("/")[2]
-                }/entities/${entityID}/newApplication/paymentTerms/paymentType`
+                  `/users/${router.asPath.split("/")[2]
+                  }/entities/${entityID}/newApplication/paymentTerms/paymentType`
                   ? "selectedSub"
                   : ""
               }
@@ -364,8 +339,7 @@ function ApplicationLeftMenu() {
             onClick={(e) => {
               e.preventDefault();
               router.push(
-                `/users/${
-                  router.asPath.split("/")[2]
+                `/users/${router.asPath.split("/")[2]
                 }/entities/${entityID}/newApplication/security`
               );
             }}
@@ -377,8 +351,7 @@ function ApplicationLeftMenu() {
             onClick={(e) => {
               e.preventDefault();
               router.push(
-                `/users/${
-                  router.asPath.split("/")[2]
+                `/users/${router.asPath.split("/")[2]
                 }/entities/${entityID}/newApplication/closing`
               );
             }}
