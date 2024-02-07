@@ -3799,20 +3799,20 @@
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
 
-"@stacks/connect-ui@6.1.3":
-  version "6.1.3"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.1.3.tgz#9442fedb711d9385ca9560f17becbff088cc43ee"
-  integrity sha512-eArTt8y6EIhmwol2cfgWkn6kQoT2i0L/tDeaZQ2hYrRuAd2lsOnL8DRxBlIT6kQ1vKFIl0u/dVHsaxjXYx4JeA==
+"@stacks/connect-ui@6.2.1":
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.2.1.tgz#306df92118c2f7ef0b87ab7752b2f7f8c033ea84"
+  integrity sha512-5y/4LqwgTzH3FDz0gNCCRevHjdaQU2ClSP4KuigujbE5IS/gsF8kwS/kFtc2deF5ufymvchiqFlk3HIu1ewKLQ==
   dependencies:
     "@stencil/core" "^2.17.1"
 
-"@stacks/connect@7.4.2", "@stacks/connect@^7.4.2":
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.4.2.tgz#aa4cf19ed2a0df2b99b1886c8f3a49090e62aabb"
-  integrity sha512-6P41jvjykV5R2C9OLWA0Q432qgILLfSNzZr0icatNWeK//GSI34S+/CVWCkOKBzqYZtZ8Rpk3zmA1RZOlBVfMA==
+"@stacks/connect@7.5.1", "@stacks/connect@^7.5.1":
+  version "7.5.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.5.1.tgz#806914f289e2e2c60e52c4eddcd0fcc3f4a18f56"
+  integrity sha512-ooVXyq6FSUGdEq/YYB2spfUCP1f5qvTBT0TsWrcd5irawQcFkmpfBkKaec7oXpxqBnG11v9B21OrrV12hp/w/Q==
   dependencies:
     "@stacks/auth" "^6.1.1"
-    "@stacks/connect-ui" "6.1.3"
+    "@stacks/connect-ui" "6.2.1"
     "@stacks/network" "^6.1.1"
     "@stacks/profile" "^6.1.1"
     "@stacks/transactions" "^6.1.1"
@@ -13471,9 +13471,9 @@ jotai-tanstack-query@^0.7.2:
   integrity sha512-acwJJf4HKgs4c0mtgRJEvdL7jqQnKcT0ARvs33weGysLpQ8L1S3SqPPoMeHuLDz6vREcocsVFRZ5RsB7rJJHZQ==
 
 jotai@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.5.1.tgz#eed05a32a4ac1264c531a77e86478f7ad3197ca3"
-  integrity sha512-vanPCCSuHczUXNbVh/iUunuMfrWRL4FdBtAbTRmrfqezJcKb8ybBTg8iivyYuUHapjcDETyJe1E4inlo26bVHA==
+  version "2.6.2"
+  resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.6.2.tgz#b64287c978a520fd6195e466168e0ad7190e3f83"
+  integrity sha512-kl4KguU1Fr+tFiLi3A3h9qPEzhvLTTDA10DO3QZAz6k7BEaQJ+qvSBwolzonnfNI4QzEovyQfUqVgnRxfnnQVQ==
 
 jotai@latest, "jotai@npm:jotai@1.3.8":
   version "1.3.8"
