@@ -28,7 +28,7 @@
     "@react-pdf-viewer/thumbnail": "^3.6.0",
     "@react-pdf-viewer/zoom": "^3.6.0",
     "@stacks/blockchain-api-client": "^7.3.6",
-    "@stacks/connect": "^7.5.1",
+    "@stacks/connect": "^7.7.0",
     "@tanstack/query-core": "^5.14.0",
     "@tanstack/react-query": "^5.8.4",
     "axios": "^1.6.2",
