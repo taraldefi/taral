@@ -28,7 +28,7 @@ export class OrderProductService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super(configService);
+    super();
   }
 
   public async get(id: string) {

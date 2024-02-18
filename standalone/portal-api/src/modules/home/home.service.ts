@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Configuration } from '../../configuration';
 
 @Injectable()
 export class HomeService {
-  constructor(private configService: ConfigService) {}
+  constructor() {}
 
   appInfo() {
-    return { name: this.configService.get('app.name') };
+    return { name: Configuration.app.name };
   }
 }

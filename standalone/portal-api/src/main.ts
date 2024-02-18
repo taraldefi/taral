@@ -13,6 +13,7 @@ import { CommonExceptionFilter } from './common/exception/exception-filter';
 import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { I18nService } from 'nestjs-i18n';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorized.filter';
+import { Configuration } from './configuration';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -24,7 +25,7 @@ async function bootstrap() {
   const i18n = app.get(I18nService);
 
   app.enableShutdownHooks();
-  app.setGlobalPrefix(configService.get('app.apiPrefix'), {
+  app.setGlobalPrefix(Configuration.app.apiPrefix, {
     exclude: ['/'],
   });
   app.enableVersioning({
@@ -60,10 +61,8 @@ async function bootstrap() {
 
   // SwaggerModule.setup('docs', app, document);
 
-  const port = configService.get('app.port');
-
-  await app.listen(port);
-  console.log(`Application listening in port: ${port}`);
+  await app.listen(Configuration.app.port);
+  console.log(`Application listening in port: ${Configuration.app.port}`);
 }
 
 void bootstrap();

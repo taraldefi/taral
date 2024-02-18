@@ -32,6 +32,14 @@ db:
   cert: ''
   url: ''
 
+redis: 
+  driver: 'redis'
+  host: 'localhost'
+  port: 6379
+  db: ''
+  password: ''
+  username: ''
+
 jwt:
   expiresIn: 900
   refreshExpiresIn: 604800

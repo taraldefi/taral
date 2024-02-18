@@ -1,13 +1,12 @@
 import { EntityRepository } from 'typeorm';
-import config from 'config';
-
 import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
 import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
 import { BaseRepository } from 'src/common/repository/base.repository';
 import { RefreshTokenSerializer } from 'src/modules/refresh-token/serializer/refresh-token.serializer';
 import { Injectable } from '@nestjs/common';
+import { Configuration } from '../../configuration';
 
-const tokenConfig = config.get('jwt') as any;
+const tokenConfig = Configuration.jwt;
 
 @Injectable()
 @EntityRepository(RefreshTokenEntity)

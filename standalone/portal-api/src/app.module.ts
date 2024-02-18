@@ -58,10 +58,10 @@ import { OrderDetailsModule } from './modules/order-detail/order-details.module'
 import { CollateralModule } from './modules/collateral/collateral.module';
 import { WinstonLoggerModule } from './modules/logger/logger.module';
 import { ApplicationModule } from './modules/applications/application.module';
-import config from 'config';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 import { TestModule } from './modules/dummy';
+import { Configuration } from './configuration';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -82,7 +82,7 @@ export class AppModule {
       },
     ];
 
-    const shouldRunThrottle = config.get('app.runthrottle');
+    const shouldRunThrottle = Configuration.runThrottle;
 
     if (shouldRunThrottle) {
       providers.push({
@@ -114,8 +114,8 @@ export class AppModule {
       }),
       WinstonModule.forRoot(winstonConfig),
       I18nModule.forRootAsync({
-        useFactory: (configService: ConfigService) => ({
-          fallbackLanguage: configService.get('app.fallbackLanguage'),
+        useFactory: () => ({
+          fallbackLanguage: Configuration.app.fallbackLanguage,
           parserOptions: {
             path: path.join(__dirname, '/i18n/'),
             watch: true,
@@ -176,10 +176,11 @@ export class AppModule {
 
     const config = new ConfigService();
 
-    const shouldRunChainhook = config.get('app.runchainhook');
-    const shouldRunJobs = config.get('app.runjobs');
-    const shouldRunThrottle = config.get('app.runthrottle');
-    const shouldRunEvents = config.get('app.runevents');
+    const shouldRunChainhook = Configuration.runChainhook;
+    const shouldRunJobs = Configuration.runJobs;
+    const shouldRunThrottle = Configuration.runThrottle;
+    const shouldRunEvents = Configuration.runEvents;
+
     const logger = new Logger('AppModule');
 
     if (shouldRunEvents) {
@@ -194,7 +195,7 @@ export class AppModule {
 
       imports.push(
         ThrottlerModule.forRootAsync({
-          useFactory: () => this.getThrottleConfig(),
+          useFactory: () => this.getThrottleModuleOptions(),
         }),
       );
     }
@@ -216,20 +217,20 @@ export class AppModule {
     return imports;
   }
 
-  private static getThrottleConfig() {
-    const throttleConfigVariables = config.get('throttle.global') as any;
-    const redisConfig = config.get('queue') as any;
+  private static getThrottleModuleOptions() {
+    const throttleConfig = Configuration.throttle;
+    const queueConfig = Configuration.queue;
 
-    const throttleConfig: ThrottlerModuleOptions = {
-      ttl: process.env.THROTTLE_TTL || throttleConfigVariables.get('ttl'),
-      limit: process.env.THROTTLE_LIMIT || throttleConfigVariables.get('limit'),
+    const throttleModuleOptions: ThrottlerModuleOptions = {
+      ttl: throttleConfig.global.ttl,
+      limit: throttleConfig.global.limit,
       storage: new ThrottlerStorageRedisService({
-        host: process.env.REDIS_HOST || redisConfig.host,
-        port: process.env.REDIS_PORT || redisConfig.port,
-        password: process.env.REDIS_PASSWORD || redisConfig.password,
+        host: queueConfig.host,
+        port: queueConfig.port,
+        password: queueConfig.password,
       }),
     };
 
-    return throttleConfig;
+    return throttleModuleOptions;
   }
 }

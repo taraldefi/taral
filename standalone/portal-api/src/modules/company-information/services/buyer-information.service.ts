@@ -40,7 +40,7 @@ export class BuyerInformationService extends BaseService {
     private readonly buyerCompanyService: BuyerCompanyEntityService,
     private readonly buyerInformationMappingService: EntityMappingService,
   ) {
-    super(configService);
+    super();
   }
 
   public async get(applicationId: string) {

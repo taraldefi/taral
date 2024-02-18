@@ -11,8 +11,9 @@ import {
 import { Job } from 'bull';
 
 import { MailJobInterface } from 'src/modules/mail/interface/mail-job.interface';
+import { Configuration } from '../../configuration';
 
-@Processor(config.get('mail.queueName') as any)
+@Processor(Configuration.mail.queueName)
 export class MailProcessor {
   private readonly logger = new Logger(this.constructor.name);
 
@@ -52,12 +53,12 @@ export class MailProcessor {
     }>,
   ): Promise<any> {
     this.logger.log(`Sending email to '${job.data.payload.to}'`);
-    const mailConfig = config.get('mail') as any;
+    const mailConfig = Configuration.mail;
     console.log("mailConfig", JSON.stringify(mailConfig, null, 2));
     try {
       const options: ISendMailOptions = {
         to: job.data.payload.to,
-        from: process.env.MAIL_FROM || mailConfig.fromMail,
+        from: mailConfig.from,
         subject: job.data.payload.subject,
         template: 'email-layout',
         context: job.data.payload.context
