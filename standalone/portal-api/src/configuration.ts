@@ -1,5 +1,9 @@
 import config from 'config';
 
+require('dotenv').config();
+
+const isVerbose: boolean = false;
+
 export class AppConfig {
     nodeEnv: string;
     name: string;
@@ -149,7 +153,7 @@ const configurationKeys = {
         configKey: "app.name",
     },
     workingDirectory: {
-        environmentKey: "PWD",
+        environmentKey: "APP_PWD",
         configKey: "app.workingDirectory",
     },
     frontendDomain: {
@@ -490,15 +494,29 @@ const configurationKeys = {
     },
 }
 
-// winston:
-//   groupName: 'taral'
-//   streamName: 'taral-stream'
-//   awsAccessKeyId: ''
-//   awsSecretAccessKey: ''
-//   awsRegion: ''
-
 function getConfig(keys: ConfigurationKeys): any {
-    return process.env[keys.environmentKey] || config.get(keys.configKey);
+    const environmentValue = process.env[keys.environmentKey];
+
+    if (isVerbose) {
+        console.log(`environmentValue for ${keys.environmentKey}: ${environmentValue}`);
+    }
+
+    if (environmentValue) {
+        return environmentValue;
+    }
+
+    try {
+        const configValue = config.get(keys.configKey);
+        
+        if (isVerbose) {
+            console.log(`configValue for ${keys.configKey}: ${configValue}`);
+        }
+
+        return configValue;
+    } catch (e) {
+        console.error(`Error getting config value for ${keys.configKey}: ${e}`);
+        return null;
+    }
 }
 
 function getAppConfig(): AppConfig {
@@ -567,7 +585,7 @@ function getDbConfig(): DbConfig {
 
 function getThrottleConfig(): ThrottleConfig {
     return {    
-        enabled: getConfig(configurationKeys.throttle.enabled),
+        enabled: getConfig(configurationKeys.throttle.enabled) === 'true',
         global: {
             ttl: parseInt(getConfig(configurationKeys.throttle.global.ttl), 10),
             limit: parseInt(getConfig(configurationKeys.throttle.global.limit), 10),
@@ -650,10 +668,10 @@ function getWinstonConfig(): WinstonConfig {
 }
 
 export const Configuration = {
-    runThrottle: getConfig(configurationKeys.runThrottle),
-    runChainhook: getConfig(configurationKeys.runChainhook),
-    runJobs: getConfig(configurationKeys.runJobs),
-    runEvents: getConfig(configurationKeys.runEvents),
+    runThrottle: getConfig(configurationKeys.runThrottle) === "true",
+    runChainhook: getConfig(configurationKeys.runChainhook) === "true",
+    runJobs: getConfig(configurationKeys.runJobs) === "true",
+    runEvents: getConfig(configurationKeys.runEvents) === "true",
     app: getAppConfig(),
     throttle: getThrottleConfig(),
     redis: getRedisConfig(),

@@ -1,4 +1,4 @@
-import { DynamicModule, Logger, Module, Provider, Type } from '@nestjs/common';
+import { DynamicModule, Logger, Module, OnModuleInit, Provider, Type } from '@nestjs/common';
 import mailConfig from './config/mail.config';
 import fileConfig from './config/file.config';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -68,7 +68,17 @@ import { Configuration } from './configuration';
   providers: [...AppModule.createDynamicProviders()],
   controllers: [AppController],
 })
-export class AppModule {
+export class AppModule implements OnModuleInit {
+  
+  
+  onModuleInit() {
+    const appConfig = Configuration.app;
+    console.log('AppConfig: ');
+    console.log(JSON.stringify(appConfig, null, 2));
+  }
+
+
+
   static createDynamicProviders(): Provider[] {
     const providers: Provider[] = [
       {
@@ -85,10 +95,15 @@ export class AppModule {
     const shouldRunThrottle = Configuration.runThrottle;
 
     if (shouldRunThrottle) {
+
+      console.log('SHOULD RUN THROTTLE');
+
       providers.push({
         provide: APP_GUARD,
         useClass: CustomThrottlerGuard,
       });
+    } else {
+      console.log('SHOULD NOT RUN THROTTLE');
     }
 
     return providers;
@@ -233,4 +248,6 @@ export class AppModule {
 
     return throttleModuleOptions;
   }
+
+  
 }

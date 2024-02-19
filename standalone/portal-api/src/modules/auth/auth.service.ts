@@ -58,9 +58,7 @@ const throttleEnabled = throttleConfig.enabled as boolean;
 
 const throttleLoginConfig = throttleConfig.login;
 const jwtConfig = Configuration.jwt;
-const appConfig = Configuration.app;
 
-const isSameSite = appConfig.isSameSite;
 @Injectable()
 export class AuthService {
   constructor(
