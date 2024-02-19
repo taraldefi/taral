@@ -60,7 +60,6 @@ import { WinstonLoggerModule } from './modules/logger/logger.module';
 import { ApplicationModule } from './modules/applications/application.module';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
-import { TestModule } from './modules/dummy';
 import { Configuration } from './configuration';
 
 @Module({
@@ -69,15 +68,11 @@ import { Configuration } from './configuration';
   controllers: [AppController],
 })
 export class AppModule implements OnModuleInit {
-  
-  
   onModuleInit() {
     const appConfig = Configuration.app;
     console.log('AppConfig: ');
     console.log(JSON.stringify(appConfig, null, 2));
   }
-
-
 
   static createDynamicProviders(): Provider[] {
     const providers: Provider[] = [
@@ -186,10 +181,7 @@ export class AppModule implements OnModuleInit {
       RelationshipModule,
       OrderDetailsModule,
       CollateralModule,
-      TestModule
     ];
-
-    const config = new ConfigService();
 
     const shouldRunChainhook = Configuration.runChainhook;
     const shouldRunJobs = Configuration.runJobs;
