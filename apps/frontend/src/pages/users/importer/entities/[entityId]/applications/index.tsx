@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { useEffect, useState } from "react";
 import { ApplicationTable } from "taral-ui";
-import { applicationTableDataType } from "taral-ui/build/Table/Table.types";
+import { applicationTableDataType } from "taral-ui/build/src/Table/Table.types";
 
 function Index({ ...props }) {
   const router = useRouter();
@@ -33,10 +33,11 @@ function Index({ ...props }) {
       let applicationTableData: applicationTableDataType[] = [];
 
       applicationTableData = applications.map(async (application: any) => {
-        let claimable = await checkPurchaseOrderHasActiveFinancing(
+        const claimable = await checkPurchaseOrderHasActiveFinancing(
           application.id
         );
-        let purchaseOrder = await getPurchaseOrderById(application.id);
+        
+        const purchaseOrder = await getPurchaseOrderById(application.id);
 
         let alreadyAccepted = false;
         if (purchaseOrder) {
