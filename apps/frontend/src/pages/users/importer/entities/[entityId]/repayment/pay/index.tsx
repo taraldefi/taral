@@ -1,8 +1,6 @@
 import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout";
 import RepaymentCard from "@components/widgets/RepaymentCard";
-import { useRouter } from "next/router";
-import { RepaymentTableData } from "src/bin/mockData";
-import { RepaymentTable } from "taral-ui";
+import { useSearchParams } from "next/navigation";
 
 export enum LoanCardTypes {
   INTEREST_RATE = "INTEREST_RATE",
@@ -14,8 +12,8 @@ export enum LoanCardTypes {
 }
 
 function Index() {
-  const router = useRouter();
-  const entityID = router.query.entityId;
+  const amount = useSearchParams().get("amount");
+
   return (
     <ImporterBaseLayout>
       <div className="viewbody">
@@ -30,21 +28,13 @@ function Index() {
           </div>
 
           <div className="repaymentTableAndCardContainer">
-            <div className="tableContainer">
+            {/* <div className="tableContainer">
               <RepaymentTable
                 repaymentTableData={RepaymentTableData}
               ></RepaymentTable>
-            </div>
+            </div> */}
             <div className="cardContainer">
-              <RepaymentCard
-                onAuthorize={() => {
-                  router.push(
-                    `/users/${
-                      router.asPath.split("/")[2]
-                    }/entities/${entityID}/repayment/successful`
-                  );
-                }}
-              ></RepaymentCard>
+              <RepaymentCard amount={amount!}></RepaymentCard>
             </div>
           </div>
         </div>

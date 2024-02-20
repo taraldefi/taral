@@ -16,7 +16,7 @@ export class TransactionDocumentController {
 
   @Get('/confirmation-document/:id')
   async checkConfirmationDocument(
-    @Param(' applicationId') applicationId: string,
+    @Param('id') applicationId: string,
   ): Promise<boolean> {
     const response =
       await this.transactionDocumentService.checkIfConfirmationDocumentExists(
@@ -28,7 +28,7 @@ export class TransactionDocumentController {
 
   @Get('/additional-document/:id')
   async checkAdditionalDocument(
-    @Param(' applicationId') applicationId: string,
+    @Param('id') applicationId: string,
   ): Promise<boolean> {
     const response =
       await this.transactionDocumentService.checkIfAdditionalDocumentExists(
@@ -40,7 +40,7 @@ export class TransactionDocumentController {
 
   @Post('/confirmation-document/:id')
   async markConfirmationDocument(
-    @Param(' applicationId') applicationId: string,
+    @Param('id') applicationId: string,
   ): Promise<string> {
     const response =
       await this.transactionDocumentService.markConfirmationDocumentUploaded(
@@ -52,7 +52,7 @@ export class TransactionDocumentController {
 
   @Post('/additional-document/:id')
   async markAdditionalDocument(
-    @Param(' applicationId') applicationId: string,
+    @Param('id') applicationId: string,
   ): Promise<string> {
     const response =
       await this.transactionDocumentService.markAdditionalDocumentUploaded(

@@ -134,12 +134,14 @@ function index({ ...props }) {
                 BeneficialOwner: entityData.beneficialOwner,
                 CodeAbbreviation: entityData.abbreviation,
                 Nationality: entityData.nationality,
+                registrationNumber: entityData.registrationNumber,
                 HeadquartersLocation: entityData.headquarters,
                 IndustryType: entityData.industryType,
                 CoreBusiness: entityData.coreBusiness,
                 IncorporationDate: entityData.incorporationDate,
                 LegalForm: entityData.legalForm,
                 productCount: 20,
+                applicationCount: entityData.applications.length,
               }}
             />
           ) : (

@@ -101,7 +101,8 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 	applicationTableData,
 	onClick = () => {},
 }) => {
-	const [copiedToClipboard, setCopiedToClipboard] = React.useState(false);
+	const [idCopiedToClipboard, setIdCopiedToClipboard] =
+		React.useState<string>('');
 	return (
 		<div className='table'>
 			<table>
@@ -122,15 +123,10 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 					{applicationTableData.map((item, index) => {
 						return (
 							<tr onClick={() => onClick(item.id)} key={index}>
-								<td
-									style={{
-										display: 'flex',
-										gap: '5px',
-										alignItems: 'center',
-									}}
-								>
+								<td>
 									{truncateUuid(item.applicationId, 4, 6)}{' '}
-									{copiedToClipboard ? (
+									{idCopiedToClipboard ===
+									item.applicationId ? (
 										<CheckSquare
 											size={'18px'}
 											color='#0BD7A4'
@@ -144,7 +140,9 @@ export const ApplicationTable: React.FC<applicationTableType> = ({
 												navigator.clipboard.writeText(
 													item.applicationId,
 												);
-												setCopiedToClipboard(true);
+												setIdCopiedToClipboard(
+													item.applicationId,
+												);
 											}}
 										/>
 									)}

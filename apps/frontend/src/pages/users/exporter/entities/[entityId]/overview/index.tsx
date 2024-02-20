@@ -46,7 +46,7 @@ function index() {
     <ExporterBaseLayout>
       <div className="viewbody">
         <div className="viewContainer">
-          <EntityView
+          {/* <EntityView
             infoData={{
               id: "123",
               name: "",
@@ -61,7 +61,7 @@ function index() {
               IncorporationDate: "July 2012",
               LegalForm: "Limited",
             }}
-          />
+          /> */}
         </div>
         <div className="viewTableContainer">
           <span>Products</span>

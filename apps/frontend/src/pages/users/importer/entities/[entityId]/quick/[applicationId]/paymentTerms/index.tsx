@@ -290,6 +290,7 @@ function Index({ ...props }) {
                       errors.interestCurrency ? "inputs inputRed" : "inputs"
                     }
                     {...register("interestCurrency")}
+                    //@ts-ignore
                     placeholder={
                       errors.interestCurrency
                         ? errors.interestCurrency.message
@@ -493,6 +494,7 @@ function Index({ ...props }) {
                 errors.downpaymentCurrency ? "inputs inputRed" : "inputs"
               }
               {...register("downpaymentCurrency")}
+              //@ts-ignore
               placeholder={
                 errors.downpaymentCurrency
                   ? errors.downpaymentCurrency.message
@@ -551,6 +553,7 @@ function Index({ ...props }) {
             <select
               className={errors.balanceCurrency ? "inputs inputRed" : "inputs"}
               {...register("balanceCurrency")}
+              //@ts-ignore
               placeholder={
                 errors.balanceCurrency
                   ? errors.balanceCurrency.message

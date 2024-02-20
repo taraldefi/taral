@@ -154,7 +154,8 @@ export class SupplierInformationService extends BaseService {
 
     application.supplierInformation = supplier;
     application.exporterName = supplier.name;
-    application.save();
+    application.sellerPrincipal = supplier.onchainPrincipal;
+    await this.buyerQuickApplicationRepository.save(application);
 
     const updatedRelationship = await this.relationshipService.updateEntity(
       data.relationshipWithSupplier,

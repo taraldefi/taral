@@ -22,10 +22,10 @@ const initialData: CreatePaymentTerm = {
   interestDegressiveRate: null,
   paymentType: PaymentTypes.SHORT,
   downpaymentCurrency: "",
-  downpaymentAmount: "",
+  downpaymentAmount: 0,
   downpaymentDescription: "",
   balanceCurrency: "",
-  balanceAmount: "",
+  balanceAmount: 0,
   balancePaymentDeadline: "",
   paymentVehicleDescription: "",
   paymentDuration: "",
@@ -68,10 +68,13 @@ const schemaValidation = Yup.object({
     .required(" payment type required"),
   paymentDuration: Yup.string().required("required"),
   downpaymentCurrency: Yup.string().required("required"),
-  downpaymentAmount: Yup.string().required("required"),
+  downpaymentAmount: Yup.number().required("required"),
   downpaymentDescription: Yup.string().required("required"),
   balanceCurrency: Yup.string().required("required"),
-  balanceAmount: Yup.string().required("required"),
+  balanceAmount: Yup.number()
+    .required("required")
+    .moreThan(Yup.ref("downpaymentAmount"))
+    .typeError("must be of type number"),
   balancePaymentDeadline: Yup.string().required("required"),
   paymentVehicleDescription: Yup.string().required("required"),
 });
@@ -100,10 +103,10 @@ const usePaymentTermForm = (applicationID: string) => {
         interestDegressiveRate: response.interestDegressiveRate,
         paymentType: response.paymentType,
         downpaymentCurrency: response.downpaymentCurrency,
-        downpaymentAmount: response.downpaymentAmount,
+        downpaymentAmount: parseFloat(response.downpaymentAmount),
         downpaymentDescription: response.downpaymentDescription,
         balanceCurrency: response.balanceCurrency,
-        balanceAmount: response.balanceAmount,
+        balanceAmount: parseFloat(response.balanceAmount),
         balancePaymentDeadline: response.balancePaymentDeadline,
         paymentVehicleDescription: response.paymentVehicleDescription,
         paymentDuration: response.paymentDuration,
@@ -117,10 +120,16 @@ const usePaymentTermForm = (applicationID: string) => {
 
   const saveChangeToDatabase = async (args: CreatePaymentTerm) => {
     console.count("payload for patch:" + JSON.stringify(args));
+    const payload = {
+      ...args,
+      downpaymentAmount: (args.downpaymentAmount as any).toString(),
+      balanceAmount: (args.balanceAmount as any).toString(),
+    };
+
     if (!updateMode) {
       const createPaymentTerm = buyerApplicationService.createPaymentTerms(
         applicationID as string,
-        args
+        payload
       );
       toast.promise(createPaymentTerm, {
         loading: "Loading...",
@@ -135,7 +144,7 @@ const usePaymentTermForm = (applicationID: string) => {
     } else {
       const updatePaymentTerm = buyerApplicationService.updatePaymentTerms(
         applicationID as string,
-        args
+        payload
       );
 
       toast.promise(updatePaymentTerm, {

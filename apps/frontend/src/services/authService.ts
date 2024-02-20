@@ -72,11 +72,11 @@ class AuthService {
         }
       } catch (error: any) {
         if (axios.isAxiosError(error)) {
-          console.log(error.response?.status || error.message);
-          reject(new Error(error.message));
+          console.log(error.response?.status || error.response?.data.message);
+          reject(error.response?.data.message);
         } else {
           console.log(error.message);
-          reject(new Error(error.message));
+          reject(error.message);
         }
       }
       reject(new Error("Login failed."));

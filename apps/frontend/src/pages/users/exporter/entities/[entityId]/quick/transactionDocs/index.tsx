@@ -60,7 +60,7 @@ function Index() {
                   flexDirection: "column",
                 }}
               >
-                <FileUpload onFileUpload={handleFileUpload} />
+                {/* <FileUpload onFileUpload={handleFileUpload} /> */}
                 <span>Confirmation Document</span>
               </div>
 
@@ -73,7 +73,7 @@ function Index() {
                   flexDirection: "column",
                 }}
               >
-                <FileUpload onFileUpload={handleFileUpload} />
+                {/* <FileUpload onFileUpload={handleFileUpload} /> */}
                 <span>Additional Documents</span>
               </div>
             </div>

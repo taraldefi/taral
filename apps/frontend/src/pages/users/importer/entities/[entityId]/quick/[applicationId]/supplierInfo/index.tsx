@@ -196,6 +196,7 @@ function Index() {
 
               <select
                 className={errors.supplierId ? "inputs inputRed" : "inputs"}
+                //@ts-ignore
                 placeholder={
                   errors.supplierId ? `${errors.supplierId}` : "company name"
                 }

@@ -1,15 +1,49 @@
 import { Button } from "taral-ui";
-import React from "react";
+import React, { useState } from "react";
 import { DollarSign, LogOut } from "react-feather";
+import useTaralContracts from "@hooks/useTaralContracts";
+import { getExplorerLink } from "@utils/helper";
+import { useTransaction } from "@utils/queries/use-transaction";
+
+import { toast } from "sonner";
+import { useRouter } from "next/router";
 
 interface repaymentCardProp {
-  onAuthorize: () => void;
+  amount?: string;
 }
 
-const RepaymentCard = ({ onAuthorize }: repaymentCardProp) => {
+const RepaymentCard = ({ amount = "0" }: repaymentCardProp) => {
   const [selectedId, setSelectedId] = React.useState<number>(0);
   function handleSelect(index: number) {
     setSelectedId(index);
+  }
+  const router = useRouter();
+  const entityID = router.query.entityId;
+  const { makePayment } = useTaralContracts();
+  const [transactionId, setTransactionId] = useState<string>("");
+  const { data: transaction, isError } = useTransaction(transactionId);
+
+  const handlePayment = async () => {
+    const transaction = await makePayment();
+    setTransactionId(transaction.txId);
+    console.log("transaction", transaction);
+    toast("Transaction Submitted.", {
+      description:
+        " If the transaction takes more than 20 minutes to settle refresh and continue to second step",
+      action: {
+        label: "view transaction",
+        onClick: () => window.open(getExplorerLink(transaction.txId)),
+      },
+    });
+  };
+
+  if (transaction?.tx_status === "success") {
+    toast.success("Transaction Successfully minted!");
+    router.push(
+      `/users/${
+        router.asPath.split("/")[2]
+      }/entities/${entityID}/repayment/successful?amount=${amount}`
+    );
   }
   return (
     <div className="repaymentCard">
@@ -50,21 +84,26 @@ const RepaymentCard = ({ onAuthorize }: repaymentCardProp) => {
         </div>
       </div>
       <div className="inputContainer">
-        <span>Repayment Amount</span>
         <input
+          disabled
           type="text"
           className="inputs"
           id="dollar"
-          placeholder="Enter Amount"
+          placeholder={amount}
         />
       </div>
 
       <div>
         <Button
           onClick={() => {
-            onAuthorize();
+            handlePayment();
           }}
-          label={"AUTHORIZE REPAYMENT"}
+          disabled={transaction?.tx_status === "pending"}
+          label={
+            transaction?.tx_status === "pending"
+              ? "waiting for confirmation..."
+              : "AUTHORIZE REPAYMENT"
+          }
           primary={true}
           backgroundColor="#1AB98B"
         ></Button>

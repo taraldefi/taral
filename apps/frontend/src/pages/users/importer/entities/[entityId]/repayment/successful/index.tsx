@@ -1,8 +1,11 @@
 import { PaymentSuccessCard } from "taral-ui";
 import Topbar from "@components/topBar";
 import { useRouter } from "next/router";
+import { useSearchParams } from "next/navigation";
+import moment from "moment";
 
 function Index() {
+  const amount = useSearchParams().get("amount");
   const router = useRouter();
   return (
     <div
@@ -21,12 +24,16 @@ function Index() {
         <PaymentSuccessCard
           onPrint={() => {}}
           onBack={() => {
-            router.back();
+            router.push(
+              `/users/${router.asPath.split("/")[2]}/entities/${
+                router.asPath.split("/")[4]
+              }/applications`
+            );
           }}
           paymentDetails={{
-            date: "March 19, 2023",
+            date: moment().format("DD/MM/YYYY"),
             method: "USD-Stablecoin",
-            amount: 2000,
+            amount: parseInt(amount!),
           }}
         />
       </div>

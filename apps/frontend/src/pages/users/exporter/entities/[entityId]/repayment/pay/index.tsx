@@ -36,7 +36,7 @@ function Index() {
               ></RepaymentTable>
             </div>
             <div className="cardContainer">
-              <RepaymentCard
+              {/* <RepaymentCard
                 onAuthorize={() => {
                   router.push(
                     `/users/${
@@ -44,7 +44,7 @@ function Index() {
                     }/entities/${entityID}/repayment/successful`
                   );
                 }}
-              ></RepaymentCard>
+              ></RepaymentCard> */}
             </div>
           </div>
         </div>

@@ -29,7 +29,7 @@ const ClaimButton = () => {
       primary
       backgroundColor="#1ab98b"
       disabled={transaction?.tx_status === "pending"}
-      label={"accept"}
+      label={"Accept Financing"}
       onClick={() => {
         handleAcceptFinancing();
       }}

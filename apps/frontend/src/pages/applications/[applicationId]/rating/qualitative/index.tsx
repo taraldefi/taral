@@ -45,7 +45,8 @@ export default function QunatitativePage() {
         </div>
         <div className="secondCol">
           <span>Information Quality</span>
-          <select className="inputs" placeholder="select..."></select>
+
+          <select className="inputs"></select>
           <span>Capital Leases</span>
           <input
             type="text"
@@ -53,7 +54,7 @@ export default function QunatitativePage() {
             placeholder="Number of capital leases..."
           ></input>
           <span>Options/Warrents</span>
-          <select className="inputs" placeholder="Percentage..."></select>
+          <select className="inputs"></select>
         </div>
         <div className="thirdCol">
           <span>Minority interests investment</span>
