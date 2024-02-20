@@ -1,6 +1,20 @@
 # Use an official Node.js runtime as the base image
 
-FROM node:19.6.0-alpine as build
+FROM node:20.5.1 as build
+
+#
+#
+# copy just the ui lib & build it & install it in the frontend app.
+#
+COPY ./libs/ui /libs/ui
+
+
+COPY package.json /usr/package.json
+COPY tsconfig.json /usr/tsconfig.json
+COPY yarn.lock /usr/yarn.lock
+
+RUN yarn
+
 # Set the working directory within the container
 WORKDIR /app
 
@@ -8,13 +22,15 @@ WORKDIR /app
 COPY ./apps/frontend/package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN yarn
 
 # Copy the rest of the application code to the container
 COPY ./apps/frontend .
 
 # Build the React app
-RUN npm run build
+RUN yarn build
+
+RUN yarn reinstall-ui-lib
 
 # # expose any ports
 # EXPOSE 4200

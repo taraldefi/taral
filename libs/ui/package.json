@@ -6,12 +6,12 @@
   "private": "true",
   "main": "build/index.js",
   "module": "build/index.esm.js",
-  "types": "build/index.d.ts",
+  "types": "build/src/index.d.ts",
   "files": [
     "build"
   ],
   "scripts": {
-    "build": "rollup -c --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs && tsc --emitDeclarationOnly",
     "test": "jest",
     "test:watch": "jest --watch",
     "storybook": "storybook dev -p 6006",
