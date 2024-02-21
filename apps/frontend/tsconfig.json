@@ -26,7 +26,8 @@
       "@utils/*": ["src/utils/*"],
       "@store/*": ["src/store/*"],
       "@types/*": ["src/types/*"],
-      "@services/*": ["src/services/*"]
+      "@services/*": ["src/services/*"],
+      "taral-ui": ["../../libs/ui"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

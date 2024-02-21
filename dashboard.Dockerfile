@@ -1,6 +1,6 @@
 # Use an official Node.js runtime as the base image
 
-FROM node:20.5.1 as build
+FROM node:20.5.1 as build-target
 
 #
 #
@@ -8,38 +8,42 @@ FROM node:20.5.1 as build
 #
 COPY ./libs/ui /libs/ui
 
-
 COPY package.json /usr/package.json
 COPY tsconfig.json /usr/tsconfig.json
 COPY yarn.lock /usr/yarn.lock
 
 RUN yarn
 
+
+RUN cd ./libs/ui && yarn && yarn build && yarn install
+
 # Set the working directory within the container
 WORKDIR /app
 
 # Copy package.json and package-lock.json to the container
-COPY ./apps/frontend/package*.json ./
+COPY ./apps/frontend ./
 
 # Install dependencies
 RUN yarn
 
-# Copy the rest of the application code to the container
-COPY ./apps/frontend .
-
 # Build the React app
 RUN yarn build
 
-RUN yarn reinstall-ui-lib
 
 # # expose any ports
 # EXPOSE 4200
 
-# Stage 2: Serve app with Nginx
-FROM nginx:latest
-COPY --from=build /app/dist /usr/share/nginx/html
-COPY ./nginx/frontend.nginx.conf /etc/nginx/conf.d/default.conf
+# Stage 2: 
 
-EXPOSE 8080
+# Archive
+FROM node:20.5.1 as archive-target
+ENV NODE_ENV=production
+ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
-CMD ["nginx", "-g", "daemon off;"]
+WORKDIR /usr/src/app
+
+# Include only the release build and production packages.
+COPY --from=build-target /app/node_modules node_modules
+COPY --from=build-target /app/.next .next
+
+CMD ["next", "start"]
