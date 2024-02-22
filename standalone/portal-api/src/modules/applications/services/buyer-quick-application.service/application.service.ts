@@ -154,6 +154,7 @@ export class BuyerQuickApplicationService extends BaseService {
     application.createdAt = new Date();
     application.exporterName = '--';
     application.onchainPrincipal = data.onChainPrincipal;
+    application.paymentMethod = data.paymentMethod;
 
     const savedApplication = await this.buyerApplicationRepository.save(
       application,
