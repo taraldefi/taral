@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    // "noEmit": true,
     "target": "ES2020",
     "module": "CommonJS",
     "moduleResolution": "node",
@@ -27,12 +27,11 @@
     "suppressImplicitAnyIndexErrors": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
   },
 
   // break
   "importHelpers": true,
-  "jsx": "react",
   "sourceMap": true,
   "strict": true,
 
