@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { GetApplicationResponse } from 'src/modules/company/dto/response/get-application-response.dto';
 import { CreateQuickApplicationRequest } from '../../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-buyer-application-response.dto';
@@ -16,11 +15,13 @@ import { OrderDetailService } from 'src/modules/order-detail/services/order-deta
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
 import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
+import { StripeService } from './stripe.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
   constructor(
     public configService: ConfigService,
+    private stripeService: StripeService,
 
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
@@ -221,6 +222,10 @@ export class BuyerQuickApplicationService extends BaseService {
     });
 
     return application;
+  }
+
+  public async generateStripeInvoice(): Promise<void> {
+    console.log('Generating stripe invoice');
   }
 
   private async checkIfApplicationIsComplete(

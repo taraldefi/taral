@@ -117,6 +117,7 @@
     "rimraf": "3.0.2",
     "rxjs": "7.5.5",
     "source-map-support": "0.5.21",
+    "stripe": "14.15.0",
     "swagger-ui-express": "4.3.0",
     "twitter": "1.7.1",
     "type-is": "^1.6.18",
