@@ -99,15 +99,7 @@ function Index({ ...props }) {
                 defaultValue={queryResult.data?.companyName}
               />
             </div>
-            <div className="form-item">
-              <span>What is your company email?</span>
-              <input
-                type="text"
-                className={"inputs"}
-                placeholder={"john@example.com"}
-                {...register("email")}
-              />
-            </div>
+
             {/* <div
               style={{
                 display: "flex",

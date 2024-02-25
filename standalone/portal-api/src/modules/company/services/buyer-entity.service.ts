@@ -20,10 +20,12 @@ import { BaseService } from 'src/common/services/base.service';
 import { ConfigService } from '@nestjs/config';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserEntityRepository } from 'src/modules/auth/user.repository';
+import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
 
 @Injectable()
 export class BuyerCompanyEntityService extends BaseService {
   constructor(
+    private stripeService: StripeService,
     @InjectRepository(BuyerCompanyEntity)
     private buyerEntityRepository: BuyerCompanyEntityRepository,
 
@@ -164,6 +166,11 @@ export class BuyerCompanyEntityService extends BaseService {
       entity.name = data.name;
     }
 
+    if (data.email) {
+      entity.email = data.email;
+      this.stripeService.updateCustomer(data.email, entity.stripeId);
+    }
+
     if (data.nationality) {
       entity.nationality = data.nationality;
     }
@@ -289,6 +296,7 @@ export class BuyerCompanyEntityService extends BaseService {
 
     const entity = new BuyerCompanyEntity();
     entity.phoneNumber = data.phoneNumber;
+    entity.email = data.email;
     entity.registrationNumber = data.registrationNumber;
     entity.abbreviation = data.abbreviation;
     entity.name = data.name;
@@ -324,6 +332,15 @@ export class BuyerCompanyEntityService extends BaseService {
     entity.taxAndRevenue[0] = taxAndRevenueSavedResult;
     entity.user = user;
 
+    var savedEntity = await this.buyerEntityRepository.save(entity);
+
+    const createStripeCustomer = await this.stripeService.createCustomer(
+      savedEntity.id,
+      savedEntity.name,
+      savedEntity.email,
+    );
+
+    entity.stripeId = createStripeCustomer.id;
     var result = await this.buyerEntityRepository.save(entity);
 
     const latestTaxAndRevenue = await this.getLatestTaxAndRevenue(result.id);

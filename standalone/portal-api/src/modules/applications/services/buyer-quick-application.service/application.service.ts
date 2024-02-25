@@ -15,7 +15,7 @@ import { OrderDetailService } from 'src/modules/order-detail/services/order-deta
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
 import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
-import { StripeService } from './stripe.service';
+import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { SubmitApplicationForCreditCardRequest } from '../../dto/request/submit-application-for-credit-card.dto';
 
@@ -239,11 +239,11 @@ export class BuyerQuickApplicationService extends BaseService {
         HttpStatus.BAD_REQUEST,
       );
 
-    const buyerCustomer = await this.stripeService.createCustomer(
+    const buyer = await this.buyerCompanyEntityService.findBuyerEntityById(
       applicationDto.entityId,
-      applicationDto.entityName,
-      application.buyerInformation.email,
     );
+
+    const buyerCustomerId = buyer.stripeId;
 
     const poPrice = await this.stripeService.createPrice(
       parseInt(application.paymentTerms.balanceAmount) +
@@ -252,9 +252,11 @@ export class BuyerQuickApplicationService extends BaseService {
     );
 
     const createAndSendInvoice = await this.stripeService.createAndSendInvoice(
-      buyerCustomer.id,
+      buyerCustomerId,
       poPrice.id,
     );
+
+    application.purchaseOrderId = createAndSendInvoice.id;
 
     application.status = 'ON_REVIEW';
     application.save();

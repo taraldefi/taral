@@ -16,6 +16,12 @@ export class GetEntityDetailsResponse {
   @ApiProperty({ example: 'Engelbrecht Ltd' })
   name: string;
 
+  @ApiProperty({ example: 'john@example.com' })
+  email: string;
+
+  @ApiProperty()
+  stripeId: string;
+
   @ApiProperty({ example: '1234567891' })
   phoneNumber: string;
 

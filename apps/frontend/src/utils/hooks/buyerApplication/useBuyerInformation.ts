@@ -17,7 +17,6 @@ const initialData: GetBuyerInfoResponse = {
   phoneNumber: "",
   registrationNumber: "",
   employeeCount: null,
-  email: "",
   taxAndRevenue: {
     lastFiscalYear: 0,
     totalRevenue: "",
@@ -36,7 +35,6 @@ const initialData: GetBuyerInfoResponse = {
  */
 
 const schemaValidation = Yup.object().shape({
-  email: Yup.string().email("Invalid email").required("Email is required"),
   address: Yup.object().shape({
     city: Yup.string().required("City is required"),
 
@@ -76,7 +74,6 @@ const useBuyerInformationForm = (applicationID: string) => {
         companyName: response.companyName,
         dateEstablished: convertDate(response.dateEstablished),
         employeeCount: response.employeeCount ?? 0,
-        email: response.email ?? "",
         phoneNumber: response.phoneNumber,
         registrationNumber: response.registrationNumber,
         taxAndRevenue: {

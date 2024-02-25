@@ -35,6 +35,11 @@ export class UpdateEntityDto {
   @IsOptional()
   name?: string;
 
+  @ApiProperty({ example: 'john@example.com' })
+  @IsOptional()
+  @IsString()
+  email?: string;
+
   @ApiProperty({ example: 'John Smith' })
   @IsString()
   @IsOptional()

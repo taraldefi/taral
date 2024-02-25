@@ -35,6 +35,7 @@ import { StripeService } from './services/buyer-quick-application.service/stripe
   ],
   exports: [
     BuyerQuickApplicationService,
+    StripeService,
     TypeOrmModule.forFeature([QuickApplicationEntity]),
   ],
 })

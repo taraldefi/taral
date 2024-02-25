@@ -17,11 +17,6 @@ export class CreateBuyerCompanyRequest {
   @IsNumber()
   employeeCount?: number;
 
-  @ApiProperty({ example: 'john@example.com' })
-  @IsOptional()
-  @IsString()
-  email?: string;
-
   @ValidateNested()
   @Type(() => CreateBuyerCompanyAddressRequest)
   address: CreateBuyerCompanyAddressRequest;

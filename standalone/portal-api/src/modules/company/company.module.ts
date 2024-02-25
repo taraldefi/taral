@@ -17,6 +17,8 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
 import { BuyerCompanyTaxAndRevenueEntity } from './models/buyer.company.tax.and.revenue.entity';
 import { SupplierCompanyTaxAndRevenueEntity } from './models/supplier.company.tax.and.revenue.entity';
 import { UserEntity } from '../auth/entity/user.entity';
+import { ApplicationModule } from '../applications/application.module';
+import { StripeService } from '../applications/services/buyer-quick-application.service/stripe.service';
 
 @Module({
   imports: [
@@ -29,6 +31,7 @@ import { UserEntity } from '../auth/entity/user.entity';
       SupplierCompanyTaxAndRevenueEntity,
       SupplierCompanyInformationEntity,
     ]),
+
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
   ],
   controllers: [
@@ -43,6 +46,7 @@ import { UserEntity } from '../auth/entity/user.entity';
     SupplierCompanyEntityService,
     EntityMappingService,
     LogoService,
+    StripeService,
   ],
   exports: [
     BuyerCompanyEntityService,

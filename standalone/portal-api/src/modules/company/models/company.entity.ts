@@ -10,6 +10,14 @@ export class CompanyEntity extends EntityHelper {
   @Allow()
   name: string;
 
+  @Column({ nullable: true })
+  @Allow()
+  email?: string;
+
+  @Column({ nullable: true })
+  @Allow()
+  stripeId?: string;
+
   @Column()
   @Allow()
   phoneNumber: string;

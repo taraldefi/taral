@@ -21,10 +21,6 @@ export class CompanyInformationEntity extends EntityHelper {
   @Allow()
   employeeCount?: number;
 
-  @Column({ nullable: true })
-  @Allow()
-  email?: string;
-
   @OneToOne(() => CompanyAddressEntity, (address) => address.company)
   @JoinColumn()
   address: CompanyAddressEntity;

@@ -32,6 +32,21 @@ export class StripeService {
     }
   }
 
+  async updateCustomer(
+    email: string,
+    customerId: string,
+  ): Promise<Stripe.Customer> {
+    try {
+      const customer = await this.stripe.customers.update(customerId, {
+        email: email,
+      });
+      return customer;
+    } catch (error) {
+      console.error('Error creating customer:', error);
+      throw error;
+    }
+  }
+
   async createPrice(
     unitAmount: number,
     productId: string,
