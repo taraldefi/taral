@@ -16,13 +16,13 @@
     "@types/node": "20.10.0"
   },
   "dependencies": {
+    "lib-infra": "file:./../infrastructure",
+    "lib-shared": "file:./../shared",
+    "lib-stacks": "file:./../stacks",
+    "taral-configuration": "file:./../../packages/configuration",
     "@stacks/network": "^6.0.0",
     "@stacks/stacks-blockchain-api-types": "^7.3.4",
     "@stacks/transactions": "^6.9.0",
-    "lib-infra": "1.0.0",
-    "lib-shared": "1.0.0",
-    "lib-stacks": "1.0.0",
-    "neverthrow": "6.1.0",
-    "taral-configuration": "1.0.0"
+    "neverthrow": "6.1.0"
   }
 }
