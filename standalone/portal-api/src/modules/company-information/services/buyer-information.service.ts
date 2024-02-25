@@ -121,6 +121,7 @@ export class BuyerInformationService extends BaseService {
 
     companyInformation.address = address;
     companyInformation.employeeCount = data.employeeCount;
+    companyInformation.email = data.email;
 
     address.addressLine1 = data.address.addressLine1;
     address.addressLine2 = data.address.addressLine2;
@@ -221,6 +222,11 @@ export class BuyerInformationService extends BaseService {
     if (!entity) throw triggerError('entity-not-found');
 
     let companyAddressChanged = false;
+
+    if (data.email) {
+      application.buyerInformation.email = data.email;
+      application.buyerInformation.save();
+    }
 
     if (data.address.addressLine1) {
       companyAddressChanged = true;

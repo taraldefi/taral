@@ -23,6 +23,7 @@ import { StripeService } from './services/buyer-quick-application.service/stripe
     PaymentTermModule,
     CompanyInformationModule,
     SectorsModule,
+    CompaniesModule,
     TypeOrmModule.forFeature([QuickApplicationEntity]),
   ],
   controllers: [QuickApplicationController],

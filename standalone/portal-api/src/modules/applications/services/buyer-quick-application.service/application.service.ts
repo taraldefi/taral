@@ -16,6 +16,7 @@ import { BuyerInformationService } from 'src/modules/company-information/service
 import { ConfigService } from '@nestjs/config';
 import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 import { StripeService } from './stripe.service';
+import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -27,7 +28,7 @@ export class BuyerQuickApplicationService extends BaseService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     private buyerInformationService: BuyerInformationService,
-
+    private buyerCompanyEntityService: BuyerCompanyEntityService,
     private supplierInfoService: SupplierInformationService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
@@ -214,6 +215,30 @@ export class BuyerQuickApplicationService extends BaseService {
     application.save();
   }
 
+  public async markAsCompleteForCreditCard(
+    id: string,
+    entityId: string,
+  ): Promise<void> {
+    this.setupTransactionHooks();
+
+    const application = await this.findApplicationById(id);
+
+    const isComplete = await this.checkIfApplicationIsComplete(application);
+    if (!isComplete)
+      throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+    const buyerEntity =
+      await this.buyerCompanyEntityService.findBuyerEntityById(entityId);
+
+    if (application.status == 'ON_REVIEW')
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    application.status = 'ON_REVIEW';
+    application.save();
+  }
+
   public async getActiveApplicationId(
     entityId: string,
   ): Promise<QuickApplicationEntity> {
@@ -222,10 +247,6 @@ export class BuyerQuickApplicationService extends BaseService {
     });
 
     return application;
-  }
-
-  public async generateStripeInvoice(): Promise<void> {
-    console.log('Generating stripe invoice');
   }
 
   private async checkIfApplicationIsComplete(

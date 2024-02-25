@@ -64,6 +64,7 @@ export class EntityMappingService {
 
     if (entity.companyInformation && buyerInfo) {
       response.employeeCount = entity.companyInformation.employeeCount;
+      response.email = buyerInfo.email;
 
       response.address.addressLine1 = buyerInfo.address.addressLine1;
       response.address.addressLine2 = buyerInfo.address.addressLine2;

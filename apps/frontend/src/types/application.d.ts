@@ -34,6 +34,7 @@ interface Address {
 }
 
 interface CreateBuyerInformationForBuyerApplication {
+  email: string;
   address: Address;
 }
 
@@ -44,6 +45,7 @@ interface GetBuyerInfoResponse {
   companyName: string;
   dateEstablished: string;
   employeeCount: number | null;
+  email: string;
   phoneNumber: string;
   registrationNumber: string;
 }
