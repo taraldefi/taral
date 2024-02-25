@@ -2,7 +2,11 @@ import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload, { documentType } from "@components/widgets/FileUpload";
 import useModal from "@hooks/useModal";
-import { FinishApplicationModalAtom } from "@store/ModalStore";
+import applicationService from "@services/application/applicationService";
+import {
+  FinishApplicationForCreditCardModalAtom,
+  FinishApplicationModalAtom,
+} from "@store/ModalStore";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { Button } from "taral-ui";
@@ -13,6 +17,9 @@ function Index({ ...props }) {
   const entityID = query.entityId;
   const applicationID = query.applicationId;
   const finishModal = useModal(FinishApplicationModalAtom);
+  const finishModalForCreditCard = useModal(
+    FinishApplicationForCreditCardModalAtom
+  );
 
   const onBack = () => {
     router.push(
@@ -23,7 +30,13 @@ function Index({ ...props }) {
   };
 
   const onSubmit = async () => {
-    finishModal.open();
+    const result = await applicationService.getApplication(applicationID);
+    console.log(result);
+    if (result.paymentMethod === "CREDIT_CARD") {
+      finishModalForCreditCard.open();
+    } else {
+      finishModal.open();
+    }
   };
   return (
     <ApplicationLayout>

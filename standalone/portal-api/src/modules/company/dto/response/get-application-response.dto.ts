@@ -8,6 +8,9 @@ export class GetApplicationResponse {
   title: string;
 
   @ApiProperty()
+  paymentMethod: string;
+
+  @ApiProperty()
   exporterName: string;
 
   @ApiProperty()

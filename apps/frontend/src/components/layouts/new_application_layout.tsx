@@ -2,6 +2,7 @@ import { AuthGuard } from "@components/AuthGuard";
 import ApplicationLeftMenu from "@components/applicationLeftMenu";
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
+import InvoiceModal from "@components/modal/invoiceModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";
 import NotificationModal from "@components/modal/notificationModal";
 import SettingsModal from "@components/modal/settingsModal";
@@ -12,6 +13,7 @@ import useModal from "@hooks/useModal";
 import {
   ApplicationModalAtom,
   EditFormModalAtom,
+  FinishApplicationForCreditCardModalAtom,
   FinishApplicationModalAtom,
   FormModalAtom,
   NotificationModalAtom,
@@ -30,6 +32,9 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
   const finishApplicationModal = useModal(FinishApplicationModalAtom);
+  const finishApplicationCreditCardModal = useModal(
+    FinishApplicationForCreditCardModalAtom
+  );
 
   return (
     <>
@@ -62,6 +67,10 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
             isOpen={finishApplicationModal.isOpen}
             onClose={() => finishApplicationModal.close()}
           ></StepperModal>
+          <InvoiceModal
+            isOpen={finishApplicationCreditCardModal.isOpen}
+            onClose={() => finishApplicationCreditCardModal.close()}
+          ></InvoiceModal>
         </div>
       </AuthGuard>
     </>

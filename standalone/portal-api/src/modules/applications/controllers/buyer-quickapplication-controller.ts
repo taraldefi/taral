@@ -39,6 +39,7 @@ import { SupplierInformationService } from 'src/modules/company-information/serv
 import { CreateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/create-supplier-company.dto';
 import { UpdateSupplierInformationRequest } from 'src/modules/company-information/dto/request/supplier/update-supplier-company.dto';
 import { JwtAuthGuard } from 'src/common/guard/jwt-auth.guard';
+import { SubmitApplicationForCreditCardRequest } from '../dto/request/submit-application-for-credit-card.dto';
 
 @ApiTags('Applications')
 @Controller({
@@ -109,6 +110,19 @@ export class QuickApplicationController {
       applicationId,
     );
     return application;
+  }
+
+  @Post('/:id/submit-for-credit-card')
+  async submitApplicationForCreditCard(
+    @Body() applicationDto: SubmitApplicationForCreditCardRequest,
+    @Param('id') applicationId: string,
+  ) {
+    const invoiceUrl =
+      await this.buyerQuickApplicationService.markAsCompleteForCreditCard(
+        applicationId,
+        applicationDto,
+      );
+    return invoiceUrl;
   }
 
   // Submit on chain transaction ID

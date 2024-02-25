@@ -17,6 +17,7 @@ import { ConfigService } from '@nestjs/config';
 import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 import { StripeService } from './stripe.service';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { SubmitApplicationForCreditCardRequest } from '../../dto/request/submit-application-for-credit-card.dto';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -93,6 +94,7 @@ export class BuyerQuickApplicationService extends BaseService {
     response.status = application.status;
     response.sellerPrincipal = application.sellerPrincipal;
     response.transactionId = application.purchaseOrderId;
+    response.paymentMethod = application.paymentMethod;
 
     const savedBuyerInformation = await this.buyerInformationService.get(
       application.id,
@@ -215,19 +217,21 @@ export class BuyerQuickApplicationService extends BaseService {
     application.save();
   }
 
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
   public async markAsCompleteForCreditCard(
     id: string,
-    entityId: string,
-  ): Promise<void> {
+    applicationDto: SubmitApplicationForCreditCardRequest,
+  ): Promise<string> {
     this.setupTransactionHooks();
 
     const application = await this.findApplicationById(id);
 
+    // check if an application is valid and completed
     const isComplete = await this.checkIfApplicationIsComplete(application);
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
-    const buyerEntity =
-      await this.buyerCompanyEntityService.findBuyerEntityById(entityId);
 
     if (application.status == 'ON_REVIEW')
       throw new HttpException(
@@ -235,8 +239,27 @@ export class BuyerQuickApplicationService extends BaseService {
         HttpStatus.BAD_REQUEST,
       );
 
+    const buyerCustomer = await this.stripeService.createCustomer(
+      applicationDto.entityId,
+      applicationDto.entityName,
+      application.buyerInformation.email,
+    );
+
+    const poPrice = await this.stripeService.createPrice(
+      parseInt(application.paymentTerms.balanceAmount) +
+        parseInt(application.paymentTerms.downpaymentAmount),
+      application.paymentTerms.id,
+    );
+
+    const createAndSendInvoice = await this.stripeService.createAndSendInvoice(
+      buyerCustomer.id,
+      poPrice.id,
+    );
+
     application.status = 'ON_REVIEW';
     application.save();
+
+    return createAndSendInvoice.hosted_invoice_url;
   }
 
   public async getActiveApplicationId(
