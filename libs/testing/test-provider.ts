@@ -34,18 +34,12 @@ import {
   Transaction,
   TransactionResult,
 } from "lib-shared";
-import {
-  deployContract,
-  evalJson,
-  evalWithCode,
-  executeJson,
-  getDefaultClarityBin,
-} from "lib-testing";
 import { err, ok } from "neverthrow";
 import {
   cleanupBootContractsCalls,
   cleanupTmpContractFile,
 } from "./test-utils/cleanup-boot-contract-calls";
+import { deployContract, evalJson, evalWithCode, executeJson, getDefaultClarityBin } from "./adapter";
 
 export class TestProvider implements BaseProvider {
   private readonly clarityBin: NativeClarityBinProvider;
