@@ -12,6 +12,7 @@ export function publicKeyFromSignatureRsv(
     hexToBigInt(parsedSignature.r),
     hexToBigInt(parsedSignature.s),
   );
+
   const point = Point.fromSignature(
     message,
     signature,
