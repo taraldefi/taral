@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "noEmit": true,
+    // "noEmit": true,
     "target": "ES2020",
     "module": "CommonJS",
     "moduleResolution": "node",
