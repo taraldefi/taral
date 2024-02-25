@@ -7,13 +7,15 @@
   "engines": {
     "node": ">=14"
   },
+  "scripts": {
+    "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+    "build:clean": "rm -rf ./build",
+    "build": "npm-run-all build:clean compile && node ./scripts/prepare-package-json"
+  },
   "devDependencies": {
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "taral-configuration": "1.0.0",
-    "lib-shared": "1.0.0",
-    "lib-clarity-bin": "1.0.0",
-    "lib-testing": "1.0.0"
+    "lib-shared": "file:./../../libs/shared"
   }
 }
