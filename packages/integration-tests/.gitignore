@@ -1,3 +1,5 @@
 
 /filesystem/*
 !/filesystem/.gitkeep
+node_modules/*
+build/*

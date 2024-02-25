@@ -37,8 +37,7 @@ import {
 import { handleFunctionTransaction } from "lib-stacks";
 import { err, ok } from "neverthrow";
 import { NETWORK } from "taral-configuration";
-import { formatArguments } from "../stacks/format-arguments";
-import { getTransactionById } from "../stacks/utils";
+import { formatArguments, getTransactionById } from "lib-stacks";
 import { deployContractOnStacks } from "./stacks/deploy-contract";
 
 const NAME = "api-provider";
