@@ -1,7 +1,7 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+// import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+// import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { initializeTransactionalContext } from 'src/common/transaction/common';
 import validationOptions from './utils/validation-options';
@@ -14,16 +14,18 @@ import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { I18nService } from 'nestjs-i18n';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorized.filter';
 import { Configuration } from './configuration';
+import helmet from 'helmet';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
 
   initializeTransactionalContext(); // Initialize cls-hooked
   const app = await NestFactory.create(AppModule, { cors: true });
-  const configService = app.get(ConfigService);
+  // const configService = app.get(ConfigService);
   const logger = app.get(WINSTON_MODULE_PROVIDER);
   const i18n = app.get(I18nService);
 
+  app.use(helmet())
   app.enableShutdownHooks();
   app.setGlobalPrefix(Configuration.app.apiPrefix, {
     exclude: ['/'],
@@ -47,12 +49,12 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  const options = new DocumentBuilder()
-    .setTitle('Taral Marketplace API')
-    .setDescription('Taral Marketplace API docs')
-    .setVersion('1.0')
-    .addBearerAuth()
-    .build();
+  // const options = new DocumentBuilder()
+  //   .setTitle('Taral Marketplace API')
+  //   .setDescription('Taral Marketplace API docs')
+  //   .setVersion('1.0')
+  //   .addBearerAuth()
+  //   .build();
 
   // const document = SwaggerModule.createDocument(app, options);
   // if (process.env.NODE_ENV === 'development') {
