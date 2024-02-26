@@ -54,7 +54,7 @@ function Index({ ...props }) {
           dateTo: convertDate(application.endDate),
           importerName: application.exporterName,
           status: {
-            label: alreadyAccepted ? "ACCEPTED" : application.status,
+            label: application.status.replace("_", " "),
             claimable: (claimable && !alreadyAccepted) || userIsLender,
             component:
               userIsLender && !alreadyAccepted && purchaseOrder ? (

@@ -39,7 +39,7 @@ function InvoiceModal({ isOpen, onClose }: Props) {
           }/entities/${entityId}/applications`
         );
         console.log(data);
-        return `application finished and is on review`;
+        return `application submitted and is on review`;
       },
       error: (err) => {
         return `${err.message}`;

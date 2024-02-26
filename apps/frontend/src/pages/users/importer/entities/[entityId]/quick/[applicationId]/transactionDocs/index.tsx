@@ -2,6 +2,7 @@ import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload, { documentType } from "@components/widgets/FileUpload";
 import useModal from "@hooks/useModal";
+import { useAuth } from "@micro-stacks/react";
 import applicationService from "@services/application/applicationService";
 import {
   FinishApplicationForCreditCardModalAtom,
@@ -9,6 +10,7 @@ import {
 } from "@store/ModalStore";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
+import { toast } from "sonner";
 import { Button } from "taral-ui";
 
 function Index({ ...props }) {
@@ -20,6 +22,7 @@ function Index({ ...props }) {
   const finishModalForCreditCard = useModal(
     FinishApplicationForCreditCardModalAtom
   );
+  const { isSignedIn } = useAuth();
 
   const onBack = () => {
     router.push(
@@ -35,6 +38,10 @@ function Index({ ...props }) {
     if (result.paymentMethod === "CREDIT_CARD") {
       finishModalForCreditCard.open();
     } else {
+      if (!isSignedIn) {
+        toast.error("Please connect your wallet to continue");
+        return;
+      }
       finishModal.open();
     }
   };

@@ -207,13 +207,13 @@ export class BuyerQuickApplicationService extends BaseService {
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
-    if (application.status == 'COMPLETED')
+    if (application.status == 'ON_REVIEW')
       throw new HttpException(
         'Application already submited',
         HttpStatus.BAD_REQUEST,
       );
 
-    application.status = 'COMPLETED';
+    application.status = 'ON_REVIEW';
     application.save();
   }
 
@@ -245,9 +245,13 @@ export class BuyerQuickApplicationService extends BaseService {
 
     const buyerCustomerId = buyer.stripeId;
 
+    const totalAmount =
+      (parseFloat(application.paymentTerms.balanceAmount) +
+        parseFloat(application.paymentTerms.downpaymentAmount)) *
+      100;
+
     const poPrice = await this.stripeService.createPrice(
-      parseInt(application.paymentTerms.balanceAmount) +
-        parseInt(application.paymentTerms.downpaymentAmount),
+      totalAmount,
       application.paymentTerms.id,
     );
 
@@ -256,7 +260,7 @@ export class BuyerQuickApplicationService extends BaseService {
       poPrice.id,
     );
 
-    application.purchaseOrderId = createAndSendInvoice.id;
+    application.purchaseOrderId = createAndSendInvoice.hosted_invoice_url;
 
     application.status = 'ON_REVIEW';
     application.save();

@@ -29,6 +29,12 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
     //   return toast.error("Please connect your wallet to create application");
     console.log("entityId", entityId, paymentMethod);
     if (!entityId) return;
+    if (paymentMethod === "CRYPTO") {
+      if (!isSignedIn) {
+        toast.error("Please connect your wallet to continue");
+        return;
+      }
+    }
     const payload = {
       title: `${entityId}-${Date.now()}-Application`,
       entityId: entityId,

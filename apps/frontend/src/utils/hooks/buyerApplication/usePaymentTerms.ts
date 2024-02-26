@@ -30,7 +30,7 @@ const initialData: CreatePaymentTerm = {
   paymentVehicleDescription: "",
   paymentDuration: "",
 };
-
+let patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
 const schemaValidation = Yup.object({
   isConcluded: Yup.boolean().required("required"),
   partialRefinancing: Yup.boolean().required("required"),
@@ -68,13 +68,34 @@ const schemaValidation = Yup.object({
     .required(" payment type required"),
   paymentDuration: Yup.string().required("required"),
   downpaymentCurrency: Yup.string().required("required"),
-  downpaymentAmount: Yup.number().required("required"),
+  downpaymentAmount: Yup.number()
+    .required("required")
+    .test(
+      "is-decimal",
+      "The amount should be a decimal with maximum two digits after comma",
+      (val: any) => {
+        if (val != undefined) {
+          return patternTwoDigisAfterComma.test(val);
+        }
+        return true;
+      }
+    ),
   downpaymentDescription: Yup.string().required("required"),
   balanceCurrency: Yup.string().required("required"),
   balanceAmount: Yup.number()
     .required("required")
     .moreThan(Yup.ref("downpaymentAmount"))
-    .typeError("must be of type number"),
+    .typeError("must be of type number")
+    .test(
+      "is-decimal",
+      "The amount should be a decimal with maximum two digits after comma",
+      (val: any) => {
+        if (val != undefined) {
+          return patternTwoDigisAfterComma.test(val);
+        }
+        return true;
+      }
+    ),
   balancePaymentDeadline: Yup.string().required("required"),
   paymentVehicleDescription: Yup.string().required("required"),
 });
