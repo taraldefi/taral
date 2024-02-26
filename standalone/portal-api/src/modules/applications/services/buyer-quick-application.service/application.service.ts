@@ -245,10 +245,11 @@ export class BuyerQuickApplicationService extends BaseService {
 
     const buyerCustomerId = buyer.stripeId;
 
-    const totalAmount =
+    const totalAmount = Math.round(
       (parseFloat(application.paymentTerms.balanceAmount) +
         parseFloat(application.paymentTerms.downpaymentAmount)) *
-      100;
+        100,
+    );
 
     const poPrice = await this.stripeService.createPrice(
       totalAmount,
