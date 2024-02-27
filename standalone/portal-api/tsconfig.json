@@ -26,6 +26,7 @@
       "taral-configuration": ["../../packages/configuration"],
       "lib-shared": ["../../libs/shared"],
       "lib-stacks": ["../../libs/stacks"],
+      "lib-storage": ["../../libs/storage"],
       "lib-api": ["../../libs/api"],
       "taral-contracts": ["../../packages/contracts"],
       "@modules/multipart": ["../modules/multipart"],

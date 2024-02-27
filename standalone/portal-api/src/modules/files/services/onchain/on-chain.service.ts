@@ -5,7 +5,7 @@ import {
   canWrite,
   IStorageFileReadInterrogation,
   IStorageFileWriteInterrogation,
-} from '@libs/storage';
+} from 'lib-storage';
 import { ConfigService } from '@nestjs/config';
 import { nodeTaralContracts, StorageServiceContract } from 'taral-contracts';
 import { ApiProvider } from 'lib-api';

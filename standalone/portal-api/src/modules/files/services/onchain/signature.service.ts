@@ -15,7 +15,7 @@ import {
   StacksMessageType,
   StacksPrivateKey,
   TransactionVersion,
-} from '@libs/stacks';
+} from 'lib-stacks';
 
 import { Signature, verify, utils } from '@noble/secp256k1';
 import { hmac } from '@noble/hashes/hmac';

@@ -1,4 +1,4 @@
-import { AppFactory } from 'test/factories/app';
+import { AppFactory } from '../factories/app';
 
 describe('Example Test (e2e)', () => {
   let app: AppFactory;

@@ -1,9 +1,9 @@
 import { Test } from '@nestjs/testing';
 
-import { RefreshTokenEntityRepository } from 'src/modules/refresh-token/refresh-token.repository';
-import { UserSerializer } from 'src/modules/auth/serializer/user.serializer';
+import { RefreshTokenEntityRepository } from '../../../src/modules/refresh-token/refresh-token.repository';
+import { UserSerializer } from '../../../src/modules/auth/serializer/user.serializer';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { RefreshTokenEntity } from 'src/modules/refresh-token/entities/refresh-token.entity';
+import { RefreshTokenEntity } from '../../../src/modules/refresh-token/entities/refresh-token.entity';
 
 const mockRefreshToken = {
   id: 1,
