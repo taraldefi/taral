@@ -8,11 +8,11 @@ FROM node:20.5.1 as build-target
 #
 COPY ./libs/ui /libs/ui
 
-COPY package.json /usr/package.json
-COPY tsconfig.json /usr/tsconfig.json
-COPY yarn.lock /usr/yarn.lock
+# COPY package.json /usr/package.json
+# COPY tsconfig.json /usr/tsconfig.json
+# COPY yarn.lock /usr/yarn.lock
 
-RUN yarn
+# RUN yarn
 
 
 RUN cd ./libs/ui && yarn && yarn build && yarn install
