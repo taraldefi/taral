@@ -23,7 +23,7 @@
     "start": "nest start",
     "start:dev": "nest start --watch --entryFile ./standalone/portal-api/src/main",
     "start:debug": "nest start --debug --watch --entryFile ./standalone/portal-api/src/main",
-    "start:prod": "node ./portal-api/src/main",
+    "start:prod": "node ./dist/standalone/portal-api/src/main.js",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test:unit": "SET NODE_ENV=test&& jest --config ./test/unit/jest-unit.json --runInBand",
     "test:e2e": "set NODE_ENV=test&& jest --config ./test/e2e/jest-e2e.json --runInBand --forceExit",
