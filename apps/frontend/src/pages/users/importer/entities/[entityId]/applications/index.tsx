@@ -4,14 +4,13 @@ import FinanceButton from "@components/widgets/FinanceButton";
 import useTaralContracts from "@hooks/useTaralContracts";
 import { useAccount } from "@micro-stacks/react";
 import applicationService from "@services/application/applicationService";
-import { truncateUuid } from "@utils/helper";
 import { LENDER_ADDRESS } from "@utils/lib/constants";
 import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { useEffect, useState } from "react";
 import { ApplicationTable } from "taral-ui";
-import { applicationTableDataType } from "taral-ui/build/src/Table/Table.types";
+import { applicationTableDataType } from "taral-ui/build/Table/Table.types";
 
 function Index({ ...props }) {
   const router = useRouter();
