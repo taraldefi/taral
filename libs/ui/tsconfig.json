@@ -9,7 +9,8 @@
     "jsx": "react",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "rootDir": "src",
   },
   "include": ["src/**/*"],
   "exclude": [

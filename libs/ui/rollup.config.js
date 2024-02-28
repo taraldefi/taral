@@ -31,7 +31,8 @@ export default {
     image(),
     svg(),
     commonjs(),
-    typescript({ tsconfig: './tsconfig.json' }),
+    // typescript({ useTsconfigDeclarationDir: true }),
+    typescript({ tsconfig: './tsconfig.json', useTsconfigDeclarationDir: true }),
     postcss(),
     copy({
       targets: [

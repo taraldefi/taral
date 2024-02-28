@@ -10,7 +10,7 @@ import {
 	Printer,
 	Square,
 } from 'react-feather';
-import { truncateUuid } from '../../util/helper';
+import { truncateUuid } from '../helper';
 import Button from '../Button';
 import { MetricRange, ProgressBar, StatusWidget } from '../Widgets';
 import './Table.scss';
