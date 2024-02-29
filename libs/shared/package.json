@@ -24,6 +24,7 @@
     "dayjs": "^1.11.9",
     "javascript-stringify": "2.1.0",
     "neverthrow": "6.1.0",
+    "npm-run-all": "^4.1.5",
     "uuid": "^9.0.1"
   }
 }
