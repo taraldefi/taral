@@ -58,14 +58,10 @@ ENV PATH $PATH:/usr/src/app/node_modules/.bin
 
 WORKDIR /usr/src/app
 
-# Include only the release build and production packages.
-# COPY --from=build-target /apps/frontend/node_modules node_modules
-# COPY --from=build-target /apps/frontend/.next .next
-
 COPY --from=build-target /apps/frontend/ .
 
 RUN dos2unix /usr/src/app/entrypoint.sh
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
-CMD ["next", "dev"]
+CMD ["next", "start"]
