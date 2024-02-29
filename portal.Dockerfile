@@ -51,6 +51,8 @@ RUN yarn build
 
 FROM node:20.5.1 as production
 
+ENV NODE_ENV production
+
 RUN apt-get update && \
     apt-get install dos2unix && \
     apt-get clean
