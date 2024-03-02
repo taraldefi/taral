@@ -1,4 +1,6 @@
 import { getToken } from "./utils";
+import 'mocha';
+import 'jest';
 
 describe("metrics - Utils", () => {
   describe("getToken", () => {

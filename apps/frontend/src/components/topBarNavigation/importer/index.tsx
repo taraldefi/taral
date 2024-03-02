@@ -10,7 +10,6 @@ import { EntityCardResponse } from "src/types";
 import ApplicationTopNavRightComponent from "./applicationTopNav";
 import KycTopNavRightComponent from "./kycTopNav";
 import OverviewTopNavRightComponent from "./overviewTopNav";
-import RepaymentTopNavRightComponent from "./repaymentTopNav";
 import applicationService from "@services/application/applicationService";
 
 const ImporterTopNav = () => {
@@ -28,9 +27,7 @@ const ImporterTopNav = () => {
       try {
         const res = await entityService.getAllEntity();
         setEntities(res);
-        const applications = await applicationService.getAllApplications(
-          entityID
-        );
+        const applications = await applicationService.getAllApplications(entityID);
         setApplications(applications);
       } catch (error) {
         console.error("Error fetching entity:", error);

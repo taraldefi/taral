@@ -38,7 +38,7 @@ export class SupplierCompanyEntityService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super(configService);
+    super();
   }
 
   public async findSupplierEntityById(

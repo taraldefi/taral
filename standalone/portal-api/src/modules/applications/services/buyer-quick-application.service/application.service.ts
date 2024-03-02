@@ -15,7 +15,6 @@ import { PaymentTermService } from 'src/modules/payment-term/services/payment-te
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
-import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
@@ -26,13 +25,11 @@ export class BuyerQuickApplicationService extends BaseService {
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     private buyerInformationService: BuyerInformationService,
-
-    private supplierInfoService: SupplierInformationService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
   ) {
-    super(configService);
+    super();
   }
 
   public async getAllApplications(

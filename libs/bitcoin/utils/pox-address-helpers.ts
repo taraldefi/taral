@@ -1,6 +1,5 @@
 import {
   AddressHashMode,
-  BufferCV,
   bufferCV,
   TupleCV,
   tupleCV,
@@ -85,9 +84,9 @@ export function poxAddrCV(stxAddress: string) {
 
 export function poxCVToBtcAddress(poxAddrCV: TupleCV) {
   return address.toBase58Check(
-    (poxAddrCV.data.hashbytes as BufferCV).buffer,
+    (poxAddrCV.data.hashbytes as any).buffer,
     addressHashModeToBtcVersion(
-      (poxAddrCV.data.version as BufferCV).buffer.valueOf()[0],
+      (poxAddrCV.data.version as any).buffer.valueOf()[0],
     ),
   );
 }

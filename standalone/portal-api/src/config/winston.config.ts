@@ -2,10 +2,10 @@ import * as winston from 'winston';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import { WinstonModuleOptions } from 'nest-winston';
 import WinstonCloudWatch from 'winston-cloudwatch';
-import config from 'config';
+import { Configuration } from '../configuration';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const winstonConfig = config.get('winston') as any;
+const isProduction = Configuration.app.nodeEnv === 'production';
+const winstonConfig = Configuration.winston;
 
 export default {
   format: winston.format.colorize(),

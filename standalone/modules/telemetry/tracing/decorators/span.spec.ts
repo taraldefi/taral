@@ -4,6 +4,8 @@ import { tracing } from "@opentelemetry/sdk-node";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { SetMetadata } from "@nestjs/common";
 import { Span } from "./span";
+import 'mocha';
+import 'jest';
 
 const TestDecoratorThatSetsMetadata = () => SetMetadata("some-metadata", true);
 

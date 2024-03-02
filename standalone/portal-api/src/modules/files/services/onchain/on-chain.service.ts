@@ -5,12 +5,13 @@ import {
   canWrite,
   IStorageFileReadInterrogation,
   IStorageFileWriteInterrogation,
-} from '@libs/storage';
+} from 'lib-storage';
 import { ConfigService } from '@nestjs/config';
 import { nodeTaralContracts, StorageServiceContract } from 'taral-contracts';
 import { ApiProvider } from 'lib-api';
 import { StacksMainnet, StacksNetwork, StacksTestnet } from '@stacks/network';
 import { ClarinetAccount, NodeContractInstance } from 'lib-shared';
+import { Configuration } from '../../../../configuration';
 
 @Injectable({
   scope: Scope.DEFAULT,
@@ -56,9 +57,8 @@ export class OnChainService {
     fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
-    const privateKey = this.configService.get('onchain.privateKey') as string;
-
-    const address = this.configService.get('onchain.address') as string;
+    const privateKey = Configuration.onchain.privateKey;
+    const address = Configuration.onchain.address;
 
     const storageContract = await this.getStorageContract();
 
@@ -81,8 +81,8 @@ export class OnChainService {
     fileId: string,
     participantAddress: string,
   ): Promise<boolean> {
-    const privateKey = this.configService.get('onchain.privateKey') as string;
-    const address = this.configService.get('onchain.address') as string;
+    const privateKey = Configuration.onchain.privateKey;
+    const address = Configuration.onchain.address;
 
     const storageContract = await this.getStorageContract();
 
@@ -102,7 +102,7 @@ export class OnChainService {
   }
 
   private mock(): boolean {
-    return this.configService.get('onchain.mock') as boolean;
+    return Configuration.onchain.mock;
   }
 
   private async getStorageContract(): Promise<
@@ -121,7 +121,7 @@ export class OnChainService {
   private async produceContract(): Promise<
     NodeContractInstance<(account: ClarinetAccount) => StorageServiceContract>
   > {
-    const network = this.configService.get('onchain.network');
+    const network = Configuration.onchain.network;
 
     let onChainNetwork: StacksNetwork;
 
@@ -136,8 +136,8 @@ export class OnChainService {
         throw new NotFoundException('Invalid on-chain network configuration');
     }
 
-    const privateKey = this.configService.get('onchain.privateKey') as string;
-    const address = this.configService.get('onchain.address') as string;
+    const privateKey = Configuration.onchain.privateKey;
+    const address = Configuration.onchain.address;
 
     const contracts = await ApiProvider.fromContracts(
       false,

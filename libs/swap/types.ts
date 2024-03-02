@@ -5,13 +5,11 @@ import {
   BtcNftSwapContract,
   ClarityBitcoinContract,
   NftTraitContract,
-  Sip10FtStandardContract,
   TaralCoinContract,
 } from "taral-contracts";
 
 export type DeployedContracts = NodeContractInstances<
   {
-    sip10FtStandard: NodeContract<Sip10FtStandardContract>;
     nftTrait: NodeContract<NftTraitContract>;
     taralCoin: NodeContract<TaralCoinContract>;
     clarityBitcoin: NodeContract<ClarityBitcoinContract>;

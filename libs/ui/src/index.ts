@@ -28,6 +28,7 @@ import { DeleteModal, SelectNetworkModal, IdleTimeOutModal } from "./Modals";
 import { Entity } from "./Entity";
 import { SmallLoanCard, LargeLoanCard, PaymentSuccessCard } from "./LoanCard";
 import { ProfileAddressCard, ProfilePersonalCard } from "./ProfileCard";
+
 export {
   Entity,
   Button,

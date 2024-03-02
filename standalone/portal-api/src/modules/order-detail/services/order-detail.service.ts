@@ -25,7 +25,7 @@ export class OrderDetailService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super(configService);
+    super();
   }
 
   public async findOrderById(id: string): Promise<OrderDetailEntity> {

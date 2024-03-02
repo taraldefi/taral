@@ -25,6 +25,7 @@ services:
     restart: always
     ports:
       - 8080:8080
+
   # mongodb:
   #   image : mongo:5.0.15
   #   container_name: mongodb
@@ -48,29 +49,30 @@ services:
   #     start_period: 30s
   #   # command: "--bind_ip_all --keyFile /opt/keyfile/keyfile --replSet rs0"
   #   # command: "--bind_ip_all --replSet rs0"
-  mongodb:
-    image: mongo:latest
-    env_file:
-      - .env
-    ports:
-      - 27017:27017
-    volumes:
-      - mongodb_data:/data/db
 
-  fluentd:
-    build:
-      context: .
-      dockerfile: docker/fluentd/Dockerfile
-    ports:
-      - "24224:24224"
-      - "24224:24224/udp"
-      - "49292:9292"
+  # mongodb:
+  #   image: mongo:latest
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - mongodb_data:/data/db
 
-    volumes:
-      - ./docker/fluentd/fluentd.conf:/fluentd/etc/fluentd.conf
-      - ./docker/fluentd/ca_cert.pem:/certs/to/ca_cert.pem
-      - ./docker/fluentd/server_key.pem:/certs/to/server_key.pem
-      - ./docker/fluentd/server_cert.pem:/certs/server_cert.pem
+#   fluentd:
+#     build:
+#       context: .
+#       dockerfile: docker/fluentd/Dockerfile
+#     ports:
+#       - "24224:24224"
+#       - "24224:24224/udp"
+#       - "49292:9292"
+
+#     volumes:
+#       - ./docker/fluentd/fluentd.conf:/fluentd/etc/fluentd.conf
+#       - ./docker/fluentd/ca_cert.pem:/certs/to/ca_cert.pem
+#       - ./docker/fluentd/server_key.pem:/certs/to/server_key.pem
+#       - ./docker/fluentd/server_cert.pem:/certs/server_cert.pem
 
   redis:
     image: redis:7-alpine
@@ -78,5 +80,5 @@ services:
       - 6379:6379
     depends_on:
       - postgres
-volumes:
-  mongodb_data:
+# volumes:
+#   mongodb_data:

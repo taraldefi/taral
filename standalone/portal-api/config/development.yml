@@ -20,6 +20,14 @@ jwt:
   cookieExpiresIn: 604800
   secret: 'example@123'
 
+redis: 
+  driver: 'redis'
+  host: 'localhost'
+  port: 6379
+  db: ''
+  password: ''
+  username: ''
+
 aws:
   bucket: ''
   region: ''

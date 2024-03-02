@@ -23,7 +23,7 @@ export class StartAuctionService extends BaseService {
     @Inject(AuctionHistoryEntityRepositoryToken)
     private auctionHistoryRepository: AuctionHistoryEntityRepository,
   ) {
-    super(configService);
+    super();
   }
 
   @Transactional({

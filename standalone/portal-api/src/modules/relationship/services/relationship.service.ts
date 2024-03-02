@@ -31,7 +31,7 @@ export class RelationshipService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super(configService);
+    super();
   }
 
   public async delete(id: string): Promise<void> {

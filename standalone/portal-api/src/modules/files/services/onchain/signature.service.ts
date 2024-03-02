@@ -15,19 +15,19 @@ import {
   StacksMessageType,
   StacksPrivateKey,
   TransactionVersion,
-} from '@libs/stacks';
+} from 'lib-stacks';
 
 import { Signature, verify, utils } from '@noble/secp256k1';
-import { ConfigService } from '@nestjs/config';
 import { hmac } from '@noble/hashes/hmac';
 import { sha256 } from '@noble/hashes/sha256';
+import { Configuration } from '../../../../configuration';
 
 @Injectable()
 export class SignatureService {
   private readonly privateKey: string;
 
-  constructor(private configService: ConfigService) {
-    this.privateKey = this.configService.get('onchain.privateKey') as string;
+  constructor() {
+    this.privateKey = Configuration.onchain.privateKey;
 
     utils.hmacSha256Sync = (key, ...msgs) => {
       const h = hmac.create(sha256, key);

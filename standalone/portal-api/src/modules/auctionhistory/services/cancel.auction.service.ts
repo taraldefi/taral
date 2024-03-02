@@ -16,13 +16,12 @@ import { ConfigService } from '@nestjs/config';
 export class CancelAuctionService extends BaseService {
   constructor(
     public configService: ConfigService,
-    
     @Inject(AuctionEntityRepositoryToken)
     private auctionRepository: AuctionEntityRepository,
     @Inject(AuctionHistoryEntityRepositoryToken)
     private auctionHistoryRepository: AuctionHistoryEntityRepository,
   ) {
-    super(configService);
+    super();
   }
 
   @Transactional({
