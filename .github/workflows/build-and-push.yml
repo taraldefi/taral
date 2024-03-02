@@ -18,10 +18,10 @@ jobs:
 
     - name: Tag and Push Frontend Image
       run: |
-        docker tag frontend:latest ghcr.io/${{ github.repository_owner }}/frontend:latest
-        docker push ghcr.io/${{ github.repository_owner }}/frontend:latest
+        docker tag taral_frontend:latest ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
+        docker push ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
 
     - name: Tag and Push Backend Image
       run: |
-        docker tag api:latest ghcr.io/${{ github.repository_owner }}/api:latest
-        docker push ghcr.io/${{ github.repository_owner }}/api:latest
+        docker tag taral_api:latest ghcr.io/${{ github.repository_owner }}/taral_api:latest
+        docker push ghcr.io/${{ github.repository_owner }}/taral_api:latest
