@@ -33,7 +33,7 @@ export class BuyerQuickApplicationService extends BaseService {
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
   ) {
-    super(configService);
+    super();
   }
 
   public async getAllApplications(

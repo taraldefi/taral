@@ -43,6 +43,7 @@ import { RoleEntityRepositoryToken } from '../role/role.repository.provider';
 import { NORMAL_ROLE_ID } from '../../config/permission.config';
 import { UserSerializer } from './serializer/user.serializer';
 import {
+
   adminUserGroupsForSerializing,
   defaultUserGroupsForSerializing,
   ownerUserGroupsForSerializing,
@@ -50,18 +51,13 @@ import {
 import { RateLimiter } from './interfaces/rate.limiter';
 import { AuthResponse } from './dto/auth-response.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
+import { Configuration } from '../../configuration';
 
-const throttleConfig = config.get('throttle') as any;
+const throttleConfig = Configuration.throttle;
 const throttleEnabled = throttleConfig.enabled as boolean;
 
-const throttleLoginConfig = config.get('throttle.login') as any;
-const jwtConfig = config.get('jwt') as any;
-const appConfig = config.get('app') as any;
-
-const isSameSite =
-  appConfig.sameSite !== null
-    ? appConfig.sameSite
-    : process.env.IS_SAME_SITE === 'true';
+const throttleLoginConfig = throttleConfig.login;
+const jwtConfig = Configuration.jwt;
 
 @Injectable()
 export class AuthService {
@@ -93,7 +89,7 @@ export class AuthService {
     slug: string,
     linkLabel: string,
   ) {
-    const appConfig = config.get('app') as any;
+    const appConfig = Configuration.app;
 
     const mailData: MailJobInterface = {
       to: user.email,

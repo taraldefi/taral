@@ -8,24 +8,29 @@
     "node": ">=14"
   },
   "scripts": {
-    "integration-tests": "jest --runInBand --testPathIgnorePatterns swap.test.ts"
+    "integration-tests": "jest --runInBand --testPathIgnorePatterns swap.test.ts",
+    "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+    "build:clean": "rm -rf ./build",
+    "build": "npm-run-all build:clean compile && node ./scripts/prepare-package-json"
   },
   "devDependencies": {
-    "jest": "^27.0.0",
-    "ts-jest": "^27.1.4",
-    "jest-junit": "16.0.0",
-    "ts-node": "^10.9.1",
     "@types/node": "20.10.0",
-    "@types/jest": "^27.4.1",
+    "jest": "^27.0.0",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "taral-configuration": "1.0.0",
-    "lib-infra": "1.0.0",
-    "taral-contracts": "1.0.0",
-    "lib-testing": "1.0.0",
-    "lib-shared": "1.0.0",
-    "lib-bitcoin": "1.0.0",
-    "lib-api": "1.0.0"
+    "@stacks/blockchain-api-client": "^7.8.2",
+    "bitcoinjs-lib": "^6.1.5",
+    "cross-fetch": "^4.0.0",
+    "lib-api": "file:./../../libs/api",
+    "lib-stacks": "file:./../../libs/stacks",
+    "lib-bitcoin": "file:./../../libs/bitcoin",
+    "lib-infra": "file:./../../libs/infrastructure",
+    "lib-shared": "file:./../../libs/shared",
+    "lib-storage": "file:./../../libs/storage",
+    "lib-swap": "file:./../../libs/swap",
+    "lib-testing": "file:./../../libs/testing",
+    "taral-configuration": "file:./../configuration",
+    "taral-contracts": "file:./../contracts"
   }
 }

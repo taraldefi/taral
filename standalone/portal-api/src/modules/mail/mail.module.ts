@@ -7,23 +7,21 @@ import config from 'config';
 import { MailService } from 'src/modules/mail/mail.service';
 import { MailProcessor } from 'src/modules/mail/mail.processor';
 import { EmailTemplateModule } from 'src/modules/email-template/email-template.module';
+import { Configuration } from '../../configuration';
 
-const mailConfig = config.get('mail') as any;
-
-console.log('mailConfig', JSON.stringify(mailConfig, null, 2));
-
-const queueConfig = config.get('queue') as any;
+const mailConfig = Configuration.mail;
+const queueConfig = Configuration.queue;
 
 @Module({
   imports: [
     EmailTemplateModule,
     BullModule.registerQueueAsync({
-      name: config.get('mail.queueName'),
+      name: mailConfig.queueName,
       useFactory: () => ({
         redis: {
-          host: process.env.REDIS_HOST || queueConfig.host,
-          port: process.env.REDIS_PORT || queueConfig.port,
-          password: process.env.REDIS_PASSWORD || queueConfig.password,
+          host: Configuration.redis.host,
+          port: Configuration.redis.port,
+          password: Configuration.redis.password,
           retryStrategy(times) {
             return Math.min(times * 50, 2000);
           },
@@ -36,10 +34,10 @@ const queueConfig = config.get('queue') as any;
           host: process.env.MAIL_HOST || mailConfig.host,
           port: process.env.MAIL_PORT || mailConfig.port,
           secure: mailConfig.secure,
-          ignoreTLS: mailConfig.ignoreTLS,
+          ignoreTLS: mailConfig.ignoreTls,
           auth: {
-            user: process.env.MAIL_USER || mailConfig.user,
-            pass: process.env.MAIL_PASS || mailConfig.pass,
+            user: mailConfig.user,
+            pass: mailConfig.password,
           },
           tls: {
             //TODO: make sure we do not have this in production. This is for development only to allow self signed certs
@@ -49,7 +47,7 @@ const queueConfig = config.get('queue') as any;
         },
         defaults: {
           from: `"${process.env.MAIL_FROM || mailConfig.from}" <${
-            process.env.MAIL_FROM || mailConfig.fromMail
+            mailConfig.from
           }>`,
         },
         preview: mailConfig.preview,

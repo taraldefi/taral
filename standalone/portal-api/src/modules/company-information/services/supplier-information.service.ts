@@ -36,7 +36,7 @@ export class SupplierInformationService extends BaseService {
     private readonly supplierCompanyService: SupplierCompanyEntityService,
     private readonly relationshipService: RelationshipService,
   ) {
-    super(configService);
+    super();
   }
 
   public async getSupplierInformation(

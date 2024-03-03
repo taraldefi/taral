@@ -4,7 +4,6 @@ import FinanceButton from "@components/widgets/FinanceButton";
 import useTaralContracts from "@hooks/useTaralContracts";
 import { useAccount } from "@micro-stacks/react";
 import applicationService from "@services/application/applicationService";
-import { truncateUuid } from "@utils/helper";
 import { LENDER_ADDRESS } from "@utils/lib/constants";
 import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
@@ -33,10 +32,11 @@ function Index({ ...props }) {
       let applicationTableData: applicationTableDataType[] = [];
 
       applicationTableData = applications.map(async (application: any) => {
-        let claimable = await checkPurchaseOrderHasActiveFinancing(
+        const claimable = await checkPurchaseOrderHasActiveFinancing(
           application.id
         );
-        let purchaseOrder = await getPurchaseOrderById(application.id);
+        
+        const purchaseOrder = await getPurchaseOrderById(application.id);
 
         let alreadyAccepted = false;
         if (purchaseOrder) {

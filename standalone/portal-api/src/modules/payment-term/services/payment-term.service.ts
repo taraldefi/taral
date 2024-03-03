@@ -25,7 +25,7 @@ export class PaymentTermService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super(configService);
+    super();
   }
 
   @Transactional({

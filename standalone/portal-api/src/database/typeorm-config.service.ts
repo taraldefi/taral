@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import * as path from 'path';
+import { Configuration } from '../configuration';
 
 @Injectable()
 export class TypeOrmConfigService implements TypeOrmOptionsFactory {
-  constructor(private configService: ConfigService) {}
+  constructor() {}
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     const entitiesPath = __dirname + '/../**/*.entity{.ts,.js}';
@@ -19,19 +19,17 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
     const factoriesRelativePath = path.relative(process.cwd(), factoriesPath);
 
     return {
-      type: this.configService.get('database.type', { infer: true }),
-      url: this.configService.get('database.url', { infer: true }),
-      host: this.configService.get('database.host', { infer: true }),
-      port: this.configService.get('database.port', { infer: true }),
-      username: this.configService.get('database.username', { infer: true }),
-      password: this.configService.get('database.password', { infer: true }),
-      database: this.configService.get('database.name', { infer: true }),
-      synchronize: this.configService.get('database.synchronize', {
-        infer: true,
-      }),
+      type: Configuration.db.type,
+      url: Configuration.db.url,
+      host: Configuration.db.host,
+      port: Configuration.db.port,
+      username: Configuration.db.username,
+      password: Configuration.db.password,
+      database: Configuration.db.name,
+      synchronize: Configuration.db.synchronize,
       dropSchema: false,
       keepConnectionAlive: true,
-      logging: this.configService.get('app.nodeEnv') !== 'production' && this.configService.get('app.nodeEnv') !== 'test',
+      logging: Configuration.app.nodeEnv !== 'production' && Configuration.app.nodeEnv !== 'test',
       entities: [entitiesRelativePath],
       migrations: [migrationsRelativePath],
       seeds: [seedsRelativePath],
@@ -44,22 +42,13 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       extra: {
         // based on https://node-postgres.com/api/pool
         // max connection pool size
-        max: this.configService.get('database.maxConnections', { infer: true }),
-        ssl: this.configService.get('database.sslEnabled', { infer: true })
+        max: Configuration.db.maxConnections,
+        ssl: Configuration.db.sslEnabled
           ? {
-              rejectUnauthorized: this.configService.get(
-                'database.rejectUnauthorized',
-                { infer: true },
-              ),
-              ca: this.configService.get('database.ca', { infer: true })
-                ? this.configService.get('database.ca', { infer: true })
-                : undefined,
-              key: this.configService.get('database.key', { infer: true })
-                ? this.configService.get('database.key', { infer: true })
-                : undefined,
-              cert: this.configService.get('database.cert', { infer: true })
-                ? this.configService.get('database.cert', { infer: true })
-                : undefined,
+              rejectUnauthorized: Configuration.db.rejectUnauthorized,
+              ca: Configuration.db.ca ? Configuration.db.ca : undefined,
+              key: Configuration.db.key ? Configuration.db.key : undefined,
+              cert: Configuration.db.cert ? Configuration.db.cert : undefined,
             }
           : undefined,
       },

@@ -59,7 +59,13 @@
     "./libs/ui/**/*.ts",
     "./libs/ui/**/*.tsx",
     "./apps/scripts/**/*.ts",
-    "./apps/oracle/**/*.ts"
+    "./apps/oracle/**/*.ts",
+    "./standalone/modules/cron/**/*.ts",
+    "./standalone/modules/events/**/*.ts",
+    "./standalone/modules/logger-telemetry/**/*.ts",
+    "./standalone/modules/multipart/**/*.ts",
+    "./standalone/modules/storage/**/*.ts",
+    "./standalone/modules/telemetry/**/*.ts"
   ],
-  "exclude": ["libs/**/*.js", "apps/**/*.js", "packages/**/*.js"]
+  "exclude": ["libs/**/*.js", "apps/**/*.js", "packages/**/*.js", "standalone/modules/**/*.js" ]
 }

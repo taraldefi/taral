@@ -1,7 +1,7 @@
 import { Injectable, Scope } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 import { decryptString, ecPrivateKey, encryptString } from 'lib-stacks';
+import { Configuration } from '../../../../configuration';
 
 @Injectable({
   scope: Scope.DEFAULT,
@@ -10,9 +10,9 @@ export class EncryptionService {
   private readonly privateKey: string;
   private readonly publicKey: string;
 
-  constructor(private configService: ConfigService) {
-    this.privateKey = this.configService.get('onchain.privateKey') as string;
-    this.publicKey = this.configService.get('onchain.publicKey') as string;
+  constructor() {
+    this.privateKey = Configuration.onchain.privateKey;
+    this.publicKey = Configuration.onchain.publicKey;
   }
 
   public async decrypt(content: Buffer): Promise<Buffer> {

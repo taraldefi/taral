@@ -10,28 +10,25 @@
   "scripts": {
     "unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts",
     "ci-unit-tests": "jest --runInBand --testPathIgnorePatterns storage.test.ts oracle.test.ts",
-    "eol": "npx eolConverter \"**/*.ts\""
+    "eol": "npx eolConverter \"**/*.ts\"",
+    "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+    "build:clean": "rm -rf ./build",
+    "build": "npm-run-all build:clean compile && node ./scripts/prepare-package-json"
   },
   "devDependencies": {
     "jest": "^28.0.2",
-    "ts-jest": "^27.1.4",
-    "ts-node": "^10.9.1",
-    "@types/jest": "^27.4.1",
-    "@types/uuid": "^9.0.6",
-    "typescript": "^5.1.6",
-    "@babel/preset-typescript": "^7.23.2",
-    "@babel/preset-env": "^7.23.2",
-    "babel-jest": "^29.7.0"
+    "typescript": "^5.1.6"
   },
   "dependencies": {
-    "uuid": "^9.0.1",
-    "taral-configuration": "1.0.0",
-    "taral-contracts": "1.0.0",
-    "lib-shared": "1.0.0",
-    "lib-oracle": "1.0.0",
-    "lib-infra": "1.0.0",
-    "lib-testing": "1.0.0",
-    "lib-clarity-bin": "1.0.0",
-    "lib-storage": "1.0.0"
+    "@noble/secp256k1": "1.7.1",
+    "@stacks/common": "^6.10.0",
+    "lib-clarity-bin": "file:./../../libs/clarity-bin",
+    "lib-infra": "file:./../../libs/infrastructure",
+    "lib-oracle": "file:./../../libs/oracle",
+    "lib-shared": "file:./../../libs/shared",
+    "lib-stacks": "file:./../../libs/stacks",
+    "lib-storage": "file:./../../libs/storage",
+    "lib-testing": "file:./../../libs/testing",
+    "taral-contracts": "file:./../contracts"
   }
 }

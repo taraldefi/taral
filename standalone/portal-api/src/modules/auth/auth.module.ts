@@ -20,21 +20,21 @@ import { ConfigService } from '@nestjs/config';
 import { RedisRateLimiter } from './limiter/redis.rate.limiter';
 import { NoRateLimiter } from './limiter/no.rate.limiter';
 import { loggingLevel } from '../logger/logger';
-import winston from 'winston';
+import { Configuration } from '../../configuration';
 
-const throttleLoginConfig = config.get('throttle.login') as any;
-const redisConfig = config.get('queue') as any;
-const jwtConfig = config.get('jwt') as any;
-const loggingLevel = config.get('logging.level') as loggingLevel;
+const throttleLoginConfig = Configuration.throttle.login;
+const redisConfig = Configuration.queue;
+const jwtConfig = Configuration.jwt;
+const loggingLevel = Configuration.logging.level as loggingLevel;
 
 const LoginThrottleFactory = {
   provide: 'LOGIN_THROTTLE',
   useFactory: () => {
     const redisClient = new Redis({
       enableOfflineQueue: false,
-      host: process.env.REDIS_HOST || redisConfig.host,
-      port: process.env.REDIS_PORT || redisConfig.port,
-      password: process.env.REDIS_PASSWORD || redisConfig.password,
+      host: redisConfig.host,
+      port: redisConfig.port,
+      password: redisConfig.password,
     });
 
     const rateLimiterRedis = new RateLimiterRedis({
@@ -104,7 +104,7 @@ export class AuthModule {
 
     const config = new ConfigService();
 
-    const shouldEnableThrottle = config.get('throttle.enabled');
+    const shouldEnableThrottle = Configuration.runThrottle;
 
     if (shouldEnableThrottle) {
       logger.log('info', 'Enabling throttling');

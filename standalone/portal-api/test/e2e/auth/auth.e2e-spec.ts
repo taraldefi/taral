@@ -1,10 +1,10 @@
 import { HttpStatus } from '@nestjs/common';
 import request from 'supertest';
 
-import { AppFactory } from 'test/factories/app';
-import { RoleFactory } from 'test/factories/role.factory';
-import { UserFactory } from 'test/factories/user.factory';
-import { extractCookies } from 'test/utility/extract-cookie';
+import { AppFactory } from '../../factories/app';
+import { RoleFactory } from '../../factories/role.factory';
+import { UserFactory } from '../../factories/user.factory';
+import { extractCookies } from '../../utility/extract-cookie';
 
 describe('AuthController (e2e)', () => {
   let app: AppFactory;

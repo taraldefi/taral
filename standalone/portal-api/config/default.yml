@@ -32,6 +32,14 @@ db:
   cert: ''
   url: ''
 
+redis: 
+  driver: 'redis'
+  host: 'localhost'
+  port: 6379
+  db: ''
+  password: ''
+  username: ''
+
 jwt:
   expiresIn: 900
   refreshExpiresIn: 604800
@@ -60,7 +68,7 @@ app:
   description: 'Taral API'
   backendDomain: 'http://localhost:3000'
   frontendDomain: 'http://localhost:4200'
-  sameSite: true
+  isSameSite: true
   runchainhook: false
   runjobs: false
   runthrottle: false

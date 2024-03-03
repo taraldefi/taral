@@ -1,15 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UnprocessableEntityException } from '@nestjs/common';
 
-import { RolesService } from 'src/modules/role/roles.service';
-import { RoleEntityRepository } from 'src/modules/role/role.repository';
-import { RoleFilterDto } from 'src/modules/role/dto/role-filter.dto';
-import { CreateRoleDto } from 'src/modules/role/dto/create-role.dto';
-import { NotFoundException } from 'src/modules/exception/not-found.exception';
-import { UpdateRoleDto } from 'src/modules/role/dto/update-role.dto';
-import { PermissionsService } from 'src/modules/permission/permissions.service';
-import { MethodList } from 'src/config/permission.config';
-import { RoleEntity } from 'src/modules/role/entities/role.entity';
+import { RolesService } from '../../../src/modules/role/roles.service';
+import { RoleFilterDto } from '../../../src/modules/role/dto/role-filter.dto';
+import { CreateRoleDto } from '../../../src/modules/role/dto/create-role.dto';
+import { NotFoundException } from '../../../src/modules/exception/not-found.exception';
+import { UpdateRoleDto } from '../../../src/modules/role/dto/update-role.dto';
+import { PermissionsService } from '../../../src/modules/permission/permissions.service';
+import { MethodList } from '../../../src/config/permission.config';
+import { RoleEntity } from '../../../src/modules/role/entities/role.entity';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 const roleRepositoryMock = () => ({

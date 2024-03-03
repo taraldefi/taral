@@ -10,6 +10,7 @@ import { CustomHttpException } from 'src/modules/exception/custom-http.exception
 import { JwtPayloadDto } from 'src/modules/auth/dto/jwt-payload.dto';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserEntityRepository } from 'src/modules/auth/user.repository';
+import { Configuration } from '../../configuration';
 
 @Injectable()
 export class JwtTwoFactorStrategy extends PassportStrategy(
@@ -26,7 +27,7 @@ export class JwtTwoFactorStrategy extends PassportStrategy(
           return request?.cookies?.Authentication;
         },
       ]),
-      secretOrKey: process.env.JWT_SECRET || config.get('jwt.secret'),
+      secretOrKey: Configuration.jwt.secret,
     });
   }
 

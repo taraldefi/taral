@@ -24,13 +24,13 @@ import { UserEntityRepository } from '../auth/user.repository';
 import { UserEntityRepositoryToken } from '../auth/user.repository.provider';
 import { adminUserGroupsForSerializing } from '../role/serializer/role.serializer';
 import { ownerUserGroupsForSerializing } from 'src/common/groups/constants';
+import { Configuration } from '../../configuration';
 
-const appConfig = config.get('app') as any;
-const tokenConfig = config.get('jwt') as any;
+const tokenConfig = Configuration.jwt;
 
 const BASE_OPTIONS: SignOptions = {
-  issuer: appConfig.backendDomain,
-  audience: appConfig.frontendDomain,
+  issuer: Configuration.app.backendDomain,
+  audience: Configuration.app.audience,
 };
 
 @Injectable()

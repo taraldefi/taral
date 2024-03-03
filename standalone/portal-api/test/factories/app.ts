@@ -5,14 +5,14 @@ import { createConnection, getConnection } from 'typeorm';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { RateLimiterRedis } from 'rate-limiter-flexible';
 import Redis from 'ioredis';
-import config from 'config';
 
 import { AppModule } from 'src/app.module';
 import { RedisRateLimiter } from '../../src/modules/auth/limiter/redis.rate.limiter';
 import { NoRateLimiter } from '../../src/modules/auth/limiter/no.rate.limiter';
+import { Configuration } from '../../src/configuration';
 
-const dbConfig = config.get('db') as any;
-const throttleConfig = config.get('throttle') as any;
+const dbConfig = Configuration.db;
+const throttleConfig = Configuration.throttle as any;
 const throttleEnabled = throttleConfig.enabled as boolean;
 
 export class AppFactory {
@@ -77,12 +77,12 @@ export class AppFactory {
     await app.init();
 
     const connection = await createConnection({
-      type: dbConfig.type || 'postgres',
-      host: process.env.DATABASE_HOST || dbConfig.host,
-      port: parseInt(process.env.DATABASE_PORT) || dbConfig.port,
-      database: process.env.DATABASE_NAME || dbConfig.name,
-      username: process.env.DATABASE_USERNAME || dbConfig.username,
-      password: process.env.DATABASE_PASSWORD || dbConfig.password,
+      type: 'postgres',
+      host: dbConfig.host,
+      port: dbConfig.port,
+      database: dbConfig.name,
+      username: dbConfig.username,
+      password: dbConfig.password,
       entities: ['src\\**\\*.entity{.ts,.js}'],
       migrations: ['src\\database\\migrations\\**\\*{.ts,.js}'],
       name: 'testing',
@@ -135,12 +135,12 @@ export class AppFactory {
 
   static async dropTables() {
     const connection = await createConnection({
-      type: dbConfig.type || 'postgres',
-      host: process.env.DATABASE_HOST || dbConfig.host,
-      port: parseInt(process.env.DATABASE_PORT) || dbConfig.port,
-      database: process.env.DATABASE_NAME || dbConfig.name,
-      username: process.env.DATABASE_USERNAME || dbConfig.username,
-      password: process.env.DATABASE_PASSWORD || dbConfig.password,
+      type: 'postgres',
+      host: dbConfig.host,
+      port: dbConfig.port,
+      database: dbConfig.name,
+      username: dbConfig.username,
+      password: dbConfig.password,
       entities: ['src\\**\\*.entity{.ts,.js}'],
       migrations: ['src\\database\\migrations\\**\\*{.ts,.js}'],
       name: 'testing',

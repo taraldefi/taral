@@ -1,6 +1,8 @@
 import "reflect-metadata";
 import { SetMetadata } from "@nestjs/common";
 import { OtelInstanceCounter, OtelMethodCounter } from "./common";
+import 'mocha';
+import 'jest';
 
 const TestDecoratorThatSetsMetadata = () => SetMetadata("some-metadata", true);
 

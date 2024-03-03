@@ -7,28 +7,22 @@
   "engines": {
     "node": ">=14"
   },
+  "scripts": {
+    "compile": "tsc -b ./tsconfig.cjs.json ./tsconfig.esm.json ./tsconfig.types.json",
+    "build:clean": "rm -rf ./build",
+    "build": "npm-run-all build:clean compile && node ./scripts/prepare-package-json"
+  },
   "devDependencies": {
-    "@types/fs-extra": "^11.0.1",
     "@types/node": "20.10.0",
-    "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },
   "dependencies": {
-    "axios": "1.6.2",
     "@types/axios": "0.14.0",
-    "@stacks/blockchain-api-client": "^7.3.4",
-    "@stacks/common": "^6.10.0",
-    "@stacks/network": "^6.0.0",
-    "@stacks/stacks-blockchain-api-types": "^7.3.4",
-    "@stacks/transactions": "^6.9.0",
-    "@types/coinbase": "^2.0.10",
-    "@types/node-fetch": "^2.6.1",
-    "coinbase": "^2.0.8",
-    "javascript-stringify": "2.1.0",
-    "lib-shared": "1.0.0",
-    "node-binance-api": "^0.13.1",
-    "node-fetch": "^3.2.3",
-    "taral-configuration": "1.0.0",
-    "@noble/secp256k1": "2.0.0"
+    "axios": "1.6.2",
+    "form-data": "^4.0.0",
+    "lib-shared": "file:./../shared",
+    "lib-stacks": "file:./../stacks",
+    "npm-run-all": "^4.1.5",
+    "taral-contracts": "file:./../../packages/contracts"
   }
 }

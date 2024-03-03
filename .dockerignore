@@ -1,0 +1,8 @@
+**/node_modules/
+# **/dist
+**/build
+**/coverage
+**/.env
+
+standalone/portal-api/node_modules
+standalone/portal-api/dist

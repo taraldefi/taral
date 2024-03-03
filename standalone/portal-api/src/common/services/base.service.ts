@@ -1,4 +1,3 @@
-import { ConfigService } from '@nestjs/config';
 import { createHash } from 'crypto';
 import { METADATA_KEY } from 'src/common/decorators/track-changes.decorator';
 import {
@@ -10,15 +9,15 @@ import { BaseHistory } from 'src/modules/history/entities/base.history.entity';
 
 import * as winston from 'winston';
 import { loggingLevel } from '../../modules/logger/logger';
+import { Configuration } from '../../configuration';
 
 export abstract class BaseService {
   protected readonly Logger;
 
   protected constructor(
-    private readonly configurationService: ConfigService
   ) {
 
-    const logLevel = this.configurationService.get('logging.level') as loggingLevel;
+    const logLevel = Configuration.logging.level as loggingLevel;
 
     this.Logger = winston.createLogger({
       level: logLevel,

@@ -1,5 +1,4 @@
 import { HttpStatus, Injectable } from '@nestjs/common';
-import config from 'config';
 import { Response } from 'express';
 import { authenticator } from 'otplib';
 import { toFileStream, toDataURL } from 'qrcode';
@@ -8,8 +7,9 @@ import { StatusCodesList } from 'src/common/constants/status-codes-list.constant
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
+import { Configuration } from '../../configuration';
 
-const TwofaConfig = config.get('twofa') as any;
+const TwofaConfig = Configuration.twoFa;
 
 @Injectable()
 export class TwofaService {

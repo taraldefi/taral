@@ -36,10 +36,8 @@ export class BuyerCompanyEntityService extends BaseService {
     private buyerCompanyTaxAndRevenueRepository: BuyerCompanyTaxAndRevenueRepository,
 
     private mappingService: EntityMappingService,
-
-    private readonly _configService: ConfigService,
   ) {
-    super(_configService);
+    super(); 
   }
 
   public async findBuyerEntityById(id: string): Promise<BuyerCompanyEntity> {

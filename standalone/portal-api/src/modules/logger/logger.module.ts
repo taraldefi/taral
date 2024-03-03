@@ -7,8 +7,8 @@ import { createLogger } from './logger';
   providers: [
     {
       provide: 'Logger',
-      useFactory: (configService: ConfigService) => {
-        return createLogger(configService);
+      useFactory: () => {
+        return createLogger();
       },
       inject: [ConfigService],
     },

@@ -1,10 +1,10 @@
 import { faker } from '@faker-js/faker';
 import path from 'path';
-import { initializeTransactionalContext } from 'src/common/transaction';
-import { BuyerQuickApplicationService } from 'src/modules/applications/services/buyer-quick-application.service/application.service';
-import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { initializeTransactionalContext } from '../../src/common/transaction';
+import { BuyerQuickApplicationService } from '../../src/modules/applications/services/buyer-quick-application.service/application.service';
+import { BuyerCompanyEntityService } from '../../src/modules/company/services/buyer-entity.service';
 import request from 'supertest';
-import { AppFactory } from 'test/factories/app';
+import { AppFactory } from '../factories/app';
 
 describe('BuyerInformation for Application (integration)', () => {
   let app: AppFactory;
