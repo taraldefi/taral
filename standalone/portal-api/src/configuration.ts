@@ -33,17 +33,11 @@ export class ThrottleConfig {
 }
 
 export class MailConfig {
-    host: string;
-    port: number;
     user: string;
     password: string;
     from: string;
     defaultEmail: string;
     defaultName: string;
-    preview: boolean;
-    ignoreTls: boolean;
-    secure: boolean;
-    requireTls: boolean;
     queueName: string;
 }
 
@@ -333,14 +327,6 @@ const configurationKeys = {
     },
 
     mail: {
-        host: {
-            environmentKey: "MAIL_HOST",
-            configKey: "mail.host",
-        },
-        port: {
-            environmentKey: "MAIL_PORT",
-            configKey: "mail.port",
-        },
         user: {
             environmentKey: "MAIL_USER",
             configKey: "mail.user",
@@ -360,22 +346,6 @@ const configurationKeys = {
         defaultName: {
             environmentKey: "MAIL_DEFAULT_NAME",
             configKey: "mail.defaultName",
-        },
-        preview: {
-            environmentKey: "MAIL_PREVIEW",
-            configKey: "mail.preview",
-        },
-        ignoreTls: {
-            environmentKey: "MAIL_IGNORE_TLS",
-            configKey: "mail.ignoreTls",
-        },
-        secure: {
-            environmentKey: "MAIL_SECURE",
-            configKey: "mail.secure",
-        },
-        requireTls: {
-            environmentKey: "MAIL_REQUIRE_TLS",
-            configKey: "mail.requireTls",
         },
         queueName: {
             environmentKey: "MAIL_QUEUE_NAME",
@@ -604,14 +574,8 @@ function getMailConfig(): MailConfig {
         defaultEmail: getConfig(configurationKeys.mail.defaultEmail),
         defaultName: getConfig(configurationKeys.mail.defaultName),
         from: getConfig(configurationKeys.mail.from),
-        host: getConfig(configurationKeys.mail.host),
-        ignoreTls: getConfig(configurationKeys.mail.ignoreTls) === 'true',
         password: getConfig(configurationKeys.mail.password),
-        port: parseInt(getConfig(configurationKeys.mail.port), 10),
-        preview: getConfig(configurationKeys.mail.preview) === 'true',
         queueName: getConfig(configurationKeys.mail.queueName),
-        requireTls: getConfig(configurationKeys.mail.requireTls) === 'true',
-        secure: getConfig(configurationKeys.mail.secure) === 'true',
         user: getConfig(configurationKeys.mail.user),
     }
 }

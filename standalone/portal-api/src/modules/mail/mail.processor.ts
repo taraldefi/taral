@@ -1,5 +1,4 @@
 import { Logger } from '@nestjs/common';
-import config from 'config';
 import { ISendMailOptions, MailerService } from '@nestjs-modules/mailer';
 import {
   OnQueueActive,
@@ -61,9 +60,12 @@ export class MailProcessor {
         from: mailConfig.from,
         subject: job.data.payload.subject,
         template: 'email-layout',
-        context: job.data.payload.context
+        context: job.data.payload.context,
+        html: job.data.payload.context,
+        text: job.data.payload.context,
       };
-      return await this.mailerService.sendMail({ ...options });
+      const sendResult = await this.mailerService.sendMail({ ...options });
+      return sendResult;
     } catch (error) {
       this.logger.error(
         `Failed to send email to '${job.data.payload.to}'`,
