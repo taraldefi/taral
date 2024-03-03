@@ -2,15 +2,50 @@ import { Module } from '@nestjs/common';
 import { BullModule } from '@nestjs/bull';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { PugAdapter } from '@nestjs-modules/mailer/dist/adapters/pug.adapter';
-import config from 'config';
-
+import { google } from 'googleapis';
+import nodemailer from 'nodemailer';
 import { MailService } from 'src/modules/mail/mail.service';
 import { MailProcessor } from 'src/modules/mail/mail.processor';
 import { EmailTemplateModule } from 'src/modules/email-template/email-template.module';
 import { Configuration } from '../../configuration';
+import { TransportType } from '@nestjs-modules/mailer/dist/interfaces/mailer-options.interface';
 
 const mailConfig = Configuration.mail;
-const queueConfig = Configuration.queue;
+
+async function constructTransport(): Promise<TransportType> {
+  const transportType = {
+    service: "Gmail",
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: mailConfig.user,
+      pass: mailConfig.password,
+    },
+    defaults: {
+      from: `"${mailConfig.from}" <${mailConfig.user}>`,
+    },
+    template: {
+      dir: __dirname + '/templates/email/layouts/',
+      
+      adapter: new PugAdapter(),
+      options: {
+        strict: true,
+      },
+    },
+  };
+
+  const transporter = nodemailer.createTransport(transportType);
+
+  // With the verify() function we can check whether the authentication is successful. If it isn`t, then terminate function execution with the error.
+  try {
+    await transporter.verify();
+  } catch (error) {
+      throw error;
+  }
+
+  return transportType;
+}
 
 @Module({
   imports: [
@@ -29,37 +64,12 @@ const queueConfig = Configuration.queue;
       }),
     }),
     MailerModule.forRootAsync({
-      useFactory: () => ({
-        transport: {
-          host: process.env.MAIL_HOST || mailConfig.host,
-          port: process.env.MAIL_PORT || mailConfig.port,
-          secure: mailConfig.secure,
-          ignoreTLS: mailConfig.ignoreTls,
-          auth: {
-            user: mailConfig.user,
-            pass: mailConfig.password,
-          },
-          tls: {
-            //TODO: make sure we do not have this in production. This is for development only to allow self signed certs
-            // do not fail on invalid certs
-            rejectUnauthorized: false,
-          },
-        },
-        defaults: {
-          from: `"${process.env.MAIL_FROM || mailConfig.from}" <${
-            mailConfig.from
-          }>`,
-        },
-        preview: mailConfig.preview,
-        template: {
-          dir: __dirname + '/templates/email/layouts/',
-          
-          adapter: new PugAdapter(),
-          options: {
-            strict: true,
-          },
-        },
-      }),
+      useFactory: async () => {
+        const transport = await constructTransport();
+        return {
+          transport: transport,
+        }
+      },
     }),
   ],
   controllers: [],

@@ -79,17 +79,11 @@ throttle:
     blockDuration: 3000
 
 mail:
-  host: 'localhost'
-  port: 1025
   user: ''
   password: ''
   from: 'taral'
   defaultEmail: 'taral@gmail.com'
   defaultName: 'Taral'
-  preview: false
-  ignoreTls: true
-  secure: false
-  requireTls: false
   queueName: 'taral-mail'
 
 onchain:

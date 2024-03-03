@@ -90,29 +90,12 @@ logging:
   level: 'error'
   fluentdlogging: false
 
-# MAIL_HOST=localhost
-# MAIL_PORT=1025
-# MAIL_USER=
-# MAIL_PASSWORD=
-# MAIL_IGNORE_TLS=true
-# MAIL_SECURE=false
-# MAIL_REQUIRE_TLS=false
-# MAIL_DEFAULT_EMAIL=noreply@example.com
-# MAIL_DEFAULT_NAME=Api
-# MAIL_CLIENT_PORT=1080
-
 mail:
-  host: 'localhost'
-  port: 1025
   user: ''
   password: ''
   from: 'taral'
   defaultEmail: 'taral@gmail.com'
   defaultName: 'Taral'
-  preview: false
-  ignoreTls: true
-  secure: false
-  requireTls: false
   queueName: 'taral-mail'
 
 queue:
