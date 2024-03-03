@@ -87,3 +87,8 @@ NEXT_PUBLIC_MAINNET_BITCOIN_EXPLORER='https://live.blockcypher.com/btc'
 NEXT_PUBLIC_BASE_URL="http://localhost:3000/api" # even if we're in docker, this is served in the browser, so we need to use the host machine's address, not the container's address
 NEXT_PUBLIC_TARAL_BANK_CONTRACT="ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank"
 NEXT_PUBLIC_TARAL_LENDER_ADDRESS="ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50"
+
+POSTGRES_USER=root
+PGUSER=root
+POSTGRES_PASSWORD=secret
+POSTGRES_DB=api
