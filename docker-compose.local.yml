@@ -8,10 +8,10 @@ services:
     volumes:
       - ./.data/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: root
-      PGUSER: root
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: api
+      POSTGRES_USER: ${POSTGRES_USER:-root}
+      PGUSER: ${POSTGRES_USER:-root}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
+      POSTGRES_DB: ${POSTGRES_DB:-api}
 
   api: 
     build:
