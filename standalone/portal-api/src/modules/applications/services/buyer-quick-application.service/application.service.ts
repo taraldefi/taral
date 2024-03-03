@@ -14,7 +14,6 @@ import { PaymentTermService } from 'src/modules/payment-term/services/payment-te
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
-import { SupplierInformationService } from 'src/modules/company-information/services/supplier-information.service';
 import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { SubmitApplicationForCreditCardRequest } from '../../dto/request/submit-application-for-credit-card.dto';
@@ -30,7 +29,6 @@ export class BuyerQuickApplicationService extends BaseService {
 
     private buyerInformationService: BuyerInformationService,
     private buyerCompanyEntityService: BuyerCompanyEntityService,
-    private supplierInfoService: SupplierInformationService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
@@ -160,9 +158,8 @@ export class BuyerQuickApplicationService extends BaseService {
     application.onchainPrincipal = data.onChainPrincipal;
     application.paymentMethod = data.paymentMethod;
 
-    const savedApplication = await this.buyerApplicationRepository.save(
-      application,
-    );
+    const savedApplication =
+      await this.buyerApplicationRepository.save(application);
 
     entity.applications = [...entity.applications, savedApplication];
     await entity.save();
