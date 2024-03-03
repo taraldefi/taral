@@ -2,9 +2,15 @@ import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload, { documentType } from "@components/widgets/FileUpload";
 import useModal from "@hooks/useModal";
-import { FinishApplicationModalAtom } from "@store/ModalStore";
+import { useAuth } from "@micro-stacks/react";
+import applicationService from "@services/application/applicationService";
+import {
+  FinishApplicationForCreditCardModalAtom,
+  FinishApplicationModalAtom,
+} from "@store/ModalStore";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
+import { toast } from "sonner";
 import { Button } from "taral-ui";
 
 function Index({ ...props }) {
@@ -13,6 +19,10 @@ function Index({ ...props }) {
   const entityID = query.entityId;
   const applicationID = query.applicationId;
   const finishModal = useModal(FinishApplicationModalAtom);
+  const finishModalForCreditCard = useModal(
+    FinishApplicationForCreditCardModalAtom
+  );
+  const { isSignedIn } = useAuth();
 
   const onBack = () => {
     router.push(
@@ -23,7 +33,17 @@ function Index({ ...props }) {
   };
 
   const onSubmit = async () => {
-    finishModal.open();
+    const result = await applicationService.getApplication(applicationID);
+
+    if (result.paymentMethod === "CREDIT_CARD") {
+      finishModalForCreditCard.open();
+    } else {
+      if (!isSignedIn) {
+        toast.error("Please connect your wallet to continue");
+        return;
+      }
+      finishModal.open();
+    }
   };
   return (
     <ApplicationLayout>

@@ -55,14 +55,13 @@ function StepperModal({ isOpen, onClose }: Props) {
     const transactionData = await createTaralPurchaseOrder(
       applicationId,
       parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 8) +
+        Math.pow(10, 6) +
         parseFloat(applicationData.paymentTerms.balanceAmount) *
-          Math.pow(10, 8),
+          Math.pow(10, 6),
       parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 8),
+        Math.pow(10, 6),
       applicationData.sellerPrincipal
     );
-    console.log("transaction", transactionData);
 
     await applicationService.submitTransactionId(
       applicationId,

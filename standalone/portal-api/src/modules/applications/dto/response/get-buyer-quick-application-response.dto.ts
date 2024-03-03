@@ -18,6 +18,10 @@ export class GetBuyerQuickApplicationResponse {
 
   @ApiProperty()
   @IsString()
+  paymentMethod: string;
+
+  @ApiProperty()
+  @IsString()
   applicationNumber: string;
 
   @ApiProperty({ example: '12-12-2022' })

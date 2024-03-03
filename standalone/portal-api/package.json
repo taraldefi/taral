@@ -103,6 +103,7 @@
     "reflect-metadata": "0.1.13",
     "rimraf": "3.0.2",
     "rxjs": "7.5.5",
+    "stripe": "14.15.0",
     "taral-contracts": "file:./../../packages/contracts",
     "typeorm": "0.2.43",
     "typeorm-seeding": "^1.6.1",

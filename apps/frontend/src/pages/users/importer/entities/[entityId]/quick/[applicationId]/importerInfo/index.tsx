@@ -99,7 +99,8 @@ function Index({ ...props }) {
                 defaultValue={queryResult.data?.companyName}
               />
             </div>
-            <div
+
+            {/* <div
               style={{
                 display: "flex",
                 flexDirection: "row",
@@ -131,7 +132,7 @@ function Index({ ...props }) {
                   defaultValue={queryResult.data?.registrationNumber}
                 />
               </div>
-            </div>
+            </div> */}
             <div
               style={{
                 display: "flex",

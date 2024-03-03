@@ -110,6 +110,16 @@ function FormEditModal({ isOpen, onClose }: Props) {
                   placeholder="Upload Logo..."
                 ></input>
               </div>
+              <div className="entityfield">
+                <span>Email</span>
+                <input
+                  {...register("email")}
+                  title="email"
+                  className="inputs"
+                  type="email"
+                  placeholder="john@example.com"
+                ></input>
+              </div>
               <div className="flexrow">
                 <div className="entityfield">
                   <span>Entity Name</span>

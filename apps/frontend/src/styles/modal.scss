@@ -402,17 +402,21 @@
     -webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
     -moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
 
-    height: 47%;
-    left: 30vw;
-    top: 12.5vw;
+    height: auto;
+
+    width: 50%;
     background-color: #fff;
-    position: fixed;
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 99;
     border-radius: 16px;
-    animation: bounce-in 0.5s ease;
-    -moz-animation: bounce-in 0.5s ease;
-    /* Firefox */
-    -webkit-animation: bounce-in 0.5s ease;
+    // animation: bounce-in 0.5s ease;
+    // -moz-animation: bounce-in 0.5s ease;
+    // /* Firefox */
+    // -webkit-animation: bounce-in 0.5s ease;
 
     /* Safari and Chrome */
     @keyframes bounce-in {
@@ -445,13 +449,14 @@
     }
 
     .form {
-      width: 70%;
+      width: 90%;
       gap: 10px;
       margin: auto;
       display: flex;
       flex-direction: row;
       justify-content: space-around;
       padding-top: 30px;
+      padding-bottom: 60px;
 
       //lock success modal
 
@@ -491,7 +496,7 @@
 
       .info-application {
         font-weight: normal;
-        font-size: 12px;
+        font-size: 14px;
         text-align: center;
         padding-top: 10px;
       }

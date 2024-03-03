@@ -107,6 +107,34 @@ export class ApplicationService {
     });
   }
 
+  async submitApplicationForCreditCard(
+    id: string,
+    entityName: string,
+    entityId: string
+  ): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      const axiosConfig = getAxiosConfig({ method: "POST" });
+      try {
+        const response = await axios.post(
+          `${apiUrls.APPLICATION}/${id}/submit-for-credit-card`,
+          JSON.stringify({
+            entityName: entityName,
+            entityId: entityId,
+          }),
+          axiosConfig
+        );
+
+        const { data } = response;
+
+        if (response.status === 201) {
+          resolve(data);
+        }
+      } catch (error: any) {
+        reject(error.response.data.message);
+      }
+    });
+  }
+
   async submitTransactionId(id: string, txId: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "POST" });

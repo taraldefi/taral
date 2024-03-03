@@ -64,6 +64,7 @@ interface Entity {
   id: string;
   name: string;
   logo: any;
+  email: string;
   phoneNumber: string;
   registrationNumber: string;
   beneficialOwner: string;
@@ -82,6 +83,7 @@ interface EntityResponse {
   id: string;
   logo: string;
   name: string;
+  email: string;
   phoneNumber: string;
   registrationNumber: string;
   beneficialOwner: string;

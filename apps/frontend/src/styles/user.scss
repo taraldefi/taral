@@ -3,6 +3,7 @@
   overflow: auto;
   align-content: flex-start;
   justify-content: center;
+  overflow-x: hidden;
   background-color: #fff;
   display: grid;
   grid-template-columns: repeat(3, 1fr);

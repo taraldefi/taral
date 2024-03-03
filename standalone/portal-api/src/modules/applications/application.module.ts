@@ -12,6 +12,7 @@ import { PaymentTermModule } from '../payment-term/payment-term.module';
 import { BuyerQuickApplicationService } from './services/buyer-quick-application.service/application.service';
 import { CompanyInformationModule } from '../company-information/company.information.module';
 import { SectorsModule } from '../sectors/sectors.module';
+import { StripeService } from './services/buyer-quick-application.service/stripe.service';
 
 @Module({
   imports: [
@@ -22,12 +23,19 @@ import { SectorsModule } from '../sectors/sectors.module';
     PaymentTermModule,
     CompanyInformationModule,
     SectorsModule,
+    CompaniesModule,
     TypeOrmModule.forFeature([QuickApplicationEntity]),
   ],
   controllers: [QuickApplicationController],
-  providers: [ConfigModule, TypeOrmConfigService, BuyerQuickApplicationService],
+  providers: [
+    ConfigModule,
+    TypeOrmConfigService,
+    BuyerQuickApplicationService,
+    StripeService,
+  ],
   exports: [
     BuyerQuickApplicationService,
+    StripeService,
     TypeOrmModule.forFeature([QuickApplicationEntity]),
   ],
 })

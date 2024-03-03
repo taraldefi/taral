@@ -19,6 +19,9 @@ export class EntityMappingService {
     var response = new GetEntityDetailsResponse();
     response.taxAndRevenue = new GetBuyerCompanyTaxAndRevenueRequest();
 
+    response.stripeId = entity.stripeId;
+    response.email = entity.email;
+
     response.abbreviation = entity.abbreviation;
     response.beneficialOwner = entity.beneficialOwner;
     response.coreBusiness = entity.coreBusiness;

@@ -20,6 +20,9 @@ export class GetBuyerResponse {
   @ApiProperty({ example: 100 })
   employeeCount?: number;
 
+  @ApiProperty({ example: 100 })
+  email?: string;
+
   @ApiProperty({ example: '123456789' })
   registrationNumber: string;
 

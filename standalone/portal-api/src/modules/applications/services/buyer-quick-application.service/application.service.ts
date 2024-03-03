@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
 import { GetApplicationResponse } from 'src/modules/company/dto/response/get-application-response.dto';
 import { CreateQuickApplicationRequest } from '../../dto/request/create-quick-application.dto';
 import { CreateBuyerQuickApplicationResponse } from '../../dto/response/create-buyer-application-response.dto';
@@ -15,16 +14,21 @@ import { PaymentTermService } from 'src/modules/payment-term/services/payment-te
 import { OrderDetailService } from 'src/modules/order-detail/services/order-detail.service';
 import { BuyerInformationService } from 'src/modules/company-information/services/buyer-information.service';
 import { ConfigService } from '@nestjs/config';
+import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
+import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
+import { SubmitApplicationForCreditCardRequest } from '../../dto/request/submit-application-for-credit-card.dto';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
   constructor(
     public configService: ConfigService,
+    private stripeService: StripeService,
 
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
     private buyerInformationService: BuyerInformationService,
+    private buyerCompanyEntityService: BuyerCompanyEntityService,
     private paymentTermService: PaymentTermService,
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
@@ -88,6 +92,7 @@ export class BuyerQuickApplicationService extends BaseService {
     response.status = application.status;
     response.sellerPrincipal = application.sellerPrincipal;
     response.transactionId = application.purchaseOrderId;
+    response.paymentMethod = application.paymentMethod;
 
     const savedBuyerInformation = await this.buyerInformationService.get(
       application.id,
@@ -151,10 +156,10 @@ export class BuyerQuickApplicationService extends BaseService {
     application.createdAt = new Date();
     application.exporterName = '--';
     application.onchainPrincipal = data.onChainPrincipal;
+    application.paymentMethod = data.paymentMethod;
 
-    const savedApplication = await this.buyerApplicationRepository.save(
-      application,
-    );
+    const savedApplication =
+      await this.buyerApplicationRepository.save(application);
 
     entity.applications = [...entity.applications, savedApplication];
     await entity.save();
@@ -199,14 +204,66 @@ export class BuyerQuickApplicationService extends BaseService {
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
-    if (application.status == 'COMPLETED')
+    if (application.status == 'ON_REVIEW')
       throw new HttpException(
         'Application already submited',
         HttpStatus.BAD_REQUEST,
       );
 
-    application.status = 'COMPLETED';
+    application.status = 'ON_REVIEW';
     application.save();
+  }
+
+  @Transactional({
+    isolationLevel: IsolationLevel.READ_COMMITTED,
+  })
+  public async markAsCompleteForCreditCard(
+    id: string,
+    applicationDto: SubmitApplicationForCreditCardRequest,
+  ): Promise<string> {
+    this.setupTransactionHooks();
+
+    const application = await this.findApplicationById(id);
+
+    // check if an application is valid and completed
+    const isComplete = await this.checkIfApplicationIsComplete(application);
+    if (!isComplete)
+      throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
+
+    if (application.status == 'ON_REVIEW')
+      throw new HttpException(
+        'Application already submited',
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const buyer = await this.buyerCompanyEntityService.findBuyerEntityById(
+      applicationDto.entityId,
+    );
+
+    const buyerCustomerId = buyer.stripeId;
+
+    const totalAmount = Math.round(
+      (parseFloat(application.paymentTerms.balanceAmount) +
+        parseFloat(application.paymentTerms.downpaymentAmount)) *
+        100,
+    );
+
+    const poPrice = await this.stripeService.createPrice(
+      totalAmount,
+      application.paymentTerms.id,
+    );
+
+    const createAndSendInvoice = await this.stripeService.createAndSendInvoice(
+      buyerCustomerId,
+      poPrice.id,
+    );
+
+    application.purchaseOrderId = createAndSendInvoice.hosted_invoice_url;
+
+    application.status = 'ON_REVIEW';
+    application.save();
+
+    return createAndSendInvoice.hosted_invoice_url;
   }
 
   public async getActiveApplicationId(

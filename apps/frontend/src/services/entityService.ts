@@ -22,6 +22,7 @@ class EntityService {
       if (response.status === 200) {
         const logo = await this.getEntityLogo(data.logo);
         data.logo = getBase64Src(logo);
+
         return data;
       }
     } catch (error: any) {

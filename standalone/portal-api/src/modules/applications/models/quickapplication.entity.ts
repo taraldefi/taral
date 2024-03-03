@@ -19,6 +19,7 @@ import {
 import { ApplicationStatus } from '../enums/status.enum';
 import { OrderDetailEntity } from 'src/modules/order-detail/models/order-detail.entity';
 import { BuyerCompanyInformationEntity } from 'src/modules/company-information/models/buyer.company.information.entity';
+import { ApplicationPaymentMethod } from '../enums/paymentmethod.enum';
 
 @Entity({ name: 'QuickApplications' })
 @TableInheritance({ column: { type: 'varchar', name: 'type' } })
@@ -45,6 +46,10 @@ export class QuickApplicationEntity extends EntityHelper {
   @Column({ nullable: true })
   @Allow()
   purchaseOrderId: string;
+
+  @Column({ type: 'enum', enum: ApplicationPaymentMethod, nullable: true })
+  @Allow()
+  paymentMethod: string;
 
   @Column()
   @Allow()
