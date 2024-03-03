@@ -125,12 +125,29 @@ services:
       NEXT_PUBLIC_TARAL_BANK_CONTRACT: ${NEXT_PUBLIC_TARAL_BANK_CONTRACT:-ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank}
       NEXT_PUBLIC_TARAL_LENDER_ADDRESS: ${NEXT_PUBLIC_TARAL_LENDER_ADDRESS:-ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50}
 
-  # prepare adminer for production - secure user + password, automatically point to the configured postgres db, + expose in nginx.
-  adminer:
-    image: adminer
-    restart: always
+  sqlpad:
+    # To use Dockerfile at root of this project, use build instead of image
+    # build: ../../
+    image: sqlpad/sqlpad:5
+    hostname: 'sqlpad'
     ports:
-      - 8080:8080
+      - '3333:3000'
+    environment:
+      SQLPAD_ADMIN: ${SQLPAD_ADMIN:-admin}
+      SQLPAD_ADMIN_PASSWORD: ${SQLPAD_ADMIN_PASSWORD:-admin}
+      SQLPAD_APP_LOG_LEVEL: error
+      SQLPAD_WEB_LOG_LEVEL: warn
+      SQLPAD_SEED_DATA_PATH: /etc/sqlpad/seed-data
+      SQLPAD_CONNECTIONS__pgdemo__name: Tariala
+      SQLPAD_CONNECTIONS__pgdemo__driver: postgres
+      SQLPAD_CONNECTIONS__pgdemo__host: postgres
+      SQLPAD_CONNECTIONS__pgdemo__database: ${POSTGRES_DB:-api}
+      SQLPAD_CONNECTIONS__pgdemo__username: ${POSTGRES_USER:-root}
+      SQLPAD_CONNECTIONS__pgdemo__password: ${POSTGRES_PASSWORD:-secret}
+      SQLPAD_CONNECTIONS__pgdemo__multiStatementTransactionEnabled: 'true'
+      SQLPAD_CONNECTIONS__pgdemo__idleTimeoutSeconds: 86400
+    volumes:
+      - ./docker/sqlpad/seed-data:/etc/sqlpad/seed-data
 
   redis:
     image: redis:7-alpine
