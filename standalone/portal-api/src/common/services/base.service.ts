@@ -12,7 +12,7 @@ import { loggingLevel } from '../../modules/logger/logger';
 import { Configuration } from '../../configuration';
 
 export abstract class BaseService {
-  protected readonly Logger;
+  protected readonly Logger: winston.Logger;
 
   protected constructor(
   ) {
