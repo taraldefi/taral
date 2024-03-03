@@ -62,7 +62,6 @@ function StepperModal({ isOpen, onClose }: Props) {
         Math.pow(10, 6),
       applicationData.sellerPrincipal
     );
-    console.log("transaction", transactionData);
 
     await applicationService.submitTransactionId(
       applicationId,

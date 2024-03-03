@@ -23,7 +23,7 @@ function InvoiceModal({ isOpen, onClose }: Props) {
 
   const handleFinalSubmission = async () => {
     const application = await applicationService.getApplication(applicationId);
-    console.log(application);
+
     const offChainResponse = applicationService.submitApplicationForCreditCard(
       applicationId,
       application.buyerInformation.companyName,
@@ -38,7 +38,7 @@ function InvoiceModal({ isOpen, onClose }: Props) {
             router.asPath.split("/")[2]
           }/entities/${entityId}/applications`
         );
-        console.log(data);
+
         return `application submitted and is on review`;
       },
       error: (err) => {

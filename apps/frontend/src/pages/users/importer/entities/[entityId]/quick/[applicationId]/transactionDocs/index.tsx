@@ -34,7 +34,7 @@ function Index({ ...props }) {
 
   const onSubmit = async () => {
     const result = await applicationService.getApplication(applicationID);
-    console.log(result);
+
     if (result.paymentMethod === "CREDIT_CARD") {
       finishModalForCreditCard.open();
     } else {

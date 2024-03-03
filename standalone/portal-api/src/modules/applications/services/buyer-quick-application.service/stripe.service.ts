@@ -1,12 +1,15 @@
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { BaseService } from 'src/common/services/base.service';
 import Stripe from 'stripe';
 
 @Injectable()
-export class StripeService {
+export class StripeService extends BaseService {
   private stripe: Stripe;
 
-  constructor() {
+  constructor(public configService: ConfigService) {
     // Initialize Stripe
+    super(configService);
     this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
       apiVersion: '2023-10-16',
     });
@@ -27,7 +30,7 @@ export class StripeService {
       });
       return customer;
     } catch (error) {
-      console.error('Error creating customer:', error);
+      this.Logger.error('Error creating customer:', error);
       throw error;
     }
   }
@@ -42,7 +45,7 @@ export class StripeService {
       });
       return customer;
     } catch (error) {
-      console.error('Error creating customer:', error);
+      this.Logger.error('Error creating customer:', error);
       throw error;
     }
   }
@@ -61,7 +64,7 @@ export class StripeService {
       });
       return price;
     } catch (error) {
-      console.error('Error creating price:', error);
+      this.Logger.error('Error creating price:', error);
       throw error;
     }
   }
@@ -84,7 +87,7 @@ export class StripeService {
       const sendInvoice = await this.stripe.invoices.sendInvoice(invoice.id);
       return sendInvoice;
     } catch (error) {
-      console.error('Error creating invoice:', error);
+      this.Logger.error('Error creating invoice:', error);
       throw error;
     }
   }
