@@ -12,9 +12,9 @@ COPY package.json /usr/package.json
 COPY tsconfig.json /usr/tsconfig.json
 COPY yarn.lock /usr/yarn.lock
 
-RUN yarn
+RUN yarn --frozen-lockfile
 
-RUN cd ./libs/ui && yarn && yarn build
+RUN cd ./libs/ui && yarn --frozen-lockfile && yarn build
 
 # Set the working directory within the container
 
@@ -24,7 +24,7 @@ COPY ./apps/frontend ./apps/frontend
 WORKDIR /apps/frontend
 
 # Install dependencies
-RUN yarn
+RUN yarn --frozen-lockfile
 
 RUN \
     NEXT_PUBLIC_LOCALNET_API_SERVER=APP_NEXT_PUBLIC_LOCALNET_API_SERVER \
@@ -61,6 +61,7 @@ WORKDIR /usr/src/app
 COPY --from=build-target /apps/frontend/ .
 
 RUN dos2unix /usr/src/app/entrypoint.sh
+RUN chmod +x /usr/src/app/entrypoint.sh
 
 ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
 
