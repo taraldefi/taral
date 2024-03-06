@@ -78,6 +78,10 @@ throttle:
     duration: 2592000
     blockDuration: 3000
 
+stripe:
+  secretKey: ''
+  apiVersion: '2023-10-16'
+
 mail:
   user: ''
   password: ''

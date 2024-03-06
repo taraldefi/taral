@@ -71,6 +71,9 @@ logging:
   level: 'error'
   fluentdlogging: false
 
+stripe:
+  secretKey: ''
+  apiVersion: '2023-10-16'
 
 mail:
   user: ''

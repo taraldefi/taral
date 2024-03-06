@@ -98,6 +98,10 @@ mail:
   defaultName: 'Taral'
   queueName: 'taral-mail'
 
+stripe:
+  secretKey: ''
+  apiVersion: '2023-10-16'
+
 queue:
   driver: 'redis'
   host: 'localhost'

@@ -32,6 +32,11 @@ export class ThrottleConfig {
     };
 }
 
+export class Stripe {
+    secretKey: string;
+    apiVersion: string;
+}
+
 export class MailConfig {
     user: string;
     password: string;
@@ -210,6 +215,17 @@ const configurationKeys = {
                 environmentKey: "THROTTLE_LOGIN_BLOCK_DURATION",
                 configKey: "throttle.login.blockDuration",
             },
+        },
+    },
+
+    stripe: {
+        secretKey: {
+            environmentKey: "STRIPE_SECRET_KEY",
+            configKey: "stripe.secretKey",
+        },
+        apiVersion: {
+            environmentKey: "STRIPE_API_VERSION",
+            configKey: "stripe.apiVersion",
         },
     },
 
@@ -489,6 +505,13 @@ function getConfig(keys: ConfigurationKeys): any {
     }
 }
 
+function getStripeConfig(): Stripe {
+    return {
+        secretKey: getConfig(configurationKeys.stripe.secretKey),
+        apiVersion: getConfig(configurationKeys.stripe.apiVersion),
+    }
+}
+
 function getAppConfig(): AppConfig {
     return {
         apiPrefix: getConfig(configurationKeys.apiPrefix),
@@ -649,5 +672,6 @@ export const Configuration = {
     onchain: getOnchainConfig(),
     twoFa: getTwoFaConfig(),
     winston: getWinstonConfig(),
+    stripe: getStripeConfig(),
 };
 

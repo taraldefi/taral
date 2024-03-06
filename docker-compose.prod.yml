@@ -14,9 +14,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
   api: 
-    build:
-      context: .
-      dockerfile: portal.Dockerfile
+    image: ghcr.io/taraldefi/taral_api:latest
     ports:
       - 3000:3000
     # command: tail -f /dev/null
@@ -104,9 +102,7 @@ services:
       STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
 
   frontend:
-    build:
-      context: .
-      dockerfile: dashboard.Dockerfile
+    image: ghcr.io/taraldefi/taral_frontend:latest
     ports:
       - 3001:3000
     # depends_on:

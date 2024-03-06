@@ -1,16 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { BaseService } from 'src/common/services/base.service';
+import { Configuration } from 'src/configuration';
 import Stripe from 'stripe';
 
 @Injectable()
 export class StripeService extends BaseService {
   private stripe: Stripe;
 
-  constructor(public configService: ConfigService) {
+  constructor() {
     // Initialize Stripe
-    super(configService);
-    this.stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+    super();
+
+    const stripeConfig = Configuration.stripe;
+
+    this.stripe = new Stripe(stripeConfig.secretKey, {
       apiVersion: '2023-10-16',
     });
   }
