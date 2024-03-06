@@ -1,10 +1,10 @@
 version: '3'
 
 services:
-  # api: 
-  #   build:
-  #     context: .
-  #     dockerfile: portal.Dockerfile
+  api: 
+    build:
+      context: .
+      dockerfile: portal.Dockerfile
 
   frontend:
     build:
