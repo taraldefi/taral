@@ -30,7 +30,7 @@ const initialData: CreatePaymentTerm = {
   paymentVehicleDescription: "",
   paymentDuration: "",
 };
-let patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
+const patternTwoDigisAfterComma = /^\d+(\.\d{0,2})?$/;
 const schemaValidation = Yup.object({
   isConcluded: Yup.boolean().required("required"),
   partialRefinancing: Yup.boolean().required("required"),

@@ -66,6 +66,11 @@ RUN dos2unix /usr/portal/app/wait-for-it.sh
 RUN dos2unix /usr/portal/app/startup.dev.sh
 RUN dos2unix /usr/portal/app/startup.prod.sh
 
+RUN chmod +x /usr/portal/app/startup.ci.sh
+RUN chmod +x /usr/portal/app/wait-for-it.sh
+RUN chmod +x /usr/portal/app/startup.dev.sh
+RUN chmod +x /usr/portal/app/startup.prod.sh
+
 WORKDIR /usr/portal/app
 
 CMD ["/bin/bash", "/usr/portal/app/startup.prod.sh"]
