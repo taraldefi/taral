@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: portal.Dockerfile
 
-  # frontend:
-  #   build:
-  #     context: .
-  #     dockerfile: dashboard.Dockerfile
+  frontend:
+    build:
+      context: .
+      dockerfile: dashboard.Dockerfile
