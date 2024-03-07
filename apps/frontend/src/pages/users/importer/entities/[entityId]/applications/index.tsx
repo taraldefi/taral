@@ -35,7 +35,7 @@ function Index({ ...props }) {
         const claimable = await checkPurchaseOrderHasActiveFinancing(
           application.id
         );
-        
+
         const purchaseOrder = await getPurchaseOrderById(application.id);
 
         let alreadyAccepted = false;

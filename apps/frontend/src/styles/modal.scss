@@ -234,8 +234,20 @@
           -moz-appearance: textfield;
         }
 
-        ::-webkit-file-upload-button {
-          visibility: hidden;
+        input[type="file"]::file-selector-button {
+          margin-right: 20px;
+          border: none;
+          background: #1ab98b;
+          padding: 5px;
+
+          border-radius: 5px;
+          color: #fff;
+          cursor: pointer;
+          transition: background 0.2s ease-in-out;
+        }
+
+        input[type="file"]::file-selector-button:hover {
+          background: #1ab98b;
         }
 
         ::placeholder {

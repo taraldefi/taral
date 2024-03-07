@@ -105,7 +105,7 @@ function Index() {
                       }/entities/${entityID}/repayment/pay?amount=${(
                         Number(po["interest"]) / Math.pow(10, 6) +
                         Number(po["outstanding-amount"]) / Math.pow(10, 6)
-                      ).toString()}`
+                      ).toFixed(3)}`
                     );
                   }}
                   primary={true}
@@ -129,7 +129,7 @@ function Index() {
                   value={(
                     Number(po["interest"]) / Math.pow(10, 6) +
                     Number(po["outstanding-amount"]) / Math.pow(10, 6)
-                  ).toString()}
+                  ).toFixed(3)}
                   type={LoanCardTypes.TOTAL_REPAYMENT}
                 />
               </div>

@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
+import React, { ChangeEvent, useEffect } from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { countries, industries } from "@utils/lib/constants";
 import { Controller, useForm } from "react-hook-form";
@@ -28,6 +28,10 @@ function FormModal({ isOpen, onClose }: Props) {
   const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const [, setEntityCreated] = useAtom(EntityCreatedAtom);
   const router = useRouter();
+  const [previewSource, setPreviewSource] = React.useState<
+    string | ArrayBuffer | null
+  >("");
+  const [fileName, setFileName] = React.useState<string>("");
 
   const onSubmit = (data: Entity) => {
     setLoading(true);
@@ -72,6 +76,22 @@ function FormModal({ isOpen, onClose }: Props) {
 
     onClose();
   };
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setPreviewSource(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+      setFileName(file.name);
+    } else {
+      setPreviewSource("");
+    }
+  };
 
   // Clear field values on submission is successful
   useEffect(() => {
@@ -108,7 +128,32 @@ function FormModal({ isOpen, onClose }: Props) {
                   className="inputs"
                   type="file"
                   placeholder="Upload Logo..."
+                  onChange={handleFileChange}
                 ></input>
+                {fileName && (
+                  <input
+                    type="text"
+                    className="inputs"
+                    value={fileName}
+                    readOnly
+                    placeholder="File Name"
+                    style={{ marginTop: "5px" }}
+                  />
+                )}
+                {previewSource && (
+                  <img
+                    id="preview"
+                    src={previewSource as string}
+                    alt="Preview"
+                    style={{
+                      display: "block",
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      padding: "5px",
+                      margin: "auto",
+                    }}
+                  />
+                )}
               </div>
               <div className="entityfield">
                 <span>Email</span>
