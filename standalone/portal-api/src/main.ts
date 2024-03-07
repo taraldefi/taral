@@ -41,10 +41,10 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   app.useGlobalFilters(
+    new CommonExceptionFilter(logger, i18n),
     new UnauthorizedExceptionFilter(logger),
     new UnprocessableExceptionFilter(logger),
     new EntityNotFoundFilter(logger),
-    new CommonExceptionFilter(logger, i18n)
   );
 
   app.use(cookieParser());
