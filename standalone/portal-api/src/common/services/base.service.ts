@@ -10,6 +10,7 @@ import { BaseHistory } from 'src/modules/history/entities/base.history.entity';
 import * as winston from 'winston';
 import { loggingLevel } from '../../modules/logger/logger';
 import { Configuration } from '../../configuration';
+import { SeqTransport } from '@datalust/winston-seq';
 
 export abstract class BaseService {
   protected readonly Logger: winston.Logger;
@@ -18,17 +19,29 @@ export abstract class BaseService {
   ) {
 
     const logLevel = Configuration.logging.level as loggingLevel;
+    const seqConfig = Configuration.seqConfig;
 
     this.Logger = winston.createLogger({
       level: logLevel,
-      format: winston.format.combine(
+      format: winston.format.combine(  /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
+        winston.format.errors({ stack: true }),
         winston.format.timestamp(),
         winston.format.json(),
       ),
+      defaultMeta: {  application: 'taral' },
       transports: [
-        new winston.transports.Console(),
+        new winston.transports.Console({
+            format: winston.format.simple(),
+        }),
         new winston.transports.File({ filename: 'error.log', level: 'error' }),
-      ],
+        new SeqTransport({
+          serverUrl: seqConfig.url,
+          apiKey: seqConfig.apiKey,
+          onError: (e => { console.error(e) }),
+          handleExceptions: true,
+          handleRejections: true,
+        })
+      ]
     });
   }
 

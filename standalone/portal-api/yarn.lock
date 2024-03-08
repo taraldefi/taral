@@ -1590,6 +1590,14 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
+"@datalust/winston-seq@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@datalust/winston-seq/-/winston-seq-2.0.0.tgz#5c32e9e6eacce0f5314975deebc511f99d7247c8"
+  integrity sha512-+2jseaj02d0uKWEfrYDVoAqJ89u33jd/KYItE/kbAsH21HlULm9ZN//S0C7+MUKsGStM0JnclByvvdyk5YmxjA==
+  dependencies:
+    seq-logging "^2.0.0"
+    winston-transport "^4.4.2"
+
 "@eslint/eslintrc@^1.3.0":
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-1.4.1.tgz#af58772019a2d271b7e2d4c23ff4ddcba3ccfb3e"
@@ -7808,18 +7816,18 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/infrastructure"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/stacks"
+    lib-infra "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-9d3b63e3-06e7-4168-a3b0-63944390b40f-1709906869880/node_modules/infrastructure"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-9d3b63e3-06e7-4168-a3b0-63944390b40f-1709906869880/node_modules/shared"
+    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-9d3b63e3-06e7-4168-a3b0-63944390b40f-1709906869880/node_modules/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/packages/configuration"
+    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-9d3b63e3-06e7-4168-a3b0-63944390b40f-1709906869880/packages/configuration"
 
 "lib-clarity-bin@file:./../../libs/clarity-bin":
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-c22d3b2e-d41f-4b5c-b725-f942d91c185f-1709906626257/node_modules/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-b47fd8af-f7d4-4d1d-a763-28397b9d042f-1709906869915/node_modules/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -7829,8 +7837,8 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-0d53495e-0cb8-4249-8d4d-9bc0c4d3119e-1709906626237/node_modules/clarity-bin"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-0d53495e-0cb8-4249-8d4d-9bc0c4d3119e-1709906626237/node_modules/shared"
+    lib-clarity-bin "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-6a730e1b-2339-4b0a-8e5f-9e0e7d7e856e-1709906869899/node_modules/clarity-bin"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-6a730e1b-2339-4b0a-8e5f-9e0e7d7e856e-1709906869899/node_modules/shared"
     npm-run-all "^4.1.5"
 
 "lib-shared@file:./../../libs/shared":
@@ -7856,11 +7864,11 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-af85e169-1687-40c5-a99b-823f13e2ab5b-1709906626251/node_modules/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-33d86a8e-d06e-4a4b-9b40-51614be0dcbe-1709906869911/node_modules/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-af85e169-1687-40c5-a99b-823f13e2ab5b-1709906626251/packages/configuration"
+    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-33d86a8e-d06e-4a4b-9b40-51614be0dcbe-1709906869911/packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:./../../libs/storage":
@@ -7869,10 +7877,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/node_modules/stacks"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-94a22eac-bffb-4ed7-87e5-3c3a7022bbd7-1709906869919/node_modules/shared"
+    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-94a22eac-bffb-4ed7-87e5-3c3a7022bbd7-1709906869919/node_modules/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/packages/contracts"
+    taral-contracts "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-94a22eac-bffb-4ed7-87e5-3c3a7022bbd7-1709906869919/packages/contracts"
 
 libbase64@1.2.1:
   version "1.2.1"
@@ -10055,6 +10063,14 @@ send@0.18.0:
     range-parser "~1.2.1"
     statuses "2.0.1"
 
+seq-logging@^2.0.0:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/seq-logging/-/seq-logging-2.1.1.tgz#753dc644784fa36038453b69750d8fda675e1feb"
+  integrity sha512-aaJjxNiOK6ByZIv/vYLxaQE/SoqKYkoNF1DE5DD5fiv2qpq5l8QQrxTAkkDZFxK3DkSbmxNdhrGq/MN40LYYAA==
+  dependencies:
+    abort-controller "^3.0.0"
+    node-fetch "^2.6.9"
+
 serialize-javascript@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-6.0.1.tgz#b206efb27c3da0b0ab6b52f48d170b7996458e5c"
@@ -10615,7 +10631,7 @@ tar@^6.1.11:
 "taral-contracts@file:./../../packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-7fe5ea49-b48d-4b9e-9793-770172c39dda-1709906626262/libs/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-f6d2f2c2-c3dc-4ed9-a0ef-93b664b67df8-1709906869920/libs/shared"
     npm-run-all "^4.1.5"
 
 tdigest@^0.1.1:
@@ -11384,19 +11400,19 @@ winston-cloudwatch@^3.2.0:
     lodash.iserror "^3.1.1"
     proxy-agent "^5.0.0"
 
-winston-transport@^4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.5.0.tgz#6e7b0dd04d393171ed5e4e4905db265f7ab384fa"
-  integrity sha512-YpZzcUzBedhlTAfJg6vJDlyEai/IFMIVcaEZZyl3UXIl4gmqRpU7AE89AHLkbzLUsv0NVmw7ts+iztqKxxPW1Q==
+winston-transport@^4.4.2, winston-transport@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.7.0.tgz#e302e6889e6ccb7f383b926df6936a5b781bd1f0"
+  integrity sha512-ajBj65K5I7denzer2IYW6+2bNIVqLGDHqDw3Ow8Ohh+vdW+rv4MZ6eiDvHoKhfJFZ2auyN8byXieDDJ96ViONg==
   dependencies:
     logform "^2.3.2"
     readable-stream "^3.6.0"
     triple-beam "^1.3.0"
 
-winston-transport@^4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.7.0.tgz#e302e6889e6ccb7f383b926df6936a5b781bd1f0"
-  integrity sha512-ajBj65K5I7denzer2IYW6+2bNIVqLGDHqDw3Ow8Ohh+vdW+rv4MZ6eiDvHoKhfJFZ2auyN8byXieDDJ96ViONg==
+winston-transport@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.5.0.tgz#6e7b0dd04d393171ed5e4e4905db265f7ab384fa"
+  integrity sha512-YpZzcUzBedhlTAfJg6vJDlyEai/IFMIVcaEZZyl3UXIl4gmqRpU7AE89AHLkbzLUsv0NVmw7ts+iztqKxxPW1Q==
   dependencies:
     logform "^2.3.2"
     readable-stream "^3.6.0"

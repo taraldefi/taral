@@ -125,6 +125,11 @@ export class LoggingConfig {
     fluentdlogging: boolean;
 }
 
+export class SeqConfig {
+    url: string;
+    apiKey: string;
+}
+
 class ConfigurationKeys {
     environmentKey: string;
     configKey: string;
@@ -253,6 +258,17 @@ const configurationKeys = {
         driver: {
             environmentKey: "REDIS_DRIVER",
             configKey: "redis.driver",
+        },
+    },
+
+    seqConfig: {
+        url: {
+            environmentKey: "SEQ_URL",
+            configKey: "seq.url",
+        },
+        apiKey: {
+            environmentKey: "SEQ_API_KEY",
+            configKey: "seq.apiKey",
         },
     },
 
@@ -512,6 +528,13 @@ function getStripeConfig(): Stripe {
     }
 }
 
+function getSeqConfig(): SeqConfig {
+    return {
+        url: getConfig(configurationKeys.seqConfig.url),
+        apiKey: getConfig(configurationKeys.seqConfig.apiKey),
+    }
+}
+
 function getAppConfig(): AppConfig {
     return {
         apiPrefix: getConfig(configurationKeys.apiPrefix),
@@ -673,5 +696,6 @@ export const Configuration = {
     twoFa: getTwoFaConfig(),
     winston: getWinstonConfig(),
     stripe: getStripeConfig(),
+    seqConfig: getSeqConfig(),
 };
 

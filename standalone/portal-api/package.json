@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-cloudwatch-logs": "^3.521.0",
+    "@datalust/winston-seq": "^2.0.0",
     "@faker-js/faker": "^7.6.0",
     "@modules/cron": "file:./../modules/cron",
     "@modules/events": "file:./../modules/events",

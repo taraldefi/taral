@@ -85,13 +85,11 @@ export class AuthController {
     @Body()
     refreshTokenDto: RefreshTokenDto
   ): Promise<AuthResponse> {
-    console.log('enter auth refresh');
     const authResponsePayload =
       await this.authService.createAccessTokenFromRefreshToken(
         refreshTokenDto.refreshToken,
       );
 
-    console.log('auth payload', authResponsePayload);
     return authResponsePayload;
   }
 
