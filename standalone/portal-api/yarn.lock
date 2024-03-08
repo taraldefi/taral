@@ -1564,6 +1564,11 @@
   resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.5.0.tgz#bb504579c1cae923e6576a4f5da43d25f97bdbd9"
   integrity sha512-ooWCrlZP11i8GImSjTHYHLkvFDP48nS4+204nGb1RiX/WXYHmJA2III9/e2DWVabCESdW7hBAEzHRqUn9OUVvQ==
 
+"@colors/colors@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/@colors/colors/-/colors-1.6.0.tgz#ec6cd237440700bc23ca23087f513c75508958b0"
+  integrity sha512-Ir+AOibqzrIsL6ajt3Rz3LskB7OiMVHqltZmspbW/TJuTVuyOMirVqAkjfY6JISiLHgyNqicAC8AyHHGzNd/dA==
+
 "@cspotcode/source-map-consumer@0.8.0":
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-consumer/-/source-map-consumer-0.8.0.tgz#33bf4b7b39c178821606f669bbc447a6a629786b"
@@ -3898,7 +3903,7 @@ aws-sdk@^2.1137.0:
     uuid "8.0.0"
     xml2js "0.6.2"
 
-axios@*:
+axios@*, axios@^1.6.7:
   version "1.6.7"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.7.tgz#7b48c2e27c96f9c68a2f8f31e2ab19f59b06b0a7"
   integrity sha512-/hDJGff6/c7u0hDkvkGxR/oy6CbCs8ziCsC7SqmhjfozqiJGc8Z11wrv9z9lYfY4K8l+H9TpjcMDX0xOZmx+RA==
@@ -3911,15 +3916,6 @@ axios@1.6.2:
   version "1.6.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.2.tgz#de67d42c755b571d3e698df1b6504cde9b0ee9f2"
   integrity sha512-7i24Ri4pmDRfJTR7LDBhsOTtcm+9kjX5WiY1X3wIisx6G9So3pfMkEiU7emUBe46oceVImccTEM3k6C5dbVW8A==
-  dependencies:
-    follow-redirects "^1.15.0"
-    form-data "^4.0.0"
-    proxy-from-env "^1.1.0"
-
-axios@^1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/axios/-/axios-1.6.0.tgz#f1e5292f26b2fd5c2e66876adc5b06cdbd7d2102"
-  integrity sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==
   dependencies:
     follow-redirects "^1.15.0"
     form-data "^4.0.0"
@@ -7812,18 +7808,18 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-dd342a14-034a-47dd-b16e-d29d679d405b-1709705831656/node_modules/infrastructure"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-dd342a14-034a-47dd-b16e-d29d679d405b-1709705831656/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-dd342a14-034a-47dd-b16e-d29d679d405b-1709705831656/node_modules/stacks"
+    lib-infra "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/infrastructure"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/shared"
+    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/node_modules/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-dd342a14-034a-47dd-b16e-d29d679d405b-1709705831656/packages/configuration"
+    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-05ae32d2-17b2-4989-8dc8-7647f347a3a8-1709906626215/packages/configuration"
 
 "lib-clarity-bin@file:./../../libs/clarity-bin":
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-f1a93b02-7015-4dd1-8553-dd2193f031af-1709705831699/node_modules/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-c22d3b2e-d41f-4b5c-b725-f942d91c185f-1709906626257/node_modules/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -7833,8 +7829,8 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-af377af5-1013-4ebf-be5d-8410c49a3dd9-1709705831678/node_modules/clarity-bin"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-af377af5-1013-4ebf-be5d-8410c49a3dd9-1709705831678/node_modules/shared"
+    lib-clarity-bin "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-0d53495e-0cb8-4249-8d4d-9bc0c4d3119e-1709906626237/node_modules/clarity-bin"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-0d53495e-0cb8-4249-8d4d-9bc0c4d3119e-1709906626237/node_modules/shared"
     npm-run-all "^4.1.5"
 
 "lib-shared@file:./../../libs/shared":
@@ -7860,11 +7856,11 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-a3b75708-f8d2-4256-a1fc-a81851545df8-1709705831692/node_modules/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-af85e169-1687-40c5-a99b-823f13e2ab5b-1709906626251/node_modules/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-a3b75708-f8d2-4256-a1fc-a81851545df8-1709705831692/packages/configuration"
+    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-af85e169-1687-40c5-a99b-823f13e2ab5b-1709906626251/packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:./../../libs/storage":
@@ -7873,10 +7869,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-a94a8f88-5bbf-4001-801c-e1ad356b4405-1709705831703/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-a94a8f88-5bbf-4001-801c-e1ad356b4405-1709705831703/node_modules/stacks"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/node_modules/shared"
+    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/node_modules/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-a94a8f88-5bbf-4001-801c-e1ad356b4405-1709705831703/packages/contracts"
+    taral-contracts "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-244a5981-af95-40ce-b03a-4065bf0203c0-1709906626260/packages/contracts"
 
 libbase64@1.2.1:
   version "1.2.1"
@@ -10619,7 +10615,7 @@ tar@^6.1.11:
 "taral-contracts@file:./../../packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-9a9d6aeb-4a76-443f-9589-8270426fd59f-1709705831705/libs/shared"
+    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-7fe5ea49-b48d-4b9e-9793-770172c39dda-1709906626262/libs/shared"
     npm-run-all "^4.1.5"
 
 tdigest@^0.1.1:
@@ -11397,6 +11393,15 @@ winston-transport@^4.5.0:
     readable-stream "^3.6.0"
     triple-beam "^1.3.0"
 
+winston-transport@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/winston-transport/-/winston-transport-4.7.0.tgz#e302e6889e6ccb7f383b926df6936a5b781bd1f0"
+  integrity sha512-ajBj65K5I7denzer2IYW6+2bNIVqLGDHqDw3Ow8Ohh+vdW+rv4MZ6eiDvHoKhfJFZ2auyN8byXieDDJ96ViONg==
+  dependencies:
+    logform "^2.3.2"
+    readable-stream "^3.6.0"
+    triple-beam "^1.3.0"
+
 winston@*:
   version "3.10.0"
   resolved "https://registry.yarnpkg.com/winston/-/winston-3.10.0.tgz#d033cb7bd3ced026fed13bf9d92c55b903116803"
@@ -11414,12 +11419,12 @@ winston@*:
     triple-beam "^1.3.0"
     winston-transport "^4.5.0"
 
-winston@^3.8.2:
-  version "3.8.2"
-  resolved "https://registry.yarnpkg.com/winston/-/winston-3.8.2.tgz#56e16b34022eb4cff2638196d9646d7430fdad50"
-  integrity sha512-MsE1gRx1m5jdTTO9Ld/vND4krP2To+lgDoMEHGGa4HIlAUyXJtfc7CxQcGXVyz2IBpw5hbFkj2b/AtUdQwyRew==
+winston@^3.12.0:
+  version "3.12.0"
+  resolved "https://registry.yarnpkg.com/winston/-/winston-3.12.0.tgz#a5d965a41d3dc31be5408f8c66e927958846c0d0"
+  integrity sha512-OwbxKaOlESDi01mC9rkM0dQqQt2I8DAUMRLZ/HpbwvDXm85IryEHgoogy5fziQy38PntgZsLlhAYHz//UPHZ5w==
   dependencies:
-    "@colors/colors" "1.5.0"
+    "@colors/colors" "^1.6.0"
     "@dabh/diagnostics" "^2.0.2"
     async "^3.2.3"
     is-stream "^2.0.0"
@@ -11429,7 +11434,7 @@ winston@^3.8.2:
     safe-stable-stringify "^2.3.1"
     stack-trace "0.0.x"
     triple-beam "^1.3.0"
-    winston-transport "^4.5.0"
+    winston-transport "^4.7.0"
 
 with@^7.0.0:
   version "7.0.2"

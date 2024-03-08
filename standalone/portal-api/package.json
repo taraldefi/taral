@@ -63,7 +63,7 @@
     "@types/winston": "^2.4.4",
     "amqp-connection-manager": "^4.1.13",
     "amqplib": "^0.10.3",
-    "axios": "^1.6.0",
+    "axios": "^1.6.7",
     "bcrypt": "5.0.1",
     "bull": "^4.10.4",
     "class-transformer": "0.5.1",
@@ -109,9 +109,9 @@
     "typeorm-seeding": "^1.6.1",
     "ua-parser-js": "^1.0.35",
     "uuid": "^8.3.2",
-    "winston": "^3.8.2",
+    "winston": "^3.12.0",
     "winston-cloudwatch": "^3.2.0",
-    "winston-transport": "^4.5.0"
+    "winston-transport": "^4.7.0"
   },
   "peerDependencies": {
     "@types/ejs": "^3.0.3",
