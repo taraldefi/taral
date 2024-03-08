@@ -27,7 +27,7 @@ services:
       - 8080:8080
 
   seqcli:
-    build: ./docker/logging
+    image: ghcr.io/taraldefi/taral_seqcli:latest
     depends_on:
       - seq
     restart: on-failure
