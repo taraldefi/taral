@@ -153,3 +153,25 @@ services:
       - 6379:6379
     depends_on:
       - postgres
+
+  seqcli:
+    image: ghcr.io/taraldefi/taral_seqcli:latest
+    depends_on:
+      - seq
+    restart: on-failure
+    environment:
+      SEQ_URL: ${SEQ_URL}
+      API_KEY_TITLE: ${API_KEY_TITLE}
+      API_KEY_TOKEN: ${API_KEY_TOKEN}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SEQCLI_PATH: ${SEQCLI_PATH}
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINPASSWORDHASH: ${SEQ_FIRSTRUN_ADMINPASSWORDHASH}
+      SEQ_FIRSTRUN_REQUIREAUTHENTICATIONFORHTTPINGESTION: true
+    ports:
+      - 8003:80
