@@ -1,0 +1,28 @@
+version: "3"
+services:
+  seqcli:
+    build: ./docker/logging
+    depends_on:
+      - seq
+    restart: on-failure
+    environment:
+      SEQ_URL: ${SEQ_URL}
+      API_KEY_TITLE: ${API_KEY_TITLE}
+      API_KEY_TOKEN: ${API_KEY_TOKEN}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SEQCLI_PATH: ${SEQCLI_PATH}
+    networks:
+      - seqnetwork
+  seq:
+    image: datalust/seq:latest
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINPASSWORDHASH: ${SEQ_FIRSTRUN_ADMINPASSWORDHASH}
+      SEQ_FIRSTRUN_REQUIREAUTHENTICATIONFORHTTPINGESTION: true
+    ports:
+      - 8003:80
+    networks:
+      - seqnetwork
+networks:
+  seqnetwork:
