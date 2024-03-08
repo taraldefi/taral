@@ -26,6 +26,28 @@ services:
     ports:
       - 8080:8080
 
+  seqcli:
+    build: ./docker/logging
+    depends_on:
+      - seq
+    restart: on-failure
+    environment:
+      SEQ_URL: ${SEQ_URL}
+      API_KEY_TITLE: ${API_KEY_TITLE}
+      API_KEY_TOKEN: ${API_KEY_TOKEN}
+      ADMIN_USERNAME: ${ADMIN_USERNAME}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SEQCLI_PATH: ${SEQCLI_PATH}
+
+  seq:
+    image: datalust/seq:latest
+    environment:
+      ACCEPT_EULA: Y
+      SEQ_FIRSTRUN_ADMINPASSWORDHASH: ${SEQ_FIRSTRUN_ADMINPASSWORDHASH}
+      SEQ_FIRSTRUN_REQUIREAUTHENTICATIONFORHTTPINGESTION: true
+    ports:
+      - 8003:80
+
   # mongodb:
   #   image : mongo:5.0.15
   #   container_name: mongodb
