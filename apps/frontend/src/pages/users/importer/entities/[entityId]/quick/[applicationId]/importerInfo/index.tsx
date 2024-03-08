@@ -225,7 +225,7 @@ function Index({ ...props }) {
                   placeholder={
                     errors.address?.city
                       ? `${errors.address.city.message}`
-                      : "city"
+                      : "City"
                   }
                   {...register("address.city")}
                 />
@@ -242,7 +242,7 @@ function Index({ ...props }) {
                   placeholder={
                     errors.address?.postalCode
                       ? `${errors.address.postalCode.message}`
-                      : "postal code"
+                      : "Post code"
                   }
                   {...register("address.postalCode")}
                 />
@@ -271,7 +271,7 @@ function Index({ ...props }) {
                 defaultValue={queryResult.data?.taxAndRevenue.totalRevenue}
               />
             </div>
-            <div className="form-item">
+            {/* <div className="form-item">
               <span>Percentage of revenue was comprised by exports </span>
               <input
                 disabled
@@ -282,7 +282,7 @@ function Index({ ...props }) {
                 }
                 id="percentage"
               />
-            </div>
+            </div> */}
 
             {Object.keys(errors).length != 0 && (
               <>

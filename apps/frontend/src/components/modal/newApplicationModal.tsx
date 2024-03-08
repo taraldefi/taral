@@ -48,7 +48,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
             data.id
           }/importerInfo`
         );
-        return `application has been created`;
+        return `Application has been created`;
       },
       error: (err) => {
         return `${err.message}`;
@@ -78,7 +78,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
               <div className="info-application">
                 Add basic application information and fill the rest later.{" "}
                 <br /> <br />
-                Choose your payment method
+                Choose your intended payment method
               </div>
               <div
                 style={{
@@ -123,10 +123,10 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
               <div className="svgContainer">
                 <PortalIcons selected={false} icon={"full application"} />
               </div>
-              <div className="header-application ">full Application</div>
+              <div className="header-application ">Full Application</div>
               <div className="info-application">
                 Fill all the forms requirements and information. <br /> <br />
-                Choose your payment method
+                Choose your intended payment method
               </div>
               <div
                 style={{

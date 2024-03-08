@@ -26,6 +26,10 @@ type Inputs = {
   idExpiry: string;
   isAgreed: boolean;
 };
+interface ErrorMessage {
+  name: string;
+  errors: string[];
+}
 
 function Index() {
   const router = useRouter();
@@ -53,17 +57,18 @@ function Index() {
   });
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [errorMessages, setErrorMessages] = React.useState<ErrorMessage[]>([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(errors);
     await trigger();
     console.log(data);
     const registerPromise = authService.register(
-      data.username,
+      // remove spaces and convert to lowercase
+      data.username.toLowerCase().replace(/\s/g, ""),
       data.email,
       data.password,
       data.firstName
@@ -78,7 +83,8 @@ function Index() {
       },
       error: (err) => {
         console.log(err);
-        return err.message;
+
+        return "Form validation error";
       },
     });
     // router.push(
@@ -89,7 +95,6 @@ function Index() {
     //   "/auth/otp"
     // );
   };
-  console.log(errors);
 
   return (
     <AuthLayout>
@@ -112,7 +117,7 @@ function Index() {
               <input
                 type="text"
                 className={errors.username ? "inputsRed" : "inputs"}
-                placeholder="First name..."
+                placeholder="Username..."
                 {...register("username", { required: true })}
               />
             </div>
@@ -281,6 +286,17 @@ function Index() {
                   </div>
                 </div>
               )}
+              {errorMessages &&
+                errorMessages.map((errorMessage, index) => (
+                  <div key={index}>
+                    <p>{capitalizeFirstLetter(errorMessage.name)}:</p>
+                    <ul>
+                      {errorMessage.errors.map((error, index) => (
+                        <li key={index}>{error}</li>
+                      ))}
+                    </ul>
+                  </div>
+                ))}
             </div>
             <div className="inputContainer">
               <Button
@@ -302,5 +318,9 @@ function Index() {
     </AuthLayout>
   );
 }
+
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 export default Index;

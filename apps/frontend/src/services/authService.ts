@@ -114,13 +114,8 @@ class AuthService {
           resolve(data);
         }
       } catch (error: any) {
-        if (axios.isAxiosError(error)) {
-          console.log(error.response?.status || error.message);
-          reject(new Error(error.message));
-        } else {
-          console.log(error.message);
-          reject(new Error(error.message));
-        }
+        console.log(error);
+        reject(new Error(error));
       }
       reject(new Error("Registration failed."));
     });

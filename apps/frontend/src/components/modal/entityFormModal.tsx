@@ -122,7 +122,7 @@ function FormModal({ isOpen, onClose }: Props) {
               <div className="entityfield">
                 <span>Entity Logo</span>
                 <input
-                  {...register("logo")}
+                  {...register("logo", { required: true })}
                   title="entity logo"
                   id="upload"
                   className="inputs"
@@ -256,7 +256,7 @@ function FormModal({ isOpen, onClose }: Props) {
 
               <div className="flexrow">
                 <div className="entityfield">
-                  <span>Nationality</span>
+                  <span>UBO Nationality</span>
                   <select
                     {...register("nationality")}
                     id="downarrow"
@@ -297,7 +297,7 @@ function FormModal({ isOpen, onClose }: Props) {
                     {...register("headquarters")}
                     className="inputs"
                     type="text"
-                    placeholder="headquarter"
+                    placeholder="City"
                   ></input>
                 </div>
               </div>
@@ -352,13 +352,16 @@ function FormModal({ isOpen, onClose }: Props) {
                       Select Form...
                     </option>
                     <option value={"sole proprietorship"} key="1">
-                      sole proprietorship
+                      Sole proprietorship
                     </option>
                     <option value={"partnership"} key="2">
-                      partnership
+                      Partnership
                     </option>
                     <option value={"corporation"} key="3">
-                      corporation
+                      Corporation
+                    </option>
+                    <option value={"limited liability corporation"} key="3">
+                      Limited Liability Corporation
                     </option>
                   </select>
                 </div>
