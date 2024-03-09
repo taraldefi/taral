@@ -110,12 +110,13 @@ class AuthService {
           axiosConfig
         );
         const { data } = response;
+
         if (response.status === 201) {
           resolve(data);
         }
       } catch (error: any) {
         console.log(error);
-        reject(new Error(error));
+        reject(error.response.data.errors.message);
       }
       reject(new Error("Registration failed."));
     });

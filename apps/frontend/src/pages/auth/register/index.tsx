@@ -10,6 +10,7 @@ import CustomInput from "@components/widgets/customPasswordField";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "sonner";
+import * as Yup from "yup";
 
 type Inputs = {
   username: string;
@@ -30,6 +31,17 @@ interface ErrorMessage {
   name: string;
   errors: string[];
 }
+
+const schemaValidation = Yup.object({
+  username: Yup.string().required("required"),
+  financingRatio: Yup.string().required("required"),
+  facilityAmount: Yup.string().required("required"),
+  requestedTenure: Yup.string().required("required"),
+  requestedPurpose: Yup.string().required("required"),
+  repaymentSource: Yup.string().required("required"),
+  collateralProviderInfluence: Yup.string().nullable(),
+  collateralProviderExperience: Yup.string().nullable(),
+});
 
 function Index() {
   const router = useRouter();
@@ -83,6 +95,7 @@ function Index() {
       },
       error: (err) => {
         console.log(err);
+        setErrorMessages(err);
 
         return "Form validation error";
       },
@@ -276,7 +289,16 @@ function Index() {
                   <span className="greened">Privacy Policy</span>.
                 </span>
               </div>
+            </div>
 
+            <div
+              style={{
+                height: "300px",
+                overflow: "scroll",
+                overflowX: "hidden",
+                padding: "10px",
+              }}
+            >
               {Object.keys(errors).length != 0 && (
                 <div className="inputContainer">
                   <div className="errorMessage">
@@ -288,16 +310,24 @@ function Index() {
               )}
               {errorMessages &&
                 errorMessages.map((errorMessage, index) => (
-                  <div key={index}>
-                    <p>{capitalizeFirstLetter(errorMessage.name)}:</p>
-                    <ul>
+                  <div style={{ width: "100%" }} className="inputContainer">
+                    <div style={{ width: "100%" }} className="errorMessage">
                       {errorMessage.errors.map((error, index) => (
-                        <li key={index}>{error}</li>
+                        <p>{error}</p>
                       ))}
-                    </ul>
+                    </div>
                   </div>
+                  // <div key={index}>
+                  //   <p>{capitalizeFirstLetter(errorMessage.name)}:</p>
+                  //   <ul>
+                  //     {errorMessage.errors.map((error, index) => (
+                  //       <li key={index}>{error}</li>
+                  //     ))}
+                  //   </ul>
+                  // </div>
                 ))}
             </div>
+
             <div className="inputContainer">
               <Button
                 type="submit"
