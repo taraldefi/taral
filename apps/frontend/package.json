@@ -6,7 +6,7 @@
     "dev": "next dev -p 3000",
     "start-mock-server": "ts-node --project scripts/tsconfig.scripts.json scripts/mock-server.ts",
     "build": "next build && node copy-assets.js",
-    "start": "node ./.next/standalone/apps/frontend/server.js",
+    "start": "node server.js",
     "lint": "next lint",
     "check-types": "tsc --pretty",
     "check-format": "prettier --check .",
