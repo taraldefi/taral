@@ -238,6 +238,14 @@
     border-radius: 4px;
     border: 1.5px solid #df1818;
   }
+  .inputsRed::placeholder {
+    color: #df1818;
+    opacity: 1;
+  }
+  .inputsRed::-ms-input-placeholder {
+    /* Edge 12 -18 */
+    color: red;
+  }
 }
 
 .parent {
