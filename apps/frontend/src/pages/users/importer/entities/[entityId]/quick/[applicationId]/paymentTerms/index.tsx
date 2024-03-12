@@ -300,7 +300,7 @@ function Index({ ...props }) {
                     <option value="">Select Currency</option>
                     {CURRENCIES.map((currency) => (
                       <option key={currency.cc} value={currency.cc}>
-                        {currency.name}
+                        {currency.cc} - {currency.name}
                       </option>
                     ))}
                   </select>
@@ -316,7 +316,7 @@ function Index({ ...props }) {
                     placeholder={
                       errors.interestPercentage
                         ? errors.interestPercentage.message
-                        : "interest percentage"
+                        : "Interest percentage"
                     }
                     className={
                       errors.interestPercentage ? "inputs inputRed" : "inputs"
@@ -349,7 +349,7 @@ function Index({ ...props }) {
                         placeholder={
                           errors.interestFixedRate
                             ? errors.interestFixedRate.message
-                            : "fixed interest rate"
+                            : "Fixed interest rate"
                         }
                         className={
                           errors.interestFixedRate
@@ -376,7 +376,7 @@ function Index({ ...props }) {
                         placeholder={
                           errors.interestDegressiveRate
                             ? errors.interestDegressiveRate.message
-                            : "degressive interest rate"
+                            : "Degressive interest rate"
                         }
                         className={
                           errors.interestDegressiveRate
@@ -463,12 +463,12 @@ function Index({ ...props }) {
         </div>
         <div className="vLine"></div>
         <div className="ptVID">
-          <div className="maintitle">PAYMENT TYPE</div>
+          <div className="maintitle">PAYMENT TERM</div>
 
           <div></div>
           <div className="inputContainer">
             <span>
-              What is the payment type agreed upon for this transaction? (Short,
+              What is the payment term agreed upon for this transaction? (Short,
               Medium, or Short-Medium) <b style={{ color: "#f84141" }}>*</b>
             </span>
             <select
@@ -504,7 +504,7 @@ function Index({ ...props }) {
               <option value="">Select Currency</option>
               {CURRENCIES.map((currency) => (
                 <option key={currency.cc} value={currency.cc}>
-                  {currency.name}
+                  {currency.cc} - {currency.name}
                 </option>
               ))}
             </select>
@@ -523,7 +523,7 @@ function Index({ ...props }) {
               placeholder={
                 errors.downpaymentAmount
                   ? errors.downpaymentAmount.message
-                  : "downpayment amount"
+                  : "Downpayment amount"
               }
             />
           </div>
@@ -541,7 +541,7 @@ function Index({ ...props }) {
               placeholder={
                 errors.downpaymentDescription
                   ? errors.downpaymentDescription.message
-                  : "downpayment description"
+                  : "Downpayment description"
               }
             />
           </div>
@@ -563,7 +563,7 @@ function Index({ ...props }) {
               <option value="">Select Currency</option>
               {CURRENCIES.map((currency) => (
                 <option key={currency.cc} value={currency.cc}>
-                  {currency.name}
+                  {currency.cc} - {currency.name}
                 </option>
               ))}
             </select>
@@ -592,6 +592,7 @@ function Index({ ...props }) {
             <input
               type="date"
               id="calendar"
+              min={new Date().toISOString().split("T")[0]}
               className={
                 errors.balancePaymentDeadline ? "inputs inputRed" : "inputs"
               }

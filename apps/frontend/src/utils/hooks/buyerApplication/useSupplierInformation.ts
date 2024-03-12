@@ -151,7 +151,7 @@ const useSupplierInformationForm = (applicationID: string) => {
       });
       if (createSupplierInfo.supplierId) {
         setUpdateMode(true);
-        toast.success(`supplier information created`);
+        toast.success(`Supplier information created`);
       }
     } else {
       const updateSupplierInfo = buyerApplicationService.updateSupplierInfo(

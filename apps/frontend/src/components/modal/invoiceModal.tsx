@@ -39,7 +39,7 @@ function InvoiceModal({ isOpen, onClose }: Props) {
           }/entities/${entityId}/applications`
         );
 
-        return `application submitted and is on review`;
+        return `Application submitted and is on review`;
       },
       error: (err) => {
         return `${err.message}`;
@@ -73,8 +73,8 @@ function InvoiceModal({ isOpen, onClose }: Props) {
               <br />
               <div className="header-application">Submit Application</div>
               <div style={{ fontSize: "13px" }} className="info-application">
-                Please check your mail for the invoice once the application is
-                submitted
+                Once you click Submit, please check your email for the payment
+                invoice.
               </div>
               <br />
               <div className="buttonContainer">

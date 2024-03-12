@@ -79,7 +79,8 @@ const schemaValidation = Yup.object({
         }
         return true;
       }
-    ),
+    )
+    .typeError("Enter a value greater than 0"),
   downpaymentDescription: Yup.string().required("required"),
   balanceCurrency: Yup.string().required("required"),
   balanceAmount: Yup.number()

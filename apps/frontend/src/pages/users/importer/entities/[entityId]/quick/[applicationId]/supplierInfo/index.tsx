@@ -357,7 +357,7 @@ function Index() {
                           ?.description
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.description?.message
-                          : "description"
+                          : "Description"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.description"
@@ -382,7 +382,7 @@ function Index() {
                           ?.length
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.length?.message
-                          : "length of payment experience"
+                          : "Length of payment experience"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.length"
@@ -406,7 +406,7 @@ function Index() {
                           ?.noOfDeals
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.noOfDeals?.message
-                          : "number of deals"
+                          : "Number of deals"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.noOfDeals"
@@ -415,7 +415,7 @@ function Index() {
                   </div>
                   <div className="form-item">
                     <span>
-                      Avg. volume of business with your customer{" "}
+                      Avg. volume of business with your supplier{" "}
                       <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <input
@@ -431,7 +431,7 @@ function Index() {
                           ?.avgBusinessVol
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.avgBusinessVol?.message
-                          : "average volume of business"
+                          : "Average volume of business"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.avgBusinessVol"
@@ -456,8 +456,12 @@ function Index() {
                       )}
                     >
                       <option value={""}>Select type...</option>
-                      <option value="ON_TIME">On time</option>
-                      <option value="DELAYS">Delays</option>
+                      <option value="ON_TIME">
+                        We have settled all accounts on time
+                      </option>
+                      <option value="DELAYS">
+                        There have been payment delays
+                      </option>
                     </select>
                   </div>
                 </>
