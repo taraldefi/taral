@@ -103,6 +103,9 @@ function Index() {
           .map((item: any, index: any) => {
             return (
               <Entity
+                onClickViewApplications={() => {
+                  router.push(`${router.asPath}/${item.id}/applications`);
+                }}
                 fetchLogo={fetchEntityLogo}
                 key={index}
                 entityData={item!}

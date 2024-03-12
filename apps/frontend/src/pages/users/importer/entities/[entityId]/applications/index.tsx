@@ -9,8 +9,9 @@ import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { useEffect, useState } from "react";
-import { ApplicationTable } from "@lib";
+import { ApplicationTable, Button } from "@lib";
 import { applicationTableDataType } from "@lib";
+import { ArrowRight } from "react-feather";
 
 function Index({ ...props }) {
   const router = useRouter();
@@ -22,6 +23,7 @@ function Index({ ...props }) {
   >([]);
   const { checkPurchaseOrderHasActiveFinancing, getPurchaseOrderById } =
     useTaralContracts();
+  const [activeApplicationId, setActiveApplicationId] = useState<string>("");
   const { stxAddress } = useAccount();
 
   async function fetchApplicationTableData() {
@@ -35,6 +37,9 @@ function Index({ ...props }) {
         const claimable = await checkPurchaseOrderHasActiveFinancing(
           application.id
         );
+        if (application.status === "ACTIVE") {
+          setActiveApplicationId(application.id);
+        }
 
         const purchaseOrder = await getPurchaseOrderById(application.id);
 
@@ -102,6 +107,39 @@ function Index({ ...props }) {
     <ImporterBaseLayout>
       <div className="viewbody">
         <div style={{ padding: "10%", width: "100%" }}>
+          {activeApplicationId && (
+            <div
+              style={{
+                backgroundColor: "#8cebd0",
+                padding: "10px",
+                borderRadius: "5px",
+                width: "100%",
+                display: "flex",
+                fontSize: "14px",
+                color: "#354235",
+                gap: "10px",
+                alignContent: "center",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <span>
+                You have a pending active application. Please complete and
+                submit the current active application{" "}
+              </span>
+
+              <Button
+                onClick={() => {
+                  handleActiveApplicationClick(activeApplicationId);
+                }}
+                primary
+                backgroundColor="#1ab98b"
+                label="Continue application"
+                icon={<ArrowRight size={"15"} />}
+              ></Button>
+            </div>
+          )}
+
           <ApplicationTable
             applicationTableData={applicationTableData}
             onClick={handleActiveApplicationClick}

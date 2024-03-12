@@ -98,7 +98,7 @@ function StepperModal({ isOpen, onClose }: Props) {
             router.asPath.split("/")[2]
           }/entities/${entityId}/applications`
         );
-        return `application finished and is on review`;
+        return `Application finished and is on review`;
       },
       error: (err) => {
         return `${err.message}`;
@@ -159,7 +159,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                       1
                     )}
                   </div>
-                  <div className="step-name">on-chain submission</div>
+                  <div className="step-name">On-chain submission</div>
                 </div>
                 <div
                   className={`stepper-item ${step === 2 ? "completed" : ""}`}
@@ -182,7 +182,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                       2
                     )}
                   </div>
-                  <div className="step-name">submit application</div>
+                  <div className="step-name">Submit application</div>
                 </div>
               </div>
               <div className="buttonContainer">
@@ -196,7 +196,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                         : handleOnChainSubmission
                     }
                   >
-                    {step === 1 ? "finish" : "submit on-chain"}
+                    {step === 1 ? "Finalise Submission" : "Submit on-chain"}
                   </button>
                 )}
               </div>
