@@ -20,6 +20,7 @@ services:
     # command: tail -f /dev/null
     volumes:
       - ./standalone/portal-api/local_storage:/app/local_storage
+      - ./standalone/portal-api/logs:/app/logs
       - ./standalone/portal-api/config:/app/config
     depends_on:
       - postgres
@@ -85,6 +86,7 @@ services:
       AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-}
       FILE_DRIVER: ${FILE_DRIVER:-local}
       FILE_LOCAL_DIR: ${FILE_LOCAL_DIR:-local_storage}
+      LOGGING_ROTATE_DIRECTORY: ${LOGGING_ROTATE_DIRECTORY:-logs}
       LOGGING_LEVEL: ${LOGGING_LEVEL:-error}
       LOGGING_FLUENTDLOGGING: ${LOGGING_FLUENTDLOGGING:-false}
       ONCHAIN_MOCK: ${ONCHAIN_MOCK:-true}

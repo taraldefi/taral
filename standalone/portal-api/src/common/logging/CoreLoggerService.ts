@@ -10,8 +10,10 @@ import {Injectable, LoggerService} from "@nestjs/common";
 import winston from "winston";
 import {SeqTransport} from "@datalust/winston-seq";
 import { Configuration } from "src/configuration";
+import * as DailyRotateFile from "winston-daily-rotate-file";
 
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
+import path from "path";
 
 @Injectable()
 export default class CoreLoggerService implements LoggerService {
@@ -52,12 +54,24 @@ export default class CoreLoggerService implements LoggerService {
                   ),
         });
 
+        const rotateDirectory = Configuration.logging.rotateDirectory;
+        const absolutePathRotateDirectory = path.resolve(`./${rotateDirectory}`);
+
+        const rotateTransport = new DailyRotateFile({
+            dirname: absolutePathRotateDirectory,
+            filename: "%DATE%.log",
+            datePattern: "YYYY-MM-DD",
+            zippedArchive: true,
+            maxSize: "20m",
+            maxFiles: "30d",
+        });
+
         this.logger = winston.createLogger({
             defaultMeta: {["ApplicationName"]: appName},
             level: isDevelopment
                 ? "debug"
                 : "info",
-            transports: [seqTransport, consoleTransportInstance],
+            transports: [seqTransport, consoleTransportInstance, rotateTransport],
         });
     }
 

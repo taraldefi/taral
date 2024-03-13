@@ -112,6 +112,7 @@
     "uuid": "^8.3.2",
     "winston": "^3.12.0",
     "winston-cloudwatch": "^3.2.0",
+    "winston-daily-rotate-file": "^5.0.0",
     "winston-transport": "^4.7.0"
   },
   "peerDependencies": {

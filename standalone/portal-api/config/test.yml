@@ -24,6 +24,7 @@ app:
 logging:
   level: 'error'
   fluentdlogging: false
+  rotateDirectory: 'logs'
 
 aws:
   bucket: ''

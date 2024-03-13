@@ -123,6 +123,7 @@ export class FileConfig {
 export class LoggingConfig {
     level: string;
     fluentdlogging: boolean;
+    rotateDirectory: string;
 }
 
 export class SeqConfig {
@@ -441,6 +442,10 @@ const configurationKeys = {
             environmentKey: "LOGGING_FLUENTDLOGGING",
             configKey: "logging.fluentdlogging",
         },
+        rotateDirectory: {
+            environmentKey: "LOGGING_ROTATE_DIRECTORY",
+            configKey: "logging.rotateDirectory",
+        },
     },
 
     onchain: {
@@ -577,6 +582,7 @@ function getLoggingConfig(): LoggingConfig {
     return {
         fluentdlogging: getConfig(configurationKeys.logging.fluentdlogging) === 'true',
         level: getConfig(configurationKeys.logging.level),
+        rotateDirectory: getConfig(configurationKeys.logging.rotateDirectory),
     }
 }
 

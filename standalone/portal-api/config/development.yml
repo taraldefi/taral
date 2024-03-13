@@ -58,6 +58,7 @@ app:
 logging:
   level: 'error'
   fluentdlogging: false
+  rotateDirectory: 'logs'
 
 onchain:
   mock: true

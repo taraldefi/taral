@@ -70,6 +70,7 @@ onchain:
 logging:
   level: 'error'
   fluentdlogging: false
+  rotateDirectory: 'logs'
 
 stripe:
   secretKey: ''

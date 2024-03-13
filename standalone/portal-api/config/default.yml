@@ -89,6 +89,7 @@ file:
 logging:
   level: 'error'
   fluentdlogging: false
+  rotateDirectory: 'logs'
 
 mail:
   user: ''
