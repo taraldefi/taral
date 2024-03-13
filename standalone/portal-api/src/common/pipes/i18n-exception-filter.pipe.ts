@@ -10,13 +10,12 @@ import { I18nService } from 'nestjs-i18n';
 
 import { ValidationErrorInterface } from 'src/common/interfaces/validation-error.interface';
 import { StatusCodesList } from 'src/common/constants/status-codes-list.constants';
-import { Logger } from 'winston';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import CoreLoggerService from '../logging/CoreLoggerService';
 
 @Catch(HttpException)
 export class I18nExceptionFilterPipe implements ExceptionFilter {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly logger: CoreLoggerService,
     private readonly i18n: I18nService,
   ) {}
 

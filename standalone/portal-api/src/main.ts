@@ -1,6 +1,6 @@
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { initializeTransactionalContext } from 'src/common/transaction/common';
@@ -10,11 +10,12 @@ import { useContainer } from 'class-validator';
 import { UnprocessableExceptionFilter } from './common/filters/unprocessable-entity.filter';
 import { EntityNotFoundFilter } from './common/filters/entity-not-found.filter';
 import { CommonExceptionFilter } from './common/exception/exception-filter';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { I18nService } from 'nestjs-i18n';
 import { UnauthorizedExceptionFilter } from './common/filters/unauthorized.filter';
 import { Configuration } from './configuration';
 import helmet from 'helmet';
+import CoreLoggerService from './common/logging/CoreLoggerService';
+import { LoggingInterceptor } from './common/logging/LoggingInterceptor';
 
 async function bootstrap() {
   require('tsconfig-paths/register');
@@ -22,14 +23,17 @@ async function bootstrap() {
   initializeTransactionalContext(); // Initialize cls-hooked
   const app = await NestFactory.create(AppModule, { cors: true });
   // const configService = app.get(ConfigService);
-  const logger = app.get(WINSTON_MODULE_PROVIDER);
   const i18n = app.get(I18nService);
+
+  const loggerService = app.get(CoreLoggerService);
 
   app.use(helmet())
   app.enableShutdownHooks();
+  
   app.setGlobalPrefix(Configuration.app.apiPrefix, {
     exclude: ['/'],
   });
+
   app.enableVersioning({
     type: VersioningType.URI,
   });
@@ -38,13 +42,18 @@ async function bootstrap() {
     fallbackOnErrors: true,
   });
 
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(app.get(Reflector)),
+    new LoggingInterceptor(loggerService)
+  );
+
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
   app.useGlobalFilters(
-    new CommonExceptionFilter(logger, i18n),
-    new UnauthorizedExceptionFilter(logger),
-    new UnprocessableExceptionFilter(logger),
-    new EntityNotFoundFilter(logger),
+    new CommonExceptionFilter(loggerService, i18n),
+    new UnauthorizedExceptionFilter(loggerService),
+    new UnprocessableExceptionFilter(loggerService),
+    new EntityNotFoundFilter(loggerService),
   );
 
   app.use(cookieParser());
@@ -64,7 +73,7 @@ async function bootstrap() {
   // SwaggerModule.setup('docs', app, document);
 
   await app.listen(Configuration.app.port);
-  console.log(`Application listening in port: ${Configuration.app.port}`);
+  loggerService.log(`Application listening in port: ${Configuration.app.port}, started at ${new Date().toISOString()}`);
 }
 
 void bootstrap();

@@ -3,16 +3,14 @@ import {
   Catch,
   ArgumentsHost,
   UnprocessableEntityException,
-  Inject,
-  Logger,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import CoreLoggerService from '../logging/CoreLoggerService';
 
 @Catch(UnprocessableEntityException)
 export class UnprocessableExceptionFilter implements ExceptionFilter {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly logger: CoreLoggerService,
   ) {}
 
   catch(exception: UnprocessableEntityException, host: ArgumentsHost) {

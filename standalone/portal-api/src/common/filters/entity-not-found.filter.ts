@@ -3,17 +3,15 @@
 import {
   ExceptionFilter,
   Catch,
-  ArgumentsHost,
-  Inject,
-  Logger,
+  ArgumentsHost
 } from '@nestjs/common';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError';
+import CoreLoggerService from '../logging/CoreLoggerService';
 
 @Catch(EntityNotFoundError)
 export class EntityNotFoundFilter implements ExceptionFilter {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly logger: CoreLoggerService,
   ) {}
 
   async catch(exception: EntityNotFoundError, host: ArgumentsHost) {

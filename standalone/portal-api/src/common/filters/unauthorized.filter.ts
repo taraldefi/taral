@@ -4,16 +4,14 @@ import {
     ExceptionFilter,
     Catch,
     ArgumentsHost,
-    Inject,
-    Logger,
     UnauthorizedException,
   } from '@nestjs/common';
-  import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import CoreLoggerService from '../logging/CoreLoggerService';
   
   @Catch(UnauthorizedException)
   export class UnauthorizedExceptionFilter implements ExceptionFilter {
     constructor(
-      @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+      private readonly logger: CoreLoggerService,
     ) {}
   
     async catch(exception: UnauthorizedException, host: ArgumentsHost) {

@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { HomeModule } from './modules/home/home.module';
 import { EventModule } from '@modules/events';
 import { StorageModule } from '@modules/storage';
-import { LoggerModule } from 'nestjs-pino';
 import { CompaniesModule } from './modules/company/company.module';
 import { CompanyInformationModule } from './modules/company-information/company.information.module';
 import { FinancialsModule } from './modules/financial/financials.module';
@@ -61,6 +60,7 @@ import { ApplicationModule } from './modules/applications/application.module';
 import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 import { Configuration } from './configuration';
+import { LoggerModule } from './common/logging/logger.module';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -122,7 +122,8 @@ export class AppModule implements OnModuleInit {
       TypeOrmModule.forRootAsync({
         useClass: TypeOrmConfigService,
       }),
-      WinstonModule.forRoot(winstonConfig),
+      // WinstonModule.forRoot(winstonConfig),
+      LoggerModule,
       I18nModule.forRootAsync({
         useFactory: () => ({
           fallbackLanguage: Configuration.app.fallbackLanguage,

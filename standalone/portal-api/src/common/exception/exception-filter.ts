@@ -7,13 +7,12 @@ import {
   Inject,
 } from '@nestjs/common';
 import { Response } from 'express';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
+import CoreLoggerService from '../logging/CoreLoggerService';
 
 @Catch(HttpException)
 export class CommonExceptionFilter implements ExceptionFilter {
   constructor(
-    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+    private readonly logger: CoreLoggerService,
     private readonly i18n: I18nService,
   ) {}
 
