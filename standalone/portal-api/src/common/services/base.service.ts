@@ -21,6 +21,8 @@ export abstract class BaseService {
     const logLevel = Configuration.logging.level as loggingLevel;
     const seqConfig = Configuration.seqConfig;
 
+    console.log('seqConfig', seqConfig.url, seqConfig.apiKey);
+
     this.Logger = winston.createLogger({
       level: logLevel,
       format: winston.format.combine(  /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
@@ -33,16 +35,21 @@ export abstract class BaseService {
         new winston.transports.Console({
             format: winston.format.simple(),
         }),
-        new winston.transports.File({ filename: 'error.log', level: 'error' }),
+        new winston.transports.File({ filename: 'error.log', level: logLevel }),
         new SeqTransport({
           serverUrl: seqConfig.url,
           apiKey: seqConfig.apiKey,
-          onError: (e => { console.error(e) }),
+          onError: (e => { 
+            console.log("SFKFJHDKJFHDKJFHD transport error");
+            console.error(e); 
+          }),
           handleExceptions: true,
           handleRejections: true,
         })
       ]
     });
+
+    this.Logger.log('info', 'BaseService constructor');
   }
 
   protected setupTransactionHooks() {
