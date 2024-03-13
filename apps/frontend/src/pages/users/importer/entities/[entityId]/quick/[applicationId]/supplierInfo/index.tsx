@@ -415,7 +415,7 @@ function Index() {
                   </div>
                   <div className="form-item">
                     <span>
-                      Avg. volume of business with your supplier{" "}
+                      Avg value of each purchase from Supplier{" "}
                       <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <input
@@ -431,7 +431,7 @@ function Index() {
                           ?.avgBusinessVol
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.avgBusinessVol?.message
-                          : "Average volume of business"
+                          : "Average value of each purchase from Supplier"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.avgBusinessVol"

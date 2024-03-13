@@ -31,7 +31,8 @@ const singleProductSchemaValidation = Yup.object().shape({
   name: Yup.string().required("Name is required"),
   quantity: Yup.number()
     .required("Quantity is required")
-    .typeError("Quantity must be a number"),
+    .typeError("Quantity must be a number")
+    .max(1000000, "Quantity must be less than 1000000"),
   unitPrice: Yup.number()
     .required("Unit price is required")
     .typeError("Unit price must be a number"),
