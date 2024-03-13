@@ -83,7 +83,7 @@ function Index() {
                 <LargeLoanCard
                   type={LoanCardTypes.LOAN_AMT}
                   value={(
-                    Number(po["total-amount"]) / Math.pow(10, 6)
+                    Number(po["outstanding-amount"]) / Math.pow(10, 6)
                   ).toString()}
                 />
               </div>
@@ -91,6 +91,7 @@ function Index() {
                 <LargeLoanCard
                   type={LoanCardTypes.OUTSTANDING_AMT}
                   value={(
+                    Number(po["interest"]) / Math.pow(10, 6) +
                     Number(po["outstanding-amount"]) / Math.pow(10, 6)
                   ).toString()}
                 />

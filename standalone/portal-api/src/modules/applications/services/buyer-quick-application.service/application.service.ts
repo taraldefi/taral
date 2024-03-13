@@ -160,8 +160,9 @@ export class BuyerQuickApplicationService extends BaseService {
     application.onchainPrincipal = data.onChainPrincipal;
     application.paymentMethod = data.paymentMethod;
 
-    const savedApplication =
-      await this.buyerApplicationRepository.save(application);
+    const savedApplication = await this.buyerApplicationRepository.save(
+      application,
+    );
 
     entity.applications = [...entity.applications, savedApplication];
     await entity.save();
@@ -206,13 +207,13 @@ export class BuyerQuickApplicationService extends BaseService {
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
-    if (application.status == 'ON_REVIEW')
+    if (application.status == 'IN_REVIEW')
       throw new HttpException(
         'Application already submited',
         HttpStatus.BAD_REQUEST,
       );
 
-    application.status = 'ON_REVIEW';
+    application.status = 'IN_REVIEW';
     application.save();
   }
 
@@ -232,7 +233,7 @@ export class BuyerQuickApplicationService extends BaseService {
     if (!isComplete)
       throw new HttpException('Invalid application', HttpStatus.BAD_REQUEST);
 
-    if (application.status == 'ON_REVIEW')
+    if (application.status == 'IN_REVIEW')
       throw new HttpException(
         'Application already submited',
         HttpStatus.BAD_REQUEST,
@@ -262,7 +263,7 @@ export class BuyerQuickApplicationService extends BaseService {
 
     application.purchaseOrderId = createAndSendInvoice.hosted_invoice_url;
 
-    application.status = 'ON_REVIEW';
+    application.status = 'IN_REVIEW';
     application.save();
 
     return createAndSendInvoice.hosted_invoice_url;
