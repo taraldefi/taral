@@ -49,7 +49,9 @@ function Index({ ...props }) {
             ? true
             : false;
         }
+
         const userIsLender = stxAddress === LENDER_ADDRESS;
+        console.log(userIsLender, stxAddress, LENDER_ADDRESS);
 
         return {
           id: application.id,
@@ -59,7 +61,9 @@ function Index({ ...props }) {
           dateTo: convertDate(application.endDate),
           importerName: application.exporterName,
           status: {
-            label: application.status.replace("_", " "),
+            label: alreadyAccepted
+              ? "LOAN FUNDED"
+              : application.status.replace("_", " "),
             claimable: (claimable && !alreadyAccepted) || userIsLender,
             component:
               userIsLender && !alreadyAccepted && purchaseOrder ? (
