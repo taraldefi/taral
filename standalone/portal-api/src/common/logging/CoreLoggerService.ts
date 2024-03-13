@@ -11,6 +11,8 @@ import winston from "winston";
 import {SeqTransport} from "@datalust/winston-seq";
 import { Configuration } from "src/configuration";
 
+import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
+
 @Injectable()
 export default class CoreLoggerService implements LoggerService {
     private logger: winston.Logger;
@@ -28,7 +30,10 @@ export default class CoreLoggerService implements LoggerService {
             format: winston.format.combine(
                 /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
                 winston.format.errors({stack: true}),
-                winston.format.json()
+                winston.format.json(),
+                nestWinstonModuleUtilities.format.nestLike('Taral Logger', {
+                    prettyPrint: true,
+                  }),
             ),
             handleExceptions: true,
             handleRejections: true,
@@ -37,12 +42,13 @@ export default class CoreLoggerService implements LoggerService {
             },
         });
         const consoleTransportInstance = new winston.transports.Console({
-            format: isDevelopment
-                ? winston.format.simple()
-                : winston.format.combine(
+            format : winston.format.combine(
                       /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
                       winston.format.errors({stack: true}),
-                      winston.format.json()
+                      winston.format.json(),
+                      nestWinstonModuleUtilities.format.nestLike('Taral Logger', {
+                        prettyPrint: true,
+                      }),
                   ),
         });
 
