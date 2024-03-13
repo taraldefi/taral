@@ -7,10 +7,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import {Injectable, LoggerService} from "@nestjs/common";
-import winston from "winston";
+import * as winston from 'winston';
 import {SeqTransport} from "@datalust/winston-seq";
 import { Configuration } from "src/configuration";
-import * as DailyRotateFile from "winston-daily-rotate-file";
+import DailyRotateFile from 'winston-daily-rotate-file';
 
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import path from "path";
