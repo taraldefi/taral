@@ -84,9 +84,9 @@ const schemaValidation = Yup.object({
   downpaymentDescription: Yup.string().required("required"),
   balanceCurrency: Yup.string().required("required"),
   balanceAmount: Yup.number()
-    .required("required")
+    .required("Required")
     .moreThan(Yup.ref("downpaymentAmount"))
-    .typeError("must be of type number")
+    .typeError("Must be of type number")
     .test(
       "is-decimal",
       "The amount should be a decimal with maximum two digits after comma",
@@ -97,8 +97,8 @@ const schemaValidation = Yup.object({
         return true;
       }
     ),
-  balancePaymentDeadline: Yup.string().required("required"),
-  paymentVehicleDescription: Yup.string().required("required"),
+  balancePaymentDeadline: Yup.string().required("Required"),
+  paymentVehicleDescription: Yup.string().required("Required"),
 });
 
 const usePaymentTermForm = (applicationID: string) => {
@@ -172,7 +172,7 @@ const usePaymentTermForm = (applicationID: string) => {
       toast.promise(updatePaymentTerm, {
         loading: "Loading...",
         success: (data) => {
-          return `payment term updated`;
+          return `Payment term updated`;
         },
         error: (err) => {
           return `${err}`;
