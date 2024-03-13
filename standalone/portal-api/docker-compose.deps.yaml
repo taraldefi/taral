@@ -12,13 +12,13 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
 
-  maildev:
-    build:
-      context: .
-      dockerfile: Dockerfile.maildev
-    ports:
-      - ${MAIL_CLIENT_PORT}:1080
-      - ${MAIL_PORT}:1025
+  # maildev:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.maildev
+  #   ports:
+  #     - ${MAIL_CLIENT_PORT}:1080
+  #     - ${MAIL_PORT}:1025
 
   adminer:
     image: adminer
@@ -32,7 +32,7 @@ services:
       - seq
     restart: on-failure
     environment:
-      SEQ_URL: ${SEQ_URL}
+      SEQ_URL: ${API_SEQ_URL}
       API_KEY_TITLE: ${API_KEY_TITLE}
       API_KEY_TOKEN: ${API_KEY_TOKEN}
       ADMIN_USERNAME: ${ADMIN_USERNAME}
@@ -41,6 +41,7 @@ services:
 
   seq:
     image: datalust/seq:latest
+    hostname: seq
     environment:
       ACCEPT_EULA: Y
       SEQ_FIRSTRUN_ADMINPASSWORDHASH: ${SEQ_FIRSTRUN_ADMINPASSWORDHASH}

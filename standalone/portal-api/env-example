@@ -76,7 +76,7 @@ WINSTON_AWS_REGION=
 STRIPE_SECRET_KEY=
 
 
-SEQ_URL="http://seq"
+API_SEQ_URL="http://seq"
 API_KEY_TITLE="taral_ingest"
 API_KEY_TOKEN=
 ADMIN_USERNAME="admin"
