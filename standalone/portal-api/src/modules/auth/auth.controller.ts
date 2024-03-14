@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Get,
   HttpCode,
@@ -44,13 +45,20 @@ import { RefreshTokenDto } from './dto/refresh-token.dto';
 import { AuthResponse } from './dto/auth-response.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
 import { LogoutResponseDto } from './dto/logout-response.dto';
+import { ChangePasswordLoggingDto } from './dto/change-password-logging.dto';
+import { ParseRequestBodyWhenLogging } from '../../common/logging/parseRequestBodyWhenLogging';
+import { RegisterUserLoggingDto } from './dto/register-user-logging.dto';
+import { ResetPasswordLoggingDto } from './dto/reset-password-logging.dto';
+import { UserLoginLoggingDto } from './dto/user-login-logging.dto';
 
 @ApiTags('user')
 @Controller()
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('/auth/register')
+  @ParseRequestBodyWhenLogging(RegisterUserLoggingDto)
   register(
     @Body(ValidationPipe)
     registerUserDto: RegisterUserDto,
@@ -59,6 +67,7 @@ export class AuthController {
   }
 
   @Post('/auth/login')
+  @ParseRequestBodyWhenLogging(UserLoginLoggingDto)
   async login(
     @Req()
     req: Request,
@@ -113,6 +122,7 @@ export class AuthController {
 
   @Put('/auth/reset-password')
   @HttpCode(HttpStatus.NO_CONTENT)
+  @ParseRequestBodyWhenLogging(ResetPasswordLoggingDto)
   resetPassword(
     @Body()
     resetPasswordDto: ResetPasswordDto,
@@ -153,6 +163,7 @@ export class AuthController {
 
   @UseGuards(JwtTwoFactorGuard)
   @Put('/auth/change-password')
+  @ParseRequestBodyWhenLogging(ChangePasswordLoggingDto)
   changePassword(
     @GetUser()
     user: UserEntity,

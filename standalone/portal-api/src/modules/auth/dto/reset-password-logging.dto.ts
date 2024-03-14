@@ -1,12 +1,14 @@
+import { Transform } from 'class-transformer';
 import { IsNotEmpty, Matches, MaxLength, MinLength } from 'class-validator';
+
 import { IsEqualTo } from 'src/common/decorators/is-equal-to.decorator';
 
 /**
- * change password data transfer object
+ * reset password data transfer object
  */
-export class ChangePasswordDto {
+export class ResetPasswordLoggingDto {
   @IsNotEmpty()
-  oldPassword: string;
+  token: string;
 
   @IsNotEmpty()
   @MinLength(6, {
@@ -22,11 +24,15 @@ export class ChangePasswordDto {
         'password should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character',
     },
   )
+  @Transform(({ obj }) => {
+    return `[${typeof obj.password}]`;
+  })
   password: string;
 
   @IsNotEmpty()
-  @IsEqualTo('password', {
-    message: 'isEqualTo-{"field":"password"}',
+  @IsEqualTo('password')
+  @Transform(({ obj }) => {
+    return `[${typeof obj.password}]`;
   })
   confirmPassword: string;
 }
