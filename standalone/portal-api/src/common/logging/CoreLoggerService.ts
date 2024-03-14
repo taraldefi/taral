@@ -15,6 +15,15 @@ import DailyRotateFile from 'winston-daily-rotate-file';
 import { utilities as nestWinstonModuleUtilities } from 'nest-winston';
 import path from "path";
 
+export const LEVEL_COLORS = {
+    error: "red",
+    warn: "yellow",
+    info: "green",
+    http: "blue",
+    debug: "white",
+    verbose: "cyan",
+}
+
 @Injectable()
 export default class CoreLoggerService implements LoggerService {
     private logger: winston.Logger;
@@ -30,6 +39,7 @@ export default class CoreLoggerService implements LoggerService {
             serverUrl: seqConfig.url,
             apiKey: seqConfig.apiKey,
             format: winston.format.combine(
+                winston.format.colorize({ all: true }),
                 /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
                 winston.format.errors({stack: true}),
                 winston.format.json(),
@@ -45,6 +55,7 @@ export default class CoreLoggerService implements LoggerService {
         });
         const consoleTransportInstance = new winston.transports.Console({
             format : winston.format.combine(
+                      winston.format.colorize({ all: true }),
                       /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
                       winston.format.errors({stack: true}),
                       winston.format.json(),
@@ -66,6 +77,7 @@ export default class CoreLoggerService implements LoggerService {
             maxFiles: "30d",
         });
 
+        winston.addColors(LEVEL_COLORS);
         this.logger = winston.createLogger({
             defaultMeta: {["ApplicationName"]: appName},
             level: isDevelopment
