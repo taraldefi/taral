@@ -123,9 +123,9 @@ body {
     height: 100vh;
 
     .regImageContainer {
-      position: relative;
-      top: 90px;
-      left: 45px;
+      display: flex;
+      justify-content: center;
+      padding-top: 10vh;
     }
   }
 

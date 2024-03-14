@@ -20,7 +20,7 @@ export class RegisterUserDto {
   @IsString()
   @IsLowercase()
   @Validate(UniqueValidatorPipe, [UserEntity], {
-    message: 'already taken',
+    message: 'username is already taken',
   })
   username: string;
 
@@ -28,16 +28,16 @@ export class RegisterUserDto {
   @IsEmail()
   @IsLowercase()
   @Validate(UniqueValidatorPipe, [UserEntity], {
-    message: 'already taken',
+    message: 'email is already taken',
   })
   email: string;
 
   @IsNotEmpty()
   @MinLength(6, {
-    message: 'minLength-{"ln":6,"count":6}',
+    message: 'minimum length of password should be 6 characters',
   })
   @MaxLength(20, {
-    message: 'maxLength-{"ln":20,"count":20}',
+    message: 'maximum length of password should be 6 characters',
   })
   @Matches(
     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,20}$/,

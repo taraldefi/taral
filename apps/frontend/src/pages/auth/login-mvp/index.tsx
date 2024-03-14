@@ -59,7 +59,7 @@ function Index() {
           <div className="titleTop">
             <div className="accMainTitle">Login to account</div>
             <div className="accSubTitle">
-              Enter you information to login to your account with the platform.
+              Enter your information to login to your account with the platform.
             </div>
           </div>
           <br />
@@ -71,7 +71,7 @@ function Index() {
               <input
                 type="text"
                 className={errors.username ? "inputsRed" : "inputs"}
-                placeholder="username..."
+                placeholder="Username..."
                 {...register("username", { required: true })}
               />
             </div>
@@ -119,7 +119,7 @@ function Index() {
             )}
             <div className="agreementBox">
               <input type="checkbox" {...register("remember")} />
-              <span>remember me</span>
+              <span>Remember me</span>
             </div>
             {/* <div className="inputContainer">
               <Button label={"Send OTP"}></Button>
@@ -144,7 +144,7 @@ function Index() {
               }}
               href="/auth/register"
             >
-              New to tariala? create a new account
+              New to tariala? Create a new account
             </a>
 
             {/* <div className="fgP">

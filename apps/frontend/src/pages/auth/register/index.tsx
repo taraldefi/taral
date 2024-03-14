@@ -10,6 +10,8 @@ import CustomInput from "@components/widgets/customPasswordField";
 import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "sonner";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type Inputs = {
   username: string;
@@ -27,43 +29,57 @@ type Inputs = {
   isAgreed: boolean;
 };
 
+interface ErrorMessage {
+  name: string;
+  errors: string[];
+}
+
+const registrationSchema = Yup.object().shape({
+  username: Yup.string().required("Username is required"),
+  firstName: Yup.string().required("First name is required"),
+  lastName: Yup.string().required("Last name is required"),
+  email: Yup.string().email().required("Email is required"),
+  password: Yup.string()
+    .min(6, "Password is too short - should be 6 characters minimum.")
+    .max(20, "Password is too long - should be 20 characters maximum.")
+    .required("Password is required")
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/,
+      "Password must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character"
+    ),
+  phoneNo: Yup.string().required("Phone Number is required"),
+  idType: Yup.string().required("ID Type is required"),
+  idNumber: Yup.string().required("ID Number is required"),
+  idExpiry: Yup.string().required("ID Expiry is required"),
+  isAgreed: Yup.boolean().required(
+    "Please accept terms of service and privacy policy to continue"
+  ),
+});
+
 function Index() {
   const router = useRouter();
   const {
     register,
     handleSubmit,
-    trigger,
     formState: { errors },
-  } = useForm<Inputs>({
-    defaultValues: {
-      username: "",
-      firstName: "",
-      lastName: "",
-      email: "",
-      phoneNo: "",
-      password: "",
-      // nationality: "",
-      // gender: "",
-      // dob: "",
-      idType: "",
-      idNumber: "",
-      idExpiry: "",
-      isAgreed: false,
-    },
+    trigger,
+  } = useForm({
+    resolver: yupResolver(registrationSchema),
   });
 
   const [showPassword, setShowPassword] = React.useState(false);
+  const [errorMessages, setErrorMessages] = React.useState<ErrorMessage[]>([]);
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    console.log(errors);
     await trigger();
-    console.log(data);
+
     const registerPromise = authService.register(
-      data.username,
+      // remove spaces and convert to lowercase
+      data.username.toLowerCase().replace(/\s/g, ""),
       data.email,
       data.password,
       data.firstName
@@ -78,7 +94,8 @@ function Index() {
       },
       error: (err) => {
         console.log(err);
-        return err.message;
+        setErrorMessages(err);
+        return "Form validation error";
       },
     });
     // router.push(
@@ -89,7 +106,6 @@ function Index() {
     //   "/auth/otp"
     // );
   };
-  console.log(errors);
 
   return (
     <AuthLayout>
@@ -112,9 +128,14 @@ function Index() {
               <input
                 type="text"
                 className={errors.username ? "inputsRed" : "inputs"}
-                placeholder="First name..."
-                {...register("username", { required: true })}
+                placeholder={"Username"}
+                {...register("username")}
               />
+              {errors.username && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.username.message}
+                </p>
+              )}
             </div>
             <div className="splitBox">
               <div className="inputContainer">
@@ -122,18 +143,28 @@ function Index() {
                 <input
                   type="text"
                   className={errors.firstName ? "inputsRed" : "inputs"}
-                  placeholder="First name..."
-                  {...register("firstName", { required: true })}
+                  placeholder={"First name"}
+                  {...register("firstName")}
                 />
+                {errors.firstName && (
+                  <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
               <div className="inputContainer">
                 <span>Last Name</span>
                 <input
                   type="text"
                   className={errors.lastName ? "inputsRed" : "inputs"}
-                  {...register("lastName", { required: true })}
-                  placeholder="Last name..."
+                  {...register("lastName")}
+                  placeholder={"Last name"}
                 />
+                {errors.lastName && (
+                  <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                    {errors.lastName.message}
+                  </p>
+                )}
               </div>
             </div>
             <div className="inputContainer">
@@ -141,18 +172,28 @@ function Index() {
               <input
                 type="email"
                 className={errors.email ? "inputsRed" : "inputs"}
-                placeholder="Email Address..."
-                {...register("email", { required: true })}
+                placeholder={"Email Address"}
+                {...register("email")}
               />
+              {errors.email && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.email.message}
+                </p>
+              )}
             </div>
             <div className="inputContainer">
               <span>Phone Number</span>
               <input
                 type="text"
                 className={errors.phoneNo ? "inputsRed" : "inputs"}
-                placeholder="Phone Number..."
-                {...register("phoneNo", { required: true })}
+                placeholder="Phone Number"
+                {...register("phoneNo")}
               />
+              {errors.phoneNo && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.phoneNo.message}
+                </p>
+              )}
             </div>
             <div className="inputContainer">
               <span>Password</span>
@@ -161,8 +202,8 @@ function Index() {
                   <input
                     className={errors.password ? "inputsRed" : "inputs"}
                     type={showPassword ? "text" : "password"}
-                    placeholder="Password..."
-                    {...register("password", { required: true })}
+                    placeholder="Password"
+                    {...register("password")}
                   />
 
                   <div
@@ -176,6 +217,16 @@ function Index() {
                     )}
                   </div>
                 </div>
+                {errors.password && (
+                  <p
+                    style={{
+                      color: "#df1818",
+                      fontSize: "12px",
+                    }}
+                  >
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -230,30 +281,45 @@ function Index() {
               <select
                 id=""
                 className={errors.idType ? "inputsRed" : "inputs"}
-                {...register("idType", { required: true })}
+                {...register("idType")}
               >
                 <option value="">Select type...</option>
                 <option value="passport">Passport</option>
                 <option value="nationalID">National ID</option>
               </select>
+              {errors.idType && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.idType.message}
+                </p>
+              )}
             </div>
             <div className="inputContainer">
               <span>ID Number</span>
               <input
                 type="text"
                 className={errors.idNumber ? "inputsRed" : "inputs"}
-                {...register("idNumber", { required: true })}
+                {...register("idNumber")}
                 placeholder="Number..."
               />
+              {errors.idNumber && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.idNumber.message}
+                </p>
+              )}
             </div>
             <div className="inputContainer">
               <span>ID Expiry</span>
               <input
                 type="date"
                 className={errors.idExpiry ? "inputsRed" : "inputs"}
-                {...register("idExpiry", { required: true })}
+                {...register("idExpiry")}
                 id="calendar"
               />
+              {errors.idExpiry && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.idExpiry.message}
+                </p>
+              )}
             </div>
           </div>
           <div className="vLine"></div>
@@ -261,27 +327,39 @@ function Index() {
             <div className="mainTitle">AGREEMENT</div>
             <div className="inputContainer">
               <div className="agreementBox">
-                <input
-                  type="checkbox"
-                  {...register("isAgreed", { required: true })}
-                />
+                <input type="checkbox" {...register("isAgreed")} />
                 <span>
                   I agree that I&apos;ve read and accept the{" "}
                   <span className="greened">Terms of Service</span> and{" "}
                   <span className="greened">Privacy Policy</span>.
                 </span>
               </div>
+            </div>
 
+            <div>
               {Object.keys(errors).length != 0 && (
                 <div className="inputContainer">
                   <div className="errorMessage">
                     {errors.isAgreed
                       ? "Please accept terms of service and privacy policy to continue"
-                      : "Please fill all the required fields to continue"}
+                      : "Please fill in all required fields"}
                   </div>
                 </div>
               )}
+              {errorMessages &&
+                errorMessages.map((errorMessage, index) => (
+                  <div key={index}>
+                    {errorMessage.errors.map((error, index) => (
+                      <div className="inputContainer">
+                        <div style={{ width: "100%" }} className="errorMessage">
+                          {error}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))}
             </div>
+
             <div className="inputContainer">
               <Button
                 type="submit"
@@ -302,5 +380,9 @@ function Index() {
     </AuthLayout>
   );
 }
+
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
 export default Index;

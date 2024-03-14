@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { ChangeEvent } from "react";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { useForm, useFormState } from "react-hook-form";
 import { Entity, EntityResponse } from "src/types";
@@ -30,6 +30,10 @@ function FormEditModal({ isOpen, onClose }: Props) {
   const { dirtyFields } = useFormState({
     control,
   });
+  const [previewSource, setPreviewSource] = React.useState<
+    string | ArrayBuffer | null
+  >("");
+  const [fileName, setFileName] = React.useState<string>("");
 
   React.useEffect(() => {
     if (entityId) {
@@ -48,6 +52,23 @@ function FormEditModal({ isOpen, onClose }: Props) {
       fetchData();
     }
   }, [isOpen]);
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        setPreviewSource(reader.result);
+      };
+
+      reader.readAsDataURL(file);
+      setFileName(file.name);
+    } else {
+      setPreviewSource("");
+    }
+  };
 
   const onSubmit = (newData: Entity) => {
     setLoading(true);
@@ -101,6 +122,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
               <span className="label">entity information</span>
               <div className="entityfield">
                 <span>Entity Logo</span>
+
                 <input
                   {...register("logo")}
                   title="entity logo"
@@ -108,10 +130,36 @@ function FormEditModal({ isOpen, onClose }: Props) {
                   className="inputs"
                   type="file"
                   placeholder="Upload Logo..."
+                  onChange={handleFileChange}
                 ></input>
+                {fileName && (
+                  <input
+                    type="text"
+                    className="inputs"
+                    value={fileName}
+                    readOnly
+                    placeholder="File Name"
+                    style={{ marginTop: "5px" }}
+                  />
+                )}
+                {previewSource && (
+                  <img
+                    id="preview"
+                    src={previewSource as string}
+                    alt="Preview"
+                    style={{
+                      display: "block",
+                      maxWidth: "100px",
+                      maxHeight: "100px",
+                      padding: "5px",
+                      margin: "auto",
+                    }}
+                  />
+                )}
               </div>
               <div className="entityfield">
                 <span>Email</span>
+
                 <input
                   {...register("email")}
                   title="email"
