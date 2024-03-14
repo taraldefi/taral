@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import {
   IsEmail,
   IsLowercase,
@@ -46,6 +47,9 @@ export class RegisterUserDto {
         'password should contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character',
     },
   )
+  @Transform(({ obj }) => {
+    return `[${typeof obj.password}]`;
+  })
   password: string;
 
   @IsNotEmpty()

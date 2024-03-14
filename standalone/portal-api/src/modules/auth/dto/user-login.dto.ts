@@ -1,3 +1,4 @@
+import { Transform } from 'class-transformer';
 import { IsLowercase, IsNotEmpty, IsBoolean } from 'class-validator';
 
 /**
@@ -9,6 +10,9 @@ export class UserLoginDto {
   username: string;
 
   @IsNotEmpty()
+  @Transform(({ obj }) => {
+    return `[${typeof obj.password}]`;
+  })
   password: string;
 
   @IsBoolean()

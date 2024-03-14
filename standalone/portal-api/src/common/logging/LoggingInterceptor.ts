@@ -18,14 +18,23 @@ export class LoggingInterceptor implements NestInterceptor {
 
         const {originalUrl, method, params, query, body} = request;
 
-        this.logger.log(`Request ${originalUrl}`, {
-            type: "REQUEST",
-            originalUrl,
-            method,
-            params,
-            query,
-            body,
-        });
+        // this.logger.log(`Request ${originalUrl}`, {
+        //     type: "REQUEST",
+        //     originalUrl,
+        //     method,
+        //     params,
+        //     query,
+        //     `${JSON.stringify(
+        //         body,
+        //       )}`,
+        // });
+
+        const message = `${method} ${originalUrl} 
+        Request params: ${JSON.stringify(params, null, 2)}
+        Request query: ${JSON.stringify(query, null, 2)}
+        Request body: ${JSON.stringify(body, null, 2)}`;
+
+        this.logger.log(message);
 
         return next.handle().pipe(
             tap((data) =>
