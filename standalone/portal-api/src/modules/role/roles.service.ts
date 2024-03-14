@@ -3,7 +3,6 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
 import { NotFoundException } from 'src/modules/exception/not-found.exception';
@@ -20,14 +19,19 @@ import { CommonServiceInterface } from 'src/common/interfaces/common-service.int
 import { PermissionsService } from 'src/modules/permission/permissions.service';
 import { Pagination } from 'src/modules/paginate';
 import { RoleEntityRepositoryToken } from './role.repository.provider';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class RolesService implements CommonServiceInterface<RoleSerializer> {
+export class RolesService extends BaseService implements CommonServiceInterface<RoleSerializer> {
   constructor(
+    public logger: CoreLoggerService,
     @Inject(RoleEntityRepositoryToken)
     private repository: RoleEntityRepository,
     private readonly permissionsService: PermissionsService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   /**
    * Get Permission Id array

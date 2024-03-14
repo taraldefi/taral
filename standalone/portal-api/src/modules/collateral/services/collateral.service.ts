@@ -12,19 +12,20 @@ import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { BaseService } from 'src/common/services/base.service';
 import { ConfigService } from '@nestjs/config';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class CollateralService extends BaseService {
   constructor(
     public configService: ConfigService,
-
+    public logger: CoreLoggerService,
     @InjectRepository(CollateralEntity)
     private collateralRepository: CollateralsRepository,
     private readonly collateralMappingService: CollateralMappingService,
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super();
+    super(logger);
   }
 
   @Transactional({

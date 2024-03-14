@@ -25,6 +25,8 @@ import { UserEntityRepositoryToken } from '../auth/user.repository.provider';
 import { adminUserGroupsForSerializing } from '../role/serializer/role.serializer';
 import { ownerUserGroupsForSerializing } from 'src/common/groups/constants';
 import { Configuration } from '../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 const tokenConfig = Configuration.jwt;
 
@@ -34,15 +36,18 @@ const BASE_OPTIONS: SignOptions = {
 };
 
 @Injectable()
-export class RefreshTokenService {
+export class RefreshTokenService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @Inject(UserEntityRepositoryToken)
     private readonly userRepository: UserEntityRepository,
 
     @Inject(RefreshTokenEntityRepositoryToken)
     private readonly repository: RefreshTokenEntityRepository,
     private readonly jwt: JwtService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   /**
    * Generate refresh token

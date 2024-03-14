@@ -3,9 +3,16 @@ import { GetOrderDetailsResponse } from '../dto/response/get-order-detail-respon
 import { OrderDetailEntity } from '../models/order-detail.entity';
 import { GetOrderProductResponse } from '../dto/response/get-order-product-response.dto';
 import { OrderProductEntity } from '../models/order-product.entity';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class OrderDetailMappingService {
+export class OrderDetailMappingService extends BaseService {
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   public mapOrderDetails(order: OrderDetailEntity): GetOrderDetailsResponse {
     var response = new GetOrderDetailsResponse();
 

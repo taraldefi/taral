@@ -1,3 +1,5 @@
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
+import { BaseService } from 'src/common/services/base.service';
 import {
   ModulesPayloadInterface,
   PermissionPayload,
@@ -5,7 +7,12 @@ import {
   SubModulePayloadInterface,
 } from 'src/config/permission.config';
 
-export class LoadPermissionMisc {
+export class LoadPermissionMisc extends BaseService {
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   assignResourceAndConcatPermission(
     modules: ModulesPayloadInterface | SubModulePayloadInterface,
     permissionsList: RoutePayloadInterface[],

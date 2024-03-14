@@ -17,8 +17,8 @@ import { SupplierCompanyInformationEntity } from '../company-information/models/
 import { BuyerCompanyTaxAndRevenueEntity } from './models/buyer.company.tax.and.revenue.entity';
 import { SupplierCompanyTaxAndRevenueEntity } from './models/supplier.company.tax.and.revenue.entity';
 import { UserEntity } from '../auth/entity/user.entity';
-import { ApplicationModule } from '../applications/application.module';
 import { StripeService } from '../applications/services/buyer-quick-application.service/stripe.service';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -33,6 +33,7 @@ import { StripeService } from '../applications/services/buyer-quick-application.
     ]),
 
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
+    LoggerModule
   ],
   controllers: [
     BuyerEntityController,

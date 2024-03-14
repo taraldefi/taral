@@ -2,9 +2,7 @@ import { Storage } from '@modules/storage';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import {
-  Transactional,
-  runOnTransactionComplete,
-  runOnTransactionRollback,
+  Transactional
 } from 'src/common/transaction';
 import { v4 as uuidv4 } from 'uuid';
 import { triggerError } from '../../../common/trigger.error';
@@ -17,10 +15,10 @@ import { EntityMappingService } from './mapping.service';
 import { BuyerCompanyTaxAndRevenueEntity } from '../models/buyer.company.tax.and.revenue.entity';
 import { BuyerCompanyTaxAndRevenueRepository } from '../repositories/buyer.company.tax.and.revenue.repository';
 import { BaseService } from 'src/common/services/base.service';
-import { ConfigService } from '@nestjs/config';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { UserEntityRepository } from 'src/modules/auth/user.repository';
 import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class BuyerCompanyEntityService extends BaseService {
@@ -28,7 +26,7 @@ export class BuyerCompanyEntityService extends BaseService {
     private stripeService: StripeService,
     @InjectRepository(BuyerCompanyEntity)
     private buyerEntityRepository: BuyerCompanyEntityRepository,
-
+    public logger: CoreLoggerService,
     @InjectRepository(UserEntity)
     private userRepository: UserEntityRepository,
 
@@ -37,7 +35,7 @@ export class BuyerCompanyEntityService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super(); 
+    super(logger); 
   }
 
   public async findBuyerEntityById(id: string): Promise<BuyerCompanyEntity> {

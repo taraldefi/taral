@@ -2,9 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { GetPaymentTermResponse } from '../dto/response/get-payment-term.response.dto';
 import { PaymentTermEntity } from '../models/payment-term.entity';
 import { interestTypes } from '../enums/payment-term-type.enum';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class PaymentTermMappingService {
+export class PaymentTermMappingService extends BaseService {
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   public mapPaymentTermDetails(
     paymentTerm: PaymentTermEntity,
   ): GetPaymentTermResponse {

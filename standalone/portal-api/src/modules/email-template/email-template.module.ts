@@ -7,11 +7,13 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
 import { EmailTemplateEntity } from './entities/email-template.entity';
 import { EmailTemplateEntityRepositoryProvider } from './email-template.repository.provider';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([EmailTemplateEntity]),
     forwardRef(() => AuthModule),
+    LoggerModule
   ],
   exports: [EmailTemplateService],
   controllers: [EmailTemplateController],

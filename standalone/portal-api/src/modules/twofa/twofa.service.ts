@@ -8,12 +8,17 @@ import { AuthService } from 'src/modules/auth/auth.service';
 import { UserEntity } from 'src/modules/auth/entity/user.entity';
 import { CustomHttpException } from 'src/modules/exception/custom-http.exception';
 import { Configuration } from '../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 const TwofaConfig = Configuration.twoFa;
 
 @Injectable()
-export class TwofaService {
-  constructor(private readonly usersService: AuthService) {}
+export class TwofaService extends BaseService {
+
+  constructor(private readonly usersService: AuthService, public logger: CoreLoggerService) {
+    super(logger);
+  }
 
   async generateTwoFASecret(user: UserEntity) {
     if (user.twoFAThrottleTime > new Date()) {
@@ -26,13 +31,16 @@ export class TwofaService {
         StatusCodesList.TooManyTries,
       );
     }
+    
     const secret = authenticator.generateSecret();
     const otpauthUrl = authenticator.keyuri(
       user.email,
       TwofaConfig.authenticationAppNAme,
       secret,
     );
+
     await this.usersService.setTwoFactorAuthenticationSecret(secret, user.id);
+    
     return {
       secret,
       otpauthUrl,

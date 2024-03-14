@@ -3,7 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateOrderProductDto } from '../dto/request/create-order-product.dto';
 import { OrderProductEntity } from '../models/order-product.entity';
 import { OrderProductsRepository } from '../repositories/order-products.repository';
-import { OrderDetailEntity } from '../models/order-detail.entity';
 import { UpdateOrderProductDto } from '../dto/request/update-order-product.dto';
 import { OrderDetailMappingService } from './mapping.service';
 import { triggerError } from 'src/common/trigger.error';
@@ -14,12 +13,13 @@ import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/
 import { IsolationLevel, Transactional } from 'src/common/transaction';
 import { GetOrderProductResponse } from '../dto/response/get-order-product-response.dto';
 import { ConfigService } from '@nestjs/config';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class OrderProductService extends BaseService {
   constructor(
     public configService: ConfigService,
-
+    public logger: CoreLoggerService,
     @InjectRepository(OrderProductEntity)
     private orderProductsRepository: OrderProductsRepository,
     private readonly orderDetailMappingService: OrderDetailMappingService,
@@ -28,7 +28,7 @@ export class OrderProductService extends BaseService {
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
   ) {
-    super();
+    super(logger);
   }
 
   public async get(id: string) {

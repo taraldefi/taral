@@ -6,6 +6,7 @@ import { CompaniesModule } from '../company/company.module';
 import { EntityMappingService } from './services/mapping.service';
 import { RelationshipService } from './services/relationship.service';
 import { BuyerCompanyEntity } from '../company/models/buyer.company.entity';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { BuyerCompanyEntity } from '../company/models/buyer.company.entity';
       CollaborationRelationshipEntity,
       BuyerCompanyEntity,
     ]),
+    LoggerModule
   ],
   controllers: [],
   providers: [

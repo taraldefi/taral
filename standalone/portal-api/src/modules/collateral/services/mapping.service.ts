@@ -1,9 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { GetCollateralResponse } from '../dto/response/get-collateral-response.dto';
 import { CollateralEntity } from '../models/collaterals.entity';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class CollateralMappingService {
+export class CollateralMappingService extends BaseService {
+
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   public mapCollateralDetails(
     collateral: CollateralEntity,
   ): GetCollateralResponse {

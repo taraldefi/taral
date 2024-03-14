@@ -7,15 +7,19 @@ import { GetBuyerCompanyTaxAndRevenueRequest } from '../dto/response/buyer/get-b
 import { SupplierCompanyEntity } from 'src/modules/company/models/supplier.company.entity';
 import { CollaborationRelationshipEntity } from 'src/modules/relationship/models/collaboration.relationship.entity';
 import { SupplierInformationResponse } from '../dto/response/supplier/get-supplier-response.dto';
-import { GetSupplierCompanyAddressRequest } from '../dto/response/supplier/get-supplier-company-address-response.dto';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
 import { BuyerCompanyTaxAndRevenueEntity } from 'src/modules/company/models/buyer.company.tax.and.revenue.entity';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class EntityMappingService {
+export class EntityMappingService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     private readonly relationshipMappingService: RelationshipEntityMappingService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   public mapSupplierInformationForImporterApplication(
     supplier: SupplierCompanyEntity,

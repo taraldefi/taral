@@ -4,15 +4,20 @@ import { AuctionHistoryEntity } from '../entities/auction.history.entity';
 import { AuctionBidHistoryEntity } from '../entities/auction.bid.history.entity';
 import { AuctionHistoryEntityRepositoryToken } from '../providers/auction.history.repository.provider';
 import { AuctionBidHistoryEntityRepositoryToken } from '../providers/auction.bid.history.repository.provider';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class AuctionHistoryService {
+export class AuctionHistoryService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @Inject(AuctionHistoryEntityRepositoryToken)
     private auctionHistoryRepository: Repository<AuctionHistoryEntity>,
     @Inject(AuctionBidHistoryEntityRepositoryToken)
     private auctionBidsHistoryRepository: Repository<AuctionBidHistoryEntity>,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   async getHumanReadableAuctionHistory(auctionId: number): Promise<string> {
     const auctionHistory = await this.auctionHistoryRepository.find({

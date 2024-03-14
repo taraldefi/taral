@@ -5,6 +5,7 @@ import { QuickApplicationEntity } from '../applications/models/quickapplication.
 import { TransactionDocumentEntity } from './models/transaction-documents.entity';
 import { TransactionDocumentService } from './services/transaction-documents.service';
 import { TransactionDocumentController } from './transaction-documents.controller';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { TransactionDocumentController } from './transaction-documents.controlle
       TransactionDocumentEntity,
       QuickApplicationEntity,
     ]),
+    LoggerModule
   ],
   controllers: [TransactionDocumentController],
   providers: [ConfigModule, ConfigService, TransactionDocumentService],

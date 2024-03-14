@@ -13,12 +13,13 @@ import { AuctionBidHistoryEntityRepositoryProvider } from './providers/auction.b
 import { AuctionHistoryEntityRepositoryProvider } from './providers/auction.history.repository.provider';
 import { CancelAuctionService } from './services/cancel.auction.service';
 import { PlaceBidService } from './services/place.bid.service';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
+    LoggerModule,
     ConfigModule,
-    TypeOrmModule.forFeature([AuctionHistoryEntity, AuctionBidHistoryEntity]),
-    WinstonLoggerModule,
+    TypeOrmModule.forFeature([AuctionHistoryEntity, AuctionBidHistoryEntity])
   ],
   controllers: [AuctionHistoryController],
   providers: [

@@ -12,11 +12,13 @@ import { ApiProvider } from 'lib-api';
 import { StacksMainnet, StacksNetwork, StacksTestnet } from '@stacks/network';
 import { ClarinetAccount, NodeContractInstance } from 'lib-shared';
 import { Configuration } from '../../../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable({
   scope: Scope.DEFAULT,
 })
-export class OnChainService {
+export class OnChainService extends BaseService {
   private readonly Testnet: StacksNetwork = new StacksTestnet({
     url: 'http://localhost:3999',
   });
@@ -29,7 +31,9 @@ export class OnChainService {
 
   private storageContractCreated: boolean;
 
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService, public logger: CoreLoggerService) {
+    super(logger);
+  }
 
   public async canRead(
     fileId: string,

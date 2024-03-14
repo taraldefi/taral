@@ -7,9 +7,10 @@ import { RefreshTokenEntityRepositoryProvider } from './refresh-token.repository
 import { UserEntity } from '../auth/entity/user.entity';
 import { UserEntityRepositoryProvider } from '../auth/user.repository.provider';
 import { JwtService } from '@nestjs/jwt';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([RefreshTokenEntity, UserEntity])],
+  imports: [TypeOrmModule.forFeature([RefreshTokenEntity, UserEntity]), LoggerModule],
   providers: [
     JwtService,
     RefreshTokenService,

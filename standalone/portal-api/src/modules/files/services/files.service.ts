@@ -33,10 +33,13 @@ import { FileParticipantRepository } from '../repositories/file-participant.repo
 import { SignatureService } from './onchain/signature.service';
 import { triggerError } from '../utils/trigger.errror';
 import { CreateFile } from '../types/file';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class FilesService {
+export class FilesService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @InjectRepository(FileEntity)
     private fileRepository: FileRepository,
 
@@ -51,7 +54,9 @@ export class FilesService {
     private encryptionService: EncryptionService,
 
     private signatureService: SignatureService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   async getLatestFileVersion(fileEntity: FileEntity): Promise<RequestFileInfo> {
     const sortedFileVersions = this.sortFileVersionsByDate(fileEntity.versions);

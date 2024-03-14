@@ -11,17 +11,19 @@ import { AuctionHistoryEntityRepositoryToken } from '../providers/auction.histor
 import { AuctionHistoryEntityRepository } from '../repositories/auction.history.repository';
 import { Transactional } from 'src/common/transaction';
 import { ConfigService } from '@nestjs/config';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class CancelAuctionService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     public configService: ConfigService,
     @Inject(AuctionEntityRepositoryToken)
     private auctionRepository: AuctionEntityRepository,
     @Inject(AuctionHistoryEntityRepositoryToken)
     private auctionHistoryRepository: AuctionHistoryEntityRepository,
   ) {
-    super();
+    super(logger);
   }
 
   @Transactional({

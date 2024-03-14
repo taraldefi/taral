@@ -2,12 +2,16 @@ import { Injectable, Scope } from '@nestjs/common';
 import { SignatureVerificationModel } from '../../models/signature-verification.model';
 import { triggerError } from '../../utils/trigger.errror';
 import { SignatureService } from './signature.service';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable({
   scope: Scope.DEFAULT,
 })
-export class AuthenticationService {
-  constructor(private signatureService: SignatureService) {}
+export class AuthenticationService extends BaseService {
+  constructor(private signatureService: SignatureService, public logger: CoreLoggerService) {
+    super(logger);
+  }
 
   public guard(
     signature: string,

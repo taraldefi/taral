@@ -4,8 +4,6 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { Not, ObjectLiteral } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-
 import { CreatePermissionDto } from 'src/modules/permission/dto/create-permission.dto';
 import { UpdatePermissionDto } from 'src/modules/permission/dto/update-permission.dto';
 import { PermissionEntityRepository } from 'src/modules/permission/permission.repository';
@@ -21,6 +19,7 @@ import {
 } from 'src/config/permission.config';
 import { LoadPermissionMisc } from 'src/modules/permission/misc/load-permission.misc';
 import { PermissionEntityRepositoryToken } from './permission.repository.provider';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class PermissionsService
@@ -30,8 +29,9 @@ export class PermissionsService
   constructor(
     @Inject(PermissionEntityRepositoryToken)
     private repository: PermissionEntityRepository,
+    public logger: CoreLoggerService,
   ) {
-    super();
+    super(logger);
   }
 
   /**

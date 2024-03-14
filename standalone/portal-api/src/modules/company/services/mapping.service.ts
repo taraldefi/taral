@@ -9,9 +9,16 @@ import { GetSupplierCompanyTaxAndRevenueRequest } from 'src/modules/company-info
 import { SupplierCompanyTaxAndRevenueEntity } from '../models/supplier.company.tax.and.revenue.entity';
 import { BuyerCompanyTaxAndRevenueEntity } from '../models/buyer.company.tax.and.revenue.entity';
 import { GetBuyerCompanyTaxAndRevenueRequest } from 'src/modules/company-information/dto/response/buyer/get-buyer-company-tax-and-revenue.response.dto';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class EntityMappingService {
+export class EntityMappingService extends BaseService {
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   public mapEntityDetails(
     entity: BuyerCompanyEntity,
     latestTaxAndRevenue: BuyerCompanyTaxAndRevenueEntity,

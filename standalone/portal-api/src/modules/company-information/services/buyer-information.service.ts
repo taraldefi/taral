@@ -7,7 +7,6 @@ import { CompanyAddressEntity } from '../models/company.information.address.enti
 import { CompanyAddressRepository } from '../repositories/company.information.address.repository';
 import { BuyerCompanyInformationEntity } from '../models/buyer.company.information.entity';
 import { BuyerCompanyInformationRepository } from '../repositories/buyer.company.information.repository';
-import { SectorEntity } from 'src/modules/sectors/models/sector.entity';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { EntityMappingService } from './mapping.service';
 import { IsolationLevel, Transactional } from 'src/common/transaction';
@@ -19,12 +18,13 @@ import { UpdateBuyerCompanyRequest } from '../dto/request/buyer/update-buyer-com
 import { ConfigService } from '@nestjs/config';
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class BuyerInformationService extends BaseService {
   constructor(
     public configService: ConfigService,
-
+    public logger: CoreLoggerService,
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
 
@@ -40,7 +40,7 @@ export class BuyerInformationService extends BaseService {
     private readonly buyerCompanyService: BuyerCompanyEntityService,
     private readonly buyerInformationMappingService: EntityMappingService,
   ) {
-    super();
+    super(logger);
   }
 
   public async get(applicationId: string) {

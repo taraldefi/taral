@@ -15,12 +15,13 @@ import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-en
 import { BuyerCompanyEntity } from 'src/modules/company/models/buyer.company.entity';
 import { BuyerCompanyEntityRepository } from 'src/modules/company/repositories/buyer.company.repository';
 import { ConfigService } from '@nestjs/config';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class RelationshipService extends BaseService {
   constructor(
     public configService: ConfigService,
-
+    public logger: CoreLoggerService,
     private buyerCompanyService: BuyerCompanyEntityService,
 
     @InjectRepository(BuyerCompanyEntity)
@@ -31,7 +32,7 @@ export class RelationshipService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super();
+    super(logger);
   }
 
   public async delete(id: string): Promise<void> {

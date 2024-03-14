@@ -4,16 +4,21 @@ import { QuickApplicationEntity } from 'src/modules/applications/models/quickapp
 import { BuyerQuickApplicationEntityRepository } from 'src/modules/applications/repositories/buyer.quickapplication.repository';
 import { TransactionDocumentEntity } from '../models/transaction-documents.entity';
 import { TransactionDocumentRepository } from '../repositories/transaction-documents.repository';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class TransactionDocumentService {
+export class TransactionDocumentService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @InjectRepository(TransactionDocumentEntity)
     private transactionDocumentRepository: TransactionDocumentRepository,
 
     @InjectRepository(QuickApplicationEntity)
     private buyerApplicationRepository: BuyerQuickApplicationEntityRepository,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   public async checkIfConfirmationDocumentExists(
     applicationId: string,

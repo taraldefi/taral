@@ -11,6 +11,7 @@ import { OnChainService } from './services/onchain/on-chain.service';
 import { EncryptionService } from './services/onchain/encryption.service';
 import { AuthenticationService } from './services/onchain/authentication.service';
 import { FileParticipantEntity } from './entities/file-participant.entity';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FileParticipantEntity } from './entities/file-participant.entity';
       FileParticipantEntity,
     ]),
     NestjsFormDataModule.config({ storage: MemoryStoredFile }),
+    LoggerModule
   ],
   exports: [FilesService, AuthenticationService],
   controllers: [FilesController],

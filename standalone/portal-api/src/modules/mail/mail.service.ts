@@ -5,14 +5,19 @@ import { InjectQueue } from '@nestjs/bull';
 import { MailJobInterface } from 'src/modules/mail/interface/mail-job.interface';
 import { EmailTemplateService } from 'src/modules/email-template/email-template.service';
 import { Configuration } from '../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class MailService {
+export class MailService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @InjectQueue(Configuration.mail.queueName)
     private mailQueue: Queue,
     private readonly emailTemplateService: EmailTemplateService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   /**
    * Replace place holder

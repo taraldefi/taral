@@ -21,12 +21,16 @@ import { Signature, verify, utils } from '@noble/secp256k1';
 import { hmac } from '@noble/hashes/hmac';
 import { sha256 } from '@noble/hashes/sha256';
 import { Configuration } from '../../../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class SignatureService {
+export class SignatureService extends BaseService {
   private readonly privateKey: string;
 
-  constructor() {
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+    
     this.privateKey = Configuration.onchain.privateKey;
 
     utils.hmacSha256Sync = (key, ...msgs) => {

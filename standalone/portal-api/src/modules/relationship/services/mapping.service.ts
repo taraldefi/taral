@@ -2,9 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { GetRelationshipResponse } from '../dto/response/get-relationship-response.dto';
 import { CollaborationRelationshipEntity } from '../models/collaboration.relationship.entity';
 import { GetPaymentExperienceResponse } from '../dto/response/get-payment-experience-response.dto';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class EntityMappingService {
+export class EntityMappingService extends BaseService {
+
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+  }
+
   public mapManyEntities(
     entities: CollaborationRelationshipEntity[],
   ): GetRelationshipResponse[] {

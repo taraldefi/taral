@@ -9,6 +9,7 @@ import { OrderProductController } from './order-product.controller';
 import { OrderDetailMappingService } from './services/mapping.service';
 import { OrderDetailService } from './services/order-detail.service';
 import { OrderProductService } from './services/order-product.service';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -17,6 +18,8 @@ import { OrderProductService } from './services/order-product.service';
       OrderDetailEntity,
       OrderProductEntity,
     ]),
+
+    LoggerModule
   ],
   controllers: [OrderDetailsController, OrderProductController],
   providers: [

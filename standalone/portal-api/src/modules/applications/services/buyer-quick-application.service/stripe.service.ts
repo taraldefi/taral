@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 import { BaseService } from 'src/common/services/base.service';
 import { Configuration } from 'src/configuration';
 import Stripe from 'stripe';
@@ -7,9 +8,9 @@ import Stripe from 'stripe';
 export class StripeService extends BaseService {
   private stripe: Stripe;
 
-  constructor() {
+  constructor(public logger: CoreLoggerService) {
     // Initialize Stripe
-    super();
+    super(logger);
 
     const stripeConfig = Configuration.stripe;
 

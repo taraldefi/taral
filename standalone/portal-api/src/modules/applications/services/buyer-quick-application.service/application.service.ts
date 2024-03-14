@@ -17,10 +17,12 @@ import { ConfigService } from '@nestjs/config';
 import { StripeService } from 'src/modules/applications/services/buyer-quick-application.service/stripe.service';
 import { BuyerCompanyEntityService } from 'src/modules/company/services/buyer-entity.service';
 import { SubmitApplicationForCreditCardRequest } from '../../dto/request/submit-application-for-credit-card.dto';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class BuyerQuickApplicationService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     public configService: ConfigService,
     private stripeService: StripeService,
 
@@ -33,7 +35,7 @@ export class BuyerQuickApplicationService extends BaseService {
     private orderDetailService: OrderDetailService,
     private collateralService: CollateralService,
   ) {
-    super();
+    super(logger);
   }
 
   public async getAllApplications(

@@ -5,11 +5,12 @@ import { CollateralEntity } from './models/collaterals.entity';
 import { CollateralService } from './services/collateral.service';
 import { CollateralMappingService } from './services/mapping.service';
 import { QuickApplicationEntity } from '../applications/models/quickapplication.entity';
-import { ApplicationModule } from '../applications/application.module';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([CollateralEntity, QuickApplicationEntity]),
+    LoggerModule
   ],
   providers: [
     ConfigModule,

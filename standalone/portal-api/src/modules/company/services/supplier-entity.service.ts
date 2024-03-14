@@ -18,10 +18,12 @@ import { BaseService } from 'src/common/services/base.service';
 import { ConfigService } from '@nestjs/config';
 import { SupplierCompanyTaxAndRevenueEntity } from '../models/supplier.company.tax.and.revenue.entity';
 import { SupplierCompanyTaxAndRevenueRepository } from '../repositories/supplier.company.tax.and.revenue.repository';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class SupplierCompanyEntityService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     public configService: ConfigService,
 
     @InjectRepository(SupplierCompanyEntity)
@@ -38,7 +40,7 @@ export class SupplierCompanyEntityService extends BaseService {
 
     private mappingService: EntityMappingService,
   ) {
-    super();
+    super(logger);
   }
 
   public async findSupplierEntityById(

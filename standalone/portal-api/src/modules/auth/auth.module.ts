@@ -3,8 +3,6 @@ import { PassportModule } from '@nestjs/passport';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import Redis from 'ioredis';
-import config from 'config';
-
 import { AuthController } from 'src/modules/auth/auth.controller';
 import { AuthService } from 'src/modules/auth/auth.service';
 import { UniqueValidatorPipe } from 'src/common/pipes/unique-validator.pipe';
@@ -21,6 +19,7 @@ import { RedisRateLimiter } from './limiter/redis.rate.limiter';
 import { NoRateLimiter } from './limiter/no.rate.limiter';
 import { loggingLevel } from '../logger/logger';
 import { Configuration } from '../../configuration';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 const throttleLoginConfig = Configuration.throttle.login;
 const redisConfig = Configuration.queue;
@@ -73,6 +72,7 @@ const NoLoginThrottleFactory = {
     TypeOrmModule.forFeature([UserEntity]),
     MailModule,
     RefreshTokenModule,
+    LoggerModule
   ],
   controllers: [AuthController],
   providers: [

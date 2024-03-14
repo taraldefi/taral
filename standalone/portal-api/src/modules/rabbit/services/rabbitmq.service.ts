@@ -10,6 +10,8 @@ import { StartAuctionService } from '../../auctionhistory/services/start.auction
 import { CancelAuctionService } from '../../auctionhistory/services/cancel.auction.service';
 import { PlaceBidService } from '../../auctionhistory/services/place.bid.service';
 import { CancelAuction, PlaceBid, StartAuction } from 'src/models';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 class CancellablePromise<T> {
   private _promise: Promise<T>;
@@ -37,43 +39,36 @@ class CancellablePromise<T> {
 }
 
 @Injectable()
-export class RabbitmqService implements OnModuleInit, OnApplicationShutdown {
+export class RabbitmqService extends BaseService implements OnModuleInit, OnApplicationShutdown {
   private queueName = 'chainhook_queue';
   private connection: amqp.Connection | null = null;
   private channel: amqp.Channel | null = null;
   private consuming = false;
 
   private registry = new Registry();
+  
   private successfulConnectionCounter = new Counter({
     name: 'rabbitmq_successful_connections_total',
     help: 'Total number of successful connections to RabbitMQ',
     registers: [this.registry],
   });
+
   private connectionErrorCounter = new Counter({
     name: 'rabbitmq_connection_errors_total',
     help: 'Total number of connection errors to RabbitMQ',
     registers: [this.registry],
   });
 
-  private logger = winston.createLogger({
-    level: 'info',
-    format: winston.format.combine(
-      winston.format.timestamp(),
-      winston.format.json(),
-    ),
-    transports: [
-      new winston.transports.Console(),
-      new winston.transports.File({ filename: 'error.log', level: 'error' }),
-    ],
-  });
-
   private activePromises: CancellablePromise<void>[] = [];
 
   public constructor(
+    public logger: CoreLoggerService,
     private readonly startAuctionService: StartAuctionService,
     private readonly cancelAuctionService: CancelAuctionService,
     private readonly placeBidService: PlaceBidService,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   async onModuleInit() {
     await this.retryConnect();

@@ -6,50 +6,11 @@ import {
   runOnTransactionRollback,
 } from 'src/common/transaction/hook';
 import { BaseHistory } from 'src/modules/history/entities/base.history.entity';
-
-import * as winston from 'winston';
-import { loggingLevel } from '../../modules/logger/logger';
-import { Configuration } from '../../configuration';
-import { SeqTransport } from '@datalust/winston-seq';
+import CoreLoggerService from '../logging/CoreLoggerService';
 
 export abstract class BaseService {
-  protected readonly Logger: winston.Logger;
-
-  protected constructor(
+  protected constructor(protected readonly Logger: CoreLoggerService
   ) {
-
-    const logLevel = Configuration.logging.level as loggingLevel;
-    const seqConfig = Configuration.seqConfig;
-
-    console.log('seqConfig', seqConfig.url, seqConfig.apiKey);
-
-    this.Logger = winston.createLogger({
-      level: logLevel,
-      format: winston.format.combine(  /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
-        winston.format.errors({ stack: true }),
-        winston.format.timestamp(),
-        winston.format.json(),
-      ),
-      defaultMeta: {  application: 'taral' },
-      transports: [
-        new winston.transports.Console({
-            format: winston.format.simple(),
-        }),
-        new winston.transports.File({ filename: 'error.log', level: logLevel }),
-        new SeqTransport({
-          serverUrl: seqConfig.url,
-          apiKey: seqConfig.apiKey,
-          onError: (e => { 
-            console.log("SFKFJHDKJFHDKJFHD transport error");
-            console.error(e); 
-          }),
-          handleExceptions: true,
-          handleRejections: true,
-        })
-      ]
-    });
-
-    this.Logger.log('info', 'BaseService constructor');
   }
 
   protected setupTransactionHooks() {

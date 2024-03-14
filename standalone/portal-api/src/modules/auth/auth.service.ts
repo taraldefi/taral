@@ -5,14 +5,10 @@ import {
   UnprocessableEntityException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectRepository } from '@nestjs/typeorm';
-import config from 'config';
 import { existsSync, unlinkSync } from 'fs';
-import { SignOptions } from 'jsonwebtoken';
 import { DeepPartial, Not, ObjectLiteral } from 'typeorm';
 import {
   RateLimiterRes,
-  RateLimiterStoreAbstract,
 } from 'rate-limiter-flexible';
 
 import { ExceptionTitleList } from 'src/common/constants/exception-title-list.constants';
@@ -52,6 +48,8 @@ import { RateLimiter } from './interfaces/rate.limiter';
 import { AuthResponse } from './dto/auth-response.dto';
 import { RegisterResponseDto } from './dto/register-response.dto';
 import { Configuration } from '../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 const throttleConfig = Configuration.throttle;
 const throttleEnabled = throttleConfig.enabled as boolean;
@@ -60,8 +58,9 @@ const throttleLoginConfig = throttleConfig.login;
 const jwtConfig = Configuration.jwt;
 
 @Injectable()
-export class AuthService {
+export class AuthService extends BaseService {
   constructor(
+    public logger: CoreLoggerService,
     @Inject(UserEntityRepositoryToken)
     private readonly userRepository: UserEntityRepository,
 
@@ -72,7 +71,9 @@ export class AuthService {
     private readonly refreshTokenService: RefreshTokenService,
     @Inject('LOGIN_THROTTLE')
     private readonly rateLimiter: RateLimiter,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   /**
    * send mail

@@ -96,6 +96,7 @@ class AuthService {
     password: string,
     name: string
   ): Promise<RegisterResponse> {
+    
     return new Promise(async (resolve, reject) => {
       const axiosConfig = getAxiosConfig({ method: "POST" });
       try {

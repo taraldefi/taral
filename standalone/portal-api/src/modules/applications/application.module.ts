@@ -13,9 +13,11 @@ import { BuyerQuickApplicationService } from './services/buyer-quick-application
 import { CompanyInformationModule } from '../company-information/company.information.module';
 import { SectorsModule } from '../sectors/sectors.module';
 import { StripeService } from './services/buyer-quick-application.service/stripe.service';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
+    LoggerModule,
     CompaniesModule,
     RelationshipModule,
     OrderDetailsModule,

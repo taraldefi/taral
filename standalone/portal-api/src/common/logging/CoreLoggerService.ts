@@ -29,7 +29,6 @@ export default class CoreLoggerService implements LoggerService {
     private logger: winston.Logger;
 
     constructor() {
-
         const seqConfig = Configuration.seqConfig;
         const logLevel = Configuration.logging.level;
         const appName = Configuration.app.name;
@@ -107,6 +106,14 @@ export default class CoreLoggerService implements LoggerService {
             this.logger.warn(message, ...optionalParams);
         } else {
             this.logger.warn("obj: ", ...[message, optionalParams]);
+        }
+    }
+
+    info(message: any, ...optionalParams: any[]) {
+        if (typeof message === "string") {
+            this.logger.info(message, ...optionalParams);
+        } else {
+            this.logger.info("obj: ", ...[message, optionalParams]);
         }
     }
 

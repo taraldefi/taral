@@ -8,12 +8,14 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { PermissionsModule } from 'src/modules/permission/permissions.module';
 import { RoleEntity } from './entities/role.entity';
 import { RoleEntityRepositoryProvider } from './role.repository.provider';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([RoleEntity]),
     AuthModule,
     PermissionsModule,
+    LoggerModule
   ],
   exports: [],
   controllers: [RolesController],

@@ -14,6 +14,7 @@ import { CompaniesModule } from '../company/company.module';
 import { RelationshipModule } from '../relationship/relationship.module';
 import { CollaborationRelationshipEntity } from '../relationship/models/collaboration.relationship.entity';
 import { SupplierInformationService } from './services/supplier-information.service';
+import { LoggerModule } from 'src/common/logging/logger.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { SupplierInformationService } from './services/supplier-information.serv
       BuyerCompanyInformationEntity,
       QuickApplicationEntity,
     ]),
+    LoggerModule
   ],
   controllers: [],
   providers: [

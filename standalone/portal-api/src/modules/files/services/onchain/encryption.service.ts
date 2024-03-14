@@ -2,15 +2,19 @@ import { Injectable, Scope } from '@nestjs/common';
 
 import { decryptString, ecPrivateKey, encryptString } from 'lib-stacks';
 import { Configuration } from '../../../../configuration';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable({
   scope: Scope.DEFAULT,
 })
-export class EncryptionService {
+export class EncryptionService extends BaseService {
   private readonly privateKey: string;
   private readonly publicKey: string;
 
-  constructor() {
+  constructor(public logger: CoreLoggerService) {
+    super(logger);
+    
     this.privateKey = Configuration.onchain.privateKey;
     this.publicKey = Configuration.onchain.publicKey;
   }

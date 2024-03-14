@@ -3,7 +3,6 @@ import {
   Injectable,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Not, ObjectLiteral } from 'typeorm';
 
 import { CreateEmailTemplateDto } from 'src/modules/email-template/dto/create-email-template.dto';
@@ -17,15 +16,20 @@ import { StatusCodesList } from 'src/common/constants/status-codes-list.constant
 import { ForbiddenException } from 'src/modules/exception/forbidden.exception';
 import { Pagination } from 'src/modules/paginate';
 import { EmailTemplateEntityRepositoryToken } from './email-template.repository.provider';
+import { BaseService } from 'src/common/services/base.service';
+import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
-export class EmailTemplateService
+export class EmailTemplateService extends BaseService
   implements CommonServiceInterface<EmailTemplate>
 {
   constructor(
+    public logger: CoreLoggerService,
     @Inject(EmailTemplateEntityRepositoryToken)
     private readonly repository: EmailTemplateEntityRepository,
-  ) {}
+  ) {
+    super(logger);
+  }
 
   /**
    * convert string to slug
