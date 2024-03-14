@@ -39,7 +39,6 @@ export default class CoreLoggerService implements LoggerService {
             serverUrl: seqConfig.url,
             apiKey: seqConfig.apiKey,
             format: winston.format.combine(
-                winston.format.colorize({ all: true }),
                 /* This is required to get errors to log with stack traces. See https://github.com/winstonjs/winston/issues/1498 */
                 winston.format.errors({stack: true}),
                 winston.format.json(),

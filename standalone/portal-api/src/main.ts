@@ -44,7 +44,7 @@ async function bootstrap() {
 
   app.useGlobalInterceptors(
     new ClassSerializerInterceptor(app.get(Reflector)),
-    new LoggingInterceptor(loggerService)
+    new LoggingInterceptor(loggerService, app.get(Reflector))
   );
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));

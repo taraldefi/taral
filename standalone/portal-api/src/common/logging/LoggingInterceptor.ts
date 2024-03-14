@@ -7,46 +7,67 @@ import {
 } from "@nestjs/common";
 import {tap} from "rxjs";
 import CoreLoggerService from "./CoreLoggerService";
+import { Reflector } from "@nestjs/core";
+import { PARSE_REQUEST_BODY_WHEN_LOGGING_KEY } from "./parseRequestBodyWhenLogging";
+import { plainToInstance } from "class-transformer";
+
+export type Constructor<T, Arguments extends unknown[] = any[]> = new(...arguments_: Arguments) => T;
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
-    constructor(private readonly logger: CoreLoggerService) {}
+    constructor(private readonly logger: CoreLoggerService, private readonly reflector: Reflector) {}
+
+    private parseRequestBody(context: ExecutionContext) {
+        const httpContext = context.switchToHttp();
+        const request = httpContext.getRequest<Request>();
+        const body: unknown = request.body;
+        if (!body) {
+          return;
+        }​
+        
+        if (body === null || typeof body !== 'object') {
+          return body;
+        }
+        const requestBodyDto = this.reflector.getAllAndOverride<
+          Constructor<unknown>
+        >(PARSE_REQUEST_BODY_WHEN_LOGGING_KEY, [
+          context.getHandler(),
+          context.getClass(),
+        ]);
+        if (!requestBodyDto) {
+          return JSON.stringify(body);
+        }
+        const instance = plainToInstance(requestBodyDto, body);
+        return JSON.stringify(instance, null, 2);
+      }
+
     intercept(context: ExecutionContext, next: CallHandler) {
         const request = context.switchToHttp().getRequest();
 
         const response = context.switchToHttp().getResponse();
 
         const {originalUrl, method, params, query, body} = request;
-
-        // this.logger.log(`Request ${originalUrl}`, {
-        //     type: "REQUEST",
-        //     originalUrl,
-        //     method,
-        //     params,
-        //     query,
-        //     `${JSON.stringify(
-        //         body,
-        //       )}`,
-        // });
-
         const message = `${method} ${originalUrl} 
         Request params: ${JSON.stringify(params, null, 2)}
         Request query: ${JSON.stringify(query, null, 2)}
-        Request body: ${JSON.stringify(body, null, 2)}`;
+        Request body: ${this.parseRequestBody(context)}`;
 
         this.logger.log(message);
 
         return next.handle().pipe(
-            tap((data) =>
-                this.logger.log(`Response ${originalUrl}`, {
-                    type: "RESPONSE",
-                    originalUrl,
-                    method,
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-                    status: response?.status,
-                    responseBody: data || undefined,
-                })
-            )
+            tap((data) => {
+
+                const message = `type: RESPONSE, ${method} ${originalUrl} ${response?.status} Response body: ${data || undefined}`;
+                if (response?.status >= 500) {
+                    return this.logger.error(message);
+                }
+
+                if (response?.status >= 400) {
+                    return this.logger.warn(message);
+                }
+
+                return this.logger.log(message);
+            })
         );
     }
 }
