@@ -26,10 +26,7 @@ import {
   I18nModule,
   QueryResolver,
 } from 'nestjs-i18n';
-import winstonConfig from './config/winston.config';
-import { WinstonModule } from 'nest-winston';
 import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
-
 import { RolesModule } from './modules/role/roles.module';
 import { PermissionsModule } from './modules/permission/permissions.module';
 import { MailModule } from './modules/mail/mail.module';
@@ -61,6 +58,7 @@ import { ThrottlerStorageRedisService } from 'nestjs-throttler-storage-redis';
 import { TransactionDocumentModule } from './modules/transaction-documents/transaction-documents.module';
 import { Configuration } from './configuration';
 import { LoggerModule } from './common/logging/logger.module';
+import { HealthModule } from './modules/health';
 
 @Module({
   imports: [...AppModule.createDynamicImports()],
@@ -155,6 +153,7 @@ export class AppModule implements OnModuleInit {
         },
         inject: [ConfigService],
       }),
+      HealthModule,
       HomeModule,
       StorageModule,
       LoggerModule,
