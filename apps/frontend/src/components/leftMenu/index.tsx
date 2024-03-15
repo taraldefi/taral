@@ -1,7 +1,7 @@
 import React from "react";
 import { PortalIcons } from "../icons";
 import { useRouter } from "next/router";
-import { ProgressBar } from "taral-ui";
+import { ProgressBar } from "@lib";
 
 export default function LeftMenu() {
   const router = useRouter();

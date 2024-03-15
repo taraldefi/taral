@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import React from "react";
 import { X } from "react-feather";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import * as Yup from "yup";
 import useOrderDetailForm from "@hooks/buyerApplication/useOrderDetails";
 import buyerApplicationService from "@services/application/buyerApplicationService";

@@ -1,4 +1,4 @@
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import React, { useState } from "react";
 import { DollarSign, LogOut } from "react-feather";
 import useTaralContracts from "@hooks/useTaralContracts";

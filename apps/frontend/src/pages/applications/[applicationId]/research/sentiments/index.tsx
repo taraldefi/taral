@@ -1,6 +1,6 @@
 import { PortalIcons } from "@components/icons";
 import ResearchLayout from "@components/layouts/auditor/rs_layout";
-import { Button, ScreeningTable } from "taral-ui";
+import { Button, ScreeningTable } from "@lib";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { tableFormScreening } from "src/types/form";

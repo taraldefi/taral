@@ -1,4 +1,4 @@
-import { Activity } from "taral-ui";
+import { Activity } from "@lib";
 import StatusLayout from "@components/layouts/auditor/status_layout";
 export default function CustomerComms() {
   return (

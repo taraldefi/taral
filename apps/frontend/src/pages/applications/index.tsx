@@ -1,5 +1,5 @@
 import Layout from "@components/layouts/layout";
-import { ApplicationTable } from "taral-ui";
+import { ApplicationTable } from "@lib";
 import { useRouter } from "next/router";
 
 const TableData = [

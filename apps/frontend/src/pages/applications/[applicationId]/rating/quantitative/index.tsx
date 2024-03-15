@@ -1,5 +1,5 @@
 import CRSLayout from "@components/layouts/auditor/crs_layout";
-import { QuantitativeTable } from "taral-ui";
+import { QuantitativeTable } from "@lib";
 import { useRouter } from "next/router";
 
 const TableData = [

@@ -2,7 +2,7 @@ import NotificationModal from "@components/modal/notificationModal";
 import SettingsModal from "@components/modal/settingsModal";
 import Topbar from "@components/topBar";
 import useModal from "@hooks/useModal";
-import { Button, ProfileAddressCard, ProfilePersonalCard } from "taral-ui";
+import { Button, ProfileAddressCard, ProfilePersonalCard } from "@lib";
 import Image from "next/image";
 import { NotificationModalAtom, SettingsModalAtom } from "@store/ModalStore";
 

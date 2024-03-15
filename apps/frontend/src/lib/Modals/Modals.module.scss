@@ -1,0 +1,154 @@
+// Generated with util/create-component.js
+
+.tariala--modal {
+	overflow-y: hidden;
+	overflow-x: hidden;
+	font-family: 'inter', sans-serif;
+
+	a {
+		text-decoration: none;
+	}
+
+	&.active {
+		box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+		-webkit-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+		-moz-box-shadow: 3px 18px 36px 100vw rgba(93, 96, 99, 0.42);
+		width: 30vw;
+		height: fit-content;
+		left: 35vw;
+		top: 10vw;
+		background-color: #fff;
+		position: fixed;
+		z-index: 999;
+		border-radius: 16px;
+
+		animation: bounce-in 0.5s ease;
+		-moz-animation: bounce-in 0.5s ease;
+		/* Firefox */
+		-webkit-animation: bounce-in 0.5s ease;
+		/* Safari and Chrome */
+		@keyframes bounce-in {
+			0% {
+				opacity: 0;
+				transform: scale(0.3);
+			}
+
+			50% {
+				opacity: 1;
+				transform: scale(1.05);
+			}
+
+			100% {
+				transform: scale(1);
+			}
+		}
+	}
+
+	.modal--menue {
+		display: flex;
+		flex-direction: column;
+		gap: 25px;
+
+		.close {
+			position: relative;
+			color: rgb(78, 78, 78);
+			top: 20px;
+			left: 20px;
+		}
+
+		.header {
+			width: 100%;
+			padding: auto;
+			margin: auto;
+			padding-top: 5%;
+			display: flex;
+			text-align: center;
+			flex-direction: column;
+			font-size: 2vw;
+			font-weight: 800;
+			color: black;
+
+			/* Prevent shrinking of header */
+			min-height: 60px;
+			min-width: 150px;
+
+			span {
+				text-align: center;
+				padding: 15px;
+				margin-inline: 20px;
+				font-size: 1vw;
+				font-weight: normal;
+				color: gray;
+			}
+		}
+
+		.form {
+			width: 70%;
+			gap: 10px;
+			padding-bottom: 40px;
+			margin: auto;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+
+			/* Prevent shrinking of form */
+			min-height: 100px;
+			min-width: 200px;
+
+			.button {
+				border: 0;
+				color: white;
+				background-color: #d70b48;
+				border-radius: 5px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+
+				/* Prevent shrinking of buttons */
+				min-height: 40px;
+				min-width: 100px;
+			}
+
+			.install--button {
+				border: 0;
+				color: white;
+				background-color: #1ab98b;
+				border-radius: 5px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+
+				/* Prevent shrinking of buttons */
+				min-height: 40px;
+				min-width: 100px;
+			}
+
+			.button--edit {
+				border: 2px #1d4ed8 solid;
+				color: #1d4ed8;
+				background-color: white;
+				border-radius: 5px;
+				height: 40px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+
+				font-weight: bold;
+			}
+
+			.label {
+				display: flex;
+				justify-content: flex-start;
+				color: gray;
+				font-size: 15px;
+				text-transform: uppercase;
+				font-weight: 600;
+			}
+		}
+	}
+}

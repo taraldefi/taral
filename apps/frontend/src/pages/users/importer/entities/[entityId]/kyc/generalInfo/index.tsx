@@ -2,7 +2,7 @@ import { PortalIcons } from "@components/icons";
 import ImporterKycLayout from "@components/layouts/importer/importerKycLayout";
 import React, { useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function Index() {
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);

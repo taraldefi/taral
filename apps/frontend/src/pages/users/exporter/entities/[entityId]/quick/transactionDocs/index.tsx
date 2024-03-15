@@ -1,7 +1,7 @@
 import ApplicationLayout from "@components/layouts/new_application_layout";
 import BottomBar from "@components/newApplicationBottom";
 import FileUpload from "@components/widgets/FileUpload";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import React from "react";

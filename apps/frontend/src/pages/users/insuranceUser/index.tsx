@@ -1,7 +1,7 @@
 import { PortalIcons } from "@components/icons";
 import TalModal from "@components/modal/talModal";
 import TopBar from "@components/topBar";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { useModal } from "@utils/hooks";
 import { TalModalAtom } from "@store/ModalStore";
 

@@ -1,5 +1,5 @@
 import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout";
-import { ApplicationTable } from "taral-ui";
+import { ApplicationTable } from "@lib";
 
 const TableData = [
   {

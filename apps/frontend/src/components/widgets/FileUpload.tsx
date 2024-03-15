@@ -3,7 +3,7 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNetworks } from "@hooks/useNetwork";
 import React from "react";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { DisplayThumbnail } from "./pdfThumbnail";
 import Modal from "./pdfViewer";
 

@@ -13,7 +13,7 @@ import {
   currentStacksNetworkAtom,
 } from "@store/networkStore";
 import { networkDialogIsOpenAtom } from "@store/ModalStore";
-import { SelectNetworkModal, CircularLoader } from "taral-ui";
+import { SelectNetworkModal, CircularLoader } from "@lib";
 import { Cloud, CloudOff, Check, RefreshCw, Delete } from "react-feather";
 import { useNetwork } from "@micro-stacks/react";
 

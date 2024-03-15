@@ -4,7 +4,7 @@ import { currentSelectedEntityAtom } from "@store/entityStore";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { EntityCardResponse } from "src/types";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 type Props = {
   entities: EntityCardResponse[];

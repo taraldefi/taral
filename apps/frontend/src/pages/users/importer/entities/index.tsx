@@ -1,5 +1,5 @@
 import Modal from "@components/modal/entityModal";
-import { Button, Entity } from "taral-ui";
+import { Button, Entity } from "@lib";
 
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
@@ -7,7 +7,7 @@ import NewApplicationModal from "@components/modal/newApplicationModal";
 import NotificationModal from "@components/modal/notificationModal";
 import SettingsModal from "@components/modal/settingsModal";
 import Topbar from "@components/topBar";
-import { DeleteModal } from "taral-ui";
+import { DeleteModal } from "@lib";
 import { useModal } from "@utils/hooks";
 import {
   ApplicationModalAtom,

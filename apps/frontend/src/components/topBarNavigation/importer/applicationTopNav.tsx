@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { toast } from "sonner";
 import { EntityCardResponse } from "src/types";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 type Props = {
   entities: EntityCardResponse[];

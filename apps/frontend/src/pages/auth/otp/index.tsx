@@ -1,7 +1,7 @@
 // OtpScreen.tsx
 import { PortalIcons } from "@components/icons";
 import AuthLayout from "@components/layouts/auth_layout";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { partiallyHideEmail } from "@utils/lib/partialHideEmail";
 import { useRouter } from "next/router";
 import React, { useState, useRef, useEffect } from "react";

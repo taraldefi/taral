@@ -10,7 +10,7 @@ import {
 } from "@store/ModalStore";
 import { PortalIcons } from "../icons";
 import React, { useEffect, useState } from "react";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { useNetworks } from "@hooks/useNetwork";
 import { Globe } from "react-feather";
 import { useAccount, useAuth, useNetwork } from "@micro-stacks/react";

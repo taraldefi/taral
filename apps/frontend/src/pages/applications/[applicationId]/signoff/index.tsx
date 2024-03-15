@@ -1,6 +1,6 @@
 import React from "react";
 import SignOffLayout from "@components/layouts/auditor/signOffLayout";
-import { SignOffTable } from "taral-ui";
+import { SignOffTable } from "@lib";
 
 const SignoffTableData = [
   {

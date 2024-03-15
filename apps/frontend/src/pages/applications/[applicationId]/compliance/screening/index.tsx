@@ -1,6 +1,6 @@
 import { PortalIcons } from "@components/icons";
 import ComplianceLayout from "@components/layouts/auditor/compliance_layout";
-import { Button, ScreeningTable } from "taral-ui";
+import { Button, ScreeningTable } from "@lib";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { tableFormScreening } from "src/types/form";

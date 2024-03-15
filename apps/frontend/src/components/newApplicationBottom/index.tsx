@@ -1,4 +1,4 @@
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { useRouter } from "next/router";
 import { BottomBarProps } from "src/types";
 

@@ -46,7 +46,7 @@ export class LoggingInterceptor implements NestInterceptor {
 
         const response = context.switchToHttp().getResponse();
 
-        const {originalUrl, method, params, query, body} = request;
+        const {originalUrl, method, params, query } = request;
         const message = `${method} ${originalUrl} 
         Request params: ${JSON.stringify(params, null, 2)}
         Request query: ${JSON.stringify(query, null, 2)}
@@ -56,17 +56,17 @@ export class LoggingInterceptor implements NestInterceptor {
 
         return next.handle().pipe(
             tap((data) => {
+                const message = `type: RESPONSE, ${method} ${originalUrl} Response body: ${JSON.stringify(data, null, 2)}`;
 
-                const message = `type: RESPONSE, ${method} ${originalUrl} ${response?.status} Response body: ${data || undefined}`;
                 if (response?.status >= 500) {
-                    return this.logger.error(message);
+                    this.logger.error(message);
                 }
 
                 if (response?.status >= 400) {
-                    return this.logger.warn(message);
+                    this.logger.warn(message);
                 }
 
-                return this.logger.log(message);
+                this.logger.log(message);
             })
         );
     }

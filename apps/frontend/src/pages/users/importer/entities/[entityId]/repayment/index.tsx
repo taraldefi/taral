@@ -4,7 +4,7 @@ import { selectedApplicationForRepaymentAtom } from "@store/applicationStore";
 import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { Button, LargeLoanCard, SmallLoanCard } from "taral-ui";
+import { Button, LargeLoanCard, SmallLoanCard } from "@lib";
 
 export enum LoanCardTypes {
   INTEREST_RATE = "INTEREST_RATE",

@@ -20,11 +20,11 @@ services:
   #     - ${MAIL_CLIENT_PORT}:1080
   #     - ${MAIL_PORT}:1025
 
-  # adminer:
-  #   image: adminer
-  #   restart: always
-  #   ports:
-  #     - 8080:8080
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8080:8080
 
   seqcli:
     image: ghcr.io/taraldefi/taral_seqcli:latest

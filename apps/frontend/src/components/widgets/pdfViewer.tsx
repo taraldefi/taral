@@ -8,7 +8,7 @@ import {
   zoomPlugin,
 } from "@react-pdf-viewer/zoom";
 import "@react-pdf-viewer/core/lib/styles/index.css";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus, faCircleMinus } from "@fortawesome/free-solid-svg-icons";
 

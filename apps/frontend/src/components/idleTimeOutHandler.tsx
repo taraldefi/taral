@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { IdleTimeOutModal } from "taral-ui";
+import { IdleTimeOutModal } from "@lib";
 
 interface IdleTimeOutHandlerProps {
   timeOutInterval?: number;
