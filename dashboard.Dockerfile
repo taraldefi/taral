@@ -2,19 +2,11 @@
 
 FROM node:20.5.1 as build-target
 
-#
-#
-# copy just the ui lib & build it & install it in the frontend app.
-#
-COPY ./libs/ui /libs/ui
+# COPY package.json /usr/package.json
+# COPY tsconfig.json /usr/tsconfig.json
+# COPY yarn.lock /usr/yarn.lock
 
-COPY package.json /usr/package.json
-COPY tsconfig.json /usr/tsconfig.json
-COPY yarn.lock /usr/yarn.lock
-
-RUN yarn --frozen-lockfile
-
-RUN cd ./libs/ui && yarn --frozen-lockfile && yarn build
+# RUN yarn --frozen-lockfile
 
 # Set the working directory within the container
 
