@@ -56,8 +56,6 @@ export class LoggingInterceptor implements NestInterceptor {
 
         return next.handle().pipe(
             tap((data) => {
-
-                console.log('data', data);
                 const message = `type: RESPONSE, ${method} ${originalUrl} Response body: ${JSON.stringify(data, null, 2)}`;
 
                 if (response?.status >= 500) {

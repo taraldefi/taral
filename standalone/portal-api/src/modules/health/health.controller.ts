@@ -4,8 +4,13 @@ import { Controller, Get } from '@nestjs/common';
 import { HealthCheck, HealthCheckService, MemoryHealthIndicator } from '@nestjs/terminus';
 
 import { HEALTH_URL } from './health.constants';
+import { ApiTags } from '@nestjs/swagger';
 
-@Controller(HEALTH_URL)
+@ApiTags('Health')
+@Controller({
+  path: HEALTH_URL,
+  version: '1',
+})
 export class HealthController {
   private readonly maxHeapSize: number;
   constructor(private health: HealthCheckService, private memory: MemoryHealthIndicator) {
