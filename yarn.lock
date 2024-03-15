@@ -3753,20 +3753,7 @@
     cross-fetch "^3.1.5"
     jsontokens "^4.0.1"
 
-"@stacks/blockchain-api-client@7.3.4", "@stacks/blockchain-api-client@^7.3.4":
-  version "7.3.4"
-  resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-7.3.4.tgz#fe43a2e5b0a1ee6f7a3edf2e6db61b591dfd8a3f"
-  integrity sha512-hTCyAsuX6uAfHdaFjdRe1cPCCPfdoUglGSCiyFmYLGHN0Q9DMsUhu8hkJ0cegS9A7+AGR/eVMtoNNB1nDE+lxQ==
-  dependencies:
-    "@stacks/stacks-blockchain-api-types" "*"
-    "@types/ws" "7.4.7"
-    cross-fetch "3.1.5"
-    eventemitter3 "4.0.7"
-    jsonrpc-lite "2.2.0"
-    socket.io-client "4.6.1"
-    ws "7.5.6"
-
-"@stacks/blockchain-api-client@^7.8.2":
+"@stacks/blockchain-api-client@7.8.2", "@stacks/blockchain-api-client@^7.8.2":
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/@stacks/blockchain-api-client/-/blockchain-api-client-7.8.2.tgz#3bbf09fe49a089491276fed5bc755cad6611399e"
   integrity sha512-yGPFJTnuZ89S5tOCx9Dook6A4ghzR7RDTE3zpcfgae2wAenN2LPgQYGGNONKeLuxKl1giPiiT0ywv/MYR60YnA==
@@ -3884,12 +3871,7 @@
     schema-inspector "^2.0.2"
     zone-file "^2.0.0-beta.3"
 
-"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@^7.3.4":
-  version "7.3.4"
-  resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-7.3.4.tgz#6f9c0c17d8d91bc98073faac7d0401ae109c80ae"
-  integrity sha512-4IU1Hk0q5Ab3fI6pp527kG1GMmqVp8n5DgiBJ31uJxc9rtPo8zgFWXUAho/Nj+3gTflsbse0IhEU+/ZECpYYMQ==
-
-"@stacks/stacks-blockchain-api-types@7.8.2":
+"@stacks/stacks-blockchain-api-types@*", "@stacks/stacks-blockchain-api-types@7.8.2", "@stacks/stacks-blockchain-api-types@^7.3.4":
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/@stacks/stacks-blockchain-api-types/-/stacks-blockchain-api-types-7.8.2.tgz#879c4a886cfbdecf5ae834afc2e1ab2b9527dc9c"
   integrity sha512-wcDSdgIZx/ttQfUTPtGJOIyEkTOjmCsC79TaIyxTIiihSgrGppqTuzkwHD/DyuQkcJtUZvDTxMsAXkBKShE1kw==
@@ -8625,17 +8607,6 @@ end-of-stream@^1.0.0, end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   dependencies:
     once "^1.4.0"
 
-engine.io-client@~6.4.0:
-  version "6.4.0"
-  resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.4.0.tgz#88cd3082609ca86d7d3c12f0e746d12db4f47c91"
-  integrity sha512-GyKPDyoEha+XZ7iEqam49vz6auPnNJ9ZBfy89f+rMMas8AuiMWOZ9PVzu8xb9ZC6rafUqiGHSCfu22ih66E+1g==
-  dependencies:
-    "@socket.io/component-emitter" "~3.1.0"
-    debug "~4.3.1"
-    engine.io-parser "~5.0.3"
-    ws "~8.11.0"
-    xmlhttprequest-ssl "~2.0.0"
-
 engine.io-client@~6.5.2:
   version "6.5.3"
   resolved "https://registry.yarnpkg.com/engine.io-client/-/engine.io-client-6.5.3.tgz#4cf6fa24845029b238f83c628916d9149c399bc5"
@@ -8646,11 +8617,6 @@ engine.io-client@~6.5.2:
     engine.io-parser "~5.2.1"
     ws "~8.11.0"
     xmlhttprequest-ssl "~2.0.0"
-
-engine.io-parser@~5.0.3:
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/engine.io-parser/-/engine.io-parser-5.0.7.tgz#ed5eae76c71f398284c578ab6deafd3ba7e4e4f6"
-  integrity sha512-P+jDFbvK6lE3n1OL+q9KuzdOFWkkZ/cMV9gol/SbVfpyqfvrfrFTOFJ6fQm2VC3PZHlU3QPhVwmbsCnauHF2MQ==
 
 engine.io-parser@~5.2.1:
   version "5.2.2"
@@ -12902,12 +12868,12 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/infrastructure"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/stacks"
+    lib-infra "file:./libs/infrastructure"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/packages/configuration"
+    taral-configuration "file:./packages/configuration"
 
 "lib-bitcoin@file:./libs/bitcoin":
   version "1.0.0"
@@ -12921,7 +12887,7 @@ levn@~0.3.0:
     bn.js "^5.2.1"
     c32check "^2.0.0"
     ecpair "2.1.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-bitcoin-1.0.0-8b7f3245-30f9-4d5a-b7ca-7cc21e081b45-1710488315424/node_modules/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
     rpc-bitcoin "^2.0.0"
     tiny-secp256k1 "2.2.3"
@@ -12931,7 +12897,7 @@ levn@~0.3.0:
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-3efee2eb-da20-4c5b-bac7-d736e260156b-1710488315434/node_modules/shared"
+    lib-shared "file:./libs/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -12941,18 +12907,18 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-b8436f2b-22d7-40f4-ba4b-626307c38d81-1710488315431/node_modules/clarity-bin"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-b8436f2b-22d7-40f4-ba4b-626307c38d81-1710488315431/node_modules/shared"
+    lib-clarity-bin "file:./libs/clarity-bin"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
 
 "lib-oracle@file:./libs/oracle":
   version "1.0.0"
   dependencies:
     "@types/web3" "^1.2.2"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-oracle-1.0.0-f098f559-5315-4bd1-9439-23f3b275974a-1710488315437/node_modules/shared"
+    lib-shared "file:./libs/shared"
     node-binance-api "^0.13.1"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-oracle-1.0.0-f098f559-5315-4bd1-9439-23f3b275974a-1710488315437/packages/contracts"
+    taral-contracts "file:./packages/contracts"
     web3 "^4.2.0"
 
 "lib-shared@file:./libs/shared":
@@ -12971,18 +12937,18 @@ levn@~0.3.0:
   version "1.0.0"
   dependencies:
     "@noble/secp256k1" "1.7.1"
-    "@stacks/blockchain-api-client" "^7.3.4"
+    "@stacks/blockchain-api-client" "^7.8.2"
     "@stacks/common" "^6.10.0"
     "@stacks/network" "^6.0.0"
     "@stacks/transactions" "^6.9.0"
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-43d15721-6445-4033-89a3-a5419c4e8b6b-1710488315425/node_modules/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-43d15721-6445-4033-89a3-a5419c4e8b6b-1710488315425/packages/configuration"
+    taral-configuration "file:./packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:./libs/storage":
@@ -12991,10 +12957,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/node_modules/stacks"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/packages/contracts"
+    taral-contracts "file:./packages/contracts"
 
 "lib-swap@file:./libs/swap":
   version "1.0.0"
@@ -13002,26 +12968,26 @@ levn@~0.3.0:
     "@types/crypto-js" "^4.1.1"
     bitcoinjs-lib "^6.1.3"
     crypto-js "^4.2.0"
-    lib-bitcoin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/bitcoin"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/stacks"
+    lib-bitcoin "file:./libs/bitcoin"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     merkletreejs "^0.3.9"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/packages/configuration"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/packages/contracts"
+    taral-configuration "file:./packages/configuration"
+    taral-contracts "file:./packages/contracts"
 
 "lib-testing@file:./libs/testing":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/transactions" "^6.9.0"
-    lib-clarity-bin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/clarity-bin"
-    lib-infra "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/infrastructure"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/stacks"
+    lib-clarity-bin "file:./libs/clarity-bin"
+    lib-infra "file:./libs/infrastructure"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/packages/contracts"
+    taral-contracts "file:./packages/contracts"
 
 lilconfig@2.1.0, lilconfig@^2.0.3, lilconfig@^2.0.5:
   version "2.1.0"
@@ -16652,16 +16618,6 @@ snake-case@^3.0.4:
     dot-case "^3.0.4"
     tslib "^2.0.3"
 
-socket.io-client@4.6.1:
-  version "4.6.1"
-  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.6.1.tgz#80d97d5eb0feca448a0fb6d69a7b222d3d547eab"
-  integrity sha512-5UswCV6hpaRsNg5kkEHVcbBIXEYoVbMQaHJBXJCyEQ+CiFPV1NIOY0XOFWG4XR4GZcB8Kn6AsRs/9cy9TbqVMQ==
-  dependencies:
-    "@socket.io/component-emitter" "~3.1.0"
-    debug "~4.3.2"
-    engine.io-client "~6.4.0"
-    socket.io-parser "~4.2.1"
-
 socket.io-client@4.7.3:
   version "4.7.3"
   resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.7.3.tgz#b49e006fc1ccaea65229a4b435c083b10439ecc4"
@@ -16672,7 +16628,7 @@ socket.io-client@4.7.3:
     engine.io-client "~6.5.2"
     socket.io-parser "~4.2.4"
 
-socket.io-parser@~4.2.1, socket.io-parser@~4.2.4:
+socket.io-parser@~4.2.4:
   version "4.2.4"
   resolved "https://registry.yarnpkg.com/socket.io-parser/-/socket.io-parser-4.2.4.tgz#c806966cf7270601e47469ddeec30fbdfda44c83"
   integrity sha512-/GbIKmo8ioc+NIWIhwdecY0ge+qVBSMdgxGygevmdHj24bsfgtCmcUUcQ5ZzcylGFHsN3k4HB4Cgkl96KVnuew==
@@ -17308,7 +17264,7 @@ tar@^6.1.11, tar@^6.2.0:
 "taral-contracts@file:./packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-9479fb67-7714-46d0-83cf-46b07e955b38-1710488315429/libs/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
 
 teeny-request@7.1.1:
@@ -19107,12 +19063,7 @@ write-file-atomic@^4.0.1, write-file-atomic@^4.0.2:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.7"
 
-ws@7.5.6:
-  version "7.5.6"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.6.tgz#e59fc509fb15ddfb65487ee9765c5a51dec5fe7b"
-  integrity sha512-6GLgCqo2cy2A2rjCNFlxQS6ZljG/coZfZXclldI8FB/1G3CCI36Zd8xy2HrFVACi8tfk5XrgLQEk+P0Tnz9UcA==
-
-ws@8.16.0:
+ws@8.16.0, ws@^8.11.0, ws@^8.13.0, ws@^8.2.3, ws@^8.8.1:
   version "8.16.0"
   resolved "https://registry.yarnpkg.com/ws/-/ws-8.16.0.tgz#d1cd774f36fbc07165066a60e40323eab6446fd4"
   integrity sha512-HS0c//TP7Ina87TfiPUz1rQzMhHrl/SG2guqRcTOIUYD2q8uhUdNHZYJUaQ8aTGPzCh+c6oawMKW35nFl1dxyQ==
@@ -19128,11 +19079,6 @@ ws@^7.2.0, ws@^7.4.6:
   version "7.5.9"
   resolved "https://registry.yarnpkg.com/ws/-/ws-7.5.9.tgz#54fa7db29f4c7cec68b1ddd3a89de099942bb591"
   integrity sha512-F+P9Jil7UiSKSkppIiD94dN07AwvFixvLIj1Og1Rl9GGMuNipJnV9JzjD6XuqmAeiswGvUmNLjr5cFuXwNS77Q==
-
-ws@^8.11.0, ws@^8.13.0, ws@^8.2.3, ws@^8.8.1:
-  version "8.14.2"
-  resolved "https://registry.yarnpkg.com/ws/-/ws-8.14.2.tgz#6c249a806eb2db7a20d26d51e7709eab7b2e6c7f"
-  integrity sha512-wEBG1ftX4jcglPxgFCMJmZ2PLtSbJ2Peg6TmpJFTbe9GZYOQCDPdMYu/Tm0/bGZkw8paZnJY45J4K2PZrLYq8g==
 
 ws@~8.11.0:
   version "8.11.0"
