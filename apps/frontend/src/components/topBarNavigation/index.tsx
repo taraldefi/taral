@@ -9,7 +9,7 @@ import { useAtom } from "jotai";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { EntityCardResponse } from "src/types";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function TopBarNav() {
   const router = useRouter();

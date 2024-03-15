@@ -3,7 +3,7 @@
 // import FormEditModal from "@components/modal/entityEditFormModal";
 // import FormModal from "@components/modal/entityFormModal";
 // import NewApplicationModal from "@components/modal/newApplicationModal";
-// import { DeleteModal } from "taral-ui";
+// import { DeleteModal } from "@lib";
 // import { useModal } from "@utils/hooks";
 // import {
 //   ApplicationModalAtom,

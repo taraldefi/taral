@@ -10,7 +10,7 @@ import {
   NotificationModalAtom,
   SettingsModalAtom,
 } from "@store/ModalStore";
-import { DeleteModal } from "taral-ui";
+import { DeleteModal } from "@lib";
 import FormModal from "@components/modal/entityFormModal";
 import FormEditModal from "@components/modal/entityEditFormModal";
 import NewApplicationModal from "@components/modal/newApplicationModal";

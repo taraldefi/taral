@@ -1,5 +1,5 @@
 import StatusLayout from "@components/layouts/auditor/status_layout";
-import { OverviewTable } from "taral-ui";
+import { OverviewTable } from "@lib";
 
 const TableData = [
   {

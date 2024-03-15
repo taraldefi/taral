@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
 import { useEffect } from "react";
 import { Toaster } from "sonner";
-import "taral-ui/build/index.scss";
+// import "../lib/index.module.scss";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();

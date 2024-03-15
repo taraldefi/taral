@@ -1,6 +1,6 @@
 import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout";
 import { useRouter } from "next/router";
-import { Button, LargeLoanCard, SmallLoanCard } from "taral-ui";
+import { Button, LargeLoanCard, SmallLoanCard } from "@lib";
 
 export enum LoanCardTypes {
   INTEREST_RATE = "INTEREST_RATE",

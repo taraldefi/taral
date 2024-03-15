@@ -1,6 +1,6 @@
 import EntityView from "@components/entity/entityView";
 import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout";
-import { EntityTable } from "taral-ui";
+import { EntityTable } from "@lib";
 
 const TableData = [
   {

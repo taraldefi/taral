@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css?family=Inter&display=swap');
 @import "main.scss";
 @import "topbar.scss";
 @import "leftMenu.scss";
@@ -23,7 +24,6 @@
 @import "paymentTerms.scss";
 @import "kyc.scss";
 @import "insuranceUser.scss";
-// @import "scss/styles.scss";
 @import "lpUser.scss";
 @import "newLayout.scss";
 @import "auth.scss";
@@ -31,13 +31,42 @@
 @import "transactionDocs.scss";
 @import "profile.scss";
 
+@import "../lib/Button/Button.module.scss";
+@import "../lib/Entity/Entity.module.scss";
+@import "../lib/LoanCard/LoanCard.module.scss";
+@import "../lib/Modals/Modals.module.scss";
+@import "../lib/PoolCard/PoolCard.module.scss";
+@import "../lib/ProfileCard/ProfileCard.module.scss";
+@import "../lib/Table/Table.module.scss";
+@import "../lib/Widgets/Widgets.module.scss";
+
+@media (prefers-color-scheme: dark) {
+  body {
+    --background: #3c3c3c;
+    --font-color: #fafafa;
+  }
+}
+
 body {
   user-select: none;
   padding: 0;
   background-color: #f8fafc;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  font-family:'Inter', -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+
+  /* Add your CSS variables here */
+  --background: #f6f7fa;
+  --tariala-black: #000000;
+  --tariala-white: #ffffff;
+  --tariala-red: #d70b48;
+  --tariala-green: #1ab98b;
+  --tariala-blue: #1d4ed8;
+
+  --heading-font-size: 40px;
+  --subheading-font-size: 24px;
+
+  // font-family: 'Inter', sans-serif;
 }
 
 html,

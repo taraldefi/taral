@@ -1,5 +1,5 @@
 import TxLayout from "@components/layouts/auditor/tx_layout";
-import { TxFinanceTable } from "taral-ui";
+import { TxFinanceTable } from "@lib";
 
 const TableData = {
   orderentity: {

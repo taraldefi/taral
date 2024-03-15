@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function Index() {
   const router = useRouter();

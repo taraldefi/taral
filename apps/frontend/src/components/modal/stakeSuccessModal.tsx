@@ -1,6 +1,6 @@
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 type Props = {
   isOpen: boolean;

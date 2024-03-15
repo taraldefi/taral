@@ -15,6 +15,8 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
     "rootDirs": ["src", "scripts"],
     "paths": {
       "@components/*": ["src/components/*"],
@@ -27,7 +29,7 @@
       "@store/*": ["src/store/*"],
       "@types/*": ["src/types/*"],
       "@services/*": ["src/services/*"],
-      "taral-ui": ["../../libs/ui"],
+      "@lib": ["src/lib"],
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

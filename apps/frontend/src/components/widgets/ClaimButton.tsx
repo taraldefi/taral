@@ -3,7 +3,7 @@ import { getExplorerLink } from "@utils/helper";
 import { useTransaction } from "@utils/queries/use-transaction";
 import React from "react";
 import { toast } from "sonner";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 const ClaimButton = () => {
   const { acceptFinancing } = useTaralContracts();

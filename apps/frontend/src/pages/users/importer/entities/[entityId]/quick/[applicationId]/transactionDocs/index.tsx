@@ -11,7 +11,7 @@ import {
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { toast } from "sonner";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function Index({ ...props }) {
   const { query } = props;

@@ -13,7 +13,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { Entity, EntityCardResponse, EntityResponse } from "src/types";
-import { DeleteModal, EntityTable } from "taral-ui";
+import { DeleteModal, EntityTable } from "@lib";
 
 const TableData = [
   {

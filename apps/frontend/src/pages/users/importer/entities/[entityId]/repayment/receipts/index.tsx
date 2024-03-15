@@ -1,4 +1,4 @@
-import { ReceiptTable } from "taral-ui";
+import { ReceiptTable } from "@lib";
 import { ArrowLeft } from "react-feather";
 import Topbar from "@components/topBar";
 import { ReceiptTableData } from "src/bin/mockData";

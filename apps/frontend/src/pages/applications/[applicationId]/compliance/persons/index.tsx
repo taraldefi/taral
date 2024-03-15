@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import ComplianceLayout from "@components/layouts/auditor/compliance_layout";
-import { Button, PersonsTable } from "taral-ui";
+import { Button, PersonsTable } from "@lib";
 import { useForm } from "react-hook-form";
 import { PortalIcons } from "@components/icons";
 import { tableFormPerson } from "src/types";

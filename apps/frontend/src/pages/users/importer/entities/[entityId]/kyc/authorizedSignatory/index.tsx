@@ -1,7 +1,7 @@
 import { PortalIcons } from "@components/icons";
 import ImporterKycLayout from "@components/layouts/importer/importerKycLayout";
 import React from "react";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function Index() {
   const [selected, setSelected] = React.useState(false);

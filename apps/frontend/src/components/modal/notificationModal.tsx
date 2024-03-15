@@ -1,4 +1,4 @@
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 type Props = {
   isOpen: boolean;

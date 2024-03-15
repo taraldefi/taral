@@ -1,6 +1,6 @@
 import { PortalIcons } from "@components/icons";
 import ImporterKycLayout from "@components/layouts/importer/importerKycLayout";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function index() {
   return (

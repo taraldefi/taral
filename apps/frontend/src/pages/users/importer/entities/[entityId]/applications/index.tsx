@@ -9,8 +9,8 @@ import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
 import { useEffect, useState } from "react";
-import { ApplicationTable } from "taral-ui";
-import { applicationTableDataType } from "taral-ui/build/Table/Table.types";
+import { ApplicationTable } from "@lib";
+import { applicationTableDataType } from "@lib";
 
 function Index({ ...props }) {
   const router = useRouter();

@@ -1,7 +1,7 @@
 // import React from "react";
 // import { useRouter } from "next/router";
 // import { TopbarData, TopbarNewDataEx, TopbarNewDataIm } from "./data";
-// import { Button } from "taral-ui";
+// import { Button } from "@lib";
 // import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 // import { useAtom } from "jotai";

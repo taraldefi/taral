@@ -1,7 +1,7 @@
 import { useAuth } from "@micro-stacks/react";
 import React from "react";
 import { LogOut } from "react-feather";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 const ConnectWallet = () => {
   const [label, setButtonLabel] = React.useState("CONNECT WALLET");

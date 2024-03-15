@@ -1,6 +1,6 @@
 import { faEuroSign } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { balanceSheetTableType } from "../../../types/widget_table";
 interface Props {
   TableData: balanceSheetTableType;

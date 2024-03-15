@@ -1,4 +1,4 @@
-import { PaymentSuccessCard } from "taral-ui";
+import { PaymentSuccessCard } from "@lib";
 import Topbar from "@components/topBar";
 import { useRouter } from "next/router";
 import { useSearchParams } from "next/navigation";

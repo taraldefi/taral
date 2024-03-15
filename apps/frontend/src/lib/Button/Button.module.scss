@@ -1,0 +1,41 @@
+.button--primary {
+  display: flex;
+  border-radius: 5px;
+  border: none;
+  transition: background 150ms;
+  font-family: "inter", sans-serif;
+  color: #ffffff;
+  cursor: pointer;
+  span {
+    font-weight: 500;
+  }
+}
+.button--container {
+  gap: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button--secondary {
+  font-family: "inter", sans-serif;
+  display: flex;
+  border-radius: 5px;
+  border: #0d8489 solid 1px;
+  transition: background 150ms;
+  background: #ffffff;
+  cursor: pointer;
+  color: #1ab98b;
+}
+
+.button--small {
+  font-size: 12px;
+  padding: 10px 16px;
+}
+.button--medium {
+  font-size: 12px;
+  padding: 10px 20px;
+}
+.button--large {
+  font-size: 16px;
+  padding: 12px 24px;
+}

@@ -4,7 +4,7 @@ import CustomInput from "@components/widgets/customPasswordField";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 
 function Index() {
   const router = useRouter();

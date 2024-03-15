@@ -1,6 +1,6 @@
 import { PortalIcons } from "@components/icons";
 import AuthLayout from "@components/layouts/auth_layout";
-import { Button } from "taral-ui";
+import { Button } from "@lib";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";

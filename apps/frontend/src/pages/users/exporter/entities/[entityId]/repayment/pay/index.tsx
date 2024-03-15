@@ -2,7 +2,7 @@ import ExporterBaseLayout from "@components/layouts/exporter/exporterBaseLayout"
 import RepaymentCard from "@components/widgets/RepaymentCard";
 import { useRouter } from "next/router";
 import { RepaymentTableData } from "src/bin/mockData";
-import { RepaymentTable } from "taral-ui";
+import { RepaymentTable } from "@lib";
 
 export enum LoanCardTypes {
   INTEREST_RATE = "INTEREST_RATE",

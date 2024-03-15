@@ -1,7 +1,7 @@
 import { PortalIcons } from "@components/icons";
 import TopBar from "@components/topBar";
 import React from "react";
-import { PoolCard } from "taral-ui";
+import { PoolCard } from "@lib";
 import logo from "@public/assets/svg/logo.svg";
 import { useModal } from "@utils/hooks";
 import { YieldModalAtom } from "@store/ModalStore";

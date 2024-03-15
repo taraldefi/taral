@@ -1,5 +1,5 @@
 import ComplianceLayout from "@components/layouts/auditor/compliance_layout";
-import { CompanyTable } from "taral-ui";
+import { CompanyTable } from "@lib";
 
 const TableData = [
   {
