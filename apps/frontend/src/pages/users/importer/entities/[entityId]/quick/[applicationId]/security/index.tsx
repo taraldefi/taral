@@ -153,12 +153,12 @@ function Index({ ...props }) {
                 <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
+                {...register("requestedTenure", { required: true })}
                 type="date"
                 className={
                   errors.requestedTenure ? "inputs inputRed" : "inputs"
                 }
                 id="calendar"
-                {...register("requestedTenure", { required: true })}
               />
             </div>
             <div>
