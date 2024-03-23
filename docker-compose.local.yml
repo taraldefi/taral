@@ -14,6 +14,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
   api: 
+    container_name: api
     build:
       context: .
       dockerfile: portal.Dockerfile
@@ -106,6 +107,7 @@ services:
       SEQ_API_KEY: ${SEQ_API_KEY}
 
   frontend:
+    container_name: frontend
     build:
       context: .
       dockerfile: dashboard.Dockerfile
@@ -130,6 +132,7 @@ services:
       NEXT_PUBLIC_TARAL_LENDER_ADDRESS: ${NEXT_PUBLIC_TARAL_LENDER_ADDRESS:-ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50}
 
   sqlpad:
+    container_name: sqlpad
     # To use Dockerfile at root of this project, use build instead of image
     # build: ../../
     image: sqlpad/sqlpad:5
@@ -153,6 +156,23 @@ services:
     volumes:
       - ./docker/sqlpad/seed-data:/etc/sqlpad/seed-data
 
+  nginx: 
+    container_name: nginx
+    build: ./docker/nginx
+    environment: 
+      API_DOMAIN: api.localtariala.com
+      FRONTEND_DOMAIN: app.localtariala.com
+      SEQ_DOMAIN: seq.localtariala.com
+      SQLPAD_DOMAIN: db.localtariala.com
+    ports:
+      - 80:80
+      - 443:443
+    # volumes:
+    #   - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+    # depends_on:
+    #   - api
+    #   - frontend
+
   redis:
     image: redis:7-alpine
     ports:
@@ -174,6 +194,7 @@ services:
       SEQCLI_PATH: ${SEQCLI_PATH}
 
   seq:
+    container_name: seq
     image: datalust/seq:latest
     environment:
       ACCEPT_EULA: Y

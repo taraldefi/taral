@@ -14,6 +14,7 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
   api: 
+    container_name: api
     image: ghcr.io/taraldefi/taral_api:latest
     ports:
       - 3000:3000
@@ -106,6 +107,7 @@ services:
       SEQ_API_KEY: ${SEQ_API_KEY}
 
   frontend:
+    container_name: frontend
     image: ghcr.io/taraldefi/taral_frontend:latest
     ports:
       - 3001:3000
@@ -128,6 +130,7 @@ services:
       NEXT_PUBLIC_TARAL_LENDER_ADDRESS: ${NEXT_PUBLIC_TARAL_LENDER_ADDRESS:-ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50}
 
   sqlpad:
+    container_name: sqlpad
     # To use Dockerfile at root of this project, use build instead of image
     # build: ../../
     image: sqlpad/sqlpad:5
@@ -172,6 +175,7 @@ services:
       SEQCLI_PATH: ${SEQCLI_PATH}
 
   seq:
+    container_name: seq
     image: datalust/seq:latest
     environment:
       ACCEPT_EULA: Y
