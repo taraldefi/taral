@@ -53,9 +53,11 @@ export class LoggingInterceptor implements NestInterceptor {
         Request params: ${JSON.stringify(params, null, 2)}
         Request query: ${JSON.stringify(query, null, 2)}
         Request body: ${this.parseRequestBody(context)}`;
+        
+    this.logger.log(message);
 
     if (!SHOULD_LOG_RESPONSE) {
-      this.logger.log(message);
+      return next.handle();
     } else {
       return next.handle().pipe(
         tap((data) => {
@@ -73,7 +75,5 @@ export class LoggingInterceptor implements NestInterceptor {
         })
       );
     }
-
-    return next.handle();
   }
 }
