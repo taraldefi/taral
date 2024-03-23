@@ -18,7 +18,6 @@ services:
     image: ghcr.io/taraldefi/taral_api:latest
     ports:
       - 3000:3000
-    # command: tail -f /dev/null
     volumes:
       - ./standalone/portal-api/local_storage:/app/local_storage
       - ./standalone/portal-api/logs:/app/logs
@@ -133,8 +132,6 @@ services:
 
   sqlpad:
     container_name: sqlpad
-    # To use Dockerfile at root of this project, use build instead of image
-    # build: ../../
     image: sqlpad/sqlpad:5
     hostname: 'sqlpad'
     depends_on:
