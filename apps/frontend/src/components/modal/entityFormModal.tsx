@@ -14,17 +14,54 @@ import "react-international-phone/style.css";
 import { useAtom } from "jotai";
 import { toast } from "sonner";
 import { PhoneInput } from "react-international-phone";
+import * as Yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
 };
 
+const entityRegistrationSchema = Yup.object().shape({
+  logo: Yup.mixed<FileList>()
+    .test("required", "You need to provide a logo", (file) => {
+      if (file && file[0]) return true;
+      return false;
+    })
+    .test("fileSize", "Uploaded file is too large", (file) => {
+      //less than 2MB file size
+      console.log(file && file[0] && file[0].size);
+      return file && file[0] && file[0].size <= 2000000;
+    }),
+
+  name: Yup.string().required(),
+  email: Yup.string().email().required(),
+  phoneNumber: Yup.string().required(),
+  registrationNumber: Yup.string().required(),
+  beneficialOwner: Yup.string().required(),
+  abbreviation: Yup.string().required(),
+  nationality: Yup.string().required(),
+  headquarters: Yup.string().required(),
+  industryType: Yup.string().required(),
+  coreBusiness: Yup.string().required(),
+  incorporationDate: Yup.string().required(),
+  legalForm: Yup.string().required(),
+  taxAndRevenueFiscalYear: Yup.number().required(),
+  taxAndRevenueTotalRevenue: Yup.number().required(),
+});
+
 function FormModal({ isOpen, onClose }: Props) {
-  const [, setSelectedCountry] = React.useState("");
   const [isLoading, setLoading] = React.useState(false);
   const [isSubmitSuccessful, setSubmitSuccessful] = React.useState(false);
-  const { register, handleSubmit, reset, control } = useForm<Entity>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(entityRegistrationSchema),
+  });
   const [, setCurrentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const [, setEntityCreated] = useAtom(EntityCreatedAtom);
   const router = useRouter();
@@ -33,7 +70,7 @@ function FormModal({ isOpen, onClose }: Props) {
   >("");
   const [fileName, setFileName] = React.useState<string>("");
 
-  const onSubmit = (data: Entity) => {
+  const onSubmit = (data: Partial<Entity>) => {
     setLoading(true);
     const formData = new FormData();
     console.log("data", data);
@@ -63,6 +100,7 @@ function FormModal({ isOpen, onClose }: Props) {
         setLoading(false);
         setSubmitSuccessful(true);
         setEntityCreated(data.id);
+        setFileName("");
         onClose();
         router.push(
           `/users/${router.asPath.split("/")[2]}/entities/${data.id}/overview`
@@ -98,6 +136,8 @@ function FormModal({ isOpen, onClose }: Props) {
     reset();
   }, [isSubmitSuccessful]);
 
+  console.log(errors);
+
   return (
     <div className={"formModal " + (isOpen && "active")}>
       {isOpen && (
@@ -122,10 +162,11 @@ function FormModal({ isOpen, onClose }: Props) {
               <div className="entityfield">
                 <span>Entity Logo</span>
                 <input
-                  {...register("logo", { required: true })}
+                  accept="image/png, image/jpeg"
+                  {...register("logo")}
                   title="entity logo"
                   id="upload"
-                  className="inputs"
+                  className={errors.logo ? "inputsRed" : "inputs"}
                   type="file"
                   placeholder="Upload Logo..."
                   onChange={handleFileChange}
@@ -141,6 +182,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   />
                 )}
                 {previewSource && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     id="preview"
                     src={previewSource as string}
@@ -160,7 +202,7 @@ function FormModal({ isOpen, onClose }: Props) {
                 <input
                   {...register("email")}
                   title="email"
-                  className="inputs"
+                  className={errors.email ? "inputsRed" : "inputs"}
                   type="email"
                   placeholder="john@example.com"
                 ></input>
@@ -170,7 +212,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Entity Name</span>
                   <input
                     {...register("name")}
-                    className="inputs"
+                    className={errors.name ? "inputsRed" : "inputs"}
                     type="text"
                     placeholder="Entity Name..."
                   ></input>
@@ -179,7 +221,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Abbreviation</span>
                   <input
                     {...register("abbreviation")}
-                    className="inputs"
+                    className={errors.abbreviation ? "inputsRed" : "inputs"}
                     type="text"
                     placeholder="Abbreviation..."
                   ></input>
@@ -203,7 +245,11 @@ function FormModal({ isOpen, onClose }: Props) {
                       inputStyle={{
                         width: "100%",
                         height: "44px",
-                        border: `1.5px solid #cbd5e1`,
+                        border: `${
+                          errors.phoneNumber
+                            ? "1.5px solid #f84141"
+                            : "1px solid #cbd5e1"
+                        }`,
                       }}
                       placeholder={"phone number"}
                       defaultCountry="us"
@@ -218,7 +264,9 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Last fiscal year</span>
                   <input
                     {...register("taxAndRevenueFiscalYear")}
-                    className="inputs"
+                    className={
+                      errors.taxAndRevenueFiscalYear ? "inputsRed" : "inputs"
+                    }
                     type="number"
                     placeholder="Year"
                   ></input>
@@ -227,7 +275,9 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Total Revenue</span>
                   <input
                     {...register("taxAndRevenueTotalRevenue")}
-                    className="inputs"
+                    className={
+                      errors.taxAndRevenueTotalRevenue ? "inputsRed" : "inputs"
+                    }
                     type="number"
                     placeholder="Total Revenue"
                   ></input>
@@ -238,7 +288,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Beneficial Owner</span>
                   <input
                     {...register("beneficialOwner")}
-                    className="inputs"
+                    className={errors.beneficialOwner ? "inputsRed" : "inputs"}
                     type="text"
                     placeholder="Beneficial Owner..."
                   ></input>
@@ -247,7 +297,9 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Registration Number</span>
                   <input
                     {...register("registrationNumber")}
-                    className="inputs"
+                    className={
+                      errors.registrationNumber ? "inputsRed" : "inputs"
+                    }
                     type="text"
                     placeholder="Registration Number"
                   ></input>
@@ -260,8 +312,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <select
                     {...register("nationality")}
                     id="downarrow"
-                    className="inputs"
-                    onChange={(e) => setSelectedCountry(e.target.value)}
+                    className={errors.nationality ? "inputsRed" : "inputs"}
                   >
                     <option value="">Select country...</option>
                     {countries.map((item) => {
@@ -295,7 +346,7 @@ function FormModal({ isOpen, onClose }: Props) {
                 </select> */}
                   <input
                     {...register("headquarters")}
-                    className="inputs"
+                    className={errors.headquarters ? "inputsRed" : "inputs"}
                     type="text"
                     placeholder="City"
                   ></input>
@@ -306,7 +357,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Core Business</span>
                   <select
                     id="downarrow"
-                    className="inputs"
+                    className={errors.coreBusiness ? "inputsRed" : "inputs"}
                     {...register("coreBusiness")}
                   >
                     <option value="">Core Business...</option>
@@ -323,7 +374,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Industry Type</span>
                   <input
                     {...register("industryType")}
-                    className="inputs"
+                    className={errors.industryType ? "inputsRed" : "inputs"}
                     type="text"
                     placeholder="Industry Type..."
                   ></input>
@@ -336,7 +387,9 @@ function FormModal({ isOpen, onClose }: Props) {
                   <input
                     {...register("incorporationDate")}
                     id="calendar"
-                    className="inputs"
+                    className={
+                      errors.incorporationDate ? "inputsRed" : "inputs"
+                    }
                     type="date"
                     placeholder="Select Date..."
                   ></input>
@@ -345,7 +398,7 @@ function FormModal({ isOpen, onClose }: Props) {
                   <span>Legal Form</span>
                   <select
                     id="downarrow"
-                    className="inputs"
+                    className={errors.legalForm ? "inputsRed" : "inputs"}
                     {...register("legalForm")}
                   >
                     <option key="0" value={""} selected>
@@ -360,7 +413,7 @@ function FormModal({ isOpen, onClose }: Props) {
                     <option value={"corporation"} key="3">
                       Corporation
                     </option>
-                    <option value={"limited liability corporation"} key="3">
+                    <option value={"limited liability corporation"} key="4">
                       Limited Liability Corporation
                     </option>
                   </select>

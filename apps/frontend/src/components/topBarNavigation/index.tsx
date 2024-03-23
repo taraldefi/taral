@@ -19,6 +19,7 @@ function TopBarNav() {
   const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
     currentSelectedEntityAtom
   );
+
   const [entityCreated] = useAtom(EntityCreatedAtom);
 
   const entityID = currentSelectedEntity;
