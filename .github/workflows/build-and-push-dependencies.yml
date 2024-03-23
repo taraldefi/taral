@@ -1,4 +1,4 @@
-name: [Deps] - Build and Push
+name: Deps - Build and Push
 
 on:
   workflow_dispatch:
