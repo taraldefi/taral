@@ -11,23 +11,18 @@ type Props = {
 };
 
 const KycTopNavRightComponent = ({ entities }: Props) => {
-  const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
-    currentSelectedEntityAtom
-  );
-  const formModal = useModal(FormModalAtom);
-
   const router = useRouter();
+  const entityID = router.asPath.split("/")[4];
+  const formModal = useModal(FormModalAtom);
 
   return (
     <>
       <div className="viewEntitySelect">
         <select
           onChange={(e) => {
-            console.log(e.target.value);
-            setCurrentSelectedEntity(e.target.value);
-            router.replace({
-              pathname: `/users/importer/entities/${e.target.value}/overview`,
-            });
+            window.location.replace(
+              `/users/importer/entities/${e.target.value}/kyc/generalInfo`
+            );
           }}
           name=""
           id=""
@@ -39,7 +34,7 @@ const KycTopNavRightComponent = ({ entities }: Props) => {
                 <option
                   key={index}
                   value={item.id}
-                  selected={item.id === currentSelectedEntity}
+                  selected={item.id === entityID}
                 >
                   {item.name}
                 </option>

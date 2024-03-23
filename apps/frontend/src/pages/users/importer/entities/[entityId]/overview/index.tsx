@@ -68,7 +68,9 @@ function index({ ...props }) {
 
   async function fetchEntityData() {
     try {
-      const res = await entityService.getEntity(props.query.entityId);
+      const res = await entityService.getEntity(
+        props.query.entityId || (router.asPath.split("/")[4] as string)
+      );
       setEntityData(res);
     } catch (error) {
       console.log("Error fetching entity:", error);

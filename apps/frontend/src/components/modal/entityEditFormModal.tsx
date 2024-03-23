@@ -143,6 +143,7 @@ function FormEditModal({ isOpen, onClose }: Props) {
                   />
                 )}
                 {previewSource && (
+                  // eslint-disable-next-line @next/next/no-img-element
                   <img
                     id="preview"
                     src={previewSource as string}

@@ -13,21 +13,21 @@ import OverviewTopNavRightComponent from "./overviewTopNav";
 import applicationService from "@services/application/applicationService";
 
 const ImporterTopNav = () => {
-  const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
+  // const [currentSelectedEntity] = useAtom(currentSelectedEntityAtom);
   const router = useRouter();
-  const entityID = currentSelectedEntity;
+  const entityID = router.asPath.split("/")[4];
   const [entities, setEntities] = useState<EntityCardResponse[]>([]);
   const [applications, setApplications] = useState<any[]>([]);
   const [entityCreated] = useAtom(EntityCreatedAtom);
-
-  console.log("entity", entityID);
 
   useEffect(() => {
     async function fetchData() {
       try {
         const res = await entityService.getAllEntity();
         setEntities(res);
-        const applications = await applicationService.getAllApplications(entityID);
+        const applications = await applicationService.getAllApplications(
+          entityID
+        );
         setApplications(applications);
       } catch (error) {
         console.error("Error fetching entity:", error);

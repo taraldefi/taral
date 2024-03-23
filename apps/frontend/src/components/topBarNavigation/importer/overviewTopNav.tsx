@@ -11,23 +11,20 @@ type Props = {
 };
 
 const OverviewTopNavRightComponent = ({ entities }: Props) => {
-  const [currentSelectedEntity, setCurrentSelectedEntity] = useAtom(
-    currentSelectedEntityAtom
-  );
   const formModal = useModal(FormModalAtom);
-
   const router = useRouter();
+  const entityID = router.asPath.split("/")[4];
 
   return (
     <>
       <div className="viewEntitySelect">
         <select
           onChange={(e) => {
-            console.log(e.target.value);
-            setCurrentSelectedEntity(e.target.value);
-            router.replace({
-              pathname: `/users/importer/entities/${e.target.value}/overview`,
-            });
+            // router.push(`/users/importer/entities/${e.target.value}/overview`);
+            // router.reload();
+            window.location.replace(
+              `/users/importer/entities/${e.target.value}/overview`
+            );
           }}
           name=""
           id=""
@@ -39,7 +36,7 @@ const OverviewTopNavRightComponent = ({ entities }: Props) => {
                 <option
                   key={index}
                   value={item.id}
-                  selected={item.id === currentSelectedEntity}
+                  selected={item.id === entityID}
                 >
                   {item.name}
                 </option>
