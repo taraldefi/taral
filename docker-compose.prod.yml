@@ -25,7 +25,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - nginx
     environment:
       APP_RUN_THROTTLE: ${APP_RUN_THROTTLE:-false}
       APP_RUN_CHAINHOOK: ${APP_RUN_CHAINHOOK:-false}
@@ -113,7 +112,6 @@ services:
       - 3001:3000
     depends_on:
       - api
-      - nginx
     environment:
       NEXT_PUBLIC_LOCALNET_API_SERVER: ${NEXT_PUBLIC_LOCALNET_API_SERVER:-http://localhost:3999/}
       NEXT_PUBLIC_TESTNET_API_SERVER: ${NEXT_PUBLIC_TESTNET_API_SERVER:-https://api.testnet.hiro.so/}
@@ -134,8 +132,6 @@ services:
     container_name: sqlpad
     image: sqlpad/sqlpad:5
     hostname: 'sqlpad'
-    depends_on:
-      - nginx
     ports:
       - '3333:3000'
     environment:
@@ -166,7 +162,6 @@ services:
     image: ghcr.io/taraldefi/taral_seqcli:latest
     depends_on:
       - seq
-      - nginx
     restart: on-failure
     environment:
       SEQ_URL: ${SEQ_URL}
@@ -179,8 +174,6 @@ services:
   seq:
     container_name: seq
     image: datalust/seq:latest
-    depends_on:
-      - nginx
     environment:
       ACCEPT_EULA: Y
       SEQ_FIRSTRUN_ADMINPASSWORDHASH: ${SEQ_FIRSTRUN_ADMINPASSWORDHASH}
@@ -191,6 +184,11 @@ services:
   nginx: 
     container_name: nginx
     image: ghcr.io/taraldefi/taral_nginx:latest
+    depends_on:
+      - api
+      - frontend
+      - sqlpad
+      - seq
     volumes:
       - ./certs/cert.pem:/etc/nginx/cert.pem
       - ./certs/cert-key.pem:/etc/nginx/cert-key.pem
