@@ -107,3 +107,8 @@ SEQCLI_PATH=
 SEQ_API_KEY=
 
 LOGGING_ROTATE_DIRECTORY=logs
+
+API_DOMAIN=api.localtariala.com
+FRONTEND_DOMAIN=app.localtariala.com
+SEQ_DOMAIN=seq.localtariala.com
+SQLPAD_DOMAIN=db.localtariala.com
