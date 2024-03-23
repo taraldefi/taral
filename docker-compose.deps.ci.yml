@@ -3,3 +3,10 @@ version: '3'
 services:
   seqcli:
     build: ./docker/logging
+nginx: 
+    build: ./docker/nginx
+    environment: 
+      API_DOMAIN: api.tariala.com
+      FRONTEND_DOMAIN: app.tariala.com
+      SEQ_DOMAIN: seq.tariala.com
+      SQLPAD_DOMAIN: db.tariala.com
