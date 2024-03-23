@@ -166,6 +166,9 @@ services:
       FRONTEND_DOMAIN: app.localtariala.com
       SEQ_DOMAIN: seq.localtariala.com
       SQLPAD_DOMAIN: db.localtariala.com
+    volumes:
+      - ./certs/cert.pem:/etc/nginx/cert.pem
+      - ./certs/cert-key.pem:/etc/nginx/cert-key.pem
     ports:
       - 80:80
       - 443:443

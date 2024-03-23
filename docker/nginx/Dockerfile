@@ -28,9 +28,6 @@ COPY ./sites-enabled/default-redirect.conf /etc/nginx/sites-enabled/default-redi
 
 COPY ./ssl/dhparam.pem /etc/nginx/ssl/dhparam.pem
 
-COPY ./certs/cert.pem /etc/nginx/cert.pem
-COPY ./certs/cert-key.pem /etc/nginx/cert-key.pem
-
 # Copy a script that replaces the placeholders and moves the configs into place
 COPY replace-and-run.sh /replace-and-run.sh
 
