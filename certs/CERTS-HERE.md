@@ -2,7 +2,7 @@ Generated certs with [mkcert](https://github.com/FiloSottile/mkcert) go here
 
 How to generate these local certificates: 
 
-1. `mkcert localtariala.com api.localtariala.com app.localtariala.com db.localtariala.com seq.localtariala.com` will generate the `pem` and `key` certificates.
+1. `mkcert tariala.com api.tariala.com app.tariala.com db.tariala.com seq.tariala.com` will generate the `pem` and `key` certificates.
 
 2. Rename them to `cert-key.pem` and `cert.pem`
 
@@ -12,5 +12,5 @@ How to generate these local certificates:
 
 e.g. add the following line: 
 
-`127.0.0.1 localtariala.com api.localtariala.com app.localtariala.com seq.localtariala.com db.localtariala.com`
+`127.0.0.1 tariala.com api.tariala.com app.tariala.com seq.tariala.com db.tariala.com`
 
