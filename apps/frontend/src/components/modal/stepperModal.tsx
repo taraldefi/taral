@@ -51,16 +51,25 @@ function StepperModal({ isOpen, onClose }: Props) {
       return;
     }
     if (!applicationData) return;
+    const balanceResponse = await fetch(
+      `/api/get-balance?stxAddress=${stxAddress}`
+    );
+    const { message: balance } = await balanceResponse.json();
+
+    if (
+      parseFloat(balance) * Math.pow(10, 6) <
+      parseFloat(applicationData.paymentTerms.downpayment) * Math.pow(10, 6)
+    ) {
+      toast.error("Insufficient sUSDT balance");
+      onClose();
+      return;
+    }
 
     const transactionData = await createTaralPurchaseOrder(
       applicationId,
+      parseFloat(applicationData.paymentTerms.balanceAmount) * Math.pow(10, 6),
       parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 6) +
-        parseFloat(applicationData.paymentTerms.balanceAmount) *
-          Math.pow(10, 6),
-      parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 6),
-      applicationData.sellerPrincipal
+        Math.pow(10, 6)
     );
 
     await applicationService.submitTransactionId(
@@ -70,6 +79,7 @@ function StepperModal({ isOpen, onClose }: Props) {
 
     setTransactionId(transactionData.txId);
     toast("Transaction Submitted.", {
+      duration: 5000,
       description:
         " If the transaction takes more than 20 minutes to settle refresh and continue to second step",
       action: {

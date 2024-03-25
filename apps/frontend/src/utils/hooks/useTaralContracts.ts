@@ -64,16 +64,14 @@ function useTaralContracts() {
 
   async function createTaralPurchaseOrder(
     applicationId: string,
-    totalAmount: number,
-    downPayment: number,
-    sellerPrincipal: string
+    loanAmount: number,
+    downPayment: number
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const functionArgs = [
         stringUtf8CV(applicationId),
-        uintCV(totalAmount),
+        uintCV(loanAmount),
         uintCV(downPayment),
-        standardPrincipalCV(sellerPrincipal),
       ];
 
       const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
@@ -129,7 +127,7 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "accept-financing",
-          postConditionMode: PostConditionMode.Allow,
+          // postConditionMode: PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {

@@ -8,6 +8,11 @@ export const ustxToStx = (uStx: string) => {
   return (parseInt(uStx) / 1000000).toLocaleString("en-US");
 };
 
+export const tokenToNumber = (amount: number, decimals: number) => {
+  const convertWithDecimals = 10 ** decimals;
+  return amount / convertWithDecimals;
+};
+
 export function truncateUuid(
   uuidStr: string,
   startLength: number,
