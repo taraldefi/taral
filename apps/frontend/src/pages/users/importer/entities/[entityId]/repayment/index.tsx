@@ -55,7 +55,7 @@ function Index() {
   console.log(selectedApplication);
   return (
     <ImporterBaseLayout>
-      {!(Number(po) === 134 || !po) ? (
+      {!(Number(po) === 135 || !po) ? (
         <>
           {" "}
           <div className="repaymentContainer">
@@ -83,7 +83,7 @@ function Index() {
                 <LargeLoanCard
                   type={LoanCardTypes.LOAN_AMT}
                   value={(
-                    Number(po["outstanding-amount"]) / Math.pow(10, 6)
+                    Number(po["loan-amount"]) / Math.pow(10, 6)
                   ).toString()}
                 />
               </div>
@@ -92,7 +92,7 @@ function Index() {
                   type={LoanCardTypes.OUTSTANDING_AMT}
                   value={(
                     Number(po["interest"]) / Math.pow(10, 6) +
-                    Number(po["outstanding-amount"]) / Math.pow(10, 6)
+                    Number(po["loan-amount"]) / Math.pow(10, 6)
                   ).toString()}
                 />
               </div>
@@ -105,7 +105,7 @@ function Index() {
                         router.asPath.split("/")[2]
                       }/entities/${entityID}/repayment/pay?amount=${(
                         Number(po["interest"]) / Math.pow(10, 6) +
-                        Number(po["outstanding-amount"]) / Math.pow(10, 6)
+                        Number(po["loan-amount"]) / Math.pow(10, 6)
                       ).toFixed(3)}`
                     );
                   }}
@@ -129,7 +129,7 @@ function Index() {
                 <SmallLoanCard
                   value={(
                     Number(po["interest"]) / Math.pow(10, 6) +
-                    Number(po["outstanding-amount"]) / Math.pow(10, 6)
+                    Number(po["loan-amount"]) / Math.pow(10, 6)
                   ).toFixed(3)}
                   type={LoanCardTypes.TOTAL_REPAYMENT}
                 />
