@@ -21,7 +21,6 @@ async function refreshAccessToken(
   tokenObject: TokenObject
 ): Promise<TokenObject> {
   try {
-    console.log("Refreshing token =====>", tokenObject);
     // Get a new set of tokens with a refreshToken
     const tokenResponse = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`,
@@ -47,7 +46,6 @@ const providers = [
     id: "username-login",
     async authorize(credentials) {
       try {
-        console.log(credentials);
         const { username, password, remember } = credentials as LoginObject;
         // Authenticate user with credentials
 
@@ -61,7 +59,6 @@ const providers = [
         );
 
         if (user.data.accessToken) {
-          console.log("USER DATA =========+>", user.data);
           return user.data;
         }
 
@@ -76,7 +73,6 @@ const providers = [
 const callbacks = {
   jwt: async ({ token, user }: any) => {
     if (user) {
-      console.log("CALL BACK =========+>", user, token);
       // This will only be executed at login. Each next invocation will skip this part.
       token.accessToken = user.accessToken;
       token.accessTokenExpiry = user.expiresIn;
@@ -86,8 +82,10 @@ const callbacks = {
 
     // If accessTokenExpiry is 15 minutes, we have to refresh token before 15 minutes pass.
     const shouldRefreshToken =
-      Date.now() > decoded.iat! + token.expiresIn * 1000 ? true : false;
-    console.log("shouldRefreshToken", shouldRefreshToken);
+      Math.round(Date.now() / 1000) >
+      decoded.iat! + token.accessTokenExpiry - 100
+        ? true
+        : false;
 
     // If the call arrives after 15 minutes have passed, we allow to refresh the token.
 
