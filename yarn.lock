@@ -1616,6 +1616,13 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@babel/runtime@^7.20.13":
+  version "7.24.1"
+  resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.24.1.tgz#431f9a794d173b53720e69a6464abc6f0e2a5c57"
+  integrity sha512-+BIznRzyqBf+2wCTxcKE3wDjfGeCoVE61KSHGpkzqrLi8qxqFwBeUFyId2cxkTmm55fzDGnm0+yCxaxygrLUnQ==
+  dependencies:
+    regenerator-runtime "^0.14.0"
+
 "@babel/template@^7.22.15", "@babel/template@^7.3.3":
   version "7.22.15"
   resolved "https://registry.yarnpkg.com/@babel/template/-/template-7.22.15.tgz#09576efc3830f0430f4548ef971dde1350ef2f38"
@@ -3428,6 +3435,11 @@
   dependencies:
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
+
+"@panva/hkdf@^1.0.2":
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/@panva/hkdf/-/hkdf-1.1.1.tgz#ab9cd8755d1976e72fc77a00f7655a64efe6cd5d"
+  integrity sha512-dhPeilub1NuIG0X5Kvhh9lH4iW3ZsHlnzwgwbOlgwQ2wG1IqFzsgHqmKPk3WzsdWAeaxKJxgM0+W433RmN45GA==
 
 "@pkgjs/parseargs@^0.11.0":
   version "0.11.0"
@@ -7565,7 +7577,7 @@ cookie-signature@1.0.6:
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
   integrity sha512-QADzlaHc8icV8I7vbaJXJwod9HWYp8uCqf1xa4OfNu1T7JVxQIrUgOWtHdNDtPiywmFbiS12VjotIXLrKM3orQ==
 
-cookie@0.5.0:
+cookie@0.5.0, cookie@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.5.0.tgz#d1f5d71adec6558c58f389987c366aa47e994f8b"
   integrity sha512-YZ3GUyn/o8gfKJlnlX7g7xq4gyO6OSuhGPKaaGssGB2qgDUS0gPgtTvoyZLTt9Ab6dC4hfc9dV5arkvc/OCmrw==
@@ -12521,6 +12533,11 @@ jiti@^1.18.2, jiti@^1.19.1:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-1.21.0.tgz#7c97f8fe045724e136a397f7340475244156105d"
   integrity sha512-gFqAIbuKyyso/3G2qhiO2OM6shY6EPP/R0+mkDbyspxKazh8BXDC5FiFsUjlczgdNz/vfra0da2y+aHrusLG/Q==
 
+jose@^4.15.5:
+  version "4.15.5"
+  resolved "https://registry.npmjs.org/jose/-/jose-4.15.5.tgz#6475d0f467ecd3c630a1b5dadd2735a7288df706"
+  integrity sha512-jc7BFxgKPKi94uOvEmzlSWFFe2+vASyXaKUpdQKatWAESU2MWjDfFf0fdfc83CDKcA5QecabZeNLyfhe3yKNkg==
+
 jotai@2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/jotai/-/jotai-2.5.1.tgz#eed05a32a4ac1264c531a77e86478f7ad3197ca3"
@@ -12804,9 +12821,9 @@ just-debounce-it@3.2.0:
   resolved "https://registry.yarnpkg.com/just-debounce-it/-/just-debounce-it-3.2.0.tgz#4352265f4af44188624ce9fdbc6bff4d49c63a80"
   integrity sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==
 
-jwt-decode@4.0.0:
+jwt-decode@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
+  resolved "https://registry.npmjs.org/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
   integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
 keyv@^3.0.0:
@@ -12902,12 +12919,12 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/infrastructure"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/node_modules/stacks"
+    lib-infra "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-c1b39096-5f55-453f-8bfb-96d4c608a8f0-1711473086892/node_modules/infrastructure"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-c1b39096-5f55-453f-8bfb-96d4c608a8f0-1711473086892/node_modules/shared"
+    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-c1b39096-5f55-453f-8bfb-96d4c608a8f0-1711473086892/node_modules/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-354b2fef-4db5-4853-ae4d-cbe0517c86ed-1710488315445/packages/configuration"
+    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-c1b39096-5f55-453f-8bfb-96d4c608a8f0-1711473086892/packages/configuration"
 
 "lib-bitcoin@file:./libs/bitcoin":
   version "1.0.0"
@@ -12921,7 +12938,7 @@ levn@~0.3.0:
     bn.js "^5.2.1"
     c32check "^2.0.0"
     ecpair "2.1.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-bitcoin-1.0.0-8b7f3245-30f9-4d5a-b7ca-7cc21e081b45-1710488315424/node_modules/shared"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-bitcoin-1.0.0-e7b17540-75ef-429d-bcb1-a58001b46c3e-1711473086890/node_modules/shared"
     npm-run-all "^4.1.5"
     rpc-bitcoin "^2.0.0"
     tiny-secp256k1 "2.2.3"
@@ -12931,7 +12948,7 @@ levn@~0.3.0:
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-3efee2eb-da20-4c5b-bac7-d736e260156b-1710488315434/node_modules/shared"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-clarity-bin-1.0.0-4e13e13c-1e78-413d-b223-1ef739d0cb79-1711473086891/node_modules/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -12941,18 +12958,18 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-b8436f2b-22d7-40f4-ba4b-626307c38d81-1710488315431/node_modules/clarity-bin"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-b8436f2b-22d7-40f4-ba4b-626307c38d81-1710488315431/node_modules/shared"
+    lib-clarity-bin "file:../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-9bc6b62e-f5c7-4974-9d3d-8ea9c0c50a1e-1711473086892/node_modules/clarity-bin"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-9bc6b62e-f5c7-4974-9d3d-8ea9c0c50a1e-1711473086892/node_modules/shared"
     npm-run-all "^4.1.5"
 
 "lib-oracle@file:./libs/oracle":
   version "1.0.0"
   dependencies:
     "@types/web3" "^1.2.2"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-oracle-1.0.0-f098f559-5315-4bd1-9439-23f3b275974a-1710488315437/node_modules/shared"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-oracle-1.0.0-917f900e-fc35-4ea2-bc9b-9ebb63d86d02-1711473086891/node_modules/shared"
     node-binance-api "^0.13.1"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-oracle-1.0.0-f098f559-5315-4bd1-9439-23f3b275974a-1710488315437/packages/contracts"
+    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-oracle-1.0.0-917f900e-fc35-4ea2-bc9b-9ebb63d86d02-1711473086891/packages/contracts"
     web3 "^4.2.0"
 
 "lib-shared@file:./libs/shared":
@@ -12978,11 +12995,11 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-43d15721-6445-4033-89a3-a5419c4e8b6b-1710488315425/node_modules/shared"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-83c556ab-cfc4-454e-9295-20c1a418f1a1-1711473086889/node_modules/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-43d15721-6445-4033-89a3-a5419c4e8b6b-1710488315425/packages/configuration"
+    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-83c556ab-cfc4-454e-9295-20c1a418f1a1-1711473086889/packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:./libs/storage":
@@ -12991,10 +13008,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/node_modules/stacks"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-9f2f78b1-0920-47d3-a2f8-5c7fe05a0177-1711473086889/node_modules/shared"
+    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-9f2f78b1-0920-47d3-a2f8-5c7fe05a0177-1711473086889/node_modules/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-fe014d33-5bbc-46a6-a843-8463edc0eaf1-1710488315433/packages/contracts"
+    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-9f2f78b1-0920-47d3-a2f8-5c7fe05a0177-1711473086889/packages/contracts"
 
 "lib-swap@file:./libs/swap":
   version "1.0.0"
@@ -13002,26 +13019,26 @@ levn@~0.3.0:
     "@types/crypto-js" "^4.1.1"
     bitcoinjs-lib "^6.1.3"
     crypto-js "^4.2.0"
-    lib-bitcoin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/bitcoin"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/node_modules/stacks"
+    lib-bitcoin "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-f2af856b-d323-4e90-abf0-aee98eaa6791-1711473086890/node_modules/bitcoin"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-f2af856b-d323-4e90-abf0-aee98eaa6791-1711473086890/node_modules/shared"
+    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-f2af856b-d323-4e90-abf0-aee98eaa6791-1711473086890/node_modules/stacks"
     merkletreejs "^0.3.9"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/packages/configuration"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-swap-1.0.0-73aec890-6b60-4632-a5f8-ecf1b1bda8ef-1710488315427/packages/contracts"
+    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-f2af856b-d323-4e90-abf0-aee98eaa6791-1711473086890/packages/configuration"
+    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-f2af856b-d323-4e90-abf0-aee98eaa6791-1711473086890/packages/contracts"
 
 "lib-testing@file:./libs/testing":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/transactions" "^6.9.0"
-    lib-clarity-bin "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/clarity-bin"
-    lib-infra "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/infrastructure"
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/shared"
-    lib-stacks "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/node_modules/stacks"
+    lib-clarity-bin "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-4081cb2d-255f-4d2a-9c8c-d156b3880d0b-1711473086890/node_modules/clarity-bin"
+    lib-infra "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-4081cb2d-255f-4d2a-9c8c-d156b3880d0b-1711473086890/node_modules/infrastructure"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-4081cb2d-255f-4d2a-9c8c-d156b3880d0b-1711473086890/node_modules/shared"
+    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-4081cb2d-255f-4d2a-9c8c-d156b3880d0b-1711473086890/node_modules/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-testing-1.0.0-8c5a5fa2-f454-4089-99f4-427f6f7e9e81-1710488315435/packages/contracts"
+    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-4081cb2d-255f-4d2a-9c8c-d156b3880d0b-1711473086890/packages/contracts"
 
 lilconfig@2.1.0, lilconfig@^2.0.3, lilconfig@^2.0.5:
   version "2.1.0"
@@ -13746,6 +13763,21 @@ neverthrow@6.1.0:
   resolved "https://registry.yarnpkg.com/neverthrow/-/neverthrow-6.1.0.tgz#51a6e9ce2e06600045b3c1b37aecc536d267bf95"
   integrity sha512-xNbNjp/6M5vUV+mststgneJN9eJeJCDSYSBTaf3vxgvcKooP+8L0ATFpM8DGfmH7UWKJeoa24Qi33tBP9Ya3zA==
 
+next-auth@^4.24.7:
+  version "4.24.7"
+  resolved "https://registry.npmjs.org/next-auth/-/next-auth-4.24.7.tgz#0a14c1e35b4a2c0c1ecff95c295b74bd48d3817a"
+  integrity sha512-iChjE8ov/1K/z98gdKbn2Jw+2vLgJtVV39X+rCP5SGnVQuco7QOr19FRNGMIrD8d3LYhHWV9j9sKLzq1aDWWQQ==
+  dependencies:
+    "@babel/runtime" "^7.20.13"
+    "@panva/hkdf" "^1.0.2"
+    cookie "^0.5.0"
+    jose "^4.15.5"
+    oauth "^0.9.15"
+    openid-client "^5.4.0"
+    preact "^10.6.3"
+    preact-render-to-string "^5.1.19"
+    uuid "^8.3.2"
+
 next@14.0.4:
   version "14.0.4"
   resolved "https://registry.yarnpkg.com/next/-/next-14.0.4.tgz#bf00b6f835b20d10a5057838fa2dfced1d0d84dc"
@@ -13968,10 +14000,20 @@ oauth-sign@~0.9.0:
   resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   integrity sha512-fexhUFFPTGV8ybAtSIGbV6gOkSv8UtRbDBnAyLQw4QPKkgNlsH2ByPGtMUqdWkos6YCRmAqViwgZrJc/mRDzZQ==
 
+oauth@^0.9.15:
+  version "0.9.15"
+  resolved "https://registry.npmjs.org/oauth/-/oauth-0.9.15.tgz#bd1fefaf686c96b75475aed5196412ff60cfb9c1"
+  integrity sha512-a5ERWK1kh38ExDEfoO6qUHJb32rd7aYmPHuyCu3Fta/cnICvYmgd2uhuKXvPD+PXB+gCEYYEaQdIRAjCOwAKNA==
+
 object-assign@^4, object-assign@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   integrity sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==
+
+object-hash@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.npmjs.org/object-hash/-/object-hash-2.2.0.tgz#5ad518581eefc443bd763472b8ff2e9c2c0d54a5"
+  integrity sha512-gScRMn0bS5fH+IuwyIFgnh9zBdo4DV+6GhygmWM9HyNJSgS0hScp1f5vjtm7oIIOiT9trXrShAkLFSc2IqKNgw==
 
 object-inspect@^1.13.1, object-inspect@^1.9.0:
   version "1.13.1"
@@ -14051,6 +14093,11 @@ obuf@^1.0.0, obuf@^1.1.2:
   resolved "https://registry.yarnpkg.com/obuf/-/obuf-1.1.2.tgz#09bea3343d41859ebd446292d11c9d4db619084e"
   integrity sha512-PX1wu0AmAdPqOL1mWhqmlOd8kOIZQwGZw6rh7uby9fTc5lhaOWFLX3I6R1hrF9k3zUY40e6igsLGkDXK92LJNg==
 
+oidc-token-hash@^5.0.3:
+  version "5.0.3"
+  resolved "https://registry.npmjs.org/oidc-token-hash/-/oidc-token-hash-5.0.3.tgz#9a229f0a1ce9d4fc89bcaee5478c97a889e7b7b6"
+  integrity sha512-IF4PcGgzAr6XXSff26Sk/+P4KZFJVuHAJZj3wgO3vX2bMdNVp/QXTP3P7CEm9V1IdG8lDLY3HhiqpsE/nOwpPw==
+
 on-finished@2.4.1:
   version "2.4.1"
   resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.4.1.tgz#58c8c44116e54845ad57f14ab10b03533184ac3f"
@@ -14102,6 +14149,16 @@ open@^9.1.0:
     define-lazy-prop "^3.0.0"
     is-inside-container "^1.0.0"
     is-wsl "^2.2.0"
+
+openid-client@^5.4.0:
+  version "5.6.5"
+  resolved "https://registry.npmjs.org/openid-client/-/openid-client-5.6.5.tgz#c149ad07b9c399476dc347097e297bbe288b8b00"
+  integrity sha512-5P4qO9nGJzB5PI0LFlhj4Dzg3m4odt0qsJTfyEtZyOlkgpILwEioOhVVJOrS1iVH494S4Ee5OCjjg6Bf5WOj3w==
+  dependencies:
+    jose "^4.15.5"
+    lru-cache "^6.0.0"
+    object-hash "^2.2.0"
+    oidc-token-hash "^5.0.3"
 
 optimize-css-assets-webpack-plugin@6.0.1:
   version "6.0.1"
@@ -15165,6 +15222,18 @@ postcss@^8.2.1, postcss@^8.2.14, postcss@^8.4.21, postcss@^8.4.32:
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
 
+preact-render-to-string@^5.1.19:
+  version "5.2.6"
+  resolved "https://registry.npmjs.org/preact-render-to-string/-/preact-render-to-string-5.2.6.tgz#0ff0c86cd118d30affb825193f18e92bd59d0604"
+  integrity sha512-JyhErpYOvBV1hEPwIxc/fHWXPfnEGdRKxc8gFdAZ7XV4tlzyzG847XAyEZqoDnynP88akM4eaHcSOzNcLWFguw==
+  dependencies:
+    pretty-format "^3.8.0"
+
+preact@^10.6.3:
+  version "10.20.1"
+  resolved "https://registry.npmjs.org/preact/-/preact-10.20.1.tgz#1bc598ab630d8612978f7533da45809a8298542b"
+  integrity sha512-JIFjgFg9B2qnOoGiYMVBtrcFxHqn+dNXbq76bVmcaHYJFYR4lW67AOcXgAYQQTDYXDOg/kTZrKPNCdRgJ2UJmw==
+
 prelude-ls@^1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.2.1.tgz#debc6489d7a6e6b0e7611888cec880337d316396"
@@ -15252,6 +15321,11 @@ pretty-format@^29.0.0, pretty-format@^29.5.0, pretty-format@^29.7.0:
     "@jest/schemas" "^29.6.3"
     ansi-styles "^5.0.0"
     react-is "^18.0.0"
+
+pretty-format@^3.8.0:
+  version "3.8.0"
+  resolved "https://registry.npmjs.org/pretty-format/-/pretty-format-3.8.0.tgz#bfbed56d5e9a776645f4b1ff7aa1a3ac4fa3c385"
+  integrity sha512-WuxUnVtlWL1OfZFQFuqvnvs6MiAGk9UNsBostyBOB0Is9wb5uRESevA6rnl/rkksXaGX3GzZhPup5d6Vp1nFew==
 
 pretty-hrtime@^1.0.3:
   version "1.0.3"
@@ -17308,7 +17382,7 @@ tar@^6.1.11, tar@^6.2.0:
 "taral-contracts@file:./packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:./../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-9479fb67-7714-46d0-83cf-46b07e955b38-1710488315429/libs/shared"
+    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-taral-contracts-1.0.0-b97b56a7-0ab7-43b7-aaaa-cbec72da1634-1711473086890/libs/shared"
     npm-run-all "^4.1.5"
 
 teeny-request@7.1.1:
