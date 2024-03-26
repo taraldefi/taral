@@ -21,6 +21,9 @@ export class TransactionDocumentEntity extends EntityHelper {
   @Column({ nullable: true })
   additionalDocument: boolean;
 
+  @Column({ nullable: true })
+  creditCardStatement: boolean;
+
   @OneToOne(
     () => QuickApplicationEntity,
     (application) => application.transactionDocuments,

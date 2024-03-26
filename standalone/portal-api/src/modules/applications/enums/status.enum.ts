@@ -1,6 +1,6 @@
 export enum ApplicationStatus {
   ACTIVE = 'ACTIVE',
   COMPLETED = 'COMPLETED',
-  ON_REVIEW = 'ON_REVIEW',
+  IN_REVIEW = 'IN_REVIEW',
   APPROVED = 'APPROVED',
 }

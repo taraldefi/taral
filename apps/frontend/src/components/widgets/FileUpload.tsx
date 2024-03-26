@@ -17,6 +17,7 @@ import apiUrls from "@config/apiUrls";
 export enum documentType {
   CONFIRMATION_DOCUMENT = "confirmation-document",
   ADDITIONAL_DOCUMENT = "additional-document",
+  CREDIT_CARD_STATEMENT = "credit-card-statement",
 }
 
 type FileUploadProps = {

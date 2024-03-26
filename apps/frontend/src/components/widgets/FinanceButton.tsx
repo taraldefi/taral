@@ -29,7 +29,7 @@ const FinanceButton = ({ applicationId }: any) => {
       primary
       backgroundColor="#1ab98b"
       disabled={transaction?.tx_status === "pending"}
-      label={"Finance"}
+      label={"Fund"}
       onClick={() => {
         handleFinance();
       }}

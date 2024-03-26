@@ -20,8 +20,38 @@ export class TransactionDocumentService extends BaseService {
     super(logger);
   }
 
-  public async checkIfConfirmationDocumentExists(
+  private getDocumentUploadStatus(
+    application: QuickApplicationEntity,
+    type: string,
+  ): boolean {
+    switch (type) {
+      case 'confirmation-document':
+        return application.transactionDocuments.confirmationDocument;
+      case 'additional-document':
+        return application.transactionDocuments.additionalDocument;
+      case 'credit-card-statement':
+        return application.transactionDocuments.creditCardStatement;
+      default:
+        return false;
+    }
+  }
+
+  private getDocumentKey(type: string): string {
+    switch (type) {
+      case 'confirmation-document':
+        return 'confirmationDocument';
+      case 'additional-document':
+        return 'additionalDocument';
+      case 'credit-card-statement':
+        return 'creditCardStatement';
+      default:
+        return '';
+    }
+  }
+
+  public async checkIfDocumentExists(
     applicationId: string,
+    type: string,
   ): Promise<boolean> {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -31,58 +61,15 @@ export class TransactionDocumentService extends BaseService {
     );
 
     if (application.transactionDocuments) {
-      return application.transactionDocuments.confirmationDocument;
+      return this.getDocumentUploadStatus(application, type);
     }
 
     return false;
   }
 
-  public async checkIfAdditionalDocumentExists(
+  public async markDocumentAsUploaded(
     applicationId: string,
-  ): Promise<boolean> {
-    const application = await this.buyerApplicationRepository.findOne(
-      applicationId,
-      {
-        relations: ['transactionDocuments'],
-      },
-    );
-
-    if (application.transactionDocuments) {
-      return application.transactionDocuments.additionalDocument;
-    }
-
-    return false;
-  }
-
-  public async markConfirmationDocumentUploaded(
-    applicationId: string,
-  ): Promise<string> {
-    console.log('markConfirmationDocumentUploaded', applicationId);
-    const application = await this.buyerApplicationRepository.findOne(
-      applicationId,
-      {
-        relations: ['transactionDocuments'],
-      },
-    );
-
-    let transactionDocument = application.transactionDocuments;
-
-    if (!transactionDocument) {
-      transactionDocument = new TransactionDocumentEntity();
-    }
-
-    transactionDocument.confirmationDocument = true;
-    const savedTxDoc = await this.transactionDocumentRepository.save(
-      transactionDocument,
-    );
-    application.transactionDocuments = savedTxDoc;
-    application.save();
-
-    return transactionDocument.id;
-  }
-
-  public async markAdditionalDocumentUploaded(
-    applicationId: string,
+    type: string,
   ): Promise<string> {
     const application = await this.buyerApplicationRepository.findOne(
       applicationId,
@@ -96,8 +83,9 @@ export class TransactionDocumentService extends BaseService {
     if (!transactionDocument) {
       transactionDocument = new TransactionDocumentEntity();
     }
+    const documentType = this.getDocumentKey(type);
 
-    transactionDocument.additionalDocument = true;
+    transactionDocument[documentType] = true;
     const savedTxDoc = await this.transactionDocumentRepository.save(
       transactionDocument,
     );

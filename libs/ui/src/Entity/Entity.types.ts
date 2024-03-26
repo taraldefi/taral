@@ -10,6 +10,7 @@ export interface EntityDataType {
 	logo: string;
 }
 export interface EntityType {
+	onClickViewApplications?: () => void;
 	entityData: EntityDataType;
 	modal?: React.ReactNode;
 	fetchLogo?: (id: string) => Promise<string>;

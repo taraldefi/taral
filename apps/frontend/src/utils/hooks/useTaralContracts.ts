@@ -1,17 +1,24 @@
 import { useAccount, useAuth, useOpenContractCall } from "@micro-stacks/react";
-import { PostConditionMode } from "micro-stacks/transactions";
+
 import {
   bufferCV,
   standardPrincipalCV,
   stringUtf8CV,
   uintCV,
 } from "micro-stacks/clarity";
+import {
+  FungibleConditionCode,
+  createAssetInfo,
+  PostConditionMode,
+  makeContractFungiblePostCondition,
+} from "micro-stacks/transactions";
 
 import { fetchReadOnlyFunction } from "micro-stacks/api";
 
 import axios from "axios";
 import { utf8ToBytes } from "micro-stacks/common";
 import {
+  SUSDT_CONTRACT,
   TARAL_BANK_CONTRACT,
   TARAL_IMPORTER_CONTRACT,
   stacksNetwork,
@@ -57,27 +64,43 @@ function useTaralContracts() {
 
   async function createTaralPurchaseOrder(
     applicationId: string,
-    totalAmount: number,
-    downPayment: number,
-    sellerPrincipal: string
+    loanAmount: number,
+    downPayment: number
   ): Promise<any> {
     return new Promise(async (resolve, reject) => {
       const functionArgs = [
         stringUtf8CV(applicationId),
-        uintCV(totalAmount),
+        uintCV(loanAmount),
         uintCV(downPayment),
-        standardPrincipalCV(sellerPrincipal),
       ];
 
       const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
       const contractName = TARAL_BANK_CONTRACT.split(".")[1];
+
+      const assetAddress = SUSDT_CONTRACT.split(".")[0];
+      const assetContractName = SUSDT_CONTRACT.split(".")[1];
+      const fungibleAssetInfo = createAssetInfo(
+        assetAddress,
+        assetContractName,
+        "sUSDT"
+      );
+      const postConditionCode = FungibleConditionCode.LessEqual;
+      const postConditionAmount = downPayment;
+
+      const contractFungiblePostCondition = makeContractFungiblePostCondition(
+        contractAddress,
+        contractName,
+        postConditionCode,
+        postConditionAmount,
+        fungibleAssetInfo
+      );
 
       if (isSignedIn) {
         await openContractCall({
           contractAddress,
           contractName,
           functionName: "create-purchase-order",
-          postConditionMode: PostConditionMode.Allow,
+          postConditions: [contractFungiblePostCondition],
           functionArgs: functionArgs,
 
           onFinish: async (data: any) => {
@@ -104,7 +127,7 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "accept-financing",
-          postConditionMode: PostConditionMode.Allow,
+          // postConditionMode: PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {
@@ -198,16 +221,33 @@ function useTaralContracts() {
     }
   }
 
-  async function makePayment(): Promise<any> {
+  async function makePayment(amount: number): Promise<any> {
     const contractAddress = TARAL_BANK_CONTRACT.split(".")[0];
     const contractName = TARAL_BANK_CONTRACT.split(".")[1];
+    const assetAddress = SUSDT_CONTRACT.split(".")[0];
+    const assetContractName = SUSDT_CONTRACT.split(".")[1];
+    const fungibleAssetInfo = createAssetInfo(
+      assetAddress,
+      assetContractName,
+      "sUSDT"
+    );
+    const postConditionCode = FungibleConditionCode.LessEqual;
+    const postConditionAmount = amount;
+
+    const contractFungiblePostCondition = makeContractFungiblePostCondition(
+      contractAddress,
+      contractName,
+      postConditionCode,
+      postConditionAmount,
+      fungibleAssetInfo
+    );
     return new Promise(async (resolve, reject) => {
       if (isSignedIn) {
         await openContractCall({
           contractAddress,
           contractName,
           functionName: "make-payment",
-          postConditionMode: PostConditionMode.Allow,
+          postConditions: [contractFungiblePostCondition],
           functionArgs: [],
 
           onFinish: async (data: any) => {

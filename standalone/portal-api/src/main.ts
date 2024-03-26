@@ -1,4 +1,8 @@
-import { ClassSerializerInterceptor, ValidationPipe, VersioningType } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  ValidationPipe,
+  VersioningType,
+} from '@nestjs/common';
 // import { ConfigService } from '@nestjs/config';
 import { NestFactory, Reflector } from '@nestjs/core';
 // import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -27,9 +31,9 @@ async function bootstrap() {
 
   const loggerService = app.get(CoreLoggerService);
 
-  app.use(helmet())
+  app.use(helmet());
   app.enableShutdownHooks();
-  
+
   app.setGlobalPrefix(Configuration.app.apiPrefix, {
     exclude: ['/'],
   });
@@ -42,10 +46,10 @@ async function bootstrap() {
     fallbackOnErrors: true,
   });
 
-  app.useGlobalInterceptors(
-    new ClassSerializerInterceptor(app.get(Reflector)),
-    new LoggingInterceptor(loggerService, app.get(Reflector))
-  );
+  // app.useGlobalInterceptors(
+  //   new ClassSerializerInterceptor(app.get(Reflector)),
+  //   new LoggingInterceptor(loggerService, app.get(Reflector))
+  // );
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
@@ -73,7 +77,11 @@ async function bootstrap() {
   // SwaggerModule.setup('docs', app, document);
 
   await app.listen(Configuration.app.port);
-  loggerService.log(`Application listening in port: ${Configuration.app.port}, started at ${new Date().toISOString()}`);
+  loggerService.log(
+    `Application listening in port: ${
+      Configuration.app.port
+    }, started at ${new Date().toISOString()}`,
+  );
 }
 
 void bootstrap();

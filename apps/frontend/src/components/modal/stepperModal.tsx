@@ -51,16 +51,25 @@ function StepperModal({ isOpen, onClose }: Props) {
       return;
     }
     if (!applicationData) return;
+    const balanceResponse = await fetch(
+      `/api/get-balance?stxAddress=${stxAddress}`
+    );
+    const { message: balance } = await balanceResponse.json();
+
+    if (
+      parseFloat(balance) * Math.pow(10, 6) <
+      parseFloat(applicationData.paymentTerms.downpayment) * Math.pow(10, 6)
+    ) {
+      toast.error("Insufficient sUSDT balance");
+      onClose();
+      return;
+    }
 
     const transactionData = await createTaralPurchaseOrder(
       applicationId,
+      parseFloat(applicationData.paymentTerms.balanceAmount) * Math.pow(10, 6),
       parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 6) +
-        parseFloat(applicationData.paymentTerms.balanceAmount) *
-          Math.pow(10, 6),
-      parseFloat(applicationData.paymentTerms.downpaymentAmount) *
-        Math.pow(10, 6),
-      applicationData.sellerPrincipal
+        Math.pow(10, 6)
     );
 
     await applicationService.submitTransactionId(
@@ -70,6 +79,7 @@ function StepperModal({ isOpen, onClose }: Props) {
 
     setTransactionId(transactionData.txId);
     toast("Transaction Submitted.", {
+      duration: 5000,
       description:
         " If the transaction takes more than 20 minutes to settle refresh and continue to second step",
       action: {
@@ -98,7 +108,7 @@ function StepperModal({ isOpen, onClose }: Props) {
             router.asPath.split("/")[2]
           }/entities/${entityId}/applications`
         );
-        return `application finished and is on review`;
+        return `Application finished and is on review`;
       },
       error: (err) => {
         return `${err.message}`;
@@ -159,7 +169,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                       1
                     )}
                   </div>
-                  <div className="step-name">on-chain submission</div>
+                  <div className="step-name">On-chain submission</div>
                 </div>
                 <div
                   className={`stepper-item ${step === 2 ? "completed" : ""}`}
@@ -182,7 +192,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                       2
                     )}
                   </div>
-                  <div className="step-name">submit application</div>
+                  <div className="step-name">Submit application</div>
                 </div>
               </div>
               <div className="buttonContainer">
@@ -196,7 +206,7 @@ function StepperModal({ isOpen, onClose }: Props) {
                         : handleOnChainSubmission
                     }
                   >
-                    {step === 1 ? "finish" : "submit on-chain"}
+                    {step === 1 ? "Finalise Submission" : "Submit on-chain"}
                   </button>
                 )}
               </div>

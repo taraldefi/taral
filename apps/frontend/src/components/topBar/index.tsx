@@ -92,7 +92,7 @@ const Topbar = () => {
                 selected={router.asPath === "/profile"}
               ></PortalIcons>
             </div> */}
-              <div
+              {/* <div
                 onClick={() => {
                   handleModalClick(notificationModal, settingsModal);
                 }}
@@ -111,14 +111,37 @@ const Topbar = () => {
                   icon={"settings"}
                   selected={settingsModal.isOpen}
                 ></PortalIcons>
-              </div>
-              <div onClick={() => networkDialogueModal.open()}>
-                <Globe color={"#94A3B8"} size={"24px"}></Globe>
-              </div>
+              </div> */}
             </div>
 
             {stxAddress ? (
               <>
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "5px",
+                    marginRight: "10px",
+                    border: "1px solid #1ab98b",
+                    padding: "5px",
+                    paddingInline: "10px",
+                    borderRadius: "35px",
+                    alignItems: "center",
+                  }}
+                  onClick={() => networkDialogueModal.open()}
+                >
+                  <Globe color={"#1ab98b"} size={"20px"}></Globe>
+                  <span
+                    style={{
+                      color: "#003C6E",
+                      fontWeight: "bolder",
+                      fontSize: "15px",
+                      textTransform: "capitalize",
+                    }}
+                  >
+                    {currentNetwork.name}{" "}
+                  </span>
+                </div>
+
                 <StacksSVG />
                 <span>{balance} </span>
                 <Avatar
