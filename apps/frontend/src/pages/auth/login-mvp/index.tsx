@@ -9,6 +9,7 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "@lib";
+import { signIn } from "next-auth/react";
 
 function Index() {
   const router = useRouter();
@@ -20,21 +21,28 @@ function Index() {
   };
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    const loginPromise = authService.login(
-      data.username,
-      data.password,
-      data.remember
-    );
-    toast.promise(loginPromise, {
-      loading: "Logging in...",
-      success: () => {
-        router.push("/users/importer/entities");
-        return "Logged in successfully!";
-      },
-      error: (err) => {
-        return `Error logging in! ${err}`;
-      },
+    // const loginPromise = authService.login(
+    //   data.username,
+    //   data.password,
+    //   data.remember
+    // );
+    signIn("username-login", {
+      username: data.username,
+      password: data.password,
+      remember: data.remember,
+      redirect: true,
+      callbackUrl: "/users/importer/entities",
     });
+    // toast.promise(loginPromise, {
+    //   loading: "Logging in...",
+    //   success: () => {
+    //     router.push("/users/importer/entities");
+    //     return "Logged in successfully!";
+    //   },
+    //   error: (err) => {
+    //     return `Error logging in! ${err}`;
+    //   },
+    // });
   };
   type Inputs = {
     username: string;
@@ -117,10 +125,10 @@ function Index() {
                 </div>
               </div>
             )}
-            <div className="agreementBox">
+            {/* <div className="agreementBox">
               <input type="checkbox" {...register("remember")} />
               <span>Remember me</span>
-            </div>
+            </div> */}
             {/* <div className="inputContainer">
               <Button label={"Send OTP"}></Button>
             </div> */}

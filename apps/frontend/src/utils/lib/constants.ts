@@ -1,4 +1,8 @@
-import { StacksMainnet, StacksMocknet } from "micro-stacks/network";
+import {
+  StacksMainnet,
+  StacksMocknet,
+  StacksTestnet,
+} from "micro-stacks/network";
 
 export interface Network {
   name: string;
@@ -51,7 +55,7 @@ export const DEFAULT_NETWORK_INDEX = parseFloat(
 export const devnet = process.env.NODE_ENV === "development";
 
 export const stacksNetwork =
-  process.env.NODE_ENV === "production" ? StacksMainnet : StacksMocknet;
+  process.env.NODE_ENV === "production" ? StacksMainnet : StacksTestnet;
 
 export const TARAL_IMPORTER_CONTRACT = devnet
   ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer"
