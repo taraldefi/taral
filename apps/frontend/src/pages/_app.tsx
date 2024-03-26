@@ -1,10 +1,11 @@
+import RefreshTokenHandler from "@components/RefreshTokenHandler";
 import SelectNetworkDialog from "@components/selectNetworkDialog";
 import { useNetworks } from "@hooks/useNetwork";
 import * as MicroStacks from "@micro-stacks/react";
 import "@styles/globals.scss";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Provider } from "jotai";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, useSession } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
 import NextNProgress from "nextjs-progressbar";
@@ -28,7 +29,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const { currentStacksNetwork } = useNetworks();
 
   return (
-    <SessionProvider session={pageProps.session} refetchInterval={830}>
+    <SessionProvider refetchInterval={interval}>
       <QueryClientProvider client={queryClient}>
         <MicroStacks.ClientProvider
           enableNetworkSwitching
@@ -50,6 +51,7 @@ function MyApp({ Component, pageProps }: AppProps) {
           </Provider>
         </MicroStacks.ClientProvider>
       </QueryClientProvider>
+      <RefreshTokenHandler setInterval={setInterval} />
     </SessionProvider>
   );
 }
