@@ -13,7 +13,19 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { Entity, EntityCardResponse, EntityResponse } from "src/types";
-import { DeleteModal, EntityTable } from "@lib";
+import {
+  ApplicationTable,
+  DeleteModal,
+  EntityTable,
+  applicationTableDataType,
+} from "@lib";
+import applicationService from "@services/application/applicationService";
+import useTaralContracts from "@hooks/useTaralContracts";
+import { useAccount } from "@micro-stacks/react";
+import { LENDER_ADDRESS } from "@utils/lib/constants";
+import convertDate from "@utils/lib/convertDate";
+import FinanceButton from "@components/widgets/FinanceButton";
+import ClaimButton from "@components/widgets/ClaimButton";
 
 const TableData = [
   {
@@ -59,11 +71,82 @@ function index({ ...props }) {
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
-
+  const [applicationTableData, setApplicationTableData] = useState<
+    applicationTableDataType[]
+  >([]);
+  const { checkPurchaseOrderHasActiveFinancing, getPurchaseOrderById } =
+    useTaralContracts();
+  const [activeApplicationId, setActiveApplicationId] = useState<string>("");
+  const { stxAddress } = useAccount();
   const [entityData, setEntityData] = useState<EntityResponse>();
 
   if (router.isFallback) {
     return;
+  }
+  useEffect(() => {
+    fetchApplicationTableData();
+  }, []);
+  async function fetchApplicationTableData() {
+    try {
+      const res = await applicationService.getAllApplications(
+        props.query.entityId || (router.asPath.split("/")[4] as string)
+      );
+      const applications = res || [];
+      console.log(res);
+      let applicationTableData: applicationTableDataType[] = [];
+
+      applicationTableData = applications.map(async (application: any) => {
+        const claimable = await checkPurchaseOrderHasActiveFinancing(
+          application.id
+        );
+        if (application.status === "ACTIVE") {
+          setActiveApplicationId(application.id);
+        }
+
+        const purchaseOrder = await getPurchaseOrderById(application.id);
+
+        let alreadyAccepted = false;
+        if (purchaseOrder) {
+          alreadyAccepted = purchaseOrder["accepted-financing-id"]
+            ? true
+            : false;
+        }
+
+        const userIsLender = stxAddress === LENDER_ADDRESS;
+        console.log(userIsLender, stxAddress, LENDER_ADDRESS);
+
+        return {
+          id: application.id,
+          applicationId: application.id,
+          product: "Importer financing",
+          dateFrom: convertDate(application.issuanceDate),
+          dateTo: convertDate(application.endDate),
+          importerName: application.exporterName,
+          status: {
+            label: alreadyAccepted
+              ? "LOAN FUNDED"
+              : application.status.replace("_", " "),
+            claimable: (claimable && !alreadyAccepted) || userIsLender,
+            component:
+              userIsLender && !alreadyAccepted && purchaseOrder ? (
+                <FinanceButton applicationId={application.id} />
+              ) : claimable && !alreadyAccepted ? (
+                <ClaimButton />
+              ) : (
+                <>--</>
+              ),
+          },
+        };
+      });
+
+      setApplicationTableData(await Promise.all(applicationTableData));
+    } catch (error) {
+      //TODO: Handle error
+      console.error("Error fetching entity:", error);
+      return {
+        props: { ApplicationTable: [], entityId: "" },
+      };
+    }
   }
 
   async function fetchEntityData() {
@@ -151,8 +234,11 @@ function index({ ...props }) {
           )}
         </div>
         <div className="viewTableContainer">
-          <span>Products</span>
-          <EntityTable entityTableData={TableData} />
+          <span>Applications</span>
+          {/* <EntityTable entityTableData={TableData} /> */}
+          <ApplicationTable
+            applicationTableData={applicationTableData}
+          ></ApplicationTable>
         </div>
       </div>
       <DeleteModal
