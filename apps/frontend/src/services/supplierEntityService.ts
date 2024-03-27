@@ -1,5 +1,5 @@
 import apiUrls from "@config/apiUrls";
-import getAxiosConfig from "@config/axiosConfig";
+
 import { getAccessToken } from "@utils/helper";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
@@ -129,7 +129,6 @@ class SupplierEntityService {
   deleteEntity(id: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       const accessToken = await getAccessToken();
-      const axiosConfig = getAxiosConfig({ method: "DELETE" });
 
       try {
         const response = await axios.delete(

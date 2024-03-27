@@ -1,5 +1,6 @@
 import apiUrls from "@config/apiUrls";
-import getAxiosConfig from "@config/axiosConfig";
+
+import { getAccessToken } from "@utils/helper";
 import axios from "axios";
 import { IfileResponse } from "src/types";
 
@@ -9,16 +10,16 @@ class FileService {
    * @param File object
    */
   async createFile(formData: FormData): Promise<IfileResponse[]> {
-    const axiosConfig = getAxiosConfig({
-      method: "POST",
-      contentType: "multipart/ form-data",
-    });
+    const accessToken = await getAccessToken();
     try {
-      const response = await axios.post(
-        `${apiUrls.CREATE_FILE}`,
-        formData,
-        axiosConfig
-      );
+      const response = await axios.post(`${apiUrls.CREATE_FILE}`, formData, {
+        headers: {
+          method: "POST",
+          contentType: "multipart/ form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "json",
+      });
       const { data } = response;
 
       if (response.status === 201) {
@@ -40,15 +41,19 @@ class FileService {
    * @returns
    */
   async updateFile(file: File, externalId: number): Promise<IfileResponse> {
-    const axiosConfig = getAxiosConfig({
-      method: "POST",
-      contentType: "multipart/ form-data",
-    });
+    const accessToken = await getAccessToken();
     try {
       const response = await axios.post(
         `${apiUrls.UPDATE_FILE}`,
         { file: file, externalId: externalId },
-        axiosConfig
+        {
+          headers: {
+            method: "POST",
+            contentType: "multipart/ form-data",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        }
       );
       const { data } = response;
 
@@ -70,12 +75,20 @@ class FileService {
    * @returns
    */
   async requestFile(externalId: number): Promise<IfileResponse> {
-    const axiosConfig = getAxiosConfig({ method: "POST" });
+    const accessToken = await getAccessToken();
+
     try {
       const response = await axios.post(
         `${apiUrls.REQUEST_FILE}`,
         { externalId: externalId },
-        axiosConfig
+        {
+          headers: {
+            method: "POST",
+            contentType: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        }
       );
       const { data } = response;
 
@@ -96,14 +109,20 @@ class FileService {
     type: string,
     applicationId: string
   ): Promise<void> {
-    const axiosConfig = getAxiosConfig({
-      method: "POST",
-    });
+    const accessToken = await getAccessToken();
+
     try {
       const response = await axios.post(
         `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationId}`,
         JSON.stringify({}),
-        axiosConfig
+        {
+          headers: {
+            method: "POST",
+            contentType: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        }
       );
       const { data } = response;
 
@@ -124,14 +143,20 @@ class FileService {
     type: string,
     applicationId: string
   ): Promise<void> {
-    const axiosConfig = getAxiosConfig({
-      method: "GET",
-    });
+    const accessToken = await getAccessToken();
+
     try {
       console.log("getTransactionDocument", type, applicationId);
       const response = await axios.get(
         `${apiUrls.TRANSACTION_DOCUMENTS}/${type}/${applicationId}`,
-        axiosConfig
+        {
+          headers: {
+            method: "GET",
+            contentType: "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        }
       );
       const { data } = response;
 
