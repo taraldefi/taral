@@ -31,6 +31,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { EntityCardResponse } from "src/types";
 import { useSession } from "next-auth/react";
+import useAuth from "@hooks/useAuth";
 
 function Index() {
   const [searchInput, setSearchInput] = useState("");
@@ -46,9 +47,7 @@ function Index() {
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const router = useRouter();
 
-  const { data: session } = useSession();
-
-  console.log("session", session);
+  const isAuthenticated = useAuth(true);
 
   const [entities, setEntities] = useState<EntityCardResponse[]>([]);
 

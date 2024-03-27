@@ -1,3 +1,4 @@
+import { getSession } from "next-auth/react";
 export const getExplorerLink = (txId: string) => {
   return process.env.NODE_ENV !== "production"
     ? `http://localhost:8000/txid/${txId}?chain=testnet`
@@ -6,6 +7,16 @@ export const getExplorerLink = (txId: string) => {
 
 export const ustxToStx = (uStx: string) => {
   return (parseInt(uStx) / 1000000).toLocaleString("en-US");
+};
+// utils/authUtils.js
+
+export const getAccessToken = async () => {
+  const session = await getSession();
+  if (session) {
+    return session.accessToken;
+  } else {
+    throw new Error("Access token not found");
+  }
 };
 
 export const tokenToNumber = (amount: number, decimals: number) => {

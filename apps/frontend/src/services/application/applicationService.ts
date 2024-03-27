@@ -1,16 +1,22 @@
 import apiUrls from "@config/apiUrls";
-import getAxiosConfig from "@config/axiosConfig";
-import { getBase64Src } from "@utils/lib/fetchEntityLogo";
-import axios, { AxiosError } from "axios";
+import { getAccessToken } from "@utils/helper";
+import axios from "axios";
 import { CreateApplication, CreateApplicationResponse } from "src/types";
 
 export class ApplicationService {
   async getAllApplications(entityId: string) {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
+    const accessToken = await getAccessToken();
     try {
       const response = await axios.get(
         `${apiUrls.APPLICATION}/all-applications/${entityId}`,
-        axiosConfig
+        {
+          headers: {
+            method: "GET",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        }
       );
 
       const { data } = response;
@@ -33,12 +39,16 @@ export class ApplicationService {
    */
 
   async getApplication(id: string) {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
+    const accessToken = await getAccessToken();
     try {
-      const response = await axios.get(
-        `${apiUrls.APPLICATION}/${id}`,
-        axiosConfig
-      );
+      const response = await axios.get(`${apiUrls.APPLICATION}/${id}`, {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "json",
+      });
 
       const { data } = response;
 
@@ -63,14 +73,17 @@ export class ApplicationService {
     application: CreateApplication
   ): Promise<CreateApplicationResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
 
       try {
-        const response = await axios.post(
-          apiUrls.APPLICATION,
-          application,
-          axiosConfig
-        );
+        const response = await axios.post(apiUrls.APPLICATION, application, {
+          headers: {
+            method: "POST",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        });
         const { data } = response;
         console.log(response);
 
@@ -90,12 +103,20 @@ export class ApplicationService {
 
   async submitApplication(id: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
+
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${id}/submit`,
           JSON.stringify({}),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         if (response.status === 201) {
@@ -113,7 +134,8 @@ export class ApplicationService {
     entityId: string
   ): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
+
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${id}/submit-for-credit-card`,
@@ -121,7 +143,14 @@ export class ApplicationService {
             entityName: entityName,
             entityId: entityId,
           }),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -137,12 +166,19 @@ export class ApplicationService {
 
   async submitTransactionId(id: string, txId: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
       try {
+        const accessToken = await getAccessToken();
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${id}/${txId}/submit-transaction`,
           JSON.stringify({}),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         if (response.status === 201) {
