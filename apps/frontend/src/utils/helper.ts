@@ -14,8 +14,6 @@ export const getAccessToken = async () => {
   const session = await getSession();
   if (session) {
     return session.accessToken;
-  } else {
-    throw new Error("Access token not found");
   }
 };
 

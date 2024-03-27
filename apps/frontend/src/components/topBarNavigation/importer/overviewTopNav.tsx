@@ -36,7 +36,7 @@ const OverviewTopNavRightComponent = ({ entities }: Props) => {
                 <option
                   key={index}
                   value={item.id}
-                  defaultValue={item.id === entityID ? entityID : item.id}
+                  selected={item.id === entityID}
                 >
                   {item.name}
                 </option>

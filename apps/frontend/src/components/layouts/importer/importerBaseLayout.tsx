@@ -17,6 +17,7 @@ import { useModal } from "@utils/hooks";
 import { useRouter } from "next/router";
 import React from "react";
 import Topbar from "../../topBar";
+import useAuth from "@hooks/useAuth";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -30,6 +31,8 @@ const ImporterBaseLayout = ({ children }: LayoutProps) => {
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
   const registerOnchainModal = useModal(RegisterOnChainModalAtom);
+
+  const isAuthenticated = useAuth(true);
 
   return (
     <>
