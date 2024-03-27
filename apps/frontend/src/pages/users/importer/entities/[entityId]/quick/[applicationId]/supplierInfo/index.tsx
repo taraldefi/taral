@@ -79,10 +79,10 @@ function CustomBooleanInput({ control, name, setValue }: CustomRadioProps) {
   );
 }
 
-function Index() {
+function Index({ ...props }) {
   const router = useRouter();
-  const entityID = router.query.entityId;
-  const applicationID = router.query.applicationId;
+  const entityID = props.query.entityId;
+  const applicationID = props.query.applicationId;
   const {
     schemaValidation,
     handleDebouncedChange,
@@ -489,12 +489,10 @@ function Index() {
   );
 }
 
-// export async function getServerSideProps(context: NextPageContext) {
-//   const { query } = context;
-//   const res = await supplierEntityService.getAllEntity();
-//   const entities = res || [];
-//   console.log("entities", entities);
-//   return { props: { query, entities: entities } };
-// }
+// Server Side props to get the query params
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
+}
 
 export default Index;

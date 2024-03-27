@@ -182,7 +182,7 @@ const useOrderDetailForm = (applicationID: string) => {
   const handleDebouncedChange = useMemo(
     () =>
       debounce((data: OrderDetails) => {
-        console.log(data);
+        console.log("ORDER", data);
         mutateAsync(data);
       }, 500),
     [mutateAsync]
