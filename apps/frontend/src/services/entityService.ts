@@ -108,7 +108,7 @@ class EntityService {
         const response = await axios.post(apiUrls.ENTITY, entity, {
           headers: {
             method: "POST",
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${accessToken}`,
           },
           responseType: "json",

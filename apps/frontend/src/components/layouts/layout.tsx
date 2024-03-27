@@ -5,6 +5,7 @@ import { useModal } from "@utils/hooks";
 import React from "react";
 import Topbar from "../topBar";
 import TopBarNav from "../topBarNavigation";
+import useAuth from "@hooks/useAuth";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -13,6 +14,7 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+  const isAuthenticated = useAuth(true);
 
   return (
     <div>

@@ -8,6 +8,7 @@ import SettingsModal from "@components/modal/settingsModal";
 import StepperModal from "@components/modal/stepperModal";
 import Topbar from "@components/topBar";
 import NewApplicationTopNav from "@components/topBarNavigation/newApplication";
+import useAuth from "@hooks/useAuth";
 import useModal from "@hooks/useModal";
 import {
   ApplicationModalAtom,
@@ -34,6 +35,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const finishApplicationCreditCardModal = useModal(
     FinishApplicationForCreditCardModalAtom
   );
+  const isAuthenticated = useAuth(true);
 
   return (
     <>
