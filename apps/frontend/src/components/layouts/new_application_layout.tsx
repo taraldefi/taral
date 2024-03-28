@@ -1,3 +1,4 @@
+import IdleTimeOut from "@components/IdleTimeout";
 import ApplicationLeftMenu from "@components/applicationLeftMenu";
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
@@ -71,6 +72,7 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
           isOpen={finishApplicationCreditCardModal.isOpen}
           onClose={() => finishApplicationCreditCardModal.close()}
         ></InvoiceModal>
+        <IdleTimeOut />
       </div>
     </>
   );
