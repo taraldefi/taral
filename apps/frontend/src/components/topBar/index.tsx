@@ -6,7 +6,9 @@ import { useRouter } from "next/router";
 import {
   NotificationModalAtom,
   SettingsModalAtom,
+  activityStatusAtom,
   networkDialogIsOpenAtom,
+  remainingIdleTimeAtom,
 } from "@store/ModalStore";
 import { PortalIcons } from "../icons";
 import React, { useEffect, useState } from "react";
@@ -17,6 +19,8 @@ import { useAccount, useAuth, useNetwork } from "@micro-stacks/react";
 import { fetchAccountStxBalance, fetchNamesByAddress } from "micro-stacks/api";
 import { truncateUuid, ustxToStx } from "@utils/helper";
 import StacksSVG from "@components/svg/stacks";
+import { useAtom } from "jotai";
+import { Clock } from "src/lib/Widgets";
 
 const Topbar = () => {
   const { network } = useNetwork();
@@ -31,6 +35,8 @@ const Topbar = () => {
   const { stxAddress } = useAccount();
   const { isSignedIn, openAuthRequest } = useAuth();
   const [client, setClient] = React.useState<any>(null);
+  const [remaining] = useAtom(remainingIdleTimeAtom);
+  const [state] = useAtom(activityStatusAtom);
   //console.log("current network ======>", currentStacksNetwork);
 
   const handleModalClick = (clickedModal: any, otherModal: any) => {
@@ -43,6 +49,7 @@ const Topbar = () => {
       clickedModal.open();
     }
   };
+  console.log(remaining);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -113,6 +120,7 @@ const Topbar = () => {
                 ></PortalIcons>
               </div> */}
             </div>
+            {remaining < 35 && <Clock remainingTime={remaining} />}
 
             {stxAddress ? (
               <>

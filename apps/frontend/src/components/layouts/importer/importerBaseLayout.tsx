@@ -18,6 +18,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Topbar from "../../topBar";
 import useAuth from "@hooks/useAuth";
+import IdleTimeOut from "@components/IdleTimeout";
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -66,6 +67,7 @@ const ImporterBaseLayout = ({ children }: LayoutProps) => {
           isOpen={registerOnchainModal.isOpen}
           onClose={() => registerOnchainModal.close()}
         ></RegisterOnChainModal>
+        <IdleTimeOut />
       </div>
     </>
   );

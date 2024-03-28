@@ -49,6 +49,7 @@
     "react-dom": "18.2.0",
     "react-feather": "2.0.10",
     "react-hook-form": "7.33.1",
+    "react-idle-timer": "^5.7.2",
     "react-international-phone": "4.0.0",
     "sass": "1.57.1",
     "sass-loader": "13.3.2",

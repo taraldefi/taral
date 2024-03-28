@@ -89,6 +89,23 @@ export function StatusWidget({ type, icon, showIcon }: StatusWidgetProps) {
   );
 }
 
+interface ClockProps {
+  remainingTime: number;
+}
+
+export const Clock: React.FC<ClockProps> = ({ remainingTime }) => {
+  const minutes = Math.floor(remainingTime / 60);
+  const seconds = remainingTime % 60;
+  const isRed = remainingTime <= 30; // Check if remaining time is 30 seconds or less
+
+  return (
+    <div className={`clock ${isRed ? "red" : ""}`}>
+      Session expires in {minutes < 10 ? `0${minutes}` : minutes}:
+      {seconds < 10 ? `0${seconds}` : seconds}
+    </div>
+  );
+};
+
 export function ProgressBar({
   progress,
   color,
