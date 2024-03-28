@@ -27,51 +27,12 @@ import convertDate from "@utils/lib/convertDate";
 import FinanceButton from "@components/widgets/FinanceButton";
 import ClaimButton from "@components/widgets/ClaimButton";
 
-const TableData = [
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-];
-
 function index({ ...props }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
-  const [applicationTableData, setApplicationTableData] = useState<
+  const [allApplicationTableData, setApplicationTableData] = useState<
     applicationTableDataType[]
   >([]);
   const { checkPurchaseOrderHasActiveFinancing, getPurchaseOrderById } =
@@ -183,6 +144,30 @@ function index({ ...props }) {
     }
   };
 
+  const ApplicationLoader = (props: any) => (
+    <ContentLoader
+      speed={2}
+      width={600}
+      height={500}
+      viewBox="0 0 600 500"
+      backgroundColor="#f3f3f3"
+      foregroundColor="#ecebeb"
+      {...props}
+    >
+      <rect x="0" y="13" rx="3" ry="3" width="113" height="17" />
+      <rect x="135" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="0" y="56" rx="3" ry="3" width="599" height="18" />
+      <rect x="1" y="85" rx="3" ry="3" width="600" height="18" />
+      <rect x="1" y="114" rx="3" ry="3" width="600" height="18" />
+      <rect x="232" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="333" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="537" y="12" rx="3" ry="3" width="62" height="17" />
+      <rect x="431" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="1" y="143" rx="3" ry="3" width="600" height="18" />
+      <rect x="0" y="173" rx="3" ry="3" width="600" height="18" />
+    </ContentLoader>
+  );
+
   const MyLoader = (props: any) => (
     <ContentLoader
       speed={2}
@@ -235,10 +220,17 @@ function index({ ...props }) {
         </div>
         <div className="viewTableContainer">
           <span>Applications</span>
+          {allApplicationTableData.length > 0 ? (
+            <ApplicationTable
+              applicationTableData={allApplicationTableData}
+            ></ApplicationTable>
+          ) : (
+            <div style={{ paddingTop: "15px" }}>
+              {" "}
+              <ApplicationLoader />
+            </div>
+          )}
           {/* <EntityTable entityTableData={TableData} /> */}
-          <ApplicationTable
-            applicationTableData={applicationTableData}
-          ></ApplicationTable>
         </div>
       </div>
       <DeleteModal
