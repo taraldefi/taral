@@ -17,5 +17,5 @@ export const RegisterOnChainModalAtom = atom<boolean>(false);
 export const FinishApplicationModalAtom = atom<boolean>(false);
 export const FinishApplicationForCreditCardModalAtom = atom<boolean>(false);
 export const selectedEntityModalAtom = atom<string | undefined>("");
-export const remainingIdleTimeAtom = atom<number>(35000);
+export const remainingIdleTimeAtom = atom<number>(900000);
 export const activityStatusAtom = atom<string>("Active");
