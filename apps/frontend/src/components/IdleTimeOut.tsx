@@ -3,7 +3,7 @@ import { signOut } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useIdleTimer } from "react-idle-timer";
 import { activityStatusAtom, remainingIdleTimeAtom } from "@store/ModalStore";
-const timeout = 35000;
+const timeout = 900000;
 const promptBeforeIdle = 10000;
 
 export default function IdleTimeOut() {
@@ -11,7 +11,7 @@ export default function IdleTimeOut() {
   const [remaining, setRemaining] = useAtom(remainingIdleTimeAtom);
 
   const [open, setOpen] = useState<boolean>(false);
-  console.log(remaining, state);
+
   const onIdle = () => {
     setState("Idle");
     setOpen(false);

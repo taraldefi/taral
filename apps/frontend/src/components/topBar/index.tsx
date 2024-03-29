@@ -120,7 +120,7 @@ const Topbar = () => {
                 ></PortalIcons>
               </div> */}
             </div>
-            {remaining < 35 && <Clock remainingTime={remaining} />}
+            {remaining < 890 && <Clock remainingTime={remaining} />}
 
             {stxAddress ? (
               <>
