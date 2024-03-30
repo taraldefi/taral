@@ -13,6 +13,18 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
+  db-backup:
+    image: ghcr.io/taraldefi/taral_db-backup:latest
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${POSTGRES_USER:-root}
+      DB_PASS: ${POSTGRES_PASSWORD:-secret}
+      DB_NAME: ${POSTGRES_DB:-api}
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      - postgres
+
   api: 
     container_name: api
     image: ghcr.io/taraldefi/taral_api:latest
