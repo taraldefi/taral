@@ -10,8 +10,3 @@ services:
     build:
       context: .
       dockerfile: dashboard.Dockerfile
-
-  db-backup:
-    build:
-      context: ./docker/backup
-      dockerfile: Dockerfile

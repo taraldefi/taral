@@ -10,3 +10,7 @@ services:
         FRONTEND_DOMAIN: app.tariala.com
         SEQ_DOMAIN: seq.tariala.com
         SQLPAD_DOMAIN: db.tariala.com
+  db-backup:
+    build:
+      context: ./docker/backup
+      dockerfile: Dockerfile
