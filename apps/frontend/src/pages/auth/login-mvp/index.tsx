@@ -26,23 +26,17 @@ function Index() {
     //   data.password,
     //   data.remember
     // );
-    signIn("username-login", {
+    const res = await signIn("username-login", {
       username: data.username,
       password: data.password,
       remember: data.remember,
-      redirect: true,
-      callbackUrl: "/users/importer/entities",
+      redirect: false,
     });
-    // toast.promise(loginPromise, {
-    //   loading: "Logging in...",
-    //   success: () => {
-    //     router.push("/users/importer/entities");
-    //     return "Logged in successfully!";
-    //   },
-    //   error: (err) => {
-    //     return `Error logging in! ${err}`;
-    //   },
-    // });
+    if (res?.status == 200) {
+      router.push("/users/importer/entities");
+    } else {
+      if (res?.error) toast.error(res.error);
+    }
   };
   type Inputs = {
     username: string;

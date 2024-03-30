@@ -63,8 +63,8 @@ const providers = [
         }
 
         return null;
-      } catch (e) {
-        throw new Error("Login failed");
+      } catch (e: any) {
+        throw new Error(e.response.data.message);
       }
     },
   }),
