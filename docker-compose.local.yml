@@ -13,6 +13,20 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
+  db-backup:
+    build:
+      context: ./docker/backup
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${POSTGRES_USER:-root}
+      DB_PASS: ${POSTGRES_PASSWORD:-secret}
+      DB_NAME: ${POSTGRES_DB:-api}
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      - postgres
+
   api: 
     container_name: api
     build:
@@ -203,3 +217,4 @@ services:
       SEQ_FIRSTRUN_REQUIREAUTHENTICATIONFORHTTPINGESTION: true
     ports:
       - 8003:80
+  
