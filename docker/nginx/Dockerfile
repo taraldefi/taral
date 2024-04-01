@@ -8,6 +8,21 @@ ARG FRONTEND_DOMAIN
 ARG SEQ_DOMAIN
 ARG SQLPAD_DOMAIN
 
+RUN apk --no-cache add -f \
+  openssl \
+  openssh-client \
+  coreutils \
+  bind-tools \
+  curl \
+  sed \
+  socat \
+  tzdata \
+  oath-toolkit-oathtool \
+  tar \
+  libidn \
+  jq \
+  cronie
+
 # Set environment variables based on build-time arguments
 ENV API_DOMAIN=${API_DOMAIN} \
     FRONTEND_DOMAIN=${FRONTEND_DOMAIN} \
