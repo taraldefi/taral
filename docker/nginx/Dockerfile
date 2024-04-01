@@ -32,7 +32,6 @@ ENV API_DOMAIN=${API_DOMAIN} \
 # Copy the template files
 
 COPY ./nginx.conf /etc/nginx/nginx.conf
-# COPY ./sites-enabled/default.conf /etc/nginx/sites-enabled/default.template
 COPY ./sites-enabled/backend.conf /etc/nginx/sites-enabled/backend.template
 COPY ./sites-enabled/frontend.conf /etc/nginx/sites-enabled/frontend.template
 COPY ./sites-enabled/seq.conf /etc/nginx/sites-enabled/seq.template
