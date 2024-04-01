@@ -182,8 +182,8 @@ services:
       SEQ_DOMAIN: seq.tariala.com
       SQLPAD_DOMAIN: db.tariala.com
     volumes:
-      - ./certs/fullchain.pem:/etc/nginx/fullchain.pem
-      - ./certs/privkey.pem:/etc/nginx/privkey.pem
+      - ./certs/local/fullchain.pem:/etc/nginx/fullchain.pem
+      - ./certs/local/privkey.pem:/etc/nginx/privkey.pem
     ports:
       - 80:80
       - 443:443
