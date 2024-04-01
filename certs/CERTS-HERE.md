@@ -4,7 +4,7 @@ How to generate these local certificates:
 
 1. `mkcert tariala.com api.tariala.com app.tariala.com db.tariala.com seq.tariala.com` will generate the `pem` and `key` certificates.
 
-2. Rename them to `cert-key.pem` and `cert.pem`
+2. Rename them to `privkey.pem` and `fulllchain.pem`
 
 3. Trust the certificates with `mkcert -install`. You can uninstall with `mkcert -uninstall`
 
