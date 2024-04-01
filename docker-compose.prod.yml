@@ -202,8 +202,8 @@ services:
       - sqlpad
       - seq
     volumes:
-      - ./certs/fullchain.pem:/etc/nginx/fullchain.pem
-      - ./certs/privkey.pem:/etc/nginx/privkey.pem
+      - ./certs/prod/fullchain.pem:/etc/nginx/fullchain.pem
+      - ./certs/prod/privkey.pem:/etc/nginx/privkey.pem
     ports:
       - 80:80
       - 443:443
