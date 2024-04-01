@@ -31,6 +31,8 @@ ENV API_DOMAIN=${API_DOMAIN} \
 
 # Copy the template files
 
+COPY ./acme.sh /acme
+
 COPY ./nginx.conf /etc/nginx/nginx.conf
 COPY ./sites-enabled/backend.conf /etc/nginx/sites-enabled/backend.template
 COPY ./sites-enabled/frontend.conf /etc/nginx/sites-enabled/frontend.template
