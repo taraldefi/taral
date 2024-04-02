@@ -13,7 +13,22 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
       POSTGRES_DB: ${POSTGRES_DB:-api}
 
+  db-backup:
+    build:
+      context: ./docker/backup
+      dockerfile: Dockerfile
+    environment:
+      DB_HOST: postgres
+      DB_USER: ${POSTGRES_USER:-root}
+      DB_PASS: ${POSTGRES_PASSWORD:-secret}
+      DB_NAME: ${POSTGRES_DB:-api}
+    volumes:
+      - ./backups:/backups
+    depends_on:
+      - postgres
+
   api: 
+    container_name: api
     build:
       context: .
       dockerfile: portal.Dockerfile
@@ -106,13 +121,14 @@ services:
       SEQ_API_KEY: ${SEQ_API_KEY}
 
   frontend:
+    container_name: frontend
     build:
       context: .
       dockerfile: dashboard.Dockerfile
     ports:
       - 3001:3000
-    # depends_on:
-      # - api
+    depends_on:
+      - api
     environment:
       NEXT_PUBLIC_LOCALNET_API_SERVER: ${NEXT_PUBLIC_LOCALNET_API_SERVER:-http://localhost:3999/}
       NEXT_PUBLIC_TESTNET_API_SERVER: ${NEXT_PUBLIC_TESTNET_API_SERVER:-https://api.testnet.hiro.so/}
@@ -130,8 +146,7 @@ services:
       NEXT_PUBLIC_TARAL_LENDER_ADDRESS: ${NEXT_PUBLIC_TARAL_LENDER_ADDRESS:-ST2ST2H80NP5C9SPR4ENJ1Z9CDM9PKAJVPYWPQZ50}
 
   sqlpad:
-    # To use Dockerfile at root of this project, use build instead of image
-    # build: ../../
+    container_name: sqlpad
     image: sqlpad/sqlpad:5
     hostname: 'sqlpad'
     ports:
@@ -152,6 +167,26 @@ services:
       SQLPAD_CONNECTIONS__pgdemo__idleTimeoutSeconds: 86400
     volumes:
       - ./docker/sqlpad/seed-data:/etc/sqlpad/seed-data
+
+  nginx: 
+    container_name: nginx
+    build: ./docker/nginx
+    depends_on:
+      - api
+      - frontend
+      - seq
+      - sqlpad
+    environment: 
+      API_DOMAIN: api.tariala.com
+      FRONTEND_DOMAIN: app.tariala.com
+      SEQ_DOMAIN: seq.tariala.com
+      SQLPAD_DOMAIN: db.tariala.com
+    volumes:
+      - ./certs/local/fullchain.pem:/etc/nginx/fullchain.pem
+      - ./certs/local/privkey.pem:/etc/nginx/privkey.pem
+    ports:
+      - 80:80
+      - 443:443
 
   redis:
     image: redis:7-alpine
@@ -174,6 +209,7 @@ services:
       SEQCLI_PATH: ${SEQCLI_PATH}
 
   seq:
+    container_name: seq
     image: datalust/seq:latest
     environment:
       ACCEPT_EULA: Y
@@ -181,3 +217,4 @@ services:
       SEQ_FIRSTRUN_REQUIREAUTHENTICATIONFORHTTPINGESTION: true
     ports:
       - 8003:80
+  
