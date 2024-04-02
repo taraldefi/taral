@@ -37,6 +37,8 @@ if [ ! -f "$PRIVKEY_FILE" ]; then
     exit -1;
 fi
 
+mkdir -p ~/.ssh
+
 touch ~/.ssh/known_hosts
 
 sh-keyscan -H $CLOUD_REMOTE_HOST >> ~/.ssh/known_hosts
