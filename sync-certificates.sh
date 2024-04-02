@@ -41,7 +41,7 @@ mkdir -p ~/.ssh
 
 touch ~/.ssh/known_hosts
 
-sh-keyscan -H $CLOUD_REMOTE_HOST >> ~/.ssh/known_hosts
+ssh-keyscan -H $CLOUD_REMOTE_HOST >> ~/.ssh/known_hosts
 
 # Use SSH to check if the remote directory exists, then copy the file if it does
 ssh -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST" bash -c "'
@@ -51,9 +51,9 @@ if [ ! -d \"$REMOTE_PATH\" ]; then
 fi
 '"
 
-# If the directory check is successful, copy the file
-scp -i "$KEY_PATH" "$FULLCHAIN_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
-scp -i "$KEY_PATH" "$PRIVKEY_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
+# # If the directory check is successful, copy the file
+# scp -i "$KEY_PATH" "$FULLCHAIN_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
+# scp -i "$KEY_PATH" "$PRIVKEY_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
 
 if [ $? -eq 0 ]; then
     echo "Files copied successfully."

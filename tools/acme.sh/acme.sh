@@ -5240,7 +5240,9 @@ $_authorizations_map"
 
   if [ "$Le_LinkCert" ]; then
     _info "$(__green "Cert success.")"
-    cat "$CERT_PATH"
+    
+    # do not display this certificate.
+    # cat "$CERT_PATH"
 
     _info "Your cert is in: $(__green "$CERT_PATH")"
 
