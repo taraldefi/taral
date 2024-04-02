@@ -7,7 +7,6 @@ import CoreLoggerService from 'src/common/logging/CoreLoggerService';
 
 @Injectable()
 export class EntityMappingService extends BaseService {
-
   constructor(public logger: CoreLoggerService) {
     super(logger);
   }
@@ -45,6 +44,7 @@ export class EntityMappingService extends BaseService {
     response.paymentExperience.history = entity.paymentExperience.History;
     response.paymentExperience.length = entity.paymentExperience.length;
     response.paymentExperience.noOfDeals = entity.paymentExperience.noOfDeals;
+    response.paymentExperience.currency = entity.paymentExperience.currency;
 
     return response;
   }

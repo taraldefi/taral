@@ -22,6 +22,11 @@ export class UpdatePaymentExperienceRequest {
   @IsNumberString()
   avgBusinessVol: string;
 
+  @ApiProperty({ example: 'USD' })
+  @IsNotEmpty()
+  @IsString()
+  currency: string;
+
   @ApiProperty({ example: 'ON_TIME' })
   @IsNotEmpty()
   @IsEnum(['ON_TIME', 'DELAYS'])
