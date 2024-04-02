@@ -1,4 +1,4 @@
-name: Certificate Issuance and Deployment
+name: Platform - Deploy
 
 on:
   workflow_dispatch:
