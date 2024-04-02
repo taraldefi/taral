@@ -1,0 +1,30 @@
+name: Deploy Script Execution
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup SSH Key
+      run: |
+        mkdir -p ./ssh
+        echo "${{ secrets.AWS_CONNECTION_CERTIFICATE }}" > ./ssh/ConnectKey.pem
+        chmod 600 /ssh/ConnectKey.pem
+
+    - name: Setup Environment File
+      run: |
+        mkdir -p ./ssh
+        echo "${{ secrets.AWS_CONNECTION_CERTIFICATE }}" > ./ssh/ConnectKey.pem
+        chmod 600 /ssh/ConnectKey.pem
+        
+    - name: Request Certificates
+      run: |
+        ./request-certificates.sh
+    - name: Deploy Certificates
+      run: |
+        ./deploy-certificates.sh
