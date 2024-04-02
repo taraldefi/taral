@@ -33,7 +33,6 @@ services:
     volumes:
       - ./standalone/portal-api/local_storage:/app/local_storage
       - ./standalone/portal-api/logs:/app/logs
-      - ./standalone/portal-api/config:/app/config
     depends_on:
       - postgres
       - redis
@@ -201,6 +200,11 @@ services:
       - frontend
       - sqlpad
       - seq
+    environment: 
+      API_DOMAIN: ${API_DOMAIN}
+      FRONTEND_DOMAIN: ${FRONTEND_DOMAIN}
+      SEQ_DOMAIN: ${SEQ_DOMAIN}
+      SQLPAD_DOMAIN: ${SQLPAD_DOMAIN}
     volumes:
       - ./certs/prod/fullchain.pem:/etc/nginx/fullchain.pem
       - ./certs/prod/privkey.pem:/etc/nginx/privkey.pem
