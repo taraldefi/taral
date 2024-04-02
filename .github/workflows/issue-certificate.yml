@@ -22,6 +22,11 @@ jobs:
         touch ./.env
         echo "${{ secrets.ENV_FILE }}" > ./.env
         chmod 600 ./.env
+
+    - name: Change Permissions
+      run: |
+        chmod +x ./request-certificates.sh
+        chmod +x ./deploy-certificates.sh
         
     - name: Request Certificates
       run: |
