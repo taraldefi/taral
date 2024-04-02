@@ -26,11 +26,11 @@ jobs:
     - name: Change Permissions
       run: |
         chmod +x ./request-certificates.sh
-        chmod +x ./deploy-certificates.sh
+        chmod +x ./sync-certificates.sh
         
     - name: Request Certificates
       run: |
         ./request-certificates.sh
     - name: Deploy Certificates
       run: |
-        ./deploy-certificates.sh
+        ./sync-certificates.sh
