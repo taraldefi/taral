@@ -1,4 +1,4 @@
-name: Deploy Script Execution
+name: Certificate Issuance and Deployment
 
 on:
   workflow_dispatch:
