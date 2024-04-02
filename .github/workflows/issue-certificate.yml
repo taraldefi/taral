@@ -27,6 +27,7 @@ jobs:
       run: |
         chmod +x ./request-certificates.sh
         chmod +x ./sync-certificates.sh
+        chmod +x ./tools/acme.sh/*.sh
         
     - name: Request Certificates
       run: |
