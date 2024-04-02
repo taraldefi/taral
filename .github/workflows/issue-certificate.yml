@@ -17,6 +17,12 @@ jobs:
         echo "${{ secrets.AWS_CONNECTION_CERTIFICATE }}" > ./ssh/ConnectKey.pem
         chmod 600 ./ssh/ConnectKey.pem
 
+    - name: Setup SSH Known Hosts
+      run: |
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
     - name: Setup Environment File
       run: |
         touch ./.env
@@ -29,9 +35,10 @@ jobs:
         chmod +x ./sync-certificates.sh
         chmod +x ./tools/acme.sh/*.sh
 
-    # - name: Request Certificates
-    #   run: |
-    #     ./request-certificates.sh
+    - name: Request Certificates
+      run: |
+        ./request-certificates.sh
+        
     - name: Deploy Certificates
       run: |
         ./sync-certificates.sh

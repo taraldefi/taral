@@ -25,23 +25,17 @@ if [[ -z "${CLOUD_REMOTE_HOST}" ]]; then
 fi
 
 
-# # Check if the fullchain file exists
-# if [ ! -f "$FULLCHAIN_FILE" ]; then
-#     echo "Fullchain file does not exist, exiting with error.";
-#     exit -1;
-# fi
+# Check if the fullchain file exists
+if [ ! -f "$FULLCHAIN_FILE" ]; then
+    echo "Fullchain file does not exist, exiting with error.";
+    exit -1;
+fi
 
-# # Check if the privkey file exists
-# if [ ! -f "$PRIVKEY_FILE" ]; then
-#     echo "Fullchain file does not exist, exiting with error.";
-#     exit -1;
-# fi
-
-mkdir -p ~/.ssh
-
-touch ~/.ssh/known_hosts
-
-ssh-keyscan -H $CLOUD_REMOTE_HOST >> ~/.ssh/known_hosts
+# Check if the privkey file exists
+if [ ! -f "$PRIVKEY_FILE" ]; then
+    echo "Fullchain file does not exist, exiting with error.";
+    exit -1;
+fi
 
 # Use SSH to check if the remote directory exists, then copy the file if it does
 ssh -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST" bash -c "'
@@ -51,9 +45,9 @@ if [ ! -d \"$REMOTE_PATH\" ]; then
 fi
 '"
 
-# # If the directory check is successful, copy the file
-# scp -i "$KEY_PATH" "$FULLCHAIN_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
-# scp -i "$KEY_PATH" "$PRIVKEY_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
+# If the directory check is successful, copy the file
+scp -i "$KEY_PATH" "$FULLCHAIN_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
+scp -i "$KEY_PATH" "$PRIVKEY_FILE" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$REMOTE_PATH"
 
 if [ $? -eq 0 ]; then
     echo "Files copied successfully."
