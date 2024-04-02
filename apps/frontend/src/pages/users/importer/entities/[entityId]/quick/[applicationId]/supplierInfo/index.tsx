@@ -467,7 +467,7 @@ function Index({ ...props }) {
                   </div>
                   <div className="form-item">
                     <span>
-                      Which currency is the interest/premium charged in?{" "}
+                      What currency do you pay your supplier in?{" "}
                       <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <select
