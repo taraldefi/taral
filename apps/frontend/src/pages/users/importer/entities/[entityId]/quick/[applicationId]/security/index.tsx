@@ -26,7 +26,6 @@ function Index({ ...props }) {
     schemaValidation,
   } = useCollateralForm(applicationID as string);
 
-  const today = new Date().toISOString().split("T")[0];
   const maxDate = new Date();
   maxDate.setDate(maxDate.getDate() + 90);
   const maxDateString = maxDate.toISOString().split("T")[0];
@@ -134,6 +133,7 @@ function Index({ ...props }) {
                 Requested Financing Ratio <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
+                id="percentage"
                 type="text"
                 className={errors.financingRatio ? "inputs inputRed" : "inputs"}
                 placeholder={errors.financingRatio ? "required" : "Ratio..."}
@@ -158,13 +158,13 @@ function Index({ ...props }) {
                 <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
+                id="calendar"
                 {...register("requestedTenure", { required: true })}
                 type="date"
                 max={maxDateString}
                 className={
                   errors.requestedTenure ? "inputs inputRed" : "inputs"
                 }
-                id="calendar"
               />
             </div>
             <div>

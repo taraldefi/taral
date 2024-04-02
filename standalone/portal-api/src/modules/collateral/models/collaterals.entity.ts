@@ -13,7 +13,7 @@ export class CollateralEntity extends EntityHelper {
   @Allow()
   facilityType: string;
 
-  @Column({ type: 'decimal', precision: 2, scale: 2, default: 0 })
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0 })
   @Allow()
   financingRatio: number;
 
