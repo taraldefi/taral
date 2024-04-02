@@ -15,6 +15,7 @@ import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier
 import * as Yup from "yup";
 import convertDate from "@utils/lib/convertDate";
 import entityService from "@services/entityService";
+import { CURRENCIES } from "@utils/lib/constants";
 
 type CustomRadioProps = {
   control: Control<CreateSupplierInformationForBuyerApplication, any>;
@@ -462,6 +463,38 @@ function Index({ ...props }) {
                       <option value="DELAYS">
                         There have been payment delays
                       </option>
+                    </select>
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      Which currency is the interest/premium charged in?{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <select
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.currency
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.currency"
+                      )}
+                      //@ts-ignore
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.currency
+                          ? errors.relationshipWithSupplier.paymentExperience
+                              ?.currency.message
+                          : "Currency"
+                      }
+                    >
+                      <option value="">Select Currency</option>
+                      {CURRENCIES.map((currency) => (
+                        <option key={currency.cc} value={currency.cc}>
+                          {currency.cc} - {currency.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </>

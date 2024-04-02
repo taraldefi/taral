@@ -27,6 +27,7 @@ const initialData: CreateSupplierInformationForBuyerApplication = {
       avgBusinessVol: null,
       history: null,
       delays: null,
+      currency: null,
     },
   },
 };
@@ -117,6 +118,9 @@ const useSupplierInformationForm = (applicationID: string) => {
               null,
             delays:
               response.relationshipWithSupplier.paymentExperience.delays ??
+              null,
+            currency:
+              response.relationshipWithSupplier.paymentExperience.currency ??
               null,
           },
         },

@@ -24,6 +24,7 @@ export interface PaymentExperience {
   length: string | null;
   noOfDeals: number | null;
   avgBusinessVol: string | null;
+  currency: string | null;
   history: string | null;
   delays: string | null;
 }

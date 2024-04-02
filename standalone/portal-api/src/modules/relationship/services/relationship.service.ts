@@ -85,6 +85,8 @@ export class RelationshipService extends BaseService {
       entity.paymentExperience.noOfDeals ?? null;
     relationship.paymentExperience.avgBusinessVol =
       entity.paymentExperience.avgBusinessVol ?? null;
+    relationship.paymentExperience.currency =
+      entity.paymentExperience.currency ?? null;
 
     await this.relationshipRepository.save(relationship);
 
@@ -175,6 +177,13 @@ export class RelationshipService extends BaseService {
           entity.paymentExperience.avgBusinessVol;
       } else {
         relationship.paymentExperience.avgBusinessVol = null;
+      }
+
+      if (entity.paymentExperience.currency) {
+        relationship.paymentExperience.currency =
+          entity.paymentExperience.currency;
+      } else {
+        relationship.paymentExperience.currency = null;
       }
     }
 

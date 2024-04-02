@@ -14,6 +14,9 @@ export class GetPaymentExperienceResponse {
   @ApiProperty({ example: '1000000' })
   avgBusinessVol: string;
 
+  @ApiProperty({ example: 'USD' })
+  currency: string;
+
   @ApiProperty({ example: 'ON_TIME' })
   history: string;
 

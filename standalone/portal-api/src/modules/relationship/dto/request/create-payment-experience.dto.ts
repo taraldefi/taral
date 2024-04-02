@@ -26,6 +26,10 @@ export class CreatePaymentExperienceRequest {
   @IsOptional()
   avgBusinessVol: string;
 
+  @ApiProperty({ example: 'USD' })
+  @IsOptional()
+  currency: string;
+
   @ApiProperty({ example: 'ON_TIME' })
   @IsOptional()
   @IsEnum(['ON_TIME', 'DELAYS'])
