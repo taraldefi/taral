@@ -25,17 +25,17 @@ if [[ -z "${CLOUD_REMOTE_HOST}" ]]; then
 fi
 
 
-# Check if the fullchain file exists
-if [ ! -f "$FULLCHAIN_FILE" ]; then
-    echo "Fullchain file does not exist, exiting with error.";
-    exit -1;
-fi
+# # Check if the fullchain file exists
+# if [ ! -f "$FULLCHAIN_FILE" ]; then
+#     echo "Fullchain file does not exist, exiting with error.";
+#     exit -1;
+# fi
 
-# Check if the privkey file exists
-if [ ! -f "$PRIVKEY_FILE" ]; then
-    echo "Fullchain file does not exist, exiting with error.";
-    exit -1;
-fi
+# # Check if the privkey file exists
+# if [ ! -f "$PRIVKEY_FILE" ]; then
+#     echo "Fullchain file does not exist, exiting with error.";
+#     exit -1;
+# fi
 
 mkdir -p ~/.ssh
 
