@@ -40,6 +40,7 @@ function index({ ...props }) {
   const [activeApplicationId, setActiveApplicationId] = useState<string>("");
   const { stxAddress } = useAccount();
   const [entityData, setEntityData] = useState<EntityResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   if (router.isFallback) {
     return;
@@ -101,6 +102,7 @@ function index({ ...props }) {
       });
 
       setApplicationTableData(await Promise.all(applicationTableData));
+      setLoading(false);
     } catch (error) {
       //TODO: Handle error
       console.error("Error fetching entity:", error);
@@ -224,6 +226,19 @@ function index({ ...props }) {
             <ApplicationTable
               applicationTableData={allApplicationTableData}
             ></ApplicationTable>
+          ) : allApplicationTableData.length == 0 && !loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: "20px",
+                color: "gray",
+              }}
+            >
+              No applications found under this entity
+            </div>
           ) : (
             <div style={{ paddingTop: "15px" }}>
               {" "}
