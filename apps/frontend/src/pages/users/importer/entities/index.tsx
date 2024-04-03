@@ -30,7 +30,6 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { EntityCardResponse } from "src/types";
-import { useSession } from "next-auth/react";
 import useAuth from "@hooks/useAuth";
 
 function Index() {

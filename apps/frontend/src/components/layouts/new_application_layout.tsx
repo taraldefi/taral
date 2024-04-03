@@ -1,4 +1,3 @@
-import IdleTimeOut from "@components/IdleTimeout";
 import ApplicationLeftMenu from "@components/applicationLeftMenu";
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
@@ -21,6 +20,7 @@ import {
   SettingsModalAtom,
 } from "@store/ModalStore";
 import React from "react";
+import IdleTimeOut from "../IdleTimeOut";
 
 interface LayoutProps {
   children: React.ReactNode;

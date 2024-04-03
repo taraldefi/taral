@@ -18,7 +18,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import Topbar from "../../topBar";
 import useAuth from "@hooks/useAuth";
-import IdleTimeOut from "@components/IdleTimeout";
+import IdleTimeOut from "../../IdleTimeOut";
 
 interface LayoutProps {
   children: React.ReactNode;
