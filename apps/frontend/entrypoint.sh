@@ -24,5 +24,7 @@ find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xar
 find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_SHARP_PATH#$NEXT_SHARP_PATH#g"
 find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_NEXT_AUTH_SECRET#$NEXT_PUBLIC_NEXT_AUTH_SECRET#g"
 
+find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXTAUTH_URL#$NEXTAUTH_URL#g"
+
 echo "Starting Nextjs"
 exec "$@"
