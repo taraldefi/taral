@@ -1,5 +1,6 @@
 import apiUrls from "@config/apiUrls";
 import getAxiosConfig from "@config/axiosConfig";
+
 import CoreUtils from "@utils/coreUtils";
 import axios from "axios";
 import {
@@ -24,7 +25,6 @@ class AuthService {
   ): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
       const url = apiUrls.USER_LOGIN;
-      const axiosConfig = getAxiosConfig({ method: "POST" });
 
       // if (process.env.NODE_ENV !== "production") {
       //   url += "?";
@@ -43,31 +43,18 @@ class AuthService {
             password: password,
             remember: remember,
           }),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+            },
+            responseType: "json",
+          }
         );
 
         const cookie = response.data;
 
         if (response.status === 201) {
-          localStorage.setItem("SITE_DATA_AUTH", JSON.stringify(cookie));
-
-          if (remember) {
-            CoreUtils.call(
-              "setCookie",
-              "SITE_DATA_LOGIN_COOKIE",
-              JSON.stringify(cookie),
-              "/",
-              2
-            );
-          } else {
-            CoreUtils.call(
-              "setCookie",
-              "SITE_DATA_LOGIN_COOKIE",
-              JSON.stringify(cookie),
-              "/",
-              "Session"
-            );
-          }
           resolve(true);
         }
       } catch (error: any) {
@@ -96,9 +83,7 @@ class AuthService {
     password: string,
     name: string
   ): Promise<RegisterResponse> {
-    
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
       try {
         const response = await axios.post(
           apiUrls.USER_REGISTER,
@@ -108,7 +93,13 @@ class AuthService {
             password: password,
             name: name,
           }),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 

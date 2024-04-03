@@ -13,62 +13,110 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
 import { Entity, EntityCardResponse, EntityResponse } from "src/types";
-import { DeleteModal, EntityTable } from "@lib";
-
-const TableData = [
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-  {
-    productTitle: "Product Title",
-    issuanceDate: "13.10.2021",
-    maturityDate: "13.10.2021",
-    facilityAmount: 956,
-  },
-];
+import {
+  ApplicationTable,
+  DeleteModal,
+  EntityTable,
+  applicationTableDataType,
+} from "@lib";
+import applicationService from "@services/application/applicationService";
+import useTaralContracts from "@hooks/useTaralContracts";
+import { useAccount } from "@micro-stacks/react";
+import { LENDER_ADDRESS } from "@utils/lib/constants";
+import convertDate from "@utils/lib/convertDate";
+import FinanceButton from "@components/widgets/FinanceButton";
+import ClaimButton from "@components/widgets/ClaimButton";
 
 function index({ ...props }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
   const [, setSelectedEntity] = useAtom(selectedEntityModalAtom);
   const deleteModal = useModal(DeleteModalAtom);
   const router = useRouter();
-
+  const [allApplicationTableData, setApplicationTableData] = useState<
+    applicationTableDataType[]
+  >([]);
+  const { checkPurchaseOrderHasActiveFinancing, getPurchaseOrderById } =
+    useTaralContracts();
+  const [activeApplicationId, setActiveApplicationId] = useState<string>("");
+  const { stxAddress } = useAccount();
   const [entityData, setEntityData] = useState<EntityResponse>();
+  const [loading, setLoading] = useState<boolean>(true);
 
   if (router.isFallback) {
     return;
   }
+  useEffect(() => {
+    fetchApplicationTableData();
+  }, []);
+  async function fetchApplicationTableData() {
+    try {
+      const res = await applicationService.getAllApplications(
+        props.query.entityId || (router.asPath.split("/")[4] as string)
+      );
+      const applications = res || [];
+      console.log(res);
+      let applicationTableData: applicationTableDataType[] = [];
+
+      applicationTableData = applications.map(async (application: any) => {
+        const claimable = await checkPurchaseOrderHasActiveFinancing(
+          application.id
+        );
+        if (application.status === "ACTIVE") {
+          setActiveApplicationId(application.id);
+        }
+
+        const purchaseOrder = await getPurchaseOrderById(application.id);
+
+        let alreadyAccepted = false;
+        if (purchaseOrder) {
+          alreadyAccepted = purchaseOrder["accepted-financing-id"]
+            ? true
+            : false;
+        }
+
+        const userIsLender = stxAddress === LENDER_ADDRESS;
+        console.log(userIsLender, stxAddress, LENDER_ADDRESS);
+
+        return {
+          id: application.id,
+          applicationId: application.id,
+          product: "Importer financing",
+          dateFrom: convertDate(application.issuanceDate),
+          dateTo: convertDate(application.endDate),
+          importerName: application.exporterName,
+          status: {
+            label: alreadyAccepted
+              ? "LOAN FUNDED"
+              : application.status.replace("_", " "),
+            claimable: (claimable && !alreadyAccepted) || userIsLender,
+            component:
+              userIsLender && !alreadyAccepted && purchaseOrder ? (
+                <FinanceButton applicationId={application.id} />
+              ) : claimable && !alreadyAccepted ? (
+                <ClaimButton />
+              ) : (
+                <>--</>
+              ),
+          },
+        };
+      });
+
+      setApplicationTableData(await Promise.all(applicationTableData));
+      setLoading(false);
+    } catch (error) {
+      //TODO: Handle error
+      console.error("Error fetching entity:", error);
+      return {
+        props: { ApplicationTable: [], entityId: "" },
+      };
+    }
+  }
 
   async function fetchEntityData() {
     try {
-      const res = await entityService.getEntity(props.query.entityId);
+      const res = await entityService.getEntity(
+        props.query.entityId || (router.asPath.split("/")[4] as string)
+      );
       setEntityData(res);
     } catch (error) {
       console.log("Error fetching entity:", error);
@@ -97,6 +145,30 @@ function index({ ...props }) {
       console.error("Error deleting entity:", error);
     }
   };
+
+  const ApplicationLoader = (props: any) => (
+    <ContentLoader
+      speed={2}
+      width={600}
+      height={500}
+      viewBox="0 0 600 500"
+      backgroundColor="#f3f3f3"
+      foregroundColor="#ecebeb"
+      {...props}
+    >
+      <rect x="0" y="13" rx="3" ry="3" width="113" height="17" />
+      <rect x="135" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="0" y="56" rx="3" ry="3" width="599" height="18" />
+      <rect x="1" y="85" rx="3" ry="3" width="600" height="18" />
+      <rect x="1" y="114" rx="3" ry="3" width="600" height="18" />
+      <rect x="232" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="333" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="537" y="12" rx="3" ry="3" width="62" height="17" />
+      <rect x="431" y="13" rx="3" ry="3" width="62" height="17" />
+      <rect x="1" y="143" rx="3" ry="3" width="600" height="18" />
+      <rect x="0" y="173" rx="3" ry="3" width="600" height="18" />
+    </ContentLoader>
+  );
 
   const MyLoader = (props: any) => (
     <ContentLoader
@@ -149,8 +221,31 @@ function index({ ...props }) {
           )}
         </div>
         <div className="viewTableContainer">
-          <span>Products</span>
-          <EntityTable entityTableData={TableData} />
+          <span>Applications</span>
+          {allApplicationTableData.length > 0 ? (
+            <ApplicationTable
+              applicationTableData={allApplicationTableData}
+            ></ApplicationTable>
+          ) : allApplicationTableData.length == 0 && !loading ? (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100%",
+                fontSize: "20px",
+                color: "gray",
+              }}
+            >
+              No applications found under this entity
+            </div>
+          ) : (
+            <div style={{ paddingTop: "15px" }}>
+              {" "}
+              <ApplicationLoader />
+            </div>
+          )}
+          {/* <EntityTable entityTableData={TableData} /> */}
         </div>
       </div>
       <DeleteModal

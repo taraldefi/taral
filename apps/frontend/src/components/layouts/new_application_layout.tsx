@@ -1,4 +1,4 @@
-import { AuthGuard } from "@components/AuthGuard";
+import IdleTimeOut from "@components/IdleTimeout";
 import ApplicationLeftMenu from "@components/applicationLeftMenu";
 import FormEditModal from "@components/modal/entityEditFormModal";
 import FormModal from "@components/modal/entityFormModal";
@@ -9,6 +9,7 @@ import SettingsModal from "@components/modal/settingsModal";
 import StepperModal from "@components/modal/stepperModal";
 import Topbar from "@components/topBar";
 import NewApplicationTopNav from "@components/topBarNavigation/newApplication";
+import useAuth from "@hooks/useAuth";
 import useModal from "@hooks/useModal";
 import {
   ApplicationModalAtom,
@@ -35,44 +36,44 @@ const ApplicationLayout = ({ children }: LayoutProps) => {
   const finishApplicationCreditCardModal = useModal(
     FinishApplicationForCreditCardModalAtom
   );
+  const isAuthenticated = useAuth(true);
 
   return (
     <>
-      <AuthGuard>
-        <div>
-          <div className="topbarFix">
-            <Topbar />
-            <NewApplicationTopNav />
-          </div>
-          <ApplicationLeftMenu />
-          <div className="mainBody">{children}</div>
-
-          <FormModal
-            isOpen={newEntityModal.isOpen}
-            onClose={() => newEntityModal.close()}
-          ></FormModal>
-          <FormEditModal
-            isOpen={editModal.isOpen}
-            onClose={() => editModal.close()}
-          ></FormEditModal>
-          <NewApplicationModal
-            isOpen={applicationModal.isOpen}
-            onClose={() => applicationModal.close()}
-          ></NewApplicationModal>
-          <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
-          <NotificationModal
-            isOpen={notificationModal.isOpen}
-          ></NotificationModal>
-          <StepperModal
-            isOpen={finishApplicationModal.isOpen}
-            onClose={() => finishApplicationModal.close()}
-          ></StepperModal>
-          <InvoiceModal
-            isOpen={finishApplicationCreditCardModal.isOpen}
-            onClose={() => finishApplicationCreditCardModal.close()}
-          ></InvoiceModal>
+      <div>
+        <div className="topbarFix">
+          <Topbar />
+          <NewApplicationTopNav />
         </div>
-      </AuthGuard>
+        <ApplicationLeftMenu />
+        <div className="mainBody">{children}</div>
+
+        <FormModal
+          isOpen={newEntityModal.isOpen}
+          onClose={() => newEntityModal.close()}
+        ></FormModal>
+        <FormEditModal
+          isOpen={editModal.isOpen}
+          onClose={() => editModal.close()}
+        ></FormEditModal>
+        <NewApplicationModal
+          isOpen={applicationModal.isOpen}
+          onClose={() => applicationModal.close()}
+        ></NewApplicationModal>
+        <SettingsModal isOpen={settingsModal.isOpen}></SettingsModal>
+        <NotificationModal
+          isOpen={notificationModal.isOpen}
+        ></NotificationModal>
+        <StepperModal
+          isOpen={finishApplicationModal.isOpen}
+          onClose={() => finishApplicationModal.close()}
+        ></StepperModal>
+        <InvoiceModal
+          isOpen={finishApplicationCreditCardModal.isOpen}
+          onClose={() => finishApplicationCreditCardModal.close()}
+        ></InvoiceModal>
+        <IdleTimeOut />
+      </div>
     </>
   );
 };

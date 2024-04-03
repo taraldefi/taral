@@ -114,26 +114,39 @@
 
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 
-    * {
+    // * {
+    // 	display: flex;
+    // 	gap: 4px;
+    // 	flex-direction: column;
+    // 	padding: 16px 40px 0px 0px;
+
+    .registration--container {
       display: flex;
       gap: 4px;
       flex-direction: column;
       padding: 16px 40px 0px 0px;
-
-      :nth-child(1) {
+      h4 {
         font-weight: 900;
         color: #64748b;
         font-size: 10px;
-        padding: 0px;
       }
-
-      :nth-child(2) {
+      span {
         font-weight: 900;
         color: #003c6e;
         font-size: 16px;
         padding: 0px;
       }
+
+      padding: 0px;
+    }
+    .applications--container {
+      padding: auto;
+      display: inline-block;
+      align-self: flex-end;
+      justify-content: center;
+      align-items: center;
     }
   }
 }

@@ -17,6 +17,7 @@ import NewApplicationModal from "@components/modal/newApplicationModal";
 import SettingsModal from "@components/modal/settingsModal";
 import NotificationModal from "@components/modal/notificationModal";
 import ImporterTopNav from "@components/topBarNavigation/importer";
+import useAuth from "@hooks/useAuth";
 interface LayoutProps {
   children: React.ReactNode;
 }
@@ -28,6 +29,8 @@ const ImporterKycLayout = ({ children }: LayoutProps) => {
   const newEntityModal = useModal(FormModalAtom);
   const settingsModal = useModal(SettingsModalAtom);
   const notificationModal = useModal(NotificationModalAtom);
+
+  const isAuthenticated = useAuth(true);
   return (
     <>
       <div className="bodyContainer">

@@ -1,5 +1,4 @@
 import apiUrls from "@config/apiUrls";
-import getAxiosConfig from "@config/axiosConfig";
 import axios from "axios";
 import {
   CreateBuyerInformationForBuyerApplication,
@@ -24,6 +23,7 @@ import {
   CreateCollateralInformation,
   GetCollateralResponse,
 } from "src/types/collateral_info";
+import { getAccessToken } from "@utils/helper";
 
 class BuyerApplicationService extends ApplicationService {
   /**
@@ -33,11 +33,18 @@ class BuyerApplicationService extends ApplicationService {
 
   getBuyerInfo(applicationId: string): Promise<GetBuyerInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "GET" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.get(
           `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
-          axiosConfig
+          {
+            headers: {
+              method: "GET",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -61,12 +68,19 @@ class BuyerApplicationService extends ApplicationService {
     buyerInfo: CreateBuyerInformationForBuyerApplication
   ): Promise<GetBuyerInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
           JSON.stringify(buyerInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -85,12 +99,19 @@ class BuyerApplicationService extends ApplicationService {
     buyerInfo: CreateBuyerInformationForBuyerApplication
   ): Promise<GetBuyerInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/buyer-info`,
           JSON.stringify(buyerInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -106,11 +127,18 @@ class BuyerApplicationService extends ApplicationService {
 
   getSupplierInfo(applicationId: string): Promise<GetSupplierInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "GET" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.get(
           `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
-          axiosConfig
+          {
+            headers: {
+              method: "GET",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -129,12 +157,19 @@ class BuyerApplicationService extends ApplicationService {
     supplierInfo: CreateSupplierInformationForBuyerApplication
   ): Promise<GetSupplierInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
           JSON.stringify(supplierInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -153,12 +188,20 @@ class BuyerApplicationService extends ApplicationService {
     supplierInfo: CreateSupplierInformationForBuyerApplication
   ): Promise<GetSupplierInfoResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
+
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/supplier-info`,
           JSON.stringify(supplierInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -174,11 +217,18 @@ class BuyerApplicationService extends ApplicationService {
 
   getOrderDetailInfo(applicationId: string): Promise<GetOrderDetailsResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "GET" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.get(
           `${apiUrls.APPLICATION}/${applicationId}/order-details`,
-          axiosConfig
+          {
+            headers: {
+              method: "GET",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -197,12 +247,19 @@ class BuyerApplicationService extends ApplicationService {
     orderInfo: OrderDetails
   ): Promise<GetOrderDetailsResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/order-details`,
           JSON.stringify(orderInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 
@@ -222,12 +279,22 @@ class BuyerApplicationService extends ApplicationService {
     orderInfo: OrderDetails
   ): Promise<GetOrderDetailsResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
+      console.log("DEBUG ORDER", orderInfo, accessToken);
+
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/order-details`,
           JSON.stringify(orderInfo),
-          axiosConfig
+
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 
@@ -248,12 +315,19 @@ class BuyerApplicationService extends ApplicationService {
     productInfo: CreateProduct
   ): Promise<Product> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/order-products`,
           JSON.stringify(productInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 
@@ -274,12 +348,19 @@ class BuyerApplicationService extends ApplicationService {
     productInfo: CreateProduct
   ): Promise<Product> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/${productId}/order-products`,
           JSON.stringify(productInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 
@@ -296,12 +377,19 @@ class BuyerApplicationService extends ApplicationService {
 
   deleteProductInfo(applicationId: string, productId: string): Promise<void> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "DELETE" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.delete(
           `${apiUrls.APPLICATION}/${applicationId}/${productId}/order-products`,
 
-          axiosConfig
+          {
+            headers: {
+              method: "DELETE",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
 
@@ -318,11 +406,18 @@ class BuyerApplicationService extends ApplicationService {
 
   getPaymentTerms(applicationId: string): Promise<GetPaymentTermResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "GET" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.get(
           `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
-          axiosConfig
+          {
+            headers: {
+              method: "GET",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -341,12 +436,20 @@ class BuyerApplicationService extends ApplicationService {
     paymentTermInfo: CreatePaymentTerm
   ): Promise<GetPaymentTermResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
+
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
           JSON.stringify(paymentTermInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -365,12 +468,19 @@ class BuyerApplicationService extends ApplicationService {
     paymentTermInfo: CreatePaymentTerm
   ): Promise<GetPaymentTermResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/payment-terms`,
           JSON.stringify(paymentTermInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -386,11 +496,18 @@ class BuyerApplicationService extends ApplicationService {
 
   getCollateralInfo(applicationId: string): Promise<GetCollateralResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "GET" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.get(
           `${apiUrls.APPLICATION}/${applicationId}/security`,
-          axiosConfig
+          {
+            headers: {
+              method: "GET",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
 
         const { data } = response;
@@ -409,12 +526,19 @@ class BuyerApplicationService extends ApplicationService {
     collateralInfo: CreateCollateralInformation
   ): Promise<GetCollateralResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "POST" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.post(
           `${apiUrls.APPLICATION}/${applicationId}/security`,
           JSON.stringify(collateralInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "POST",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);
@@ -433,12 +557,19 @@ class BuyerApplicationService extends ApplicationService {
     collateralInfo: CreateCollateralInformation
   ): Promise<GetCollateralResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "PATCH" });
+      const accessToken = await getAccessToken();
       try {
         const response = await axios.patch(
           `${apiUrls.APPLICATION}/${applicationId}/security`,
           JSON.stringify(collateralInfo),
-          axiosConfig
+          {
+            headers: {
+              method: "PATCH",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${accessToken}`,
+            },
+            responseType: "json",
+          }
         );
         const { data } = response;
         console.log(response);

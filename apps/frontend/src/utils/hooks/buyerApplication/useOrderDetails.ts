@@ -21,30 +21,31 @@ const productInitialData = {
 
 // schema validation for order details
 const schemaValidation = Yup.object().shape({
-  exportPort: Yup.string().required("export port required"),
-  importPort: Yup.string().required("import port required"),
+  exportPort: Yup.string().required("Export port required"),
+  importPort: Yup.string().required("Import port required"),
 });
 
 // schema validation for individual product
 const singleProductSchemaValidation = Yup.object().shape({
-  id: Yup.string().required("id is required"),
-  name: Yup.string().required("name is required"),
+  id: Yup.string().required("ID is required"),
+  name: Yup.string().required("Name is required"),
   quantity: Yup.number()
-    .required("quantity is required")
-    .typeError("quantity must be a number"),
+    .required("Quantity is required")
+    .typeError("Quantity must be a number")
+    .max(1000000, "Quantity must be less than 1000000"),
   unitPrice: Yup.number()
-    .required("unit price is required")
-    .typeError("unit price must be a number"),
+    .required("Unit price is required")
+    .typeError("Unit price must be a number"),
 });
 
 const createProductSchemaValidation = Yup.object().shape({
-  name: Yup.string().required("name is required"),
+  name: Yup.string().required("Name is required"),
   quantity: Yup.number()
-    .required("quantity is required")
-    .typeError("quantity must be a number"),
+    .required("Quantity is required")
+    .typeError("Quantity must be a number"),
   unitPrice: Yup.number()
-    .required("unit price is required")
-    .typeError("unit price must be a number"),
+    .required("Unit price is required")
+    .typeError("Unit price must be a number"),
 });
 
 // schema validation for products
@@ -181,7 +182,7 @@ const useOrderDetailForm = (applicationID: string) => {
   const handleDebouncedChange = useMemo(
     () =>
       debounce((data: OrderDetails) => {
-        console.log(data);
+        console.log("ORDER", data);
         mutateAsync(data);
       }, 500),
     [mutateAsync]

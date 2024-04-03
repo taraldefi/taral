@@ -84,7 +84,7 @@ const AddProductForm = ({
               type="text"
               className={productErrors?.name ? "inputs inputRed" : "inputs"}
               placeholder={
-                productErrors?.name ? productErrors?.name?.message : "name"
+                productErrors?.name ? productErrors?.name?.message : "Name"
               }
               {...registerProduct(`name`)}
             />
@@ -96,7 +96,7 @@ const AddProductForm = ({
             <input
               className={productErrors?.quantity ? "inputs inputRed" : "inputs"}
               placeholder={
-                productErrors?.quantity ? "quantity required" : "quantity"
+                productErrors?.quantity ? "Quantity required" : "Quantity"
               }
               {...registerProduct(`quantity`)}
             />
@@ -110,7 +110,7 @@ const AddProductForm = ({
                 productErrors?.unitPrice ? "inputs inputRed" : "inputs"
               }
               placeholder={
-                productErrors?.unitPrice ? "price required" : "price"
+                productErrors?.unitPrice ? "Price required" : "Price"
               }
               {...registerProduct(`unitPrice`)}
             />

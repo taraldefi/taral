@@ -1,4 +1,8 @@
-import { StacksMainnet, StacksMocknet } from "micro-stacks/network";
+import {
+  StacksMainnet,
+  StacksMocknet,
+  StacksTestnet,
+} from "micro-stacks/network";
 
 export interface Network {
   name: string;
@@ -51,7 +55,7 @@ export const DEFAULT_NETWORK_INDEX = parseFloat(
 export const devnet = process.env.NODE_ENV === "development";
 
 export const stacksNetwork =
-  process.env.NODE_ENV === "production" ? StacksMainnet : StacksMocknet;
+  process.env.NODE_ENV === "production" ? StacksMainnet : StacksTestnet;
 
 export const TARAL_IMPORTER_CONTRACT = devnet
   ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer"
@@ -60,6 +64,10 @@ export const TARAL_IMPORTER_CONTRACT = devnet
 export const TARAL_BANK_CONTRACT = devnet
   ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank"
   : process.env.NEXT_PUBLIC_TARAL_BANK_CONTRACT || "";
+
+export const SUSDT_CONTRACT = devnet
+  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-susdt"
+  : process.env.NEXT_PUBLIC_SUSDT_CONTRACT || "";
 
 export const LENDER_ADDRESS = devnet
   ? "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG"

@@ -19,6 +19,10 @@ export class PaymentExperience {
   @Allow()
   avgBusinessVol: string;
 
+  @Column({ nullable: true })
+  @Allow()
+  currency: string;
+
   @Column({
     type: 'enum',
     enum: PaymentHistory,

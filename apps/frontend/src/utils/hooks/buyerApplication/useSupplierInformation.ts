@@ -27,6 +27,7 @@ const initialData: CreateSupplierInformationForBuyerApplication = {
       avgBusinessVol: null,
       history: null,
       delays: null,
+      currency: null,
     },
   },
 };
@@ -41,28 +42,28 @@ const schemaValidation = Yup.object({
       exists: Yup.boolean().required(),
       description: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required("required"),
+        then: () => Yup.string().required("Required"),
         otherwise: () => Yup.string().nullable(),
       }),
       length: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required("required"),
+        then: () => Yup.string().required("Required"),
         otherwise: () => Yup.string().nullable(),
       }),
       noOfDeals: Yup.number().when("exists", {
         is: true,
         then: () =>
-          Yup.number().typeError("must be a number").required("required"),
+          Yup.number().typeError("must be a number").required("Required"),
         otherwise: () => Yup.number().nullable(),
       }),
       avgBusinessVol: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required("required"),
+        then: () => Yup.string().required("Required"),
         otherwise: () => Yup.string().nullable(),
       }),
       history: Yup.string().when("exists", {
         is: true,
-        then: () => Yup.string().required("required"),
+        then: () => Yup.string().required("Required"),
         otherwise: () => Yup.string().nullable(),
       }),
       delays: Yup.string().nullable(),
@@ -75,8 +76,6 @@ const useSupplierInformationForm = (applicationID: string) => {
   const [companyInformation, setCompanyInformation] = useState<Company>();
 
   const getInitialData = async () => {
-    console.log("applicationID", applicationID);
-
     try {
       const response = await buyerApplicationService.getSupplierInfo(
         applicationID as string
@@ -120,6 +119,9 @@ const useSupplierInformationForm = (applicationID: string) => {
             delays:
               response.relationshipWithSupplier.paymentExperience.delays ??
               null,
+            currency:
+              response.relationshipWithSupplier.paymentExperience.currency ??
+              null,
           },
         },
       };
@@ -151,7 +153,7 @@ const useSupplierInformationForm = (applicationID: string) => {
       });
       if (createSupplierInfo.supplierId) {
         setUpdateMode(true);
-        toast.success(`supplier information created`);
+        toast.success(`Supplier information created`);
       }
     } else {
       const updateSupplierInfo = buyerApplicationService.updateSupplierInfo(

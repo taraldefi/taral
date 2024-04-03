@@ -112,6 +112,9 @@
     .radioBack {
       padding: 16px 24px 16px 16px;
       display: flex;
+      height: 60vh;
+      overflow: scroll;
+      overflow-x: hidden;
       font-size: 14px;
       gap: 6px;
       color: #475569;

@@ -77,6 +77,18 @@ function Index({ ...props }) {
                 <FileUpload type={documentType.ADDITIONAL_DOCUMENT} />
                 <span>Additional Documents</span>
               </div>
+              <div
+                style={{
+                  textAlign: "center",
+                  gap: "10px",
+                  fontWeight: "600",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <FileUpload type={documentType.CREDIT_CARD_STATEMENT} />
+                <span>Credit Card Statement</span>
+              </div>
             </div>
           </div>
           <div className="vLine"></div>

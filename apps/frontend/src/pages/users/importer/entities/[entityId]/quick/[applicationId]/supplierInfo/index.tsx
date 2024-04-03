@@ -15,6 +15,7 @@ import { CreateSupplierInformationForBuyerApplication } from "src/types/supplier
 import * as Yup from "yup";
 import convertDate from "@utils/lib/convertDate";
 import entityService from "@services/entityService";
+import { CURRENCIES } from "@utils/lib/constants";
 
 type CustomRadioProps = {
   control: Control<CreateSupplierInformationForBuyerApplication, any>;
@@ -79,10 +80,10 @@ function CustomBooleanInput({ control, name, setValue }: CustomRadioProps) {
   );
 }
 
-function Index() {
+function Index({ ...props }) {
   const router = useRouter();
-  const entityID = router.query.entityId;
-  const applicationID = router.query.applicationId;
+  const entityID = props.query.entityId;
+  const applicationID = props.query.applicationId;
   const {
     schemaValidation,
     handleDebouncedChange,
@@ -357,7 +358,7 @@ function Index() {
                           ?.description
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.description?.message
-                          : "description"
+                          : "Description"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.description"
@@ -382,7 +383,7 @@ function Index() {
                           ?.length
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.length?.message
-                          : "length of payment experience"
+                          : "Length of payment experience"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.length"
@@ -406,7 +407,7 @@ function Index() {
                           ?.noOfDeals
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.noOfDeals?.message
-                          : "number of deals"
+                          : "Number of deals"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.noOfDeals"
@@ -415,7 +416,7 @@ function Index() {
                   </div>
                   <div className="form-item">
                     <span>
-                      Avg. volume of business with your customer{" "}
+                      Avg value of each purchase from Supplier{" "}
                       <b style={{ color: "#f84141" }}>*</b>
                     </span>
                     <input
@@ -431,7 +432,7 @@ function Index() {
                           ?.avgBusinessVol
                           ? errors.relationshipWithSupplier?.paymentExperience
                               ?.avgBusinessVol?.message
-                          : "average volume of business"
+                          : "Average value of each purchase from Supplier"
                       }
                       {...register(
                         "relationshipWithSupplier.paymentExperience.avgBusinessVol"
@@ -456,8 +457,44 @@ function Index() {
                       )}
                     >
                       <option value={""}>Select type...</option>
-                      <option value="ON_TIME">On time</option>
-                      <option value="DELAYS">Delays</option>
+                      <option value="ON_TIME">
+                        We have settled all accounts on time
+                      </option>
+                      <option value="DELAYS">
+                        There have been payment delays
+                      </option>
+                    </select>
+                  </div>
+                  <div className="form-item">
+                    <span>
+                      What currency do you pay your supplier in?{" "}
+                      <b style={{ color: "#f84141" }}>*</b>
+                    </span>
+                    <select
+                      className={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.currency
+                          ? "inputs inputRed"
+                          : "inputs"
+                      }
+                      {...register(
+                        "relationshipWithSupplier.paymentExperience.currency"
+                      )}
+                      //@ts-ignore
+                      placeholder={
+                        errors.relationshipWithSupplier?.paymentExperience
+                          ?.currency
+                          ? errors.relationshipWithSupplier.paymentExperience
+                              ?.currency.message
+                          : "Currency"
+                      }
+                    >
+                      <option value="">Select Currency</option>
+                      {CURRENCIES.map((currency) => (
+                        <option key={currency.cc} value={currency.cc}>
+                          {currency.cc} - {currency.name}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </>
@@ -485,12 +522,10 @@ function Index() {
   );
 }
 
-// export async function getServerSideProps(context: NextPageContext) {
-//   const { query } = context;
-//   const res = await supplierEntityService.getAllEntity();
-//   const entities = res || [];
-//   console.log("entities", entities);
-//   return { props: { query, entities: entities } };
-// }
+// Server Side props to get the query params
+export async function getServerSideProps(context: NextPageContext) {
+  const { query } = context;
+  return { props: { query } };
+}
 
 export default Index;

@@ -26,6 +26,10 @@ function Index({ ...props }) {
     schemaValidation,
   } = useCollateralForm(applicationID as string);
 
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 90);
+  const maxDateString = maxDate.toISOString().split("T")[0];
+
   const {
     register,
     setValue,
@@ -120,8 +124,8 @@ function Index({ ...props }) {
                 className="inputs"
                 {...register("facilityType", { required: true })}
               >
-                <option value="IMPORTER_FINANCING">Importer Financing</option>
-                <option value="EXPORTER_FINANCING">Exporter Financing</option>
+                <option value="IMPORTER_FINANCING">Buyer Financing</option>
+                <option value="EXPORTER_FINANCING">Supplier Financing</option>
               </select>
             </div>
             <div>
@@ -129,6 +133,7 @@ function Index({ ...props }) {
                 Requested Financing Ratio <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
+                id="percentage"
                 type="text"
                 className={errors.financingRatio ? "inputs inputRed" : "inputs"}
                 placeholder={errors.financingRatio ? "required" : "Ratio..."}
@@ -153,12 +158,13 @@ function Index({ ...props }) {
                 <b style={{ color: "#f84141" }}>*</b>
               </span>
               <input
+                id="calendar"
                 {...register("requestedTenure", { required: true })}
                 type="date"
+                max={maxDateString}
                 className={
                   errors.requestedTenure ? "inputs inputRed" : "inputs"
                 }
-                id="calendar"
               />
             </div>
             <div>
@@ -171,7 +177,7 @@ function Index({ ...props }) {
                 className={
                   errors.requestedPurpose ? "inputs inputRed" : "inputs"
                 }
-                placeholder={errors.requestedPurpose ? "required" : "purpose"}
+                placeholder={errors.requestedPurpose ? "Required" : "Purpose"}
                 {...register("requestedPurpose", { required: true })}
               />
             </div>
@@ -186,7 +192,7 @@ function Index({ ...props }) {
                   errors.repaymentSource ? "inputs inputRed" : "inputs"
                 }
                 placeholder={
-                  errors.repaymentSource ? "required" : "repayment source"
+                  errors.repaymentSource ? "Required" : "Repayment source"
                 }
                 {...register("repaymentSource", { required: true })}
               />
@@ -194,7 +200,7 @@ function Index({ ...props }) {
           </div>
           <div className="vLine"></div>
           <div className="collateral">
-            <div className="maintitle">INTEREST</div>
+            <div className="maintitle">COLLATERAL</div>
 
             <div className="radioBack">
               <span>Will any collateral be provided? </span>
@@ -227,7 +233,7 @@ function Index({ ...props }) {
             {collateralRadioBtn == "YES" && (
               <div className="radioBack">
                 <span>
-                  Do you have significant influence on security/collateral
+                  Do you have significant influence in security/collateral
                 </span>
                 <div>
                   <div>
@@ -267,8 +273,8 @@ function Index({ ...props }) {
                       }
                       placeholder={
                         errors.collateralProviderInfluence
-                          ? "required"
-                          : "description"
+                          ? "Required"
+                          : "Description"
                       }
                       {...register("collateralProviderInfluence", {
                         required: collateralInfluenceBtn == "YES",
@@ -322,7 +328,7 @@ function Index({ ...props }) {
                       placeholder={
                         errors.collateralProviderExperience
                           ? "required"
-                          : "description"
+                          : "Description"
                       }
                       {...register("collateralProviderExperience", {
                         required: collateralPaymentExperienceBtn == "YES",

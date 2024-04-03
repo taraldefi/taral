@@ -24,7 +24,7 @@ const RepaymentCard = ({ amount = "0" }: repaymentCardProp) => {
   const { data: transaction, isError } = useTransaction(transactionId);
 
   const handlePayment = async () => {
-    const transaction = await makePayment();
+    const transaction = await makePayment(parseFloat(amount));
     setTransactionId(transaction.txId);
     console.log("transaction", transaction);
     toast("Transaction Submitted.", {
@@ -68,19 +68,24 @@ const RepaymentCard = ({ amount = "0" }: repaymentCardProp) => {
           </span>
         </div>
         <div
+          style={{ backgroundColor: "rgba(0, 0, 0, 0.05)" }}
           onClick={() => {
-            handleSelect(1);
+            //handleSelect(1);
           }}
           className={`${selectedId === 1 ? "switchTab selected" : "switchTab"}`}
         >
-          <div style={{ display: "flex" }}>
-            <LogOut
-              color={`${selectedId === 1 ? "#1B52EB" : "#65768D"}`}
-            ></LogOut>
+          <div style={{ display: "flex", alignContent: "start" }}></div>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <span className={`${selectedId === 1 ? "bold" : "text"}`}>
+              Direct Transfer
+            </span>
+            <span
+              style={{ fontSize: "10px" }}
+              className={`${selectedId === 1 ? "bold" : "text"}`}
+            >
+              Coming soon
+            </span>
           </div>
-          <span className={`${selectedId === 1 ? "bold" : "text"}`}>
-            Direct Transfer
-          </span>
         </div>
       </div>
       <div className="inputContainer">

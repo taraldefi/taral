@@ -2,8 +2,15 @@
 import React, { useEffect, useState } from 'react';
 import { EntityType } from './Entity.types';
 import './Entity.scss';
+import Button from '../Button';
+import { ArrowRight } from 'react-feather';
 
-export function Entity({ entityData, modal, fetchLogo }: EntityType) {
+export function Entity({
+	entityData,
+	modal,
+	fetchLogo,
+	onClickViewApplications,
+}: EntityType) {
 	const [logo, setLogo] = useState<string>();
 	useEffect(() => {
 		async function fetchLogoAndSet() {
@@ -33,16 +40,19 @@ export function Entity({ entityData, modal, fetchLogo }: EntityType) {
 			</div>
 			<div className='bottom--content'>
 				<div className='registration--container'>
-					<span>REGISTRATION NUMBER</span>
+					<h4>REGISTRATION NUMBER</h4>
 					<span>{entityData.registrationNumber}</span>
 				</div>
-				<div className='product--container'>
-					<span>PRODUCTS</span>
-					<span>{entityData.products}</span>
-				</div>
 				<div className='applications--container'>
-					<span>APPLICATIONS</span>
-					<span>{entityData.applications}</span>
+					<Button
+						primary
+						backgroundColor='#1ab98b'
+						icon={<ArrowRight size={'12px'} />}
+						onClick={() => {
+							onClickViewApplications();
+						}}
+						label={'Go to applications'}
+					></Button>
 				</div>
 			</div>
 		</div>

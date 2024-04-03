@@ -1916,13 +1916,13 @@
     semver "^7.3.5"
     tar "^6.1.11"
 
-"@modules/cron@file:./../modules/cron":
+"@modules/cron@file:../modules/cron":
   version "1.0.0"
 
-"@modules/events@file:./../modules/events":
+"@modules/events@file:../modules/events":
   version "1.0.0"
 
-"@modules/multipart@file:./../modules/multipart":
+"@modules/multipart@file:../modules/multipart":
   version "1.0.0"
   dependencies:
     uid "^2.0.0"
@@ -1934,7 +1934,7 @@
     mkdirp "^1.0.4"
     type-is "^1.6.18"
 
-"@modules/storage@file:./../modules/storage":
+"@modules/storage@file:../modules/storage":
   version "1.0.0"
   dependencies:
     aws-sdk "^2.1137.0"
@@ -7856,38 +7856,38 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-"lib-api@file:./../../libs/api":
+"lib-api@file:../../libs/api":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-16b0635c-8103-4a99-87e6-f459ef56af46-1710507394242/node_modules/infrastructure"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-16b0635c-8103-4a99-87e6-f459ef56af46-1710507394242/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-16b0635c-8103-4a99-87e6-f459ef56af46-1710507394242/node_modules/stacks"
+    lib-infra "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/infrastructure"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/shared"
+    lib-stacks "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-api-1.0.0-16b0635c-8103-4a99-87e6-f459ef56af46-1710507394242/packages/configuration"
+    taral-configuration "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/packages/configuration"
 
-"lib-clarity-bin@file:./../../libs/clarity-bin":
+"lib-clarity-bin@file:../../libs/clarity-bin":
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-clarity-bin-1.0.0-1ba2ed24-1dea-4402-ac2b-319f1cb65f0e-1710507394275/node_modules/shared"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-clarity-bin-1.0.0-4f20714f-e68b-4bb8-8ade-c85b2167f713-1710829732995/node_modules/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
 
-"lib-infra@file:./../../libs/infrastructure":
+"lib-infra@file:../../libs/infrastructure":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-bbe5d302-6a53-4f80-8e9f-3a72b39afd16-1710507394260/node_modules/clarity-bin"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-infra-1.0.0-bbe5d302-6a53-4f80-8e9f-3a72b39afd16-1710507394260/node_modules/shared"
+    lib-clarity-bin "file:../../../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-a1197331-4f6e-475d-8341-d645f7115142-1710829732985/node_modules/clarity-bin"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-a1197331-4f6e-475d-8341-d645f7115142-1710829732985/node_modules/shared"
     npm-run-all "^4.1.5"
 
-"lib-shared@file:./../../libs/shared":
+"lib-shared@file:../../libs/shared":
   version "1.0.0"
   dependencies:
     "@stacks/transactions" "^6.9.0"
@@ -7899,7 +7899,7 @@ levn@~0.3.0:
     npm-run-all "^4.1.5"
     uuid "^9.0.1"
 
-"lib-stacks@file:./../../libs/stacks":
+"lib-stacks@file:../../libs/stacks":
   version "1.0.0"
   dependencies:
     "@noble/secp256k1" "1.7.1"
@@ -7910,23 +7910,23 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-252bb87b-9b95-4f1d-8727-0d18529a3644-1710507394270/node_modules/shared"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-ad1c77cb-415e-48a1-afe6-386104b7ac42-1710829732992/node_modules/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-stacks-1.0.0-252bb87b-9b95-4f1d-8727-0d18529a3644-1710507394270/packages/configuration"
+    taral-configuration "file:../../../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-ad1c77cb-415e-48a1-afe6-386104b7ac42-1710829732992/packages/configuration"
     varuint-bitcoin "^1.1.2"
 
-"lib-storage@file:./../../libs/storage":
+"lib-storage@file:../../libs/storage":
   version "1.0.0"
   dependencies:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-5e43d235-1ee4-4c60-8886-48ea745ab259-1710507394279/node_modules/shared"
-    lib-stacks "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-5e43d235-1ee4-4c60-8886-48ea745ab259-1710507394279/node_modules/stacks"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/node_modules/shared"
+    lib-stacks "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/node_modules/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-lib-storage-1.0.0-5e43d235-1ee4-4c60-8886-48ea745ab259-1710507394279/packages/contracts"
+    taral-contracts "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/packages/contracts"
 
 libbase64@1.2.1:
   version "1.2.1"
@@ -10678,16 +10678,16 @@ tar@^6.1.11:
     mkdirp "^1.0.3"
     yallist "^4.0.0"
 
-"taral-configuration@file:./../../packages/configuration":
+"taral-configuration@file:../../packages/configuration":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     npm-run-all "^4.1.5"
 
-"taral-contracts@file:./../../packages/contracts":
+"taral-contracts@file:../../packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:./../../../../Users/Corebuild/AppData/Local/Yarn/Cache/v6/npm-taral-contracts-1.0.0-3958204b-d4a6-4b02-b416-1696c4142ecd-1710507394281/libs/shared"
+    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-taral-contracts-1.0.0-a7e9de1b-d0a9-4802-b5fc-e0a77665e9d1-1710829732999/libs/shared"
     npm-run-all "^4.1.5"
 
 tdigest@^0.1.1:

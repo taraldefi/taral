@@ -14,49 +14,29 @@ export class TransactionDocumentController {
     private readonly transactionDocumentService: TransactionDocumentService,
   ) {}
 
-  @Get('/confirmation-document/:id')
+  @Get('/:type/:id')
   async checkConfirmationDocument(
+    @Param('type') documentType: string,
     @Param('id') applicationId: string,
   ): Promise<boolean> {
     const response =
-      await this.transactionDocumentService.checkIfConfirmationDocumentExists(
+      await this.transactionDocumentService.checkIfDocumentExists(
         applicationId,
+        documentType,
       );
 
     return response;
   }
 
-  @Get('/additional-document/:id')
-  async checkAdditionalDocument(
-    @Param('id') applicationId: string,
-  ): Promise<boolean> {
-    const response =
-      await this.transactionDocumentService.checkIfAdditionalDocumentExists(
-        applicationId,
-      );
-
-    return response;
-  }
-
-  @Post('/confirmation-document/:id')
+  @Post('/:type/:id')
   async markConfirmationDocument(
+    @Param('type') documentType: string,
     @Param('id') applicationId: string,
   ): Promise<string> {
     const response =
-      await this.transactionDocumentService.markConfirmationDocumentUploaded(
+      await this.transactionDocumentService.markDocumentAsUploaded(
         applicationId,
-      );
-
-    return response;
-  }
-
-  @Post('/additional-document/:id')
-  async markAdditionalDocument(
-    @Param('id') applicationId: string,
-  ): Promise<string> {
-    const response =
-      await this.transactionDocumentService.markAdditionalDocumentUploaded(
-        applicationId,
+        documentType,
       );
 
     return response;

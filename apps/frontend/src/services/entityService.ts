@@ -1,5 +1,6 @@
 import apiUrls from "@config/apiUrls";
-import getAxiosConfig from "@config/axiosConfig";
+
+import { getAccessToken } from "@utils/helper";
 import { getBase64Src } from "@utils/lib/fetchEntityLogo";
 import axios from "axios";
 import { resolve } from "path";
@@ -12,10 +13,17 @@ class EntityService {
    */
 
   async getEntity(id: string): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
-    console.log(axiosConfig);
+    const accessToken = await getAccessToken();
+
     try {
-      const response = await axios.get(`${apiUrls.ENTITY}/${id}`, axiosConfig);
+      const response = await axios.get(`${apiUrls.ENTITY}/${id}`, {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "json",
+      });
 
       const { data } = response;
 
@@ -35,10 +43,17 @@ class EntityService {
     throw new Error("Fetch Entity by ID failed.");
   }
   async getAllEntity(): Promise<EntityCardResponse[]> {
-    const axiosConfig = getAxiosConfig({ method: "GET" });
-    console.log(axiosConfig);
+    const accessToken = await getAccessToken();
+
     try {
-      const response = await axios.get(`${apiUrls.ENTITY}`, axiosConfig);
+      const response = await axios.get(`${apiUrls.ENTITY}`, {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "json",
+      });
 
       const { data } = response;
 
@@ -56,15 +71,16 @@ class EntityService {
   }
 
   async getEntityLogo(id: string) {
-    const axiosConfig = getAxiosConfig({
-      method: "GET",
-      responseType: "arraybuffer",
-    });
+    const accessToken = await getAccessToken();
     try {
-      const response = await axios.get(
-        `${apiUrls.ENTITYLOGO}/${id}`,
-        axiosConfig
-      );
+      const response = await axios.get(`${apiUrls.ENTITYLOGO}/${id}`, {
+        headers: {
+          method: "GET",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "arraybuffer",
+      });
       const { data } = response;
 
       if (response.status === 200) {
@@ -86,12 +102,17 @@ class EntityService {
    */
   createEntity(entity: FormData): Promise<EntityResponse> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({
-        method: "POST",
-        contentType: "multipart/form-data",
-      });
+      const accessToken = await getAccessToken();
+
       try {
-        const response = await axios.post(apiUrls.ENTITY, entity, axiosConfig);
+        const response = await axios.post(apiUrls.ENTITY, entity, {
+          headers: {
+            method: "POST",
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        });
         const data: EntityResponse = response.data;
 
         if (response.status === 201) {
@@ -111,13 +132,17 @@ class EntityService {
    */
   deleteEntity(id: string): Promise<boolean> {
     return new Promise(async (resolve, reject) => {
-      const axiosConfig = getAxiosConfig({ method: "DELETE" });
+      const accessToken = await getAccessToken();
 
       try {
-        const response = await axios.delete(
-          `${apiUrls.ENTITY}/${id}`,
-          axiosConfig
-        );
+        const response = await axios.delete(`${apiUrls.ENTITY}/${id}`, {
+          headers: {
+            method: "DELETE",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken}`,
+          },
+          responseType: "json",
+        });
 
         if (response.status === 200) {
           resolve(true);
@@ -133,19 +158,19 @@ class EntityService {
    * @param entity
    */
   async updateEntity(id: string, entity: FormData): Promise<EntityResponse> {
-    const axiosConfig = getAxiosConfig({
-      method: "PATCH",
-      contentType: "multipart/form-data",
-    });
+    const accessToken = await getAccessToken();
     for (const [key, value] of entity.entries()) {
       console.log(key, value);
     }
     try {
-      const response = await axios.patch(
-        `${apiUrls.ENTITY}/${id}`,
-        entity,
-        axiosConfig
-      );
+      const response = await axios.patch(`${apiUrls.ENTITY}/${id}`, entity, {
+        headers: {
+          method: "PATCH",
+          contentType: "multipart/form-data",
+          Authorization: `Bearer ${accessToken}`,
+        },
+        responseType: "json",
+      });
       const { data } = response;
       if (response.status === 200) {
         return data;
