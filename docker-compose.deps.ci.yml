@@ -3,6 +3,7 @@ version: '3'
 services:
   seqcli:
     build: ./docker/logging
+
   nginx: 
       build: ./docker/nginx
       environment: 
@@ -10,6 +11,8 @@ services:
         FRONTEND_DOMAIN: app.tariala.com
         SEQ_DOMAIN: seq.tariala.com
         SQLPAD_DOMAIN: db.tariala.com
+        LANDING_PAGE_DOMAIN: tariala.com
+  
   db-backup:
     build:
       context: ./docker/backup

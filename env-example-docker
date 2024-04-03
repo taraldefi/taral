@@ -112,3 +112,13 @@ API_DOMAIN=api.localtariala.com
 FRONTEND_DOMAIN=app.localtariala.com
 SEQ_DOMAIN=seq.localtariala.com
 SQLPAD_DOMAIN=db.localtariala.com
+
+# Credentials for godaddy for automatic certificate renewal through dns challenges
+ACME_GD_KEY=
+ACME_GD_SECRET=
+
+# Credentials for the cloud server to ssh into
+CLOUD_REMOTE_USER=
+CLOUD_REMOTE_HOST=
+
+LANDING_PAGEE_DOMAIN=tariala.typedream.app

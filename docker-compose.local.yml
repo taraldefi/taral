@@ -177,10 +177,12 @@ services:
       - seq
       - sqlpad
     environment: 
-      API_DOMAIN: api.tariala.com
-      FRONTEND_DOMAIN: app.tariala.com
-      SEQ_DOMAIN: seq.tariala.com
-      SQLPAD_DOMAIN: db.tariala.com
+      API_DOMAIN: ${API_DOMAIN}
+      FRONTEND_DOMAIN: ${FRONTEND_DOMAIN}
+      SEQ_DOMAIN: ${SEQ_DOMAIN}
+      SQLPAD_DOMAIN: ${SQLPAD_DOMAIN}
+      LANDING_PAGEE_DOMAIN: ${LANDING_PAGEE_DOMAIN}
+
     volumes:
       - ./certs/local/fullchain.pem:/etc/nginx/fullchain.pem
       - ./certs/local/privkey.pem:/etc/nginx/privkey.pem

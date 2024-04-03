@@ -205,6 +205,7 @@ services:
       FRONTEND_DOMAIN: ${FRONTEND_DOMAIN}
       SEQ_DOMAIN: ${SEQ_DOMAIN}
       SQLPAD_DOMAIN: ${SQLPAD_DOMAIN}
+      LANDING_PAGEE_DOMAIN: ${LANDING_PAGEE_DOMAIN}
     volumes:
       - ./certs/prod/fullchain.pem:/etc/nginx/fullchain.pem
       - ./certs/prod/privkey.pem:/etc/nginx/privkey.pem
