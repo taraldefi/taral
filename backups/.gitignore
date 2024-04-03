@@ -1,0 +1,6 @@
+# Ignore everything:
+*
+
+# Do not ignore these files:
+!.gitkeep
+!README.md
