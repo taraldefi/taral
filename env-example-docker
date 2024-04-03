@@ -125,3 +125,4 @@ CLOUD_REMOTE_USER=
 CLOUD_REMOTE_HOST=
 
 LANDING_PAGEE_DOMAIN=tariala.typedream.app
+NEXTAUTH_URL=https://app.tariala.com
