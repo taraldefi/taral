@@ -8,6 +8,9 @@ eval "$(
   done
 )"
 
+# Set the domain to check
+domain="*.tariala.com"
+
 if [[ -z "${ACME_GD_KEY}" ]]; then
   echo "ACME_GD_KEY is not set. Exiting.";
   exit -1;
@@ -24,14 +27,24 @@ fi
 
 export CERT_HOME="./certs/root"
 
-./tools/acme.sh/acme.sh \
-    --issue \
-    --dns dns_gd \
-    -d tariala.com \
-    -d *.tariala.com \
-    -m noreply@tariala.xyz.com \
-    --cert-file ./certs/prod/cert.pem \
-    --key-file ./certs/prod/privkey.pem \
-    --fullchain-file ./certs/prod/fullchain.pem \
-    --ca-file ./certs/prod/chain.pem \
-    --force
+# Get today's date in the same format as acme.sh output, adjust the format as per your locale if needed
+today=$(date -u +"%Y-%m-%dT%H:%M:%S")
+
+# Use acme.sh --list to find the domain and extract the renewal date
+renewalDate=$(./tools/acme.sh/acme.sh --list | grep "$domain" | awk '{print $6}')
+
+if [[ "$renewalDate" > "$today" ]]; then
+    echo "Doesn't need renewal"
+else
+    ./tools/acme.sh/acme.sh \
+        --issue \
+        --dns dns_gd \
+        -d tariala.com \
+        -d *.tariala.com \
+        -m noreply@tariala.xyz.com \
+        --cert-file ./certs/prod/cert.pem \
+        --key-file ./certs/prod/privkey.pem \
+        --fullchain-file ./certs/prod/fullchain.pem \
+        --ca-file ./certs/prod/chain.pem \
+        --force
+fi
