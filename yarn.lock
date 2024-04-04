@@ -2432,17 +2432,17 @@
   resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.1.1.tgz#7dc996042d21fc1ae850e3173b5c67b0549f9105"
   integrity sha512-wVn5WJPirFTnzN6tR95abCx+ocH+3IFLXAgyavnf9hUmN0CfWoDjPT/BAWsUVwSlYYVBeCLJxaqi7ZGe4uSjBA==
 
-"@fortawesome/fontawesome-common-types@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.1.2.tgz#c1095b1bbabf19f37f9ff0719db38d92a410bcfe"
-  integrity sha512-wBaAPGz1Awxg05e0PBRkDRuTsy4B3dpBm+zreTTyd9TH4uUM27cAL4xWyWR0rLJCrRwzVsQ4hF3FvM6rqydKPA==
+"@fortawesome/fontawesome-common-types@6.5.2":
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-6.5.2.tgz#eaf2f5699f73cef198454ebc0c414e3688898179"
+  integrity sha512-gBxPg3aVO6J0kpfHNILc+NMhXnqHumFxOmjYCFfOiLZfwhnnfhtsdA2hfJlDnj+8PjAs6kKQPenOTKj3Rf7zHw==
 
-"@fortawesome/fontawesome-svg-core@6.1.2":
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.1.2.tgz#11e2e8583a7dea75d734e4d0e53d91c63fae7511"
-  integrity sha512-853G/Htp0BOdXnPoeCPTjFrVwyrJHpe8MhjB/DYE9XjwhnNDfuBCd3aKc2YUYbEfHEcBws4UAA0kA9dymZKGjA==
+"@fortawesome/fontawesome-svg-core@6.5.2":
+  version "6.5.2"
+  resolved "https://registry.yarnpkg.com/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-6.5.2.tgz#4b42de71e196039b0d5ccf88559b8044e3296c21"
+  integrity sha512-5CdaCBGl8Rh9ohNdxeeTMxIj8oc3KNBgIeLMvJosBMdslK/UnEB8rzyDRrbKdL1kDweqBPo4GT9wvnakHWucZw==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "6.1.2"
+    "@fortawesome/fontawesome-common-types" "6.5.2"
 
 "@fortawesome/free-solid-svg-icons@6.1.1":
   version "6.1.1"
@@ -12919,12 +12919,12 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-a959358c-676c-4945-b9fc-dacf80c61822-1711605540244/node_modules/infrastructure"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-a959358c-676c-4945-b9fc-dacf80c61822-1711605540244/node_modules/shared"
-    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-a959358c-676c-4945-b9fc-dacf80c61822-1711605540244/node_modules/stacks"
+    lib-infra "file:./libs/infrastructure"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-a959358c-676c-4945-b9fc-dacf80c61822-1711605540244/packages/configuration"
+    taral-configuration "file:./packages/configuration"
 
 "lib-bitcoin@file:./libs/bitcoin":
   version "1.0.0"
@@ -12938,7 +12938,7 @@ levn@~0.3.0:
     bn.js "^5.2.1"
     c32check "^2.0.0"
     ecpair "2.1.0"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-bitcoin-1.0.0-38c40264-9bb0-4529-b6b9-74d2f55c24dd-1711605540244/node_modules/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
     rpc-bitcoin "^2.0.0"
     tiny-secp256k1 "2.2.3"
@@ -12948,7 +12948,7 @@ levn@~0.3.0:
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-clarity-bin-1.0.0-7d54facf-09cf-499c-9075-c17e58e62646-1711605540245/node_modules/shared"
+    lib-shared "file:./libs/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -12958,18 +12958,18 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-c41802cf-d504-49e3-b759-d261be02b369-1711605540244/node_modules/clarity-bin"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-c41802cf-d504-49e3-b759-d261be02b369-1711605540244/node_modules/shared"
+    lib-clarity-bin "file:./libs/clarity-bin"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
 
 "lib-oracle@file:./libs/oracle":
   version "1.0.0"
   dependencies:
     "@types/web3" "^1.2.2"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-oracle-1.0.0-7ef595ce-c649-4065-979f-5abbe1b8b66f-1711605540246/node_modules/shared"
+    lib-shared "file:./libs/shared"
     node-binance-api "^0.13.1"
     npm-run-all "^4.1.5"
-    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-oracle-1.0.0-7ef595ce-c649-4065-979f-5abbe1b8b66f-1711605540246/packages/contracts"
+    taral-contracts "file:./packages/contracts"
     web3 "^4.2.0"
 
 "lib-shared@file:./libs/shared":
@@ -12995,11 +12995,11 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-cbbad572-75fd-4d68-b588-086f5161d3ed-1711605540243/node_modules/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-cbbad572-75fd-4d68-b588-086f5161d3ed-1711605540243/packages/configuration"
+    taral-configuration "file:./packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:./libs/storage":
@@ -13008,10 +13008,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-6a4c7606-eadc-4bd5-918d-4498aae30979-1711605540244/node_modules/shared"
-    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-6a4c7606-eadc-4bd5-918d-4498aae30979-1711605540244/node_modules/stacks"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-6a4c7606-eadc-4bd5-918d-4498aae30979-1711605540244/packages/contracts"
+    taral-contracts "file:./packages/contracts"
 
 "lib-swap@file:./libs/swap":
   version "1.0.0"
@@ -13019,26 +13019,26 @@ levn@~0.3.0:
     "@types/crypto-js" "^4.1.1"
     bitcoinjs-lib "^6.1.3"
     crypto-js "^4.2.0"
-    lib-bitcoin "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-6691d124-0319-4043-ad6d-ab5c75044cd5-1711605540245/node_modules/bitcoin"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-6691d124-0319-4043-ad6d-ab5c75044cd5-1711605540245/node_modules/shared"
-    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-6691d124-0319-4043-ad6d-ab5c75044cd5-1711605540245/node_modules/stacks"
+    lib-bitcoin "file:./libs/bitcoin"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     merkletreejs "^0.3.9"
     npm-run-all "^4.1.5"
-    taral-configuration "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-6691d124-0319-4043-ad6d-ab5c75044cd5-1711605540245/packages/configuration"
-    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-swap-1.0.0-6691d124-0319-4043-ad6d-ab5c75044cd5-1711605540245/packages/contracts"
+    taral-configuration "file:./packages/configuration"
+    taral-contracts "file:./packages/contracts"
 
 "lib-testing@file:./libs/testing":
   version "1.0.0"
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/transactions" "^6.9.0"
-    lib-clarity-bin "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-3e79c78b-6976-4ceb-92e4-b4aba5a88fc9-1711605540245/node_modules/clarity-bin"
-    lib-infra "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-3e79c78b-6976-4ceb-92e4-b4aba5a88fc9-1711605540245/node_modules/infrastructure"
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-3e79c78b-6976-4ceb-92e4-b4aba5a88fc9-1711605540245/node_modules/shared"
-    lib-stacks "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-3e79c78b-6976-4ceb-92e4-b4aba5a88fc9-1711605540245/node_modules/stacks"
+    lib-clarity-bin "file:./libs/clarity-bin"
+    lib-infra "file:./libs/infrastructure"
+    lib-shared "file:./libs/shared"
+    lib-stacks "file:./libs/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-contracts "file:../../../Library/Caches/Yarn/v6/npm-lib-testing-1.0.0-3e79c78b-6976-4ceb-92e4-b4aba5a88fc9-1711605540245/packages/contracts"
+    taral-contracts "file:./packages/contracts"
 
 lilconfig@2.1.0, lilconfig@^2.0.3, lilconfig@^2.0.5:
   version "2.1.0"
@@ -17387,7 +17387,7 @@ tar@^6.1.11, tar@^6.2.0:
 "taral-contracts@file:./packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:../../../Library/Caches/Yarn/v6/npm-taral-contracts-1.0.0-c2e67c23-1f63-49bb-9dd3-bdb24f3049d3-1711605540246/libs/shared"
+    lib-shared "file:./libs/shared"
     npm-run-all "^4.1.5"
 
 teeny-request@7.1.1:
