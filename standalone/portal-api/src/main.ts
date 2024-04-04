@@ -46,10 +46,10 @@ async function bootstrap() {
     fallbackOnErrors: true,
   });
 
-  // app.useGlobalInterceptors(
-  //   new ClassSerializerInterceptor(app.get(Reflector)),
-  //   new LoggingInterceptor(loggerService, app.get(Reflector))
-  // );
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(app.get(Reflector)),
+    new LoggingInterceptor(loggerService, app.get(Reflector))
+  );
 
   app.useGlobalPipes(new ValidationPipe(validationOptions));
 
