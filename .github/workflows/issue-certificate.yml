@@ -1,0 +1,44 @@
+name: Certificate Issuance and Deployment
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      
+    - name: Setup SSH Key
+      run: |
+        mkdir -p ./ssh
+        touch ./ssh/ConnectKey.pem
+        echo "${{ secrets.AWS_CONNECTION_CERTIFICATE }}" > ./ssh/ConnectKey.pem
+        chmod 600 ./ssh/ConnectKey.pem
+
+    - name: Setup SSH Known Hosts
+      run: |
+        mkdir -p ~/.ssh
+        touch ~/.ssh/known_hosts
+        echo "${{ secrets.KNOWN_HOSTS }}" > ~/.ssh/known_hosts
+
+    - name: Setup Environment File
+      run: |
+        touch ./.env
+        echo "${{ secrets.ENV_FILE }}" > ./.env
+        chmod 600 ./.env
+
+    - name: Change Permissions
+      run: |
+        chmod +x ./request-certificates.sh
+        chmod +x ./sync-certificates.sh
+        chmod +x ./tools/acme.sh/*.sh
+
+    - name: Request Certificates
+      run: |
+        ./request-certificates.sh
+        
+    - name: Deploy Certificates
+      run: |
+        ./sync-certificates.sh
