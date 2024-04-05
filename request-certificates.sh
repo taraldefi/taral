@@ -41,7 +41,7 @@ else
         --dns dns_gd \
         -d tariala.com \
         -d *.tariala.com \
-        -m noreply@tariala.xyz.com \
+        -m noreply@tariala.com \
         --cert-file ./certs/prod/cert.pem \
         --key-file ./certs/prod/privkey.pem \
         --fullchain-file ./certs/prod/fullchain.pem \
