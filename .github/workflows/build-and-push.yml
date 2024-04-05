@@ -43,16 +43,6 @@ jobs:
     - name: Build images with Docker Compose
       run: docker-compose -f docker-compose.ci.yml build ${{ env.services }}
 
-    - name: Tag and Push Frontend Image
-      run: |
-        docker tag taral_frontend:latest ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
-        docker push ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
-
-    - name: Tag and Push Backend Image
-      run: |
-        docker tag taral_api:latest ghcr.io/${{ github.repository_owner }}/taral_api:latest
-        docker push ghcr.io/${{ github.repository_owner }}/taral_api:latest
-
     - name: Push Images
       run: |
         if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "frontend" ]; then
