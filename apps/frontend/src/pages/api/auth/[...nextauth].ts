@@ -49,14 +49,14 @@ const providers = [
     id: "username-login",
     async authorize(credentials) {
       try {
-        const { username, password, remember } = credentials as LoginObject;
+        const { username, password } = credentials as LoginObject;
         // Authenticate user with credentials
         const user = await axios.post(
           `${process.env.NEXTAUTH_INTERNAL_API_URL}/auth/login`,
           {
             password: password,
             username: username,
-            remember: remember,
+            remember: true,
           }
         );
 
