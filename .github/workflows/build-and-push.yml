@@ -23,14 +23,17 @@ jobs:
           BUILD_CHOICE_VALUE="[All]"
         fi
 
-        if [[ BUILD_CHOICE_VALUE=="[All]" ]]; then
+        if [[ $BUILD_CHOICE_VALUE=="[All]" ]]; then
+          echo "Build choice = All"
           echo "services=api frontend" >> $GITHUB_ENV 
         else 
+          echo "Build choice = $BUILD_CHOICE_VALUE"
           echo "services=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
         fi
 
         echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
         echo "Received choice: $BUILD_CHOICE_VALUE"
+        echo "Docker services to build: ${{ env.services }}"
     - name: Checkout repository
       uses: actions/checkout@v2
 
