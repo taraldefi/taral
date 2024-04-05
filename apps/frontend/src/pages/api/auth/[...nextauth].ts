@@ -23,7 +23,7 @@ async function refreshAccessToken(
   try {
     // Get a new set of tokens with a refreshToken
     const tokenResponse = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/auth/refresh`,
+      `${process.env.NEXTAUTH_INTERNAL_API_URL}/auth/refresh`,
       {
         refreshToken: tokenObject.refreshToken,
       }
@@ -42,19 +42,21 @@ async function refreshAccessToken(
 const providers = [
   CredentialsProvider({
     type: "credentials",
-    credentials: {},
+    credentials: {
+        username: {},
+        password: {},
+    },
     id: "username-login",
     async authorize(credentials) {
       try {
         const { username, password, remember } = credentials as LoginObject;
         // Authenticate user with credentials
-
         const user = await axios.post(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/login`,
+          `${process.env.NEXTAUTH_INTERNAL_API_URL}/auth/login`,
           {
             password: password,
             username: username,
-            remember: true,
+            remember: remember,
           }
         );
 
@@ -64,6 +66,8 @@ const providers = [
 
         return null;
       } catch (e: any) {
+        console.log('Caught error in authenitcation');
+        console.log(JSON.stringify(e, null, 2));
         throw new Error(e.response.data.message);
       }
     },
