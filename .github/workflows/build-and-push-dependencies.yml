@@ -2,15 +2,16 @@ name: Deps - Build and Push
 
 on:
   workflow_dispatch:
-    build-choice:
-        type: choice
-        description: "Select which containers to build and push to GitHub Container Registry."
-        required: true
-        options:
-          - [All]
-          - seqcli
-          - nginx
-          - db-backup
+    inputs:
+      build-choice:
+          type: choice
+          description: "Select which containers to build and push to GitHub Container Registry."
+          required: true
+          options:
+            - [All]
+            - seqcli
+            - nginx
+            - db-backup
 
 jobs:
   docker:
