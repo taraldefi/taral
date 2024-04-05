@@ -10,6 +10,16 @@ eval "$(
 
 # Set the domain to check
 domain="*.tariala.com"
+CERTS_PATH="./certs/prod/"
+
+FULLCHAIN_FILE="./certs/prod/fullchain.pem"
+PRIVKEY_FILE="./certs/prod/privkey.pem"
+
+PRIVKEY_REMOTE_PATH="./certs/prod/privkey.pem"
+FULLCHAIN_REMOTE_PATH="./certs/prod/fullchain.pem"
+
+KEY_PATH="./ssh/ConnectKey.pem"
+CERT_HOME="./certs/root"
 
 if [[ -z "${ACME_GD_KEY}" ]]; then
   echo "ACME_GD_KEY is not set. Exiting.";
@@ -25,13 +35,33 @@ else
   export GD_Secret="${ACME_GD_SECRET}"
 fi
 
-export CERT_HOME="./certs/root"
-
 # Get today's date in the same format as acme.sh output, adjust the format as per your locale if needed
 today=$(date -u +"%Y-%m-%dT%H:%M:%S")
 
 # Use acme.sh --list to find the domain and extract the renewal date
 renewalDate=$(./tools/acme.sh/acme.sh --list | grep "$domain" | awk '{print $6}')
+
+#
+# Create directories if they do not exist.
+
+mkdir -p $CERTS_PATH
+mkdir -p $CERT_HOME
+
+if ssh -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST" "test -e $FULLCHAIN_FILE"; then
+    # your file exists
+    echo "Fullchain certificate exists, copying it over"
+    scp -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$FULLCHAIN_REMOTE_PATH" "$FULLCHAIN_FILE" 
+else 
+    echo "Fullchain certificate does not exist.";
+fi
+
+if ssh -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST" "test -e $PRIVKEY_FILE"; then
+    # your file exists
+    echo "Private key exists, copying it over"
+    scp -i "$KEY_PATH" "$CLOUD_REMOTE_USER@$CLOUD_REMOTE_HOST":"$PRIVKEY_REMOTE_PATH" "$PRIVKEY_FILE" 
+else 
+    echo "Private key does not exist.";
+fi
 
 if [[ "$renewalDate" > "$today" ]]; then
     echo "Doesn't need renewal"
