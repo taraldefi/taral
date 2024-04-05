@@ -17,20 +17,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Save Choice
-        run: |
-          BUILD_CHOICE_VALUE="${{ github.event.inputs.build-choice }}"
-          if [[ -z "$BUILD_CHOICE_VALUE" ]]; then
-            BUILD_CHOICE_VALUE="[All]"
-          fi
+      run: |
+        BUILD_CHOICE_VALUE="${{ github.event.inputs.build-choice }}"
+        if [[ -z "$BUILD_CHOICE_VALUE" ]]; then
+          BUILD_CHOICE_VALUE="[All]"
+        fi
 
-          if [[ BUILD_CHOICE_VALUE=="[All]" ]]; then
-            echo "services=api frontend" >> $GITHUB_ENV 
-          else 
-            echo "services=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
-          fi
+        if [[ BUILD_CHOICE_VALUE=="[All]" ]]; then
+          echo "services=api frontend" >> $GITHUB_ENV 
+        else 
+          echo "services=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
+        fi
 
-          echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
-          echo "Received choice: $BUILD_CHOICE_VALUE"
+        echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
+        echo "Received choice: $BUILD_CHOICE_VALUE"
     - name: Checkout repository
       uses: actions/checkout@v2
 
