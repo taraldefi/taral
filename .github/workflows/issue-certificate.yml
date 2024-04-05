@@ -32,13 +32,10 @@ jobs:
     - name: Change Permissions
       run: |
         chmod +x ./request-certificates.sh
+        chmod +x ./renew-certificates.sh
         chmod +x ./sync-certificates.sh
         chmod +x ./tools/acme.sh/*.sh
 
-    - name: Request Certificates
-      run: |
-        ./request-certificates.sh
-        
     - name: Deploy Certificates
       run: |
-        ./sync-certificates.sh
+        ./renew-certificates.sh
