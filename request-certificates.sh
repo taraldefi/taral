@@ -65,6 +65,7 @@ fi
 
 if [[ "$renewalDate" > "$today" ]]; then
     echo "Doesn't need renewal"
+    exit 1
 else
     ./tools/acme.sh/acme.sh \
         --issue \
@@ -77,4 +78,6 @@ else
         --fullchain-file ./certs/prod/fullchain.pem \
         --ca-file ./certs/prod/chain.pem \
         --force
+
+      exit 2
 fi
