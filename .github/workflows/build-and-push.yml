@@ -2,11 +2,28 @@ name: Build and Push
 
 on:
   workflow_dispatch:
+    inputs:
+      build-choice:
+        type: choice
+        description: "Select which containers to build and push to GitHub Container Registry."
+        required: true
+        options:
+          - [All]
+          - frontend
+          - api
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+    - name: Save Choice
+        run: |
+          BUILD_CHOICE_VALUE="${{ github.event.inputs.build-choice }}"
+          if [[ -z "$BUILD_CHOICE_VALUE" ]]; then
+            BUILD_CHOICE_VALUE="[All]"
+          fi
+          echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
+          echo "Received choice: $BUILD_CHOICE_VALUE"
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -25,3 +42,17 @@ jobs:
       run: |
         docker tag taral_api:latest ghcr.io/${{ github.repository_owner }}/taral_api:latest
         docker push ghcr.io/${{ github.repository_owner }}/taral_api:latest
+
+    - name: Push Images
+        run: |
+          if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "frontend" ]; then
+            echo \"Pushing taral_frontend\"
+            docker tag taral_frontend:latest ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
+            docker push ghcr.io/${{ github.repository_owner }}/taral_frontend:latest
+          fi
+
+          if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "api" ]; then
+            echo \"Pushing taral_api\"
+            docker tag taral_api:latest ghcr.io/${{ github.repository_owner }}/taral_api:latest
+            docker push ghcr.io/${{ github.repository_owner }}/taral_api:latest
+          fi
