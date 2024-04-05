@@ -2,11 +2,38 @@ name: Deps - Build and Push
 
 on:
   workflow_dispatch:
+    build-choice:
+        type: choice
+        description: "Select which containers to build and push to GitHub Container Registry."
+        required: true
+        options:
+          - [All]
+          - seqcli
+          - nginx
+          - db-backup
 
 jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: Save Choice
+      run: |
+        BUILD_CHOICE_VALUE="${{ github.event.inputs.build-choice }}"
+        if [[ -z "$BUILD_CHOICE_VALUE" ]]; then
+          BUILD_CHOICE_VALUE="[All]"
+        fi
+
+        if [[ $BUILD_CHOICE_VALUE == "[All]" ]]; then
+          echo "Build choice = All"
+          echo "services=seqcli nginx db-backup" >> $GITHUB_ENV 
+        else 
+          echo "Build choice = $BUILD_CHOICE_VALUE"
+          echo "services=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
+        fi
+
+        echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
+        echo "Received choice: $BUILD_CHOICE_VALUE"
+        
     - name: Checkout repository
       uses: actions/checkout@v2
 
@@ -14,17 +41,24 @@ jobs:
       run: echo "${{ secrets.GHCR_TOKEN }}" | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
 
     - name: Build images with Docker Compose
-      run: docker-compose -f docker-compose.deps.ci.yml build
+      run: docker-compose -f docker-compose.deps.ci.yml build ${{ env.services }}
 
-    - name: Tag and Push Seq cli
+    - name: Push Images
       run: |
-        docker tag taral_seqcli:latest ghcr.io/${{ github.repository_owner }}/taral_seqcli:latest
-        docker push ghcr.io/${{ github.repository_owner }}/taral_seqcli:latest
-    - name: Tag and Push nginx
-      run: |
-        docker tag taral_nginx:latest ghcr.io/${{ github.repository_owner }}/taral_nginx:latest
-        docker push ghcr.io/${{ github.repository_owner }}/taral_nginx:latest
-    - name: Tag and Push Database Backup
-      run: |
-        docker tag taral_db-backup:latest ghcr.io/${{ github.repository_owner }}/taral_db-backup:latest
-        docker push ghcr.io/${{ github.repository_owner }}/taral_db-backup:latest
+        if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "seqcli" ]; then
+          echo \"Pushing taral_seqcli\"
+          docker tag taral_seqcli:latest ghcr.io/${{ github.repository_owner }}/taral_seqcli:latest
+          docker push ghcr.io/${{ github.repository_owner }}/taral_seqcli:latest
+        fi
+
+        if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "nginx" ]; then
+          echo \"Pushing taral_nginx\"
+          docker tag taral_nginx:latest ghcr.io/${{ github.repository_owner }}/taral_nginx:latest
+          docker push ghcr.io/${{ github.repository_owner }}/taral_nginx:latest
+        fi
+
+        if [ "${{ env.ci_choice }}" == "[All]" ] || [ "${{ env.ci_choice }}" == "db-backup" ]; then
+          echo \"Pushing taral_db-backup\"
+          docker tag taral_db-backup:latest ghcr.io/${{ github.repository_owner }}/taral_db-backup:latest
+          docker push ghcr.io/${{ github.repository_owner }}/taral_db-backup:latest
+        fi

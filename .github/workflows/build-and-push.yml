@@ -33,7 +33,7 @@ jobs:
 
         echo "ci_choice=$BUILD_CHOICE_VALUE" >> $GITHUB_ENV
         echo "Received choice: $BUILD_CHOICE_VALUE"
-        echo "Docker services to build: ${{ env.services }}"
+        
     - name: Checkout repository
       uses: actions/checkout@v2
 
