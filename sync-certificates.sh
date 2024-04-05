@@ -14,12 +14,12 @@ PRIVKEY_FILE="./certs/prod/privkey.pem"
 REMOTE_PATH="./certs/prod/"
 KEY_PATH="./ssh/ConnectKey.pem"
 
-if [[ -z "${CLOUD_REMOTE_USER}" ]]; then
+if [ -z "${CLOUD_REMOTE_USER}" ]; then
   echo "CLOUD_REMOTE_USER is not set. Exiting.";
   exit -1;
 fi
 
-if [[ -z "${CLOUD_REMOTE_HOST}" ]]; then
+if [ -z "${CLOUD_REMOTE_HOST}" ]; then
   echo "CLOUD_REMOTE_HOST is not set. Exiting.";
   exit -1;
 fi
