@@ -11,6 +11,7 @@ import {
   createAssetInfo,
   PostConditionMode,
   makeContractFungiblePostCondition,
+  makeStandardFungiblePostCondition,
 } from "micro-stacks/transactions";
 
 import { fetchReadOnlyFunction } from "micro-stacks/api";
@@ -88,9 +89,8 @@ function useTaralContracts() {
       const postConditionCode = FungibleConditionCode.LessEqual;
       const postConditionAmount = downPayment;
 
-      const contractFungiblePostCondition = makeContractFungiblePostCondition(
-        contractAddress,
-        contractName,
+      const contractFungiblePostCondition = makeStandardFungiblePostCondition(
+        stxAddress!,
         postConditionCode,
         postConditionAmount,
         fungibleAssetInfo
@@ -235,9 +235,8 @@ function useTaralContracts() {
     const postConditionCode = FungibleConditionCode.LessEqual;
     const postConditionAmount = amount;
 
-    const contractFungiblePostCondition = makeContractFungiblePostCondition(
-      contractAddress,
-      contractName,
+    const contractFungiblePostCondition = makeStandardFungiblePostCondition(
+      stxAddress!,
       postConditionCode,
       postConditionAmount,
       fungibleAssetInfo
