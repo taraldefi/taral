@@ -21,13 +21,14 @@ import {
   SUSDT_CONTRACT,
   TARAL_BANK_CONTRACT,
   TARAL_IMPORTER_CONTRACT,
-  stacksNetwork,
 } from "@utils/lib/constants";
+import { useNetworks } from "@hooks/useNetwork";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
   const { stxAddress } = useAccount();
   const { openContractCall } = useOpenContractCall();
+  const { currentStacksNetwork } = useNetworks();
 
   async function registerTaralImporterOnChain(
     importerPrincipal: string,
@@ -171,7 +172,7 @@ function useTaralContracts() {
 
   async function checkPurchaseOrderHasActiveFinancing(id: string) {
     try {
-      const network = new stacksNetwork();
+      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
         network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -188,7 +189,7 @@ function useTaralContracts() {
 
   async function getPurchaseOrderById(id: string) {
     try {
-      const network = new stacksNetwork();
+      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
         network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -205,7 +206,7 @@ function useTaralContracts() {
 
   async function getActivePurchaseOrder() {
     try {
-      const network = new stacksNetwork();
+      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
         network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],

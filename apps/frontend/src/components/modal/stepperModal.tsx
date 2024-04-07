@@ -51,19 +51,19 @@ function StepperModal({ isOpen, onClose }: Props) {
       return;
     }
     if (!applicationData) return;
-    const balanceResponse = await fetch(
-      `/api/get-balance?stxAddress=${stxAddress}`
-    );
-    const { message: balance } = await balanceResponse.json();
+    // const balanceResponse = await fetch(
+    //   `/api/get-balance?stxAddress=${stxAddress}`
+    // );
+    // const { message: balance } = await balanceResponse.json();
 
-    if (
-      parseFloat(balance) * Math.pow(10, 6) <
-      parseFloat(applicationData.paymentTerms.downpayment) * Math.pow(10, 6)
-    ) {
-      toast.error("Insufficient sUSDT balance");
-      onClose();
-      return;
-    }
+    // if (
+    //   parseFloat(balance) * Math.pow(10, 6) <
+    //   parseFloat(applicationData.paymentTerms.downpayment) * Math.pow(10, 6)
+    // ) {
+    //   toast.error("Insufficient sUSDT balance");
+    //   onClose();
+    //   return;
+    // }
 
     const transactionData = await createTaralPurchaseOrder(
       applicationId,
