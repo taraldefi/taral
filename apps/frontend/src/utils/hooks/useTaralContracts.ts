@@ -179,9 +179,7 @@ function useTaralContracts() {
 
   async function checkPurchaseOrderHasActiveFinancing(id: string) {
     try {
-      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -196,9 +194,7 @@ function useTaralContracts() {
 
   async function getPurchaseOrderById(id: string) {
     try {
-      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -213,9 +209,7 @@ function useTaralContracts() {
 
   async function getActivePurchaseOrder() {
     try {
-      const network = currentStacksNetwork;
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: stxAddress!,
