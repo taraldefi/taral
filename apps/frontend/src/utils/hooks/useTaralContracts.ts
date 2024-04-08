@@ -101,7 +101,14 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "create-purchase-order",
-          postConditions: [contractFungiblePostCondition],
+          postConditions:
+            currentStacksNetwork.chainId === 1
+              ? [contractFungiblePostCondition]
+              : [],
+          postConditionMode:
+            currentStacksNetwork.chainId === 1
+              ? PostConditionMode.Deny
+              : PostConditionMode.Allow,
           functionArgs: functionArgs,
 
           onFinish: async (data: any) => {
@@ -247,7 +254,14 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "make-payment",
-          postConditions: [contractFungiblePostCondition],
+          postConditions:
+            currentStacksNetwork.chainId === 1
+              ? [contractFungiblePostCondition]
+              : [],
+          postConditionMode:
+            currentStacksNetwork.chainId === 1
+              ? PostConditionMode.Deny
+              : PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {
