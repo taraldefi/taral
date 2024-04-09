@@ -135,7 +135,7 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "accept-financing",
-          // postConditionMode: PostConditionMode.Allow,
+          postConditionMode: PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {
