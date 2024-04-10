@@ -54,23 +54,23 @@ export const DEFAULT_NETWORK_INDEX = parseFloat(
 
 export const devnet = process.env.NODE_ENV === "development";
 
-export const stacksNetwork =
-  process.env.NODE_ENV === "production" ? StacksMainnet : StacksTestnet;
+// export const stacksNetwork =
+//   process.env.NODE_ENV === "production" ? StacksMainnet : StacksTestnet;
 
 export const TARAL_IMPORTER_CONTRACT = devnet
   ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer"
   : "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-importer";
 
 export const TARAL_BANK_CONTRACT = devnet
-  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.taral-bank"
+  ? "ST3PF13W7Z0RRM42A8VZRVFQ75SV1K26RXEP8YGKJ.taral-bank-v1"
   : process.env.NEXT_PUBLIC_TARAL_BANK_CONTRACT || "";
 
 export const SUSDT_CONTRACT = devnet
-  ? "ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM.token-susdt"
+  ? "STRP7MYBHSMFH5EGN3HGX6KNQ7QBHVTBPF1669DW.susdt-token-v2"
   : process.env.NEXT_PUBLIC_SUSDT_CONTRACT || "";
 
 export const LENDER_ADDRESS = devnet
-  ? "ST2CY5V39NHDPWSXMW9QDT3HC3GD6Q6XX4CFRK9AG"
+  ? "STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6"
   : process.env.NEXT_PUBLIC_TARAL_LENDER_ADDRESS || "";
 
 export const CURRENCIES = [

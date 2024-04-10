@@ -11,6 +11,7 @@ import {
   createAssetInfo,
   PostConditionMode,
   makeContractFungiblePostCondition,
+  makeStandardFungiblePostCondition,
 } from "micro-stacks/transactions";
 
 import { fetchReadOnlyFunction } from "micro-stacks/api";
@@ -21,13 +22,14 @@ import {
   SUSDT_CONTRACT,
   TARAL_BANK_CONTRACT,
   TARAL_IMPORTER_CONTRACT,
-  stacksNetwork,
 } from "@utils/lib/constants";
+import { useNetworks } from "@hooks/useNetwork";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
   const { stxAddress } = useAccount();
   const { openContractCall } = useOpenContractCall();
+  const { currentStacksNetwork } = useNetworks();
 
   async function registerTaralImporterOnChain(
     importerPrincipal: string,
@@ -87,9 +89,8 @@ function useTaralContracts() {
       const postConditionCode = FungibleConditionCode.LessEqual;
       const postConditionAmount = downPayment;
 
-      const contractFungiblePostCondition = makeContractFungiblePostCondition(
-        contractAddress,
-        contractName,
+      const contractFungiblePostCondition = makeStandardFungiblePostCondition(
+        stxAddress!,
         postConditionCode,
         postConditionAmount,
         fungibleAssetInfo
@@ -100,7 +101,14 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "create-purchase-order",
-          postConditions: [contractFungiblePostCondition],
+          postConditions:
+            currentStacksNetwork.chainId === 1
+              ? [contractFungiblePostCondition]
+              : [],
+          postConditionMode:
+            currentStacksNetwork.chainId === 1
+              ? PostConditionMode.Deny
+              : PostConditionMode.Allow,
           functionArgs: functionArgs,
 
           onFinish: async (data: any) => {
@@ -127,7 +135,7 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "accept-financing",
-          // postConditionMode: PostConditionMode.Allow,
+          postConditionMode: PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {
@@ -171,9 +179,7 @@ function useTaralContracts() {
 
   async function checkPurchaseOrderHasActiveFinancing(id: string) {
     try {
-      const network = new stacksNetwork();
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -188,9 +194,7 @@ function useTaralContracts() {
 
   async function getPurchaseOrderById(id: string) {
     try {
-      const network = new stacksNetwork();
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -205,9 +209,7 @@ function useTaralContracts() {
 
   async function getActivePurchaseOrder() {
     try {
-      const network = new stacksNetwork();
       const result: any = await fetchReadOnlyFunction({
-        network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: stxAddress!,
@@ -234,9 +236,8 @@ function useTaralContracts() {
     const postConditionCode = FungibleConditionCode.LessEqual;
     const postConditionAmount = amount;
 
-    const contractFungiblePostCondition = makeContractFungiblePostCondition(
-      contractAddress,
-      contractName,
+    const contractFungiblePostCondition = makeStandardFungiblePostCondition(
+      stxAddress!,
       postConditionCode,
       postConditionAmount,
       fungibleAssetInfo
@@ -247,7 +248,14 @@ function useTaralContracts() {
           contractAddress,
           contractName,
           functionName: "make-payment",
-          postConditions: [contractFungiblePostCondition],
+          postConditions:
+            currentStacksNetwork.chainId === 1
+              ? [contractFungiblePostCondition]
+              : [],
+          postConditionMode:
+            currentStacksNetwork.chainId === 1
+              ? PostConditionMode.Deny
+              : PostConditionMode.Allow,
           functionArgs: [],
 
           onFinish: async (data: any) => {
