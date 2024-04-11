@@ -66,7 +66,7 @@ const Slug: React.FC = () => {
       <div className="otp-container">
         <h2>Account Verification</h2>
         <br />
-        <span>Account verified! redirecting you to login page</span>
+        <span>Account verified! Redirecting you to login page</span>
         <br />
       </div>
     </AuthLayout>
