@@ -2,9 +2,8 @@ import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout"
 import ClaimButton from "@components/widgets/ClaimButton";
 import FinanceButton from "@components/widgets/FinanceButton";
 import useTaralContracts from "@hooks/useTaralContracts";
-import { useAccount } from "@micro-stacks/react";
+import { useAccount, useNetwork } from "@micro-stacks/react";
 import applicationService from "@services/application/applicationService";
-import { LENDER_ADDRESS } from "@utils/lib/constants";
 import convertDate from "@utils/lib/convertDate";
 import { useRouter } from "next/router";
 import { NextPageContext } from "next/types";
@@ -28,9 +27,17 @@ function Index({ ...props }) {
   const [activeApplicationId, setActiveApplicationId] = useState<string>("");
   const { stxAddress } = useAccount();
   const [loading, setLoading] = useState<boolean>(true);
+  const { network } = useNetwork();
 
   async function fetchApplicationTableData() {
     try {
+      const LENDER_ADDRESS =
+        network.chainId === 1
+          ? process.env.NEXT_PUBLIC_TARAL_LENDER_ADDRESS
+          : network.chainId === 2147483648
+          ? process.env.NEXT_PUBLIC_TARAL_LENDER_TESTNET_ADDRESS
+          : "";
+
       const res = await applicationService.getAllApplications(entityId);
       const applications = res || [];
       console.log(res);
@@ -95,7 +102,7 @@ function Index({ ...props }) {
 
   useEffect(() => {
     fetchApplicationTableData();
-  }, []);
+  }, [network]);
 
   const handleActiveApplicationClick = (id: string) => {
     const currentApplication = allApplicationTableData.find(

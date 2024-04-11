@@ -69,10 +69,6 @@ export const SUSDT_CONTRACT = devnet
   ? "STRP7MYBHSMFH5EGN3HGX6KNQ7QBHVTBPF1669DW.susdt-token-v2"
   : process.env.NEXT_PUBLIC_SUSDT_CONTRACT || "";
 
-export const LENDER_ADDRESS = devnet
-  ? "STNHKEPYEPJ8ET55ZZ0M5A34J0R3N5FM2CMMMAZ6"
-  : process.env.NEXT_PUBLIC_TARAL_LENDER_ADDRESS || "";
-
 export const CURRENCIES = [
   { cc: "AED", symbol: "\u062f.\u0625;", name: "UAE dirham" },
   { cc: "AFN", symbol: "Afs", name: "Afghan afghani" },

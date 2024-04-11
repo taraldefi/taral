@@ -49,7 +49,6 @@ const Topbar = () => {
       clickedModal.open();
     }
   };
-  console.log(remaining);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
