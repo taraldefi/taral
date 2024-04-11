@@ -54,22 +54,17 @@ const Topbar = () => {
     if (typeof window !== "undefined") {
       setClient(true);
     }
-    async function fetch() {
+    async function fetchData() {
       if (isSignedIn && stxAddress) {
-        const stxBalance = await fetchAccountStxBalance({
-          url: network.getCoreApiUrl(),
-          principal: stxAddress || "",
-        });
+        const result = await fetch(
+          `${network.getCoreApiUrl()}/extended/v1/address/${stxAddress}/balances?unanchored=true`,
+          { cache: "no-cache" }
+        ).then((response) => response.json());
 
-        setBalance(ustxToStx(stxBalance?.balance?.toString() || "0"));
-        const data = await fetchNamesByAddress({
-          url: network.getCoreApiUrl(),
-          blockchain: "stacks",
-          address: stxAddress || "",
-        });
+        setBalance(ustxToStx(result?.stx?.balance?.toString() || "0"));
       }
     }
-    fetch();
+    fetchData();
   }, [isSignedIn, stxAddress, balance, network]);
 
   return (
