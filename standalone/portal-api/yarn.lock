@@ -7862,18 +7862,18 @@ levn@~0.3.0:
     "@stacks/network" "^6.0.0"
     "@stacks/stacks-blockchain-api-types" "^7.3.4"
     "@stacks/transactions" "^6.9.0"
-    lib-infra "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/infrastructure"
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/shared"
-    lib-stacks "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/node_modules/stacks"
+    lib-infra "file:../../libs/infrastructure"
+    lib-shared "file:../../libs/shared"
+    lib-stacks "file:../../libs/stacks"
     neverthrow "6.1.0"
     npm-run-all "^4.1.5"
-    taral-configuration "file:../../../../../Library/Caches/Yarn/v6/npm-lib-api-1.0.0-6184ecf7-22c9-4b25-bdef-c75cabdd857a-1710829732976/packages/configuration"
+    taral-configuration "file:../../packages/configuration"
 
 "lib-clarity-bin@file:../../libs/clarity-bin":
   version "1.0.0"
   dependencies:
     fs-extra "^11.2.0"
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-clarity-bin-1.0.0-4f20714f-e68b-4bb8-8ade-c85b2167f713-1710829732995/node_modules/shared"
+    lib-shared "file:../../libs/shared"
     node-fetch "2.6.1"
     npm-run-all "^4.1.5"
     unzipper "^0.10.11"
@@ -7883,8 +7883,8 @@ levn@~0.3.0:
   dependencies:
     "@stacks/network" "^6.0.0"
     "@stacks/wallet-sdk" "^4.2.0"
-    lib-clarity-bin "file:../../../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-a1197331-4f6e-475d-8341-d645f7115142-1710829732985/node_modules/clarity-bin"
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-infra-1.0.0-a1197331-4f6e-475d-8341-d645f7115142-1710829732985/node_modules/shared"
+    lib-clarity-bin "file:../../libs/clarity-bin"
+    lib-shared "file:../../libs/shared"
     npm-run-all "^4.1.5"
 
 "lib-shared@file:../../libs/shared":
@@ -7910,11 +7910,11 @@ levn@~0.3.0:
     c32check "^2.0.0"
     cross-fetch "^4.0.0"
     elliptic "^6.5.4"
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-ad1c77cb-415e-48a1-afe6-386104b7ac42-1710829732992/node_modules/shared"
+    lib-shared "file:../../libs/shared"
     npm-run-all "^4.1.5"
     ripemd160-min "^0.0.6"
     sha.js "^2.4.11"
-    taral-configuration "file:../../../../../Library/Caches/Yarn/v6/npm-lib-stacks-1.0.0-ad1c77cb-415e-48a1-afe6-386104b7ac42-1710829732992/packages/configuration"
+    taral-configuration "file:../../packages/configuration"
     varuint-bitcoin "^1.1.2"
 
 "lib-storage@file:../../libs/storage":
@@ -7923,10 +7923,10 @@ levn@~0.3.0:
     "@types/axios" "0.14.0"
     axios "1.6.2"
     form-data "^4.0.0"
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/node_modules/shared"
-    lib-stacks "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/node_modules/stacks"
+    lib-shared "file:../../libs/shared"
+    lib-stacks "file:../../libs/stacks"
     npm-run-all "^4.1.5"
-    taral-contracts "file:../../../../../Library/Caches/Yarn/v6/npm-lib-storage-1.0.0-d14abd37-1b0d-47cd-9f2b-088c8ee4aaef-1710829732998/packages/contracts"
+    taral-contracts "file:../../packages/contracts"
 
 libbase64@1.2.1:
   version "1.2.1"
@@ -10667,9 +10667,9 @@ tapable@^2.1.1, tapable@^2.2.0, tapable@^2.2.1:
   integrity sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==
 
 tar@^6.1.11:
-  version "6.1.14"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.14.tgz#e87926bec1cfe7c9e783a77a79f3e81c1cfa3b66"
-  integrity sha512-piERznXu0U7/pW7cdSn7hjqySIVTYT6F76icmFk7ptU7dDYlXTm5r9A6K04R2vU3olYgoKeo1Cg3eeu5nhftAw==
+  version "6.2.1"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.2.1.tgz#717549c541bc3c2af15751bea94b1dd068d4b03a"
+  integrity sha512-DZ4yORTwrbTj/7MZYq2w+/ZFdI6OZ/f9SFHR+71gIVUZhOQPHzVCLpvRnPgyaMpfWxxk/4ONva3GQSyNIKRv6A==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
@@ -10687,7 +10687,7 @@ tar@^6.1.11:
 "taral-contracts@file:../../packages/contracts":
   version "1.0.0"
   dependencies:
-    lib-shared "file:../../../../../Library/Caches/Yarn/v6/npm-taral-contracts-1.0.0-a7e9de1b-d0a9-4802-b5fc-e0a77665e9d1-1710829732999/libs/shared"
+    lib-shared "file:../../libs/shared"
     npm-run-all "^4.1.5"
 
 tdigest@^0.1.1:
