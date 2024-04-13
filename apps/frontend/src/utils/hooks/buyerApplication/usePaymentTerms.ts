@@ -66,7 +66,18 @@ const schemaValidation = Yup.object({
   paymentType: Yup.string()
     .default(PaymentTypes.SHORT)
     .required(" payment type required"),
-  paymentDuration: Yup.string().required("required"),
+  paymentDuration: Yup.string()
+    .required("required")
+    .test(
+      "is-valid-duration",
+      "Payment duration should be less than or equal to 90 days",
+      (val: any) => {
+        if (val != undefined) {
+          return parseInt(val) <= 90;
+        }
+        return true;
+      }
+    ),
   downpaymentCurrency: Yup.string().required("required"),
   downpaymentAmount: Yup.number()
     .required("required")
@@ -97,7 +108,20 @@ const schemaValidation = Yup.object({
         return true;
       }
     ),
-  balancePaymentDeadline: Yup.string().required("Required"),
+  balancePaymentDeadline: Yup.string()
+    .required("Required")
+    .test(
+      "is-valid-deadline",
+      "Deadline should be set at maximum 90 days from submission date",
+      (val: any) => {
+        // value should be less than 90 days from now
+        const today = new Date();
+        const deadline = new Date(val);
+        const diffTime = Math.abs(deadline.getTime() - today.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        return diffDays <= 90;
+      }
+    ),
   paymentVehicleDescription: Yup.string().required("Required"),
 });
 

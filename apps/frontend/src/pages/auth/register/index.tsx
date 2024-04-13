@@ -35,7 +35,12 @@ interface ErrorMessage {
 }
 
 const registrationSchema = Yup.object().shape({
-  username: Yup.string().required("Username is required"),
+  username: Yup.string()
+    .required("Username is required")
+    .matches(
+      /^[a-z0-9]+$/,
+      "Username must be lowercase with no spaces and special characters."
+    ),
   firstName: Yup.string().required("First name is required"),
   lastName: Yup.string().required("Last name is required"),
   email: Yup.string().email().required("Email is required"),

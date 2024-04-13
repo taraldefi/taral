@@ -1,31 +1,23 @@
 import EntityView from "@components/entity/entityView";
 import ImporterBaseLayout from "@components/layouts/importer/importerBaseLayout";
+import ClaimButton from "@components/widgets/ClaimButton";
+import FinanceButton from "@components/widgets/FinanceButton";
 import useModal from "@hooks/useModal";
+import useTaralContracts from "@hooks/useTaralContracts";
+import { ApplicationTable, DeleteModal, applicationTableDataType } from "@lib";
+import { useAccount, useNetwork } from "@micro-stacks/react";
+import applicationService from "@services/application/applicationService";
 import entityService from "@services/entityService";
 import { DeleteModalAtom, selectedEntityModalAtom } from "@store/ModalStore";
-import {
-  EntityDeletedAtom,
-  currentSelectedEntityAtom,
-} from "@store/entityStore";
+import { EntityDeletedAtom } from "@store/entityStore";
+
+import convertDate from "@utils/lib/convertDate";
 import { useAtom } from "jotai";
-import { GetStaticPaths, GetStaticProps, NextPageContext } from "next";
+import { NextPageContext } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import ContentLoader from "react-content-loader";
-import { Entity, EntityCardResponse, EntityResponse } from "src/types";
-import {
-  ApplicationTable,
-  DeleteModal,
-  EntityTable,
-  applicationTableDataType,
-} from "@lib";
-import applicationService from "@services/application/applicationService";
-import useTaralContracts from "@hooks/useTaralContracts";
-import { useAccount } from "@micro-stacks/react";
-import { LENDER_ADDRESS } from "@utils/lib/constants";
-import convertDate from "@utils/lib/convertDate";
-import FinanceButton from "@components/widgets/FinanceButton";
-import ClaimButton from "@components/widgets/ClaimButton";
+import { EntityResponse } from "src/types";
 
 function index({ ...props }) {
   const [, setEntityDeleted] = useAtom(EntityDeletedAtom);
@@ -37,19 +29,28 @@ function index({ ...props }) {
   >([]);
   const { checkPurchaseOrderHasActiveFinancing, getPurchaseOrderById } =
     useTaralContracts();
-  const [activeApplicationId, setActiveApplicationId] = useState<string>("");
+  const [, setActiveApplicationId] = useState<string>("");
   const { stxAddress } = useAccount();
   const [entityData, setEntityData] = useState<EntityResponse>();
   const [loading, setLoading] = useState<boolean>(true);
+  const { network } = useNetwork();
 
   if (router.isFallback) {
     return;
   }
   useEffect(() => {
     fetchApplicationTableData();
-  }, []);
+  }, [network]);
+
   async function fetchApplicationTableData() {
     try {
+      const LENDER_ADDRESS =
+        network.chainId === 1
+          ? process.env.NEXT_PUBLIC_TARAL_LENDER_ADDRESS
+          : network.chainId === 2147483648
+          ? process.env.NEXT_PUBLIC_TARAL_LENDER_TESTNET_ADDRESS
+          : "";
+
       const res = await applicationService.getAllApplications(
         props.query.entityId || (router.asPath.split("/")[4] as string)
       );

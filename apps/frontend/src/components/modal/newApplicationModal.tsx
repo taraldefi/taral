@@ -78,7 +78,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
               <div className="info-application">
                 Add basic application information and fill the rest later.{" "}
                 <br /> <br />
-                Choose your intended payment method
+                Choose how you want to pay for your goods
               </div>
               <div
                 style={{
@@ -126,7 +126,7 @@ function NewApplicationModal({ isOpen, onClose }: Props) {
               <div className="header-application ">Full Application</div>
               <div className="info-application">
                 Fill all the forms requirements and information. <br /> <br />
-                Choose your intended payment method
+                Choose how you want to pay for your goods
               </div>
               <div
                 style={{

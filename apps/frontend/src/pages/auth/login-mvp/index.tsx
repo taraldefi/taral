@@ -1,15 +1,15 @@
 import { PortalIcons } from "@components/icons";
 import AuthLayout from "@components/layouts/auth_layout";
-import CustomInput from "@components/widgets/customPasswordField";
-import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import authService from "@services/authService";
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Button } from "@lib";
+import { signIn } from "next-auth/react";
 import { useRouter } from "next/router";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { Button } from "@lib";
-import { signIn } from "next-auth/react";
+import * as Yup from "yup";
 
 function Index() {
   const router = useRouter();
@@ -20,6 +20,17 @@ function Index() {
     setShowPassword(!showPassword);
   };
 
+  const loginSchema = Yup.object().shape({
+    username: Yup.string()
+      .required("Username is required")
+      .matches(
+        /^[a-z0-9]+$/,
+        "Username must be lowercase with no spaces and special characters."
+      ),
+    password: Yup.string().required("Password is required"),
+    remember: Yup.boolean(),
+  });
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     // const loginPromise = authService.login(
     //   data.username,
@@ -29,7 +40,6 @@ function Index() {
     const res = await signIn("username-login", {
       username: data.username,
       password: data.password,
-      remember: data.remember,
       redirect: false,
     });
     if (res?.status == 200) {
@@ -41,13 +51,14 @@ function Index() {
   type Inputs = {
     username: string;
     password: string;
-    remember: boolean;
+    //remember: boolean;
   };
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>({
+  } = useForm({
+    resolver: yupResolver(loginSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -74,8 +85,13 @@ function Index() {
                 type="text"
                 className={errors.username ? "inputsRed" : "inputs"}
                 placeholder="Username..."
-                {...register("username", { required: true })}
+                {...register("username")}
               />
+              {errors.username && (
+                <p style={{ color: "#df1818", fontSize: "12px", margin: 0 }}>
+                  {errors.username.message}
+                </p>
+              )}
             </div>
             {/* <div className="inputContainer">
               <span>Phone Number</span>
@@ -95,7 +111,7 @@ function Index() {
                     className={errors.password ? "inputsRed" : "inputs"}
                     type={showPassword ? "text" : "password"}
                     placeholder="Password..."
-                    {...register("password", { required: true })}
+                    {...register("password")}
                   />
 
                   <div

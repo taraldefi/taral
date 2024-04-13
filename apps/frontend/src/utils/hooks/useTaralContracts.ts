@@ -1,4 +1,9 @@
-import { useAccount, useAuth, useOpenContractCall } from "@micro-stacks/react";
+import {
+  useAccount,
+  useAuth,
+  useNetwork,
+  useOpenContractCall,
+} from "@micro-stacks/react";
 
 import {
   bufferCV,
@@ -8,28 +13,35 @@ import {
 } from "micro-stacks/clarity";
 import {
   FungibleConditionCode,
-  createAssetInfo,
   PostConditionMode,
-  makeContractFungiblePostCondition,
+  createAssetInfo,
   makeStandardFungiblePostCondition,
 } from "micro-stacks/transactions";
 
 import { fetchReadOnlyFunction } from "micro-stacks/api";
 
-import axios from "axios";
+import { TARAL_IMPORTER_CONTRACT } from "@utils/lib/constants";
 import { utf8ToBytes } from "micro-stacks/common";
-import {
-  SUSDT_CONTRACT,
-  TARAL_BANK_CONTRACT,
-  TARAL_IMPORTER_CONTRACT,
-} from "@utils/lib/constants";
-import { useNetworks } from "@hooks/useNetwork";
 
 function useTaralContracts() {
   const { isSignedIn } = useAuth();
   const { stxAddress } = useAccount();
   const { openContractCall } = useOpenContractCall();
-  const { currentStacksNetwork } = useNetworks();
+  const { network } = useNetwork();
+
+  const SUSDT_CONTRACT =
+    network.chainId === 1
+      ? process.env.NEXT_PUBLIC_SUSDT_CONTRACT || ""
+      : network.chainId === 2147483648
+      ? process.env.NEXT_PUBLIC_SUSDT_TESTNET_CONTRACT || ""
+      : "";
+
+  const TARAL_BANK_CONTRACT =
+    network.chainId === 1
+      ? process.env.NEXT_PUBLIC_TARAL_BANK_CONTRACT || ""
+      : network.chainId === 2147483648
+      ? process.env.NEXT_PUBLIC_TARAL_BANK_TESTNET_CONTRACT || ""
+      : "";
 
   async function registerTaralImporterOnChain(
     importerPrincipal: string,
@@ -102,11 +114,9 @@ function useTaralContracts() {
           contractName,
           functionName: "create-purchase-order",
           postConditions:
-            currentStacksNetwork.chainId === 1
-              ? [contractFungiblePostCondition]
-              : [],
+            network.chainId === 1 ? [contractFungiblePostCondition] : [],
           postConditionMode:
-            currentStacksNetwork.chainId === 1
+            network.chainId === 1
               ? PostConditionMode.Deny
               : PostConditionMode.Allow,
           functionArgs: functionArgs,
@@ -180,6 +190,7 @@ function useTaralContracts() {
   async function checkPurchaseOrderHasActiveFinancing(id: string) {
     try {
       const result: any = await fetchReadOnlyFunction({
+        network: network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: TARAL_BANK_CONTRACT.split(".")[0],
@@ -210,6 +221,7 @@ function useTaralContracts() {
   async function getActivePurchaseOrder() {
     try {
       const result: any = await fetchReadOnlyFunction({
+        network: network,
         contractAddress: TARAL_BANK_CONTRACT.split(".")[0],
         contractName: TARAL_BANK_CONTRACT.split(".")[1],
         senderAddress: stxAddress!,
@@ -249,11 +261,9 @@ function useTaralContracts() {
           contractName,
           functionName: "make-payment",
           postConditions:
-            currentStacksNetwork.chainId === 1
-              ? [contractFungiblePostCondition]
-              : [],
+            network.chainId === 1 ? [contractFungiblePostCondition] : [],
           postConditionMode:
-            currentStacksNetwork.chainId === 1
+            network.chainId === 1
               ? PostConditionMode.Deny
               : PostConditionMode.Allow,
           functionArgs: [],

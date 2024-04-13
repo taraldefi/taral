@@ -11,13 +11,7 @@ const ConnectWallet = () => {
     if (typeof window !== "undefined") {
       setClient(true);
     }
-    setButtonLabel(
-      isRequestPending
-        ? "Loading..."
-        : isSignedIn
-        ? "SIGN OUT"
-        : "CONNECT WALLET"
-    );
+    setButtonLabel(isSignedIn ? "SIGN OUT" : "CONNECT WALLET");
   }, [label, isSignedIn]);
 
   return (
