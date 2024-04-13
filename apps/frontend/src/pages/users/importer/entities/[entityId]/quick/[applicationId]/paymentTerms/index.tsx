@@ -593,6 +593,11 @@ function Index({ ...props }) {
               type="date"
               id="calendar"
               min={new Date().toISOString().split("T")[0]}
+              max={
+                new Date(new Date().getTime() + 90 * 24 * 60 * 60 * 1000)
+                  .toISOString()
+                  .split("T")[0]
+              }
               className={
                 errors.balancePaymentDeadline ? "inputs inputRed" : "inputs"
               }
