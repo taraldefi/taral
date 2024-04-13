@@ -27,7 +27,21 @@ const schemaValidation = Yup.object({
     .required("required"),
   financingRatio: Yup.string().required("required"),
   facilityAmount: Yup.string().required("required"),
-  requestedTenure: Yup.string().required("required"),
+  requestedTenure: Yup.string()
+    .required("required")
+    .test(
+      "is-valid-deadline",
+      "Tenure should be set at maximum 90 days from submission date",
+      (val: any) => {
+        // value should be less than 90 days from now
+        const today = new Date();
+        const deadline = new Date(val);
+        const diffTime = Math.abs(deadline.getTime() - today.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        console.log("diffDays", diffDays);
+        return diffDays <= 90;
+      }
+    ),
   requestedPurpose: Yup.string().required("required"),
   repaymentSource: Yup.string().required("required"),
   collateralProviderInfluence: Yup.string().nullable(),

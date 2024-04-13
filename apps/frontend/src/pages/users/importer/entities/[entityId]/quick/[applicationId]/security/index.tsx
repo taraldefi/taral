@@ -96,8 +96,10 @@ function Index({ ...props }) {
   };
 
   const onSubmit = async () => {
+    const data = getValues();
     await trigger();
     try {
+      await schemaValidation.validate(data);
       router.push(
         `/users/${
           router.asPath.split("/")[2]
