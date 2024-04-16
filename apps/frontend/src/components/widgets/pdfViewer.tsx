@@ -78,7 +78,7 @@ const Modal: React.FC<ModalProps> = ({
           />
         </div>
       </div>
-      <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.js">
+      <Worker workerUrl="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.js">
         <Viewer
           plugins={[zoomPluginInstance]}
           defaultScale={1}
