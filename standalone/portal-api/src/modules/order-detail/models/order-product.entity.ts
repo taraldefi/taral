@@ -22,7 +22,12 @@ export class OrderProductEntity extends EntityHelper {
   @Allow()
   quantity: number;
 
-  @Column()
+  @Column({
+    type: 'decimal',
+    precision: 10,
+    scale: 2,
+    default: 0.0,
+  })
   @Allow()
   unitPrice: number;
 
