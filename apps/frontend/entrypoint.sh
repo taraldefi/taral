@@ -29,5 +29,11 @@ find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xar
 
 find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXTAUTH_INTERNAL_API_URL#$NEXTAUTH_INTERNAL_API_URL#g"
 
+find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_TARAL_LENDER_TESTNET_ADDRESS#$NEXT_PUBLIC_TARAL_LENDER_TESTNET_ADDRESS#g"
+find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_SUSDT_TESTNET_CONTRACT#$NEXT_PUBLIC_SUSDT_TESTNET_CONTRACT#g"
+
+find /usr/src/app/.next \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s#APP_NEXT_PUBLIC_TARAL_BANK_TESTNET_CONTRACT#$NEXT_PUBLIC_TARAL_BANK_TESTNET_CONTRACT#g"
+
+
 echo "Starting Nextjs"
 exec "$@"
