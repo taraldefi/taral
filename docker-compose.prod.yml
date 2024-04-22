@@ -31,8 +31,8 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - ./standalone/portal-api/local_storage:/app/local_storage
-      - ./standalone/portal-api/logs:/app/logs
+      - ./standalone/portal-api/local_storage:/usr/app/local_storage
+      - ./standalone/portal-api/logs:/usr/app/logs
     depends_on:
       - postgres
       - redis

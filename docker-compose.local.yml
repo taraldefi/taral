@@ -36,8 +36,9 @@ services:
       - 3000:3000
     # command: tail -f /dev/null
     volumes:
-      - ./standalone/portal-api/local_storage:/app/local_storage
-      - ./standalone/portal-api/config:/app/config
+      - ./standalone/portal-api/local_storage:/usr/app/local_storage
+      - ./standalone/portal-api/config:/usr/app/config
+      - ./standalone/portal-api/logs:/usr/app/logs
     depends_on:
       - postgres
       - redis
