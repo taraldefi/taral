@@ -3885,20 +3885,20 @@
     "@types/bn.js" "^5.1.0"
     "@types/node" "^18.0.4"
 
-"@stacks/connect-ui@6.2.1":
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.2.1.tgz#306df92118c2f7ef0b87ab7752b2f7f8c033ea84"
-  integrity sha512-5y/4LqwgTzH3FDz0gNCCRevHjdaQU2ClSP4KuigujbE5IS/gsF8kwS/kFtc2deF5ufymvchiqFlk3HIu1ewKLQ==
+"@stacks/connect-ui@6.4.1":
+  version "6.4.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect-ui/-/connect-ui-6.4.1.tgz#fd729571272d73b979a1a5c00322cc52479a053b"
+  integrity sha512-Y6Fp26MUsMQq08zFSWus40rS7RNHrHj6VDJrFUqM9VsksV3wftpsRcy7psQusUvW1DS7fPza67IlM1dcN4rvSg==
   dependencies:
     "@stencil/core" "^2.17.1"
 
-"@stacks/connect@7.5.1":
-  version "7.5.1"
-  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.5.1.tgz#806914f289e2e2c60e52c4eddcd0fcc3f4a18f56"
-  integrity sha512-ooVXyq6FSUGdEq/YYB2spfUCP1f5qvTBT0TsWrcd5irawQcFkmpfBkKaec7oXpxqBnG11v9B21OrrV12hp/w/Q==
+"@stacks/connect@7.7.1":
+  version "7.7.1"
+  resolved "https://registry.yarnpkg.com/@stacks/connect/-/connect-7.7.1.tgz#ae2e27852ad5989ce011f25f47f02a20593f8fd4"
+  integrity sha512-MwLRhgRLOGo0Y4IDC0qp9RUX2SZubgse1aI2TN/fz2abNIh1LgmOKUua3w17YiBEZxDD9nyQ4KW1c33bdnrOPw==
   dependencies:
     "@stacks/auth" "^6.1.1"
-    "@stacks/connect-ui" "6.2.1"
+    "@stacks/connect-ui" "6.4.1"
     "@stacks/network" "^6.1.1"
     "@stacks/profile" "^6.1.1"
     "@stacks/transactions" "^6.1.1"
