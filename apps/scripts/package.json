@@ -25,7 +25,7 @@
     "ripemd160": "^2.0.1",
     "sha.js": "^2.4.0",
     "c32check": "^2.0.0",
-    "elliptic": "6.5.4",
+    "elliptic": "6.5.7",
     "@stacks/encryption": "^6.9.0",
     "taral-configuration": "1.0.0",
     "taral-contracts": "1.0.0",
